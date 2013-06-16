@@ -1,0 +1,33 @@
+{
+    "author" : "Marat Dulin <mdevils@yandex.ru>",
+    "description" : "JavaScript Style Checker",
+    "name" : "jscs",
+    "version" : "0.0.1",
+    "repository" : "https://github.com/mdevils/jscs",
+    "contributors" : [
+        {
+            "name": "Marat Dulin",
+            "email": "mdevils@yandex.ru"
+        }
+    ],
+    "engines" : {
+        "node": ">= 0.8.0"
+    },
+    "dependencies" : {
+        "esprima": "1.0.3",
+        "vow": "0.3.7",
+        "vow-fs": "0.1.13",
+        "colors": "0.6.0-1",
+        "commander": "1.2.0"
+    },
+    "devDependencies" : {
+        "jshint": "2.1.3",
+        "mocha": "1.11.0"
+    },
+    "bin" : {
+        "jscs" : "./bin/jscs"
+    },
+    "scripts": {
+        "test" : "./node_modules/.bin/jshint . && node bin/jscs lib test && ./node_modules/.bin/mocha -u bdd -R spec"
+    }
+}
