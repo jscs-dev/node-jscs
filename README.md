@@ -28,7 +28,7 @@ Configuration
 
 Example configuration:
 
-```
+```javascript
 {
     /*
         Option: require_curly_braces
