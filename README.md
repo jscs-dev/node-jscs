@@ -155,14 +155,14 @@ Example configuration:
         x = Boolean(y);
         x = Number(y);
         x = String(y);
-        x = ~s.indexOf('.');
+        x = s.indexOf('.') !== -1;
 
         Invalid example:
 
         x = !!y;
         x = +y;
         x = '' + y;
-        x = s.indexOf('.') !== -1;
+        x = ~s.indexOf('.');
     */
     "disallow_implicit_type_conversion": ["numeric", "boolean", "binary", "string"],
 
