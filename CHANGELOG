@@ -1,3 +1,6 @@
+Version 0.0.3:
+ * Option 'exclude_files', which accepts patterns.
+
 Version 0.0.2:
  * Link to parent nodes.
 

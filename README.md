@@ -260,6 +260,12 @@ Example configuration:
         "check_param_names": true,
         "check_redundant_params": true,
         "require_param_types": true
-    }
+    },
+
+    /*
+        Option: exclude_files
+        Disables style checking for specified paths.
+    */
+    "exclude_files": ["node_modules/**"]
 }
 
