@@ -1,4 +1,4 @@
-node-jscs
+node-jscs [![Build Status](https://travis-ci.org/mdevils/node-jscs.png?branch=master)](https://travis-ci.org/mdevils/node-jscs)
 =========
 
 JSCS — JavaScript Code Style.
