@@ -107,6 +107,39 @@ Example configuration:
     "require_multiple_var_decl": true,
 
     /*
+        Option: disallow_spaces_inside_object_brackets
+        Disallows space after opening object curly brace and before closing.
+
+        Valid example:
+
+        var x = {a: 1};
+
+        Invalid example:
+
+        var x = { a: 1 };
+    */
+    "disallow_spaces_inside_object_brackets": true,
+
+    /*
+        Option: require_spaces_inside_object_brackets
+        Possible values: "all" for strict mode, "all_but_nested" ignores closing brackets in a row.
+        Disallows space after opening object curly brace and before closing.
+
+        Valid example for mode "all":
+
+        var x = { a: { b: 1 } };
+
+        Valid example for mode "all_but_nested":
+
+        var x = { a: { b: 1 }};
+
+        Invalid example:
+
+        var x = {a: 1};
+    */
+    "require_spaces_inside_object_brackets": "all",
+
+    /*
         Option: disallow_left_sticked_operators
         Disallows sticking operators to the left.
 

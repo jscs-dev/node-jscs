@@ -1,3 +1,7 @@
+Version 0.0.7:
+ * Option 'require_spaces_inside_object_brackets'.
+ * Option 'disallow_spaces_inside_object_brackets'.
+
 Version 0.0.6:
  * Fixes incorrent checkPath behavior.
 
