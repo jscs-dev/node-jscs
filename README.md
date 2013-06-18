@@ -91,6 +91,22 @@ Example configuration:
     "disallow_multiple_var_decl": true,
 
     /*
+        Option: require_multiple_var_decl
+        Requires multiple var declaration.
+
+        Valid example:
+
+        var x = 1,
+            y = 2;
+
+        Invalid example:
+
+        var x = 1;
+        var y = 2;
+    */
+    "require_multiple_var_decl": true,
+
+    /*
         Option: disallow_left_sticked_operators
         Disallows sticking operators to the left.
 
