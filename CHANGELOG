@@ -1,3 +1,6 @@
+Version 0.0.6:
+ * Fixes incorrent checkPath behavior.
+
 Version 0.0.5:
  * .jshintrc config.
  * Error message format fixes.
