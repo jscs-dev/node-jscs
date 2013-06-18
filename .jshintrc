@@ -1,0 +1,13 @@
+{
+    "node"     : true,
+    "bitwise"  : true,
+    "undef"    : true,
+    "eqeqeq"   : true,
+    "forin"    : true,
+    "immed"    : true,
+    "noarg"    : true,
+    "unused"   : true,
+    "indent"   : 4,
+    "predef"   : ["describe", "it", "beforeEach"],
+    "quotmark" : "single"
+}

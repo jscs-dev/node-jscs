@@ -1,3 +1,7 @@
+Version 0.0.5:
+ * .jshintrc config.
+ * Error message format fixes.
+
 Version 0.0.4:
  * Option 'disallow_yoda_conditions'.
  * Option 'require_multiple_var_decl'.
