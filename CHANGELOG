@@ -1,3 +1,7 @@
+Version 0.0.4:
+ * Option 'disallow_yoda_conditions'.
+ * Option 'require_multiple_var_decl'.
+
 Version 0.0.3:
  * Option 'exclude_files', which accepts patterns.
 
