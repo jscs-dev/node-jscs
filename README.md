@@ -140,8 +140,8 @@ Example configuration:
     "require_spaces_inside_object_brackets": "all",
 
     /*
-        Option: disallow_quotes_for_keys
-        Disallows quotes for object keys if possible.
+        Option: disallow_quoted_keys_in_objects
+        Disallows quoted keys in object if possible.
 
         Valid example:
 

@@ -1,12 +1,12 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe('rules/disallow-quotes-for-keys', function() {
+describe('rules/disallow-quoted-keys-in-objects', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallow_quotes_for_keys: true });
+        checker.configure({ disallow_quoted_keys_in_objects: true });
     });
 
     it('should report if key is valid without quotes', function() {
@@ -39,5 +39,9 @@ describe('rules/disallow-quotes-for-keys', function() {
         assert(checker.checkString('var x = { "a..a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "a/a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "1a": 1 }').isEmpty());
+    });
+
+    it('should check all keys in object', function() {
+        assert(checker.checkString('var x = { "a": 1, b: 2, "3": 3 }').getErrorCount() === 2);
     });
 });
