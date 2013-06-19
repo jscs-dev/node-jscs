@@ -151,7 +151,7 @@ Example configuration:
 
         var x = {'a': 1};
     */
-    "disallow_quotes_for_keys": true,
+    "disallow_quoted_keys_in_objects": true,
 
     /*
         Option: disallow_left_sticked_operators
