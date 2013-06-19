@@ -140,6 +140,20 @@ Example configuration:
     "require_spaces_inside_object_brackets": "all",
 
     /*
+        Option: disallow_quotes_for_keys
+        Disallows quotes for object keys if possible.
+
+        Valid example:
+
+        var x = {a: 1};
+
+        Invalid example:
+
+        var x = {'a': 1};
+    */
+    "disallow_quotes_for_keys": true,
+
+    /*
         Option: disallow_left_sticked_operators
         Disallows sticking operators to the left.
 
