@@ -17,6 +17,8 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
         assert(checker.checkString('var x = { "_abc_": 1 }').getErrorCount() === 1);
         assert(checker.checkString('var x = { "a_a": 1 }').getErrorCount() === 1);
         assert(checker.checkString('var x = { "12": 1 }').getErrorCount() === 1);
+        assert(checker.checkString('var x = { "$1": 1 }').getErrorCount() === 1);
+        assert(checker.checkString('var x = { "a$b": 1 }').getErrorCount() === 1);
     });
 
     it('should not report for keys without quotes', function() {
@@ -27,6 +29,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
         assert(checker.checkString('var x = { _a1: 1 }').isEmpty());
         assert(checker.checkString('var x = { a_a: 1 }').isEmpty());
         assert(checker.checkString('var x = { 12: 1 }').isEmpty());
+        assert(checker.checkString('var x = { $: 1 }').isEmpty());
     });
 
     it('should not report if key is invalid without quotes', function() {
@@ -39,6 +42,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
         assert(checker.checkString('var x = { "a..a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "a/a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "1a": 1 }').isEmpty());
+        assert(checker.checkString('var x = { "1$": 1 }').isEmpty());
     });
 
     it('should check all keys in object', function() {
