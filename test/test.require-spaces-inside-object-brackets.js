@@ -23,6 +23,10 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         checker.configure({ require_spaces_inside_object_brackets: 'all' });
         assert(checker.checkString('var x = { a: 1 };').isEmpty());
     });
+    it('should not report for empty object', function() {
+        checker.configure({ require_spaces_inside_object_brackets: 'all' });
+        assert(checker.checkString('var x = {};').isEmpty());
+    });
     it('should report for nested object', function() {
         checker.configure({ require_spaces_inside_object_brackets: 'all' });
         assert(checker.checkString('var x = { a: { b: 1 }};').getErrorCount() === 1);
