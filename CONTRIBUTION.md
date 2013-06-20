@@ -19,7 +19,7 @@ If you found an error, mistype or any other flawback in the project, please repo
 The more details you provide, the easier it can be reproduced and the faster can be fixed.
 Unfortunately, sometimes the bug can be only reproduced in your project or in your environment, so maintainers cannot reproduce it. In this case we believe you can fix the bug and send us the fix.
 
-Fectures
+Features
 --------
 
 It you've got an idea about a new feature, it's most likely that you have do implement it on your own.
