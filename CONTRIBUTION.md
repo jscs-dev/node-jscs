@@ -23,4 +23,4 @@ Features
 --------
 
 It you've got an idea about a new feature, it's most likely that you have do implement it on your own.
-If you cannot implement the feature, but it is very important, you can add a task in github-issuea, but expect it be declined by the maintainer.
+If you cannot implement the feature, but it is very important, you can add a task in github-issues, but expect it be declined by the maintainer.
