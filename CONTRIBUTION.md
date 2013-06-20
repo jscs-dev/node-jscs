@@ -5,7 +5,7 @@ This document describes some points about contribution process for jscs package.
 
 The maintainer of the project is Dulin Marat (@mdevils).
 
-The project is beeing developed within community. Maintainer merges pull-requests, fixes critical bugs.
+The project is being developed within community. Maintainer merges pull-requests, fixes critical bugs.
 
 Pull-requests
 -------------
