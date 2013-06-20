@@ -1,3 +1,6 @@
+Version 0.0.10:
+ * Fix in `disallow_quoted_keys_in_objects`.
+
 Version 0.0.9:
  * Fix in `disallow_quoted_keys_in_objects`.
 
