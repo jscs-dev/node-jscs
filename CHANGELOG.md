@@ -1,3 +1,6 @@
+Version 0.0.9:
+ * Fix in `disallow_quoted_keys_in_objects`.
+
 Version 0.0.8:
  * Fix in `require_spaces_inside_object_brackets`.
  * Option `disallow_quoted_keys_in_objects`.
