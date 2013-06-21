@@ -1,7 +1,7 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/disallow-spaces-inside-array-brackets', function() {
+describe('rules/disallow-spaces-inside-array-brackets', function() {
     var checker;
 
     beforeEach(function() {
