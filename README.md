@@ -121,6 +121,20 @@ Example configuration:
     "disallow_spaces_inside_object_brackets": true,
 
     /*
+        Option: disallow_spaces_inside_array_brackets
+        Disallows space after opening array square brace and before closing.
+
+        Valid example:
+
+        var x = [a: 1];
+
+        Invalid example:
+
+        var x = [ a: 1 ];
+    */
+    "disallow_spaces_inside_array_brackets": true,
+
+    /*
         Option: require_spaces_inside_object_brackets
         Possible values: "all" for strict mode, "all_but_nested" ignores closing brackets in a row.
         Disallows space after opening object curly brace and before closing.
