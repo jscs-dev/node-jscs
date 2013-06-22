@@ -12,7 +12,7 @@ describe('rules/disallow-space-after-object-keys', function() {
 
     it('should report with space(s) after keys', function() {
         assert(checker.checkString('var x = { a : 1, b: 2 };').getErrorCount() === 1);
-        assert(checker.checkString('var x = { a : 1, b  : 2 };').getErrorCount() === 2);
+        assert(checker.checkString('var x = { abc : 1, b  : 2 };').getErrorCount() === 2);
     });
 
     it('should report with end of line after keys', function() {
@@ -26,6 +26,6 @@ describe('rules/disallow-space-after-object-keys', function() {
     });
 
     it('should not report without space after keys', function() {
-        assert(checker.checkString('var x = { a: 1, b: 2 };').isEmpty());
+        assert(checker.checkString('var x = { a: 1, bcd: 2 };').isEmpty());
     });
 });
