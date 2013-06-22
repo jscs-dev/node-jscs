@@ -168,6 +168,20 @@ Example configuration:
     "disallow_quoted_keys_in_objects": true,
 
     /*
+        Option: disallow_space_after_object_keys
+        Disallows space after object keys.
+
+        Valid example:
+
+        var x = {a: 1};
+
+        Invalid example:
+
+        var x = {a : 1};
+    */
+    "disallow_space_after_object_keys": true,
+
+    /*
         Option: disallow_left_sticked_operators
         Disallows sticking operators to the left.
 
