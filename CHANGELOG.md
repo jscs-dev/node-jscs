@@ -1,3 +1,6 @@
+Version 0.0.12:
+ * Fix in `disallow_space_after_object_keys` location reporting.
+
 Version 0.0.11:
  * Option `disallow_space_after_object_keys`.
  * Option `disallow_spaces_inside_array_brackets`.
