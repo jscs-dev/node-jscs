@@ -1,5 +1,6 @@
 Version 0.0.11:
  * Option `disallow_space_after_object_keys`.
+ * Option `disallow_spaces_inside_array_brackets`.
  * Do not automatically exclude hidden files. 
 
 Version 0.0.10:
