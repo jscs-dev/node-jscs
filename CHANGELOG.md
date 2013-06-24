@@ -1,3 +1,6 @@
+Version 0.0.11:
+ * Option `disallow_space_after_object_keys`.
+
 Version 0.0.10:
  * Fix in `disallow_quoted_keys_in_objects`.
 
