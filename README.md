@@ -182,6 +182,20 @@ Example configuration:
     "disallow_space_after_object_keys": true,
 
     /*
+        Option: require_space_after_object_keys
+        Requires space after object keys.
+
+        Valid example:
+
+        var x = {a : 1};
+
+        Invalid example:
+
+        var x = {a: 1};
+    */
+    "require_space_after_object_keys": true,
+
+    /*
         Option: disallow_left_sticked_operators
         Disallows sticking operators to the left.
 
