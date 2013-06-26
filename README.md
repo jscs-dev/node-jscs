@@ -137,7 +137,7 @@ Example configuration:
     /*
         Option: require_spaces_inside_object_brackets
         Possible values: "all" for strict mode, "all_but_nested" ignores closing brackets in a row.
-        Disallows space after opening object curly brace and before closing.
+        Requires space after opening object curly brace and before closing.
 
         Valid example for mode "all":
 
@@ -211,7 +211,7 @@ Example configuration:
 
     /*
         Option: require_right_sticked_operators
-        Requires sticking operators to the left.
+        Requires sticking operators to the right.
 
         Valid example:
 
@@ -238,8 +238,8 @@ Example configuration:
     "disallow_right_sticked_operators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
 
     /*
-        Option: disallow_right_sticked_operators
-        Requires sticking operators to the right.
+        Option: require_left_sticked_operators
+        Requires sticking operators to the left.
 
         Valid example:
 
@@ -247,7 +247,7 @@ Example configuration:
 
         Invalid example:
 
-        x = [1,2];
+        x = [1 , 2];
     */
     "require_left_sticked_operators": [","],
 
@@ -284,7 +284,7 @@ Example configuration:
     "disallow_keywords": ["with"],
 
     /*
-        Option: disallow_muliple_line_breaks
+        Option: disallow_multiple_line_breaks
         Disallows multiple blank lines in a row.
 
         Invalid example:
@@ -294,7 +294,7 @@ Example configuration:
 
         x++;
     */
-    "disallow_muliple_line_breaks": true,
+    "disallow_multiple_line_breaks": true,
 
     /*
         Option: disallow_keywords_on_new_line
