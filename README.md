@@ -196,7 +196,7 @@ Example configuration:
     "require_space_after_object_keys": true,
 
     /*
-        Option: require_alignment_in_objects
+        Option: require_aligned_object_values
         Possible values:
             "all" for strict mode,
             "skip_with_function" ignores objects if one of the property values is a function expression,
@@ -219,7 +219,7 @@ Example configuration:
             ef : 'str'
         };
     */
-    "require_alignment_in_objects": "all",
+    "require_aligned_object_values": "all",
 
     /*
         Option: disallow_left_sticked_operators

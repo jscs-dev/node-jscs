@@ -1,7 +1,7 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-alignment-in-objects', function() {
+describe('rules/require-aligned-object-values', function() {
     var checker;
 
     beforeEach(function() {
@@ -10,17 +10,17 @@ describe('rules/require-alignment-in-objects', function() {
     });
 
     it('should not report for empty object', function() {
-        checker.configure({ require_alignment_in_objects: 'all' });
+        checker.configure({ require_aligned_object_values: 'all' });
         assert(checker.checkString('var x = {};').isEmpty());
     });
 
     it('should not report for single-line object', function() {
-        checker.configure({ require_alignment_in_objects: 'all' });
+        checker.configure({ require_aligned_object_values: 'all' });
         assert(checker.checkString('var x = {a: 1, bcd: 2};').isEmpty());
     });
 
     it('should not report if aligned', function() {
-        checker.configure({ require_alignment_in_objects: 'all' });
+        checker.configure({ require_aligned_object_values: 'all' });
         assert(
             checker.checkString(
                 'var x = {\n' +
@@ -32,7 +32,7 @@ describe('rules/require-alignment-in-objects', function() {
     });
 
     it('should report invalid alignment', function() {
-        checker.configure({ require_alignment_in_objects: 'all' });
+        checker.configure({ require_aligned_object_values: 'all' });
         assert(
             checker.checkString(
                 'var x = {\n' +
@@ -46,7 +46,7 @@ describe('rules/require-alignment-in-objects', function() {
     });
 
     it('should not report with function', function() {
-        checker.configure({ require_alignment_in_objects: 'skip_with_function' });
+        checker.configure({ require_aligned_object_values: 'skip_with_function' });
         assert(
             checker.checkString(
                 'var x = {\n' +
@@ -59,7 +59,7 @@ describe('rules/require-alignment-in-objects', function() {
     });
 
     it('should not report with line break between properties', function() {
-        checker.configure({ require_alignment_in_objects: 'skip_with_line_break' });
+        checker.configure({ require_aligned_object_values: 'skip_with_line_break' });
         assert(
             checker.checkString(
                 'var x = {\n' +
@@ -72,7 +72,7 @@ describe('rules/require-alignment-in-objects', function() {
     });
 
     it('should report invalid alignment in nested object', function() {
-        checker.configure({ require_alignment_in_objects: 'skip_with_line_break' });
+        checker.configure({ require_aligned_object_values: 'skip_with_line_break' });
         assert(
             checker.checkString(
                 'var x = {\n' +
