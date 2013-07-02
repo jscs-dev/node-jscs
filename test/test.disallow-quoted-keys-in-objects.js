@@ -6,7 +6,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallow_quoted_keys_in_objects: true });
+        checker.configure({ disallowQuotedKeysInObjects: true });
     });
 
     it('should report if key is valid without quotes', function() {

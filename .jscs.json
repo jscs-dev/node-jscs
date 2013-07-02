@@ -1,17 +1,17 @@
 {
-    "require_curly_braces": ["if", "else", "for", "while", "do"],
-    "require_space_after_keywords": ["if", "else", "for", "while", "do", "switch", "return"],
-    "disallow_left_sticked_operators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "disallow_right_sticked_operators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "require_right_sticked_operators": ["!"],
-    "require_left_sticked_operators": [","],
-    "disallow_implicit_type_conversion": ["string"],
-    "disallow_keywords": ["with"],
-    "disallow_muliple_line_breaks": true,
-    "disallow_keywords_on_new_line": ["else"],
-    "require_line_feed_at_file_end": true,
-    "validate_jsdoc": {
-        "check_param_names": true,
-        "require_param_types": true
+    "requireCurlyBraces": ["if", "else", "for", "while", "do"],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return"],
+    "disallowLeftStickedOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "disallowRightStickedOperators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "requireRightStickedOperators": ["!"],
+    "requireLeftStickedOperators": [","],
+    "disallowImplicitTypeConversion": ["string"],
+    "disallowKeywords": ["with"],
+    "disallowMulipleLineBreaks": true,
+    "disallowKeywordsOnNewLine": ["else"],
+    "requireLineFeedAtFileEnd": true,
+    "validateJSDoc": {
+        "checkParamNames": true,
+        "requireParamTypes": true
     }
 }

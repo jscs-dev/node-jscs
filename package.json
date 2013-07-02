@@ -2,12 +2,18 @@
     "author" : "Marat Dulin <mdevils@yandex.ru>",
     "description" : "JavaScript Style Checker",
     "name" : "jscs",
-    "version" : "0.0.12",
+    "version" : "1.0.0",
     "repository" : "https://github.com/mdevils/node-jscs",
     "contributors" : [
         {
             "name": "Marat Dulin",
             "email": "mdevils@yandex.ru"
+        },
+        {
+            "name": "Ikonnikov Konstantin"
+        },
+        {
+            "name": "Igor Agarlev"
         }
     ],
     "engines" : {

@@ -7,7 +7,7 @@ describe('rules/disallow-space-after-object-keys', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallow_space_after_object_keys: true });
+        checker.configure({ disallowSpaceAfterObjectKeys: true });
     });
 
     it('should report with space(s) after keys', function() {

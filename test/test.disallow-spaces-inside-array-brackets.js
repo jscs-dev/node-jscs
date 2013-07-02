@@ -7,7 +7,7 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallow_spaces_inside_array_brackets: true });
+        checker.configure({ disallowSpacesInsideArrayBrackets: true });
     });
 
     describe('when braces on same line', function() {

@@ -8,11 +8,11 @@ describe('rules/disallow-right-sticked-operators', function() {
         checker.registerDefaultRules();
     });
     it('should report sticky operator', function() {
-        checker.configure({ disallow_right_sticked_operators: ['!'] });
+        checker.configure({ disallowRightStickedOperators: ['!'] });
         assert(checker.checkString('var x = !y;').getErrorCount() === 1);
     });
     it('should not report separated operator', function() {
-        checker.configure({ disallow_right_sticked_operators: ['!'] });
+        checker.configure({ disallowRightStickedOperators: ['!'] });
         assert(checker.checkString('var x = ! y;').isEmpty());
     });
 });

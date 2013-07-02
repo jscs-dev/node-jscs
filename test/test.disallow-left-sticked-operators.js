@@ -8,11 +8,11 @@ describe('rules/disallow-left-sticked-operators', function() {
         checker.registerDefaultRules();
     });
     it('should report sticky operator', function() {
-        checker.configure({ disallow_left_sticked_operators: ['?'] });
+        checker.configure({ disallowLeftStickedOperators: ['?'] });
         assert(checker.checkString('var x = y? z : w;').getErrorCount() === 1);
     });
     it('should not report separated operator', function() {
-        checker.configure({ disallow_left_sticked_operators: ['?'] });
+        checker.configure({ disallowLeftStickedOperators: ['?'] });
         assert(checker.checkString('var x = y ? z : w;').isEmpty());
     });
 });

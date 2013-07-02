@@ -8,7 +8,7 @@ describe('rules/require-keywords-on-new-line', function() {
         checker.registerDefaultRules();
     });
     it('should report illegal keyword placement', function() {
-        checker.configure({ require_keywords_on_new_line: ['else'] });
+        checker.configure({ requireKeywordsOnNewLine: ['else'] });
         assert(
             checker.checkString(
                 'if (x) {\n' +
@@ -20,7 +20,7 @@ describe('rules/require-keywords-on-new-line', function() {
         );
     });
     it('should not report legal keyword placement', function() {
-        checker.configure({ require_keywords_on_new_line: ['else'] });
+        checker.configure({ requireKeywordsOnNewLine: ['else'] });
         assert(
             checker.checkString(
                 'if (x) {\n' +

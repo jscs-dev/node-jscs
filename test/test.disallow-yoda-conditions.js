@@ -8,7 +8,7 @@ describe('rules/disallow-yoda-conditions', function() {
         checker.registerDefaultRules();
     });
     it('should report yoda condition for strict equality', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 === x) {\n' +
@@ -18,7 +18,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for unequality', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 != x) {\n' +
@@ -28,7 +28,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for strict unequality', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 !== x) {\n' +
@@ -38,7 +38,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for gt', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 > x) {\n' +
@@ -48,7 +48,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for gte', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 >= x) {\n' +
@@ -58,7 +58,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for lt', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 < x) {\n' +
@@ -68,7 +68,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for lte', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 <= x) {\n' +
@@ -78,7 +78,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for numeric', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (1 == x) {\n' +
@@ -88,7 +88,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for boolean', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (true == x) {\n' +
@@ -98,7 +98,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for string', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (\'\' == x) {\n' +
@@ -108,7 +108,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for null', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (null == x) {\n' +
@@ -118,7 +118,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should report yoda condition for undefined', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (undefined == x) {\n' +
@@ -128,7 +128,7 @@ describe('rules/disallow-yoda-conditions', function() {
         );
     });
     it('should not report normal condition', function() {
-        checker.configure({ disallow_yoda_conditions: true });
+        checker.configure({ disallowYodaConditions: true });
         assert(
             checker.checkString(
                 'if (x == 1) {\n' +

@@ -31,7 +31,7 @@ Example configuration:
 ```javascript
 {
     /*
-        Option: require_curly_braces
+        Option: requireCurlyBraces
         Requires curly braces after statements.
 
         Valid example:
@@ -44,10 +44,10 @@ Example configuration:
 
         if (x) x++;
     */
-    "require_curly_braces": ["if", "else", "for", "while", "do"],
+    "requireCurlyBraces": ["if", "else", "for", "while", "do"],
 
     /*
-        Option: require_space_after_keywords
+        Option: requireSpaceAfterKeywords
         Requires space after keyword.
 
         Valid example:
@@ -60,10 +60,10 @@ Example configuration:
             x++;
         }
     */
-    "require_space_after_keywords": ["if", "else", "for", "while", "do", "switch", "return"],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return"],
 
     /*
-        Option: disallow_space_after_keywords
+        Option: disallowSpaceAfterKeywords
         Disallows space after keyword.
 
         Valid example:
@@ -72,10 +72,10 @@ Example configuration:
             y++;
         }
     */
-    "disallow_space_after_keywords": ["if", "else", "for", "while", "do", "switch"],
+    "disallowSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch"],
 
     /*
-        Option: disallow_multiple_var_decl
+        Option: disallowMultipleVarDecl
         Disallows multiple var declaration.
 
         Valid example:
@@ -88,10 +88,10 @@ Example configuration:
         var x = 1,
             y = 2;
     */
-    "disallow_multiple_var_decl": true,
+    "disallowMultipleVarDecl": true,
 
     /*
-        Option: require_multiple_var_decl
+        Option: requireMultipleVarDecl
         Requires multiple var declaration.
 
         Valid example:
@@ -104,10 +104,10 @@ Example configuration:
         var x = 1;
         var y = 2;
     */
-    "require_multiple_var_decl": true,
+    "requireMultipleVarDecl": true,
 
     /*
-        Option: disallow_spaces_inside_object_brackets
+        Option: disallowSpacesInsideObjectBrackets
         Disallows space after opening object curly brace and before closing.
 
         Valid example:
@@ -118,10 +118,10 @@ Example configuration:
 
         var x = { a: 1 };
     */
-    "disallow_spaces_inside_object_brackets": true,
+    "disallowSpacesInsideObjectBrackets": true,
 
     /*
-        Option: disallow_spaces_inside_array_brackets
+        Option: disallowSpacesInsideArrayBrackets
         Disallows space after opening array square brace and before closing.
 
         Valid example:
@@ -132,18 +132,18 @@ Example configuration:
 
         var x = [ a: 1 ];
     */
-    "disallow_spaces_inside_array_brackets": true,
+    "disallowSpacesInsideArrayBrackets": true,
 
     /*
-        Option: require_spaces_inside_object_brackets
-        Possible values: "all" for strict mode, "all_but_nested" ignores closing brackets in a row.
+        Option: requireSpacesInsideObjectBrackets
+        Possible values: "all" for strict mode, "allButNested" ignores closing brackets in a row.
         Requires space after opening object curly brace and before closing.
 
         Valid example for mode "all":
 
         var x = { a: { b: 1 } };
 
-        Valid example for mode "all_but_nested":
+        Valid example for mode "allButNested":
 
         var x = { a: { b: 1 }};
 
@@ -151,10 +151,10 @@ Example configuration:
 
         var x = {a: 1};
     */
-    "require_spaces_inside_object_brackets": "all",
+    "requireSpacesInsideObjectBrackets": "all",
 
     /*
-        Option: disallow_quoted_keys_in_objects
+        Option: disallowQuotedKeysInObjects
         Disallows quoted keys in object if possible.
 
         Valid example:
@@ -165,10 +165,10 @@ Example configuration:
 
         var x = {'a': 1};
     */
-    "disallow_quoted_keys_in_objects": true,
+    "disallowQuotedKeysInObjects": true,
 
     /*
-        Option: disallow_space_after_object_keys
+        Option: disallowSpaceAfterObjectKeys
         Disallows space after object keys.
 
         Valid example:
@@ -179,10 +179,10 @@ Example configuration:
 
         var x = {a : 1};
     */
-    "disallow_space_after_object_keys": true,
+    "disallowSpaceAfterObjectKeys": true,
 
     /*
-        Option: require_space_after_object_keys
+        Option: requireSpaceAfterObjectKeys
         Requires space after object keys.
 
         Valid example:
@@ -193,14 +193,14 @@ Example configuration:
 
         var x = {a: 1};
     */
-    "require_space_after_object_keys": true,
+    "requireSpaceAfterObjectKeys": true,
 
     /*
-        Option: require_aligned_object_values
+        Option: requireAlignedObjectValues
         Possible values:
             "all" for strict mode,
-            "skip_with_function" ignores objects if one of the property values is a function expression,
-            "skip_with_line_break" ignores objects if there are line breaks between properties
+            "skipWithFunction" ignores objects if one of the property values is a function expression,
+            "skipWithLineBreak" ignores objects if there are line breaks between properties
         Requires proper alignment in object literals.
 
         Valid example:
@@ -219,10 +219,10 @@ Example configuration:
             ef : 'str'
         };
     */
-    "require_aligned_object_values": "all",
+    "requireAlignedObjectValues": "all",
 
     /*
-        Option: disallow_left_sticked_operators
+        Option: disallowLeftStickedOperators
         Disallows sticking operators to the left.
 
         Valid example:
@@ -233,10 +233,10 @@ Example configuration:
 
         x = y? 1 : 2;
     */
-    "disallow_left_sticked_operators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "disallowLeftStickedOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
 
     /*
-        Option: require_right_sticked_operators
+        Option: requireRightStickedOperators
         Requires sticking operators to the right.
 
         Valid example:
@@ -247,10 +247,10 @@ Example configuration:
 
         x = ! y;
     */
-    "require_right_sticked_operators": ["!"],
+    "requireRightStickedOperators": ["!"],
 
     /*
-        Option: disallow_right_sticked_operators
+        Option: disallowRightStickedOperators
         Disallows sticking operators to the right.
 
         Valid example:
@@ -261,10 +261,10 @@ Example configuration:
 
         x = y +1;
     */
-    "disallow_right_sticked_operators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "disallowRightStickedOperators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
 
     /*
-        Option: require_left_sticked_operators
+        Option: requireLeftStickedOperators
         Requires sticking operators to the left.
 
         Valid example:
@@ -275,10 +275,10 @@ Example configuration:
 
         x = [1 , 2];
     */
-    "require_left_sticked_operators": [","],
+    "requireLeftStickedOperators": [","],
 
     /*
-        Option: disallow_implicit_type_conversion
+        Option: disallowImplicitTypeConversion
         Disallows implicit type conversion.
 
         Valid example:
@@ -295,10 +295,10 @@ Example configuration:
         x = '' + y;
         x = ~s.indexOf('.');
     */
-    "disallow_implicit_type_conversion": ["numeric", "boolean", "binary", "string"],
+    "disallowImplicitTypeConversion": ["numeric", "boolean", "binary", "string"],
 
     /*
-        Option: disallow_keywords
+        Option: disallowKeywords
         Disallows usage of specified keywords.
 
         Invalid example:
@@ -307,10 +307,10 @@ Example configuration:
             prop++;
         }
     */
-    "disallow_keywords": ["with"],
+    "disallowKeywords": ["with"],
 
     /*
-        Option: disallow_multiple_line_breaks
+        Option: disallowMultipleLineBreaks
         Disallows multiple blank lines in a row.
 
         Invalid example:
@@ -320,10 +320,10 @@ Example configuration:
 
         x++;
     */
-    "disallow_multiple_line_breaks": true,
+    "disallowMultipleLineBreaks": true,
 
     /*
-        Option: disallow_keywords_on_new_line
+        Option: disallowKeywordsOnNewLine
         Disallows placing keywords on a new line.
 
         Valid example:
@@ -343,10 +343,10 @@ Example configuration:
             x--;
         }
     */
-    "disallow_keywords_on_new_line": ["else"],
+    "disallowKeywordsOnNewLine": ["else"],
 
     /*
-        Option: require_keywords_on_new_line
+        Option: requireKeywordsOnNewLine
         Requires placing keywords on a new line.
 
         Valid example:
@@ -366,37 +366,37 @@ Example configuration:
             x--;
         }
     */
-    "require_keywords_on_new_line": ["else"],
+    "requireKeywordsOnNewLine": ["else"],
 
     /*
-        Option: require_line_feed_at_file_end
+        Option: requireLineFeedAtFileEnd
         Requires placing line feed at file end.
     */
-    "require_line_feed_at_file_end": true,
+    "requireLineFeedAtFileEnd": true,
 
     /*
-        Option: validate_jsdoc
+        Option: validateJSDoc
         Enables jsdoc validation.
 
-        Option: validate_jsdoc.check_param_names
+        Option: validateJSDoc.checkParamNames
         Ensures param names in jsdoc and in function declaration are equal.
 
-        Option: validate_jsdoc.require_param_types
+        Option: validateJSDoc.requireParamTypes
         Ensures params in jsdoc contains type.
 
-        Option: validate_jsdoc.check_redundant_params
+        Option: validateJSDoc.checkRedundantParams
         Reports redundant params in jsdoc.
     */
-    "validate_jsdoc": {
-        "check_param_names": true,
-        "check_redundant_params": true,
-        "require_param_types": true
+    "validateJSDoc": {
+        "checkParamNames": true,
+        "checkRedundantParams": true,
+        "requireParamTypes": true
     },
 
     /*
-        Option: exclude_files
+        Option: excludeFiles
         Disables style checking for specified paths.
     */
-    "exclude_files": ["node_modules/**"]
+    "excludeFiles": ["node_modules/**"]
 }
 

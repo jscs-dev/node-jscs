@@ -8,19 +8,19 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
         checker.registerDefaultRules();
     });
     it('should report illegal space after opening brace', function() {
-        checker.configure({ disallow_spaces_inside_object_brackets: true });
+        checker.configure({ disallowSpacesInsideObjectBrackets: true });
         assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
     });
     it('should report illegal space before closing brace', function() {
-        checker.configure({ disallow_spaces_inside_object_brackets: true });
+        checker.configure({ disallowSpacesInsideObjectBrackets: true });
         assert(checker.checkString('var x = {a: 1 };').getErrorCount() === 1);
     });
     it('should report illegal space in both cases', function() {
-        checker.configure({ disallow_spaces_inside_object_brackets: true });
+        checker.configure({ disallowSpacesInsideObjectBrackets: true });
         assert(checker.checkString('var x = { a: 1 };').getErrorCount() === 2);
     });
     it('should not report with no spaces', function() {
-        checker.configure({ disallow_spaces_inside_object_brackets: true });
+        checker.configure({ disallowSpacesInsideObjectBrackets: true });
         assert(checker.checkString('var x = {a: 1};').isEmpty());
     });
 });

@@ -1,24 +1,32 @@
+Version 1.0.0:
+ * Camel-case configuration options.
+ * Option `requireAlignedObjectValues`.
+ * Option `requireSpaceAfterObjectKeys`.
+ * JSDoc for core functions and classes.
+ * Fix error position for disallowSpacesInsideObjectBrackets and disallowSpacesInsideArrayBrackets.
+
+
 Version 0.0.12:
- * Fix in `disallow_space_after_object_keys` location reporting.
+ * Fix in `disallowSpaceAfterObjectKeys` location reporting.
 
 Version 0.0.11:
- * Option `disallow_space_after_object_keys`.
- * Option `disallow_spaces_inside_array_brackets`.
+ * Option `disallowSpaceAfterObjectKeys`.
+ * Option `disallowSpacesInsideArrayBrackets`.
  * Do not automatically exclude hidden files. 
 
 Version 0.0.10:
- * Fix in `disallow_quoted_keys_in_objects`.
+ * Fix in `disallowQuotedKeysInObjects`.
 
 Version 0.0.9:
- * Fix in `disallow_quoted_keys_in_objects`.
+ * Fix in `disallowQuotedKeysInObjects`.
 
 Version 0.0.8:
- * Fix in `require_spaces_inside_object_brackets`.
- * Option `disallow_quoted_keys_in_objects`.
+ * Fix in `requireSpacesInsideObjectBrackets`.
+ * Option `disallowQuotedKeysInObjects`.
 
 Version 0.0.7:
- * Option 'require_spaces_inside_object_brackets'.
- * Option 'disallow_spaces_inside_object_brackets'.
+ * Option 'requireSpacesInsideObjectBrackets'.
+ * Option 'disallowSpacesInsideObjectBrackets'.
 
 Version 0.0.6:
  * Fixes incorrent checkPath behavior.
@@ -28,11 +36,11 @@ Version 0.0.5:
  * Error message format fixes.
 
 Version 0.0.4:
- * Option 'disallow_yoda_conditions'.
- * Option 'require_multiple_var_decl'.
+ * Option 'disallowYodaConditions'.
+ * Option 'requireMultipleVarDecl'.
 
 Version 0.0.3:
- * Option 'exclude_files', which accepts patterns.
+ * Option 'excludeFiles', which accepts patterns.
 
 Version 0.0.2:
  * Link to parent nodes.

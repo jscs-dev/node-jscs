@@ -8,11 +8,11 @@ describe('rules/disallow-multiple-line-breaks', function() {
         checker.registerDefaultRules();
     });
     it('should report multiple line break', function() {
-        checker.configure({ disallow_multiple_line_breaks: true });
+        checker.configure({ disallowMultipleLineBreaks: true });
         assert(checker.checkString('x = 1;\n\n\ny = 2;').getErrorCount() === 1);
     });
     it('should not report single line break', function() {
-        checker.configure({ disallow_multiple_line_breaks: true });
+        checker.configure({ disallowMultipleLineBreaks: true });
         assert(checker.checkString('x = 1;\n\ny = 2').isEmpty());
     });
 });

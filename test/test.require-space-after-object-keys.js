@@ -7,7 +7,7 @@ describe('rules/require-space-after-object-keys', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ require_space_after_object_keys: true });
+        checker.configure({ requireSpaceAfterObjectKeys: true });
     });
 
     it('should report missing space after keys', function() {

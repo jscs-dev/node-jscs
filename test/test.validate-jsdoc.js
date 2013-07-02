@@ -8,7 +8,7 @@ describe('rules/validate-jsdoc', function() {
         checker.registerDefaultRules();
     });
     it('should report invalid jsdoc', function() {
-        checker.configure({ validate_jsdoc: { check_param_names: true } });
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -22,7 +22,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should report error in jsdoc for function', function() {
-        checker.configure({ validate_jsdoc: { check_param_names: true } });
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -36,7 +36,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should report error in jsdoc for method', function() {
-        checker.configure({ validate_jsdoc: { check_param_names: true } });
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +
@@ -51,7 +51,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for method', function() {
-        checker.configure({ validate_jsdoc: { check_param_names: true } });
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -65,7 +65,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for function', function() {
-        checker.configure({ validate_jsdoc: { check_param_names: true } });
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +
@@ -81,7 +81,7 @@ describe('rules/validate-jsdoc', function() {
     });
 
     it('should report redundant jsdoc-param for function', function() {
-        checker.configure({ validate_jsdoc: { check_redundant_params: true } });
+        checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -95,7 +95,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should report redundant jsdoc-param for method', function() {
-        checker.configure({ validate_jsdoc: { check_redundant_params: true } });
+        checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +
@@ -110,7 +110,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for method', function() {
-        checker.configure({ validate_jsdoc: { check_redundant_params: true } });
+        checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -124,7 +124,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for function', function() {
-        checker.configure({ validate_jsdoc: { check_redundant_params: true } });
+        checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +
@@ -140,7 +140,7 @@ describe('rules/validate-jsdoc', function() {
     });
 
     it('should report missing jsdoc-param type for function', function() {
-        checker.configure({ validate_jsdoc: { require_param_types: true } });
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -154,7 +154,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should report missing jsdoc-param type for method', function() {
-        checker.configure({ validate_jsdoc: { require_param_types: true } });
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +
@@ -169,7 +169,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for method', function() {
-        checker.configure({ validate_jsdoc: { require_param_types: true } });
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
             checker.checkString(
                 'var x = 1;\n' +
@@ -183,7 +183,7 @@ describe('rules/validate-jsdoc', function() {
         );
     });
     it('should not report valid jsdoc for function', function() {
-        checker.configure({ validate_jsdoc: { require_param_types: true } });
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
             checker.checkString(
                 'Cls.prototype = {\n' +

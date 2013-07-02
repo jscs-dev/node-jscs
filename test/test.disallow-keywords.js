@@ -8,11 +8,11 @@ describe('rules/disallow-keywords', function() {
         checker.registerDefaultRules();
     });
     it('should report illegal keyword', function() {
-        checker.configure({ disallow_keywords: ['with'] });
+        checker.configure({ disallowKeywords: ['with'] });
         assert(checker.checkString('with (x) { y++; }').getErrorCount() === 1);
     });
     it('should not report legal keywords', function() {
-        checker.configure({ disallow_keywords: ['with'] });
+        checker.configure({ disallowKeywords: ['with'] });
         assert(checker.checkString('if(x) { x++; }').isEmpty());
     });
 });

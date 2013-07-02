@@ -8,11 +8,11 @@ describe('rules/require-left-sticked-operators', function() {
         checker.registerDefaultRules();
     });
     it('should report missing space before operator', function() {
-        checker.configure({ require_left_sticked_operators: ['?'] });
+        checker.configure({ requireLeftStickedOperators: ['?'] });
         assert(checker.checkString('var x = y ? z : w;').getErrorCount() === 1);
     });
     it('should not report sticky operator', function() {
-        checker.configure({ require_left_sticked_operators: ['?'] });
+        checker.configure({ requireLeftStickedOperators: ['?'] });
         assert(checker.checkString('var x = y? z : w;').isEmpty());
     });
 });

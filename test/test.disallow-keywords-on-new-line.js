@@ -8,7 +8,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
         checker.registerDefaultRules();
     });
     it('should report illegal keyword placement', function() {
-        checker.configure({ disallow_keywords_on_new_line: ['else'] });
+        checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
             checker.checkString(
                 'if (x) {\n' +
@@ -21,7 +21,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
         );
     });
     it('should not report legal keyword placement', function() {
-        checker.configure({ disallow_keywords_on_new_line: ['else'] });
+        checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
             checker.checkString(
                 'if (x) {\n' +
