@@ -43,6 +43,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
         assert(checker.checkString('var x = { "a/a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "1a": 1 }').isEmpty());
         assert(checker.checkString('var x = { "1$": 1 }').isEmpty());
+        assert(checker.checkString('var x = { "010": 1 }').isEmpty());
     });
 
     it('should check all keys in object', function() {
