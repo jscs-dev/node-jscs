@@ -6,6 +6,11 @@ JSCS — JavaScript Code Style.
 `jscs` is a code style checker. `jscs` can check cases, which are not implemeted in jshint,
 but it does not duplicate `jshint` functionality, so you should use `jscs` and `jshint` together.
 
+Friendly packages
+-----------------
+
+ * JSCS Grunt Task: https://github.com/gustavohenke/grunt-jscs-checker
+
 Installation
 ------------
 
