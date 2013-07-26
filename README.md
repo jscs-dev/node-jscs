@@ -131,11 +131,11 @@ Example configuration:
 
         Valid example:
 
-        var x = [a: 1];
+        var x = [1];
 
         Invalid example:
 
-        var x = [ a: 1 ];
+        var x = [ 1 ];
     */
     "disallowSpacesInsideArrayBrackets": true,
 
