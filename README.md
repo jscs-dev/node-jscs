@@ -159,6 +159,25 @@ Example configuration:
     "requireSpacesInsideObjectBrackets": "all",
 
     /*
+        Option: requireSpacesInsideArrayBrackets
+        Possible values: "all" for strict mode, "allButNested" ignores closing brackets in a row.
+        Requires space after opening array square brace and before closing.
+
+        Valid example for mode "all":
+
+        var x = [ 1 ];
+
+        Valid example for mode "allButNested":
+
+        var x = [[ 1 ], [ 2 ]];
+
+        Invalid example:
+
+        var x = [1];
+    */
+    "requireSpacesInsideArrayBrackets": "all",
+
+    /*
         Option: disallowQuotedKeysInObjects
         Disallows quoted keys in object if possible.
 
