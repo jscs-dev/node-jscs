@@ -1,3 +1,6 @@
+Version 1.0.2:
+ * Option `requireSpacesInsideArrayBrackets` (@mishanga).
+
 Version 1.0.1:
  * Not reporting about extra quotes for zero-starting numbers in `disallowQuotedKeysInObjects`.
 
