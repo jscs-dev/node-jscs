@@ -127,7 +127,7 @@ Example configuration:
 
     /*
         Option: disallowSpacesInsideArrayBrackets
-        Disallows space after opening array square brace and before closing.
+        Disallows space after opening array square bracket and before closing.
 
         Valid example:
 
@@ -161,7 +161,7 @@ Example configuration:
     /*
         Option: requireSpacesInsideArrayBrackets
         Possible values: "all" for strict mode, "allButNested" ignores closing brackets in a row.
-        Requires space after opening array square brace and before closing.
+        Requires space after opening array square bracket and before closing.
 
         Valid example for mode "all":
 
