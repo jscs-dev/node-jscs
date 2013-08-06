@@ -1,3 +1,6 @@
+Version 1.0.3:
+ * Changed behaviour for `disallowMultipleVarDecl` options. Now accepts multiple var decl in `for` decl.
+
 Version 1.0.2:
  * Option `requireSpacesInsideArrayBrackets` (@mishanga).
 

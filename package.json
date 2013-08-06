@@ -2,7 +2,7 @@
     "author" : "Marat Dulin <mdevils@yandex.ru>",
     "description" : "JavaScript Style Checker",
     "name" : "jscs",
-    "version" : "1.0.2",
+    "version" : "1.0.3",
     "repository" : "https://github.com/mdevils/node-jscs",
     "contributors" : [
         {
@@ -21,8 +21,8 @@
     },
     "dependencies" : {
         "esprima": "1.0.3",
-        "vow": "0.3.7",
-        "vow-fs": "0.1.13",
+        "vow": "0.3.9",
+        "vow-fs": "0.2.3",
         "colors": "0.6.0-1",
         "commander": "1.2.0",
         "minimatch": "0.2.12"
