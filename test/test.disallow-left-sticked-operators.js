@@ -15,4 +15,8 @@ describe('rules/disallow-left-sticked-operators', function() {
         checker.configure({ disallowLeftStickedOperators: ['?'] });
         assert(checker.checkString('var x = y ? z : w;').isEmpty());
     });
+    it('should not report if sticked operator is part of argument', function() {
+        checker.configure({ disallowLeftStickedOperators: ['-'] });
+        assert(checker.checkString('arr.slice(-2)').isEmpty());
+    });
 });
