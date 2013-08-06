@@ -81,12 +81,14 @@ Example configuration:
 
     /*
         Option: disallowMultipleVarDecl
-        Disallows multiple var declaration.
+        Disallows multiple var declaration (except for-loop).
 
         Valid example:
 
         var x = 1;
         var y = 2;
+
+        for (var i = 0, j = arr.length; i < j; i++) {}
 
         Invalid example:
 
