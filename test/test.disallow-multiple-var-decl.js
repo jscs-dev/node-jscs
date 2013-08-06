@@ -19,4 +19,8 @@ describe('rules/disallow-multiple-var-decl', function() {
         checker.configure({ disallowMultipleVarDecl: true });
         assert(checker.checkString('var x; var y;').isEmpty());
     });
+    it('should not report multiple var decl in for statement', function() {
+        checker.configure({ disallowMultipleVarDecl: true });
+        assert(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
+    });
 });
