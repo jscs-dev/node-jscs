@@ -26,11 +26,19 @@ describe('rules/disallow-left-sticked-operators', function() {
             checker.configure({ disallowLeftStickedOperators: ['+'] });
             assert(checker.checkString('var x = y? z: w;').isEmpty());
         });
-        it('should not report for "(y) ? z : w"', function() {
+        it('should report sticky ? for "(y)? z : w"', function() {
+            checker.configure({ disallowLeftStickedOperators: ['?', ':'] });
+            assert(checker.checkString('var x = (y)? z : w;').getErrorCount() === 1);
+        });
+        it('should not report separated operator for "(y) ? z : w"', function() {
             checker.configure({ disallowLeftStickedOperators: ['?', ':'] });
             assert(checker.checkString('var x = (y) ? z : w;').isEmpty());
         });
-        it('should not report for "y ? (z) : w"', function() {
+        it('should report sticky : operator for "y ? (z): w"', function() {
+            checker.configure({ disallowLeftStickedOperators: ['?', ':'] });
+            assert(checker.checkString('var x = y ? (z): w;').getErrorCount() === 1);
+        });
+        it('should not report separated operator for "y ? (z) : w"', function() {
             checker.configure({ disallowLeftStickedOperators: ['?', ':'] });
             assert(checker.checkString('var x = y ? (z) : w;').isEmpty());
         });
@@ -45,7 +53,11 @@ describe('rules/disallow-left-sticked-operators', function() {
             checker.configure({ disallowLeftStickedOperators: ['+'] });
             assert(checker.checkString('var x = 2 +2;').isEmpty());
         });
-        it('should not report for "a = (a) + (b)"', function() {
+        it('should report sticky operator for "a = (a)+ (b)"', function() {
+            checker.configure({ disallowLeftStickedOperators: ['+'] });
+            assert(checker.checkString('a = (a) + (b)').getErrorCount() === 1);
+        });
+        it('should not report separated operator for "a = (a) + (b)"', function() {
             checker.configure({ disallowLeftStickedOperators: ['+'] });
             assert(checker.checkString('a = (a) + (b)').isEmpty());
         });
@@ -63,6 +75,10 @@ describe('rules/disallow-left-sticked-operators', function() {
         it('should not report separated operator for "x =2"', function() {
             checker.configure({ disallowLeftStickedOperators: ['='] });
             assert(checker.checkString('x =2;').isEmpty());
+        });
+        it('should report sticky operator for "(x)=2"', function() {
+            checker.configure({ disallowLeftStickedOperators: ['='] });
+            assert(checker.checkString('(x)=2;').isEmpty());
         });
     });
 
