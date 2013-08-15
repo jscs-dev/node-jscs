@@ -79,6 +79,37 @@ Example configuration:
     */
     "disallowSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch"],
 
+
+    /*
+        Option: requireSpacesInFunctionExpression
+        Requires space before () or {} in function declarations.
+
+        Valid examples:
+        function () {}
+        function a () {}
+
+        Invalid examples:
+        function() {}
+        function (){}
+
+    */,
+    "requireSpacesInFunctionExpression": { "beforeOpeningRoundBrace": true, "beforeOpeningCurlyBrace": true },
+
+    /*
+        Option: disallowSpacesInFunctionExpression
+        Disallows space before () or {} in function declarations.
+
+        Valid examples:
+        function(){}
+        function a(){}
+
+        Invalid examples:
+        function () {}
+        function a (){}
+
+    */,
+    "disallowSpacesInFunctionExpression": { "beforeOpeningRoundBrace": true, "beforeOpeningCurlyBrace": true },
+
     /*
         Option: disallowMultipleVarDecl
         Disallows multiple var declaration (except for-loop).
