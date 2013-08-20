@@ -7,7 +7,7 @@
     "requireLeftStickedOperators": [","],
     "disallowImplicitTypeConversion": ["string"],
     "disallowKeywords": ["with"],
-    "disallowMulipleLineBreaks": true,
+    "disallowMultipleLineBreaks": true,
     "disallowKeywordsOnNewLine": ["else"],
     "requireLineFeedAtFileEnd": true,
     "validateJSDoc": {
