@@ -10,7 +10,7 @@ describe('rules/camel-case-options', function() {
     it('should report illegal option names', function() {
         var error;
         try {
-            checker.configure({ my_option_name: { hello_world: true } });
+            checker.configure({ disallow_spaces_in_function_expression: { before_opening_round_brace: true } });
         } catch (e) {
             error = e;
         }
@@ -21,8 +21,8 @@ describe('rules/camel-case-options', function() {
             'On the bright side, we tried to convert your jscs config to camel case.\n' +
             '----------------------------------------\n' +
             '{\n' +
-            '    "myOptionName": {\n' +
-            '        "helloWorld": true\n' +
+            '    "disallowSpacesInFunctionExpression": {\n' +
+            '        "beforeOpeningRoundBrace": true\n' +
             '    }\n' +
             '}\n' +
             '----------------------------------------\n'
@@ -31,7 +31,7 @@ describe('rules/camel-case-options', function() {
     it('should not report legal option names', function() {
         var error;
         try {
-            checker.configure({ myOptionName: { helloWorld: true } });
+            checker.configure({ disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
         } catch (e) {
             error = e;
         }
