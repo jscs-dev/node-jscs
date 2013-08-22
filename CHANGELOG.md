@@ -1,3 +1,7 @@
+Version 1.0.4-1.0.5:
+ * Fixed mistype `disallowMulipleVarDecl` -> `disallowMultipleVarDecl`.
+ * Fixed error for invalid symlink checking.
+
 Version 1.0.3:
  * Changed behaviour for `disallowMultipleVarDecl` options. Now accepts multiple var decl in `for` decl.
 
