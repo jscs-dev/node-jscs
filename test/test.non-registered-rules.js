@@ -28,4 +28,13 @@ describe('rules/camel-case-options', function() {
         }
         assert(error === undefined);
     });
+    it('should not report "excludeFiles" rule as unregistered', function() {
+        var error;
+        try {
+            checker.configure({ excludeFiles: [] });
+        } catch (e) {
+            error = e;
+        }
+        assert(error === undefined);
+    });
 });
