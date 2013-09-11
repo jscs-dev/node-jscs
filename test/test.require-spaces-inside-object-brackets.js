@@ -51,4 +51,8 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         checker.configure({ requireSpacesInsideObjectBrackets: 'allButNested' });
         assert(checker.checkString('var x = { a: { b: 1 }};').isEmpty());
     });
+    it('should report illegal space between closing braces for nested object', function() {
+        checker.configure({ requireSpacesInsideObjectBrackets: 'allButNested' });
+        assert(checker.checkString('var x = { a: { b: 1 } };').getErrorCount() === 1);
+    });
 });
