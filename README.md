@@ -173,6 +173,20 @@ Example configuration:
     "disallowSpacesInsideArrayBrackets": true,
 
     /*
+        Option: disallowSpacesInsideParentheses
+        Disallows space after opening round bracket and before closing.
+
+        Valid example:
+
+        var x = (1 + 2) * 3;
+
+        Invalid example:
+
+        var x = ( 1 + 2 ) * 3;
+    */
+    "disallowSpacesInsideParentheses": true,
+
+    /*
         Option: requireSpacesInsideObjectBrackets
         Possible values: "all" for strict mode, "allButNested" ignores closing brackets in a row.
         Requires space after opening object curly brace and before closing.
