@@ -432,6 +432,20 @@ Example configuration:
     "requireLineFeedAtFileEnd": true,
 
     /*
+        Option: safeContextKeyword
+        Option to check "var that = this" expressions
+
+        Valid example:
+
+        var that = this;
+
+        Invalid example:
+
+        var _this = this;
+    */
+    "safeContextKeyword": "that"
+
+    /*
         Option: validateJSDoc
         Enables jsdoc validation.
 
