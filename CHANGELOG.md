@@ -1,3 +1,6 @@
+Version 1.0.7:
+ * Disallow spaces inside parentheses (@ignovak).
+
 Version 1.0.6:
  * Convert tabs into spaces (@markelog).
  * Report illegal space between nested closing curly braces (@twoRoger).
