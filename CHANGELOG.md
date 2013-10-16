@@ -1,3 +1,9 @@
+Version 1.0.6:
+ * Convert tabs into spaces (@markelog).
+ * Report illegal space between nested closing curly braces (@twoRoger).
+ * Use absolute path to config when specified (@vtambourine).
+ * safeContextKeyword option to check "var that = this" expressions (@doochik).
+
 Version 1.0.4-1.0.5:
  * Fixed mistype `disallowMulipleVarDecl` -> `disallowMultipleVarDecl`.
  * Fixed error for invalid symlink checking.
