@@ -1,3 +1,6 @@
+Version 1.0.8:
+ * Fixes for `safeContextKeyword`.
+
 Version 1.0.7:
  * Disallow spaces inside parentheses (@ignovak).
 
