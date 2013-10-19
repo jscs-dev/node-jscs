@@ -18,6 +18,10 @@ describe('rules/safe-context-keyword', function() {
         it('should report "var notthat = this"', function() {
             assert(checker.checkString('var notthat = this;').getErrorCount() === 1);
         });
+
+        it('should not report "var foo;"', function() {
+            assert(checker.checkString('var foo;').getErrorCount() === 0);
+        });
     });
 
     describe('withot var', function() {
@@ -27,6 +31,10 @@ describe('rules/safe-context-keyword', function() {
 
         it('should report "var notthat = this"', function() {
             assert(checker.checkString('notthat = this;').getErrorCount() === 1);
+        });
+
+        it('should not report propery assignment "foo.bar = this"', function() {
+            assert(checker.checkString('foo.bar = this').getErrorCount() === 0);
         });
     });
 
