@@ -19,4 +19,8 @@ describe('rules/disallow-multiple-line-breaks', function() {
         checker.configure({ disallowMultipleLineBreaks: true });
         assert(checker.checkString('x = 1;\n\n\n\n\ny = 2').getErrorCount() === 1);
     });
+    it('should report multiple line break if CRLF is used', function() {
+        checker.configure({ disallowMultipleLineBreaks: true });
+        assert(checker.checkString('x = 1;\r\n\r\n\r\ny = 2').getErrorCount() === 1);
+    });
 });
