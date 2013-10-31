@@ -349,6 +349,118 @@ Example configuration:
     "requireLeftStickedOperators": [","],
 
     /*
+        Option: disallowSpaceAfterPrefixUnaryOperators
+        Requires sticking unary operators to the right.
+
+        Valid example:
+
+        x = !y; y = ++z;
+
+        Invalid example:
+
+        x = ! y; y = ++ z;
+    */
+    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
+
+    /*
+        Option: requireSpaceAfterPrefixUnaryOperators
+        Disallows sticking unary operators to the right.
+
+        Valid example:
+
+        x = ! y; y = ++ z;
+
+        Invalid example:
+
+        x = !y; y = ++z;
+    */
+    "requireSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
+
+    /*
+        Option: disallowSpaceBeforePostfixUnaryOperators
+        Requires sticking unary operators to the left.
+
+        Valid example:
+
+        x = y++; y = z--;
+
+        Invalid example:
+
+        x = y ++; y = z --;
+    */
+    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+
+    /*
+        Option: requireSpaceBeforePostfixUnaryOperators
+        Disallows sticking unary operators to the left.
+
+        Valid example:
+
+        x = y ++; y = z --;
+
+        Invalid example:
+
+        x = y++; y = z--;
+    */
+    "requireSpaceBeforePostfixUnaryOperators": ["++", "--"],
+
+    /*
+        Option: disallowSpaceBeforeBinaryOperators
+        Requires sticking binary operators to the left.
+
+        Valid example:
+
+        x+ y;
+
+        Invalid example:
+
+        x + y;
+    */
+    "disallowSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+
+    /*
+        Option: requireSpaceBeforeBinaryOperators
+        Disallows sticking binary operators to the left.
+
+        Valid example:
+
+        x !== y;
+
+        Invalid example:
+
+        x!== y;
+    */
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+
+    /*
+        Option: disallowSpaceAfterBinaryOperators
+        Requires sticking binary operators to the right.
+
+        Valid example:
+
+        x +y;
+
+        Invalid example:
+
+        x+ y;
+    */
+    "disallowSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+
+    /*
+        Option: requireSpaceAfterBinaryOperators
+        Disallows sticking binary operators to the right.
+
+        Valid example:
+
+        x + y;
+
+        Invalid example:
+
+        x +y;
+    */
+    "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+
+    /*
         Option: disallowImplicitTypeConversion
         Disallows implicit type conversion.
 
