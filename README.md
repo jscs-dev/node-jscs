@@ -484,6 +484,7 @@ Example configuration:
     */
     "excludeFiles": ["node_modules/**"]
 }
+```
 
 Browser Usage
 -------------
