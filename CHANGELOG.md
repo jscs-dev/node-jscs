@@ -1,3 +1,8 @@
+Version 1.0.9:
+ * Browser-compatible version.
+ * Fix for `disallowMultipleLineBreaks` option to report only once per each sequence of line breaks.
+ * Fix for `disallowMultipleLineBreaks` option to work properly when CRLF line break is used.
+
 Version 1.0.8:
  * Fixes for `safeContextKeyword`.
 
