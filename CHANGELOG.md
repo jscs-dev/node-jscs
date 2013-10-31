@@ -1,3 +1,6 @@
+Version 1.0.10:
+ * Reporter support — `console`, `text`, `checkstyle`.
+
 Version 1.0.9:
  * Browser-compatible version.
  * Fix for `disallowMultipleLineBreaks` option to report only once per each sequence of line breaks.
