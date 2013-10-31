@@ -1,3 +1,7 @@
+Version 1.0.11:
+ * Prefix unary rules: `disallowSpaceAfterPrefixUnaryOperators`, `requireSpaceAfterPrefixUnaryOperators`.
+ * Postfix unary rules: `disallowSpaceBeforePostfixUnaryOperators`, `requireSpaceBeforePostfixUnaryOperators`.
+
 Version 1.0.10:
  * Reporter support — `console`, `text`, `checkstyle`.
 
