@@ -1960,7 +1960,7 @@ module.exports.prototype = {
                         if (line.charAt(0) === '*') {
                             line = line.substr(1).trim();
                             if (line.indexOf('@param') === 0) {
-                                var match = line.match(/^@param\s+(?:{([^}]+)})?\s*(?:\[)?([a-zA-Z0-9_\.\$]+)/);
+                                var match = line.match(/^@param\s+(?:{(.+?)})?\s*(?:\[)?([a-zA-Z0-9_\.\$]+)/);
                                 if (match) {
                                     var jsDocParamType = match[1];
                                     var jsDocParamName = match[2];

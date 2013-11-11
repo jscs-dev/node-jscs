@@ -197,5 +197,33 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
-
+    it('should not report valid jsdoc with object type for method', function() {
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                    '/**\n' +
+                    ' * @param {{foo: string}} xxx\n' +
+                    ' */\n' +
+                    'function funcName(xxx) {\n' +
+                    '\n' +
+                    '}'
+            ).isEmpty()
+        );
+    });
+    it('should not report valid jsdoc with object type for function', function() {
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
+        assert(
+            checker.checkString(
+                'Cls.prototype = {\n' +
+                    '    /**\n' +
+                    '     * @param {{foo: string}} xxx\n' +
+                    '     */\n' +
+                    '    run: function(xxx) {\n' +
+                    '        \n' +
+                    '    }\n' +
+                    '};'
+            ).isEmpty()
+        );
+    });
 });
