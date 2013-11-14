@@ -1,3 +1,6 @@
+Version 1.0.12:
+ * Fixes for jsdoc params.
+
 Version 1.0.11:
  * Prefix unary rules: `disallowSpaceAfterPrefixUnaryOperators`, `requireSpaceAfterPrefixUnaryOperators`.
  * Postfix unary rules: `disallowSpaceBeforePostfixUnaryOperators`, `requireSpaceBeforePostfixUnaryOperators`.
