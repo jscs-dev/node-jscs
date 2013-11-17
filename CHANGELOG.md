@@ -1,9 +1,12 @@
+Version 1.0.13:
+ * Option `validateLineBreaks` (@twoRoger).
+
 Version 1.0.12:
  * Fixes for jsdoc params.
 
 Version 1.0.11:
- * Prefix unary rules: `disallowSpaceAfterPrefixUnaryOperators`, `requireSpaceAfterPrefixUnaryOperators`.
- * Postfix unary rules: `disallowSpaceBeforePostfixUnaryOperators`, `requireSpaceBeforePostfixUnaryOperators`.
+ * Prefix unary rules: `disallowSpaceAfterPrefixUnaryOperators`, `requireSpaceAfterPrefixUnaryOperators` (@mishaberezin).
+ * Postfix unary rules: `disallowSpaceBeforePostfixUnaryOperators`, `requireSpaceBeforePostfixUnaryOperators` (@mishaberezin).
 
 Version 1.0.10:
  * Reporter support — `console`, `text`, `checkstyle`.
