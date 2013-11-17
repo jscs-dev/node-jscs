@@ -506,6 +506,18 @@ Example configuration:
     "disallowMultipleLineBreaks": true,
 
     /*
+        Option: validateLineBreaks
+        Possible values: "CR", "LF", "CRLF"
+        Option to check line break characters
+
+        Invalid example:
+
+        var x = 1;<CRLF>
+        x++;
+    */
+    "validateLineBreaks": "LF",
+
+    /*
         Option: disallowKeywordsOnNewLine
         Disallows placing keywords on a new line.
 
