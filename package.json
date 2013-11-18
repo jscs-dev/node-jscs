@@ -34,7 +34,8 @@
     "vow": "~0.3.12",
     "vow-fs": "~0.2.3",
     "xmlbuilder": "~2.1.0",
-    "findup-sync": "~0.1.2"
+    "findup-sync": "~0.1.2",
+    "doctrine": "0.5.0"
   },
   "devDependencies": {
     "browserify": "~3.30.2",
@@ -43,13 +44,14 @@
     "mocha": "~1.17.1",
     "sinon": "~1.8.2",
     "xml2js": "~0.4.1"
+
   },
   "bin": {
     "jscs": "./bin/jscs"
   },
   "scripts": {
-    "lint": "jshint . && node bin/jscs lib test bin",
-    "test": "npm run lint && mocha -u bdd -R spec",
+    "lint": "./node_modules/.bin/jshint . && node bin/jscs lib test bin",
+    "test": "npm run lint && ./node_modules/.bin/mocha -u bdd -R spec",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js"
   },
   "files": [

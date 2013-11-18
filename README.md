@@ -2208,6 +2208,10 @@ Values:
  - "checkParamNames" ensures param names in jsdoc and in function declaration are equal
  - "requireParamTypes" ensures params in jsdoc contains type
  - "checkRedundantParams" reports redundant params in jsdoc
+ - "checkReturnTypes" tries to compare function result type with declared type in jsdoc
+ - "requireReturnTypes" ensures returns in jsdoc contains type
+ - "checkRedundantReturns" reports redundant returns in jsdoc
+ - "checkTypes" reports invalid types in jsdoc
 
 #### Example
 
@@ -2215,7 +2219,11 @@ Values:
 "validateJSDoc": {
     "checkParamNames": true,
     "checkRedundantParams": true,
-    "requireParamTypes": true
+    "requireParamTypes": true,
+    "checkReturnTypes": true,
+    "checkRedundantReturns": true,
+    "requireReturnTypes": true,
+    "checkTypes": true
 }
 ```
 
