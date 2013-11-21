@@ -590,16 +590,28 @@ Example configuration:
         Option: validateJSDoc.checkParamNames
         Ensures param names in jsdoc and in function declaration are equal.
 
+        Option: validateJSDoc.checkReturnTypes
+        Tries to compare function result type with declared type in jsdoc.
+
         Option: validateJSDoc.requireParamTypes
         Ensures params in jsdoc contains type.
 
+        Option: validateJSDoc.requireReturnTypes
+        Ensures returns in jsdoc contains type.
+
         Option: validateJSDoc.checkRedundantParams
         Reports redundant params in jsdoc.
+
+        Option: validateJSDoc.checkRedundantReturns
+        Reports redundant returns in jsdoc.
     */
     "validateJSDoc": {
         "checkParamNames": true,
+        "checkReturnTypes": true,
         "checkRedundantParams": true,
-        "requireParamTypes": true
+        "checkRedundantReturns": true,
+        "requireParamTypes": true,
+        "requireReturnTypes": true
     },
 
     /*
