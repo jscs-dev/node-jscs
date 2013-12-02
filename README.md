@@ -606,7 +606,13 @@ Example configuration:
         Option: excludeFiles
         Disables style checking for specified paths.
     */
-    "excludeFiles": ["node_modules/**"]
+    "excludeFiles": ["node_modules/**"],
+
+    /*
+        Option: additionalRules
+        Pluggable rules 
+    */
+    "additionalRules": ["project-rules/*.js"]
 }
 ```
 

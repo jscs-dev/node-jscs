@@ -30,7 +30,8 @@
         "vow-fs": "0.2.3",
         "colors": "0.6.0-1",
         "commander": "1.2.0",
-        "minimatch": "0.2.12"
+        "minimatch": "0.2.12",
+        "glob": "3.2.7"
     },
     "devDependencies" : {
         "jshint": "2.1.3",
