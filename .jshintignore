@@ -1,2 +1,3 @@
 node_modules
 jscs-browser.js
+test/data/exclude-files.js
