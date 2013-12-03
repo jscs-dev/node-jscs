@@ -92,7 +92,7 @@ Example configuration:
         function() {}
         function (){}
 
-    */,
+    */
     "requireSpacesInFunctionExpression": { "beforeOpeningRoundBrace": true, "beforeOpeningCurlyBrace": true },
 
     /*
@@ -107,7 +107,7 @@ Example configuration:
         function () {}
         function a (){}
 
-    */,
+    */
     "disallowSpacesInFunctionExpression": { "beforeOpeningRoundBrace": true, "beforeOpeningCurlyBrace": true },
 
     /*
@@ -581,7 +581,7 @@ Example configuration:
 
         var _this = this;
     */
-    "safeContextKeyword": "that"
+    "safeContextKeyword": "that",
 
     /*
         Option: validateJSDoc
