@@ -50,4 +50,12 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
     it('should check all keys in object', function() {
         assert(checker.checkString('var x = { "a": 1, b: 2, "3": 3 }').getErrorCount() === 2);
     });
+
+    it('should not report if reserved words when "allButReserved" mode is used', function() {
+        checker = new Checker();
+        checker.registerDefaultRules();
+        checker.configure({ disallowQuotedKeysInObjects: 'allButReserved' });
+
+        assert(checker.checkString('var x = { "default": 1, "class": "foo" }').isEmpty());
+    });
 });

@@ -226,11 +226,18 @@ Example configuration:
 
     /*
         Option: disallowQuotedKeysInObjects
+        Possible values:
+            `true`: for strict mode,
+            "allButReserved" allows ES3+ reserved words to remain quoted. This is helpfull when using this option with JSHint's `es3` option.
         Disallows quoted keys in object if possible.
 
-        Valid example:
+        Valid example for mode true:
 
-        var x = {a: 1};
+        var x = { a: { default: 1 } };
+
+        Valid example for mode "allButReserved":
+
+        var x = {a: 1, 'default': 2};
 
         Invalid example:
 
