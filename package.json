@@ -41,6 +41,6 @@
         "jscs" : "./bin/jscs"
     },
     "scripts": {
-        "test" : "jshint . && ./bin/jscs lib test && mocha -u bdd -R spec"
+        "test" : "jshint . && bin/jscs lib test && mocha -u bdd -R spec"
     }
 }
