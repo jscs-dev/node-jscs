@@ -15,4 +15,8 @@ describe('rules/disallow-space-after-prefix-unary-operators', function() {
         checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
         assert(checker.checkString('var x = ~0; ++x; -x; !++x;').isEmpty());
     });
+    it('should not report sticky operator if operand in parentheses', function() {
+        checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
+        assert(checker.checkString('var x = ~(0); ++( x ); -(((x))); !( ++((x)) );').isEmpty());
+    });
 });
