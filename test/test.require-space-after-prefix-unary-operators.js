@@ -11,6 +11,10 @@ describe('rules/require-space-after-prefix-unary-operators', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
         assert(checker.checkString('var x = ~0; ++x; -x; !++x;').getErrorCount() === 5);
     });
+    it('should report sticky operator if operand in parentheses', function() {
+        checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
+        assert(checker.checkString('var x = ~(0); ++(((x))); -( x ); !(++( x ));').getErrorCount() === 5);
+    });
     it('should not report separated operator', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
         assert(checker.checkString('var x = ~ 0; ++ x; - x; ! ++ x;').isEmpty());
