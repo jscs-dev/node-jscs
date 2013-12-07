@@ -468,6 +468,62 @@ Example configuration:
     "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
 
     /*
+        Option: disallowSpaceBeforeTernaryOperator
+        Disallows space before "?" and ":" tokens in ternary operator.
+
+        Valid example:
+
+        a? b: c;
+
+        Invalid example:
+
+        a ? b : c;
+    */
+    "disallowSpaceBeforeTernaryOperator": true,
+
+    /*
+        Option: requireSpaceBeforeTernaryOperator
+        Requires space before "?" and ":" tokens in ternary operator.
+
+        Valid example:
+
+        a ? b : c;
+
+        Invalid example:
+
+        a? b: c;
+    */
+    "requireSpaceBeforeTernaryOperator": true,
+
+    /*
+        Option: disallowSpaceAfterTernaryOperator
+        Disallows space after "?" and ":" tokens in ternary operator.
+
+        Valid example:
+
+        a ?b :c;
+
+        Invalid example:
+
+        a ? b : c;
+    */
+    "disallowSpaceAfterTernaryOperator": true,
+
+    /*
+        Option: requireSpaceAfterTernaryOperator
+        Requires space after "?" and ":" tokens in ternary operator.
+
+        Valid example:
+
+        a ? b : c;
+
+        Invalid example:
+
+        a ?b :c;
+    */
+    "requireSpaceAfterTernaryOperator": true,
+
+    /*
         Option: disallowImplicitTypeConversion
         Disallows implicit type conversion.
 
@@ -617,7 +673,7 @@ Example configuration:
 
     /*
         Option: additionalRules
-        Pluggable rules 
+        Pluggable rules
     */
     "additionalRules": ["project-rules/*.js"]
 }
