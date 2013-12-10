@@ -566,7 +566,7 @@ module.exports.prototype = {
                     typeof key.value === 'string' &&
                     KEY_NAME_RE.test(key.value)
                 ) {
-                    errors.add('Extra qoutes for key', prop.loc.start);
+                    errors.add('Extra quotes for key', prop.loc.start);
                 }
             });
         });
