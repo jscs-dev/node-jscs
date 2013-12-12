@@ -1,7 +1,9 @@
+Version 1.0.15:
+ * junit reporter (@markelog).
+
 Version 1.0.14:
  * Option `additionalRules` (@markelog).
  * disallowQuotedKeysInObjects: Exclusion array (@nschonni).
- *
 
 Version 1.0.13:
  * Option `validateLineBreaks` (@twoRoger).
