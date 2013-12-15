@@ -49,7 +49,7 @@ Example configuration:
 
         if (x) x++;
     */
-    "requireCurlyBraces": ["if", "else", "for", "while", "do"],
+    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
 
     /*
         Option: requireSpaceAfterKeywords
@@ -65,7 +65,7 @@ Example configuration:
             x++;
         }
     */
-    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return"],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
 
     /*
         Option: disallowSpaceAfterKeywords
@@ -77,7 +77,7 @@ Example configuration:
             y++;
         }
     */
-    "disallowSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch"],
+    "disallowSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "try", "catch"],
 
 
     /*
