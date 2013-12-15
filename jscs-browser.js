@@ -160,7 +160,7 @@ function renderPointer(column, colorize) {
 
 module.exports = Errors;
 
-},{"colors":46}],2:[function(require,module,exports){
+},{"colors":48}],2:[function(require,module,exports){
 var treeIterator = require('./tree-iterator');
 
 /**
@@ -299,7 +299,35 @@ JsFile.prototype = {
 
 module.exports = JsFile;
 
-},{"./tree-iterator":42}],3:[function(require,module,exports){
+},{"./tree-iterator":44}],3:[function(require,module,exports){
+module.exports={
+    "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
+    "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "requireMultipleVarDecl": true,
+    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideArrayBrackets": "all",
+    "disallowLeftStickedOperators": [ "?", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
+    "disallowRightStickedOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
+    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-"],
+    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+    "requireRightStickedOperators": [ "!" ],
+    "requireLeftStickedOperators": [ "," ],
+    "disallowKeywords": [ "with" ],
+    "disallowMultipleLineBreaks": true,
+    "disallowKeywordsOnNewLine": [ "else" ],
+    "requireLineFeedAtFileEnd": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "validateLineBreaks": "LF"
+}
+
+},{}],4:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -352,7 +380,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],4:[function(require,module,exports){
+},{"assert":46}],5:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -391,7 +419,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],5:[function(require,module,exports){
+},{"assert":46}],6:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -426,7 +454,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],6:[function(require,module,exports){
+},{"assert":46}],7:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -464,7 +492,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],7:[function(require,module,exports){
+},{"assert":46}],8:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -499,7 +527,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],8:[function(require,module,exports){
+},{"assert":46}],9:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -533,7 +561,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],9:[function(require,module,exports){
+},{"assert":46}],10:[function(require,module,exports){
 var assert = require('assert');
 
 var OPTION_NAME = 'disallowQuotedKeysInObjects';
@@ -544,13 +572,57 @@ module.exports.prototype = {
 
     configure: function(disallowQuotedKeysInObjects) {
         assert(
-            typeof disallowQuotedKeysInObjects === 'boolean',
-            OPTION_NAME + ' options requires boolean value'
+            disallowQuotedKeysInObjects === true || disallowQuotedKeysInObjects === 'allButReserved',
+            OPTION_NAME + ' options should be "true" or an array of exceptions'
         );
-        assert(
-            disallowQuotedKeysInObjects === true,
-            'disallowQuotedKeysInObjects option requires true value or should be removed'
-        );
+
+        this._mode = disallowQuotedKeysInObjects;
+
+        this._keywords = {
+            'arguments': true,
+            'break': true,
+            'case': true,
+            'catch': true,
+            'class': true,
+            'continue': true,
+            'debugger': true,
+            'default': true,
+            'delete': true,
+            'do': true,
+            'else': true,
+            'enum': true,
+            'eval': true,
+            'export': true,
+            'extends': true,
+            'finally': true,
+            'for': true,
+            'function': true,
+            'if': true,
+            'implements': true,
+            'import': true,
+            'in': true,
+            'instanceof': true,
+            'interface': true,
+            'let': true,
+            'new': true,
+            'package': true,
+            'private': true,
+            'protected': true,
+            'public': true,
+            'return': true,
+            'static': true,
+            'super': true,
+            'switch': true,
+            'this': true,
+            'throw': true,
+            'try': true,
+            'typeof': true,
+            'var': true,
+            'void': true,
+            'while': true,
+            'with': true,
+            'yield': true
+        };
     },
 
     getOptionName: function() {
@@ -559,9 +631,15 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var KEY_NAME_RE = /^(0|[1-9][0-9]*|[a-zA-Z_$]+[\w$]*)$/; // number or identifier
+        var keywords = this._keywords;
+        var mode = this._mode;
+
         file.iterateNodesByType('ObjectExpression', function(node) {
             node.properties.forEach(function(prop) {
                 var key = prop.key;
+                if (mode === 'allButReserved' && keywords[key.value]) {
+                    return;
+                }
                 if (key.type === 'Literal' &&
                     typeof key.value === 'string' &&
                     KEY_NAME_RE.test(key.value)
@@ -574,7 +652,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],10:[function(require,module,exports){
+},{"assert":46}],11:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -612,7 +690,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],11:[function(require,module,exports){
+},{"assert":46}],12:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -653,7 +731,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":41,"assert":44}],12:[function(require,module,exports){
+},{"../token-helper":43,"assert":46}],13:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -692,7 +770,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],13:[function(require,module,exports){
+},{"assert":46}],14:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -730,7 +808,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],14:[function(require,module,exports){
+},{"assert":46}],15:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -762,7 +840,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":44}],15:[function(require,module,exports){
+},{"assert":46}],16:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -803,7 +881,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":41,"assert":44}],16:[function(require,module,exports){
+},{"../token-helper":43,"assert":46}],17:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -838,7 +916,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":44}],17:[function(require,module,exports){
+},{"assert":46}],18:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -923,7 +1001,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],18:[function(require,module,exports){
+},{"assert":46}],19:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -973,7 +1051,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],19:[function(require,module,exports){
+},{"assert":46}],20:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1023,7 +1101,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],20:[function(require,module,exports){
+},{"assert":46}],21:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1077,7 +1155,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],21:[function(require,module,exports){
+},{"assert":46}],22:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1124,7 +1202,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],22:[function(require,module,exports){
+},{"assert":46}],23:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1185,7 +1263,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],23:[function(require,module,exports){
+},{"assert":46}],24:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1253,7 +1331,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],24:[function(require,module,exports){
+},{"assert":46}],25:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1292,7 +1370,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],25:[function(require,module,exports){
+},{"assert":46}],26:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1330,7 +1408,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],26:[function(require,module,exports){
+},{"assert":46}],27:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1361,7 +1439,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],27:[function(require,module,exports){
+},{"assert":46}],28:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1399,7 +1477,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],28:[function(require,module,exports){
+},{"assert":46}],29:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1437,7 +1515,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],29:[function(require,module,exports){
+},{"assert":46}],30:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -1478,7 +1556,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":41,"assert":44}],30:[function(require,module,exports){
+},{"../token-helper":43,"assert":46}],31:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1519,7 +1597,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],31:[function(require,module,exports){
+},{"assert":46}],32:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1557,7 +1635,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],32:[function(require,module,exports){
+},{"assert":46}],33:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1589,7 +1667,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":44}],33:[function(require,module,exports){
+},{"assert":46}],34:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -1630,7 +1708,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":41,"assert":44}],34:[function(require,module,exports){
+},{"../token-helper":43,"assert":46}],35:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1665,7 +1743,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":44}],35:[function(require,module,exports){
+},{"assert":46}],36:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1750,7 +1828,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],36:[function(require,module,exports){
+},{"assert":46}],37:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1812,7 +1890,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],37:[function(require,module,exports){
+},{"assert":46}],38:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1872,7 +1950,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],38:[function(require,module,exports){
+},{"assert":46}],39:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1929,7 +2007,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],39:[function(require,module,exports){
+},{"assert":46}],40:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2022,10 +2100,63 @@ module.exports.prototype = {
 
 };
 
-},{"assert":44}],40:[function(require,module,exports){
+},{"assert":46}],41:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(options) {
+        assert(
+            typeof options === 'string' || typeof options === 'object',
+            'validateLineBreaks option requires string or object value'
+        );
+
+        if (typeof options === 'string') {
+            options = { character: options };
+        }
+
+        var lineBreaks = {
+            CR: '\r',
+            LF: '\n',
+            CRLF: '\r\n'
+        };
+        this._allowedLineBreak = lineBreaks[options.character];
+
+        this._reportOncePerFile = options.reportOncePerFile !== false;
+    },
+
+    getOptionName: function () {
+        return 'validateLineBreaks';
+    },
+
+    check: function(file, errors) {
+        var lines = file.getLines();
+        if (lines.length < 2) {
+            return;
+        }
+
+        var lineBreaks = file.getSource().match(/\r\n|\r|\n/g);
+        for (var i = 0, len = lineBreaks.length; i < len; i++) {
+            if (lineBreaks[i] !== this._allowedLineBreak) {
+                errors.add('Invalid line break', i + 1, lines[i].length);
+                if (this._reportOncePerFile) {
+                    break;
+                }
+            }
+        }
+    }
+
+};
+
+},{"assert":46}],42:[function(require,module,exports){
 var esprima = require('esprima');
 var Errors = require('./errors');
 var JsFile = require('./js-file');
+var presets = {
+    jquery: require('./presets/jquery.json')
+};
 
 /**
  * Starts Code Style checking process.
@@ -2067,6 +2198,7 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/disallow-implicit-type-conversion'))());
         this.registerRule(new (require('./rules/disallow-keywords'))());
         this.registerRule(new (require('./rules/disallow-multiple-line-breaks'))());
+        this.registerRule(new (require('./rules/validate-line-breaks'))());
         this.registerRule(new (require('./rules/require-keywords-on-new-line'))());
         this.registerRule(new (require('./rules/disallow-keywords-on-new-line'))());
         this.registerRule(new (require('./rules/require-line-feed-at-file-end'))());
@@ -2107,9 +2239,12 @@ StringChecker.prototype = {
      */
     configure: function(config) {
         this.throwNonCamelCaseErrorIfNeeded(config);
+        this.setPreset(config);
 
         var configRules = Object.keys(config);
         var activeRules = this._activeRules;
+
+        this.config = config;
         this._rules.forEach(function(rule) {
             var ruleOptionName = rule.getOptionName();
             if (config.hasOwnProperty(ruleOptionName)) {
@@ -2165,6 +2300,26 @@ StringChecker.prototype = {
     },
 
     /**
+     * Take preset (if defined) rules and extend passed config with them
+     *
+     * @param {Object} config
+     */
+    setPreset: function(config) {
+        if (!config.preset) {
+            return;
+        }
+
+        var preset = presets[config.preset];
+
+        delete config.preset;
+        for (var rule in preset) {
+            if (!(rule in config)) {
+                config[rule] = preset[rule];
+            }
+        }
+    },
+
+    /**
      * Checks file provided with a string.
      * @param {String} str
      * @param {String} filename
@@ -2190,7 +2345,7 @@ StringChecker.prototype = {
 
 module.exports = StringChecker;
 
-},{"./errors":1,"./js-file":2,"./rules/disallow-implicit-type-conversion":3,"./rules/disallow-keywords":5,"./rules/disallow-keywords-on-new-line":4,"./rules/disallow-left-sticked-operators":6,"./rules/disallow-multiple-line-breaks":7,"./rules/disallow-multiple-var-decl":8,"./rules/disallow-quoted-keys-in-objects":9,"./rules/disallow-right-sticked-operators":10,"./rules/disallow-space-after-binary-operators":11,"./rules/disallow-space-after-keywords":12,"./rules/disallow-space-after-object-keys":13,"./rules/disallow-space-after-prefix-unary-operators.js":14,"./rules/disallow-space-before-binary-operators":15,"./rules/disallow-space-before-postfix-unary-operators.js":16,"./rules/disallow-spaces-in-function-expression":17,"./rules/disallow-spaces-inside-array-brackets":18,"./rules/disallow-spaces-inside-object-brackets":19,"./rules/disallow-spaces-inside-parentheses":20,"./rules/disallow-yoda-conditions":21,"./rules/require-aligned-object-values":22,"./rules/require-curly-braces":23,"./rules/require-keywords-on-new-line":24,"./rules/require-left-sticked-operators":25,"./rules/require-line-feed-at-file-end":26,"./rules/require-multiple-var-decl":27,"./rules/require-right-sticked-operators":28,"./rules/require-space-after-binary-operators":29,"./rules/require-space-after-keywords":30,"./rules/require-space-after-object-keys":31,"./rules/require-space-after-prefix-unary-operators.js":32,"./rules/require-space-before-binary-operators":33,"./rules/require-space-before-postfix-unary-operators.js":34,"./rules/require-spaces-in-function-expression":35,"./rules/require-spaces-inside-array-brackets":36,"./rules/require-spaces-inside-object-brackets":37,"./rules/safe-context-keyword":38,"./rules/validate-jsdoc":39,"esprima":47}],41:[function(require,module,exports){
+},{"./errors":1,"./js-file":2,"./presets/jquery.json":3,"./rules/disallow-implicit-type-conversion":4,"./rules/disallow-keywords":6,"./rules/disallow-keywords-on-new-line":5,"./rules/disallow-left-sticked-operators":7,"./rules/disallow-multiple-line-breaks":8,"./rules/disallow-multiple-var-decl":9,"./rules/disallow-quoted-keys-in-objects":10,"./rules/disallow-right-sticked-operators":11,"./rules/disallow-space-after-binary-operators":12,"./rules/disallow-space-after-keywords":13,"./rules/disallow-space-after-object-keys":14,"./rules/disallow-space-after-prefix-unary-operators.js":15,"./rules/disallow-space-before-binary-operators":16,"./rules/disallow-space-before-postfix-unary-operators.js":17,"./rules/disallow-spaces-in-function-expression":18,"./rules/disallow-spaces-inside-array-brackets":19,"./rules/disallow-spaces-inside-object-brackets":20,"./rules/disallow-spaces-inside-parentheses":21,"./rules/disallow-yoda-conditions":22,"./rules/require-aligned-object-values":23,"./rules/require-curly-braces":24,"./rules/require-keywords-on-new-line":25,"./rules/require-left-sticked-operators":26,"./rules/require-line-feed-at-file-end":27,"./rules/require-multiple-var-decl":28,"./rules/require-right-sticked-operators":29,"./rules/require-space-after-binary-operators":30,"./rules/require-space-after-keywords":31,"./rules/require-space-after-object-keys":32,"./rules/require-space-after-prefix-unary-operators.js":33,"./rules/require-space-before-binary-operators":34,"./rules/require-space-before-postfix-unary-operators.js":35,"./rules/require-spaces-in-function-expression":36,"./rules/require-spaces-inside-array-brackets":37,"./rules/require-spaces-inside-object-brackets":38,"./rules/safe-context-keyword":39,"./rules/validate-jsdoc":40,"./rules/validate-line-breaks":41,"esprima":49}],43:[function(require,module,exports){
 /**
  * Returns token by range start. Ignores ()
  * @param {JsFile} file
@@ -2233,7 +2388,7 @@ module.exports.tokenIsPunctuator = function(token, punctuator) {
     return token && token.type === 'Punctuator' && token.value === punctuator;
 };
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = {
     iterate: iterate
 };
@@ -2306,7 +2461,7 @@ function iterate(node, cb, parentNode, parentCollection) {
     }
 }
 
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 
 
 //
@@ -2524,7 +2679,7 @@ if (typeof Object.getOwnPropertyDescriptor === 'function') {
   exports.getOwnPropertyDescriptor = valueObject;
 }
 
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2841,7 +2996,7 @@ assert.doesNotThrow = function(block, /*optional*/message) {
 };
 
 assert.ifError = function(err) { if (err) {throw err;}};
-},{"_shims":43,"util":45}],45:[function(require,module,exports){
+},{"_shims":45,"util":47}],47:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3386,7 +3541,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"_shims":43}],46:[function(require,module,exports){
+},{"_shims":45}],48:[function(require,module,exports){
 /*
 colors.js
 
@@ -3657,7 +3812,7 @@ addProperty('stripColors', function() {
   return ("" + this).replace(/\u001b\[\d+m/g,'');
 });
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /*
   Copyright (C) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2012 Mathias Bynens <mathias@qiwi.be>
@@ -7567,7 +7722,7 @@ parseStatement: true, parseSourceElement: true */
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */
 
-},{}]},{},[40])
-(40)
+},{}]},{},[42])
+(42)
 });
 ;

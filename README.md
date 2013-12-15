@@ -619,7 +619,13 @@ Example configuration:
         Option: additionalRules
         Pluggable rules 
     */
-    "additionalRules": ["project-rules/*.js"]
+    "additionalRules": ["project-rules/*.js"],
+
+    /*
+        Option: preset
+        Extends defined rules with preset rules
+    */
+    "preset": "jquery"
 }
 ```
 
