@@ -52,6 +52,21 @@ Example configuration:
     "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
 
     /*
+            Option: requirePrecedingCommas
+            Enforces preceding commas in lists
+
+            Invalid example:
+
+            var x = {one: 1, two: 2}
+
+            Valid example:
+            var x = {
+              one: 1
+              , two: 2
+            }
+    */
+    "requirePrecedingComma": true,
+    /*
         Option: requireSpaceAfterKeywords
         Requires space after keyword.
 
