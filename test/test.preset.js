@@ -11,7 +11,9 @@ describe('rules/preset', function() {
             preset: 'jquery'
         });
 
-        assert(checker.config.requireCurlyBraces === preset.requireCurlyBraces);
-        assert(checker.config !== preset);
+        var config = checker.getProcessedConfig();
+
+        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
+        assert(config.config !== preset);
     });
 });
