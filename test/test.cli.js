@@ -24,7 +24,7 @@ describe('cli', function() {
             once: true
         });
 
-        cli.execute({
+        cli({
             args: []
         });
     });
@@ -37,12 +37,12 @@ describe('cli', function() {
             once: true
         });
 
-        var config = cli.execute({
+        var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
             config: ''
-        }).config;
+        });
 
-        assert(config.requireCurlyBraces);
+        assert(result.getProcessedConfig().requireCurlyBraces);
     });
 });

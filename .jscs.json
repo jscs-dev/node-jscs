@@ -10,7 +10,7 @@
     "disallowMultipleLineBreaks": true,
     "disallowKeywordsOnNewLine": ["else"],
     "requireLineFeedAtFileEnd": true,
-    "excludeFiles": ["test/data/exclude-files.js"],
+    "excludeFiles": ["test/data/*.js"],
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true
