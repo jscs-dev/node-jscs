@@ -624,6 +624,19 @@ Example configuration:
     "validateQuoteMarks": "\"",
 
     /*
+        Option: disallowTrailingWhitespace
+        requires all lines to end on a non-whitespace character
+
+        Valid example:
+        var foo = "blah blah";
+
+        Invalid example:
+
+        var foo = "blah blah"; //<-- whitespace character here
+    */
+    "disallowTrailingWhitespace": true,
+
+    /*
         Option: disallowKeywordsOnNewLine
         Disallows placing keywords on a new line.
 
