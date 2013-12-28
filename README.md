@@ -274,6 +274,27 @@ Example configuration:
     "requireSpaceAfterObjectKeys": true,
 
     /*
+        Option: disallowCommaBeforeLineBreak
+        disallows commas as last token on a line in lists.
+
+        Valid example:
+
+        var x = {
+            one: 1
+            , two: 2
+        };
+        var y = { three: 3, four: 4};
+
+        Invalid example:
+
+        var x = {
+            one: 1,
+            two: 2
+        };
+    */
+    "disallowCommaBeforeLineBreak": true,
+
+    /*
         Option: requireCommaBeforeLineBreak
         requires commas as last token on a line in lists.
 
