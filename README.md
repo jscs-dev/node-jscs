@@ -591,6 +591,23 @@ Example configuration:
     "safeContextKeyword": "that",
 
     /*
+        Option: requireDotNotation
+        requires member expressions to use dot notation when possible
+
+        Valid example:
+
+        var a = b[c];
+        var a = b.c;
+        var a = b[c.d];
+        var a = b['while']; //reserved word
+
+        Invalid example:
+
+        var a = b['c'];
+    */
+    "requireDotNotation": true,
+
+    /*
         Option: validateJSDoc
         Enables jsdoc validation.
 
