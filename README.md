@@ -488,6 +488,26 @@ Example configuration:
     "disallowImplicitTypeConversion": ["numeric", "boolean", "binary", "string"],
 
     /*
+        Option: requireCamelCaseOrUpperCaseIdentifiers
+        Requires identifiers to be camelCased or UPPERCASE_WITH_UNDERSCORES
+
+        Valid example:
+
+        var camelCase = 0;
+        var CamelCase = 1;
+        var _camelCase = 2;
+        var camelCase_ = 3;
+        var UPPER_CASE = 4;
+
+        Invalid examples:
+
+        var lower_case = 1;
+        var Mixed_case = 2;
+        var mixed_Case = 3;
+    */
+    "requireCamelCaseOrUpperCaseIdentifiers": true,
+
+    /*
         Option: disallowKeywords
         Disallows usage of specified keywords.
 
@@ -617,7 +637,7 @@ Example configuration:
 
     /*
         Option: additionalRules
-        Pluggable rules 
+        Pluggable rules
     */
     "additionalRules": ["project-rules/*.js"],
 
