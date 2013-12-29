@@ -247,6 +247,27 @@ Example configuration:
     "disallowQuotedKeysInObjects": true,
 
     /*
+        Option: disallowDanglingUnderscores
+        Disallows identifiers that start or end in _, except for some popular exceptions:
+        _ (underscore.js), __filename (node.js global), and __dirname (node.js global).
+
+        Valid example:
+
+        var x = 1;
+        var y = _.extend;
+        var z = __dirname;
+        var w = __filename;
+        var x_y = 1;
+
+        Invalid examples:
+
+        var _x = 1;
+        var x_ = 1;
+        var x_y_ = 1;
+    */
+    "disallowDanglingUnderscores": true,
+
+    /*
         Option: disallowSpaceAfterObjectKeys
         Disallows space after object keys.
 
