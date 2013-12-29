@@ -525,6 +525,25 @@ Example configuration:
     "validateLineBreaks": "LF",
 
     /*
+        Option: validateQuoteMarks
+        Possible values: "\"", "'", true
+        Requires all quote marks to be either the supplied value, or consistent if "true"
+
+        Valid example for mode "\"" or mode "true":
+
+        var x = "x";
+
+        Valid example for mode "'" or mode "true":
+
+        var x = 'x';
+
+        Invalid example for mode "true":
+
+        var x = "x", y = 'y';
+    */
+    "validateQuoteMarks": "\"",
+
+    /*
         Option: disallowKeywordsOnNewLine
         Disallows placing keywords on a new line.
 
