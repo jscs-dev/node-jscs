@@ -129,6 +129,21 @@ Example configuration:
     "disallowMultipleVarDecl": true,
 
     /*
+        Option: disallowEmptyBlocks
+        Disallows empty blocks (except for catch blocks).
+
+        Valid example:
+
+        if ( a == b ) { c = d; }
+        try { a = b; } catch( e ){}
+
+        Invalid example:
+
+        if ( a == b ) { } else { c = d; }
+    */
+    "disallowEmptyBlocks": true,
+
+    /*
         Option: requireMultipleVarDecl
         Requires multiple var declaration.
 
