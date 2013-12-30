@@ -9,7 +9,8 @@ but it does not duplicate `jshint` functionality, so you should use `jscs` and `
 Friendly packages
 -----------------
 
- * JSCS Grunt Task: https://github.com/gustavohenke/grunt-jscs-checker
+ * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker
+ * Gulp task: https://github.com/sindresorhus/gulp-jscs
 
 Installation
 ------------
