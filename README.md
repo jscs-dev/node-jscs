@@ -746,6 +746,21 @@ Example configuration:
     "requireLineFeedAtFileEnd": true,
 
     /*
+        Option: requireCapitalizedConstructors
+        Requires constructors to be capitalized (except for "this")
+
+        Valid example:
+
+        var a = new B();
+        var c = new this();
+
+        Invalid example:
+
+        var d = new e();
+    */
+    "requireCapitalizedConstructors": true,
+
+    /*
         Option: safeContextKeyword
         Option to check "var that = this" expressions
 
