@@ -79,6 +79,27 @@ Example configuration:
     */
     "disallowSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "try", "catch"],
 
+    /*
+        Option: requireParenthesesAroundIIFE
+        requires parentheses around immediately invoked function expressions.
+
+        Valid example:
+
+        var a = (function(){ return 1; })();
+        var b = (function(){ return 2; }());
+        var c = (function(){ return 3; }).call(this, arg1);
+        var d = (function(){ return 3; }.call(this, arg1));
+        var e = (function(){ return d; }).apply(this, args);
+        var f = (function(){ return d; }.apply(this, args));
+
+        Invalid example:
+
+        var a = function(){ return 1; }();
+        var c = function(){ return 3; }.call(this, arg1);
+        var d = function(){ return d; }.apply(this, args);
+    */
+    "requireParenthesesAroundIIFE": true,
+
 
     /*
         Option: requireSpacesInFunctionExpression
