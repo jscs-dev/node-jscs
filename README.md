@@ -343,6 +343,23 @@ Example configuration:
     "requireAlignedObjectValues": "all",
 
     /*
+        Option: requireOperatorBeforeLineBreak
+        requires operators to appear before line breaks and not after.
+
+        Valid example:
+
+        x = y ? 1 : 2;
+        x = y ?
+            1 : 2;
+
+        Invalid example:
+
+        x = y
+            ? 1 : 2;
+    */
+    "requireOperatorBeforeLineBreak": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+
+    /*
         Option: disallowLeftStickedOperators
         Disallows sticking operators to the left.
 
