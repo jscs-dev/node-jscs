@@ -55,4 +55,28 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: ['do'] });
         assert(checker.checkString('do { x++; } while (x);').isEmpty());
     });
+    it('should report missing `case` braces', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 1:a=b;}').getErrorCount() === 1);
+    });
+    it('should report missing `case` braces, but not missing `default`', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 1:a=b;default:a=c;}').getErrorCount() === 1);
+    });
+    it('should not report `case` with braces', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 1:{a=b;}}').isEmpty());
+    });
+    it('should report missing `default` braces', function() {
+        checker.configure({ requireCurlyBraces: ['default'] });
+        assert(checker.checkString('switch(x){default:a=b;}').getErrorCount() === 1);
+    });
+    it('should report missing `default` braces, but not missing `case`', function() {
+        checker.configure({ requireCurlyBraces: ['default'] });
+        assert(checker.checkString('switch(x){case 1:a=b;default:a=c;}').getErrorCount() === 1);
+    });
+    it('should not report `default` with braces', function() {
+        checker.configure({ requireCurlyBraces: ['default'] });
+        assert(checker.checkString('switch(x){default:{a=b;}}').isEmpty());
+    });
 });
