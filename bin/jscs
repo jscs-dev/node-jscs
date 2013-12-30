@@ -1,2 +1,22 @@
 #!/usr/bin/env node
-require('../lib/cli');
+var cli = require('../lib/cli');
+
+/**
+ * Command line implementation for JSCS.
+ *
+ * Common usage case is:
+ *
+ * ./node_modules/.bin/jscs file1 dir1 file2 dir2
+ */
+var program = require('commander');
+
+program
+    .version(require('../package.json').version)
+    .usage('[options] <file ...>')
+    .option('-c, --config [path]', 'configuration file path')
+    .option('-n, --no-colors', 'clean output without colors')
+    .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit')
+    .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
+    .parse(process.argv);
+
+cli(program);
