@@ -50,7 +50,7 @@ Example configuration:
 
         if (x) x++;
     */
-    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
+    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch", "case", "default"],
 
     /*
         Option: requireSpaceAfterKeywords
