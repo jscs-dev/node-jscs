@@ -29,12 +29,16 @@ describe('cli', function() {
         });
     });
 
-    it('should set jquery preset', function() {
+    it('should set jquery preset', function(done) {
         hooker.hook(console, 'log', {
-            pre: function() {
-                return hooker.preempt();
-            },
-            once: true
+            pre: function(message) {
+                if (message === '\n1 code style errors found.') {
+                    hooker.unhook(console);
+                    done();
+                }
+
+                return hooker.preempt(message);
+            }
         });
 
         var result = cli({
