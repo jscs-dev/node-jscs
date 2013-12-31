@@ -67,6 +67,10 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: ['case'] });
         assert(checker.checkString('switch(x){case 1:{a=b;}}').isEmpty());
     });
+    it('should not report empty `case` with missing braces', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 0:case 1:{a=b;}}').isEmpty());
+    });
     it('should report missing `default` braces', function() {
         checker.configure({ requireCurlyBraces: ['default'] });
         assert(checker.checkString('switch(x){default:a=b;}').getErrorCount() === 1);
