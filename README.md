@@ -746,6 +746,12 @@ Example configuration:
     "requireLineFeedAtFileEnd": true,
 
     /*
+        Option: maximumLineLength
+        Requires all lines to be at most the number of characters specified
+    */
+    "maximumLineLength": 120,
+
+    /*
         Option: requireCapitalizedConstructors
         Requires constructors to be capitalized (except for "this")
 
