@@ -681,6 +681,40 @@ Example configuration:
     "validateQuoteMarks": "\"",
 
     /*
+        Option: disallowMixedSpacesAndTabs
+        Possible values: true, "smart"
+        requires lines to not contain both spaces and tabs consecutively,
+        or spaces after tabs only for alignment if "smart"
+
+        Valid example for mode "true":
+
+        \tvar foo = "blah blah";
+        \s\s\s\svar foo = "blah blah";
+        \t/**
+        \t\s*
+        \t\s*/ //a single space to align the star in a docblock is allowed
+
+        Invalid example for mode "true":
+
+        \t\svar foo = "blah blah";
+        \s\tsvar foo = "blah blah";
+
+        Valid example for mode "smart":
+
+        \tvar foo = "blah blah";
+        \t\svar foo = "blah blah";
+        \s\s\s\svar foo = "blah blah";
+        \t/**
+        \t\s*
+        \t\s*/ //a single space to align the star in a docblock is allowed
+
+        Invalid example for mode "smart":
+
+        \s\tsvar foo = "blah blah";
+    */
+    "disallowMixedSpacesAndTabs": true,
+
+    /*
         Option: disallowTrailingWhitespace
         requires all lines to end on a non-whitespace character
 
