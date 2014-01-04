@@ -681,6 +681,49 @@ Example configuration:
     "validateQuoteMarks": "\"",
 
     /*
+        Option: validateIndentation
+        Possible values: a positive number, '\t'
+        Validates indentation for arrays, objects, switch statements, and block statements
+
+        Valid example for mode "2":
+
+        if (a) {
+          b=c;
+          function(d) {
+            e=f;
+          }
+        }
+
+        Invalid example for mode "2":
+
+        if (a) {
+           b=c;
+        function(d) {
+               e=f;
+        }
+        }
+
+        Valid example for mode "\t":
+
+        if (a) {
+            b=c;
+            function(d) {
+                e=f;
+            }
+        }
+
+        Invalid example for mode "\t":
+
+        if (a) {
+             b=c;
+        function(d) {
+                   e=f;
+         }
+        }
+    */
+    "validateIndentation": "\t",
+
+    /*
         Option: disallowMixedSpacesAndTabs
         Possible values: true, "smart"
         requires lines to not contain both spaces and tabs consecutively,
