@@ -32,7 +32,7 @@ describe('cli', function() {
     it('should set jquery preset', function(done) {
         hooker.hook(console, 'log', {
             pre: function(message) {
-                if (message === '\n1 code style errors found.') {
+                if (message.indexOf('code style errors found.') > -1) {
                     hooker.unhook(console);
                     done();
                 }
@@ -40,11 +40,11 @@ describe('cli', function() {
                 return hooker.preempt(message);
             }
         });
-
+    
         var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
-            config: ''
+            config: 'empty'
         });
 
         assert(result.getProcessedConfig().requireCurlyBraces);
