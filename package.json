@@ -39,7 +39,8 @@
     "minimatch": "0.2.12",
     "glob": "3.2.7",
     "xmlbuilder": "1.1.2",
-    "hooker": "0.2.3"
+    "hooker": "0.2.3",
+    "jsonminify": "~0.2.2"
   },
   "devDependencies": {
     "jshint": "2.1.3",

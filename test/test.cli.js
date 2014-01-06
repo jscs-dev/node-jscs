@@ -40,7 +40,7 @@ describe('cli', function() {
                 return hooker.preempt(message);
             }
         });
-
+    
         var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
@@ -48,5 +48,14 @@ describe('cli', function() {
         });
 
         assert(result.getProcessedConfig().requireCurlyBraces);
+    });
+    
+    it('should allow comments in config files', function() {
+        var result = cli({
+            args: ['test/data/cli.js'],
+            config: './test/data/comments-config.json'
+        });
+
+        assert(result.getProcessedConfig());
     });
 });
