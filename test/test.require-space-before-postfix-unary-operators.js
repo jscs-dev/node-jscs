@@ -11,6 +11,10 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
         assert(checker.checkString('var x = 2; x++; x--;').getErrorCount() === 2);
     });
+    it('should report sticky operator if operand in parentheses', function() {
+        checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
+        assert(checker.checkString('var x = 2; ( x )++; (((x)))--;').getErrorCount() === 2);
+    });
     it('should not report separated operator', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
         assert(checker.checkString('var x = 2; x ++; x --;').isEmpty());

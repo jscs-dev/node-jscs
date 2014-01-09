@@ -15,4 +15,8 @@ describe('rules/disallow-space-before-postfix-unary-operators', function() {
         checker.configure({ disallowSpaceBeforePostfixUnaryOperators: ['++', '--'] });
         assert(checker.checkString('var x = 2; x++; x--;').isEmpty());
     });
+    it('should not report sticky operator if operand in parentheses', function() {
+        checker.configure({ disallowSpaceBeforePostfixUnaryOperators: ['++', '--'] });
+        assert(checker.checkString('var x = 2; (x)++; ( x )++; (((x)))--;').isEmpty());
+    });
 });
