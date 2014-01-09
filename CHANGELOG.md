@@ -1,3 +1,25 @@
+Version 1.2.0:
+ * Rule `requireCommaBeforeLineBreak` (@mikesherov).
+ * Rule `disallowCommaBeforeLineBreak` (@mikesherov).
+ * Rule `requireDotNotation` (@mikesherov).
+ * Rule `requireCamelCaseOrUpperCaseIdentifiers` (@mikesherov).
+ * Rule `disallowEmptyBlocks` (@mikesherov).
+ * Rule `validateQuoteMarks` (@mikesherov).
+ * Rule `requireParenthesesAroundIIFE` (@mikesherov).
+ * Rule `requireOperatorBeforeLineBreak` (@mikesherov).
+ * Rule `requireCapitalizedConstructors` (@mikesherov).
+ * Rule `disallowDanglingUnderscores` (@mikesherov).
+ * Rule `disallowTrailingWhitespace` (@mikesherov).
+ * Сurly brace checking for 'case' and 'default' statements (@mikesherov).
+ * Rule `maximumLineLength` (@mikesherov).
+ * Rule `disallowMixedSpacesAndTabs` (@mikesherov).
+ * Rule `validateIndentation` (@mikesherov).
+ * README: Reformat to use headings (@nschonni).
+ * ES3 future reserved words added to tokenIsReservedWord() (@maxatwork).
+ * Fixes for: requireSpaceBeforePostfixUnaryOperators, requireSpaceAfterPrefixUnaryOperators,
+   disallowSpaceBeforePostfixUnaryOperators, disallowSpaceAfterPrefixUnaryOperators (@mdevils).
+ * Rule `disallowMultipleLineStrings` (@mikesherov).
+
 Version 1.0.15:
  * junit reporter (@markelog).
 

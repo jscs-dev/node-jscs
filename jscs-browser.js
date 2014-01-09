@@ -160,7 +160,7 @@ function renderPointer(column, colorize) {
 
 module.exports = Errors;
 
-},{"colors":48}],2:[function(require,module,exports){
+},{"colors":63}],2:[function(require,module,exports){
 var treeIterator = require('./tree-iterator');
 
 /**
@@ -220,7 +220,7 @@ JsFile.prototype = {
         return treeIterator.iterate(this._tree, cb);
     },
     /**
-     * Returns tokens by type(s) from earlier built index.
+     * Returns nodes by type(s) from earlier built index.
      *
      * @param {String|String[]} type
      * @returns {Object[]}
@@ -240,14 +240,34 @@ JsFile.prototype = {
         }
     },
     /**
-     * Iterates tokens by type(s) from earlier built index.
-     * Calls passed function for every matched token.
+     * Iterates nodes by type(s) from earlier built index.
+     * Calls passed function for every matched node.
      *
      * @param {String|String[]} type
      * @param {Function} cb
      */
     iterateNodesByType: function(type, cb) {
         return this.getNodesByType(type).forEach(cb);
+    },
+    /**
+     * Iterates tokens by type(s) from the token array.
+     * Calls passed function for every matched token.
+     *
+     * @param {String|String[]} type
+     * @param {Function} cb
+     */
+    iterateTokensByType: function(type, cb) {
+        var types = (typeof type === 'string') ? [type] : type;
+        var typeIndex = {};
+        types.forEach(function(type) {
+            typeIndex[type] = true;
+        });
+
+        this.getTokens().forEach(function(token, index, tokens) {
+            if (typeIndex[token.type]) {
+                cb(token, index, tokens);
+            }
+        });
     },
     /**
      * Returns string representing contents of the file.
@@ -299,7 +319,7 @@ JsFile.prototype = {
 
 module.exports = JsFile;
 
-},{"./tree-iterator":44}],3:[function(require,module,exports){
+},{"./tree-iterator":59}],3:[function(require,module,exports){
 module.exports={
     "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
     "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
@@ -328,6 +348,124 @@ module.exports={
 }
 
 },{}],4:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowCommaBeforeLineBreak) {
+        assert(
+            typeof disallowCommaBeforeLineBreak === 'boolean',
+            'disallowCommaBeforeLineBreak option requires boolean value'
+        );
+        assert(
+            disallowCommaBeforeLineBreak === true,
+            'disallowCommaBeforeLineBreak option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'disallowCommaBeforeLineBreak';
+    },
+
+    check: function(file, errors) {
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (token.value === ',') {
+                var nextToken = tokens[i + 1];
+                if (nextToken && nextToken.loc.start.line !== token.loc.end.line) {
+                    errors.add(
+                        'Commas should be placed on new line',
+                        token.loc.end.line,
+                        token.loc.end.column
+                    );
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],5:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowDanglingUnderscores) {
+        assert(
+            typeof disallowDanglingUnderscores === 'boolean',
+            'disallowDanglingUnderscores option requires boolean value'
+        );
+        assert(
+            disallowDanglingUnderscores === true,
+            'disallowDanglingUnderscores option requires true value or should be removed'
+        );
+
+        this._allowedIdentifiers = {
+            _: true,
+            __dirname: true,
+            __filename: true
+        };
+    },
+
+    getOptionName: function () {
+        return 'disallowDanglingUnderscores';
+    },
+
+    check: function(file, errors) {
+        var allowedIdentifiers = this._allowedIdentifiers;
+
+        file.iterateTokensByType('Identifier', function(token) {
+            var value = token.value;
+            if ((value[0] === '_' || value.slice( -1 ) === '_') &&
+                !allowedIdentifiers[value]
+            ) {
+                errors.add(
+                    'Invalid dangling underscore found',
+                    token.loc.start.line,
+                    token.loc.start.column
+                );
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],6:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowEmptyBlocks) {
+        assert(
+            typeof disallowEmptyBlocks === 'boolean',
+            'disallowEmptyBlocks option requires boolean value'
+        );
+        assert(
+            disallowEmptyBlocks === true,
+            'disallowEmptyBlocks option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'disallowEmptyBlocks';
+    },
+
+    check: function(file, errors) {
+        file.iterateNodesByType('BlockStatement', function(node) {
+            if (node.body.length === 0 && node.parentNode.type !== 'CatchClause') {
+                errors.add('Empty block found', node.loc.end);
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],7:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -380,7 +518,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],5:[function(require,module,exports){
+},{"assert":61}],8:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -401,10 +539,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Keyword' && keywordIndex[token.value]) {
+
+        file.iterateTokensByType('Keyword', function(token, i, tokens) {
+            if (keywordIndex[token.value]) {
                 var prevToken = tokens[i - 1];
                 if (prevToken && prevToken.loc.end.line !== token.loc.start.line) {
                     errors.add(
@@ -414,12 +551,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],6:[function(require,module,exports){
+},{"assert":61}],9:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -440,21 +577,20 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Keyword' && keywordIndex[token.value]) {
+
+        file.iterateTokensByType('Keyword', function(token) {
+            if (keywordIndex[token.value]) {
                 errors.add(
                     'Illegal keyword: ' + token.value,
                     token.loc.start
                 );
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],7:[function(require,module,exports){
+},{"assert":61}],10:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -475,10 +611,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var operators = this._operatorIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Punctuator' && operators[token.value]) {
+
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (operators[token.value]) {
                 var prevToken = tokens[i - 1];
                 if (prevToken && prevToken.range[1] === token.range[0]) {
                     errors.add(
@@ -487,12 +622,80 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],8:[function(require,module,exports){
+},{"assert":61}],11:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowMixedSpacesAndTabs) {
+        assert(
+            disallowMixedSpacesAndTabs === true || disallowMixedSpacesAndTabs === 'smart',
+            'disallowMixedSpacesAndTabs option requires true or "smart" value'
+        );
+
+        this._disallowMixedSpacesAndTabs = disallowMixedSpacesAndTabs;
+    },
+
+    getOptionName: function () {
+        return 'disallowMixedSpacesAndTabs';
+    },
+
+    check: function(file, errors) {
+        var disallowMixedSpacesAndTabs = this._disallowMixedSpacesAndTabs;
+
+        var lines = file.getLines().concat();
+
+        var test = disallowMixedSpacesAndTabs === true ?
+            (/ \t|\t [^\*]|\t $/) :
+            (/ \t/);
+
+        // remove comments from the code
+        var comments = file.getComments();
+        if (comments) {
+            comments.forEach(function(comment) {
+                var loc = comment.loc;
+                var start = loc.start;
+                var end = loc.end;
+                var startIndex = start.line - 1;
+
+                if (comment.type === 'Line') {
+                    lines[startIndex] = lines[startIndex].substring(0, start.column);
+                } else if (start.line !== end.line) {
+                    // docblocks have a star as their first character
+                    // and should *NOT* remove the star on subsequent lines
+                    // to cause the regex to not catch an error: \t [^\*]
+                    // but regular multilines should remove the star to catch an error
+                    var substringOffset = comment.value.indexOf('*') === 0 ? 2 : 1;
+
+                    for (var x = startIndex; x < end.line; x++) {
+                        // remove all multine content to the right of the star
+                        var starPos = lines[x].search(/ \*/);
+                        if (starPos > -1) {
+                            starPos += substringOffset;
+                            lines[x] = lines[x].substring(0, starPos);
+                        }
+                    }
+                }
+            });
+        }
+
+        lines.forEach(function(line, i) {
+            if (line.match(test)) {
+                errors.add('Mixed spaces and tabs found', i + 1);
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],12:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -527,7 +730,43 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],9:[function(require,module,exports){
+},{"assert":61}],13:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowMultipleLineStrings) {
+        assert(
+            typeof disallowMultipleLineStrings === 'boolean',
+            'disallowMultipleLineStrings option requires boolean value'
+        );
+        assert(
+            disallowMultipleLineStrings === true,
+            'disallowMultipleLineStrings option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'disallowMultipleLineStrings';
+    },
+
+    check: function(file, errors) {
+        file.iterateTokensByType('String', function(token) {
+            if (token.loc.start.line !== token.loc.end.line) {
+                errors.add(
+                    'Multiline strings are disallowed.',
+                    token.loc.start.line,
+                    token.loc.start.column
+                );
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],14:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -561,8 +800,9 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],10:[function(require,module,exports){
+},{"assert":61}],15:[function(require,module,exports){
 var assert = require('assert');
+var tokenHelper = require('../token-helper');
 
 var OPTION_NAME = 'disallowQuotedKeysInObjects';
 
@@ -577,52 +817,6 @@ module.exports.prototype = {
         );
 
         this._mode = disallowQuotedKeysInObjects;
-
-        this._keywords = {
-            'arguments': true,
-            'break': true,
-            'case': true,
-            'catch': true,
-            'class': true,
-            'continue': true,
-            'debugger': true,
-            'default': true,
-            'delete': true,
-            'do': true,
-            'else': true,
-            'enum': true,
-            'eval': true,
-            'export': true,
-            'extends': true,
-            'finally': true,
-            'for': true,
-            'function': true,
-            'if': true,
-            'implements': true,
-            'import': true,
-            'in': true,
-            'instanceof': true,
-            'interface': true,
-            'let': true,
-            'new': true,
-            'package': true,
-            'private': true,
-            'protected': true,
-            'public': true,
-            'return': true,
-            'static': true,
-            'super': true,
-            'switch': true,
-            'this': true,
-            'throw': true,
-            'try': true,
-            'typeof': true,
-            'var': true,
-            'void': true,
-            'while': true,
-            'with': true,
-            'yield': true
-        };
     },
 
     getOptionName: function() {
@@ -631,13 +825,12 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var KEY_NAME_RE = /^(0|[1-9][0-9]*|[a-zA-Z_$]+[\w$]*)$/; // number or identifier
-        var keywords = this._keywords;
         var mode = this._mode;
 
         file.iterateNodesByType('ObjectExpression', function(node) {
             node.properties.forEach(function(prop) {
                 var key = prop.key;
-                if (mode === 'allButReserved' && keywords[key.value]) {
+                if (mode === 'allButReserved' && tokenHelper.tokenIsReservedWord(key)) {
                     return;
                 }
                 if (key.type === 'Literal' &&
@@ -652,7 +845,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],11:[function(require,module,exports){
+},{"../token-helper":58,"assert":61}],16:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -673,10 +866,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var operators = this._operatorIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Punctuator' && operators[token.value]) {
+
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (operators[token.value]) {
                 var nextToken = tokens[i + 1];
                 if (nextToken && nextToken.range[0] === token.range[1]) {
                     errors.add(
@@ -685,12 +877,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],12:[function(require,module,exports){
+},{"assert":61}],17:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -731,7 +923,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":43,"assert":46}],13:[function(require,module,exports){
+},{"../token-helper":58,"assert":61}],18:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -752,10 +944,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Keyword' && keywordIndex[token.value]) {
+
+        file.iterateTokensByType('Keyword', function(token, i, tokens) {
+            if (keywordIndex[token.value]) {
                 var nextToken = tokens[i + 1];
                 if (nextToken && nextToken.range[0] !== token.range[1]) {
                     errors.add(
@@ -765,12 +956,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],14:[function(require,module,exports){
+},{"assert":61}],19:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -808,7 +999,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],15:[function(require,module,exports){
+},{"assert":61}],20:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -817,7 +1008,10 @@ module.exports.prototype = {
 
     configure: function(operators) {
         assert(Array.isArray(operators), this.getOptionName() + ' option requires array value');
-        this._operators = operators.slice(0);
+        this._operatorIndex = {};
+        for (var i = 0, l = operators.length; i < l; i++) {
+            this._operatorIndex[operators[i]] = true;
+        }
     },
 
     getOptionName: function () {
@@ -825,14 +1019,16 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-
-        var operators = this._operators;
+        var operatorIndex = this._operatorIndex;
+        var tokens = file.getTokens();
 
         file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function (node) {
-
             // Check "node.prefix" for prefix type of (inc|dec)rement
-            if (node.prefix && operators.indexOf(node.operator) !== -1) {
-                if ((node.range[0] + node.operator.length) < node.argument.range[0]) {
+            if (node.prefix && operatorIndex[node.operator]) {
+                var operatorTokenIndex = file.getTokenPosByRangeStart(node.range[0]);
+                var operatorToken = tokens[operatorTokenIndex];
+                var nextToken = tokens[operatorTokenIndex + 1];
+                if (operatorToken.range[1] !== nextToken.range[0]) {
                     errors.add('Operator ' + node.operator + ' should stick to operand', node.loc.start);
                 }
             }
@@ -840,7 +1036,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":46}],16:[function(require,module,exports){
+},{"assert":61}],21:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -881,7 +1077,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":43,"assert":46}],17:[function(require,module,exports){
+},{"../token-helper":58,"assert":61}],22:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -890,7 +1086,10 @@ module.exports.prototype = {
 
     configure: function(operators) {
         assert(Array.isArray(operators), this.getOptionName() + ' option requires array value');
-        this._operators = operators.slice(0);
+        this._operatorIndex = {};
+        for (var i = 0, l = operators.length; i < l; i++) {
+            this._operatorIndex[operators[i]] = true;
+        }
     },
 
     getOptionName: function () {
@@ -898,17 +1097,18 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-
-        var operators = this._operators;
+        var operatorIndex = this._operatorIndex;
+        var tokens = file.getTokens();
 
         // 'UpdateExpression' involve only ++ and -- operators
         file.iterateNodesByType('UpdateExpression', function (node) {
-
             // "!node.prefix" means postfix type of (inc|dec)rement
-            if (!node.prefix && operators.indexOf(node.operator) !== -1) {
-
-                // Length of operator is always 2
-                if (node.argument.range[1] < (node.range[1] - 2)) {
+            if (!node.prefix && operatorIndex[node.operator]) {
+                var operatorStartPos = node.range[1] - node.operator.length;
+                var operatorTokenIndex = file.getTokenPosByRangeStart(operatorStartPos);
+                var operatorToken = tokens[operatorTokenIndex];
+                var prevToken = tokens[operatorTokenIndex - 1];
+                if (operatorToken.range[0] !== prevToken.range[1]) {
                     errors.add('Operator ' + node.operator + ' should stick to operand', node.loc.start);
                 }
             }
@@ -916,7 +1116,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":46}],18:[function(require,module,exports){
+},{"assert":61}],23:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1001,7 +1201,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],19:[function(require,module,exports){
+},{"assert":61}],24:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1051,7 +1251,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],20:[function(require,module,exports){
+},{"assert":61}],25:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1101,7 +1301,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],21:[function(require,module,exports){
+},{"assert":61}],26:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1124,38 +1324,61 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-
-        var tokens = file.getTokens();
-
-        tokens.forEach(function(token, index) {
-
-            if (token.type === 'Punctuator') {
-
-                if (token.value === '(') {
-                    var nextToken = tokens[index + 1];
-                    if (token.range[1] !== nextToken.range[0] &&
-                            token.loc.end.line === nextToken.loc.start.line) {
-                        errors.add('Illegal space after opening round bracket', token.loc.end);
-                    }
+        file.iterateTokensByType('Punctuator', function(token, index, tokens) {
+            if (token.value === '(') {
+                var nextToken = tokens[index + 1];
+                if (token.range[1] !== nextToken.range[0] &&
+                        token.loc.end.line === nextToken.loc.start.line) {
+                    errors.add('Illegal space after opening round bracket', token.loc.end);
                 }
-
-                if (token.value === ')') {
-                    var prevToken = tokens[index - 1];
-                    if (prevToken.range[1] !== token.range[0] &&
-                            prevToken.loc.end.line === token.loc.start.line) {
-                        errors.add('Illegal space before closing round bracket', prevToken.loc.end);
-                    }
-                }
-
             }
 
+            if (token.value === ')') {
+                var prevToken = tokens[index - 1];
+                if (prevToken.range[1] !== token.range[0] &&
+                        prevToken.loc.end.line === token.loc.start.line) {
+                    errors.add('Illegal space before closing round bracket', prevToken.loc.end);
+                }
+            }
         });
-
     }
 
 };
 
-},{"assert":46}],22:[function(require,module,exports){
+},{"assert":61}],27:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(disallowTrailingWhitespace) {
+        assert(
+            typeof disallowTrailingWhitespace === 'boolean',
+            'disallowTrailingWhitespace option requires boolean value'
+        );
+        assert(
+            disallowTrailingWhitespace === true,
+            'disallowTrailingWhitespace option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'disallowTrailingWhitespace';
+    },
+
+    check: function(file, errors) {
+        var lines = file.getLines();
+        for (var i = 0, l = lines.length; i < l; i++) {
+            if (lines[i].match(/\s$/)) {
+                errors.add('Illegal trailing whitespace', i + 1, lines[i].length);
+            }
+        }
+    }
+
+};
+
+},{"assert":61}],28:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1202,7 +1425,40 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],23:[function(require,module,exports){
+},{"assert":61}],29:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(maximumLineLength) {
+        assert(
+            typeof maximumLineLength === 'number',
+            'maximumLineLength option requires number value'
+        );
+
+        this._maximumLineLength = maximumLineLength;
+    },
+
+    getOptionName: function () {
+        return 'maximumLineLength';
+    },
+
+    check: function(file, errors) {
+        var maximumLineLength = this._maximumLineLength;
+
+        var lines = file.getLines();
+        for (var i = 0, l = lines.length; i < l; i++) {
+            if (lines[i].length > maximumLineLength) {
+                errors.add('Line must be at most ' + maximumLineLength + 'characters', i + 1, 0);
+            }
+        }
+    }
+
+};
+
+},{"assert":61}],30:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1263,7 +1519,121 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],24:[function(require,module,exports){
+},{"assert":61}],31:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireCamelCaseOrUpperCaseIdentifiers) {
+        assert(
+            typeof requireCamelCaseOrUpperCaseIdentifiers === 'boolean',
+            'requireCamelCaseOrUpperCaseIdentifiers option requires boolean value'
+        );
+        assert(
+            requireCamelCaseOrUpperCaseIdentifiers === true,
+            'requireCamelCaseOrUpperCaseIdentifiers option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'requireCamelCaseOrUpperCaseIdentifiers';
+    },
+
+    check: function(file, errors) {
+        file.iterateTokensByType('Identifier', function(token) {
+            var value = token.value;
+            if (value.replace(/^_+|_+$/g, '').indexOf('_') > -1 && value.toUpperCase() !== value) {
+                errors.add(
+                    'All identifiers must be camelCase or UPPER_CASE',
+                    token.loc.start.line,
+                    token.loc.start.column
+                );
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],32:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireCapitalizedConstructors) {
+        assert(
+            typeof requireCapitalizedConstructors === 'boolean',
+            'requireCapitalizedConstructors option requires boolean value'
+        );
+        assert(
+            requireCapitalizedConstructors === true,
+            'requireCapitalizedConstructors option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'requireCapitalizedConstructors';
+    },
+
+    check: function(file, errors) {
+        file.iterateNodesByType('NewExpression', function(node) {
+            if (node.callee.type === 'Identifier' &&
+                node.callee.name[0].toUpperCase() !== node.callee.name[0]
+            ) {
+                errors.add(
+                    'Constructor functions should be capitalized',
+                    node.callee.loc.start.line,
+                    node.callee.loc.start.column
+                );
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],33:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireCommaBeforeLineBreak) {
+        assert(
+            typeof requireCommaBeforeLineBreak === 'boolean',
+            'requireCommaBeforeLineBreak option requires boolean value'
+        );
+        assert(
+            requireCommaBeforeLineBreak === true,
+            'requireCommaBeforeLineBreak option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'requireCommaBeforeLineBreak';
+    },
+
+    check: function(file, errors) {
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (token.value === ',') {
+                var prevToken = tokens[i - 1];
+                if (prevToken && prevToken.loc.end.line !== token.loc.start.line) {
+                    errors.add(
+                        'Commas should not be placed on new line',
+                        token.loc.start.line,
+                        token.loc.start.column
+                    );
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],34:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1283,55 +1653,110 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
+
+        function addError(typeString, node) {
+            errors.add(
+                typeString + ' statement without curly braces',
+                node.loc.start.line,
+                node.loc.start.column
+            );
+        }
+
+        function checkBody(type, typeString) {
+            file.iterateNodesByType(type, function (node) {
+                if (node.body && node.body.type !== 'BlockStatement') {
+                    addError(typeString, node);
+                }
+            });
+        }
+
         var typeIndex = this._typeIndex;
         if (typeIndex['if'] || typeIndex['else']) {
             file.iterateNodesByType('IfStatement', function (node) {
                 if (typeIndex.if && node.consequent && node.consequent.type !== 'BlockStatement') {
-                    errors.add('If statement without curly braces', node.loc.start.line, node.loc.start.column);
+                    addError('If', node);
                 }
                 if (typeIndex['else'] && node.alternate &&
                     node.alternate.type !== 'BlockStatement' &&
                     node.alternate.type !== 'IfStatement'
                 ) {
-                    errors.add(
-                        'Else statement without curly braces',
-                        node.alternate.loc.start.line,
-                        node.alternate.loc.start.column
-                    );
+                    addError('Else', node);
+                }
+            });
+        }
+        if (typeIndex['case'] || typeIndex['default']) {
+            file.iterateNodesByType('SwitchCase', function (node) {
+                // empty case statement
+                if (!node.consequent || node.consequent.length === 0) {
+                    return;
+                }
+
+                if (node.consequent.length === 1 && node.consequent[0].type === 'BlockStatement') {
+                    return;
+                }
+
+                if (node.test === null && typeIndex['default']) {
+                    addError('Default', node);
+                }
+
+                if (node.test !== null && typeIndex['case']) {
+                    addError('Case', node);
                 }
             });
         }
         if (typeIndex['while']) {
-            file.iterateNodesByType('WhileStatement', function (node) {
-                if (node.body && node.body.type !== 'BlockStatement') {
-                    errors.add('While statement without curly braces', node.loc.start.line, node.loc.start.column);
-                }
-            });
+            checkBody('WhileStatement', 'While');
         }
         if (typeIndex['for']) {
-            file.iterateNodesByType('ForStatement', function (node) {
-                if (node.body && node.body.type !== 'BlockStatement') {
-                    errors.add('For statement without curly braces', node.loc.start.line, node.loc.start.column);
-                }
-            });
-            file.iterateNodesByType('ForInStatement', function (node) {
-                if (node.body && node.body.type !== 'BlockStatement') {
-                    errors.add('For in statement without curly braces', node.loc.start.line, node.loc.start.column);
-                }
-            });
+            checkBody('ForStatement', 'For');
+            checkBody('ForInStatement', 'For in');
         }
         if (typeIndex['do']) {
-            file.iterateNodesByType('DoWhileStatement', function (node) {
-                if (node.body && node.body.type !== 'BlockStatement') {
-                    errors.add('Do while statement without curly braces', node.loc.start.line, node.loc.start.column);
-                }
-            });
+            checkBody('DoWhileStatement', 'Do while');
         }
     }
 
 };
 
-},{"assert":46}],25:[function(require,module,exports){
+},{"assert":61}],35:[function(require,module,exports){
+var assert = require('assert');
+var tokenHelper = require('../token-helper');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireDotNotation) {
+        assert(
+            typeof requireDotNotation === 'boolean',
+            'requireDotNotation option requires boolean value'
+        );
+        assert(
+            requireDotNotation === true,
+            'requireDotNotation option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'requireDotNotation';
+    },
+
+    check: function(file, errors) {
+        file.iterateNodesByType('MemberExpression', function (node) {
+            if (node.computed && node.property.type === 'Literal' &&
+                !tokenHelper.tokenIsReservedWord(node.property)
+            ) {
+                errors.add(
+                    'Use dot notation instead of brackets for member expressions',
+                    node.property.loc.start
+                );
+            }
+        });
+    }
+
+};
+
+},{"../token-helper":58,"assert":61}],36:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1352,10 +1777,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Keyword' && keywordIndex[token.value]) {
+
+        file.iterateTokensByType('Keyword', function(token, i, tokens) {
+            if (keywordIndex[token.value]) {
                 var prevToken = tokens[i - 1];
                 if (prevToken && prevToken.loc.end.line === token.loc.start.line) {
                     errors.add(
@@ -1365,12 +1789,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],26:[function(require,module,exports){
+},{"assert":61}],37:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1391,10 +1815,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var operators = this._operatorIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Punctuator' && operators[token.value]) {
+
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (operators[token.value]) {
                 var prevToken = tokens[i - 1];
                 if (prevToken && prevToken.range[1] !== token.range[0]) {
                     errors.add(
@@ -1403,12 +1826,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],27:[function(require,module,exports){
+},{"assert":61}],38:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1439,7 +1862,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],28:[function(require,module,exports){
+},{"assert":61}],39:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1477,7 +1900,106 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],29:[function(require,module,exports){
+},{"assert":61}],40:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(operators) {
+        assert(Array.isArray(operators), 'requireOperatorBeforeLineBreak option requires array value');
+        this._operatorIndex = {};
+        for (var i = 0, l = operators.length; i < l; i++) {
+            this._operatorIndex[operators[i]] = true;
+        }
+    },
+
+    getOptionName: function () {
+        return 'requireOperatorBeforeLineBreak';
+    },
+
+    check: function(file, errors) {
+        var operators = this._operatorIndex;
+
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (operators[token.value]) {
+                var prevToken = tokens[i - 1];
+                if (prevToken && prevToken.loc.end.line !== token.loc.start.line) {
+                    errors.add(
+                        'Operator ' + token.value + ' should not be on a new line',
+                        token.loc.start
+                    );
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],41:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireParenthesesAroundIIFE) {
+        assert(
+            typeof requireParenthesesAroundIIFE === 'boolean',
+            'requireParenthesesAroundIIFE option requires boolean value'
+        );
+        assert(
+            requireParenthesesAroundIIFE === true,
+            'requireParenthesesAroundIIFE option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function () {
+        return 'requireParenthesesAroundIIFE';
+    },
+
+    check: function(file, errors) {
+
+        function isWrapped(node) {
+            var tokens = file.getTokens();
+            var openingToken = file.getTokenPosByRangeStart(node.range[0]);
+            var closingToken = file.getTokenPosByRangeStart(node.range[1] - 1);
+
+            return tokens[openingToken - 1].value + tokens[closingToken + 1].value === '()';
+        }
+
+        file.iterateNodesByType('CallExpression', function (node) {
+            var callee = node.callee;
+            var outer = node;
+            var inner;
+
+            if (callee.type === 'MemberExpression' &&
+                callee.object.type === 'FunctionExpression' &&
+                callee.property.type === 'Identifier' &&
+                (callee.property.name === 'call' || callee.property.name === 'apply')
+            ) {
+                inner = callee.object;
+            } else if (callee.type === 'FunctionExpression') {
+                inner = callee;
+            } else {
+                return;
+            }
+
+            if (!isWrapped(inner) && !isWrapped(outer)) {
+                errors.add(
+                    'Wrap immediately invoked function expressions in parentheses',
+                    node.loc.start.line,
+                    node.loc.start.column
+                );
+
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],42:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1498,10 +2020,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var operators = this._operatorIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Punctuator' && operators[token.value]) {
+
+        file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+            if (operators[token.value]) {
                 var nextToken = tokens[i + 1];
                 if (nextToken && nextToken.range[0] !== token.range[1]) {
                     errors.add(
@@ -1510,12 +2031,12 @@ module.exports.prototype = {
                     );
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],30:[function(require,module,exports){
+},{"assert":61}],43:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -1556,7 +2077,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":43,"assert":46}],31:[function(require,module,exports){
+},{"../token-helper":58,"assert":61}],44:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1577,10 +2098,9 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
-        var tokens = file.getTokens();
-        for (var i = 0, l = tokens.length; i < l; i++) {
-            var token = tokens[i];
-            if (token.type === 'Keyword' && keywordIndex[token.value]) {
+
+        file.iterateTokensByType('Keyword', function(token, i, tokens) {
+            if (keywordIndex[token.value]) {
                 var nextToken = tokens[i + 1];
                 if (nextToken && nextToken.range[0] === token.range[1]) {
                     if (nextToken.type !== 'Punctuator' || nextToken.value !== ';') {
@@ -1592,12 +2112,12 @@ module.exports.prototype = {
                     }
                 }
             }
-        }
+        });
     }
 
 };
 
-},{"assert":46}],32:[function(require,module,exports){
+},{"assert":61}],45:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1635,7 +2155,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],33:[function(require,module,exports){
+},{"assert":61}],46:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1644,7 +2164,10 @@ module.exports.prototype = {
 
     configure: function(operators) {
         assert(Array.isArray(operators), this.getOptionName() + ' option requires array value');
-        this._operators = operators.slice(0);
+        this._operatorIndex = {};
+        for (var i = 0, l = operators.length; i < l; i++) {
+            this._operatorIndex[operators[i]] = true;
+        }
     },
 
     getOptionName: function () {
@@ -1652,14 +2175,16 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-
-        var operators = this._operators;
+        var operatorIndex = this._operatorIndex;
+        var tokens = file.getTokens();
 
         file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function (node) {
-
             // Check "node.prefix" for prefix type of (inc|dec)rement
-            if (node.prefix && operators.indexOf(node.operator) !== -1) {
-                if ((node.range[0] + node.operator.length) === node.argument.range[0]) {
+            if (node.prefix && operatorIndex[node.operator]) {
+                var operatorTokenIndex = file.getTokenPosByRangeStart(node.range[0]);
+                var operatorToken = tokens[operatorTokenIndex];
+                var nextToken = tokens[operatorTokenIndex + 1];
+                if (operatorToken.range[1] === nextToken.range[0]) {
                     errors.add('Operator ' + node.operator + ' should not stick to operand', node.loc.start);
                 }
             }
@@ -1667,7 +2192,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":46}],34:[function(require,module,exports){
+},{"assert":61}],47:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -1708,7 +2233,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":43,"assert":46}],35:[function(require,module,exports){
+},{"../token-helper":58,"assert":61}],48:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1717,7 +2242,10 @@ module.exports.prototype = {
 
     configure: function(operators) {
         assert(Array.isArray(operators), this.getOptionName() + ' option requires array value');
-        this._operators = operators.slice(0);
+        this._operatorIndex = {};
+        for (var i = 0, l = operators.length; i < l; i++) {
+            this._operatorIndex[operators[i]] = true;
+        }
     },
 
     getOptionName: function () {
@@ -1725,17 +2253,18 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-
-        var operators = this._operators;
+        var operatorIndex = this._operatorIndex;
+        var tokens = file.getTokens();
 
         // 'UpdateExpression' involve only ++ and -- operators
         file.iterateNodesByType('UpdateExpression', function (node) {
-
             // "!node.prefix" means postfix type of (inc|dec)rement
-            if (!node.prefix && operators.indexOf(node.operator) !== -1) {
-
-                // Length of operator is always 2
-                if (node.argument.range[1] === (node.range[1] - 2)) {
+            if (!node.prefix && operatorIndex[node.operator]) {
+                var operatorStartPos = node.range[1] - node.operator.length;
+                var operatorTokenIndex = file.getTokenPosByRangeStart(operatorStartPos);
+                var operatorToken = tokens[operatorTokenIndex];
+                var prevToken = tokens[operatorTokenIndex - 1];
+                if (operatorToken.range[0] === prevToken.range[1]) {
                     errors.add('Operator ' + node.operator + ' should not stick to operand', node.loc.start);
                 }
             }
@@ -1743,7 +2272,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":46}],36:[function(require,module,exports){
+},{"assert":61}],49:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1828,7 +2357,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],37:[function(require,module,exports){
+},{"assert":61}],50:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1890,7 +2419,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],38:[function(require,module,exports){
+},{"assert":61}],51:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1950,7 +2479,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],39:[function(require,module,exports){
+},{"assert":61}],52:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2007,7 +2536,219 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],40:[function(require,module,exports){
+},{"assert":61}],53:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(validateIndentation) {
+        assert(
+            validateIndentation === '\t' ||
+                (typeof validateIndentation === 'number' && validateIndentation > 0),
+            'validateIndentation option requires a positive number of spaces or "\\t"'
+        );
+
+        if (typeof validateIndentation === 'number') {
+            this._indentChar = ' ';
+            this._indentSize = validateIndentation;
+        } else {
+            this._indentChar = '\t';
+            this._indentSize = 1;
+        }
+
+        this._indentableNodes = {
+            BlockStatement: 'body',
+            ObjectExpression: 'properties',
+            ArrayExpression: 'elements',
+            SwitchStatement: 'cases'
+        };
+    },
+
+    getOptionName: function () {
+        return 'validateIndentation';
+    },
+
+    check: function(file, errors) {
+        function getLinesWithCommentsRemoved() {
+            var lines = file.getLines().concat();
+            file.getComments().reverse().forEach(function(comment) {
+                var startLine = comment.loc.start.line;
+                var startCol = comment.loc.start.column;
+                var endLine = comment.loc.end.line;
+                var endCol = comment.loc.end.column;
+                var i = startLine - 1;
+
+                if (startLine === endLine) {
+                    lines[i] = lines[i].substring(0, startCol) + lines[i].substring(endCol);
+                } else {
+                    lines[i] = lines[i].substring(0, startCol);
+                    for (var x = i + 1; x < endLine - 1; x++) {
+                        lines[x] = '';
+                    }
+                    lines[x] = lines[x].substring(endCol + 1);
+
+                    if (lines[x] !== '') {
+                        errors.add(
+                            'Multiline comments should not have tokens on its ending line',
+                            x + 1,
+                            endCol
+                        );
+                    }
+                }
+            });
+            return lines;
+        }
+
+        function isMultiline(node) {
+            return node.loc.start.line !== node.loc.end.line;
+        }
+
+        function getIndentableParent(node) {
+            var parent = node.parentNode;
+
+            if (parent.type === 'Property' && parent.parentNode.type === 'ObjectExpression') {
+                return parent.parentNode;
+            }
+
+            return parent;
+        }
+
+        function isSameLineAsIndentableParent(node) {
+            var parent = getIndentableParent(node);
+
+            return indentableNodes[parent.type] &&
+                node.loc.start.line === parent.loc.start.line;
+        }
+
+        function getIndent(i) {
+            return new Array(getIndentationLength(i) + 1).join(indentChar);
+        }
+
+        function getIndentationLength(i) {
+            return indentSize * lineIndentation[i];
+        }
+
+        function markLinesToCheck(node, childrenProperty) {
+            var children = node[childrenProperty];
+
+            children.forEach(function(childNode) {
+                linesToCheck[childNode.loc.start.line - 1] = true;
+            });
+
+            linesToCheck[node.loc.start.line - 1] = true;
+            linesToCheck[node.loc.end.line - 1] = true;
+        }
+
+        function checkIndentation(i) {
+            var line = lines[i];
+            var indentLength = getIndentationLength(i);
+
+            if (line === '' || !linesToCheck[i]) {
+                return;
+            }
+
+            if (line.length < indentLength ||
+                line.indexOf(getIndent(i)) !== 0 ||
+                line[indentLength] === indentChar
+            ) {
+                errors.add(
+                    'Expected indentation of ' + indentLength + ' characters',
+                    i + 1,
+                    indentLength
+                );
+            }
+        }
+
+        function checkIndentations() {
+            lineIndentation.forEach(function(line, i) {
+                checkIndentation(i);
+            });
+        }
+
+        function generateIndentations() {
+            file.iterateNodesByType([
+                'BlockStatement',
+                'ObjectExpression',
+                'ArrayExpression'
+            ], function (node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+
+                var childrenProperty = indentableNodes[node.type];
+                markLinesToCheck(node, childrenProperty);
+
+                if (!isSameLineAsIndentableParent(node)) {
+                    for (var x = node.loc.start.line + 1; x < node.loc.end.line; x++) {
+                        lineIndentation[x - 1]++;
+                    }
+                }
+            });
+
+            file.iterateNodesByType('SwitchStatement', function (node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+
+                var childrenProperty = indentableNodes[node.type];
+                markLinesToCheck(node, childrenProperty);
+
+                var children = node[childrenProperty];
+
+                // allow switch statements to have cases that are
+                // indented 0 or 1 times depending on the indentation of the first case
+                if (!isSameLineAsIndentableParent(node) &&
+                    children.length > 0 &&
+                    node.loc.start.column !== children[0].loc.start.column
+                ) {
+                    for (var x = node.loc.start.line + 1; x < node.loc.end.line; x++) {
+                        lineIndentation[x - 1]++;
+                    }
+                }
+            });
+
+            file.iterateNodesByType('SwitchCase', function (node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+
+                markLinesToCheck(node, 'consequent');
+
+                var children = node.consequent;
+
+                // don't double indent cases with
+                // only a block statement as their consequent
+                if (!isSameLineAsIndentableParent(node) && children.length &&
+                    (children.length > 1 || children[0].type !== 'BlockStatement')
+                ) {
+                    for (var x = node.loc.start.line + 1; x <= node.loc.end.line; x++) {
+                        lineIndentation[x - 1]++;
+                    }
+                }
+            });
+        }
+
+        var indentableNodes = this._indentableNodes;
+        var indentChar = this._indentChar;
+        var indentSize = this._indentSize;
+
+        var lines = getLinesWithCommentsRemoved();
+        var lineIndentation = lines.map(function() {
+            return 0;
+        });
+        var linesToCheck = lines.map(function() {
+            return false;
+        });
+
+        generateIndentations();
+        checkIndentations();
+    }
+
+};
+
+},{"assert":61}],54:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2100,7 +2841,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],41:[function(require,module,exports){
+},{"assert":61}],55:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2150,7 +2891,47 @@ module.exports.prototype = {
 
 };
 
-},{"assert":46}],42:[function(require,module,exports){
+},{"assert":61}],56:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(allowedQuoteMark) {
+        assert(
+            allowedQuoteMark === '"' || allowedQuoteMark === '\'' || allowedQuoteMark === true,
+            'validateQuoteMarks option requires \'"\', "\'", or boolean true'
+        );
+
+        this._allowedQuoteMark = allowedQuoteMark;
+    },
+
+    getOptionName: function () {
+        return 'validateQuoteMarks';
+    },
+
+    check: function(file, errors) {
+        var allowedQuoteMark = this._allowedQuoteMark;
+
+        file.iterateTokensByType('String', function(token) {
+            if (allowedQuoteMark === true) {
+                allowedQuoteMark = token.value[0];
+            }
+
+            if (token.value[0] !== allowedQuoteMark) {
+                errors.add(
+                    'Invalid quote mark found',
+                    token.loc.start.line,
+                    token.loc.start.column
+                );
+            }
+        });
+    }
+
+};
+
+},{"assert":61}],57:[function(require,module,exports){
 var esprima = require('esprima');
 var Errors = require('./errors');
 var JsFile = require('./js-file');
@@ -2186,8 +2967,10 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/require-curly-braces'))());
         this.registerRule(new (require('./rules/require-multiple-var-decl'))());
         this.registerRule(new (require('./rules/disallow-multiple-var-decl'))());
+        this.registerRule(new (require('./rules/disallow-empty-blocks'))());
         this.registerRule(new (require('./rules/require-space-after-keywords'))());
         this.registerRule(new (require('./rules/disallow-space-after-keywords'))());
+        this.registerRule(new (require('./rules/require-parentheses-around-iife'))());
 
         /* deprecated rules */
         this.registerRule(new (require('./rules/require-left-sticked-operators'))());
@@ -2196,13 +2979,21 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/disallow-right-sticked-operators'))());
         /* deprecated rules (end) */
 
+        this.registerRule(new (require('./rules/require-operator-before-line-break'))());
         this.registerRule(new (require('./rules/disallow-implicit-type-conversion'))());
+        this.registerRule(new (require('./rules/require-camelcase-or-uppercase-identifiers'))());
         this.registerRule(new (require('./rules/disallow-keywords'))());
         this.registerRule(new (require('./rules/disallow-multiple-line-breaks'))());
+        this.registerRule(new (require('./rules/disallow-multiple-line-strings'))());
         this.registerRule(new (require('./rules/validate-line-breaks'))());
+        this.registerRule(new (require('./rules/validate-quote-marks'))());
+        this.registerRule(new (require('./rules/validate-indentation'))());
+        this.registerRule(new (require('./rules/disallow-trailing-whitespace'))());
+        this.registerRule(new (require('./rules/disallow-mixed-spaces-and-tabs'))());
         this.registerRule(new (require('./rules/require-keywords-on-new-line'))());
         this.registerRule(new (require('./rules/disallow-keywords-on-new-line'))());
         this.registerRule(new (require('./rules/require-line-feed-at-file-end'))());
+        this.registerRule(new (require('./rules/maximum-line-length'))());
         this.registerRule(new (require('./rules/validate-jsdoc'))());
         this.registerRule(new (require('./rules/disallow-yoda-conditions'))());
         this.registerRule(new (require('./rules/require-spaces-inside-object-brackets'))());
@@ -2213,7 +3004,11 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/require-space-after-object-keys'))());
         this.registerRule(new (require('./rules/disallow-space-after-object-keys'))());
         this.registerRule(new (require('./rules/disallow-quoted-keys-in-objects'))());
+        this.registerRule(new (require('./rules/disallow-dangling-underscores'))());
         this.registerRule(new (require('./rules/require-aligned-object-values'))());
+
+        this.registerRule(new (require('./rules/disallow-comma-before-line-break'))());
+        this.registerRule(new (require('./rules/require-comma-before-line-break'))());
 
         this.registerRule(new (require('./rules/disallow-space-before-postfix-unary-operators.js'))());
         this.registerRule(new (require('./rules/require-space-before-postfix-unary-operators.js'))());
@@ -2230,7 +3025,11 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/require-spaces-in-function-expression'))());
         this.registerRule(new (require('./rules/disallow-spaces-in-function-expression'))());
 
+        this.registerRule(new (require('./rules/require-capitalized-constructors'))());
+
         this.registerRule(new (require('./rules/safe-context-keyword'))());
+
+        this.registerRule(new (require('./rules/require-dot-notation'))());
     },
 
     /**
@@ -2354,7 +3153,7 @@ StringChecker.prototype = {
 
 module.exports = StringChecker;
 
-},{"./errors":1,"./js-file":2,"./presets/jquery.json":3,"./rules/disallow-implicit-type-conversion":4,"./rules/disallow-keywords":6,"./rules/disallow-keywords-on-new-line":5,"./rules/disallow-left-sticked-operators":7,"./rules/disallow-multiple-line-breaks":8,"./rules/disallow-multiple-var-decl":9,"./rules/disallow-quoted-keys-in-objects":10,"./rules/disallow-right-sticked-operators":11,"./rules/disallow-space-after-binary-operators":12,"./rules/disallow-space-after-keywords":13,"./rules/disallow-space-after-object-keys":14,"./rules/disallow-space-after-prefix-unary-operators.js":15,"./rules/disallow-space-before-binary-operators":16,"./rules/disallow-space-before-postfix-unary-operators.js":17,"./rules/disallow-spaces-in-function-expression":18,"./rules/disallow-spaces-inside-array-brackets":19,"./rules/disallow-spaces-inside-object-brackets":20,"./rules/disallow-spaces-inside-parentheses":21,"./rules/disallow-yoda-conditions":22,"./rules/require-aligned-object-values":23,"./rules/require-curly-braces":24,"./rules/require-keywords-on-new-line":25,"./rules/require-left-sticked-operators":26,"./rules/require-line-feed-at-file-end":27,"./rules/require-multiple-var-decl":28,"./rules/require-right-sticked-operators":29,"./rules/require-space-after-binary-operators":30,"./rules/require-space-after-keywords":31,"./rules/require-space-after-object-keys":32,"./rules/require-space-after-prefix-unary-operators.js":33,"./rules/require-space-before-binary-operators":34,"./rules/require-space-before-postfix-unary-operators.js":35,"./rules/require-spaces-in-function-expression":36,"./rules/require-spaces-inside-array-brackets":37,"./rules/require-spaces-inside-object-brackets":38,"./rules/safe-context-keyword":39,"./rules/validate-jsdoc":40,"./rules/validate-line-breaks":41,"esprima":49}],43:[function(require,module,exports){
+},{"./errors":1,"./js-file":2,"./presets/jquery.json":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-quoted-keys-in-objects":15,"./rules/disallow-right-sticked-operators":16,"./rules/disallow-space-after-binary-operators":17,"./rules/disallow-space-after-keywords":18,"./rules/disallow-space-after-object-keys":19,"./rules/disallow-space-after-prefix-unary-operators.js":20,"./rules/disallow-space-before-binary-operators":21,"./rules/disallow-space-before-postfix-unary-operators.js":22,"./rules/disallow-spaces-in-function-expression":23,"./rules/disallow-spaces-inside-array-brackets":24,"./rules/disallow-spaces-inside-object-brackets":25,"./rules/disallow-spaces-inside-parentheses":26,"./rules/disallow-trailing-whitespace":27,"./rules/disallow-yoda-conditions":28,"./rules/maximum-line-length":29,"./rules/require-aligned-object-values":30,"./rules/require-camelcase-or-uppercase-identifiers":31,"./rules/require-capitalized-constructors":32,"./rules/require-comma-before-line-break":33,"./rules/require-curly-braces":34,"./rules/require-dot-notation":35,"./rules/require-keywords-on-new-line":36,"./rules/require-left-sticked-operators":37,"./rules/require-line-feed-at-file-end":38,"./rules/require-multiple-var-decl":39,"./rules/require-operator-before-line-break":40,"./rules/require-parentheses-around-iife":41,"./rules/require-right-sticked-operators":42,"./rules/require-space-after-binary-operators":43,"./rules/require-space-after-keywords":44,"./rules/require-space-after-object-keys":45,"./rules/require-space-after-prefix-unary-operators.js":46,"./rules/require-space-before-binary-operators":47,"./rules/require-space-before-postfix-unary-operators.js":48,"./rules/require-spaces-in-function-expression":49,"./rules/require-spaces-inside-array-brackets":50,"./rules/require-spaces-inside-object-brackets":51,"./rules/safe-context-keyword":52,"./rules/validate-indentation":53,"./rules/validate-jsdoc":54,"./rules/validate-line-breaks":55,"./rules/validate-quote-marks":56,"esprima":64}],58:[function(require,module,exports){
 /**
  * Returns token by range start. Ignores ()
  * @param {JsFile} file
@@ -2389,7 +3188,7 @@ module.exports.getTokenByRangeStart = function(file, range, backward) {
 };
 
 /**
- * Returns true is token is punctuator
+ * Returns true if token is punctuator
  * @param {Object} token
  * @param {String} punctuator
  */
@@ -2397,7 +3196,77 @@ module.exports.tokenIsPunctuator = function(token, punctuator) {
     return token && token.type === 'Punctuator' && token.value === punctuator;
 };
 
-},{}],44:[function(require,module,exports){
+/**
+ * Returns true if token is a reserved word
+ * @param {Object} token
+ */
+module.exports.tokenIsReservedWord = function(token) {
+    var keywords = {
+        'abstract': true,
+        'arguments': true,
+        'boolean': true,
+        'break': true,
+        'byte': true,
+        'case': true,
+        'catch': true,
+        'char': true,
+        'class': true,
+        'const': true,
+        'continue': true,
+        'debugger': true,
+        'default': true,
+        'delete': true,
+        'do': true,
+        'double': true,
+        'else': true,
+        'enum': true,
+        'eval': true,
+        'export': true,
+        'extends': true,
+        'final': true,
+        'finally': true,
+        'float': true,
+        'for': true,
+        'function': true,
+        'goto': true,
+        'if': true,
+        'implements': true,
+        'import': true,
+        'in': true,
+        'instanceof': true,
+        'int': true,
+        'interface': true,
+        'let': true,
+        'long': true,
+        'native': true,
+        'new': true,
+        'package': true,
+        'private': true,
+        'protected': true,
+        'public': true,
+        'return': true,
+        'short': true,
+        'static': true,
+        'super': true,
+        'switch': true,
+        'synchronized': true,
+        'this': true,
+        'throw': true,
+        'throws': true,
+        'transient': true,
+        'try': true,
+        'typeof': true,
+        'var': true,
+        'void': true,
+        'volatile': true,
+        'while': true,
+        'with': true,
+        'yield': true
+    };
+    return token && token.value && keywords[token.value];
+};
+
+},{}],59:[function(require,module,exports){
 module.exports = {
     iterate: iterate
 };
@@ -2420,6 +3289,12 @@ var iterableProperties = {
     // return
     'argument': true,
     'arguments': true,
+
+    // try
+    'block': true,
+    'guardedHandlers': true,
+    'handlers': true,
+    'finalizer': true,
 
     // catch
     'handler': true,
@@ -2470,7 +3345,7 @@ function iterate(node, cb, parentNode, parentCollection) {
     }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 
 
 //
@@ -2688,7 +3563,7 @@ if (typeof Object.getOwnPropertyDescriptor === 'function') {
   exports.getOwnPropertyDescriptor = valueObject;
 }
 
-},{}],46:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3005,7 +3880,7 @@ assert.doesNotThrow = function(block, /*optional*/message) {
 };
 
 assert.ifError = function(err) { if (err) {throw err;}};
-},{"_shims":45,"util":47}],47:[function(require,module,exports){
+},{"_shims":60,"util":62}],62:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3550,7 +4425,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"_shims":45}],48:[function(require,module,exports){
+},{"_shims":60}],63:[function(require,module,exports){
 /*
 colors.js
 
@@ -3821,7 +4696,7 @@ addProperty('stripColors', function() {
   return ("" + this).replace(/\u001b\[\d+m/g,'');
 });
 
-},{}],49:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /*
   Copyright (C) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2012 Mathias Bynens <mathias@qiwi.be>
@@ -7731,7 +8606,7 @@ parseStatement: true, parseSourceElement: true */
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */
 
-},{}]},{},[42])
-(42)
+},{}]},{},[57])
+(57)
 });
 ;
