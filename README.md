@@ -1184,6 +1184,32 @@ with (x) {
     prop++;
 }
 ```
+## disallowMultipleLineStrings
+
+Disallows strings that span multiple lines without using concatenation.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowMultipleLineStrings": true
+```
+
+##### Valid
+```js
+var x = "multi" +
+        "line";
+var y = "single line";
+```
+
+##### Invalid
+```js
+var x = "multi \
+        line";
+```
 
 ## disallowMultipleLineBreaks
 
