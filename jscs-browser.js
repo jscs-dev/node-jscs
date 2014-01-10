@@ -1744,6 +1744,7 @@ module.exports.prototype = {
     check: function(file, errors) {
         file.iterateNodesByType('MemberExpression', function (node) {
             if (node.computed && node.property.type === 'Literal' &&
+                typeof node.property.value !== 'number' &&
                 !tokenHelper.tokenIsReservedWord(node.property)
             ) {
                 errors.add(

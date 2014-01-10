@@ -1,3 +1,6 @@
+Versuin 1.2.2:
+ * Fixed case with number for `requireDotNotation` rule (@andrewblond).
+
 Version 1.2.1:
  * Fix in error message for rule `maximumLineLength` (@pdehaan).
 
@@ -100,8 +103,8 @@ Version 0.0.8:
  * Option `disallowQuotedKeysInObjects`.
 
 Version 0.0.7:
- * Option 'requireSpacesInsideObjectBrackets'.
- * Option 'disallowSpacesInsideObjectBrackets'.
+ * Option `requireSpacesInsideObjectBrackets`.
+ * Option `disallowSpacesInsideObjectBrackets`.
 
 Version 0.0.6:
  * Fixes incorrent checkPath behavior.
@@ -111,11 +114,11 @@ Version 0.0.5:
  * Error message format fixes.
 
 Version 0.0.4:
- * Option 'disallowYodaConditions'.
- * Option 'requireMultipleVarDecl'.
+ * Option `disallowYodaConditions`.
+ * Option `requireMultipleVarDecl`.
 
 Version 0.0.3:
- * Option 'excludeFiles', which accepts patterns.
+ * Option `excludeFiles`, which accepts patterns.
 
 Version 0.0.2:
  * Link to parent nodes.
