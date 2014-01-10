@@ -8,7 +8,7 @@ describe('rules/require-space-after-binary-operators', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
-    
+
     it('should report sticky operator for "2+2"', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['+'] });
         assert(checker.checkString('var x = 2+2;').getErrorCount() === 1);

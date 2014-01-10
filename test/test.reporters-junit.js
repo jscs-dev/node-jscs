@@ -6,7 +6,7 @@ var parser = require('xml2js').parseString;
 
 describe('reporters/junit', function() {
     var checker = new Checker();
-    
+
     checker.registerDefaultRules();
 
     it('should correctly report error results', function(done) {
