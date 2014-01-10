@@ -1,3 +1,6 @@
+Version 1.2.1:
+ * Fix in error message for rule `maximumLineLength` (@pdehaan).
+
 Version 1.2.0:
  * Rule `requireCommaBeforeLineBreak` (@mikesherov).
  * Rule `disallowCommaBeforeLineBreak` (@mikesherov).
