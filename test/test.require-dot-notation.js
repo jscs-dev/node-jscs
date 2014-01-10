@@ -18,6 +18,10 @@ describe('rules/require-dot-notation', function() {
         assert(checker.checkString('var x = a[\'while\']').isEmpty());
     });
 
+    it('should not report number subscription', function() {
+        assert(checker.checkString('var x = a[1]').isEmpty());
+    });
+
     it('should not report variable subscription', function() {
         assert(checker.checkString('var x = a[c]').isEmpty());
     });
