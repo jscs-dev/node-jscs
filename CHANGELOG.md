@@ -90,7 +90,7 @@ Version 0.0.12:
 Version 0.0.11:
  * Option `disallowSpaceAfterObjectKeys`.
  * Option `disallowSpacesInsideArrayBrackets`.
- * Do not automatically exclude hidden files. 
+ * Do not automatically exclude hidden files.
 
 Version 0.0.10:
  * Fix in `disallowQuotedKeysInObjects`.

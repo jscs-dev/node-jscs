@@ -4,7 +4,7 @@ var colors = require('colors');
 
 /**
  * Set of errors for specified file.
- * 
+ *
  * @name Errors
  */
 var Errors = function(file) {
@@ -15,7 +15,7 @@ var Errors = function(file) {
 Errors.prototype = {
     /**
      * Adds style error to the list
-     * 
+     *
      * @param {String} message
      * @param {Number|Object} line
      * @param {Number} [column]
@@ -34,7 +34,7 @@ Errors.prototype = {
 
     /**
      * Returns style error list.
-     * 
+     *
      * @returns {Object[]}
      */
     getErrorList: function() {
@@ -43,7 +43,7 @@ Errors.prototype = {
 
     /**
      * Returns filename of file this error list is for.
-     * 
+     *
      * @returns {String}
      */
     getFilename: function() {
@@ -52,7 +52,7 @@ Errors.prototype = {
 
     /**
      * Returns true if no errors are added.
-     * 
+     *
      * @returns {Boolean}
      */
     isEmpty: function() {
@@ -61,7 +61,7 @@ Errors.prototype = {
 
     /**
      * Returns amount of errors added by the rules.
-     * 
+     *
      * @returns {Number}
      */
     getErrorCount: function () {
@@ -70,7 +70,7 @@ Errors.prototype = {
 
     /**
      * Formats error for futher output.
-     * 
+     *
      * @param {Object} error
      * @param {Boolean} colorize
      * @returns {String}
@@ -101,7 +101,7 @@ Errors.prototype = {
 
 /**
  * Formats error message header.
- * 
+ *
  * @param {String} message
  * @param {String} filename
  * @param {Boolean} colorize
@@ -115,7 +115,7 @@ function formatErrorMessage(message, filename, colorize) {
 
 /**
  * Simple util for prepending spaces to the string until it fits specified size.
- * 
+ *
  * @param {String} s
  * @param {Number} len
  * @returns {String}
@@ -129,7 +129,7 @@ function prependSpaces(s, len) {
 
 /**
  * Renders single line of code in style error formatted output.
- * 
+ *
  * @param {Number} n line number
  * @param {String} line
  * @param {Boolean} colorize
@@ -148,7 +148,7 @@ function renderLine(n, line, colorize) {
 /**
  * Renders pointer:
  * ---------------^
- * 
+ *
  * @param {Number} column
  * @param {Boolean} colorize
  * @returns {String}
@@ -1506,7 +1506,7 @@ module.exports.prototype = {
             if (skip) {
                 return;
             }
-            
+
             node.properties.forEach(function(property) {
                 var keyPos = file.getTokenPosByRangeStart(property.key.range[0]);
                 var colon = tokens[keyPos + 1];

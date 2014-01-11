@@ -3,11 +3,11 @@ var assert = require('assert');
 
 describe('rules/camel-case-options', function() {
     var checker = new Checker();
-    
+
     checker.registerDefaultRules();
 
     it('should not report any errors', function() {
-        checker.configure({ 
+        checker.configure({
             excludeFiles: ['test/data/exclude-files.js'],
             disallowKeywords: ['with']
         });
