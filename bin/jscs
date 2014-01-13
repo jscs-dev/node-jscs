@@ -15,7 +15,7 @@ program
     .usage('[options] <file ...>')
     .option('-c, --config [path]', 'configuration file path')
     .option('-n, --no-colors', 'clean output without colors')
-    .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit')
+    .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
     .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
     .parse(process.argv);
 
