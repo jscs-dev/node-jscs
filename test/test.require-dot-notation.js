@@ -16,6 +16,9 @@ describe('rules/require-dot-notation', function() {
 
     it('should not report literal subscription for reserved words', function() {
         assert(checker.checkString('var x = a[\'while\']').isEmpty());
+        assert(checker.checkString('var x = a[null]').isEmpty());
+        assert(checker.checkString('var x = a[true]').isEmpty());
+        assert(checker.checkString('var x = a[false]').isEmpty());
     });
 
     it('should not report number subscription', function() {
