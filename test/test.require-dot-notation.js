@@ -39,4 +39,12 @@ describe('rules/require-dot-notation', function() {
     it('should not report dot notation', function() {
         assert(checker.checkString('var x = a.b').isEmpty());
     });
+
+    it('should not report for string that can\'t be identifier', function() {
+        assert(checker.checkString('x["a-b"]').isEmpty());
+        assert(checker.checkString('x["a.b"]').isEmpty());
+        assert(checker.checkString('x["a b"]').isEmpty());
+        assert(checker.checkString('x["1a"]').isEmpty());
+        assert(checker.checkString('x["*"]').isEmpty());
+    });
 });
