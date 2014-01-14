@@ -19,6 +19,9 @@ describe('rules/require-dot-notation', function() {
         assert(checker.checkString('var x = a[null]').isEmpty());
         assert(checker.checkString('var x = a[true]').isEmpty());
         assert(checker.checkString('var x = a[false]').isEmpty());
+        assert(checker.checkString('var x = a["null"]').isEmpty());
+        assert(checker.checkString('var x = a["true"]').isEmpty());
+        assert(checker.checkString('var x = a["false"]').isEmpty());
     });
 
     it('should not report number subscription', function() {
