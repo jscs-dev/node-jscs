@@ -19,4 +19,9 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
         assert(checker.checkString('var x = function () { return; }').isEmpty());
     });
+
+    it('should not report space after object key', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['if'] });
+        assert(checker.checkString('x = { if: 1 }').isEmpty());
+    });
 });
