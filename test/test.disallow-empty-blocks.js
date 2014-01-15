@@ -117,4 +117,12 @@ describe('rules/disallow-empty-blocks', function() {
     it('should not report empty objects', function() {
         assert(checker.checkString('var a = {};').isEmpty());
     });
+
+    it('should not report empty block for function declarations', function() {
+        assert(checker.checkString('function empty(){};').isEmpty());
+    });
+
+    it('should not report empty block for function expressions', function() {
+        assert(checker.checkString('var a = function(){};').isEmpty());
+    });
 });
