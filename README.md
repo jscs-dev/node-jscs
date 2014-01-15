@@ -1184,7 +1184,7 @@ with (x) {
     prop++;
 }
 ```
-## disallowMultipleLineStrings
+### disallowMultipleLineStrings
 
 Disallows strings that span multiple lines without using concatenation.
 
@@ -1211,7 +1211,7 @@ var x = "multi \
         line";
 ```
 
-## disallowMultipleLineBreaks
+### disallowMultipleLineBreaks
 
 Disallows multiple blank lines in a row.
 
