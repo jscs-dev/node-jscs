@@ -22,5 +22,6 @@
     "disallowKeywordsOnNewLine": [ "else" ],
     "requireLineFeedAtFileEnd": true,
     "disallowSpaceAfterObjectKeys": true,
-    "validateLineBreaks": "LF"
+    "validateLineBreaks": "LF",
+    "validateQuoteMarks": "\""
 }
