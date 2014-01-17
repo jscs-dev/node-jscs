@@ -73,7 +73,7 @@ var obj = {
       c: d,
     e: f, // ->
       g: h +
-    i // // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+    i // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
   } // ->
   },
   g: [
@@ -157,4 +157,66 @@ case 'g': {
 case 'z':
 default:
     break; // <-
+}
+
+a.b('hi')
+   .c(a.b()) // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+   .d(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+
+if ( a ) {
+  if ( b ) {
+d.e(f) // ->
+  .g() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+  .h(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+
+    i.j(m)
+      .k() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+      .l(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+
+      n.o(p) // <-
+        .q() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+        .r(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+  }
+}
+
+var a = b,
+  c = function () {
+  h = i; // ->
+    j = k;
+      l = m; // <-
+  },
+  e = {
+  f: g, // ->
+    n: o,
+      p: q // <-
+  },
+  r = [
+  s, // ->
+    t,
+      u // <-
+  ];
+
+var a = function () {
+b = c; // ->
+  d = e;
+    f = g; // <-
+};
+
+function c(a, b) {
+  if (a || (a &&
+            b)) { // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+    return d;
+  }
+}
+
+if ( a
+  || b ) {
+var x; // ->
+  var c,
+    d = function(a,
+                  b) {
+    a; // ->
+      b;
+        c; // <-
+    }
 }
