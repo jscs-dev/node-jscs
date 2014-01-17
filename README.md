@@ -37,6 +37,8 @@ Type: `Array`
 
 Values: Arrow of quoted keywords
 
+JSHint: [`curly`](http://jshint.com/docs/options/#curly)
+
 #### Example
 
 ```js
@@ -144,6 +146,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`immed`](http://www.jshint.com/docs/options/#immed)
+
 #### Example
 
 ```js
@@ -241,6 +245,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
+
 #### Example
 
 ```js
@@ -271,6 +277,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
+
 #### Example
 
 ```js
@@ -298,6 +306,8 @@ Disallows empty blocks (except for catch blocks).
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`noempty`](http://jshint.com/docs/options/#noempty)
 
 #### Example
 
@@ -507,6 +517,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`nomen`](http://www.jshint.com/docs/options/#nomen)
+
 #### Example
 
 ```js
@@ -585,6 +597,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`laxcomma`](http://www.jshint.com/docs/options/#laxcomma)
+
 #### Example
 
 ```js
@@ -617,6 +631,8 @@ Requires commas as last token on a line in lists.
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`laxcomma`](http://www.jshint.com/docs/options/#laxcomma)
 
 #### Example
 
@@ -684,6 +700,8 @@ Requires operators to appear before line breaks and not after.
 Type: `Array`
 
 Values: Array of quoted operators
+
+JSHint: [`laxbreak`](http://www.jshint.com/docs/options/#laxbreak)
 
 #### Example
 
@@ -1139,6 +1157,8 @@ Type: `Boolean`
 
 Values: `true`
 
+JSHint: [`camelcase`](http://jshint.com/docs/options/#camelcase)
+
 #### Example
 
 ```js
@@ -1191,6 +1211,8 @@ Disallows strings that span multiple lines without using concatenation.
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`multistr`](http://www.jshint.com/docs/options/#multistr)
 
 #### Example
 
@@ -1274,6 +1296,8 @@ Type: `String`
 
 Values: `"\""`, `"'"`, `true`
 
+JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
+
 #### Example
 
 ```js
@@ -1305,6 +1329,8 @@ Validates indentation for arrays, objects, switch statements, and block statemen
 Type: `Integer` or `String`
 
 Values: A positive integer or `"\t"`
+
+JSHint: [`indent`](http://jshint.com/docs/options/#indent)
 
 #### Example
 
@@ -1365,6 +1391,8 @@ Type: `Boolean` or `String`
 
 Values: `true` or `"smart"`
 
+JSHint: [`smarttabs`](http://www.jshint.com/docs/options/#smarttabs)
+
 #### Example
 
 ```js
@@ -1412,6 +1440,8 @@ Requires all lines to end on a non-whitespace character
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`trailing`](http://jshint.com/docs/options/#trailing)
 
 #### Example
 
@@ -1523,6 +1553,8 @@ Type: `Integer`
 
 Values: A positive integer
 
+JSHint: [`maxlen`](http://jshint.com/docs/options/#maxlen)
+
 #### Example
 
 ```js
@@ -1548,6 +1580,8 @@ Requires constructors to be capitalized (except for `this`)
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`newcap`](http://jshint.com/docs/options/#newcap)
 
 #### Example
 
@@ -1601,6 +1635,8 @@ Requires member expressions to use dot notation when possible
 Type: `Boolean`
 
 Values: `true`
+
+JSHint: [`sub`](http://www.jshint.com/docs/options/#sub)
 
 #### Example
 
