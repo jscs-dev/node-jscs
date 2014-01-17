@@ -204,7 +204,19 @@ b = c; // ->
 
 function c(a, b) {
   if (a || (a &&
-            b) { // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+            b)) { // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
     return d;
   }
+}
+
+if ( a
+  || b ) {
+var x; // ->
+  var c,
+    d = function(a,
+                  b) {
+    a; // ->
+      b;
+        c; // <-
+    }
 }

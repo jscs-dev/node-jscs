@@ -87,7 +87,10 @@ describe('rules/validate-indentation', function() {
             194,
             196,
             200,
-            202
+            202,
+            214,
+            218,
+            220
         ]);
     });
 });
