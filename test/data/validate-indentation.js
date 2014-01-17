@@ -220,3 +220,54 @@ var x; // ->
         c; // <-
     }
 }
+
+
+a({
+  d: 1
+});
+
+a(
+1
+);
+
+a(
+  b({
+    d: 1
+  })
+);
+
+a(
+  b(
+    c({
+      d: 1,
+    e: 1,    // ->
+        f: 1 // <-
+    })
+  )
+);
+
+a({ d: 1 });
+
+functionCall(
+             alignedAtOpeningOfLast({
+               butThisShouldBeIndentedProperly: OffOfThePreviousLine,
+                 soThis: isAnError,  // <-
+               AndThis: isCorrect
+             })
+);
+
+someFunction(
+  param1,
+  param2,
+  {
+    clickHandler: a
+  }
+);
+
+a(b, c,
+  d, e,
+    f, g  // <-
+  );  // <-
+
+a(
+  ); // <-
