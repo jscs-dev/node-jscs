@@ -67,9 +67,47 @@ if (x) {
 if (x) x++;
 ```
 
+### spaceAfterKeywords
+
+Require or disallow a space after certain keywords.
+
+Type: `Object`
+
+Values: Keyword object keys with boolean values. `true` enforces the space and `false` disallows.
+
+#### Example
+
+```js
+"spaceAfterKeywords": {
+    "if": false,
+    "else": true,
+    "for": true,
+    "while": true,
+    "do": true,
+    "switch": true,
+    "return": true,
+    "try": true,
+    "catch": true
+}
+```
+
+##### Valid `true`
+
+```js
+return true;
+```
+
+##### Valid `false`
+
+```js
+if(x) {
+    x++;
+}
+```
+
 ### requireSpaceAfterKeywords
 
-Requires space after keyword.
+DEPRECIATED: Replaced by [spaceAfterKeywords](spaceAfterKeywords). Requires space after keyword.
 
 Type: `Array`
 
@@ -107,7 +145,7 @@ if(x) {
 
 ### disallowSpaceAfterKeywords
 
-Disallows space after keyword.
+DEPRECIATED: Replaced by [spaceAfterKeywords](spaceAfterKeywords). Disallows space after keyword.
 
 Type: `Array`
 
