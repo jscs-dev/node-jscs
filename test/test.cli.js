@@ -32,7 +32,7 @@ describe('cli', function() {
     it('should set jquery preset', function(done) {
         hooker.hook(console, 'log', {
             pre: function(message) {
-                if (message === '\n1 code style errors found.') {
+                if (message === '\n1 code style error found.') {
                     hooker.unhook(console);
                     done();
                 }
