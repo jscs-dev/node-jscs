@@ -90,7 +90,13 @@ describe('rules/validate-indentation', function() {
             202,
             214,
             218,
-            220
+            220,
+            243,
+            244,
+            254,
+            269,
+            270,
+            273
         ]);
     });
 });
