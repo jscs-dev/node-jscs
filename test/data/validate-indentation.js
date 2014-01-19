@@ -248,19 +248,19 @@ a(
 
 a({ d: 1 });
 
-functionCall(
-             alignedAtOpeningOfLast({
-               butThisShouldBeIndentedProperly: OffOfThePreviousLine,
-                 soThis: isAnError,  // <-
-               AndThis: isCorrect
-             })
+aa(
+   b({ // NO ERROR: aligned with previous opening paren
+     c: d,
+       e: f,  // <-
+     f: g
+   })
 );
 
-someFunction(
-  param1,
-  param2,
+aaaaaa(
+  b,
+  c,
   {
-    clickHandler: a
+    d: a
   }
 );
 
