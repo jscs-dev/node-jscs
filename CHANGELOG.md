@@ -1,6 +1,11 @@
+Version 1.2.4:
+ * Fixed typos.
+ * Fixed `validateIndentation` rule.
+ * Sorting errors.
+
 Version 1.2.3:
  * New reporter: `inline` (@clochix).
- * Fixes for rule `requireDotNotation` (@ikokostya).
+ * Fixed for rule `requireDotNotation` (@ikokostya).
 
 Version 1.2.2:
  * Fixed case with number for `requireDotNotation` rule (@andrewblond).

@@ -28,7 +28,7 @@ Errors.prototype = {
         this._errorList.push({
             message: message,
             line: line,
-            column: column
+            column: column || 0
         });
     },
 
@@ -69,7 +69,7 @@ Errors.prototype = {
     },
 
     /**
-     * Formats error for futher output.
+     * Formats error for further output.
      *
      * @param {Object} error
      * @param {Boolean} colorize
@@ -457,7 +457,10 @@ module.exports.prototype = {
 
     check: function(file, errors) {
         file.iterateNodesByType('BlockStatement', function(node) {
-            if (node.body.length === 0 && node.parentNode.type !== 'CatchClause') {
+            if (node.body.length === 0 &&
+                node.parentNode.type !== 'CatchClause' &&
+                node.parentNode.type !== 'FunctionDeclaration' &&
+                node.parentNode.type !== 'FunctionExpression') {
                 errors.add('Empty block found', node.loc.end);
             }
         });
@@ -2639,11 +2642,17 @@ module.exports.prototype = {
         }
 
         function getIndent(i) {
-            return new Array(getIndentationLength(i) + 1).join(indentChar);
+            return new Array(getLengthFromIndentation(i) + 1).join(indentChar);
         }
 
-        function getIndentationLength(i) {
+        function getLengthFromIndentation(i) {
             return indentSize * lineIndentation[i];
+        }
+
+        function getIndentationFromLine(i) {
+            var rNotIndentChar = new RegExp('[^' + indentChar + ']');
+            var firstContent = Math.max(lines[i].search(rNotIndentChar), 0);
+            return firstContent / indentSize;
         }
 
         function markLinesToCheck(node, childrenProperty) {
@@ -2653,13 +2662,23 @@ module.exports.prototype = {
                 linesToCheck[childNode.loc.start.line - 1] = true;
             });
 
-            linesToCheck[node.loc.start.line - 1] = true;
+            linesToCheck[node.parentNode.loc.start.line - 1] = true;
             linesToCheck[node.loc.end.line - 1] = true;
+        }
+
+        function addContentIndentation(node, count, includeLastLine) {
+            var end = node.loc.end.line;
+            if (includeLastLine) {
+                end++;
+            }
+            for (var x = node.loc.start.line + 1; x < end; x++) {
+                lineIndentation[x - 1] += count;
+            }
         }
 
         function checkIndentation(i) {
             var line = lines[i];
-            var indentLength = getIndentationLength(i);
+            var indentLength = getLengthFromIndentation(i);
 
             if (line === '' || !linesToCheck[i]) {
                 return;
@@ -2697,9 +2716,7 @@ module.exports.prototype = {
                 markLinesToCheck(node, childrenProperty);
 
                 if (!isSameLineAsIndentableParent(node)) {
-                    for (var x = node.loc.start.line + 1; x < node.loc.end.line; x++) {
-                        lineIndentation[x - 1]++;
-                    }
+                    addContentIndentation(node, 1);
                 }
             });
 
@@ -2719,9 +2736,7 @@ module.exports.prototype = {
                     children.length > 0 &&
                     node.loc.start.column !== children[0].loc.start.column
                 ) {
-                    for (var x = node.loc.start.line + 1; x < node.loc.end.line; x++) {
-                        lineIndentation[x - 1]++;
-                    }
+                    addContentIndentation(node, 1);
                 }
             });
 
@@ -2739,10 +2754,65 @@ module.exports.prototype = {
                 if (!isSameLineAsIndentableParent(node) && children.length &&
                     (children.length > 1 || children[0].type !== 'BlockStatement')
                 ) {
-                    for (var x = node.loc.start.line + 1; x <= node.loc.end.line; x++) {
-                        lineIndentation[x - 1]++;
-                    }
+                    addContentIndentation(node, 1, true);
                 }
+            });
+
+            file.iterateNodesByType('CallExpression', function (node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+
+                var argumentsIndentation;
+                var nodeStartLine = node.loc.start.line - 1;
+                var calleeEndLine = node.callee.loc.end.line - 1;
+                var nodeEndLine = node.loc.end.line - 1;
+                var nodeIndentation = getIndentationFromLine(nodeStartLine);
+
+                node.arguments.forEach(function (argument, i) {
+                    var startLine = argument.loc.start.line - 1;
+                    // Check if this argument starts on a new line
+                    if (startLine > calleeEndLine &&
+                            (i === 0 || startLine > node.arguments[i - 1].loc.end.line - 1)) {
+
+                        // Get the indentation of the first argument. All
+                        // future arguments starting a new line should have this
+                        // indentation
+                        if (argumentsIndentation === undefined) {
+                            argumentsIndentation = getIndentationFromLine(startLine) - nodeIndentation;
+                        }
+
+                        linesToCheck[startLine] = true;
+                        lineIndentation[startLine] += argumentsIndentation;
+                        addContentIndentation(argument, argumentsIndentation, true);
+                    }
+                });
+
+                // If the call expression does not end on the same line as the
+                // last argument, check if it has the same indentation as the
+                // call start
+                var lastArgument = node.arguments[node.arguments.length - 1];
+                if (nodeEndLine > calleeEndLine && (!lastArgument || nodeEndLine > lastArgument.loc.end.line - 1)) {
+                    linesToCheck[nodeEndLine] = true;
+                    lineIndentation[nodeEndLine] = nodeIndentation;
+                }
+            });
+
+            // VariableDeclarator must come last,
+            // as it unmarks lines for indentation, which needs to happen after all lines have been marked
+            file.iterateNodesByType([
+                'VariableDeclarator'
+            ], function (node) {
+                if (node.loc.start.line === node.parentNode.loc.start.line || !node.init) {
+                    return;
+                }
+
+                var startLine = node.loc.start.line - 1;
+
+                linesToCheck[startLine] = false;
+                var additionalIndents = getIndentationFromLine(startLine) - lineIndentation[startLine];
+
+                addContentIndentation(node, additionalIndents, true);
             });
         }
 
@@ -3163,6 +3233,12 @@ StringChecker.prototype = {
         this._activeRules.forEach(function(rule) {
             rule.check(file, errors);
         });
+
+        // sort errors list to show errors as they appear in source
+        errors.getErrorList().sort(function(a, b){
+            return (a.line - b.line) || (a.column - b.column);
+        });
+
         return errors;
     }
 };
