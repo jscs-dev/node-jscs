@@ -11,7 +11,7 @@ but it does not duplicate `jshint` functionality, so you should use `jscs` and `
  * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker
  * Gulp task: https://github.com/sindresorhus/gulp-jscs
  * Syntastic VIM Plugin: https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim
- * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/commits/master 
+ * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/commits/master
 
 ## Installation
 
@@ -755,7 +755,6 @@ Values: Array of quoted operators
 "disallowLeftStickedOperators": [
     "?",
     "+",
-    "-",
     "/",
     "*",
     "=",
