@@ -9,12 +9,17 @@ var path = require('path');
 var cli = require('../lib/cli');
 
 describe('cli', function() {
+    var cwd = process.cwd();
+
     beforeEach(function() {
         sinon.stub(process, 'exit');
     });
 
     afterEach(function() {
         process.exit.restore();
+
+        // Just in case tests have changed process.cwd(), reset it
+        process.chdir(cwd);
     });
 
     it('should correctly exit if no files specified', function() {
@@ -29,6 +34,48 @@ describe('cli', function() {
 
         cli({
             args: []
+        });
+    });
+
+    it('should exit if no default config is found', function(done) {
+        hooker.hook(console, 'error', {
+            pre: function(message, config) {
+                assert.equal(
+                    config,
+                    path.resolve(process.cwd(), '.jscsrc')
+                );
+
+                done();
+
+                return hooker.preempt();
+            },
+            once: true
+        });
+
+        process.chdir('./test/');
+
+        cli({});
+    });
+
+    it('should exit if no custom config is found', function(done) {
+        hooker.hook(console, 'error', {
+            pre: function(message, config) {
+                assert.equal(
+                    config,
+                    path.resolve(process.cwd(), 'config.js')
+                );
+
+                done();
+
+                return hooker.preempt();
+            },
+            once: true
+        });
+
+        process.chdir('./test/');
+
+        cli({
+            config: 'config.js'
         });
     });
 
