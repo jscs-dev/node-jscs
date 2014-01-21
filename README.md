@@ -93,18 +93,12 @@ Values: `true`
 
 ```js
 var a = 1;
-var fn = function(){ return; };
-if (a > 0)
-  b = a * 5;
 ```
 
 ##### Invalid
 
 ```js
 var a = 1
-var fn = function(){ return };
-if (a > 0)
-  b = a * 5
 ```
 
 ### requireSpaceAfterKeywords
