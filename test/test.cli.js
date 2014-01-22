@@ -32,7 +32,7 @@ describe('cli', function() {
     it('should set jquery preset', function(done) {
         hooker.hook(console, 'log', {
             pre: function(message) {
-                if (message === '\n1 code style error found.') {
+                if (message.indexOf('code style errors found.') > -1) {
                     hooker.unhook(console);
                     done();
                 }
@@ -41,6 +41,7 @@ describe('cli', function() {
             }
         });
 
+        // The merging of the main project's config w/ the jquery preset is intentional
         var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
