@@ -19,4 +19,12 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
         assert(checker.checkString('var x = function () { return; }').isEmpty());
     });
+    it('should ignore reserved word if it\'s an object key (#83)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['for'] });
+        assert(checker.checkString('({for: "bar"})').isEmpty());
+    });
+    it('should ignore method name if it\'s a reserved word (#180)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['catch'] });
+        assert(checker.checkString('promise.catch()').isEmpty());
+    });
 });
