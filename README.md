@@ -71,6 +71,40 @@ if (x) {
 if (x) x++;
 ```
 
+### requireSemicolon
+
+Requires semicolon after:
+
+* var declaration
+* expression statement
+* return
+* throw
+* break
+* continue
+* do-while
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireSemicolon": true
+```
+
+##### Valid
+
+```js
+var a = 1;
+```
+
+##### Invalid
+
+```js
+var a = 1
+```
+
 ### requireSpaceAfterKeywords
 
 Requires space after keyword.
