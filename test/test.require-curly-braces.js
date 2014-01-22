@@ -83,4 +83,8 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: ['default'] });
         assert(checker.checkString('switch(x){default:{a=b;}}').isEmpty());
     });
+    it('should ignore method name if it\'s a reserved word (#180)', function() {
+        checker.configure({ requireCurlyBraces: ['catch'] });
+        assert(checker.checkString('promise.catch()').isEmpty());
+    });
 });
