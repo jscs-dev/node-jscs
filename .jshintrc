@@ -7,7 +7,6 @@
     "immed"    : true,
     "noarg"    : true,
     "unused"   : true,
-    "trailing" : true,
     "maxlen"   : 120,
     "indent"   : 4,
     "predef"   : ["describe", "it", "beforeEach"],
