@@ -275,7 +275,7 @@ Requires multiple `var` declaration.
 
 Type: `Boolean`
 
-Values: `true`
+Values: `"all"` for strict mode, `"skipWithEmptyLine"` ignores `var` declarations separated by an empty line.
 
 JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
 

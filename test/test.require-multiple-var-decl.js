@@ -19,4 +19,9 @@ describe('rules/require-multiple-var-decl', function() {
         checker.configure({ requireMultipleVarDecl: true });
         assert(checker.checkString('var x; x++; var y;').isEmpty());
     });
+    it('should not report var declarations separated by empty line', function() {
+        checker.configure({ requireMultipleVarDecl: 'skipWithEmptyLine' });
+        assert(checker.checkString('var x;\n\nvar y;').isEmpty());
+    });
+
 });
