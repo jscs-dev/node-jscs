@@ -277,7 +277,7 @@ Type: `Boolean`
 
 Values: `true`
 
-JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
+JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
 #### Example
 
