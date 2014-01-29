@@ -1,6 +1,7 @@
 var assert = require('assert');
 var cli = require('../lib/cli');
 var hooker = require('hooker');
+var Vow = require('vow');
 
 describe('cli', function() {
     beforeEach(function() {
@@ -29,24 +30,23 @@ describe('cli', function() {
         });
     });
 
-    it('should set jquery preset', function(done) {
-        hooker.hook(console, 'log', {
-            pre: function(message) {
-                if (message === '\n1 code style error found.') {
-                    hooker.unhook(console);
-                    done();
-                }
+    it('should set jquery preset', function() {
+        var Checker = require('../lib/checker');
+        var old = Checker.prototype.checkPath;
 
-                return hooker.preempt(message);
-            }
-        });
+        Checker.prototype.checkPath = function(path) {
+            assert(path, 'test/data/cli.js');
 
-        var result = cli({
+            Checker.prototype.checkPath = old;
+
+            return Vow.promise();
+        };
+
+        var checker = cli({
             args: ['test/data/cli.js'],
-            preset: 'jquery',
-            config: ''
+            preset: 'jquery'
         });
 
-        assert(result.getProcessedConfig().requireCurlyBraces);
+        assert(checker.getProcessedConfig().requireCurlyBraces);
     });
 });
