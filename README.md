@@ -301,6 +301,35 @@ var x = 1,
     y = 2;
 ```
 
+### requireBlocksOnNewline
+
+Requires blocks to begin and end with a newline
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireBlocksOnNewline": true
+```
+
+##### Valid
+
+```js
+if (true) {
+    doSomething();
+}
+var abc = function() {};
+```
+
+##### Invalid
+
+```js
+if (true) {doSomething();}
+```
+
 ### disallowEmptyBlocks
 
 Disallows empty blocks (except for catch blocks).
