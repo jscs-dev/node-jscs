@@ -1,16 +1,20 @@
-var assert = require('assert');
-var cli = require('../lib/cli');
 var hooker = require('hooker');
+var sinon = require('sinon');
+var glob = require('glob');
+var assert = require('assert');
 var Vow = require('vow');
+
+var path = require('path');
+
+var cli = require('../lib/cli');
 
 describe('cli', function() {
     beforeEach(function() {
-        hooker.hook(process, 'exit', {
-            pre: function() {
-                return hooker.preempt();
-            },
-            once: true
-        });
+        sinon.stub(process, 'exit');
+    });
+
+    afterEach(function() {
+        process.exit.restore();
     });
 
     it('should correctly exit if no files specified', function(done) {
@@ -42,12 +46,52 @@ describe('cli', function() {
             return Vow.promise();
         };
 
-        var checker = cli({
+        var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
             config: 'test/data/cli.json'
         });
 
-        assert(checker.getProcessedConfig().requireCurlyBraces);
+        assert(result.checker.getProcessedConfig().requireCurlyBraces);
+    });
+
+    describe('reporters exit statuses', function() {
+        var rname = /\/(\w+)\.js/;
+
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
+            var name = path.match(rname)[1];
+
+            it('should return succeful exit code for "' + name + '" reporter', function(done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/success.js'],
+                    reporter: name
+                }).promise.then(function(status) {
+                    assert(!status.valueOf());
+
+                    process.stdout.write.restore();
+
+                    done();
+                });
+            });
+
+            it('should return fail exit code for "' + name + '" reporter', function(done) {
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/error.js'],
+                    reporter: name
+                }).promise.fail(function(status) {
+                    assert(status.valueOf());
+                    process.stdout.write.restore();
+
+                    done();
+                });
+            });
+        });
     });
 });

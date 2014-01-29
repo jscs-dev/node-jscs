@@ -47,7 +47,8 @@
     "mocha": "1.11.0",
     "browserify": "2.35.0",
     "xml2js": "0.4.0",
-    "hooker": "0.2.3"
+    "hooker": "0.2.3",
+    "sinon": "1.7.3"
   },
   "bin": {
     "jscs": "./bin/jscs"

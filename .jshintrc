@@ -9,6 +9,6 @@
     "unused"   : true,
     "maxlen"   : 120,
     "indent"   : 4,
-    "predef"   : ["describe", "it", "beforeEach"],
+    "predef"   : ["describe", "it", "beforeEach", "afterEach"],
     "quotmark" : "single"
 }
