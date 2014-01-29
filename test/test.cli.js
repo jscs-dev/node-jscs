@@ -44,7 +44,8 @@ describe('cli', function() {
 
         var checker = cli({
             args: ['test/data/cli.js'],
-            preset: 'jquery'
+            preset: 'jquery',
+            config: 'test/data/cli.json'
         });
 
         assert(checker.getProcessedConfig().requireCurlyBraces);
