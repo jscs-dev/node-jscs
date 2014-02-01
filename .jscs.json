@@ -11,7 +11,7 @@
     "disallowKeywordsOnNewLine": ["else"],
     "disallowTrailingWhitespace": true,
     "requireLineFeedAtFileEnd": true,
-    "excludeFiles": ["test/data/*.js"],
+    "excludeFiles": ["test/data/**"],
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true
