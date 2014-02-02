@@ -1849,14 +1849,14 @@ var d = new e();
 
 Option to check `var that = this` expressions
 
-Type: `String`
+Type: 'Array' or `String`
 
 Values: String value used for context local declaration
 
 #### Example
 
 ```js
-"safeContextKeyword": "that"
+"safeContextKeyword": [ "that" ]
 ```
 
 ##### Valid
