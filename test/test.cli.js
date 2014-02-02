@@ -1,4 +1,3 @@
-var path = require('path');
 var assert = require('assert');
 var cli = require('../lib/cli');
 var hooker = require('hooker');
@@ -23,7 +22,7 @@ describe('cli', function() {
     it('should correctly exit if no files specified', function(done) {
         hooker.hook(console, 'error', {
             pre: function(message) {
-                assert(message === 'No input files specified. Try option --help for usage information.');
+                assert.equal(message, 'No input files specified. Try option --help for usage information.');
 
                 done();
 
@@ -40,10 +39,8 @@ describe('cli', function() {
     it('should exit if no default config is found', function(done) {
         hooker.hook(console, 'error', {
             pre: function(message, config) {
-                assert.equal(
-                    config,
-                    path.resolve(process.cwd(), '.jscsrc')
-                );
+                assert.equal(message, 'Configuration file %s was not found.');
+                assert.equal(config, '');
 
                 done();
 
@@ -60,10 +57,8 @@ describe('cli', function() {
     it('should exit if no custom config is found', function(done) {
         hooker.hook(console, 'error', {
             pre: function(message, config) {
-                assert.equal(
-                    config,
-                    path.resolve(process.cwd(), 'config.js')
-                );
+                assert.equal(message, 'Configuration file %s was not found.');
+                assert.equal(config, 'config.js');
 
                 done();
 

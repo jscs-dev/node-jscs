@@ -1,67 +1,60 @@
-var path = require('path');
 var assert = require('assert');
 var configFile = require('../lib/cli-config');
 
 describe('cli-config', function() {
-    describe('resolve fn', function() {
-        it('should call path.resolve(cwd, file)', function() {
-            assert.equal(
-                configFile.resolve('fooga.js', '/wooga/booga'),
-                path.resolve('/wooga/booga', 'fooga.js')
-            );
+    describe('resolve cwd', function () {
+        it('should call process.cwd() when no argument is given', function () {
+            assert.equal(configFile.getCwd(), process.cwd());
         });
 
-        it('should use process.cwd() if no cwd value was passed', function() {
-            assert.equal(
-                configFile.resolve('fooga.js'),
-                path.resolve(process.cwd(), 'fooga.js')
-            );
+        it('should use a path if one is given as an argument', function () {
+            assert.equal(configFile.getCwd('/a/b/c'), '/a/b/c');
         });
     });
 
-    describe('find fn', function() {
-        it('should find a .jscs.json config file on disk', function() {
-            var file = configFile.find(null, './test/data/configs/json');
+    describe('load', function () {
+        it('should load a config from a package.json file', function () {
+            var config = configFile.load('package.json', './test/data/configs/package');
 
-            assert(file.indexOf('.jscs.json') > -1);
+            assert.equal(typeof config, 'object');
         });
 
-        it('should find a .jscsrc config file on disk', function() {
-            var file = configFile.find(null, './test/data/configs/jscsrc');
+        it('should load a config from a .jscs.json file', function () {
+            var config = configFile.load('.jscs.json', './test/data/configs/json');
 
-            assert(file.indexOf('.jscsrc') > -1);
+            assert.equal(typeof config, 'object');
         });
 
-        it('should find a custom config file on disk', function() {
-            var file = configFile.find('config.js', './test/data/configs/custom');
+        it('should load a config from a .jscsrc file', function () {
+            var config = configFile.load('.jscsrc', './test/data/configs/jscsrc');
 
-            assert(file.indexOf('config.js') > -1);
+            assert.equal(typeof config, 'object');
         });
 
-        it('should prefer .jscsrc over .jscs.json', function() {
-            var file = configFile.find(null, './test/data/configs/mixed');
-
-            assert(file.indexOf('.jscsrc') > -1);
-        });
-
-        it('should not fallback to defaults if custom config is missing', function() {
-            var file = configFile.find('config.js', './test/data/configs/mixed');
-
-            assert.equal(file, undefined);
-        });
-    });
-
-    describe('load fn', function() {
-        it('should require() a file off disk', function() {
+        it('should load a custom config file', function () {
             var config = configFile.load('config.js', './test/data/configs/custom');
 
-            assert(typeof config === 'object');
+            assert.equal(typeof config, 'object');
         });
 
-        it('should return false if the config can\'t be found', function() {
-            var config = configFile.load(null, './test/data/configs/custom');
+        it('should prefer package.json over .jscs.json and .jscsrc', function () {
+            var config = configFile.load(null, './test/data/configs/mixedWithPkg');
 
-            assert.equal(config, false);
+            assert.equal(typeof config, 'object');
+            assert.equal(config.from, 'package.json');
+        });
+
+        it('should prefer .jscsrc over .jscs.json', function () {
+            var config = configFile.load(null, './test/data/configs/mixedWithoutPkg');
+
+            assert.equal(typeof config, 'object');
+            assert.equal(config.from, '.jscsrc');
+        });
+
+        it('should not fall back to defaults if custom config is missing', function () {
+            var config = configFile.load('custom.js', './test/data/configs/mixedWithPkg');
+
+            assert.strictEqual(config, undefined);
         });
     });
 });
