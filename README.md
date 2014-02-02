@@ -1742,7 +1742,7 @@ Values: Array of file matching patterns
 
 ### preset
 
-Extends defined rules with preset rules
+Extends defined rules with preset rules.
 
 Type: `String`
 
@@ -1752,6 +1752,12 @@ Values: `"jquery"`
 
 ```js
 "preset": "jquery"
+```
+
+If you want specifically disable preset rule assign it to `null`
+```js
+"preset": "jquery",
+requireCurlyBraces: null
 ```
 
 ## Browser Usage
