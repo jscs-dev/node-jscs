@@ -7,25 +7,22 @@ var Vow = require('vow');
 var path = require('path');
 
 var cli = require('../lib/cli');
+var startingDir = process.cwd();
 
 describe('cli', function() {
-    var cwd = process.cwd();
-
     beforeEach(function() {
         sinon.stub(process, 'exit');
     });
 
     afterEach(function() {
+        process.chdir(startingDir);
         process.exit.restore();
-
-        // Just in case tests have changed process.cwd(), reset it
-        process.chdir(cwd);
     });
 
     it('should correctly exit if no files specified', function() {
         hooker.hook(console, 'error', {
             pre: function(message) {
-                assert(message === 'No input files specified. Try option --help for usage information.');
+                assert.equal(message, 'No input files specified. Try option --help for usage information.');
 
                 return hooker.preempt();
             },
@@ -39,11 +36,8 @@ describe('cli', function() {
 
     it('should exit if no default config is found', function(done) {
         hooker.hook(console, 'error', {
-            pre: function(message, config) {
-                assert.equal(
-                    config,
-                    path.resolve(process.cwd(), '.jscsrc')
-                );
+            pre: function(message) {
+                assert.equal(message, 'Default configuration source was not found.');
 
                 done();
 
@@ -59,12 +53,13 @@ describe('cli', function() {
 
     it('should exit if no custom config is found', function(done) {
         hooker.hook(console, 'error', {
-            pre: function(message, config) {
-                assert.equal(
-                    config,
-                    path.resolve(process.cwd(), 'config.js')
-                );
+            pre: function(arg1, arg2, arg3) {
+                console.log(arguments);
+                assert.equal(arg1, 'Configuration source');
+                assert.equal(arg2, 'config.js');
+                assert.equal(arg3, 'was not found.');
 
+                process.chdir('../');
                 done();
 
                 return hooker.preempt();
@@ -106,7 +101,7 @@ describe('cli', function() {
         glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
             var name = path.match(rname)[1];
 
-            it('should return succeful exit code for "' + name + '" reporter', function(done) {
+            it('should return successful exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
