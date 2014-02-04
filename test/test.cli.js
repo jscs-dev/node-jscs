@@ -7,6 +7,7 @@ var Vow = require('vow');
 var path = require('path');
 
 var cli = require('../lib/cli');
+var startingDir = process.cwd();
 
 describe('cli', function() {
     beforeEach(function() {
@@ -14,6 +15,7 @@ describe('cli', function() {
     });
 
     afterEach(function() {
+        process.chdir(startingDir);
         process.exit.restore();
     });
 
@@ -57,6 +59,7 @@ describe('cli', function() {
                 assert.equal(arg2, 'config.js');
                 assert.equal(arg3, 'was not found.');
 
+                process.chdir('../');
                 done();
 
                 return hooker.preempt();
@@ -98,7 +101,7 @@ describe('cli', function() {
         glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
             var name = path.match(rname)[1];
 
-            it('should return succeful exit code for "' + name + '" reporter', function(done) {
+            it('should return successful exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
