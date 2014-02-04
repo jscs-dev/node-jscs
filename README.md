@@ -11,7 +11,7 @@ but it does not duplicate `jshint` functionality, so you should use `jscs` and `
  * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker
  * Gulp task: https://github.com/sindresorhus/gulp-jscs
  * Syntastic VIM Plugin: https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim
- * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/commits/master 
+ * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
 
 ## Installation
 
@@ -247,7 +247,7 @@ Type: `Boolean`
 
 Values: `true`
 
-JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
+JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
 #### Example
 
@@ -277,7 +277,7 @@ Type: `Boolean`
 
 Values: `true`
 
-JSHint: [`onvar`](http://jshint.com/docs/options/#onevar)
+JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
 #### Example
 
@@ -1742,7 +1742,7 @@ Values: Array of file matching patterns
 
 ### preset
 
-Extends defined rules with preset rules
+Extends defined rules with preset rules.
 
 Type: `String`
 
@@ -1752,6 +1752,12 @@ Values: `"jquery"`
 
 ```js
 "preset": "jquery"
+```
+
+If you want specifically disable preset rule assign it to `null`
+```js
+"preset": "jquery",
+requireCurlyBraces: null
 ```
 
 ## Browser Usage

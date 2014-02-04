@@ -1,30 +1,26 @@
-var assert = require('assert');
-var cli = require('../lib/cli');
 var hooker = require('hooker');
+var sinon = require('sinon');
+var glob = require('glob');
+var assert = require('assert');
+var Vow = require('vow');
+
+var path = require('path');
+
+var cli = require('../lib/cli');
 
 describe('cli', function() {
-    var cwd = process.cwd();
-
     beforeEach(function() {
-        hooker.hook(process, 'exit', {
-            pre: function() {
-                return hooker.preempt();
-            },
-            once: true
-        });
+        sinon.stub(process, 'exit');
     });
 
-    // Just in case tests have changed process.cwd(), reset it
     afterEach(function() {
-        process.chdir(cwd);
+        process.exit.restore();
     });
 
-    it('should correctly exit if no files specified', function(done) {
+    it('should correctly exit if no files specified', function() {
         hooker.hook(console, 'error', {
             pre: function(message) {
                 assert.equal(message, 'No input files specified. Try option --help for usage information.');
-
-                done();
 
                 return hooker.preempt();
             },
@@ -38,9 +34,8 @@ describe('cli', function() {
 
     it('should exit if no default config is found', function(done) {
         hooker.hook(console, 'error', {
-            pre: function(message, config) {
-                assert.equal(message, 'Configuration file %s was not found.');
-                assert.equal(config, '');
+            pre: function(message) {
+                assert.equal(message, 'Default configuration source was not found.');
 
                 done();
 
@@ -56,9 +51,11 @@ describe('cli', function() {
 
     it('should exit if no custom config is found', function(done) {
         hooker.hook(console, 'error', {
-            pre: function(message, config) {
-                assert.equal(message, 'Configuration file %s was not found.');
-                assert.equal(config, 'config.js');
+            pre: function(arg1, arg2, arg3) {
+                console.log(arguments);
+                assert.equal(arg1, 'Configuration source');
+                assert.equal(arg2, 'config.js');
+                assert.equal(arg3, 'was not found.');
 
                 done();
 
@@ -74,24 +71,64 @@ describe('cli', function() {
         });
     });
 
-    it('should set jquery preset', function(done) {
-        hooker.hook(console, 'log', {
-            pre: function(message) {
-                if (message === '\n1 code style error found.') {
-                    hooker.unhook(console);
-                    done();
-                }
+    it('should set jquery preset', function() {
+        var Checker = require('../lib/checker');
+        var old = Checker.prototype.checkPath;
 
-                return hooker.preempt(message);
-            }
-        });
+        Checker.prototype.checkPath = function(path) {
+            assert(path, 'test/data/cli.js');
+
+            Checker.prototype.checkPath = old;
+
+            return Vow.promise();
+        };
 
         var result = cli({
             args: ['test/data/cli.js'],
             preset: 'jquery',
-            config: ''
+            config: 'test/data/cli.json'
         });
 
-        assert(result.getProcessedConfig().requireCurlyBraces);
+        assert(result.checker.getProcessedConfig().requireCurlyBraces);
+    });
+
+    describe('reporters exit statuses', function() {
+        var rname = /\/(\w+)\.js/;
+
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
+            var name = path.match(rname)[1];
+
+            it('should return succeful exit code for "' + name + '" reporter', function(done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/success.js'],
+                    reporter: name
+                }).promise.then(function(status) {
+                    assert(!status.valueOf());
+
+                    process.stdout.write.restore();
+
+                    done();
+                });
+            });
+
+            it('should return fail exit code for "' + name + '" reporter', function(done) {
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/error.js'],
+                    reporter: name
+                }).promise.fail(function(status) {
+                    assert(status.valueOf());
+                    process.stdout.write.restore();
+
+                    done();
+                });
+            });
+        });
     });
 });
