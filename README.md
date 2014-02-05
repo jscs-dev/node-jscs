@@ -8,10 +8,11 @@ but it does not duplicate `jshint` functionality, so you should use `jscs` and `
 
 ## Friendly packages
 
- * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker
- * Gulp task: https://github.com/sindresorhus/gulp-jscs
- * Syntastic VIM Plugin: https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim
+ * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker/
+ * Gulp task: https://github.com/sindresorhus/gulp-jscs/
+ * Syntastic VIM Plugin: https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
+ * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
 
 ## Installation
 
