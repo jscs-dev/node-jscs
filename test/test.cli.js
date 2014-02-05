@@ -34,12 +34,10 @@ describe('cli', function() {
         });
     });
 
-    it('should exit if no default config is found', function(done) {
+    it('should exit if no default config is found', function() {
         hooker.hook(console, 'error', {
             pre: function(message) {
                 assert.equal(message, 'Default configuration source was not found.');
-
-                done();
 
                 return hooker.preempt();
             },
@@ -51,16 +49,14 @@ describe('cli', function() {
         cli({});
     });
 
-    it('should exit if no custom config is found', function(done) {
+    it('should exit if no custom config is found', function() {
         hooker.hook(console, 'error', {
             pre: function(arg1, arg2, arg3) {
-                console.log(arguments);
                 assert.equal(arg1, 'Configuration source');
                 assert.equal(arg2, 'config.js');
                 assert.equal(arg3, 'was not found.');
 
                 process.chdir('../');
-                done();
 
                 return hooker.preempt();
             },
