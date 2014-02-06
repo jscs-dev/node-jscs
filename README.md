@@ -30,7 +30,9 @@ To run `jscs`, you can use the following command from the project root:
 
 ## Configuration
 
-`jscs` looks for configuration in the project root. If there is a package.json then it will use the `jscsConfig` field of it if present. If there is no package.json, or the `jscsConfig` field is not found, `jscs` will look for a .jscsrc file, and finally a [.jscs.json](.jscs.json) file for configuration.
+`jscs` looks for configuration in the project root.
+
+If there is a `package.json` then it will use the `jscsConfig` field of it if present, if there is no `package.json`, or the `jscsConfig` field is not found, `jscs` will look for a `.jscsrc` file, and finally a `.jscs.json` file for configuration.
 
 ### requireCurlyBraces
 
