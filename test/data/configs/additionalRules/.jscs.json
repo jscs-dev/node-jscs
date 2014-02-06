@@ -1,0 +1,6 @@
+{
+    "testAdditionalRules": true,
+    "additionalRules": [
+        "../../rules/*.js"
+    ]
+}
