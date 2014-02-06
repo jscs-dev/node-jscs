@@ -3,15 +3,15 @@
 
 JSCS — JavaScript Code Style.
 
-`jscs` is a code style checker. `jscs` can check cases, which are not implemeted in jshint,
+`jscs` is a code style checker. `jscs` can check cases, which are not implemented in jshint,
 but it does not duplicate `jshint` functionality, so you should use `jscs` and `jshint` together.
 
 ## Friendly packages
 
  * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker/
  * Gulp task: https://github.com/sindresorhus/gulp-jscs/
- * Syntastic VIM Plugin: https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
+ * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
 
 ## Installation
@@ -482,7 +482,7 @@ Type: `String` or `Boolean`
 Values:
 
  - `true` for strict mode
- - `"allButReserved"` allows ES3+ reserved words to remain quoted which is helpfull when using this option with JSHint's `es3` flag.
+ - `"allButReserved"` allows ES3+ reserved words to remain quoted which is helpful when using this option with JSHint's `es3` flag.
 
 #### Example
 
