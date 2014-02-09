@@ -27,6 +27,12 @@ describe('cli-config', function() {
             assert.equal(typeof config, 'object');
         });
 
+        it('should load a .jscsrc config from a relative path', function () {
+            var config = configFile.load('jscsrc/.jscsrc', './test/data/configs');
+
+            assert.equal(config.from, 'jscsrc');
+        });
+
         it('should load a custom config file', function () {
             var config = configFile.load('config.js', './test/data/configs/custom');
 
