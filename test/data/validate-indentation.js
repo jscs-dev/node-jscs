@@ -40,7 +40,7 @@ if (a) {
 } // ->
 }
 
-/**/ var b; // NO ERROR: single line multi-line comments followed by code is OK
+/**/var b; // NO ERROR: single line multi-line comments followed by code is OK
 /*
  *
  */ var b; // ERROR: multi-line comments followed by code is not OK
@@ -266,8 +266,29 @@ aaaaaa(
 
 a(b, c,
   d, e,
-    f, g  // <-
+    f, g  // NO ERROR: alignment of arguments of callExpression not checked
   );  // <-
 
 a(
-  ); // <-
+  ); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
+
+aaaaaa(
+  b,
+  c, {
+    d: a
+  }
+);
+
+a.b()
+  .c(function(){
+    var a;
+  }).d.e;
+
+var a = function() {
+  "b"
+    .replace(/a/, "a")
+    .replace(/bc?/, function(e) {
+      return "b" + (e.f === 2 ? "c" : "f");
+    })
+    .replace(/d/, "d");
+};
