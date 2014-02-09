@@ -3,8 +3,13 @@ var configFile = require('../lib/cli-config');
 var assert = require('assert');
 
 describe('rules/additional-rules', function() {
+    var checker;
+
+    beforeEach(function() {
+        checker = new Checker();
+    });
+
     it('should add additional rules', function() {
-        var checker = new Checker();
         checker.configure({
             additionalRules: ['test/data/rules/*.js'],
             testAdditionalRules: true
