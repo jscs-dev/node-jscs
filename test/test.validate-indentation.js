@@ -94,9 +94,7 @@ describe('rules/validate-indentation', function() {
             243,
             244,
             254,
-            269,
-            270,
-            273
+            270
         ]);
     });
 });
