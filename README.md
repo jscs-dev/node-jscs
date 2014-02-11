@@ -74,9 +74,44 @@ if (x) {
 if (x) x++;
 ```
 
+### spaceAfterKeywords
+
+Requires or disallows space after particualr keywords.
+
+Type: `Object`
+Values: Valid child properties are `"required"` and `"disallowed"`. Each child property is an Array of quoted keywords
+
+#### Example
+
+```js
+"spaceAfterKeywords": {
+    "required": [
+        "switch",
+        "return"
+    ],
+    "disallowed": [
+        "if"
+    ]
+}
+```
+
+##### Valid `"required"`
+
+```js
+return true;
+```
+
+##### Valid `"disallowed"`
+
+```js
+if(x) {
+    x++;
+}
+```
+
 ### requireSpaceAfterKeywords
 
-Requires space after keyword.
+DEPRECIATED: Replaced by [spaceAfterKeywords](spaceAfterKeywords). Requires space after keyword.
 
 Type: `Array`
 
@@ -114,7 +149,7 @@ if(x) {
 
 ### disallowSpaceAfterKeywords
 
-Disallows space after keyword.
+DEPRECIATED: Replaced by [spaceAfterKeywords](spaceAfterKeywords). Disallows space after keyword.
 
 Type: `Array`
 
