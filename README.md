@@ -1433,7 +1433,7 @@ JSHint: [`smarttabs`](http://www.jshint.com/docs/options/#smarttabs)
 \s\s\s\svar foo = "blah blah";
 \t/**
 \t\s*
-\t\s*/ //a single space to align the star in a docblock is allowed
+\t\s*/ //a single space to align the star in a multi-line comment is allowed
 ```
 
 ##### Invalid example for mode `true`
@@ -1451,7 +1451,7 @@ JSHint: [`smarttabs`](http://www.jshint.com/docs/options/#smarttabs)
 \s\s\s\svar foo = "blah blah";
 \t/**
 \t\s*
-\t\s*/ //a single space to align the star in a docblock is allowed
+\t\s*/ //a single space to align the star in a multi-line comment is allowed
 ```
 
 ##### Invalid example for mode `"smart"`
