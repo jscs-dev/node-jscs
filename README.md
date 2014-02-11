@@ -1297,9 +1297,15 @@ x++;
 
 Requires all quote marks to be either the supplied value, or consistent if `true`
 
-Type: `String`
+Type: `String` or `Object`
 
-Values: `"\""`, `"'"`, `true`
+Values:
+ - `"\""`: all strings require double quotes
+ - `"'"`: all strings require single quotes
+ - `true`: all strings require the quote mark first encountered in the source code
+ - `Object`:
+    - `escape`: allow the "other" quote mark to be used, but only to avoid having to escape
+    - `mark`: the same effect as the non-object values
 
 JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
 
@@ -1307,6 +1313,22 @@ JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
 
 ```js
 "validateQuoteMarks": "\""
+```
+```js
+"validateQuoteMarks": { mark: "\"", escape: true }
+```
+
+##### Valid example for mode `{ mark: "\"", escape: true }`
+
+```js
+var x = "x";
+var y = '"x"';
+```
+##### Invalid example for mode `{ mark: "\"", escape: true }`
+
+```js
+var x = "x";
+var y = 'x';
 ```
 
 ##### Valid example for mode `"\""` or mode `true`
