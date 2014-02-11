@@ -54,7 +54,7 @@ describe('rules/disallow-mixed-spaces-and-tabs', function() {
         });
 
         it('should report tabs before single space to align non-docblock multiline', function() {
-            assert(checker.checkString('var x;' + multilineNotDocBlock).getErrorCount() === 2);
+            assert(checker.checkString('var x;' + multilineNotDocBlock).isEmpty());
         });
 
         it('should not report tabs before single space to align docblock', function() {
