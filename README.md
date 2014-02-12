@@ -178,7 +178,72 @@ var c = function(){ return 3; }.call(this, arg1);
 var d = function(){ return d; }.apply(this, args);
 ```
 
+
 ### requireSpacesInFunctionExpression
+
+Requires space before `()` or `{}` in function declarations.
+
+Type: `Object`
+
+Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"requireSpacesInFunctionExpression": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function () {}
+function a () {}
+```
+
+##### Invalid
+
+```js
+function() {}
+function (){}
+```
+
+
+### disallowSpacesInFunctionExpression
+
+Disallows space before `()` or `{}` in function declarations and expressions (both named and anonymous).
+
+Type: `Object`
+
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"disallowSpacesInFunctionExpression": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function(){}
+function a(){}
+```
+
+##### Invalid
+
+```js
+function () {}
+function a (){}
+```
+
+
+### requireSpacesInAnonymousFunctionExpression
 
 Requires space before `()` or `{}` in anonymous function expressions.
 
@@ -189,7 +254,7 @@ Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child propert
 #### Example
 
 ```js
-"requireSpacesInFunctionExpression": {
+"requireSpacesInAnonymousFunctionExpression": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
@@ -209,7 +274,7 @@ function (){}
 ```
 
 
-### disallowSpacesInFunctionExpression
+### disallowSpacesInAnonymousFunctionExpression
 
 Disallows space before `()` or `{}` in anonymous function expressions.
 
@@ -220,7 +285,7 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 #### Example
 
 ```js
-"disallowSpacesInFunctionExpression": {
+"disallowSpacesInAnonymousFunctionExpression": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
