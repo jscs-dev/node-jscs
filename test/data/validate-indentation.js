@@ -292,3 +292,7 @@ var a = function() {
     })
     .replace(/d/, "d");
 };
+
+$(b)
+  .on('a', 'b', function() { $(c).e('f') })
+  .on('g', 'h', function() { $(i).j('k') });
