@@ -12,6 +12,12 @@
     "disallowTrailingWhitespace": true,
     "requireLineFeedAtFileEnd": true,
     "excludeFiles": ["test/data/**"],
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true

@@ -12,7 +12,7 @@ describe('rules/validate-indentation', function() {
     });
 
     function checkErrors(string, expectedErrorLines) {
-        var errors = checker.checkString(string).getErrorList().sort(function(a, b){
+        var errors = checker.checkString(string).getErrorList().sort(function(a, b) {
             return a.line - b.line;
         });
 

@@ -138,10 +138,10 @@ describe('cli', function() {
         });
 
         // Testing reporters with absolute paths
-        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function (path) {
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
             var name = path.match(rname).input;
 
-            it('should return fail exit code for "' + name + '" reporter', function (done) {
+            it('should return fail exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
@@ -151,14 +151,14 @@ describe('cli', function() {
                     args: ['test/data/cli/error.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
-                }).promise.fail(function (status) {
+                }).promise.fail(function(status) {
                     assert(status.valueOf());
 
                     done();
                 });
             });
 
-            it('should return successful exit code for "' + name + '" reporter', function (done) {
+            it('should return successful exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
@@ -168,7 +168,7 @@ describe('cli', function() {
                     args: ['test/data/cli/success.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
-                }).promise.then(function (status) {
+                }).promise.then(function(status) {
                     assert(!status.valueOf());
 
                     done();
@@ -177,10 +177,10 @@ describe('cli', function() {
         });
 
         // Testing reporters with relative paths
-        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function (filepath) {
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(filepath) {
             var name = 'lib/reporters' + filepath.match(rname)[0];
 
-            it('should return fail exit code for "' + name + '" reporter', function (done) {
+            it('should return fail exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
@@ -190,14 +190,14 @@ describe('cli', function() {
                     args: ['test/data/cli/error.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
-                }).promise.fail(function (status) {
+                }).promise.fail(function(status) {
                     assert(status.valueOf());
 
                     done();
                 });
             });
 
-            it('should return successful exit code for "' + name + '" reporter', function (done) {
+            it('should return successful exit code for "' + name + '" reporter', function(done) {
 
                 // Can't do it in beforeEach hook,
                 // because otherwise name of the test would not be printed
@@ -207,7 +207,7 @@ describe('cli', function() {
                     args: ['test/data/cli/success.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
-                }).promise.then(function (status) {
+                }).promise.then(function(status) {
                     assert(!status.valueOf());
 
                     done();
