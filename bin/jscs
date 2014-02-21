@@ -1,22 +1,98 @@
 #!/usr/bin/env node
-var cli = require('../lib/cli');
-
-/**
- * Command line implementation for JSCS.
- *
- * Common usage case is:
- *
- * ./node_modules/.bin/jscs file1 dir1 file2 dir2
- */
+var Liftoff = require('liftoff');
 var program = require('commander');
+var path = require('path');
 
-program
-    .version(require('../package.json').version)
-    .usage('[options] <file ...>')
-    .option('-c, --config [path]', 'configuration file path')
-    .option('-n, --no-colors', 'clean output without colors')
-    .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
-    .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
-    .parse(process.argv);
+var jscs = new Liftoff({
+    moduleName: 'jscs',
+    configName: '.jscs',
+    addExtensions: ['rc'],
+    processTitle: 'jscs',
+    configLocationFlag: 'config'
+});
 
-cli(program);
+jscs.launch(function () {
+
+    var cli;
+
+    // defer to local version if we can
+    if (this.modulePath) {
+      cli = require(path.join(path.dirname(this.modulePath), 'cli'));
+    } else {
+      // use global otherwise
+      cli = require('../lib/cli');
+    }
+
+    if (this.configPath) {
+      console.log('found', this.configPath);
+      // do loading here
+      var config;
+    }
+
+    program
+        .version(require('../package.json').version)
+        .usage('[options] <file ...>')
+        .option('-c, --config [path]', 'configuration file path')
+        .option('-n, --no-colors', 'clean output without colors')
+        .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
+        .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
+        .parse(process.argv);
+
+    // pass in config here
+    cli(program, config);
+
+});
+/*
+
+
+
+var fs = require('fs');
+var path = require('path');
+var stripJSONComments = require('strip-json-comments');
+
+// Configuration sources in priority order.
+var options = ['package.json', '.jscsrc', '.jscs.json'];
+
+function loadConfig(config, directory) {
+    var configPath = path.resolve(directory, config);
+    var content;
+
+    if (fs.existsSync(configPath)) {
+        if (path.basename(config) === '.jscsrc') {
+            content = JSON.parse(
+                stripJSONComments(
+                    fs.readFileSync(configPath, 'utf8')
+                )
+            );
+        } else {
+            content = require(configPath);
+        }
+
+        // Adding property via Object.defineProperty makes it
+        // non-enumerable and avoids warning for unsupported rules
+        Object.defineProperty(content, 'configPath', {
+            value: configPath
+        });
+    }
+
+    return content && config === 'package.json' ? content.jscsConfig : content;
+}
+
+exports.load = function(config, cwd) {
+    var directory = cwd || process.cwd();
+
+    // If config option is given, attempt to load it and return.
+    if (config) {
+        return loadConfig(config, directory);
+    }
+
+    // If no config option is given, attempt to load config files in order of priority.
+    for (var i = 0, len = options.length; i < len; i++) {
+        var content = loadConfig(options[i], directory);
+
+        if (content) {
+            return content;
+        }
+    }
+};
+*/

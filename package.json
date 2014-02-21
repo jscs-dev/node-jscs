@@ -42,7 +42,8 @@
     "minimatch": "0.2.12",
     "glob": "3.2.7",
     "xmlbuilder": "1.1.2",
-    "strip-json-comments": "0.1.1"
+    "strip-json-comments": "0.1.1",
+    "liftoff": "~0.8.5"
   },
   "devDependencies": {
     "jshint": "2.1.3",
