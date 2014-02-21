@@ -1502,16 +1502,16 @@ JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
 "validateQuoteMarks": "\""
 ```
 ```js
-"validateQuoteMarks": { mark: "\"", escape: true }
+"validateQuoteMarks": { "mark": "\"", "escape": true }
 ```
 
-##### Valid example for mode `{ mark: "\"", escape: true }`
+##### Valid example for mode `{ "mark": "\"", "escape": true }`
 
 ```js
 var x = "x";
 var y = '"x"';
 ```
-##### Invalid example for mode `{ mark: "\"", escape: true }`
+##### Invalid example for mode `{ "mark": "\"", "escape": true }`
 
 ```js
 var x = "x";
