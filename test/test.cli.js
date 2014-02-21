@@ -98,6 +98,7 @@ describe('cli', function() {
             process.stdout.write.restore();
         });
 
+        // Testing pre-defined reporters with names
         glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
             var name = path.match(rname)[1];
 
@@ -129,6 +130,84 @@ describe('cli', function() {
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.then(function(status) {
+                    assert(!status.valueOf());
+
+                    done();
+                });
+            });
+        });
+
+        // Testing reporters with absolute paths
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function (path) {
+            var name = path.match(rname).input;
+
+            it('should return fail exit code for "' + name + '" reporter', function (done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/error.js'],
+                    reporter: name,
+                    config: 'test/data/cli/cli.json'
+                }).promise.fail(function (status) {
+                    assert(status.valueOf());
+
+                    done();
+                });
+            });
+
+            it('should return successful exit code for "' + name + '" reporter', function (done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/success.js'],
+                    reporter: name,
+                    config: 'test/data/cli/cli.json'
+                }).promise.then(function (status) {
+                    assert(!status.valueOf());
+
+                    done();
+                });
+            });
+        });
+
+        // Testing reporters with relative paths
+        glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function (filepath) {
+            var name = 'lib/reporters' + filepath.match(rname)[0];
+
+            it('should return fail exit code for "' + name + '" reporter', function (done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/error.js'],
+                    reporter: name,
+                    config: 'test/data/cli/cli.json'
+                }).promise.fail(function (status) {
+                    assert(status.valueOf());
+
+                    done();
+                });
+            });
+
+            it('should return successful exit code for "' + name + '" reporter', function (done) {
+
+                // Can't do it in beforeEach hook,
+                // because otherwise name of the test would not be printed
+                sinon.stub(process.stdout, 'write');
+
+                cli({
+                    args: ['test/data/cli/success.js'],
+                    reporter: name,
+                    config: 'test/data/cli/cli.json'
+                }).promise.then(function (status) {
                     assert(!status.valueOf());
 
                     done();
