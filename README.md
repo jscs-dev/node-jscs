@@ -450,6 +450,8 @@ JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 ```js
 var x = 1;
 var y = 2;
+
+for (var i = 0, j = arr.length; i < j; i++) {}
 ```
 
 ##### Invalid
@@ -478,17 +480,15 @@ JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 ##### Valid
 
 ```js
-var x = 1;
-var y = 2;
-
-for (var i = 0, j = arr.length; i < j; i++) {}
+var x = 1,
+    y = 2;
 ```
 
 ##### Invalid
 
 ```js
-var x = 1,
-    y = 2;
+var x = 1;
+var y = 2;
 ```
 
 ### requireBlocksOnNewline
