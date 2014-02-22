@@ -448,15 +448,15 @@ JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 ##### Valid
 
 ```js
-var x = 1,
-    y = 2;
+var x = 1;
+var y = 2;
 ```
 
 ##### Invalid
 
 ```js
-var x = 1;
-var y = 2;
+var x = 1,
+    y = 2;
 ```
 
 ### requireMultipleVarDecl
