@@ -16,6 +16,12 @@ program
     .option('-c, --config [path]', 'configuration file path')
     .option('-n, --no-colors', 'clean output without colors')
     .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
+    .option('', 'Also accepts relative or absolute path to custom reporter')
+    .option('', 'For instance:')
+    .option('', '\t  ../some-dir/my-reporter.js\t(relative path with extension)')
+    .option('', '\t  ../some-dir/my-reporter\t(relative path without extension)')
+    .option('', '\t  /path/to/my-reporter.js\t(absolute path with extension)')
+    .option('', '\t  /path/to/my-reporter\t\t(absolute path without extension)')
     .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
     .parse(process.argv);
 
