@@ -302,7 +302,6 @@ var x = 1,
 ```js
 var x = 1;
 var y = 2;
-
 ```
 
 ### disallowEmptyBlocks
