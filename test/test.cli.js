@@ -118,7 +118,7 @@ describe('cli', function() {
         it('should set implicitly set text reporter', function(done) {
             var result = cli({
                 args: ['test/data/cli/error.js'],
-                "no-colors": true,
+                'no-colors': true,
                 config: 'test/data/cli/cli.json'
             });
 
