@@ -4,53 +4,44 @@
   "name": "jscs",
   "version": "1.2.4",
   "main": "lib/checker",
-  "repository": "https://github.com/mdevils/node-jscs",
+  "homepage": "https://github.com/mdevils/node-jscs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdevils/node-jscs"
+  },
+  "bugs": {
+    "url": "https://github.com/mdevils/node-jscs/issues"
+  },
   "contributors": [
-    {
-      "name": "Marat Dulin",
-      "email": "mdevils@yandex.ru"
-    },
-    {
-      "name": "Konstantin Ikonnikov",
-      "email": "ikokostya@gmail.com"
-    },
-    {
-      "name": "Igor Agarlev"
-    },
-    {
-      "name": "Alexey Androsov",
-      "email": "doochik@ya.ru"
-    },
-    {
-      "name": "Oleg Gaidarenko",
-      "email": "markelog@gmail.com"
-    },
-    {
-      "name": "Mike Sherov",
-      "email": "mike.sherov@gmail.com"
-    }
+    "Marat Dulin <mdevils@yandex.ru>",
+    "Konstantin Ikonnikov <ikokostya@gmail.com>",
+    "Igor Agarlev",
+    "Alexey Androsov <doochik@ya.ru>",
+    "Oleg Gaidarenko <markelog@gmail.com>",
+    "Mike Sherov <mike.sherov@gmail.com>"
   ],
   "engines": {
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "esprima": "1.0.3",
-    "vow": "0.3.9",
-    "vow-fs": "0.2.3",
     "colors": "0.6.0-1",
     "commander": "1.2.0",
-    "minimatch": "0.2.12",
+    "esprima": "1.0.3",
     "glob": "3.2.7",
-    "xmlbuilder": "1.1.2",
-    "strip-json-comments": "0.1.1"
+    "minimatch": "0.2.12",
+    "strip-json-comments": "0.1.1",
+    "vow": "0.3.9",
+    "vow-fs": "0.2.3",
+    "xmlbuilder": "1.1.2"
   },
   "devDependencies": {
+    "browserify": "2.35.0",
+    "hooker": "0.2.3",
     "jshint": "2.1.3",
     "mocha": "1.11.0",
-    "browserify": "2.35.0",
-    "xml2js": "0.4.0",
-    "hooker": "0.2.3",
-    "sinon": "1.7.3"
+    "sinon": "1.7.3",
+    "xml2js": "0.4.0"
   },
   "bin": {
     "jscs": "./bin/jscs"
