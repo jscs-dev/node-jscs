@@ -56,7 +56,7 @@ Keeping browser-version alive
 -----------------------------
 
 File `lib/string-checker.js` is used in browserify process, exporting `JscsStringChecker` class.
-`string-checker.js` (and it's dependencies) should not depend on `nodejs` specifics like `fs`,
+`string-checker.js` (and its dependencies) should not depend on `nodejs` specifics like `fs`,
 `process` and so on.
 
 Preparing for a new version
