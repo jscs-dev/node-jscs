@@ -19,7 +19,8 @@ describe('cli', function() {
         process.exit.restore();
     });
 
-    it('should correctly exit if no files specified', function() {        hooker.hook(console, 'error', {
+    it('should correctly exit if no files specified', function() {
+        hooker.hook(console, 'error', {
             pre: function(message) {
                 assert.equal(message, 'No input files specified. Try option --help for usage information.');
 
