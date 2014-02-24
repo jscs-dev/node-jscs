@@ -263,6 +263,8 @@ JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 ```js
 var x = 1;
 var y = 2;
+
+for (var i = 0, j = arr.length; i < j; i++) {}
 ```
 
 ##### Invalid
@@ -301,7 +303,6 @@ var x = 1,
 var x = 1;
 var y = 2;
 
-for (var i = 0, j = arr.length; i < j; i++) {}
 ```
 
 ### disallowEmptyBlocks
