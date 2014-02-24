@@ -94,43 +94,40 @@ describe('cli', function() {
     describe('reporters exit statuses', function() {
         var rname = /\/(\w+)\.js/;
 
-        afterEach(function() {
-            process.stdout.write.restore();
+        beforeEach(function() {
+            sinon.stub(process.stdout, 'write');
         });
+
+        // Can't do it in afterEach hook, because otherwise name of the test would not be printed
+        function rAfter() {
+            process.stdout.write.restore();
+        }
 
         // Testing pre-defined reporters with names
         glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
             var name = path.match(rname)[1];
 
             it('should return fail exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/error.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.fail(function(status) {
                     assert(status.valueOf());
+                    rAfter();
 
                     done();
                 });
             });
 
             it('should return successful exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/success.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.then(function(status) {
                     assert(!status.valueOf());
+                    rAfter();
 
                     done();
                 });
@@ -142,34 +139,26 @@ describe('cli', function() {
             var name = path.match(rname).input;
 
             it('should return fail exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/error.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.fail(function(status) {
                     assert(status.valueOf());
+                    rAfter();
 
                     done();
                 });
             });
 
             it('should return successful exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/success.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.then(function(status) {
                     assert(!status.valueOf());
+                    rAfter();
 
                     done();
                 });
@@ -181,34 +170,26 @@ describe('cli', function() {
             var name = 'lib/reporters' + filepath.match(rname)[0];
 
             it('should return fail exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/error.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.fail(function(status) {
                     assert(status.valueOf());
+                    rAfter();
 
                     done();
                 });
             });
 
             it('should return successful exit code for "' + name + '" reporter', function(done) {
-
-                // Can't do it in beforeEach hook,
-                // because otherwise name of the test would not be printed
-                sinon.stub(process.stdout, 'write');
-
                 cli({
                     args: ['test/data/cli/success.js'],
                     reporter: name,
                     config: 'test/data/cli/cli.json'
                 }).promise.then(function(status) {
                     assert(!status.valueOf());
+                    rAfter();
 
                     done();
                 });
