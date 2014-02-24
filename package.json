@@ -58,5 +58,10 @@
   "scripts": {
     "test": "jshint . && node bin/jscs lib test bin && mocha -u bdd -R spec",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js"
-  }
+  },
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE"
+  ]
 }
