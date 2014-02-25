@@ -8,7 +8,5 @@
     "noarg"    : true,
     "unused"   : true,
     "maxlen"   : 120,
-    "indent"   : 4,
-    "predef"   : ["describe", "it", "beforeEach", "afterEach"],
-    "quotmark" : "single"
+    "predef"   : ["describe", "it", "beforeEach", "afterEach"]
 }
