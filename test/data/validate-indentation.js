@@ -284,6 +284,18 @@ a.b()
     var a;
   }).d.e;
 
+a = function (b, c) {
+  return a(function () {
+    var d = e
+    var f = g
+    var h = i
+
+    if (!j) k('l', (m = n))
+    if (o) p
+    else if (q) r
+  })
+}
+
 var a = function() {
   "b"
     .replace(/a/, "a")
