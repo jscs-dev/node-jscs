@@ -20,6 +20,15 @@ describe('excludeFiles option', function() {
             assert(checker.checkFile('./test/data/configs/excludeFiles/exclude-files.js') === null);
         });
 
+        it('should allow patterns to match filenames starting with a period', function() {
+            checker.configure({
+                excludeFiles: ['test/data/configs/excludeFiles/**'],
+                disallowKeywords: ['with']
+            });
+
+            assert(checker.checkFile('./test/data/configs/excludeFiles/.withdot/error.js') === null);
+        });
+
         it('should resolve pattern to process.cwd', function() {
             checker.configure({
                 excludeFiles: ['test/data/exclude-files.js'],
