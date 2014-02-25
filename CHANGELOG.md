@@ -1,3 +1,18 @@
+Version 1.3.0:
+ * New JSCS config format: `.jscsrc`. JSON-file with comments.
+ * Rule `requireBlocksOnNewline` (@Famlam).
+ * Rule `requireSpacesInAnonymousFunctionExpression` (@jamesallardice).
+ * Rule `disallowSpacesInAnonymousFunctionExpression` (@jamesallardice).
+ * Rule `requireSpacesInNamedFunctionExpression` (@jamesallardice).
+ * Rule `disallowSpacesInNamedFunctionExpression` (@jamesallardice).
+ * Custom path to reporter (@Adeel).
+ * Option `escape` for rule `validateQuote` (@mikesherov).
+ * Fixed `validateIndentation` rule (@mikesherov).
+ * Fixed `excludeFiles` option (@markelog).
+ * CLI/Reporter fixes (@markelog, @am11).
+ * Documentation fixes (@tenorok).
+ * Minor tweaks (@XhmikosR).
+
 Version 1.2.4:
  * Fixed typos.
  * Fixed `validateIndentation` rule.
