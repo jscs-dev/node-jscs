@@ -284,6 +284,11 @@ a.b()
     var a;
   }).d.e;
 
+if (a == 'b') {
+  if (c && d) e = f
+  else g('h').i('j')
+}
+
 a = function (b, c) {
   return a(function () {
     var d = e
