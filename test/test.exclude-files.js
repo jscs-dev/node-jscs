@@ -2,7 +2,7 @@ var Checker = require('../lib/checker');
 var configFile = require('../lib/cli-config');
 var assert = require('assert');
 
-describe('rules/camel-case-options', function() {
+describe('excludeFiles option', function() {
     var checker;
 
     beforeEach(function() {
@@ -13,11 +13,22 @@ describe('rules/camel-case-options', function() {
     describe('use config in script', function() {
         it('should not report any errors', function() {
             checker.configure({
+                excludeFiles: ['test/data/configs/excludeFiles/exclude-files.js'],
+                disallowKeywords: ['with']
+            });
+
+            assert(checker.checkFile('./test/data/configs/excludeFiles/exclude-files.js') === null);
+        });
+
+        it('should resolve pattern to process.cwd', function() {
+            checker.configure({
                 excludeFiles: ['test/data/exclude-files.js'],
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/exclude-files.js') === null);
+            // errors
+            assert(checker.checkFile('./test/data/configs/excludeFiles/script.js') !== null);
+            assert(checker.checkFile('./test/data/configs/excludeFiles/nested/script.js') !== null);
         });
 
         it('should resolve pattern to process.cwd', function() {
