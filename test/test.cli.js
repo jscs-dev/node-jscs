@@ -34,21 +34,6 @@ describe('cli', function() {
         });
     });
 
-    it('should exit if no default config is found', function() {
-        hooker.hook(console, 'error', {
-            pre: function(message) {
-                assert.equal(message, 'Default configuration source was not found.');
-
-                return hooker.preempt();
-            },
-            once: true
-        });
-
-        process.chdir('./test/');
-
-        cli({});
-    });
-
     it('should exit if no custom config is found', function() {
         hooker.hook(console, 'error', {
             pre: function(arg1, arg2, arg3) {
