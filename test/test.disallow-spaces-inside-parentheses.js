@@ -34,7 +34,8 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         assert(checker.checkString('    myFunc(\n        withLongArguments\n    )').isEmpty());
     });
     it('should not report when a comment is present', function() {
-        assert(checker.checkString('function(el /* comment */, i /* comment */) {  }').isEmpty());
+        assert(checker.checkString('function x(el/* comment */, i/* comment */) {  }').isEmpty());
+        assert(checker.checkString('function x(el /* comment */, i /* comment */) {  }').isEmpty());
     });
 
 });
