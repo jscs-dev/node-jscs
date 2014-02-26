@@ -6,7 +6,7 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-		checker.configure({ disallowSpacesInsideParentheses: true });
+        checker.configure({ disallowSpacesInsideParentheses: true });
     });
     it('should report illegal space after opening round bracket', function() {
         assert(checker.checkString('( 1 + 2) * 3').getErrorCount() === 1);
@@ -33,7 +33,7 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
     it('should not report with closing round bracket on new line', function() {
         assert(checker.checkString('    myFunc(\n        withLongArguments\n    )').isEmpty());
     });
-	it('should not report when a comment is present', function() {
+    it('should not report when a comment is present', function() {
         assert(checker.checkString('function(el /* comment */, i /* comment */) {  }').isEmpty());
     });
 
