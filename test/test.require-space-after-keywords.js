@@ -1,7 +1,7 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/require-space-after-keywords', function() {
+describe('rules/require-space-after-keywords', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
