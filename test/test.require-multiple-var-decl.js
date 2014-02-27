@@ -18,7 +18,7 @@ describe('rules/require-multiple-var-decl', function() {
     it('should not report multiple var decl', function() {
         assert(checker.checkString('var x, y;').isEmpty());
     });
-    it('should not report separated var decl', function() {
+    it('should report separated var decl', function() {
         assert(checker.checkString('var x; x++; var y;').getErrorCount() === 1);
     });
     it('should report multiple vars in function', function() {
