@@ -27,4 +27,8 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['catch'] });
         assert(checker.checkString('promise.catch()').isEmpty());
     });
+    it('should trigger error for the funarg with two spaces (#277)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['function'] });
+        assert(checker.checkString('test.each( function  () {})').getErrorCount() === 1);
+    });
 });
