@@ -1,7 +1,7 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-space-after-keywords', function() {
+describe.only('rules/require-space-after-keywords', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
@@ -26,6 +26,10 @@ describe('rules/require-space-after-keywords', function() {
     it('should ignore method name if it\'s a reserved word (#180)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['catch'] });
         assert(checker.checkString('promise.catch()').isEmpty());
+    });
+    it('should trigger error for the funarg (#277)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['function'] });
+        assert(checker.checkString('test.each( stuff, function() {} )').getErrorCount() === 1);
     });
     it('should trigger error for the funarg with two spaces (#277)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['function'] });
