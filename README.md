@@ -435,8 +435,6 @@ Type: `Boolean`
 
 Values: `true`
 
-JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
-
 #### Example
 
 ```js
@@ -466,8 +464,6 @@ Requires multiple `var` declaration.
 Type: `Boolean`
 
 Values: `true`
-
-JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
 #### Example
 
