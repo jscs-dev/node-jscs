@@ -468,6 +468,8 @@ Values: `true` or `onevar`
 if `requireMultipleVarDecl` defined as a `boolean` value, it will report only consecutive vars, if, on the other hand,
 value equals to `onevar` string, `requireMultipleVarDecl` will allow only one `var` per function scope.
 
+JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
+
 #### Example
 
 ```js
