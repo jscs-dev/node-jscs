@@ -1703,6 +1703,36 @@ var foo = "blah blah";
 var foo = "blah blah"; //<-- whitespace character here
 ```
 
+### disallowTrailingComma
+
+Disallows an extra comma following the final element of an array or object literal.
+
+Type: `Boolean`
+
+Values: `true`
+
+JSHint: [`es3`](http://jshint.com/docs/options/#es3)
+
+#### Example
+
+```js
+"disallowTrailingComma": true
+```
+
+##### Valid
+
+```js
+var foo = [1, 2, 3];
+var bar = {a: "a", b: "b"}
+```
+
+##### Invalid
+
+```js
+var foo = [1, 2, 3, ];
+var bar = {a: "a", b: "b", }
+```
+
 ### disallowKeywordsOnNewLine
 
 Disallows placing keywords on a new line.
