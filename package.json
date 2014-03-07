@@ -1,6 +1,6 @@
 {
   "author": "Marat Dulin <mdevils@yandex.ru>",
-  "description": "JavaScript Style Checker",
+  "description": "JavaScript Code Style",
   "name": "jscs",
   "version": "1.3.0",
   "main": "lib/checker",
