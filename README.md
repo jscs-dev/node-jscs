@@ -141,6 +141,101 @@ if(x > y) {
 }
 ```
 
+
+### requireSpaceBeforeBlockStatements
+
+Requires space before block statements (for loops, control structures).
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireSpaceBeforeBlockStatements": true
+```
+
+##### Valid
+
+```js
+if (cond) {
+  foo();
+}
+
+for (var e in elements) {
+  bar(e);
+}
+
+while (cond) {
+  foo();
+}
+```
+
+##### Invalid
+
+```js
+if (cond){
+  foo();
+}
+
+for (var e in elements){
+  bar(e);
+}
+
+while (cond){
+  foo();
+}
+```
+
+
+### disallowSpaceBeforeBlockStatements
+
+Disallows space before block statements (for loops, control structures).
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowSpaceBeforeBlockStatements": true
+```
+
+##### Valid
+
+```js
+if (cond){
+  foo();
+}
+
+for (var e in elements){
+  bar(e);
+}
+
+while (cond){
+  foo();
+}
+```
+
+##### Invalid
+
+```js
+if (cond) {
+  foo();
+}
+
+for (var e in elements) {
+  bar(e);
+}
+
+while (cond) {
+  foo();
+}
+```
+
+
 ### requireParenthesesAroundIIFE
 
 Requires parentheses around immediately invoked function expressions.
