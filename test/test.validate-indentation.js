@@ -19,6 +19,9 @@ describe('rules/validate-indentation', function() {
         errors.forEach(function(error, i) {
             assert(error.line === expectedErrorLines[i], 'did not expect an error on line ' + error.line);
         });
+        expectedErrorLines.forEach(function(line, i) {
+            assert(errors[i] && errors[i].line === line, 'expected an error on line ' + line);
+        });
         assert(expectedErrorLines.length === errors.length);
     }
 
@@ -94,7 +97,8 @@ describe('rules/validate-indentation', function() {
             243,
             244,
             254,
-            270
+            280,
+            281
         ]);
     });
 });

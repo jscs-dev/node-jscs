@@ -267,7 +267,7 @@ aaaaaa(
 a(b, c,
   d, e,
     f, g  // NO ERROR: alignment of arguments of callExpression not checked
-  );  // <-
+  );  // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
 
 a(
   ); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
@@ -276,7 +276,9 @@ aaaaaa(
   b,
   c, {
     d: a
-  }
+  }, {
+      e: f // <-
+    } // <-
 );
 
 a.b()
@@ -313,3 +315,7 @@ var a = function() {
 $(b)
   .on('a', 'b', function() { $(c).e('f') })
   .on('g', 'h', function() { $(i).j('k') });
+
+a
+  .b('c',
+           'd'); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
