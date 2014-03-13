@@ -1,0 +1,8 @@
+<h3><?js= data.rule.longname ?></h3>
+<p>Option name: <code><?js= data.rule.optionName ?></code></p>
+<?js= data.rule.description ?>
+<h4>Examples</h4>
+<?js data.rule.examples.forEach(function(example) { ?>
+<h5><?js= example.caption ?></h5>
+<pre><code class="lang-js"><?js= example.code ?></code></pre>
+<?js }) ?>

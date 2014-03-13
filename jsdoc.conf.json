@@ -1,0 +1,22 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": ["lib/rules", "README.md"],
+        "includePattern": ".+\\.js(doc)?$"
+    },
+    "plugins": [
+        "docs/ruleDef",
+        "plugins/markdown"
+    ],
+    "templates": {
+        "title": "JSCS Reference",
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "opts": {
+        "destination": "./dist/",
+        "template": "docs"
+    }
+}
