@@ -1,9 +1,8 @@
 # node-jscs [![Build Status](https://travis-ci.org/mdevils/node-jscs.png?branch=master)](https://travis-ci.org/mdevils/node-jscs) [![Dependency Status](https://david-dm.org/mdevils/node-jscs.png?theme=shields.io)](https://david-dm.org/mdevils/node-jscs) [![devDependency Status](https://david-dm.org/mdevils/node-jscs/dev-status.png?theme=shields.io)](https://david-dm.org/mdevils/node-jscs#info=devDependencies)
 
-JSCS — JavaScript Code Style.
+JSCS — **J**ava**S**cript **C**ode **S**tyle.
 
-`jscs` is a code style checker. `jscs` can check cases, which are not implemented in jshint,
-but it does not duplicate `jshint` functionality, so you should use `jscs` and `jshint` together.
+`jscs` is a code style checker. You can configure `jscs` for you project in details using **over 60** validation rules. [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) and [Google](https://github.com/mdevils/node-jscs/blob/master/lib/presets/google.json) presets are also available.
 
 ## Friendly packages
 
