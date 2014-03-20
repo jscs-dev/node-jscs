@@ -589,9 +589,9 @@ var y = 2;
 
 Requires blocks to begin and end with a newline
 
-Type: `Boolean`
+Type: `Boolean` or `Integer`
 
-Values: `true`
+Values: `true` validates all non-empty blocks, `Integer` specifies a minimum number of statements in the block before validating.
 
 #### Example
 
@@ -599,7 +599,7 @@ Values: `true`
 "requireBlocksOnNewline": true
 ```
 
-##### Valid
+##### Valid for mode `true`
 
 ```js
 if (true) {
@@ -612,6 +612,23 @@ var abc = function() {};
 
 ```js
 if (true) {doSomething();}
+```
+
+##### Valid for mode `1`
+
+```js
+if (true) {
+    doSomething();
+    doSomethingElse();
+}
+if (true) { doSomething(); }
+var abc = function() {};
+```
+
+##### Invalid
+
+```js
+if (true) { doSomething(); doSomethingElse(); }
 ```
 
 ### disallowEmptyBlocks
