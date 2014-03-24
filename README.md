@@ -2,8 +2,7 @@
 
 JSCS — JavaScript Code Style.
 
-`jscs` is a code style checker. `jscs` can check cases, which are not implemented in jshint,
-but it does not duplicate `jshint` functionality, so you should use `jscs` and `jshint` together.
+`jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules. [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) and [Google](https://github.com/mdevils/node-jscs/blob/master/lib/presets/google.json) presets are also available.
 
 ## Friendly packages
 
