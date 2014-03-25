@@ -631,6 +631,100 @@ var abc = function() {};
 if (true) { doSomething(); doSomethingElse(); }
 ```
 
+### requirePaddingNewlinesInBlock
+
+Requires blocks to begin and end with 2 newlines
+
+Type: `Boolean` or `Integer`
+
+Values: `true` validates all non-empty blocks, `Integer` specifies a minimum number of statements in the block before validating.
+
+#### Example
+
+```js
+"requirePaddingNewlinesInBlock": true
+```
+
+##### Valid for mode `true`
+
+```js
+if (true) {
+
+    doSomething();
+
+}
+var abc = function() {};
+```
+
+##### Invalid
+
+```js
+if (true) {doSomething();}
+if (true) {
+    doSomething();
+}
+```
+
+##### Valid for mode `1`
+
+```js
+if (true) {
+
+    doSomething();
+    doSomethingElse();
+
+}
+if (true) {
+    doSomething();
+}
+if (true) { doSomething(); }
+var abc = function() {};
+```
+
+##### Invalid
+
+```js
+if (true) { doSomething(); doSomethingElse(); }
+if (true) {
+    doSomething();
+    doSomethingElse();
+}
+```
+
+### disallowPaddingNewlinesInBlock
+
+Disallows blocks from beginning and ending with 2 newlines.
+
+Type: `Boolean`
+
+Values: `true` validates all non-empty blocks.
+
+#### Example
+
+```js
+"disallowPaddingNewlinesInBlock": true
+```
+
+##### Valid
+
+```js
+if (true) {
+    doSomething();
+}
+if (true) {doSomething();}
+var abc = function() {};
+```
+
+##### Invalid
+
+```js
+if (true) {
+
+    doSomething();
+
+}
+```
+
 ### disallowEmptyBlocks
 
 Disallows empty blocks (except for catch blocks).
