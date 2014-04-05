@@ -106,7 +106,12 @@ describe('rules/validate-indentation', function() {
             344,
             345,
             351,
-            352
+            352,
+            // holes in arrays indentation
+            357,
+            361,
+            363,
+            365,
         ]);
     });
 });
