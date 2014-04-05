@@ -1,5 +1,4 @@
-!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.JscsStringChecker=e():"undefined"!=typeof global?global.JscsStringChecker=e():"undefined"!=typeof self&&(self.JscsStringChecker=e())}(function(){var define,module,exports;
-return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.JscsStringChecker=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var colors = require('colors');
 
 /**
@@ -64,7 +63,7 @@ Errors.prototype = {
      *
      * @returns {Number}
      */
-    getErrorCount: function () {
+    getErrorCount: function() {
         return this._errorList.length;
     },
 
@@ -160,7 +159,7 @@ function renderPointer(column, colorize) {
 
 module.exports = Errors;
 
-},{"colors":64}],2:[function(require,module,exports){
+},{"colors":73}],2:[function(require,module,exports){
 var treeIterator = require('./tree-iterator');
 
 /**
@@ -185,6 +184,19 @@ var JsFile = function(filename, source, tree) {
             }
         }
     });
+
+    // Temporary fix (i hope) for esprima tokenizer
+    // (https://code.google.com/p/esprima/issues/detail?id=481)
+    // Fixes #83, #180
+    this._tree.tokens.forEach(function(token, index) {
+        if (index && token.type === 'Keyword') {
+
+            var previous = this[index - 1].value;
+            if (previous === ',' || previous === '{' || previous === '.') {
+                token.type = 'Identifier';
+            }
+        }
+    }, this._tree.tokens);
 };
 
 JsFile.prototype = {
@@ -319,7 +331,7 @@ JsFile.prototype = {
 
 module.exports = JsFile;
 
-},{"./tree-iterator":59}],3:[function(require,module,exports){
+},{"./tree-iterator":66}],3:[function(require,module,exports){
 module.exports={
     "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
     "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
@@ -332,11 +344,11 @@ module.exports={
     "requireMultipleVarDecl": true,
     "requireSpacesInsideObjectBrackets": "all",
     "requireSpacesInsideArrayBrackets": "all",
-    "disallowLeftStickedOperators": [ "?", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
-    "disallowRightStickedOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!=="],
-    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-"],
-    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+    "disallowLeftStickedOperators": [ "?" ],
+    "disallowRightStickedOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
+    "requireSpaceBeforeBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
+    "disallowSpaceAfterPrefixUnaryOperators": [ "++", "--", "+", "-" ],
+    "disallowSpaceBeforePostfixUnaryOperators": [ "++", "--" ],
     "requireRightStickedOperators": [ "!" ],
     "requireLeftStickedOperators": [ "," ],
     "disallowKeywords": [ "with" ],
@@ -365,7 +377,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowCommaBeforeLineBreak';
     },
 
@@ -386,7 +398,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],5:[function(require,module,exports){
+},{"assert":68}],5:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -410,7 +422,7 @@ module.exports.prototype = {
         };
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowDanglingUnderscores';
     },
 
@@ -433,7 +445,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],6:[function(require,module,exports){
+},{"assert":68}],6:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -451,7 +463,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowEmptyBlocks';
     },
 
@@ -468,7 +480,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],7:[function(require,module,exports){
+},{"assert":68}],7:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -483,14 +495,14 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowImplicitTypeConversion';
     },
 
     check: function(file, errors) {
         var types = this._typeIndex;
         if (types.numeric || types.boolean || types.binary) {
-            file.iterateNodesByType('UnaryExpression', function (node) {
+            file.iterateNodesByType('UnaryExpression', function(node) {
                 if (types.numeric && node.operator === '+') {
                     errors.add('Implicit numeric conversion', node.loc.start);
                 }
@@ -507,7 +519,7 @@ module.exports.prototype = {
             });
         }
         if (types.string) {
-            file.iterateNodesByType('BinaryExpression', function (node) {
+            file.iterateNodesByType('BinaryExpression', function(node) {
                 if (node.operator === '+' && (
                         (node.left.type === 'Literal' && node.left.value === '') ||
                         (node.right.type === 'Literal' && node.right.value === '')
@@ -521,7 +533,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],8:[function(require,module,exports){
+},{"assert":68}],8:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -536,7 +548,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowKeywordsOnNewLine';
     },
 
@@ -559,7 +571,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],9:[function(require,module,exports){
+},{"assert":68}],9:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -574,7 +586,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowKeywords';
     },
 
@@ -593,7 +605,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],10:[function(require,module,exports){
+},{"assert":68}],10:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -608,7 +620,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowLeftStickedOperators';
     },
 
@@ -630,7 +642,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],11:[function(require,module,exports){
+},{"assert":68}],11:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -646,7 +658,7 @@ module.exports.prototype = {
         this._disallowMixedSpacesAndTabs = disallowMixedSpacesAndTabs;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowMixedSpacesAndTabs';
     },
 
@@ -671,18 +683,11 @@ module.exports.prototype = {
                 if (comment.type === 'Line') {
                     lines[startIndex] = lines[startIndex].substring(0, start.column);
                 } else if (start.line !== end.line) {
-                    // docblocks have a star as their first character
-                    // and should *NOT* remove the star on subsequent lines
-                    // to cause the regex to not catch an error: \t [^\*]
-                    // but regular multilines should remove the star to catch an error
-                    var substringOffset = comment.value.indexOf('*') === 0 ? 2 : 1;
-
                     for (var x = startIndex; x < end.line; x++) {
                         // remove all multine content to the right of the star
                         var starPos = lines[x].search(/ \*/);
                         if (starPos > -1) {
-                            starPos += substringOffset;
-                            lines[x] = lines[x].substring(0, starPos);
+                            lines[x] = lines[x].substring(0, starPos + 2);
                         }
                     }
                 }
@@ -698,7 +703,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],12:[function(require,module,exports){
+},{"assert":68}],12:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -716,7 +721,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowMultipleLineBreaks';
     },
 
@@ -733,7 +738,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],13:[function(require,module,exports){
+},{"assert":68}],13:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -751,7 +756,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowMultipleLineStrings';
     },
 
@@ -769,7 +774,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],14:[function(require,module,exports){
+},{"assert":68}],14:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -787,12 +792,12 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowMultipleVarDecl';
     },
 
     check: function(file, errors) {
-        file.iterateNodesByType('VariableDeclaration', function (node) {
+        file.iterateNodesByType('VariableDeclaration', function(node) {
             // allow multiple var declarations in for statement
             // for (var i = 0, j = myArray.length; i < j; i++) {}
             if (node.declarations.length > 1 && node.parentNode.type !== 'ForStatement') {
@@ -803,7 +808,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],15:[function(require,module,exports){
+},{"assert":68}],15:[function(require,module,exports){
 var assert = require('assert');
 var utils = require('../utils');
 
@@ -848,7 +853,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":60,"assert":62}],16:[function(require,module,exports){
+},{"../utils":67,"assert":68}],16:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -863,7 +868,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowRightStickedOperators';
     },
 
@@ -885,7 +890,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],17:[function(require,module,exports){
+},{"assert":68}],17:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -901,7 +906,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowSpaceAfterBinaryOperators';
     },
 
@@ -909,7 +914,7 @@ module.exports.prototype = {
         var operators = this._operatorIndex;
 
         // 2 + 2, 2 == 2
-        file.iterateNodesByType(['BinaryExpression'], function (node) {
+        file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
                 // get token before right part of expression
                 var tokenBeforeRightPart = tokenHelper.getTokenByRangeStart(file, node.right.range[0] - 1, true);
@@ -926,7 +931,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":58,"assert":62}],18:[function(require,module,exports){
+},{"../token-helper":65,"assert":68}],18:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -941,7 +946,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowSpaceAfterKeywords';
     },
 
@@ -964,7 +969,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],19:[function(require,module,exports){
+},{"assert":68}],19:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1002,7 +1007,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],20:[function(require,module,exports){
+},{"assert":68}],20:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1017,7 +1022,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowSpaceAfterPrefixUnaryOperators';
     },
 
@@ -1025,7 +1030,7 @@ module.exports.prototype = {
         var operatorIndex = this._operatorIndex;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function (node) {
+        file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function(node) {
             // Check "node.prefix" for prefix type of (inc|dec)rement
             if (node.prefix && operatorIndex[node.operator]) {
                 var operatorTokenIndex = file.getTokenPosByRangeStart(node.range[0]);
@@ -1039,7 +1044,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":62}],21:[function(require,module,exports){
+},{"assert":68}],21:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -1055,7 +1060,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowSpaceBeforeBinaryOperators';
     },
 
@@ -1063,7 +1068,7 @@ module.exports.prototype = {
         var operators = this._operatorIndex;
 
         // 2 + 2, 2 == 2
-        file.iterateNodesByType(['BinaryExpression'], function (node) {
+        file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
                 // get token after left part of expression
                 var tokenAfterLeftPart = tokenHelper.getTokenByRangeStart(file, node.left.range[1]);
@@ -1080,7 +1085,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":58,"assert":62}],22:[function(require,module,exports){
+},{"../token-helper":65,"assert":68}],22:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1095,7 +1100,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowSpaceBeforePostfixUnaryOperators';
     },
 
@@ -1104,7 +1109,7 @@ module.exports.prototype = {
         var tokens = file.getTokens();
 
         // 'UpdateExpression' involve only ++ and -- operators
-        file.iterateNodesByType('UpdateExpression', function (node) {
+        file.iterateNodesByType('UpdateExpression', function(node) {
             // "!node.prefix" means postfix type of (inc|dec)rement
             if (!node.prefix && operatorIndex[node.operator]) {
                 var operatorStartPos = node.range[1] - node.operator.length;
@@ -1119,7 +1124,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":62}],23:[function(require,module,exports){
+},{"assert":68}],23:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1128,13 +1133,13 @@ module.exports.prototype = {
     configure: function(options) {
         assert(
             typeof options === 'object',
-            'disallowSpacesInFunctionExpression option must be the object'
+            'disallowSpacesInAnonymousFunctionExpression option must be the object'
         );
 
         if ('beforeOpeningRoundBrace' in options) {
             assert(
                 options.beforeOpeningRoundBrace === true,
-                'disallowSpacesInFunctionExpression.beforeOpeningRoundBrace ' +
+                'disallowSpacesInAnonymousFunctionExpression.beforeOpeningRoundBrace ' +
                 'property requires true value or should be removed'
             );
         }
@@ -1142,22 +1147,23 @@ module.exports.prototype = {
         if ('beforeOpeningCurlyBrace' in options) {
             assert(
                 options.beforeOpeningCurlyBrace === true,
-                'disallowSpacesInFunctionExpression.beforeOpeningCurlyBrace ' +
+                'disallowSpacesInAnonymousFunctionExpression.beforeOpeningCurlyBrace ' +
                 'property requires true value or should be removed'
             );
         }
 
         assert(
             options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
-            'disallowSpacesInFunctionExpression must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+            'disallowSpacesInAnonymousFunctionExpression must have beforeOpeningCurlyBrace ' +
+            ' or beforeOpeningRoundBrace property'
         );
 
         this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
         this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
     },
 
-    getOptionName: function () {
-        return 'disallowSpacesInFunctionExpression';
+    getOptionName: function() {
+        return 'disallowSpacesInAnonymousFunctionExpression';
     },
 
     check: function(file, errors) {
@@ -1165,7 +1171,92 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function (node) {
+        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+
+            // anonymous function expressions only
+            if (!node.id) {
+
+                if (beforeOpeningRoundBrace) {
+                    var nodeBeforeRoundBrace = node;
+
+                    var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                    var functionToken = tokens[functionTokenPos];
+
+                    var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                    var nextToken = tokens[nextTokenPos];
+
+                    if (!nextToken) {
+                        errors.add(
+                            'Illegal space before opening round brace',
+                            functionToken.loc.start
+                        );
+                    }
+                }
+
+                if (beforeOpeningCurlyBrace) {
+                    var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                    var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                    if (!tokenBeforeBody) {
+                        errors.add(
+                            'Illegal space before opening curly brace',
+                            node.body.loc.start
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],24:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'disallowSpacesInFunctionDeclaration option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'disallowSpacesInFunctionDeclaration.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'disallowSpacesInFunctionDeclaration.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'disallowSpacesInFunctionDeclaration must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'disallowSpacesInFunctionDeclaration';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionDeclaration' ], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -1204,7 +1295,178 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],24:[function(require,module,exports){
+},{"assert":68}],25:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'disallowSpacesInFunctionExpression option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'disallowSpacesInFunctionExpression.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'disallowSpacesInFunctionExpression.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'disallowSpacesInFunctionExpression must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'disallowSpacesInFunctionExpression';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function(node) {
+
+            if (beforeOpeningRoundBrace) {
+                var nodeBeforeRoundBrace = node;
+                // named function
+                if (node.id) {
+                    nodeBeforeRoundBrace = node.id;
+                }
+
+                var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                var functionToken = tokens[functionTokenPos];
+
+                var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                var nextToken = tokens[nextTokenPos];
+
+                if (!nextToken) {
+                    errors.add(
+                        'Illegal space before opening round brace',
+                        functionToken.loc.start
+                    );
+                }
+            }
+
+            if (beforeOpeningCurlyBrace) {
+                var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                if (!tokenBeforeBody) {
+                    errors.add(
+                        'Illegal space before opening curly brace',
+                        node.body.loc.start
+                    );
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],26:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'disallowSpacesInNamedFunctionExpression option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'disallowSpacesInNamedFunctionExpression.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'disallowSpacesInNamedFunctionExpression.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'disallowSpacesInNamedFunctionExpression must have beforeOpeningCurlyBrace ' +
+            'or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'disallowSpacesInNamedFunctionExpression';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+
+            // named function expressions only
+            if (node.id) {
+
+                if (beforeOpeningRoundBrace) {
+                    var nodeBeforeRoundBrace = node.id;
+
+                    var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                    var functionToken = tokens[functionTokenPos];
+
+                    var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                    var nextToken = tokens[nextTokenPos];
+
+                    if (!nextToken) {
+                        errors.add(
+                            'Illegal space before opening round brace',
+                            functionToken.loc.start
+                        );
+                    }
+                }
+
+                if (beforeOpeningCurlyBrace) {
+                    var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                    var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                    if (!tokenBeforeBody) {
+                        errors.add(
+                            'Illegal space before opening curly brace',
+                            node.body.loc.start
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],27:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1254,7 +1516,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],25:[function(require,module,exports){
+},{"assert":68}],28:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1304,7 +1566,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],26:[function(require,module,exports){
+},{"assert":68}],29:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1348,7 +1610,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],27:[function(require,module,exports){
+},{"assert":68}],30:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1366,7 +1628,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowTrailingWhitespace';
     },
 
@@ -1381,7 +1643,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],28:[function(require,module,exports){
+},{"assert":68}],31:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1409,13 +1671,13 @@ module.exports.prototype = {
         };
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'disallowYodaConditions';
     },
 
     check: function(file, errors) {
         var operators = this._operatorIndex;
-        file.iterateNodesByType('BinaryExpression', function (node) {
+        file.iterateNodesByType('BinaryExpression', function(node) {
             if (operators[node.operator]) {
                 if (node.left.type === 'Literal' ||
                     (node.left.type === 'Identifier' && node.left.name === 'undefined')
@@ -1428,7 +1690,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],29:[function(require,module,exports){
+},{"assert":68}],32:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1444,7 +1706,7 @@ module.exports.prototype = {
         this._maximumLineLength = maximumLineLength;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'maximumLineLength';
     },
 
@@ -1461,7 +1723,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],30:[function(require,module,exports){
+},{"assert":68}],33:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1522,7 +1784,57 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],31:[function(require,module,exports){
+},{"assert":68}],34:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+
+    configure: function(requireBlocksOnNewline) {
+        assert(
+            typeof requireBlocksOnNewline === 'boolean',
+            'requireBlocksOnNewline option requires boolean value'
+        );
+        assert(
+            requireBlocksOnNewline === true,
+            'requireBlocksOnNewline option requires true value or should be removed'
+        );
+    },
+
+    getOptionName: function() {
+        return 'requireBlocksOnNewline';
+    },
+
+    check: function(file, errors) {
+        file.iterateNodesByType('BlockStatement', function(node) {
+            if (node.body.length === 0) {
+                // Do not warn for empty blocks, such as empty function declarations
+                return;
+            }
+            var tokens = file.getTokens();
+            var openingBracketPos = file.getTokenPosByRangeStart(node.range[0]);
+
+            var openingBracket = tokens[openingBracketPos];
+            var nextToken = tokens[openingBracketPos + 1];
+
+            if (openingBracket.loc.start.line === nextToken.loc.start.line) {
+                errors.add('Missing newline after opening curly brace', openingBracket.loc.end);
+            }
+
+            var closingBracketPos = file.getTokenPosByRangeStart(node.range[1] - 1);
+            var closingBracket = tokens[closingBracketPos];
+            var prevToken = tokens[closingBracketPos - 1];
+
+            if (closingBracket.loc.start.line === prevToken.loc.start.line) {
+                errors.add('Missing newline before closing curly brace', prevToken.loc.end);
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],35:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1540,7 +1852,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireCamelCaseOrUpperCaseIdentifiers';
     },
 
@@ -1559,7 +1871,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],32:[function(require,module,exports){
+},{"assert":68}],36:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1577,7 +1889,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireCapitalizedConstructors';
     },
 
@@ -1597,7 +1909,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],33:[function(require,module,exports){
+},{"assert":68}],37:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1615,7 +1927,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireCommaBeforeLineBreak';
     },
 
@@ -1636,7 +1948,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],34:[function(require,module,exports){
+},{"assert":68}],38:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1651,7 +1963,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireCurlyBraces';
     },
 
@@ -1666,7 +1978,7 @@ module.exports.prototype = {
         }
 
         function checkBody(type, typeString) {
-            file.iterateNodesByType(type, function (node) {
+            file.iterateNodesByType(type, function(node) {
                 if (node.body && node.body.type !== 'BlockStatement') {
                     addError(typeString, node);
                 }
@@ -1675,7 +1987,7 @@ module.exports.prototype = {
 
         var typeIndex = this._typeIndex;
         if (typeIndex['if'] || typeIndex['else']) {
-            file.iterateNodesByType('IfStatement', function (node) {
+            file.iterateNodesByType('IfStatement', function(node) {
                 if (typeIndex.if && node.consequent && node.consequent.type !== 'BlockStatement') {
                     addError('If', node);
                 }
@@ -1688,7 +2000,7 @@ module.exports.prototype = {
             });
         }
         if (typeIndex['case'] || typeIndex['default']) {
-            file.iterateNodesByType('SwitchCase', function (node) {
+            file.iterateNodesByType('SwitchCase', function(node) {
                 // empty case statement
                 if (!node.consequent || node.consequent.length === 0) {
                     return;
@@ -1721,7 +2033,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],35:[function(require,module,exports){
+},{"assert":68}],39:[function(require,module,exports){
 var assert = require('assert');
 var utils = require('../utils');
 
@@ -1775,7 +2087,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":60,"assert":62}],36:[function(require,module,exports){
+},{"../utils":67,"assert":68}],40:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1790,7 +2102,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireKeywordsOnNewLine';
     },
 
@@ -1813,7 +2125,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],37:[function(require,module,exports){
+},{"assert":68}],41:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1828,7 +2140,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireLeftStickedOperators';
     },
 
@@ -1850,7 +2162,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],38:[function(require,module,exports){
+},{"assert":68}],42:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1868,7 +2180,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireLineFeedAtFileEnd';
     },
 
@@ -1881,7 +2193,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],39:[function(require,module,exports){
+},{"assert":68}],43:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1898,12 +2210,12 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireMultipleVarDecl';
     },
 
     check: function(file, errors) {
-        file.iterateNodesByType('VariableDeclaration', function (node) {
+        file.iterateNodesByType('VariableDeclaration', function(node) {
             var pos = node.parentCollection.indexOf(node);
             if (pos < node.parentCollection.length - 1) {
                 var sibling = node.parentCollection[pos + 1];
@@ -1919,7 +2231,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],40:[function(require,module,exports){
+},{"assert":68}],44:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1934,7 +2246,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireOperatorBeforeLineBreak';
     },
 
@@ -1956,7 +2268,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],41:[function(require,module,exports){
+},{"assert":68}],45:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -1974,7 +2286,7 @@ module.exports.prototype = {
         );
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireParenthesesAroundIIFE';
     },
 
@@ -1988,7 +2300,7 @@ module.exports.prototype = {
             return tokens[openingToken - 1].value + tokens[closingToken + 1].value === '()';
         }
 
-        file.iterateNodesByType('CallExpression', function (node) {
+        file.iterateNodesByType('CallExpression', function(node) {
             var callee = node.callee;
             var outer = node;
             var inner;
@@ -2018,7 +2330,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],42:[function(require,module,exports){
+},{"assert":68}],46:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2033,7 +2345,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireRightStickedOperators';
     },
 
@@ -2055,7 +2367,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],43:[function(require,module,exports){
+},{"assert":68}],47:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -2071,7 +2383,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireSpaceAfterBinaryOperators';
     },
 
@@ -2079,7 +2391,7 @@ module.exports.prototype = {
         var operators = this._operatorIndex;
 
         // 2 + 2, 2 == 2
-        file.iterateNodesByType(['BinaryExpression'], function (node) {
+        file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
                 // get token before right part of expression
                 var tokenBeforeRightPart = tokenHelper.getTokenByRangeStart(file, node.right.range[0] - 1, true);
@@ -2096,7 +2408,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":58,"assert":62}],44:[function(require,module,exports){
+},{"../token-helper":65,"assert":68}],48:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2111,7 +2423,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireSpaceAfterKeywords';
     },
 
@@ -2136,7 +2448,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],45:[function(require,module,exports){
+},{"assert":68}],49:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2174,7 +2486,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],46:[function(require,module,exports){
+},{"assert":68}],50:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2189,7 +2501,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireSpaceAfterPrefixUnaryOperators';
     },
 
@@ -2197,7 +2509,7 @@ module.exports.prototype = {
         var operatorIndex = this._operatorIndex;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function (node) {
+        file.iterateNodesByType(['UnaryExpression', 'UpdateExpression'], function(node) {
             // Check "node.prefix" for prefix type of (inc|dec)rement
             if (node.prefix && operatorIndex[node.operator]) {
                 var operatorTokenIndex = file.getTokenPosByRangeStart(node.range[0]);
@@ -2211,7 +2523,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":62}],47:[function(require,module,exports){
+},{"assert":68}],51:[function(require,module,exports){
 var assert = require('assert');
 var tokenHelper = require('../token-helper');
 
@@ -2227,7 +2539,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireSpaceBeforeBinaryOperators';
     },
 
@@ -2235,7 +2547,7 @@ module.exports.prototype = {
         var operators = this._operatorIndex;
 
         // 2 + 2, 2 == 2
-        file.iterateNodesByType(['BinaryExpression'], function (node) {
+        file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
                 // get token after left part of expression
                 var tokenAfterLeftPart = tokenHelper.getTokenByRangeStart(file, node.left.range[1]);
@@ -2252,7 +2564,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":58,"assert":62}],48:[function(require,module,exports){
+},{"../token-helper":65,"assert":68}],52:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2267,7 +2579,7 @@ module.exports.prototype = {
         }
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'requireSpaceBeforePostfixUnaryOperators';
     },
 
@@ -2276,7 +2588,7 @@ module.exports.prototype = {
         var tokens = file.getTokens();
 
         // 'UpdateExpression' involve only ++ and -- operators
-        file.iterateNodesByType('UpdateExpression', function (node) {
+        file.iterateNodesByType('UpdateExpression', function(node) {
             // "!node.prefix" means postfix type of (inc|dec)rement
             if (!node.prefix && operatorIndex[node.operator]) {
                 var operatorStartPos = node.range[1] - node.operator.length;
@@ -2291,7 +2603,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":62}],49:[function(require,module,exports){
+},{"assert":68}],53:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2300,13 +2612,13 @@ module.exports.prototype = {
     configure: function(options) {
         assert(
             typeof options === 'object',
-            'requireSpacesInFunctionExpression option must be the object'
+            'requireSpacesInAnonymousFunctionExpression option must be the object'
         );
 
         if ('beforeOpeningRoundBrace' in options) {
             assert(
                 options.beforeOpeningRoundBrace === true,
-                'requireSpacesInFunctionExpression.beforeOpeningRoundBrace ' +
+                'requireSpacesInAnonymousFunctionExpression.beforeOpeningRoundBrace ' +
                 'property requires true value or should be removed'
             );
         }
@@ -2314,22 +2626,23 @@ module.exports.prototype = {
         if ('beforeOpeningCurlyBrace' in options) {
             assert(
                 options.beforeOpeningCurlyBrace === true,
-                'requireSpacesInFunctionExpression.beforeOpeningCurlyBrace ' +
+                'requireSpacesInAnonymousFunctionExpression.beforeOpeningCurlyBrace ' +
                 'property requires true value or should be removed'
             );
         }
 
         assert(
             options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
-            'requireSpacesInFunctionExpression must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+            'requireSpacesInAnonymousFunctionExpression must have beforeOpeningCurlyBrace ' +
+            ' or beforeOpeningRoundBrace property'
         );
 
         this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
         this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
     },
 
-    getOptionName: function () {
-        return 'requireSpacesInFunctionExpression';
+    getOptionName: function() {
+        return 'requireSpacesInAnonymousFunctionExpression';
     },
 
     check: function(file, errors) {
@@ -2337,7 +2650,91 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function (node) {
+        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+
+            if (!node.id) {
+
+                if (beforeOpeningRoundBrace) {
+                    var nodeBeforeRoundBrace = node;
+
+                    var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                    var functionToken = tokens[functionTokenPos];
+
+                    var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                    var nextToken = tokens[nextTokenPos];
+
+                    if (nextToken) {
+                        errors.add(
+                            'Missing space before opening round brace',
+                            nextToken.loc.start
+                        );
+                    }
+                }
+
+                if (beforeOpeningCurlyBrace) {
+                    var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                    var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                    if (tokenBeforeBody) {
+                        errors.add(
+                            'Missing space before opening curly brace',
+                            tokenBeforeBody.loc.start
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],54:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'requireSpacesInFunctionDeclaration option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'requireSpacesInFunctionDeclaration.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'requireSpacesInFunctionDeclaration.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'requireSpacesInFunctionDeclaration must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'requireSpacesInFunctionDeclaration';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionDeclaration' ], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -2376,7 +2773,177 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],50:[function(require,module,exports){
+},{"assert":68}],55:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'requireSpacesInFunctionExpression option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'requireSpacesInFunctionExpression.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'requireSpacesInFunctionExpression.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'requireSpacesInFunctionExpression must have beforeOpeningCurlyBrace or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'requireSpacesInFunctionExpression';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function(node) {
+
+            if (beforeOpeningRoundBrace) {
+                var nodeBeforeRoundBrace = node;
+                // named function
+                if (node.id) {
+                    nodeBeforeRoundBrace = node.id;
+                }
+
+                var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                var functionToken = tokens[functionTokenPos];
+
+                var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                var nextToken = tokens[nextTokenPos];
+
+                if (nextToken) {
+                    errors.add(
+                        'Missing space before opening round brace',
+                        nextToken.loc.start
+                    );
+                }
+            }
+
+            if (beforeOpeningCurlyBrace) {
+                var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                if (tokenBeforeBody) {
+                    errors.add(
+                        'Missing space before opening curly brace',
+                        tokenBeforeBody.loc.start
+                    );
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],56:[function(require,module,exports){
+var assert = require('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        assert(
+            typeof options === 'object',
+            'requireSpacesInNamedFunctionExpression option must be the object'
+        );
+
+        if ('beforeOpeningRoundBrace' in options) {
+            assert(
+                options.beforeOpeningRoundBrace === true,
+                'requireSpacesInNamedFunctionExpression.beforeOpeningRoundBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        if ('beforeOpeningCurlyBrace' in options) {
+            assert(
+                options.beforeOpeningCurlyBrace === true,
+                'requireSpacesInNamedFunctionExpression.beforeOpeningCurlyBrace ' +
+                'property requires true value or should be removed'
+            );
+        }
+
+        assert(
+            options.beforeOpeningCurlyBrace || options.beforeOpeningRoundBrace,
+            'requireSpacesInNamedFunctionExpression must have beforeOpeningCurlyBrace ' +
+            'or beforeOpeningRoundBrace property'
+        );
+
+        this._beforeOpeningRoundBrace = Boolean(options.beforeOpeningRoundBrace);
+        this._beforeOpeningCurlyBrace = Boolean(options.beforeOpeningCurlyBrace);
+    },
+
+    getOptionName: function() {
+        return 'requireSpacesInNamedFunctionExpression';
+    },
+
+    check: function(file, errors) {
+        var beforeOpeningRoundBrace = this._beforeOpeningRoundBrace;
+        var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+
+            if (node.id) {
+
+                if (beforeOpeningRoundBrace) {
+                    var nodeBeforeRoundBrace = node.id;
+
+                    var functionTokenPos = file.getTokenPosByRangeStart(nodeBeforeRoundBrace.range[0]);
+                    var functionToken = tokens[functionTokenPos];
+
+                    var nextTokenPos = file.getTokenPosByRangeStart(functionToken.range[1]);
+                    var nextToken = tokens[nextTokenPos];
+
+                    if (nextToken) {
+                        errors.add(
+                            'Missing space before opening round brace',
+                            nextToken.loc.start
+                        );
+                    }
+                }
+
+                if (beforeOpeningCurlyBrace) {
+                    var tokenBeforeBodyPos = file.getTokenPosByRangeStart(node.body.range[0] - 1);
+                    var tokenBeforeBody = tokens[tokenBeforeBodyPos];
+
+                    if (tokenBeforeBody) {
+                        errors.add(
+                            'Missing space before opening curly brace',
+                            tokenBeforeBody.loc.start
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+};
+
+},{"assert":68}],57:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2438,7 +3005,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],51:[function(require,module,exports){
+},{"assert":68}],58:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2498,39 +3065,41 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],52:[function(require,module,exports){
+},{"assert":68}],59:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
 
 module.exports.prototype = {
 
-    configure: function(keyword) {
-        assert(typeof keyword === 'string', 'safeContextKeyword option requires string value');
+    configure: function(keywords) {
+        assert(
+            typeof keywords === 'string' ||
+            typeof Array.isArray(keywords),
+            'safeContextKeyword option requires string or array value'
+        );
 
-        this._keyword = keyword;
+        this._keywords = keywords;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'safeContextKeyword';
     },
 
     check: function(file, errors) {
-        var keyword = this._keyword;
+        var keywords = typeof this._keywords === 'string' ? [ this._keywords ] : this._keywords;
 
         // var that = this
-        file.iterateNodesByType('VariableDeclaration', function (node) {
-
+        file.iterateNodesByType('VariableDeclaration', function(node) {
             for (var i = 0; i < node.declarations.length; i++) {
                 var decl = node.declarations[i];
 
-                if (
-                    // decl.init === null in case of "var foo;"
-                    decl.init &&
-                    (decl.init.type === 'ThisExpression' && decl.id.name !== keyword)
+                // decl.init === null in case of "var foo;"
+                if (decl.init &&
+                    (decl.init.type === 'ThisExpression' && checkKeywords(decl.id.name, keywords))
                 ) {
                     errors.add(
-                        'You should use "' + keyword + '" to safe "this"',
+                        'You should use "' + keywords.join('" or "') + '"save a reference to "this"',
                         node.loc.start
                     );
                 }
@@ -2538,24 +3107,39 @@ module.exports.prototype = {
         });
 
         // that = this
-        file.iterateNodesByType('AssignmentExpression', function (node) {
+        file.iterateNodesByType('AssignmentExpression', function(node) {
 
             if (
                 // filter property assignments "foo.bar = this"
                 node.left.type === 'Identifier' &&
-                (node.right.type === 'ThisExpression' && node.left.name !== keyword)
+                (node.right.type === 'ThisExpression' && checkKeywords(node.left.name, keywords))
             ) {
                 errors.add(
-                    'You should use "' + keyword + '" to safe "this"',
+                    'You should use "' + keywords.join('" or "') + '"save a reference to "this"',
                     node.loc.start
                 );
             }
         });
     }
-
 };
 
-},{"assert":62}],53:[function(require,module,exports){
+/**
+ * Check if at least one keyword equals to passed name
+ * @param {String} name
+ * @param {Array} keywords
+ * @return {Boolean}
+ */
+function checkKeywords(name, keywords) {
+    for (var i = 0; i < keywords.length; i++) {
+        if (name === keywords[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+},{"assert":68}],60:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2579,13 +3163,16 @@ module.exports.prototype = {
 
         this._indentableNodes = {
             BlockStatement: 'body',
+            Program: 'body',
             ObjectExpression: 'properties',
             ArrayExpression: 'elements',
-            SwitchStatement: 'cases'
+            CallExpression: 'arguments',
+            SwitchStatement: 'cases',
+            SwitchCase: 'consequent'
         };
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'validateIndentation';
     },
 
@@ -2624,195 +3211,168 @@ module.exports.prototype = {
             return node.loc.start.line !== node.loc.end.line;
         }
 
-        function getIndentableParent(node) {
-            var parent = node.parentNode;
-
-            if (parent.type === 'Property' && parent.parentNode.type === 'ObjectExpression') {
-                return parent.parentNode;
-            }
-
-            return parent;
-        }
-
-        function isSameLineAsIndentableParent(node) {
-            var parent = getIndentableParent(node);
-
-            return indentableNodes[parent.type] &&
-                node.loc.start.line === parent.loc.start.line;
-        }
-
-        function getIndent(i) {
-            return new Array(getLengthFromIndentation(i) + 1).join(indentChar);
-        }
-
-        function getLengthFromIndentation(i) {
-            return indentSize * lineIndentation[i];
-        }
-
         function getIndentationFromLine(i) {
             var rNotIndentChar = new RegExp('[^' + indentChar + ']');
             var firstContent = Math.max(lines[i].search(rNotIndentChar), 0);
-            return firstContent / indentSize;
+            return firstContent;
         }
 
-        function markLinesToCheck(node, childrenProperty) {
-            var children = node[childrenProperty];
+        function markPop(node, indents, popAfter) {
+            var loc = node.loc;
+            if ( popAfter ) {
+                linesToCheck[loc.end.line - 1].popAfter = true;
+            } else {
+                linesToCheck[loc.end.line - 1].pop = indents;
+            }
+        }
+
+        function markPushAndCheck(pushNode, indents) {
+            linesToCheck[pushNode.loc.start.line - 1].push = indents;
+            linesToCheck[pushNode.loc.end.line - 1].check = true;
+        }
+
+        function markChildren(node) {
+            var childrenProperty = indentableNodes[node.type],
+                children = node[childrenProperty];
 
             children.forEach(function(childNode) {
-                linesToCheck[childNode.loc.start.line - 1] = true;
+                linesToCheck[childNode.loc.start.line - 1].check = true;
             });
-
-            linesToCheck[node.parentNode.loc.start.line - 1] = true;
-            linesToCheck[node.loc.end.line - 1] = true;
-        }
-
-        function addContentIndentation(node, count, includeLastLine) {
-            var end = node.loc.end.line;
-            if (includeLastLine) {
-                end++;
-            }
-            for (var x = node.loc.start.line + 1; x < end; x++) {
-                lineIndentation[x - 1] += count;
-            }
-        }
-
-        function checkIndentation(i) {
-            var line = lines[i];
-            var indentLength = getLengthFromIndentation(i);
-
-            if (line === '' || !linesToCheck[i]) {
-                return;
-            }
-
-            if (line.length < indentLength ||
-                line.indexOf(getIndent(i)) !== 0 ||
-                line[indentLength] === indentChar
-            ) {
-                errors.add(
-                    'Expected indentation of ' + indentLength + ' characters',
-                    i + 1,
-                    indentLength
-                );
-            }
         }
 
         function checkIndentations() {
-            lineIndentation.forEach(function(line, i) {
-                checkIndentation(i);
+            linesToCheck.forEach(function(line, i) {
+                var expectedIndentation;
+                var actualIndentation = getIndentationFromLine(i);
+
+                if (line.pop !== false) {
+                    expectedIndentation = indentStack.pop() - (indentSize * line.pop);
+                } else {
+                    expectedIndentation = indentStack[indentStack.length - 1];
+                }
+                if (line.check) {
+                    if (actualIndentation !== expectedIndentation) {
+                        errors.add(
+                            'Expected indentation of ' + expectedIndentation + ' characters',
+                            i + 1,
+                            expectedIndentation
+                        );
+                        // correct the indentation so that future lines
+                        // can be validated appropriately
+                        actualIndentation = expectedIndentation;
+                    }
+                }
+
+                if (line.popAfter) {
+                    indentStack.pop();
+                }
+
+                if (line.push !== false) {
+                    indentStack.push(actualIndentation + (indentSize * line.push));
+                }
             });
         }
 
         function generateIndentations() {
             file.iterateNodesByType([
-                'BlockStatement',
+                'Program'
+            ], function(node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+
+                markChildren(node);
+            });
+
+            file.iterateNodesByType([
                 'ObjectExpression',
                 'ArrayExpression'
-            ], function (node) {
+            ], function(node) {
                 if (!isMultiline(node)) {
                     return;
                 }
 
-                var childrenProperty = indentableNodes[node.type];
-                markLinesToCheck(node, childrenProperty);
+                markChildren(node);
+                markPop(node, 1);
+                markPushAndCheck(node, 1);
+            });
 
-                if (!isSameLineAsIndentableParent(node)) {
-                    addContentIndentation(node, 1);
+            file.iterateNodesByType('IfStatement', function(node) {
+                if (node.alternate && node.alternate.type === 'BlockStatement') {
+                    linesToCheck[node.alternate.loc.start.line - 1].push = 1;
+                    linesToCheck[node.alternate.loc.start.line - 1].check = true;
                 }
             });
 
-            file.iterateNodesByType('SwitchStatement', function (node) {
+            file.iterateNodesByType('BlockStatement', function(node) {
                 if (!isMultiline(node)) {
                     return;
                 }
 
-                var childrenProperty = indentableNodes[node.type];
-                markLinesToCheck(node, childrenProperty);
+                markChildren(node);
+                markPop(node, 1);
+                markPushAndCheck(node.parentNode, 1);
+            });
 
+            file.iterateNodesByType('SwitchStatement', function(node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
+                var indents = 1;
+
+                var childrenProperty = indentableNodes[node.type];
                 var children = node[childrenProperty];
 
-                // allow switch statements to have cases that are
-                // indented 0 or 1 times depending on the indentation of the first case
-                if (!isSameLineAsIndentableParent(node) &&
-                    children.length > 0 &&
-                    node.loc.start.column !== children[0].loc.start.column
-                ) {
-                    addContentIndentation(node, 1);
+                if ( children.length > 0 &&
+                    node.loc.start.column === children[0].loc.start.column ) {
+                    indents = 0;
                 }
+
+                markChildren(node);
+                markPop(node, indents);
+                markPushAndCheck(node, indents);
             });
 
-            file.iterateNodesByType('SwitchCase', function (node) {
+            file.iterateNodesByType('CallExpression', function(node) {
                 if (!isMultiline(node)) {
                     return;
                 }
 
-                markLinesToCheck(node, 'consequent');
-
-                var children = node.consequent;
-
-                // don't double indent cases with
-                // only a block statement as their consequent
-                if (!isSameLineAsIndentableParent(node) && children.length &&
-                    (children.length > 1 || children[0].type !== 'BlockStatement')
-                ) {
-                    addContentIndentation(node, 1, true);
-                }
-            });
-
-            file.iterateNodesByType('CallExpression', function (node) {
-                if (!isMultiline(node)) {
+                if (!node.arguments.length) {
                     return;
                 }
 
-                var argumentsIndentation;
-                var nodeStartLine = node.loc.start.line - 1;
-                var calleeEndLine = node.callee.loc.end.line - 1;
+                // var argumentsIndentation;
+                var argLoc = node.arguments[0].loc;
+                var calleeLoc = node.callee.loc;
+                var argStartLine = argLoc.start.line - 1;
+                var argEndLine = argLoc.end.line - 1;
+                var calleeEndLine = calleeLoc.end.line - 1;
                 var nodeEndLine = node.loc.end.line - 1;
-                var nodeIndentation = getIndentationFromLine(nodeStartLine);
 
-                node.arguments.forEach(function (argument, i) {
-                    var startLine = argument.loc.start.line - 1;
-                    // Check if this argument starts on a new line
-                    if (startLine > calleeEndLine &&
-                            (i === 0 || startLine > node.arguments[i - 1].loc.end.line - 1)) {
-
-                        // Get the indentation of the first argument. All
-                        // future arguments starting a new line should have this
-                        // indentation
-                        if (argumentsIndentation === undefined) {
-                            argumentsIndentation = getIndentationFromLine(startLine) - nodeIndentation;
-                        }
-
-                        linesToCheck[startLine] = true;
-                        lineIndentation[startLine] += argumentsIndentation;
-                        addContentIndentation(argument, argumentsIndentation, true);
-                    }
-                });
-
-                // If the call expression does not end on the same line as the
-                // last argument, check if it has the same indentation as the
-                // call start
-                var lastArgument = node.arguments[node.arguments.length - 1];
-                if (nodeEndLine > calleeEndLine && (!lastArgument || nodeEndLine > lastArgument.loc.end.line - 1)) {
-                    linesToCheck[nodeEndLine] = true;
-                    lineIndentation[nodeEndLine] = nodeIndentation;
-                }
-            });
-
-            // VariableDeclarator must come last,
-            // as it unmarks lines for indentation, which needs to happen after all lines have been marked
-            file.iterateNodesByType([
-                'VariableDeclarator'
-            ], function (node) {
-                if (node.loc.start.line === node.parentNode.loc.start.line || !node.init) {
+                // only concerned with multiline arguments
+                if (calleeEndLine === argStartLine && nodeEndLine === argEndLine) {
                     return;
                 }
 
-                var startLine = node.loc.start.line - 1;
+                linesToCheck[calleeEndLine].push = linesToCheck[calleeEndLine].push || 0;
+                linesToCheck[nodeEndLine].pop = linesToCheck[nodeEndLine].pop || 0;
+                linesToCheck[nodeEndLine].check = true;
+            });
 
-                linesToCheck[startLine] = false;
-                var additionalIndents = getIndentationFromLine(startLine) - lineIndentation[startLine];
+            file.iterateNodesByType('SwitchCase', function(node) {
+                if (!isMultiline(node)) {
+                    return;
+                }
 
-                addContentIndentation(node, additionalIndents, true);
+                var childrenProperty = indentableNodes[node.type];
+                var children = node[childrenProperty];
+
+                if ( children.length > 1 || children[0].type !== 'BlockStatement') {
+                    markChildren(node);
+                    markPop(node, 1, true);
+                    markPushAndCheck(node, 1);
+                }
             });
         }
 
@@ -2821,11 +3381,14 @@ module.exports.prototype = {
         var indentSize = this._indentSize;
 
         var lines = getLinesWithCommentsRemoved();
-        var lineIndentation = lines.map(function() {
-            return 0;
-        });
+        var indentStack = [0];
         var linesToCheck = lines.map(function() {
-            return false;
+            return {
+                push: false,
+                pop: false,
+                popAfter: false,
+                check: false
+            };
         });
 
         generateIndentations();
@@ -2834,7 +3397,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],54:[function(require,module,exports){
+},{"assert":68}],61:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2846,7 +3409,7 @@ module.exports.prototype = {
         this._options = options;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'validateJSDoc';
     },
 
@@ -2927,7 +3490,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],55:[function(require,module,exports){
+},{"assert":68}],62:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
@@ -2954,7 +3517,7 @@ module.exports.prototype = {
         this._reportOncePerFile = options.reportOncePerFile !== false;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'validateLineBreaks';
     },
 
@@ -2977,35 +3540,59 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],56:[function(require,module,exports){
+},{"assert":68}],63:[function(require,module,exports){
 var assert = require('assert');
 
 module.exports = function() {};
 
 module.exports.prototype = {
 
-    configure: function(allowedQuoteMark) {
+    configure: function(quoteMark) {
+        this._allowEscape = false;
+
+        if (typeof quoteMark === 'object') {
+            assert(
+                typeof quoteMark.escape === 'boolean' && quoteMark.mark !== undefined,
+                'validateQuoteMarks option requires the "escape" and "mark" property to be defined'
+            );
+            this._allowEscape = quoteMark.escape;
+            quoteMark = quoteMark.mark;
+        }
+
         assert(
-            allowedQuoteMark === '"' || allowedQuoteMark === '\'' || allowedQuoteMark === true,
+            quoteMark === '"' || quoteMark === '\'' || quoteMark === true,
             'validateQuoteMarks option requires \'"\', "\'", or boolean true'
         );
 
-        this._allowedQuoteMark = allowedQuoteMark;
+        this._quoteMark = quoteMark;
     },
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'validateQuoteMarks';
     },
 
     check: function(file, errors) {
-        var allowedQuoteMark = this._allowedQuoteMark;
+        var quoteMark = this._quoteMark;
+        var allowEscape = this._allowEscape;
+        var opposite = {
+            '"': '\'',
+            '\'': '"'
+        };
 
         file.iterateTokensByType('String', function(token) {
-            if (allowedQuoteMark === true) {
-                allowedQuoteMark = token.value[0];
+            var str = token.value;
+            var mark = str[0];
+            var stripped = str.substring(1, str.length -1);
+
+            if (quoteMark === true) {
+                quoteMark = mark;
             }
 
-            if (token.value[0] !== allowedQuoteMark) {
+            if (mark !== quoteMark) {
+                if (allowEscape && stripped.indexOf(opposite[mark]) > -1) {
+                    return;
+                }
+
                 errors.add(
                     'Invalid quote mark found',
                     token.loc.start.line,
@@ -3017,7 +3604,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":62}],57:[function(require,module,exports){
+},{"assert":68}],64:[function(require,module,exports){
 var esprima = require('esprima');
 var Errors = require('./errors');
 var JsFile = require('./js-file');
@@ -3087,6 +3674,7 @@ StringChecker.prototype = {
         this.registerRule(new (require('./rules/disallow-spaces-inside-object-brackets'))());
         this.registerRule(new (require('./rules/disallow-spaces-inside-array-brackets'))());
         this.registerRule(new (require('./rules/disallow-spaces-inside-parentheses'))());
+        this.registerRule(new (require('./rules/require-blocks-on-newline'))());
         this.registerRule(new (require('./rules/require-space-after-object-keys'))());
         this.registerRule(new (require('./rules/disallow-space-after-object-keys'))());
         this.registerRule(new (require('./rules/disallow-quoted-keys-in-objects'))());
@@ -3110,6 +3698,12 @@ StringChecker.prototype = {
 
         this.registerRule(new (require('./rules/require-spaces-in-function-expression'))());
         this.registerRule(new (require('./rules/disallow-spaces-in-function-expression'))());
+        this.registerRule(new (require('./rules/require-spaces-in-anonymous-function-expression'))());
+        this.registerRule(new (require('./rules/disallow-spaces-in-anonymous-function-expression'))());
+        this.registerRule(new (require('./rules/require-spaces-in-named-function-expression'))());
+        this.registerRule(new (require('./rules/disallow-spaces-in-named-function-expression'))());
+        this.registerRule(new (require('./rules/require-spaces-in-function-declaration'))());
+        this.registerRule(new (require('./rules/disallow-spaces-in-function-declaration'))());
 
         this.registerRule(new (require('./rules/require-capitalized-constructors'))());
 
@@ -3141,8 +3735,13 @@ StringChecker.prototype = {
         this._config = config;
         this._rules.forEach(function(rule) {
             var ruleOptionName = rule.getOptionName();
+
             if (config.hasOwnProperty(ruleOptionName)) {
-                rule.configure(config[ruleOptionName]);
+
+                // Do not configure the rule if it's equals to null (#203)
+                if (config[ruleOptionName] !== null) {
+                    rule.configure(config[ruleOptionName]);
+                }
                 activeRules.push(rule);
                 configRules.splice(configRules.indexOf(ruleOptionName), 1);
             }
@@ -3231,11 +3830,16 @@ StringChecker.prototype = {
         var file = new JsFile(filename, str, tree);
         var errors = new Errors(file);
         this._activeRules.forEach(function(rule) {
-            rule.check(file, errors);
-        });
+
+            // Do not process the rule if it's equals to null (#203)
+            if (this._config[rule.getOptionName()] !== null ) {
+                rule.check(file, errors);
+            }
+
+        }, this);
 
         // sort errors list to show errors as they appear in source
-        errors.getErrorList().sort(function(a, b){
+        errors.getErrorList().sort(function(a, b) {
             return (a.line - b.line) || (a.column - b.column);
         });
 
@@ -3245,7 +3849,7 @@ StringChecker.prototype = {
 
 module.exports = StringChecker;
 
-},{"./errors":1,"./js-file":2,"./presets/jquery.json":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-quoted-keys-in-objects":15,"./rules/disallow-right-sticked-operators":16,"./rules/disallow-space-after-binary-operators":17,"./rules/disallow-space-after-keywords":18,"./rules/disallow-space-after-object-keys":19,"./rules/disallow-space-after-prefix-unary-operators.js":20,"./rules/disallow-space-before-binary-operators":21,"./rules/disallow-space-before-postfix-unary-operators.js":22,"./rules/disallow-spaces-in-function-expression":23,"./rules/disallow-spaces-inside-array-brackets":24,"./rules/disallow-spaces-inside-object-brackets":25,"./rules/disallow-spaces-inside-parentheses":26,"./rules/disallow-trailing-whitespace":27,"./rules/disallow-yoda-conditions":28,"./rules/maximum-line-length":29,"./rules/require-aligned-object-values":30,"./rules/require-camelcase-or-uppercase-identifiers":31,"./rules/require-capitalized-constructors":32,"./rules/require-comma-before-line-break":33,"./rules/require-curly-braces":34,"./rules/require-dot-notation":35,"./rules/require-keywords-on-new-line":36,"./rules/require-left-sticked-operators":37,"./rules/require-line-feed-at-file-end":38,"./rules/require-multiple-var-decl":39,"./rules/require-operator-before-line-break":40,"./rules/require-parentheses-around-iife":41,"./rules/require-right-sticked-operators":42,"./rules/require-space-after-binary-operators":43,"./rules/require-space-after-keywords":44,"./rules/require-space-after-object-keys":45,"./rules/require-space-after-prefix-unary-operators.js":46,"./rules/require-space-before-binary-operators":47,"./rules/require-space-before-postfix-unary-operators.js":48,"./rules/require-spaces-in-function-expression":49,"./rules/require-spaces-inside-array-brackets":50,"./rules/require-spaces-inside-object-brackets":51,"./rules/safe-context-keyword":52,"./rules/validate-indentation":53,"./rules/validate-jsdoc":54,"./rules/validate-line-breaks":55,"./rules/validate-quote-marks":56,"esprima":65}],58:[function(require,module,exports){
+},{"./errors":1,"./js-file":2,"./presets/jquery.json":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-quoted-keys-in-objects":15,"./rules/disallow-right-sticked-operators":16,"./rules/disallow-space-after-binary-operators":17,"./rules/disallow-space-after-keywords":18,"./rules/disallow-space-after-object-keys":19,"./rules/disallow-space-after-prefix-unary-operators.js":20,"./rules/disallow-space-before-binary-operators":21,"./rules/disallow-space-before-postfix-unary-operators.js":22,"./rules/disallow-spaces-in-anonymous-function-expression":23,"./rules/disallow-spaces-in-function-declaration":24,"./rules/disallow-spaces-in-function-expression":25,"./rules/disallow-spaces-in-named-function-expression":26,"./rules/disallow-spaces-inside-array-brackets":27,"./rules/disallow-spaces-inside-object-brackets":28,"./rules/disallow-spaces-inside-parentheses":29,"./rules/disallow-trailing-whitespace":30,"./rules/disallow-yoda-conditions":31,"./rules/maximum-line-length":32,"./rules/require-aligned-object-values":33,"./rules/require-blocks-on-newline":34,"./rules/require-camelcase-or-uppercase-identifiers":35,"./rules/require-capitalized-constructors":36,"./rules/require-comma-before-line-break":37,"./rules/require-curly-braces":38,"./rules/require-dot-notation":39,"./rules/require-keywords-on-new-line":40,"./rules/require-left-sticked-operators":41,"./rules/require-line-feed-at-file-end":42,"./rules/require-multiple-var-decl":43,"./rules/require-operator-before-line-break":44,"./rules/require-parentheses-around-iife":45,"./rules/require-right-sticked-operators":46,"./rules/require-space-after-binary-operators":47,"./rules/require-space-after-keywords":48,"./rules/require-space-after-object-keys":49,"./rules/require-space-after-prefix-unary-operators.js":50,"./rules/require-space-before-binary-operators":51,"./rules/require-space-before-postfix-unary-operators.js":52,"./rules/require-spaces-in-anonymous-function-expression":53,"./rules/require-spaces-in-function-declaration":54,"./rules/require-spaces-in-function-expression":55,"./rules/require-spaces-in-named-function-expression":56,"./rules/require-spaces-inside-array-brackets":57,"./rules/require-spaces-inside-object-brackets":58,"./rules/safe-context-keyword":59,"./rules/validate-indentation":60,"./rules/validate-jsdoc":61,"./rules/validate-line-breaks":62,"./rules/validate-quote-marks":63,"esprima":74}],65:[function(require,module,exports){
 /**
  * Returns token by range start. Ignores ()
  *
@@ -3292,7 +3896,7 @@ module.exports.tokenIsPunctuator = function(token, punctuator) {
     return token && token.type === 'Punctuator' && token.value === punctuator;
 };
 
-},{}],59:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 module.exports = {
     iterate: iterate
 };
@@ -3371,7 +3975,7 @@ function iterate(node, cb, parentNode, parentCollection) {
     }
 }
 
-},{}],60:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 // 7.5.2 Keywords
 var ES3_KEYWORDS = {
     'break': true,
@@ -3468,250 +4072,38 @@ exports.isValidIdentifierName = function(name) {
     return IDENTIFIER_NAME_RE.test(name);
 };
 
-},{}],61:[function(require,module,exports){
-
-
+},{}],68:[function(require,module,exports){
+// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
-// The shims in this file are not fully implemented shims for the ES5
-// features, but do work for the particular usecases there is in
-// the other modules.
+// THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
 //
-
-var toString = Object.prototype.toString;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-// Array.isArray is supported in IE9
-function isArray(xs) {
-  return toString.call(xs) === '[object Array]';
-}
-exports.isArray = typeof Array.isArray === 'function' ? Array.isArray : isArray;
-
-// Array.prototype.indexOf is supported in IE9
-exports.indexOf = function indexOf(xs, x) {
-  if (xs.indexOf) return xs.indexOf(x);
-  for (var i = 0; i < xs.length; i++) {
-    if (x === xs[i]) return i;
-  }
-  return -1;
-};
-
-// Array.prototype.filter is supported in IE9
-exports.filter = function filter(xs, fn) {
-  if (xs.filter) return xs.filter(fn);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    if (fn(xs[i], i, xs)) res.push(xs[i]);
-  }
-  return res;
-};
-
-// Array.prototype.forEach is supported in IE9
-exports.forEach = function forEach(xs, fn, self) {
-  if (xs.forEach) return xs.forEach(fn, self);
-  for (var i = 0; i < xs.length; i++) {
-    fn.call(self, xs[i], i, xs);
-  }
-};
-
-// Array.prototype.map is supported in IE9
-exports.map = function map(xs, fn) {
-  if (xs.map) return xs.map(fn);
-  var out = new Array(xs.length);
-  for (var i = 0; i < xs.length; i++) {
-    out[i] = fn(xs[i], i, xs);
-  }
-  return out;
-};
-
-// Array.prototype.reduce is supported in IE9
-exports.reduce = function reduce(array, callback, opt_initialValue) {
-  if (array.reduce) return array.reduce(callback, opt_initialValue);
-  var value, isValueSet = false;
-
-  if (2 < arguments.length) {
-    value = opt_initialValue;
-    isValueSet = true;
-  }
-  for (var i = 0, l = array.length; l > i; ++i) {
-    if (array.hasOwnProperty(i)) {
-      if (isValueSet) {
-        value = callback(value, array[i], i, array);
-      }
-      else {
-        value = array[i];
-        isValueSet = true;
-      }
-    }
-  }
-
-  return value;
-};
-
-// String.prototype.substr - negative index don't work in IE8
-if ('ab'.substr(-1) !== 'b') {
-  exports.substr = function (str, start, length) {
-    // did we get a negative start, calculate how much it is from the beginning of the string
-    if (start < 0) start = str.length + start;
-
-    // call the original function
-    return str.substr(start, length);
-  };
-} else {
-  exports.substr = function (str, start, length) {
-    return str.substr(start, length);
-  };
-}
-
-// String.prototype.trim is supported in IE9
-exports.trim = function (str) {
-  if (str.trim) return str.trim();
-  return str.replace(/^\s+|\s+$/g, '');
-};
-
-// Function.prototype.bind is supported in IE9
-exports.bind = function () {
-  var args = Array.prototype.slice.call(arguments);
-  var fn = args.shift();
-  if (fn.bind) return fn.bind.apply(fn, args);
-  var self = args.shift();
-  return function () {
-    fn.apply(self, args.concat([Array.prototype.slice.call(arguments)]));
-  };
-};
-
-// Object.create is supported in IE9
-function create(prototype, properties) {
-  var object;
-  if (prototype === null) {
-    object = { '__proto__' : null };
-  }
-  else {
-    if (typeof prototype !== 'object') {
-      throw new TypeError(
-        'typeof prototype[' + (typeof prototype) + '] != \'object\''
-      );
-    }
-    var Type = function () {};
-    Type.prototype = prototype;
-    object = new Type();
-    object.__proto__ = prototype;
-  }
-  if (typeof properties !== 'undefined' && Object.defineProperties) {
-    Object.defineProperties(object, properties);
-  }
-  return object;
-}
-exports.create = typeof Object.create === 'function' ? Object.create : create;
-
-// Object.keys and Object.getOwnPropertyNames is supported in IE9 however
-// they do show a description and number property on Error objects
-function notObject(object) {
-  return ((typeof object != "object" && typeof object != "function") || object === null);
-}
-
-function keysShim(object) {
-  if (notObject(object)) {
-    throw new TypeError("Object.keys called on a non-object");
-  }
-
-  var result = [];
-  for (var name in object) {
-    if (hasOwnProperty.call(object, name)) {
-      result.push(name);
-    }
-  }
-  return result;
-}
-
-// getOwnPropertyNames is almost the same as Object.keys one key feature
-//  is that it returns hidden properties, since that can't be implemented,
-//  this feature gets reduced so it just shows the length property on arrays
-function propertyShim(object) {
-  if (notObject(object)) {
-    throw new TypeError("Object.getOwnPropertyNames called on a non-object");
-  }
-
-  var result = keysShim(object);
-  if (exports.isArray(object) && exports.indexOf(object, 'length') === -1) {
-    result.push('length');
-  }
-  return result;
-}
-
-var keys = typeof Object.keys === 'function' ? Object.keys : keysShim;
-var getOwnPropertyNames = typeof Object.getOwnPropertyNames === 'function' ?
-  Object.getOwnPropertyNames : propertyShim;
-
-if (new Error().hasOwnProperty('description')) {
-  var ERROR_PROPERTY_FILTER = function (obj, array) {
-    if (toString.call(obj) === '[object Error]') {
-      array = exports.filter(array, function (name) {
-        return name !== 'description' && name !== 'number' && name !== 'message';
-      });
-    }
-    return array;
-  };
-
-  exports.keys = function (object) {
-    return ERROR_PROPERTY_FILTER(object, keys(object));
-  };
-  exports.getOwnPropertyNames = function (object) {
-    return ERROR_PROPERTY_FILTER(object, getOwnPropertyNames(object));
-  };
-} else {
-  exports.keys = keys;
-  exports.getOwnPropertyNames = getOwnPropertyNames;
-}
-
-// Object.getOwnPropertyDescriptor - supported in IE8 but only on dom elements
-function valueObject(value, key) {
-  return { value: value[key] };
-}
-
-if (typeof Object.getOwnPropertyDescriptor === 'function') {
-  try {
-    Object.getOwnPropertyDescriptor({'a': 1}, 'a');
-    exports.getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-  } catch (e) {
-    // IE8 dom element issue - use a try catch and default to valueObject
-    exports.getOwnPropertyDescriptor = function (value, key) {
-      try {
-        return Object.getOwnPropertyDescriptor(value, key);
-      } catch (e) {
-        return valueObject(value, key);
-      }
-    };
-  }
-} else {
-  exports.getOwnPropertyDescriptor = valueObject;
-}
-
-},{}],62:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
+// Originally from narwhal.js (http://narwhaljs.org)
+// Copyright (c) 2009 Thomas Robinson <280north.com>
 //
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// UTILITY
-var util = require('util');
-var shims = require('_shims');
+// when used in node, this will actually load the util module we depend on
+// versus loading the builtin util module as happens otherwise
+// this is a bug in node module loading as far as I am concerned
+var util = require('util/');
+
 var pSlice = Array.prototype.slice;
+var hasOwn = Object.prototype.hasOwnProperty;
 
 // 1. The assert module provides functions that throw
 // AssertionError's when particular conditions are not met. The
@@ -3729,7 +4121,37 @@ assert.AssertionError = function AssertionError(options) {
   this.actual = options.actual;
   this.expected = options.expected;
   this.operator = options.operator;
-  this.message = options.message || getMessage(this);
+  if (options.message) {
+    this.message = options.message;
+    this.generatedMessage = false;
+  } else {
+    this.message = getMessage(this);
+    this.generatedMessage = true;
+  }
+  var stackStartFunction = options.stackStartFunction || fail;
+
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, stackStartFunction);
+  }
+  else {
+    // non v8 browsers so we can have a stacktrace
+    var err = new Error();
+    if (err.stack) {
+      var out = err.stack;
+
+      // try to strip useless frames
+      var fn_name = stackStartFunction.name;
+      var idx = out.indexOf('\n' + fn_name);
+      if (idx >= 0) {
+        // once we have located the function frame
+        // we need to strip out everything before it (and its line)
+        var next_line = out.indexOf('\n', idx + 1);
+        out = out.substring(next_line + 1);
+      }
+
+      this.stack = out;
+    }
+  }
 };
 
 // assert.AssertionError instanceof Error
@@ -3889,8 +4311,8 @@ function objEquiv(a, b) {
     return _deepEqual(a, b);
   }
   try {
-    var ka = shims.keys(a),
-        kb = shims.keys(b),
+    var ka = objectKeys(a),
+        kb = objectKeys(b),
         key, i;
   } catch (e) {//happens when one is a string literal and the other isn't
     return false;
@@ -4003,7 +4425,24 @@ assert.doesNotThrow = function(block, /*optional*/message) {
 };
 
 assert.ifError = function(err) { if (err) {throw err;}};
-},{"_shims":61,"util":63}],63:[function(require,module,exports){
+
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) {
+    if (hasOwn.call(obj, key)) keys.push(key);
+  }
+  return keys;
+};
+
+},{"util/":70}],69:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],70:[function(require,module,exports){
+(function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -4024,8 +4463,6 @@ assert.ifError = function(err) { if (err) {throw err;}};
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var shims = require('_shims');
 
 var formatRegExp = /%[sdj%]/g;
 exports.format = function(f) {
@@ -4065,6 +4502,62 @@ exports.format = function(f) {
   }
   return str;
 };
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
 
 /**
  * Echos the value of a value. Trys to print the value out
@@ -4152,7 +4645,7 @@ function stylizeNoColor(str, styleType) {
 function arrayToHash(array) {
   var hash = {};
 
-  shims.forEach(array, function(val, idx) {
+  array.forEach(function(val, idx) {
     hash[val] = true;
   });
 
@@ -4170,7 +4663,7 @@ function formatValue(ctx, value, recurseTimes) {
       value.inspect !== exports.inspect &&
       // Also filter out any prototype objects using the circular check.
       !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes);
+    var ret = value.inspect(recurseTimes, ctx);
     if (!isString(ret)) {
       ret = formatValue(ctx, ret, recurseTimes);
     }
@@ -4184,11 +4677,18 @@ function formatValue(ctx, value, recurseTimes) {
   }
 
   // Look up the keys of the object.
-  var keys = shims.keys(value);
+  var keys = Object.keys(value);
   var visibleKeys = arrayToHash(keys);
 
   if (ctx.showHidden) {
-    keys = shims.getOwnPropertyNames(value);
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
   }
 
   // Some type of object without properties can be shortcutted.
@@ -4300,8 +4800,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
       output.push('');
     }
   }
-
-  shims.forEach(keys, function(key) {
+  keys.forEach(function(key) {
     if (!key.match(/^\d+$/)) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
           key, true));
@@ -4313,7 +4812,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
   var name, str, desc;
-  desc = shims.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
   if (desc.get) {
     if (desc.set) {
       str = ctx.stylize('[Getter/Setter]', 'special');
@@ -4325,12 +4824,11 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       str = ctx.stylize('[Setter]', 'special');
     }
   }
-
   if (!hasOwnProperty(visibleKeys, key)) {
     name = '[' + key + ']';
   }
   if (!str) {
-    if (shims.indexOf(ctx.seen, desc.value) < 0) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
       if (isNull(recurseTimes)) {
         str = formatValue(ctx, desc.value, null);
       } else {
@@ -4373,7 +4871,7 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 
 function reduceToSingleString(output, base, braces) {
   var numLinesEst = 0;
-  var length = shims.reduce(output, function(prev, cur) {
+  var length = output.reduce(function(prev, cur) {
     numLinesEst++;
     if (cur.indexOf('\n') >= 0) numLinesEst++;
     return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
@@ -4395,7 +4893,7 @@ function reduceToSingleString(output, base, braces) {
 // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
 function isArray(ar) {
-  return shims.isArray(ar);
+  return Array.isArray(ar);
 }
 exports.isArray = isArray;
 
@@ -4440,7 +4938,7 @@ function isRegExp(re) {
 exports.isRegExp = isRegExp;
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg;
+  return typeof arg === 'object' && arg !== null;
 }
 exports.isObject = isObject;
 
@@ -4450,7 +4948,8 @@ function isDate(d) {
 exports.isDate = isDate;
 
 function isError(e) {
-  return isObject(e) && objectToString(e) === '[object Error]';
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
 }
 exports.isError = isError;
 
@@ -4469,14 +4968,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.binarySlice === 'function'
-  ;
-}
-exports.isBuffer = isBuffer;
+exports.isBuffer = require('./support/isBuffer');
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -4520,23 +5012,13 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = function(ctor, superCtor) {
-  ctor.super_ = superCtor;
-  ctor.prototype = shims.create(superCtor.prototype, {
-    constructor: {
-      value: ctor,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-};
+exports.inherits = require('inherits');
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
   if (!add || !isObject(add)) return origin;
 
-  var keys = shims.keys(add);
+  var keys = Object.keys(add);
   var i = keys.length;
   while (i--) {
     origin[keys[i]] = add[keys[i]];
@@ -4548,7 +5030,88 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"_shims":61}],64:[function(require,module,exports){
+}).call(this,require("/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":69,"/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":72,"inherits":71}],71:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],72:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],73:[function(require,module,exports){
 /*
 colors.js
 
@@ -4596,18 +5159,131 @@ if (!isHeadless) {
 // Prototypes the string object to have additional method calls that add terminal colors
 //
 var addProperty = function (color, func) {
-  var allowOverride = ['bold'];
-  exports[color] = function(str) {
+  exports[color] = function (str) {
     return func.apply(str);
   };
   String.prototype.__defineGetter__(color, func);
+};
+
+function stylize(str, style) {
+
+  var styles;
+
+  if (exports.mode === 'console') {
+    styles = {
+      //styles
+      'bold'      : ['\x1B[1m',  '\x1B[22m'],
+      'italic'    : ['\x1B[3m',  '\x1B[23m'],
+      'underline' : ['\x1B[4m',  '\x1B[24m'],
+      'inverse'   : ['\x1B[7m',  '\x1B[27m'],
+      'strikethrough' : ['\x1B[9m',  '\x1B[29m'],
+      //text colors
+      //grayscale
+      'white'     : ['\x1B[37m', '\x1B[39m'],
+      'grey'      : ['\x1B[90m', '\x1B[39m'],
+      'black'     : ['\x1B[30m', '\x1B[39m'],
+      //colors
+      'blue'      : ['\x1B[34m', '\x1B[39m'],
+      'cyan'      : ['\x1B[36m', '\x1B[39m'],
+      'green'     : ['\x1B[32m', '\x1B[39m'],
+      'magenta'   : ['\x1B[35m', '\x1B[39m'],
+      'red'       : ['\x1B[31m', '\x1B[39m'],
+      'yellow'    : ['\x1B[33m', '\x1B[39m'],
+      //background colors
+      //grayscale
+      'whiteBG'     : ['\x1B[47m', '\x1B[49m'],
+      'greyBG'      : ['\x1B[49;5;8m', '\x1B[49m'],
+      'blackBG'     : ['\x1B[40m', '\x1B[49m'],
+      //colors
+      'blueBG'      : ['\x1B[44m', '\x1B[49m'],
+      'cyanBG'      : ['\x1B[46m', '\x1B[49m'],
+      'greenBG'     : ['\x1B[42m', '\x1B[49m'],
+      'magentaBG'   : ['\x1B[45m', '\x1B[49m'],
+      'redBG'       : ['\x1B[41m', '\x1B[49m'],
+      'yellowBG'    : ['\x1B[43m', '\x1B[49m']
+    };
+  } else if (exports.mode === 'browser') {
+    styles = {
+      //styles
+      'bold'      : ['<b>',  '</b>'],
+      'italic'    : ['<i>',  '</i>'],
+      'underline' : ['<u>',  '</u>'],
+      'inverse'   : ['<span style="background-color:black;color:white;">',  '</span>'],
+      'strikethrough' : ['<del>',  '</del>'],
+      //text colors
+      //grayscale
+      'white'     : ['<span style="color:white;">',   '</span>'],
+      'grey'      : ['<span style="color:gray;">',    '</span>'],
+      'black'     : ['<span style="color:black;">',   '</span>'],
+      //colors
+      'blue'      : ['<span style="color:blue;">',    '</span>'],
+      'cyan'      : ['<span style="color:cyan;">',    '</span>'],
+      'green'     : ['<span style="color:green;">',   '</span>'],
+      'magenta'   : ['<span style="color:magenta;">', '</span>'],
+      'red'       : ['<span style="color:red;">',     '</span>'],
+      'yellow'    : ['<span style="color:yellow;">',  '</span>'],
+      //background colors
+      //grayscale
+      'whiteBG'     : ['<span style="background-color:white;">',   '</span>'],
+      'greyBG'      : ['<span style="background-color:gray;">',    '</span>'],
+      'blackBG'     : ['<span style="background-color:black;">',   '</span>'],
+      //colors
+      'blueBG'      : ['<span style="background-color:blue;">',    '</span>'],
+      'cyanBG'      : ['<span style="background-color:cyan;">',    '</span>'],
+      'greenBG'     : ['<span style="background-color:green;">',   '</span>'],
+      'magentaBG'   : ['<span style="background-color:magenta;">', '</span>'],
+      'redBG'       : ['<span style="background-color:red;">',     '</span>'],
+      'yellowBG'    : ['<span style="background-color:yellow;">',  '</span>']
+    };
+  } else if (exports.mode === 'none') {
+    return str + '';
+  } else {
+    console.log('unsupported mode, try "browser", "console" or "none"');
+  }
+  return styles[style][0] + str + styles[style][1];
 }
+
+function applyTheme(theme) {
+
+  //
+  // Remark: This is a list of methods that exist
+  // on String that you should not overwrite.
+  //
+  var stringPrototypeBlacklist = [
+    '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
+    'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
+    'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
+    'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
+  ];
+
+  Object.keys(theme).forEach(function (prop) {
+    if (stringPrototypeBlacklist.indexOf(prop) !== -1) {
+      console.log('warn: '.red + ('String.prototype' + prop).magenta + ' is probably something you don\'t want to override. Ignoring style name');
+    }
+    else {
+      if (typeof(theme[prop]) === 'string') {
+        addProperty(prop, function () {
+          return exports[theme[prop]](this);
+        });
+      }
+      else {
+        addProperty(prop, function () {
+          var ret = this;
+          for (var t = 0; t < theme[prop].length; t++) {
+            ret = exports[theme[prop][t]](ret);
+          }
+          return ret;
+        });
+      }
+    }
+  });
+}
+
 
 //
 // Iterate through all default styles and colors
 //
-
-var x = ['bold', 'underline', 'italic', 'inverse', 'grey', 'black', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta'];
+var x = ['bold', 'underline', 'strikethrough', 'italic', 'inverse', 'grey', 'black', 'yellow', 'red', 'green', 'blue', 'white', 'cyan', 'magenta', 'greyBG', 'blackBG', 'yellowBG', 'redBG', 'greenBG', 'blueBG', 'whiteBG', 'cyanBG', 'magentaBG'];
 x.forEach(function (style) {
 
   // __defineGetter__ at the least works in more browsers
@@ -4623,27 +5299,28 @@ function sequencer(map) {
     if (!isHeadless) {
       return this.replace(/( )/, '$1');
     }
-    var exploded = this.split("");
-    var i = 0;
+    var exploded = this.split(""), i = 0;
     exploded = exploded.map(map);
     return exploded.join("");
-  }
+  };
 }
 
 var rainbowMap = (function () {
-  var rainbowColors = ['red','yellow','green','blue','magenta']; //RoY G BiV
+  var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta']; //RoY G BiV
   return function (letter, i, exploded) {
-    if (letter == " ") {
+    if (letter === " ") {
       return letter;
     } else {
       return stylize(letter, rainbowColors[i++ % rainbowColors.length]);
     }
-  }
+  };
 })();
+
+exports.themes = {};
 
 exports.addSequencer = function (name, map) {
   addProperty(name, sequencer(map));
-}
+};
 
 exports.addSequencer('rainbow', rainbowMap);
 exports.addSequencer('zebra', function (letter, i, exploded) {
@@ -4651,175 +5328,134 @@ exports.addSequencer('zebra', function (letter, i, exploded) {
 });
 
 exports.setTheme = function (theme) {
-  Object.keys(theme).forEach(function(prop){
-    addProperty(prop, function(){
-      return exports[theme[prop]](this);
-    });
-  });
-}
-
-function stylize(str, style) {
-
-  if (exports.mode == 'console') {
-    var styles = {
-      //styles
-      'bold'      : ['\033[1m',  '\033[22m'],
-      'italic'    : ['\033[3m',  '\033[23m'],
-      'underline' : ['\033[4m',  '\033[24m'],
-      'inverse'   : ['\033[7m',  '\033[27m'],
-      //grayscale
-      'white'     : ['\033[37m', '\033[39m'],
-      'grey'      : ['\033[90m', '\033[39m'],
-      'black'     : ['\033[30m', '\033[39m'],
-      //colors
-      'blue'      : ['\033[34m', '\033[39m'],
-      'cyan'      : ['\033[36m', '\033[39m'],
-      'green'     : ['\033[32m', '\033[39m'],
-      'magenta'   : ['\033[35m', '\033[39m'],
-      'red'       : ['\033[31m', '\033[39m'],
-      'yellow'    : ['\033[33m', '\033[39m']
-    };
-  } else if (exports.mode == 'browser') {
-    var styles = {
-      //styles
-      'bold'      : ['<b>',  '</b>'],
-      'italic'    : ['<i>',  '</i>'],
-      'underline' : ['<u>',  '</u>'],
-      'inverse'   : ['<span style="background-color:black;color:white;">',  '</span>'],
-      //grayscale
-      'white'     : ['<span style="color:white;">',   '</span>'],
-      'grey'      : ['<span style="color:grey;">',    '</span>'],
-      'black'     : ['<span style="color:black;">',   '</span>'],
-      //colors
-      'blue'      : ['<span style="color:blue;">',    '</span>'],
-      'cyan'      : ['<span style="color:cyan;">',    '</span>'],
-      'green'     : ['<span style="color:green;">',   '</span>'],
-      'magenta'   : ['<span style="color:magenta;">', '</span>'],
-      'red'       : ['<span style="color:red;">',     '</span>'],
-      'yellow'    : ['<span style="color:yellow;">',  '</span>']
-    };
-  } else if (exports.mode == 'none') {
-    return str;
+  if (typeof theme === 'string') {
+    try {
+      exports.themes[theme] = require(theme);
+      applyTheme(exports.themes[theme]);
+      return exports.themes[theme];
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   } else {
-    console.log('unsupported mode, try "browser", "console" or "none"');
+    applyTheme(theme);
   }
-  return styles[style][0] + str + styles[style][1];
 };
 
-// don't summon zalgo
-addProperty('zalgo', function () {
-  return zalgo(this);
+
+addProperty('stripColors', function () {
+  return ("" + this).replace(/\x1B\[\d+m/g, '');
 });
 
 // please no
 function zalgo(text, options) {
   var soul = {
     "up" : [
-      '̍','̎','̄','̅',
-      '̿','̑','̆','̐',
-      '͒','͗','͑','̇',
-      '̈','̊','͂','̓',
-      '̈','͊','͋','͌',
-      '̃','̂','̌','͐',
-      '̀','́','̋','̏',
-      '̒','̓','̔','̽',
-      '̉','ͣ','ͤ','ͥ',
-      'ͦ','ͧ','ͨ','ͩ',
-      'ͪ','ͫ','ͬ','ͭ',
-      'ͮ','ͯ','̾','͛',
-      '͆','̚'
-      ],
+      '̍', '̎', '̄', '̅',
+      '̿', '̑', '̆', '̐',
+      '͒', '͗', '͑', '̇',
+      '̈', '̊', '͂', '̓',
+      '̈', '͊', '͋', '͌',
+      '̃', '̂', '̌', '͐',
+      '̀', '́', '̋', '̏',
+      '̒', '̓', '̔', '̽',
+      '̉', 'ͣ', 'ͤ', 'ͥ',
+      'ͦ', 'ͧ', 'ͨ', 'ͩ',
+      'ͪ', 'ͫ', 'ͬ', 'ͭ',
+      'ͮ', 'ͯ', '̾', '͛',
+      '͆', '̚'
+    ],
     "down" : [
-      '̖','̗','̘','̙',
-      '̜','̝','̞','̟',
-      '̠','̤','̥','̦',
-      '̩','̪','̫','̬',
-      '̭','̮','̯','̰',
-      '̱','̲','̳','̹',
-      '̺','̻','̼','ͅ',
-      '͇','͈','͉','͍',
-      '͎','͓','͔','͕',
-      '͖','͙','͚','̣'
-      ],
+      '̖', '̗', '̘', '̙',
+      '̜', '̝', '̞', '̟',
+      '̠', '̤', '̥', '̦',
+      '̩', '̪', '̫', '̬',
+      '̭', '̮', '̯', '̰',
+      '̱', '̲', '̳', '̹',
+      '̺', '̻', '̼', 'ͅ',
+      '͇', '͈', '͉', '͍',
+      '͎', '͓', '͔', '͕',
+      '͖', '͙', '͚', '̣'
+    ],
     "mid" : [
-      '̕','̛','̀','́',
-      '͘','̡','̢','̧',
-      '̨','̴','̵','̶',
-      '͜','͝','͞',
-      '͟','͠','͢','̸',
-      '̷','͡',' ҉'
-      ]
+      '̕', '̛', '̀', '́',
+      '͘', '̡', '̢', '̧',
+      '̨', '̴', '̵', '̶',
+      '͜', '͝', '͞',
+      '͟', '͠', '͢', '̸',
+      '̷', '͡', ' ҉'
+    ]
   },
   all = [].concat(soul.up, soul.down, soul.mid),
   zalgo = {};
 
   function randomNumber(range) {
-    r = Math.floor(Math.random()*range);
+    var r = Math.floor(Math.random() * range);
     return r;
-  };
+  }
 
   function is_char(character) {
     var bool = false;
-    all.filter(function(i){
-     bool = (i == character);
+    all.filter(function (i) {
+      bool = (i === character);
     });
     return bool;
   }
 
-  function heComes(text, options){
-      result = '';
-      options = options || {};
-      options["up"] = options["up"] || true;
-      options["mid"] = options["mid"] || true;
-      options["down"] = options["down"] || true;
-      options["size"] = options["size"] || "maxi";
-      var counts;
-      text = text.split('');
-       for(var l in text){
-         if(is_char(l)) { continue; }
-         result = result + text[l];
+  function heComes(text, options) {
+    var result = '', counts, l;
+    options = options || {};
+    options["up"] = options["up"] || true;
+    options["mid"] = options["mid"] || true;
+    options["down"] = options["down"] || true;
+    options["size"] = options["size"] || "maxi";
+    text = text.split('');
+    for (l in text) {
+      if (is_char(l)) {
+        continue;
+      }
+      result = result + text[l];
+      counts = {"up" : 0, "down" : 0, "mid" : 0};
+      switch (options.size) {
+      case 'mini':
+        counts.up = randomNumber(8);
+        counts.min = randomNumber(2);
+        counts.down = randomNumber(8);
+        break;
+      case 'maxi':
+        counts.up = randomNumber(16) + 3;
+        counts.min = randomNumber(4) + 1;
+        counts.down = randomNumber(64) + 3;
+        break;
+      default:
+        counts.up = randomNumber(8) + 1;
+        counts.mid = randomNumber(6) / 2;
+        counts.down = randomNumber(8) + 1;
+        break;
+      }
 
-        counts = {"up" : 0, "down" : 0, "mid" : 0};
-
-        switch(options.size) {
-          case 'mini':
-            counts.up = randomNumber(8);
-            counts.min= randomNumber(2);
-            counts.down = randomNumber(8);
-          break;
-          case 'maxi':
-            counts.up = randomNumber(16) + 3;
-            counts.min = randomNumber(4) + 1;
-            counts.down = randomNumber(64) + 3;
-          break;
-          default:
-            counts.up = randomNumber(8) + 1;
-            counts.mid = randomNumber(6) / 2;
-            counts.down= randomNumber(8) + 1;
-          break;
-        }
-
-        var arr = ["up", "mid", "down"];
-        for(var d in arr){
-          var index = arr[d];
-          for (var i = 0 ; i <= counts[index]; i++)
-          {
-            if(options[index]) {
-                result = result + soul[index][randomNumber(soul[index].length)];
-              }
-            }
+      var arr = ["up", "mid", "down"];
+      for (var d in arr) {
+        var index = arr[d];
+        for (var i = 0 ; i <= counts[index]; i++) {
+          if (options[index]) {
+            result = result + soul[index][randomNumber(soul[index].length)];
           }
         }
-      return result;
-  };
+      }
+    }
+    return result;
+  }
   return heComes(text);
 }
 
-addProperty('stripColors', function() {
-  return ("" + this).replace(/\u001b\[\d+m/g,'');
+
+// don't summon zalgo
+addProperty('zalgo', function () {
+  return zalgo(this);
 });
 
-},{}],65:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /*
   Copyright (C) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2012 Mathias Bynens <mathias@qiwi.be>
@@ -5790,19 +6426,19 @@ parseStatement: true, parseSourceElement: true */
         while (index < length) {
             ch = source[index++];
             str += ch;
-            if (classMarker) {
+            if (ch === '\\') {
+                ch = source[index++];
+                // ECMA-262 7.8.5
+                if (isLineTerminator(ch)) {
+                    throwError({}, Messages.UnterminatedRegExp);
+                }
+                str += ch;
+            } else if (classMarker) {
                 if (ch === ']') {
                     classMarker = false;
                 }
             } else {
-                if (ch === '\\') {
-                    ch = source[index++];
-                    // ECMA-262 7.8.5
-                    if (isLineTerminator(ch)) {
-                        throwError({}, Messages.UnterminatedRegExp);
-                    }
-                    str += ch;
-                } else if (ch === '/') {
+                if (ch === '/') {
                     terminated = true;
                     break;
                 } else if (ch === '[') {
@@ -6534,9 +7170,8 @@ parseStatement: true, parseSourceElement: true */
             if (strict && expr.type === Syntax.Identifier && isRestrictedWord(expr.name)) {
                 throwErrorTolerant({}, Messages.StrictLHSPostfix);
             }
-
             if (!isLeftHandSide(expr)) {
-                throwError({}, Messages.InvalidLHSInAssignment);
+                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
             }
 
             expr = {
@@ -6569,7 +7204,7 @@ parseStatement: true, parseSourceElement: true */
             }
 
             if (!isLeftHandSide(expr)) {
-                throwError({}, Messages.InvalidLHSInAssignment);
+                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
             }
 
             expr = {
@@ -6818,7 +7453,7 @@ parseStatement: true, parseSourceElement: true */
         if (matchAssign()) {
             // LeftHandSideExpression
             if (!isLeftHandSide(expr)) {
-                throwError({}, Messages.InvalidLHSInAssignment);
+                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
             }
 
             // 11.13.1
@@ -7136,7 +7771,7 @@ parseStatement: true, parseSourceElement: true */
                 if (matchKeyword('in')) {
                     // LeftHandSideExpression
                     if (!isLeftHandSide(init)) {
-                        throwError({}, Messages.InvalidLHSInForIn);
+                        throwErrorTolerant({}, Messages.InvalidLHSInForIn);
                     }
 
                     lex();
@@ -7415,15 +8050,16 @@ parseStatement: true, parseSourceElement: true */
 
         expect('{');
 
+        cases = [];
+
         if (match('}')) {
             lex();
             return {
                 type: Syntax.SwitchStatement,
-                discriminant: discriminant
+                discriminant: discriminant,
+                cases: cases
             };
         }
-
-        cases = [];
 
         oldInSwitch = state.inSwitch;
         state.inSwitch = true;
@@ -8701,7 +9337,7 @@ parseStatement: true, parseSourceElement: true */
     }
 
     // Sync with package.json.
-    exports.version = '1.0.3';
+    exports.version = '1.0.4';
 
     exports.parse = parse;
 
@@ -8729,7 +9365,6 @@ parseStatement: true, parseSourceElement: true */
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */
 
-},{}]},{},[57])
-(57)
+},{}]},{},[64])
+(64)
 });
-;
