@@ -109,6 +109,20 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+    it('should not report redundant jsdoc-param for function', function() {
+        checker.configure({ validateJSDoc: { checkRedundantParams: true } });
+        assert(
+            checker.checkString(
+                '/**\n' +
+                ' * @param {Object} [elem] Nested element\n' +
+                ' * @param {String} [modName1, ..., modNameN] Modifier names\n' +
+                ' */\n' +
+                'function funcName(elem) {\n' +
+                    '\n' +
+                '}'
+            ).getErrorCount() === 0
+        );
+    });
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
