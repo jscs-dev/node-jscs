@@ -29,7 +29,7 @@ To run `jscs`, you can use the following command from the project root:
 
 ## Configuration
 
-If there is no `--config` option specified, `jscs` will take config from the `package.json` file under the `jscsConfig` if present, if not, it will search for `.jscsrc` and `.jscs.json` files in the current working directory or in nearest ancestor until it hits the system root.
+If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
 
 
 ### requireCurlyBraces

@@ -33,8 +33,7 @@
     "strip-json-comments": "~0.1.1",
     "vow": "~0.3.12",
     "vow-fs": "~0.2.3",
-    "xmlbuilder": "~2.1.0",
-    "findup-sync": "~0.1.2"
+    "xmlbuilder": "~2.1.0"
   },
   "devDependencies": {
     "browserify": "~3.30.2",
