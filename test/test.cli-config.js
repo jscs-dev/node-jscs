@@ -71,6 +71,12 @@ describe('cli-config', function() {
         assert.strictEqual(config, undefined);
     });
 
+    it('should load config from lower .jscsrc file instead of package.json', function() {
+        var config = configFile.load(null, './test/data/configs/mixedWithUpperPkg/jscsrc');
+
+        assert.strictEqual(config.from, '.jscsrc');
+    });
+
     it('should load config from home path', function() {
         var oldHome = process.env.HOME;
 
