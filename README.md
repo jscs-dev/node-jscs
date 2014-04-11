@@ -896,6 +896,39 @@ var x = [[ 1 ], [ 2 ]];
 var x = [1];
 ```
 
+### requireSpacesInsideParentheses
+
+Requires space after opening round bracket and before closing.
+
+Type: `String`
+
+Values: "all" for strict mode, "allButNested" ignores nested brackets in a row.
+
+#### Example
+
+```js
+"disallowSpacesInsideParentheses": "all"
+```
+
+##### Valid for mode `"all"`
+
+```js
+var x = Math.pow( ( 1 + 2 ), ( 3 + 4 ) );
+```
+
+##### Valid for mode `"allButNested"`
+
+```js
+var x = Math.pow(( 1 + 2 ), ( 3 + 4 ));
+```
+
+##### Invalid
+
+```js
+var x = Math.pow(1 + 2, 3 + 4);
+```
+
+
 ### disallowQuotedKeysInObjects
 
 Disallows quoted keys in object if possible.
