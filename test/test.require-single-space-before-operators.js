@@ -1,7 +1,7 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-single-space-before-round-brace', function() {
+describe('rules/require-single-space-before-operators', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
