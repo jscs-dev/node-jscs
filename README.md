@@ -2296,6 +2296,24 @@ If you want specifically disable preset rule assign it to `null`
 requireCurlyBraces: null
 ```
 
+### disallowNewlinesBeforeCurlyBraces
+
+Disallows curly braces to be on new lines after operators.
+
+Type: `Array`
+
+Values: Array of quoted operators
+
+#### Example
+
+```js
+"disallowNewlinesBeforeCurlyBraces": [
+    ")",
+    "=",
+    ":"
+]
+```
+
 ## Browser Usage
 
 File [jscs-browser.js](jscs-browser.js) contains browser-compatible version of `jscs`.
