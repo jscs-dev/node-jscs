@@ -48,4 +48,12 @@ describe('rules/require-single-space-before-operators', function() {
         var test = 'var test = { ing: {} }; if (test.ing) { test.ing.done = true; }';
         assert(checker.checkString(test).isEmpty());
     });
+    it('should report missing single space on newline', function () {
+        checker.configure({
+            requireSingleSpaceBeforeOperators: {
+                '{': [')']
+            }
+        });
+        assert(checker.checkString('if (x)\n{ x += 1; }').getErrorCount() === 1);
+    });
 });
