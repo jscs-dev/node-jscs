@@ -45,6 +45,25 @@ describe('rules/require-spaces-in-function-expression', function() {
             assert(checker.checkString('var x = function() {}').isEmpty());
         });
 
+        it('should not report space before round brace in getter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+        });
+
+        it('should not report space before round brace in setter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+        });
+
+        it('should not report missing space before round brace in getter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = { get y() {} }').isEmpty());
+        });
+
+        it('should not report missing space before round brace in setter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
@@ -57,6 +76,26 @@ describe('rules/require-spaces-in-function-expression', function() {
         it('should not report space before curly brace in FunctionExpression', function() {
             checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
             assert(checker.checkString('var x = function() {}').isEmpty());
+        });
+
+        it('should not report space before curly brace in getter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+        });
+
+        it('should not report space before curly brace in setter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+        });
+
+        it('should not report missing space before curly brace in getter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            assert(checker.checkString('var x = { get y (){} }').isEmpty());
+        });
+
+        it('should not report missing space before curly brace in setter expression', function() {
+            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            assert(checker.checkString('var x = { set y (v){} }').isEmpty());
         });
     });
 });
