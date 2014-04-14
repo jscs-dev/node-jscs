@@ -56,4 +56,12 @@ describe('rules/require-single-space-before-operators', function() {
         });
         assert(checker.checkString('if (x)\n{ x += 1; }').getErrorCount() === 1);
     });
+    it('should not report missing single space on prototype method', function () {
+        checker.configure({
+            requireSingleSpaceBeforeOperators: {
+                "(": []
+            }
+        });
+        assert(checker.checkString('if (x) { x = x.toString(); }').isEmpty());
+    });
 });
