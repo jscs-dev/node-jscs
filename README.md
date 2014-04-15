@@ -2,7 +2,7 @@
 
 JSCS — JavaScript Code Style.
 
-`jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules. [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) and [Google](https://github.com/mdevils/node-jscs/blob/master/lib/presets/google.json) presets are also available.
+`jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules. [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) preset is also available.
 
 ## Friendly packages
 
@@ -2282,7 +2282,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"jquery"`, `"google"`
+Values: `"jquery"`
 
 #### Example
 

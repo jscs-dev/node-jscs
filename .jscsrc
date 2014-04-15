@@ -1,3 +1,4 @@
 {
-    "preset": "google"
+    "preset": "google",
+    "excludeFiles": ["test/data/**"]
 }
