@@ -16,4 +16,19 @@ describe('rules/preset', function() {
         assert(config.requireCurlyBraces === preset.requireCurlyBraces);
         assert(config.config !== preset);
     });
+
+    it('should set rules from the jquery preset', function() {
+        var checker = new Checker();
+        var preset = require('../lib/presets/google');
+
+        checker.registerDefaultRules();
+        checker.configure({
+            preset: 'google'
+        });
+
+        var config = checker.getProcessedConfig();
+
+        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
+        assert(config.config !== preset);
+    });
 });
