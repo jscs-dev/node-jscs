@@ -54,14 +54,10 @@ describe('rules/require-spaces-inside-parentheses', function() {
     it('should report nested bracket when configured', function() {
         checker.configure({ requireSpacesInsideParentheses: 'all' });
         assert(checker.checkString('(( 1, 2 ))').getErrorCount() === 2);
-        assert(checker.checkString('([ 1, 2 ])').getErrorCount() === 2);
-        assert(checker.checkString('({ 1: 2 })').getErrorCount() === 2);
     });
     it('should allow nested bracket when configured', function() {
         checker.configure({ requireSpacesInsideParentheses: 'allButNested' });
         assert(checker.checkString('(( 1, 2 ))').isEmpty());
-        assert(checker.checkString('([ 1, 2 ])').isEmpty());
-        assert(checker.checkString('({ 1: 2 })').isEmpty());
     });
 
 });
