@@ -29,4 +29,15 @@ describe('lib/js-file', function() {
             assert(token.type !== 'Keyword');
         });
     });
+
+    it('should not affect valid nested constructions', function() {
+        var str = 'if (true) { if (false); }';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        file.getTokens().forEach(function(token) {
+            if (token.value === 'if') {
+                assert(token.type === 'Keyword');
+            }
+        });
+    });
 });
