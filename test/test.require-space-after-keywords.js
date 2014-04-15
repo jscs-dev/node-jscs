@@ -35,4 +35,8 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['function'] });
         assert(checker.checkString('test.each( function  () {})').getErrorCount() === 1);
     });
+    it('should trigger error for keywords inside function (#332)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['if'] });
+        assert(checker.checkString('function f() { if(true) {"something";} }').getErrorCount() === 1);
+    });
 });
