@@ -17,7 +17,7 @@ describe('rules/preset', function() {
         assert(config.config !== preset);
     });
 
-    it('should set rules from the jquery preset', function() {
+    it('should set rules from the google preset', function() {
         var checker = new Checker();
         var preset = require('../lib/presets/google');
 
