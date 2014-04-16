@@ -691,7 +691,7 @@ if (true) {
 }
 ```
 
-### disallowPaddingNewlinesInBlock
+### disallowPaddingNewlinesInBlocks
 
 Disallows blocks from beginning and ending with 2 newlines.
 
@@ -702,7 +702,7 @@ Values: `true` validates all non-empty blocks.
 #### Example
 
 ```js
-"disallowPaddingNewlinesInBlock": true
+"disallowPaddingNewlinesInBlocks": true
 ```
 
 ##### Valid
