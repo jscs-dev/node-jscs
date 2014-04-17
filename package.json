@@ -22,26 +22,26 @@
     "Mike Sherov <mike.sherov@gmail.com>"
   ],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "dependencies": {
     "colors": "~0.6.2",
-    "commander": "~2.1.0",
-    "esprima": "~1.0.4",
-    "glob": "~3.2.8",
+    "commander": "~2.2.0",
+    "esprima": "~1.1.1",
+    "glob": "~3.2.9",
     "minimatch": "~0.2.14",
     "strip-json-comments": "~0.1.1",
     "vow": "~0.3.12",
     "vow-fs": "~0.2.3",
-    "xmlbuilder": "~2.1.0"
+    "xmlbuilder": "~2.2.1"
   },
   "devDependencies": {
-    "browserify": "~3.30.2",
+    "browserify": "~3.43.0",
     "hooker": "~0.2.3",
-    "jshint": "~2.4.4",
-    "mocha": "~1.17.1",
-    "sinon": "~1.8.2",
-    "xml2js": "~0.4.1"
+    "jshint": "~2.5.0",
+    "mocha": "~1.18.2",
+    "sinon": "~1.9.1",
+    "xml2js": "~0.4.2"
   },
   "bin": {
     "jscs": "./bin/jscs"

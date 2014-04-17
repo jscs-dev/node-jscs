@@ -8,5 +8,5 @@
     "noarg"    : true,
     "unused"   : true,
     "maxlen"   : 120,
-    "predef"   : ["describe", "it", "beforeEach", "afterEach"]
+    "mocha"    : true
 }
