@@ -2186,8 +2186,6 @@ Values: `true`
 if (a == 1) {
   return
 }
-
-
 ```
 
 ##### Invalid
