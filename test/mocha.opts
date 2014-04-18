@@ -1,0 +1,3 @@
+test/modules/*.js test/rules/*.js test/options/*.js
+-R spec
+-u bdd
