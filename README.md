@@ -18,19 +18,102 @@ JSCS — JavaScript Code Style.
 `jscs` can be installed using `npm`:
 
 ```
-npm install jscs
+npm install jscs -g
 ```
 
 To run `jscs`, you can use the following command from the project root:
 
 ```
-./node_modules/.bin/jscs path[ path[...]]
+jscs path[ path[...]]
 ```
 
-## Configuration
+## CLI
+
+### `--config`
+Allows to define path to the config file.
+```
+jscs path[ path[...]] --config=./.config.json
+```
 
 If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
 
+### `--preset`
+If defined will use predefined rules for specific code style.
+```
+jscs path[ path[...]] --preset=jquery
+```
+
+### `--reporter`
+`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `junit` and `text`.
+```
+jscs path[ path[...]] --reporter=console
+```
+
+But you also can specify your own reporter, since this flag accepts relative or absolute paths too.
+```
+jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
+```
+
+### `--no-colors`
+*Will be removed*. Clean output without colors.
+
+### `--help`
+Outputs usage information.
+
+### `--version`
+Outputs version of `jscs`.
+
+## Options
+
+### additionalRules
+
+Path to load additional rules
+
+Type: `Array`
+
+Values: Array of file matching patterns
+
+#### Example
+
+```js
+"additionalRules": ["project-rules/*.js"]
+```
+
+### preset
+
+Extends defined rules with preset rules.
+
+Type: `String`
+
+Values: `"jquery"`
+
+#### Example
+
+```js
+"preset": "jquery"
+```
+
+If you want specifically disable preset rule assign it to `null`
+```js
+"preset": "jquery",
+"requireCurlyBraces": null
+```
+
+### excludeFiles
+
+Disables style checking for specified paths.
+
+Type: `Array`
+
+Values: Array of file matching patterns
+
+#### Example
+
+```js
+"excludeFiles": ["node_modules/**"]
+```
+
+## Rules
 
 ### requireCurlyBraces
 
@@ -38,7 +121,7 @@ Requires curly braces after statements.
 
 Type: `Array`
 
-Values: Arrow of quoted keywords
+Values: Array of quoted keywords
 
 JSHint: [`curly`](http://jshint.com/docs/options/#curly)
 
@@ -2244,54 +2327,6 @@ add: function(message, line, column) {
  */
 add: function() {
 }
-```
-
-### excludeFiles
-
-Disables style checking for specified paths.
-
-Type: `Array`
-
-Values: Array of file matching patterns
-
-#### Example
-
-```js
-"excludeFiles": ["node_modules/**"]
-```
-
-### additionalRules
-
-Path to load additional rules
-
-Type: `Array`
-
-Values: Array of file matching patterns
-
-#### Example
-
-```js
-"additionalRules": ["project-rules/*.js"]
-```
-
-### preset
-
-Extends defined rules with preset rules.
-
-Type: `String`
-
-Values: `"jquery"`
-
-#### Example
-
-```js
-"preset": "jquery"
-```
-
-If you want specifically disable preset rule assign it to `null`
-```js
-"preset": "jquery",
-requireCurlyBraces: null
 ```
 
 ## Browser Usage
