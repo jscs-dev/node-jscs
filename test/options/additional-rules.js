@@ -2,7 +2,7 @@ var Checker = require('../../lib/modules/checker');
 var configFile = require('../../lib/modules/cli-config');
 var assert = require('assert');
 
-describe('rules/additional-rules', function() {
+describe('additionalRules option', function() {
     var checker;
 
     beforeEach(function() {
