@@ -1,4 +1,4 @@
-var Checker = require('../../lib/checker');
+var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 var fs = require('fs');
 var fixture = fs.readFileSync(__dirname + '/../data/validate-indentation.js', 'utf8');

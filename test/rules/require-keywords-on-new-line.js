@@ -1,4 +1,4 @@
-var Checker = require('../../lib/checker');
+var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 
 describe('rules/require-keywords-on-new-line', function() {

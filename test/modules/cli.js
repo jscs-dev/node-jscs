@@ -6,7 +6,7 @@ var Vow = require('vow');
 
 var path = require('path');
 
-var cli = require('../../lib/cli');
+var cli = require('../../lib/modules/cli');
 var startingDir = process.cwd();
 
 describe('cli', function() {
@@ -56,7 +56,7 @@ describe('cli', function() {
     });
 
     it('should set jquery preset', function() {
-        var Checker = require('../../lib/checker');
+        var Checker = require('../../lib/modules/checker');
         var old = Checker.prototype.checkPath;
 
         Checker.prototype.checkPath = function(path) {

@@ -1,6 +1,6 @@
 var assert = require('assert');
 var esprima = require('esprima');
-var JsFile = require('../../lib/js-file');
+var JsFile = require('../../lib/modules/js-file');
 
 describe('lib/js-file', function() {
     it('should fix token array for object keys', function() {

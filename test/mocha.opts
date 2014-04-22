@@ -1,3 +1,4 @@
-test/modules/*.js test/rules/*.js test/options/*.js
+test/modules/*.js test/rules/*.js test/options/*.js test/reporters/*.js
 -R spec
 -u bdd
+

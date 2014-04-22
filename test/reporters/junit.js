@@ -1,4 +1,4 @@
-var Checker = require('../../lib/checker');
+var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 var junit = require('../../lib/reporters/junit');
 var hooker = require('hooker');
