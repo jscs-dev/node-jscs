@@ -4,7 +4,7 @@ var assert = require('assert');
 describe('rules/preset', function() {
     it('should set rules from the jquery preset', function() {
         var checker = new Checker();
-        var preset = require('../../lib/presets/jquery');
+        var preset = require('../../presets/jquery');
 
         checker.registerDefaultRules();
         checker.configure({
@@ -19,7 +19,7 @@ describe('rules/preset', function() {
 
     it('should set rules from the google preset', function() {
         var checker = new Checker();
-        var preset = require('../../lib/presets/google');
+        var preset = require('../../presets/google');
 
         checker.registerDefaultRules();
         checker.configure({

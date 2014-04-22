@@ -2,7 +2,7 @@ var Checker = require('../../lib/modules/checker');
 var configFile = require('../../lib/modules/cli-config');
 var assert = require('assert');
 
-describe('excludeFiles option', function() {
+describe('options/exclude-files', function() {
     var checker;
 
     beforeEach(function() {
