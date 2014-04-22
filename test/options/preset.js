@@ -1,7 +1,7 @@
 var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 
-describe('preset option', function() {
+describe('options/preset', function() {
     it('should set rules from the jquery preset', function() {
         var checker = new Checker();
         var preset = require('../../presets/jquery');
