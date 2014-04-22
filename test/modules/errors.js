@@ -1,7 +1,7 @@
 var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 
-describe('lib/errors', function() {
+describe('modules/errors', function() {
     var checker = new Checker();
 
     checker.registerDefaultRules();

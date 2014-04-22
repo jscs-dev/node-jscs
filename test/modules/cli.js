@@ -9,7 +9,7 @@ var path = require('path');
 var cli = require('../../lib/modules/cli');
 var startingDir = process.cwd();
 
-describe('cli', function() {
+describe('modules/cli', function() {
     beforeEach(function() {
         sinon.stub(process, 'exit');
     });

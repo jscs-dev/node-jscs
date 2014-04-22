@@ -2,7 +2,7 @@ var assert = require('assert');
 var esprima = require('esprima');
 var JsFile = require('../../lib/modules/js-file');
 
-describe('lib/js-file', function() {
+describe('modules/js-file', function() {
     it('should fix token array for object keys', function() {
         var str = '({ for: 42 })';
         var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));

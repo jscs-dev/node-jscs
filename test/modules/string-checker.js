@@ -1,7 +1,7 @@
 var Checker = require('../../lib/modules/checker');
 var assert = require('assert');
 
-describe('string-checker', function() {
+describe('modules/string-checker', function() {
     it('should not process the rule if it is equals to null (#203)', function() {
         var checker = new Checker();
         checker.registerDefaultRules();

@@ -1,7 +1,7 @@
 var assert = require('assert');
 var configFile = require('../../lib/modules/cli-config');
 
-describe('cli-config', function() {
+describe('modules/cli-config', function() {
     it('should load a config from a package.json file', function() {
         var config = configFile.load('package.json', './test/data/configs/package');
 
