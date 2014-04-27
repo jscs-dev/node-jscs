@@ -1,0 +1,19 @@
+<div class="page-header">
+    <h2>Rules</h2>
+    <p>
+        This is a complete list of all rules included in JSCS. You can turn on an each of them by including their in
+        your configuration.
+    </p>
+</div>
+<?js rules.forEach(function(rule) { 1?>
+<div class="row">
+    <div class="col-md-5">
+        <h4><a href="<?js= this.linkto(rule.longname, filepath) ?>"><?js= rule.longname ?></a></h4>
+        <code><?js= rule.optionName ?></code>
+    </div>
+    <div class="col-md-7">
+        <?js= rule.description ?>
+    </div>
+</div>
+<hr/>
+<?js }, this); ?>

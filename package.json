@@ -41,13 +41,16 @@
     "jshint": "~2.5.0",
     "mocha": "~1.18.2",
     "sinon": "~1.9.1",
-    "xml2js": "~0.4.2"
+    "xml2js": "~0.4.2",
+    "underscore.string": "~2.3.3",
+    "jsdoc": "~3.3.0-alpha5"
   },
   "bin": {
     "jscs": "./bin/jscs"
   },
   "scripts": {
-    "lint": "jshint . && node bin/jscs lib test bin",
+    "doc": "jsdoc -c jsdoc.conf.json",
+    "lint": "jshint . && node bin/jscs lib test bin docs",
     "test": "npm run lint && mocha -u bdd -R spec",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js"
   },

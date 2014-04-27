@@ -1,0 +1,37 @@
+.navbar {
+    border-color: #e9d34b;
+    background: #f7dd3f;
+    color: #333;
+}
+
+.navbar-default .navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+.navbar-default .navbar-nav>li>a {
+    font-weight: bold;
+    color: #333;
+}
+.navbar-default .navbar-nav>li>a:hover {
+    color: #5e5e5e;
+}
+
+h1 {
+    font-weight: bolder;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #eee;
+}
+
+code {
+    color: #333;
+    background: #f8f8f8;
+}
+
+pre {
+    background: #f8f8f8;
+}
+
+.home h1 {
+    text-transform: capitalize;
+}

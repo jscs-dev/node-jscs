@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?js= title ?></title>
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="http://yastatic.net/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <link rel="stylesheet" href="<?js= this.linkToFile(outdir+'/css/main.css', filepath)?>">
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="<?js= this.linkToFile(outdir, filepath) ?>">JSCS</a>
+            </div>
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="<?js= this.linkto('home', filepath) ?>">Home</a></li>
+                    <li><a href="<?js= this.linkto('rules-list', filepath) ?>">Rules</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://github.com/mdevils/node-jscs">Code on Github</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <?js= content ?>
+</div>
+
+<script src="http://yastatic.net/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function () {
+            try {
+                w.yaCounter24163990 = new Ya.Metrika({id:24163990,
+                    clickmap:true});
+            } catch (e) {
+            }
+        });
+        var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+            n.parentNode.insertBefore(s, n);
+        };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24163990" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
