@@ -1,3 +1,21 @@
+Version 1.4.0:
+ * Dropped `node.js` 0.8 support.
+ * Update all dependencies to their latest versions except `vow`/`vow-fs` (@XhmikosR).
+ * Add dependency status badges (@XhmikosR).
+ * Advanced search for the configuration files (@markelog).
+ * Improve `requireSpaceAfterKeywords` rule: trigger error if there is more then two spaces (@markelog).
+ * Rule `spaceAfterKeywords`: fix up funarg issue (@markelog).
+ * Make `requireMultipleVarDecl` rule more like onevar.
+ * Allow comments in parentheses for rule `disallowSpacesInsideParentheses` (@Famlam).
+ * Extract own settings into google preset (@jzaefferer).
+ * Rule `disallowTrailingComma` (@rxin).
+ * Rule `requireTrailingComma` (@rxin).
+ * Rule `disallowSpaceBeforeBlockStatements` (@rxin).
+ * Rule `requireSpaceBeforeBlockStatements` (@rxin).
+ * Rule `requireBlocksOnNewline` (@mikesherov).
+ * Rule `requirePaddingNewlinesInBlock` (@mikesherov).
+ * Rule `disallowPaddingNewlinesInBlock` (@mikesherov).
+
 Version 1.3.0:
  * New JSCS config format: `.jscsrc`. JSON-file with comments.
  * Rule `requireBlocksOnNewline` (@Famlam).
