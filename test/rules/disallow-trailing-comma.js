@@ -1,4 +1,4 @@
-var Checker = require('../../lib/modules/checker');
+var Checker = require('../../lib/checker');
 var assert = require('assert');
 
 describe('rules/disallow-trailing-comma', function() {

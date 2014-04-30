@@ -6,7 +6,7 @@ var Vow = require('vow');
 
 var path = require('path');
 
-var cli = require('../../lib/modules/cli');
+var cli = require('../lib/cli');
 var startingDir = process.cwd();
 
 describe('modules/cli', function() {
@@ -56,7 +56,7 @@ describe('modules/cli', function() {
     });
 
     it('should set jquery preset', function() {
-        var Checker = require('../../lib/modules/checker');
+        var Checker = require('../lib/checker');
         var old = Checker.prototype.checkPath;
 
         Checker.prototype.checkPath = function(path) {
@@ -120,7 +120,7 @@ describe('modules/cli', function() {
 
             var result = cli({
                 args: ['data/cli/error.js'],
-                reporter: '../../lib/reporters/junit.js',
+                reporter: '../lib/reporters/junit.js',
                 config: 'data/cli/cli.json'
             });
 

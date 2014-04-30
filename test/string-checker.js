@@ -1,4 +1,4 @@
-var Checker = require('../../lib/modules/checker');
+var Checker = require('../lib/checker');
 var assert = require('assert');
 
 describe('modules/string-checker', function() {

@@ -1,4 +1,4 @@
-var Checker = require('../../lib/modules/checker');
+var Checker = require('../../lib/checker');
 var assert = require('assert');
 
 describe('rules/disallow-comma-before-line-break', function() {

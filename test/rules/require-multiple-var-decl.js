@@ -1,7 +1,7 @@
 /* jshint -W098 */
 /* jshint -W030 */
 
-var Checker = require('../../lib/modules/checker');
+var Checker = require('../../lib/checker');
 var assert = require('assert');
 
 describe('rules/require-multiple-var-decl', function() {

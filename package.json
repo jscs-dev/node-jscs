@@ -49,7 +49,7 @@
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin",
     "test": "npm run lint && mocha",
-    "browserify": "browserify --standalone JscsStringChecker lib/modules/string-checker.js -o jscs-browser.js"
+    "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js"
   },
   "files": [
     "bin",
