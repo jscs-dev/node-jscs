@@ -2161,6 +2161,36 @@ function(d) {
 }
 ```
 
+### validateParameterSeparator
+
+Enable validation of separators between function parameters.
+
+Type: `String`
+
+Values:
+
+ - `", "`: function parameters are immediately followed by a comma then a space
+ - `" ,"`: function parameters are immediately followed by a space then a comma
+ - `" , "`: function parameters are immediately followed by a space, a comma then a space
+
+#### Example
+
+```js
+"validateParameterSeparator": ", "
+```
+
+##### Valid
+
+```js
+function a(b, c) {}
+```
+
+##### Invalid
+
+```js
+function a(b , c) {}
+```
+
 ### disallowMixedSpacesAndTabs
 
 Requires lines to not contain both spaces and tabs consecutively,
