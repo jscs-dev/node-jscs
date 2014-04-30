@@ -5,7 +5,7 @@ Version 1.4.0:
  * Advanced search for the configuration files (@markelog).
  * Improve `requireSpaceAfterKeywords` rule: trigger error if there is more then two spaces (@markelog).
  * Rule `spaceAfterKeywords`: fix up funarg issue (@markelog).
- * Make `requireMultipleVarDecl` rule more like onevar.
+ * Make `requireMultipleVarDecl` rule more like onevar (@markelog).
  * Allow comments in parentheses for rule `disallowSpacesInsideParentheses` (@Famlam).
  * Extract own settings into google preset (@jzaefferer).
  * Rule `disallowTrailingComma` (@rxin).
