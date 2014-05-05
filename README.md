@@ -15,6 +15,7 @@ JSCS — JavaScript Code Style.
 ### Extensions
 
  * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
+ * A team city reporter: https://github.com/wurmr/jscs-teamcity-reporter
 
 ## Installation
 
