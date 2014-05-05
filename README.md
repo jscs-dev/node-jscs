@@ -10,8 +10,13 @@ JSCS — JavaScript Code Style.
  * Gulp task: https://github.com/sindresorhus/gulp-jscs/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
- * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
+
+### Extensions
+
+ * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
+ * A team city reporter: https://github.com/wurmr/jscs-teamcity-reporter
+ * JSdoc rules extension: https://github.com/zxqfox/jscs-jsdoc
 
 ## Installation
 
