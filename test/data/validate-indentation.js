@@ -319,3 +319,8 @@ $(b)
 a
   .b('c',
            'd'); // NO ERROR: this has nothing to do with indentation, this is CallExpression spacing
+
+a
+  .b('c', [ 'd', function(e) {
+    e++;
+  }]);
