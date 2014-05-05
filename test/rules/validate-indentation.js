@@ -112,6 +112,12 @@ describe('rules/validate-indentation', function() {
             361,
             363,
             365,
+            371,
+            372,
+            375,
+            376,
+            379,
+            380
         ]);
     });
 });
