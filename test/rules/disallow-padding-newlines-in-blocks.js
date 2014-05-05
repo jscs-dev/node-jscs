@@ -27,6 +27,15 @@ describe('rules/disallow-padding-newlines-in-blocks', function() {
     it('should not report with no spaces', function() {
         assert(checker.checkString('if (true) {\nabc();\n}').isEmpty());
     });
+    it('should not report with no spaces in allman style', function() {
+        assert(checker.checkString('if (true)\n{\nabc();\n}').isEmpty());
+    });
+    it('should not report with comment on first line', function() {
+        assert(checker.checkString('if (true) {\n//comment\nabc();\n}').isEmpty());
+    });
+    it('should not report with multi-line comment on first line', function() {
+        assert(checker.checkString('if (true) {\n/*\ncomment\n*/\nabc();\n}').isEmpty());
+    });
     it('should not report empty function definitions', function() {
         assert(checker.checkString('var a = function() {};').isEmpty());
     });
