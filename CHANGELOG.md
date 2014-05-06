@@ -1,3 +1,14 @@
+Version 1.4.1:
+ * Rule `disallowPaddingNewlinesInBlocks`: check for comments in the whitespace. Fixes #347 (@mikesherov).
+ * Introduce extensions section in README (@zxqfox)
+ * Fixes for `validateIndentation` rule: properly validate finally clauses. Fixes #311 (@mikesherov).
+ * Fixes for `validateIndentation` rule: tests for holes in array and more complex temporary fix for it (@zxqfox).
+ * Fixes for `validateIndentation` rule: allow for extra indents when first variable
+   in a declaration is multi-line (@mikesherov).
+ * Fixes for `validateIndentation` rule: prevent false positive when array elements are
+   on same line as array opener, but array is not single line. Fixes #353 (@mikesherov)
+ * Restructuration of lib/test files (@markelog)
+
 Version 1.4.0:
  * Dropped `node.js` 0.8 support.
  * Update all dependencies to their latest versions except `vow`/`vow-fs` (@XhmikosR).
