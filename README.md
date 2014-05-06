@@ -719,7 +719,7 @@ var abc = function() {};
 if (true) { doSomething(); doSomethingElse(); }
 ```
 
-### requirePaddingNewlinesInBlock
+### requirePaddingNewlinesInBlocks
 
 Requires blocks to begin and end with 2 newlines
 
@@ -730,7 +730,7 @@ Values: `true` validates all non-empty blocks, `Integer` specifies a minimum num
 #### Example
 
 ```js
-"requirePaddingNewlinesInBlock": true
+"requirePaddingNewlinesInBlocks": true
 ```
 
 ##### Valid for mode `true`
