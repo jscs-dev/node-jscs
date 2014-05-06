@@ -159,7 +159,7 @@ function renderPointer(column, colorize) {
 
 module.exports = Errors;
 
-},{"colors":80}],2:[function(_dereq_,module,exports){
+},{"colors":79}],2:[function(_dereq_,module,exports){
 var treeIterator = _dereq_('./tree-iterator');
 
 /**
@@ -343,64 +343,28 @@ JsFile.prototype = {
 
 module.exports = JsFile;
 
-},{"./tree-iterator":73}],3:[function(_dereq_,module,exports){
-module.exports={
-    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
-    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
-    "disallowLeftStickedOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "disallowRightStickedOperators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
-    "requireRightStickedOperators": ["!"],
-    "requireLeftStickedOperators": [","],
-    "disallowImplicitTypeConversion": ["string"],
-    "disallowKeywords": ["with"],
-    "disallowMultipleLineBreaks": true,
-    "disallowKeywordsOnNewLine": ["else"],
-    "disallowMixedSpacesAndTabs": true,
-    "disallowTrailingWhitespace": true,
-    "requireLineFeedAtFileEnd": true,
-    "requireSpacesInFunctionExpression": {
-        "beforeOpeningCurlyBrace": true
-    },
-    "disallowSpacesInFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
-    "validateJSDoc": {
-        "checkParamNames": true,
-        "requireParamTypes": true
-    },
-    "validateIndentation": 4,
-    "validateQuoteMarks": "'"
-}
+},{"./tree-iterator":72}],3:[function(_dereq_,module,exports){
+var presets = {
+    jquery: _dereq_('../../presets/jquery.json'),
+    google: _dereq_('../../presets/google.json')
+};
 
-},{}],4:[function(_dereq_,module,exports){
-module.exports={
-    "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
-    "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
-    "requireSpacesInFunctionExpression": {
-        "beforeOpeningCurlyBrace": true
-    },
-    "disallowSpacesInFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
-    "requireMultipleVarDecl": true,
-    "requireSpacesInsideObjectBrackets": "all",
-    "requireSpacesInsideArrayBrackets": "all",
-    "disallowLeftStickedOperators": [ "?" ],
-    "disallowRightStickedOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
-    "requireSpaceBeforeBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
-    "disallowSpaceAfterPrefixUnaryOperators": [ "++", "--", "+", "-" ],
-    "disallowSpaceBeforePostfixUnaryOperators": [ "++", "--" ],
-    "requireRightStickedOperators": [ "!" ],
-    "requireLeftStickedOperators": [ "," ],
-    "disallowKeywords": [ "with" ],
-    "disallowMultipleLineBreaks": true,
-    "disallowKeywordsOnNewLine": [ "else" ],
-    "requireLineFeedAtFileEnd": true,
-    "disallowSpaceAfterObjectKeys": true,
-    "validateLineBreaks": "LF"
-}
+module.exports = function(config) {
+    if (!config.preset) {
+        return;
+    }
 
-},{}],5:[function(_dereq_,module,exports){
+    var preset = presets[config.preset];
+
+    delete config.preset;
+    for (var rule in preset) {
+        if (!(rule in config)) {
+            config[rule] = preset[rule];
+        }
+    }
+};
+
+},{"../../presets/google.json":81,"../../presets/jquery.json":82}],4:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -439,7 +403,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],6:[function(_dereq_,module,exports){
+},{"assert":74}],5:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -486,7 +450,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],7:[function(_dereq_,module,exports){
+},{"assert":74}],6:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -521,7 +485,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],8:[function(_dereq_,module,exports){
+},{"assert":74}],7:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -574,7 +538,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],9:[function(_dereq_,module,exports){
+},{"assert":74}],8:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -612,7 +576,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],10:[function(_dereq_,module,exports){
+},{"assert":74}],9:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -646,7 +610,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],11:[function(_dereq_,module,exports){
+},{"assert":74}],10:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -683,7 +647,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],12:[function(_dereq_,module,exports){
+},{"assert":74}],11:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -744,7 +708,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],13:[function(_dereq_,module,exports){
+},{"assert":74}],12:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -779,7 +743,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],14:[function(_dereq_,module,exports){
+},{"assert":74}],13:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -815,7 +779,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],15:[function(_dereq_,module,exports){
+},{"assert":74}],14:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -849,7 +813,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],16:[function(_dereq_,module,exports){
+},{"assert":74}],15:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -868,6 +832,33 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
+        var _commentLineMap;
+
+        function getCommentLines() {
+            if (!_commentLineMap) {
+                _commentLineMap = file.getComments().reduce(function(map, comment) {
+                    for (var x = comment.loc.start.line; x <= comment.loc.end.line; x++) {
+                        map[x] = 1;
+                    }
+                    return map;
+                }, {});
+            }
+
+            return _commentLineMap;
+        }
+
+        function hasEmptyLine(startLine, endLine) {
+            var commentLines = getCommentLines();
+
+            for (var x = startLine; x < endLine; x++) {
+                if (!commentLines[x]) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         file.iterateNodesByType('BlockStatement', function(node) {
             if (node.body.length === 0) {
                 return;
@@ -878,16 +869,20 @@ module.exports.prototype = {
 
             var openingBracket = tokens[openingBracketPos];
             var nextToken = tokens[openingBracketPos + 1];
+            var startLine = openingBracket.loc.start.line + 1;
+            var nextLine = nextToken.loc.start.line;
 
-            if (openingBracket.loc.start.line + 1 < nextToken.loc.start.line) {
+            if (startLine < nextLine && hasEmptyLine(startLine, nextLine)) {
                 errors.add('Expected no padding newline after opening curly brace', openingBracket.loc.end);
             }
 
             var closingBracketPos = file.getTokenPosByRangeStart(node.range[1] - 1);
             var closingBracket = tokens[closingBracketPos];
             var prevToken = tokens[closingBracketPos - 1];
+            var closingLine = closingBracket.loc.start.line;
+            var prevLine = prevToken.loc.start.line + 1;
 
-            if (closingBracket.loc.start.line > prevToken.loc.start.line + 1) {
+            if (closingLine > prevLine && hasEmptyLine(prevLine, closingLine)) {
                 errors.add('Expected no padding newline before closing curly brace', prevToken.loc.end);
             }
         });
@@ -895,7 +890,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],17:[function(_dereq_,module,exports){
+},{"assert":74}],16:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var utils = _dereq_('../utils');
 
@@ -940,7 +935,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":74,"assert":75}],18:[function(_dereq_,module,exports){
+},{"../utils":73,"assert":74}],17:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -977,7 +972,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],19:[function(_dereq_,module,exports){
+},{"assert":74}],18:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -1018,7 +1013,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":72,"assert":75}],20:[function(_dereq_,module,exports){
+},{"../token-helper":71,"assert":74}],19:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1056,7 +1051,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],21:[function(_dereq_,module,exports){
+},{"assert":74}],20:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1094,7 +1089,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],22:[function(_dereq_,module,exports){
+},{"assert":74}],21:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1131,7 +1126,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":75}],23:[function(_dereq_,module,exports){
+},{"assert":74}],22:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -1172,7 +1167,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":72,"assert":75}],24:[function(_dereq_,module,exports){
+},{"../token-helper":71,"assert":74}],23:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1210,7 +1205,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],25:[function(_dereq_,module,exports){
+},{"assert":74}],24:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1249,7 +1244,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":75}],26:[function(_dereq_,module,exports){
+},{"assert":74}],25:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1335,7 +1330,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],27:[function(_dereq_,module,exports){
+},{"assert":74}],26:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1420,7 +1415,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],28:[function(_dereq_,module,exports){
+},{"assert":74}],27:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1505,7 +1500,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],29:[function(_dereq_,module,exports){
+},{"assert":74}],28:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1591,7 +1586,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],30:[function(_dereq_,module,exports){
+},{"assert":74}],29:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1641,7 +1636,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],31:[function(_dereq_,module,exports){
+},{"assert":74}],30:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1691,7 +1686,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],32:[function(_dereq_,module,exports){
+},{"assert":74}],31:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1742,7 +1737,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],33:[function(_dereq_,module,exports){
+},{"assert":74}],32:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1780,7 +1775,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],34:[function(_dereq_,module,exports){
+},{"assert":74}],33:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1813,7 +1808,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],35:[function(_dereq_,module,exports){
+},{"assert":74}],34:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1860,7 +1855,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],36:[function(_dereq_,module,exports){
+},{"assert":74}],35:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1893,7 +1888,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],37:[function(_dereq_,module,exports){
+},{"assert":74}],36:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1954,7 +1949,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],38:[function(_dereq_,module,exports){
+},{"assert":74}],37:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2003,7 +1998,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],39:[function(_dereq_,module,exports){
+},{"assert":74}],38:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2040,7 +2035,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],40:[function(_dereq_,module,exports){
+},{"assert":74}],39:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2078,7 +2073,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],41:[function(_dereq_,module,exports){
+},{"assert":74}],40:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2117,7 +2112,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],42:[function(_dereq_,module,exports){
+},{"assert":74}],41:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2202,7 +2197,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],43:[function(_dereq_,module,exports){
+},{"assert":74}],42:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var utils = _dereq_('../utils');
 
@@ -2256,7 +2251,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":74,"assert":75}],44:[function(_dereq_,module,exports){
+},{"../utils":73,"assert":74}],43:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2294,7 +2289,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],45:[function(_dereq_,module,exports){
+},{"assert":74}],44:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2331,7 +2326,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],46:[function(_dereq_,module,exports){
+},{"assert":74}],45:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2362,7 +2357,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],47:[function(_dereq_,module,exports){
+},{"assert":74}],46:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 function consecutive(file, errors) {
@@ -2437,7 +2432,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":75}],48:[function(_dereq_,module,exports){
+},{"assert":74}],47:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2474,7 +2469,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],49:[function(_dereq_,module,exports){
+},{"assert":74}],48:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2524,7 +2519,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],50:[function(_dereq_,module,exports){
+},{"assert":74}],49:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2586,7 +2581,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],51:[function(_dereq_,module,exports){
+},{"assert":74}],50:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2623,7 +2618,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],52:[function(_dereq_,module,exports){
+},{"assert":74}],51:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -2664,7 +2659,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":72,"assert":75}],53:[function(_dereq_,module,exports){
+},{"../token-helper":71,"assert":74}],52:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2690,7 +2685,10 @@ module.exports.prototype = {
             if (keywordIndex[token.value]) {
                 var nextToken = tokens[i + 1];
 
-                if (nextToken && nextToken.range[0] - token.range[1] !== 1) {
+                if (nextToken &&
+                    nextToken.loc.end.line === token.loc.start.line &&
+                    nextToken.range[0] - token.range[1] !== 1
+                ) {
                     if (nextToken.type !== 'Punctuator' || nextToken.value !== ';') {
                         errors.add(
                             'Missing space after `' + token.value + '` keyword',
@@ -2705,7 +2703,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],54:[function(_dereq_,module,exports){
+},{"assert":74}],53:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2743,7 +2741,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],55:[function(_dereq_,module,exports){
+},{"assert":74}],54:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2780,7 +2778,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":75}],56:[function(_dereq_,module,exports){
+},{"assert":74}],55:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -2821,7 +2819,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":72,"assert":75}],57:[function(_dereq_,module,exports){
+},{"../token-helper":71,"assert":74}],56:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2859,7 +2857,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],58:[function(_dereq_,module,exports){
+},{"assert":74}],57:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2898,7 +2896,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":75}],59:[function(_dereq_,module,exports){
+},{"assert":74}],58:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2983,7 +2981,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],60:[function(_dereq_,module,exports){
+},{"assert":74}],59:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3068,7 +3066,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],61:[function(_dereq_,module,exports){
+},{"assert":74}],60:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3153,7 +3151,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],62:[function(_dereq_,module,exports){
+},{"assert":74}],61:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3238,7 +3236,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],63:[function(_dereq_,module,exports){
+},{"assert":74}],62:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3300,7 +3298,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],64:[function(_dereq_,module,exports){
+},{"assert":74}],63:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3360,7 +3358,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],65:[function(_dereq_,module,exports){
+},{"assert":74}],64:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3412,7 +3410,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],66:[function(_dereq_,module,exports){
+},{"assert":74}],65:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3486,7 +3484,7 @@ function checkKeywords(name, keywords) {
     return true;
 }
 
-},{"assert":75}],67:[function(_dereq_,module,exports){
+},{"assert":74}],66:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3572,8 +3570,38 @@ module.exports.prototype = {
             }
         }
 
+        function getIndents(pushNode, indents) {
+            if (!pushNode.parentNode || !pushNode.parentNode.parentNode) {
+                return indents;
+            }
+
+            var parent = pushNode.parentNode;
+            var grandParent = pushNode.parentNode.parentNode;
+            var parentStart = parent.loc.start.line;
+            var grandParentStart = grandParent.loc.start.line;
+
+            if (parent.type !== 'VariableDeclarator' ) {
+                return indents;
+            }
+
+            if (parentStart !== grandParentStart) {
+                return indents;
+            }
+
+            var actualIndentation = getIndentationFromLine(grandParentStart -1);
+            var newIndentation;
+
+            if (grandParent.declarations.length > 1) {
+                newIndentation = getIndentationFromLine(grandParent.declarations[1].loc.start.line - 1);
+            } else {
+                newIndentation = getIndentationFromLine(pushNode.loc.end.line - 1);
+            }
+
+            return ((newIndentation - actualIndentation) / indentSize) + 1;
+        }
+
         function markPushAndCheck(pushNode, indents) {
-            linesToCheck[pushNode.loc.start.line - 1].push = indents;
+            linesToCheck[pushNode.loc.start.line - 1].push = getIndents(pushNode, indents);
             linesToCheck[pushNode.loc.end.line - 1].check = true;
         }
 
@@ -3581,8 +3609,33 @@ module.exports.prototype = {
             var childrenProperty = indentableNodes[node.type],
                 children = node[childrenProperty];
 
-            children.forEach(function(childNode) {
-                linesToCheck[childNode.loc.start.line - 1].check = true;
+            children.forEach(function(childNode, i) {
+                /* temporary fix for holes in arrays: https://github.com/ariya/esprima/pull/241 */
+                if (childNode === null) {
+                    var leftLine, rightLine, j;
+                    for (j = i - 1; j >= 0; j -= 1) {
+                        if (children[j]) {
+                            leftLine = children[j].loc.end.line;
+                            break;
+                        }
+                    }
+                    for (j = i + 1; j < children.length; j += 1) {
+                        if (children[j]) {
+                            rightLine = children[j].loc.start.line;
+                            break;
+                        }
+                    }
+                    leftLine = leftLine || node.loc.start.line;
+                    rightLine = rightLine || node.loc.end.line;
+                    for (j = leftLine; j < rightLine; j++) {
+                        linesToCheck[j - 1].check = lines[j - 1].replace(/[\s\t]/g, '').length > 0;
+                    }
+                    return;
+                }
+                /* /fix */
+                if (childNode.loc.start.line !== node.loc.start.line) {
+                    linesToCheck[childNode.loc.start.line - 1].check = true;
+                }
             });
         }
 
@@ -3619,6 +3672,14 @@ module.exports.prototype = {
             });
         }
 
+        function checkAlternateBlockStatement(node, property) {
+            var child =  node[property];
+            if (child && child.type === 'BlockStatement') {
+                linesToCheck[child.loc.start.line - 1].push = 1;
+                linesToCheck[child.loc.start.line - 1].check = true;
+            }
+        }
+
         function generateIndentations() {
             file.iterateNodesByType([
                 'Program'
@@ -3644,10 +3705,12 @@ module.exports.prototype = {
             });
 
             file.iterateNodesByType('IfStatement', function(node) {
-                if (node.alternate && node.alternate.type === 'BlockStatement') {
-                    linesToCheck[node.alternate.loc.start.line - 1].push = 1;
-                    linesToCheck[node.alternate.loc.start.line - 1].check = true;
-                }
+                checkAlternateBlockStatement(node, 'alternate');
+            });
+
+            file.iterateNodesByType('TryStatement', function(node) {
+                checkAlternateBlockStatement(node, 'handler');
+                checkAlternateBlockStatement(node, 'finalizer');
             });
 
             file.iterateNodesByType('BlockStatement', function(node) {
@@ -3716,7 +3779,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],68:[function(_dereq_,module,exports){
+},{"assert":74}],67:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3809,7 +3872,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],69:[function(_dereq_,module,exports){
+},{"assert":74}],68:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3859,7 +3922,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],70:[function(_dereq_,module,exports){
+},{"assert":74}],69:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3923,14 +3986,11 @@ module.exports.prototype = {
 
 };
 
-},{"assert":75}],71:[function(_dereq_,module,exports){
+},{"assert":74}],70:[function(_dereq_,module,exports){
 var esprima = _dereq_('esprima');
 var Errors = _dereq_('./errors');
 var JsFile = _dereq_('./js-file');
-var presets = {
-    jquery: _dereq_('./presets/jquery.json'),
-    google: _dereq_('./presets/google.json'),
-};
+var preset = _dereq_('./options/preset');
 
 /**
  * Starts Code Style checking process.
@@ -4056,7 +4116,7 @@ StringChecker.prototype = {
      */
     configure: function(config) {
         this.throwNonCamelCaseErrorIfNeeded(config);
-        this.setPreset(config);
+        preset(config);
 
         var configRules = Object.keys(config);
         var activeRules = this._activeRules;
@@ -4122,26 +4182,6 @@ StringChecker.prototype = {
     },
 
     /**
-     * Take preset (if defined) rules and extend passed config with them
-     *
-     * @param {Object} config
-     */
-    setPreset: function(config) {
-        if (!config.preset) {
-            return;
-        }
-
-        var preset = presets[config.preset];
-
-        delete config.preset;
-        for (var rule in preset) {
-            if (!(rule in config)) {
-                config[rule] = preset[rule];
-            }
-        }
-    },
-
-    /**
      * Checks file provided with a string.
      * @param {String} str
      * @param {String} filename
@@ -4178,7 +4218,7 @@ StringChecker.prototype = {
 
 module.exports = StringChecker;
 
-},{"./errors":1,"./js-file":2,"./presets/google.json":3,"./presets/jquery.json":4,"./rules/disallow-comma-before-line-break":5,"./rules/disallow-dangling-underscores":6,"./rules/disallow-empty-blocks":7,"./rules/disallow-implicit-type-conversion":8,"./rules/disallow-keywords":10,"./rules/disallow-keywords-on-new-line":9,"./rules/disallow-left-sticked-operators":11,"./rules/disallow-mixed-spaces-and-tabs":12,"./rules/disallow-multiple-line-breaks":13,"./rules/disallow-multiple-line-strings":14,"./rules/disallow-multiple-var-decl":15,"./rules/disallow-padding-newlines-in-blocks":16,"./rules/disallow-quoted-keys-in-objects":17,"./rules/disallow-right-sticked-operators":18,"./rules/disallow-space-after-binary-operators":19,"./rules/disallow-space-after-keywords":20,"./rules/disallow-space-after-object-keys":21,"./rules/disallow-space-after-prefix-unary-operators.js":22,"./rules/disallow-space-before-binary-operators":23,"./rules/disallow-space-before-block-statements.js":24,"./rules/disallow-space-before-postfix-unary-operators.js":25,"./rules/disallow-spaces-in-anonymous-function-expression":26,"./rules/disallow-spaces-in-function-declaration":27,"./rules/disallow-spaces-in-function-expression":28,"./rules/disallow-spaces-in-named-function-expression":29,"./rules/disallow-spaces-inside-array-brackets":30,"./rules/disallow-spaces-inside-object-brackets":31,"./rules/disallow-spaces-inside-parentheses":32,"./rules/disallow-trailing-comma":33,"./rules/disallow-trailing-whitespace":34,"./rules/disallow-yoda-conditions":35,"./rules/maximum-line-length":36,"./rules/require-aligned-object-values":37,"./rules/require-blocks-on-newline":38,"./rules/require-camelcase-or-uppercase-identifiers":39,"./rules/require-capitalized-constructors":40,"./rules/require-comma-before-line-break":41,"./rules/require-curly-braces":42,"./rules/require-dot-notation":43,"./rules/require-keywords-on-new-line":44,"./rules/require-left-sticked-operators":45,"./rules/require-line-feed-at-file-end":46,"./rules/require-multiple-var-decl":47,"./rules/require-operator-before-line-break":48,"./rules/require-padding-newlines-in-blocks":49,"./rules/require-parentheses-around-iife":50,"./rules/require-right-sticked-operators":51,"./rules/require-space-after-binary-operators":52,"./rules/require-space-after-keywords":53,"./rules/require-space-after-object-keys":54,"./rules/require-space-after-prefix-unary-operators.js":55,"./rules/require-space-before-binary-operators":56,"./rules/require-space-before-block-statements.js":57,"./rules/require-space-before-postfix-unary-operators.js":58,"./rules/require-spaces-in-anonymous-function-expression":59,"./rules/require-spaces-in-function-declaration":60,"./rules/require-spaces-in-function-expression":61,"./rules/require-spaces-in-named-function-expression":62,"./rules/require-spaces-inside-array-brackets":63,"./rules/require-spaces-inside-object-brackets":64,"./rules/require-trailing-comma":65,"./rules/safe-context-keyword":66,"./rules/validate-indentation":67,"./rules/validate-jsdoc":68,"./rules/validate-line-breaks":69,"./rules/validate-quote-marks":70,"esprima":81}],72:[function(_dereq_,module,exports){
+},{"./errors":1,"./js-file":2,"./options/preset":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-padding-newlines-in-blocks":15,"./rules/disallow-quoted-keys-in-objects":16,"./rules/disallow-right-sticked-operators":17,"./rules/disallow-space-after-binary-operators":18,"./rules/disallow-space-after-keywords":19,"./rules/disallow-space-after-object-keys":20,"./rules/disallow-space-after-prefix-unary-operators.js":21,"./rules/disallow-space-before-binary-operators":22,"./rules/disallow-space-before-block-statements.js":23,"./rules/disallow-space-before-postfix-unary-operators.js":24,"./rules/disallow-spaces-in-anonymous-function-expression":25,"./rules/disallow-spaces-in-function-declaration":26,"./rules/disallow-spaces-in-function-expression":27,"./rules/disallow-spaces-in-named-function-expression":28,"./rules/disallow-spaces-inside-array-brackets":29,"./rules/disallow-spaces-inside-object-brackets":30,"./rules/disallow-spaces-inside-parentheses":31,"./rules/disallow-trailing-comma":32,"./rules/disallow-trailing-whitespace":33,"./rules/disallow-yoda-conditions":34,"./rules/maximum-line-length":35,"./rules/require-aligned-object-values":36,"./rules/require-blocks-on-newline":37,"./rules/require-camelcase-or-uppercase-identifiers":38,"./rules/require-capitalized-constructors":39,"./rules/require-comma-before-line-break":40,"./rules/require-curly-braces":41,"./rules/require-dot-notation":42,"./rules/require-keywords-on-new-line":43,"./rules/require-left-sticked-operators":44,"./rules/require-line-feed-at-file-end":45,"./rules/require-multiple-var-decl":46,"./rules/require-operator-before-line-break":47,"./rules/require-padding-newlines-in-blocks":48,"./rules/require-parentheses-around-iife":49,"./rules/require-right-sticked-operators":50,"./rules/require-space-after-binary-operators":51,"./rules/require-space-after-keywords":52,"./rules/require-space-after-object-keys":53,"./rules/require-space-after-prefix-unary-operators.js":54,"./rules/require-space-before-binary-operators":55,"./rules/require-space-before-block-statements.js":56,"./rules/require-space-before-postfix-unary-operators.js":57,"./rules/require-spaces-in-anonymous-function-expression":58,"./rules/require-spaces-in-function-declaration":59,"./rules/require-spaces-in-function-expression":60,"./rules/require-spaces-in-named-function-expression":61,"./rules/require-spaces-inside-array-brackets":62,"./rules/require-spaces-inside-object-brackets":63,"./rules/require-trailing-comma":64,"./rules/safe-context-keyword":65,"./rules/validate-indentation":66,"./rules/validate-jsdoc":67,"./rules/validate-line-breaks":68,"./rules/validate-quote-marks":69,"esprima":80}],71:[function(_dereq_,module,exports){
 /**
  * Returns token by range start. Ignores ()
  *
@@ -4225,7 +4265,7 @@ module.exports.tokenIsPunctuator = function(token, punctuator) {
     return token && token.type === 'Punctuator' && token.value === punctuator;
 };
 
-},{}],73:[function(_dereq_,module,exports){
+},{}],72:[function(_dereq_,module,exports){
 module.exports = {
     iterate: iterate
 };
@@ -4307,7 +4347,7 @@ function iterate(node, cb, parentNode, parentCollection) {
     }
 }
 
-},{}],74:[function(_dereq_,module,exports){
+},{}],73:[function(_dereq_,module,exports){
 // 7.5.2 Keywords
 var ES3_KEYWORDS = {
     'break': true,
@@ -4404,7 +4444,7 @@ exports.isValidIdentifierName = function(name) {
     return IDENTIFIER_NAME_RE.test(name);
 };
 
-},{}],75:[function(_dereq_,module,exports){
+},{}],74:[function(_dereq_,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -4766,14 +4806,14 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-},{"util/":77}],76:[function(_dereq_,module,exports){
+},{"util/":76}],75:[function(_dereq_,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],77:[function(_dereq_,module,exports){
+},{}],76:[function(_dereq_,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5363,7 +5403,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,_dereq_("/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":76,"/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":79,"inherits":78}],78:[function(_dereq_,module,exports){
+},{"./support/isBuffer":75,"/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":78,"inherits":77}],77:[function(_dereq_,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5388,7 +5428,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],79:[function(_dereq_,module,exports){
+},{}],78:[function(_dereq_,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5450,7 +5490,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],80:[function(_dereq_,module,exports){
+},{}],79:[function(_dereq_,module,exports){
 /*
 colors.js
 
@@ -5794,7 +5834,7 @@ addProperty('zalgo', function () {
   return zalgo(this);
 });
 
-},{}],81:[function(_dereq_,module,exports){
+},{}],80:[function(_dereq_,module,exports){
 /*
   Copyright (C) 2013 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2013 Thaddee Tyl <thaddee.tyl@gmail.com>
@@ -9626,6 +9666,63 @@ parseStatement: true, parseSourceElement: true */
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */
 
-},{}]},{},[71])
-(71)
+},{}],81:[function(_dereq_,module,exports){
+module.exports={
+    "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
+    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
+    "disallowLeftStickedOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "disallowRightStickedOperators": ["?", "+", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+    "requireRightStickedOperators": ["!"],
+    "requireLeftStickedOperators": [","],
+    "disallowImplicitTypeConversion": ["string"],
+    "disallowKeywords": ["with"],
+    "disallowMultipleLineBreaks": true,
+    "disallowKeywordsOnNewLine": ["else"],
+    "disallowMixedSpacesAndTabs": true,
+    "disallowTrailingWhitespace": true,
+    "requireLineFeedAtFileEnd": true,
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "validateJSDoc": {
+        "checkParamNames": true,
+        "requireParamTypes": true
+    },
+    "validateIndentation": 4,
+    "validateQuoteMarks": "'"
+}
+
+},{}],82:[function(_dereq_,module,exports){
+module.exports={
+    "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
+    "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "requireMultipleVarDecl": true,
+    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideArrayBrackets": "all",
+    "disallowLeftStickedOperators": [ "?" ],
+    "disallowRightStickedOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
+    "requireSpaceBeforeBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
+    "disallowSpaceAfterPrefixUnaryOperators": [ "++", "--", "+", "-" ],
+    "disallowSpaceBeforePostfixUnaryOperators": [ "++", "--" ],
+    "requireRightStickedOperators": [ "!" ],
+    "requireLeftStickedOperators": [ "," ],
+    "disallowKeywords": [ "with" ],
+    "disallowMultipleLineBreaks": true,
+    "disallowKeywordsOnNewLine": [ "else" ],
+    "requireLineFeedAtFileEnd": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "validateLineBreaks": "LF"
+}
+
+},{}]},{},[70])
+(70)
 });
