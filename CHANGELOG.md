@@ -1,3 +1,6 @@
+Version 1.4.3:
+ * Presets folder was missing in the package (@mdevils).
+
 Version 1.4.2:
  * Rule `requireSpaceAfterKeywords`: do not fail on linebreaks (@mdevils).
 
