@@ -117,7 +117,9 @@ describe('rules/validate-indentation', function() {
             375,
             376,
             379,
-            380
+            380,
+            386,
+            388
         ]);
     });
 });

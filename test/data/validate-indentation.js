@@ -379,3 +379,11 @@ g++; // -->
     i++; // <-
 j++; // -->
 }
+
+if (array.some(function(){
+  return true;
+})) {
+a++; // -->
+  b++;
+    c++; // <-
+}
