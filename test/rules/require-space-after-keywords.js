@@ -39,4 +39,8 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
         assert(checker.checkString('function f() { if(true) {"something";} }').getErrorCount() === 1);
     });
+    it('should not trigger error for spaced return inside function (#357)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['return'] });
+        assert(checker.checkString('function foo() {\r\n\treturn\r\n}').getErrorCount() === 0);
+    });
 });
