@@ -1,3 +1,6 @@
+Version 1.4.2:
+ * Rule `requireSpaceAfterKeywords`: do not fail on linebreaks (@mdevils).
+
 Version 1.4.1:
  * Rule `disallowPaddingNewlinesInBlocks`: check for comments in the whitespace. Fixes #347 (@mikesherov).
  * Introduce extensions section in README (@zxqfox)
