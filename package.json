@@ -55,6 +55,7 @@
   "files": [
     "bin",
     "lib",
+    "presets",
     "LICENSE"
   ]
 }
