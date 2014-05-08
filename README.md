@@ -360,6 +360,79 @@ var d = function(){ return d; }.apply(this, args);
 ```
 
 
+### requireSpacesInConditionalExpression
+
+Requires space before and/or after `?` or `:` in conditional expressions.
+
+Type: `Object` or `true`
+
+Values: `afterTest`, `beforeConsequent`, `afterConsequent`, `beforeAlternate` as child properties, or `true` to set all properties to true. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"requireSpacesInConditionalExpression": {
+    "afterTest": true,
+    "beforeConsequent": true,
+    "afterConsequent": true,
+    "beforeAlternate": true
+}
+```
+
+##### Valid
+
+```js
+var a = b ? c : d;
+var a= b ? c : d;
+```
+
+##### Invalid
+
+```js
+var a = b? c : d;
+var a = b ?c : d;
+var a = b ? c: d;
+var a = b ? c :d;
+```
+
+
+### disallowSpacesInConditionalExpression
+
+Disallows space before and/or after `?` or `:` in conditional expressions.
+
+Type: `Object` or `true`
+
+Values: `afterTest`, `beforeConsequent`, `afterConsequent`, `beforeAlternate` as child properties, or `true` to set all properties to true. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"disallowSpacesInConditionalExpression": {
+    "afterTest": true,
+    "beforeConsequent": true,
+    "afterConsequent": true,
+    "beforeAlternate": true
+}
+```
+
+##### Valid
+
+```js
+var a = b?c:d;
+var a= b?c:d;
+```
+
+##### Invalid
+
+```js
+var a = b ?c:d;
+var a = b? c:d;
+var a = b?c :d;
+var a = b?c: d;
+```
+
+
+
 ### requireSpacesInFunctionExpression
 
 Requires space before `()` or `{}` in function declarations.
