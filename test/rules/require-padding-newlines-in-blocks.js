@@ -37,6 +37,24 @@ describe('rules/require-padding-newlines-in-blocks', function() {
         it('should not report empty function definitions', function() {
             assert(checker.checkString('var a = function() {};').isEmpty());
         });
+        it('should not report missing newlines after opening brace', function() {
+            assert(checker.checkString('if (true) {\n\n\nabc();\n\n}').isEmpty());
+        });
+        it('should not report missing newlines before closing brace', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\nabc();\n\n\n}').isEmpty());
+        });
+        it('should not report missing newlines with comments inside block', function() {
+            assert(checker.checkString('if (true) {\n\n//bla\nabc();\nabc();\n\n}').isEmpty());
+        });
+        it('should report missing padding newline after opening brace', function() {
+            assert(checker.checkString('if (true) {//bla\n\nabc();\n\n}').getErrorCount() === 1);
+        });
+        it('should report missing padding newline after opening brace', function() {
+            assert(checker.checkString('if (true) {\n/**/\nabc();\n\n}').getErrorCount() === 1);
+        });
+        it('should report missing padding newline before closing brace', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n\n//\n}').getErrorCount() === 1);
+        });
     });
 
     describe('option value 1', function() {
