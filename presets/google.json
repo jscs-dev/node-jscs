@@ -15,6 +15,7 @@
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
+    "disallowSpacesInsideParentheses": true,
     "disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
