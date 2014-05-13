@@ -81,7 +81,7 @@ describe('modules/cli-config', function() {
         var oldHome = process.env.HOME;
 
         process.env.HOME = './test/data/configs/jscsrc';
-        assert.equal( configFile.load(null, '/').from, 'jscsrc' );
+        assert.equal(configFile.load(null, '/').from, 'jscsrc');
         process.env.HOME = oldHome;
     });
 });
