@@ -159,7 +159,7 @@ function renderPointer(column, colorize) {
 
 module.exports = Errors;
 
-},{"colors":79}],2:[function(_dereq_,module,exports){
+},{"colors":81}],2:[function(_dereq_,module,exports){
 var treeIterator = _dereq_('./tree-iterator');
 
 /**
@@ -343,7 +343,7 @@ JsFile.prototype = {
 
 module.exports = JsFile;
 
-},{"./tree-iterator":72}],3:[function(_dereq_,module,exports){
+},{"./tree-iterator":74}],3:[function(_dereq_,module,exports){
 var presets = {
     jquery: _dereq_('../../presets/jquery.json'),
     google: _dereq_('../../presets/google.json')
@@ -364,7 +364,7 @@ module.exports = function(config) {
     }
 };
 
-},{"../../presets/google.json":81,"../../presets/jquery.json":82}],4:[function(_dereq_,module,exports){
+},{"../../presets/google.json":83,"../../presets/jquery.json":84}],4:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -403,7 +403,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],5:[function(_dereq_,module,exports){
+},{"assert":76}],5:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -450,7 +450,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],6:[function(_dereq_,module,exports){
+},{"assert":76}],6:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -485,7 +485,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],7:[function(_dereq_,module,exports){
+},{"assert":76}],7:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -538,7 +538,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],8:[function(_dereq_,module,exports){
+},{"assert":76}],8:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -576,7 +576,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],9:[function(_dereq_,module,exports){
+},{"assert":76}],9:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -610,7 +610,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],10:[function(_dereq_,module,exports){
+},{"assert":76}],10:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -647,7 +647,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],11:[function(_dereq_,module,exports){
+},{"assert":76}],11:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -708,7 +708,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],12:[function(_dereq_,module,exports){
+},{"assert":76}],12:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -743,7 +743,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],13:[function(_dereq_,module,exports){
+},{"assert":76}],13:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -779,7 +779,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],14:[function(_dereq_,module,exports){
+},{"assert":76}],14:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -813,7 +813,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],15:[function(_dereq_,module,exports){
+},{"assert":76}],15:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -890,7 +890,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],16:[function(_dereq_,module,exports){
+},{"assert":76}],16:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var utils = _dereq_('../utils');
 
@@ -935,7 +935,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":73,"assert":74}],17:[function(_dereq_,module,exports){
+},{"../utils":75,"assert":76}],17:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -972,7 +972,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],18:[function(_dereq_,module,exports){
+},{"assert":76}],18:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -998,22 +998,44 @@ module.exports.prototype = {
         // 2 + 2, 2 == 2
         file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
-                // get token before right part of expression
-                var tokenBeforeRightPart = tokenHelper.getTokenByRangeStart(file, node.right.range[0] - 1, true);
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    node.right.range[0] - 1,
+                    node.operator,
+                    true
+                );
 
-                if (!tokenHelper.tokenIsPunctuator(tokenBeforeRightPart, node.operator)) {
+                if (!part) {
                     errors.add(
                         'Operator ' + node.operator + ' should stick to following expression',
-                        node.right.loc.start
+                        tokenHelper.findOperatorByRangeStart(file, node.right.range[0], node.operator).loc.start
                     );
                 }
             }
         });
+
+        // Comma and assignment
+        if (operators[','] || operators['=']) {
+            file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+                var operator = token.value;
+                if (operator !== ',' && operator !== '=') {
+                    return;
+                }
+
+                var nextToken = tokens[i + 1];
+                if (nextToken && nextToken.range[0] !== token.range[1]) {
+                    errors.add(
+                        'Operator ' + operator + ' should stick to following expression',
+                        token.loc.start
+                    );
+                }
+            });
+        }
     }
 
 };
 
-},{"../token-helper":71,"assert":74}],19:[function(_dereq_,module,exports){
+},{"../token-helper":73,"assert":76}],19:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1051,7 +1073,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],20:[function(_dereq_,module,exports){
+},{"assert":76}],20:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1089,7 +1111,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],21:[function(_dereq_,module,exports){
+},{"assert":76}],21:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1126,7 +1148,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":74}],22:[function(_dereq_,module,exports){
+},{"assert":76}],22:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -1152,22 +1174,43 @@ module.exports.prototype = {
         // 2 + 2, 2 == 2
         file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
-                // get token after left part of expression
-                var tokenAfterLeftPart = tokenHelper.getTokenByRangeStart(file, node.left.range[1]);
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    node.left.range[1],
+                    node.operator
+                );
 
-                if (!tokenHelper.tokenIsPunctuator(tokenAfterLeftPart, node.operator)) {
+                if (!part) {
                     errors.add(
-                        'Operator ' + node.operator + ' should stick to following expression',
-                        node.left.loc.start
+                        'Operator ' + node.operator + ' should stick to preceding expression',
+                        tokenHelper.findOperatorByRangeStart(file, node.right.range[0], node.operator).loc.start
                     );
                 }
             }
         });
+
+        // Comma and assignment
+        if (operators[','] || operators['=']) {
+            file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+                var operator = token.value;
+                if (operator !== ',' && operator !== '=') {
+                    return;
+                }
+
+                var prevToken = tokens[i - 1];
+                if (prevToken && prevToken.range[1] !== token.range[0]) {
+                    errors.add(
+                        'Operator ' + operator + ' should stick to preceding expression',
+                        token.loc.start
+                    );
+                }
+            });
+        }
     }
 
 };
 
-},{"../token-helper":71,"assert":74}],23:[function(_dereq_,module,exports){
+},{"../token-helper":73,"assert":76}],23:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1205,7 +1248,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],24:[function(_dereq_,module,exports){
+},{"assert":76}],24:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1244,7 +1287,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":74}],25:[function(_dereq_,module,exports){
+},{"assert":76}],25:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1291,7 +1334,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionExpression'], function(node) {
 
             // anonymous function expressions only
             if (!node.id) {
@@ -1330,7 +1373,122 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],26:[function(_dereq_,module,exports){
+},{"assert":76}],26:[function(_dereq_,module,exports){
+var assert = _dereq_('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        var validProperties = [
+            'afterTest',
+            'beforeConsequent',
+            'afterConsequent',
+            'beforeAlternate'
+        ];
+        var optionName = this.getOptionName();
+
+        if (options === true) {
+            options = {
+                'afterTest': true,
+                'beforeConsequent': true,
+                'afterConsequent': true,
+                'beforeAlternate': true
+            };
+        }
+
+        assert(
+            typeof options === 'object',
+            optionName + ' option must be an object or boolean true'
+        );
+
+        var isProperlyConfigured = validProperties.some(function(key) {
+            var isPresent = key in options;
+
+            if (isPresent) {
+                assert(
+                    options[key] === true,
+                    optionName + '.' + key + ' property requires true value or should be removed'
+                );
+            }
+
+            return isPresent;
+        });
+
+        assert(
+            isProperlyConfigured,
+            optionName + ' must have at least 1 of the following properties: ' + validProperties.join(', ')
+        );
+
+        validProperties.forEach(function(property) {
+            this['_' + property] = Boolean(options[property]);
+        }.bind(this));
+    },
+
+    getOptionName: function() {
+        return 'disallowSpacesInConditionalExpression';
+    },
+
+    check: function(file, errors) {
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType(['ConditionalExpression'], function(node) {
+
+            var test = node.test;
+            var testTokenPos = file.getTokenPosByRangeStart(test.range[0]);
+            var consequent = node.consequent;
+            var consequentTokenPos = file.getTokenPosByRangeStart(consequent.range[0]);
+            var alternate = node.alternate;
+            var questionMarkToken = tokens[testTokenPos + 1];
+            var colonToken = tokens[consequentTokenPos + 1];
+            var questionMark;
+            var colon;
+
+            if (this._afterTest && test.loc.end.line === questionMarkToken.loc.start.line) {
+                questionMark = tokens[file.getTokenPosByRangeStart(test.range[1])];
+                if (!questionMark || questionMark.value !== '?') {
+                    errors.add(
+                        'Illegal space after test',
+                        test.loc.end
+                    );
+                }
+            }
+
+            if (this._beforeConsequent && consequent.loc.end.line === questionMarkToken.loc.start.line) {
+                questionMark = tokens[file.getTokenPosByRangeStart(consequent.range[0] - 1)];
+                if (!questionMark || questionMark.value !== '?') {
+                    errors.add(
+                        'Illegal space before consequent',
+                        consequent.loc.start
+                    );
+                }
+            }
+
+            if (this._afterConsequent && consequent.loc.end.line === colonToken.loc.start.line) {
+                colon = tokens[file.getTokenPosByRangeStart(consequent.range[1])];
+                if (!colon || colon.value !== ':') {
+                    errors.add(
+                        'Illegal space after consequent',
+                        consequent.loc.end
+                    );
+                }
+            }
+
+            if (this._beforeAlternate && alternate.loc.end.line === colonToken.loc.start.line) {
+                colon = tokens[file.getTokenPosByRangeStart(alternate.range[0] - 1)];
+                if (!colon || colon.value !== ':') {
+                    errors.add(
+                        'Illegal space before alternate',
+                        alternate.loc.start
+                    );
+                }
+            }
+        }.bind(this));
+    }
+
+};
+
+},{"assert":76}],27:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1376,7 +1534,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration' ], function(node) {
+        file.iterateNodesByType(['FunctionDeclaration'], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -1415,7 +1573,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],27:[function(_dereq_,module,exports){
+},{"assert":76}],28:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1461,7 +1619,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionDeclaration', 'FunctionExpression'], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -1500,7 +1658,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],28:[function(_dereq_,module,exports){
+},{"assert":76}],29:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1547,7 +1705,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionExpression'], function(node) {
 
             // named function expressions only
             if (node.id) {
@@ -1586,7 +1744,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],29:[function(_dereq_,module,exports){
+},{"assert":76}],30:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1636,7 +1794,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],30:[function(_dereq_,module,exports){
+},{"assert":76}],31:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1686,7 +1844,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],31:[function(_dereq_,module,exports){
+},{"assert":76}],32:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1737,7 +1895,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],32:[function(_dereq_,module,exports){
+},{"assert":76}],33:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1775,7 +1933,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],33:[function(_dereq_,module,exports){
+},{"assert":76}],34:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1808,7 +1966,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],34:[function(_dereq_,module,exports){
+},{"assert":76}],35:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1855,7 +2013,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],35:[function(_dereq_,module,exports){
+},{"assert":76}],36:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1888,7 +2046,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],36:[function(_dereq_,module,exports){
+},{"assert":76}],37:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1949,7 +2107,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],37:[function(_dereq_,module,exports){
+},{"assert":76}],38:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -1998,7 +2156,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],38:[function(_dereq_,module,exports){
+},{"assert":76}],39:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2035,7 +2193,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],39:[function(_dereq_,module,exports){
+},{"assert":76}],40:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2073,7 +2231,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],40:[function(_dereq_,module,exports){
+},{"assert":76}],41:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2112,7 +2270,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],41:[function(_dereq_,module,exports){
+},{"assert":76}],42:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2197,7 +2355,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],42:[function(_dereq_,module,exports){
+},{"assert":76}],43:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var utils = _dereq_('../utils');
 
@@ -2251,7 +2409,7 @@ module.exports.prototype = {
 
 };
 
-},{"../utils":73,"assert":74}],43:[function(_dereq_,module,exports){
+},{"../utils":75,"assert":76}],44:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2289,7 +2447,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],44:[function(_dereq_,module,exports){
+},{"assert":76}],45:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2326,7 +2484,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],45:[function(_dereq_,module,exports){
+},{"assert":76}],46:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2357,7 +2515,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],46:[function(_dereq_,module,exports){
+},{"assert":76}],47:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 function consecutive(file, errors) {
@@ -2376,7 +2534,7 @@ function consecutive(file, errors) {
 }
 
 function onevar(file, errors) {
-    file.iterateNodesByType([ 'Program', 'FunctionDeclaration', 'FunctionExpression' ], function(node) {
+    file.iterateNodesByType(['Program', 'FunctionDeclaration', 'FunctionExpression'], function(node) {
         var firstVar = true;
         var firstParent = true;
 
@@ -2384,7 +2542,7 @@ function onevar(file, errors) {
             var type = node && node.type;
 
             // Don't go in nested scopes
-            if ( !firstParent && type && [ 'FunctionDeclaration', 'FunctionExpression' ].indexOf(type) > -1) {
+            if ( !firstParent && type && ['FunctionDeclaration', 'FunctionExpression'].indexOf(type) > -1) {
                 return false;
             }
 
@@ -2432,7 +2590,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":74}],47:[function(_dereq_,module,exports){
+},{"assert":76}],48:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2469,7 +2627,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],48:[function(_dereq_,module,exports){
+},{"assert":76}],49:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2503,7 +2661,7 @@ module.exports.prototype = {
             var openingBracket = tokens[openingBracketPos];
             var nextToken = tokens[openingBracketPos + 1];
 
-            if (openingBracket.loc.start.line + 2 !== nextToken.loc.start.line) {
+            if (nextToken.loc.start.line - openingBracket.loc.start.line < 2) {
                 errors.add('Expected a padding newline after opening curly brace', openingBracket.loc.end);
             }
 
@@ -2511,15 +2669,29 @@ module.exports.prototype = {
             var closingBracket = tokens[closingBracketPos];
             var prevToken = tokens[closingBracketPos - 1];
 
-            if (closingBracket.loc.start.line !== prevToken.loc.start.line + 2) {
+            if (closingBracket.loc.start.line - prevToken.loc.start.line < 2) {
                 errors.add('Expected a padding newline before closing curly brace', prevToken.loc.end);
             }
+
+            file.getComments().some(function(comment) {
+                if (comment.range[1] < openingBracket.range[0] || closingBracket.range[1] < comment.range[0]) {
+                    return false;
+                }
+
+                if (comment.loc.start.line - openingBracket.loc.start.line < 2) {
+                    errors.add('Expected a padding newline after opening curly brace', comment.loc.start);
+                } else if (closingBracket.loc.start.line - comment.loc.end.line < 2) {
+                    errors.add('Expected a padding newline before closing curly brace', comment.loc.end);
+                }
+
+                return false;
+            });
         });
     }
 
 };
 
-},{"assert":74}],49:[function(_dereq_,module,exports){
+},{"assert":76}],50:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2581,7 +2753,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],50:[function(_dereq_,module,exports){
+},{"assert":76}],51:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2618,7 +2790,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],51:[function(_dereq_,module,exports){
+},{"assert":76}],52:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -2644,22 +2816,44 @@ module.exports.prototype = {
         // 2 + 2, 2 == 2
         file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
-                // get token before right part of expression
-                var tokenBeforeRightPart = tokenHelper.getTokenByRangeStart(file, node.right.range[0] - 1, true);
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    node.right.range[0] - 1,
+                    node.operator,
+                    true
+                );
 
-                if (tokenHelper.tokenIsPunctuator(tokenBeforeRightPart, node.operator)) {
+                if (part) {
                     errors.add(
                         'Operator ' + node.operator + ' should not stick to following expression',
-                        tokenBeforeRightPart.loc.start
+                        part.loc.start
                     );
                 }
             }
         });
+
+        // Comma and assignment
+        if (operators[','] || operators['=']) {
+            file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+                var operator = token.value;
+                if (operator !== ',' && operator !== '=') {
+                    return;
+                }
+
+                var nextToken = tokens[i + 1];
+                if (nextToken && nextToken.range[0] === token.range[1]) {
+                    errors.add(
+                        'Operator ' + operator + ' should not stick to following expression',
+                        token.loc.start
+                    );
+                }
+            });
+        }
     }
 
 };
 
-},{"../token-helper":71,"assert":74}],52:[function(_dereq_,module,exports){
+},{"../token-helper":73,"assert":76}],53:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2681,7 +2875,7 @@ module.exports.prototype = {
     check: function(file, errors) {
         var keywordIndex = this._keywordIndex;
 
-        file.iterateTokensByType([ 'Keyword' ], function(token, i, tokens) {
+        file.iterateTokensByType(['Keyword'], function(token, i, tokens) {
             if (keywordIndex[token.value]) {
                 var nextToken = tokens[i + 1];
 
@@ -2703,7 +2897,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],53:[function(_dereq_,module,exports){
+},{"assert":76}],54:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2741,7 +2935,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],54:[function(_dereq_,module,exports){
+},{"assert":76}],55:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2778,7 +2972,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":74}],55:[function(_dereq_,module,exports){
+},{"assert":76}],56:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
 
@@ -2804,22 +2998,43 @@ module.exports.prototype = {
         // 2 + 2, 2 == 2
         file.iterateNodesByType(['BinaryExpression'], function(node) {
             if (operators[node.operator]) {
-                // get token after left part of expression
-                var tokenAfterLeftPart = tokenHelper.getTokenByRangeStart(file, node.left.range[1]);
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    node.left.range[1],
+                    node.operator
+                );
 
-                if (tokenHelper.tokenIsPunctuator(tokenAfterLeftPart, node.operator)) {
+                if (part) {
                     errors.add(
                         'Operator ' + node.operator + ' should not stick to preceding expression',
-                        tokenAfterLeftPart.loc.start
+                        part.loc.start
                     );
                 }
             }
         });
+
+        // Comma and assignment
+        if (operators[','] || operators['=']) {
+            file.iterateTokensByType('Punctuator', function(token, i, tokens) {
+                var operator = token.value;
+                if (operator !== ',' && operator !== '=') {
+                    return;
+                }
+
+                var prevToken = tokens[i - 1];
+                if (prevToken && prevToken.range[1] === token.range[0]) {
+                    errors.add(
+                        'Operator ' + operator + ' should not stick to preceding expression',
+                        token.loc.start
+                    );
+                }
+            });
+        }
     }
 
 };
 
-},{"../token-helper":71,"assert":74}],56:[function(_dereq_,module,exports){
+},{"../token-helper":73,"assert":76}],57:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2857,7 +3072,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],57:[function(_dereq_,module,exports){
+},{"assert":76}],58:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2896,7 +3111,7 @@ module.exports.prototype = {
     }
 };
 
-},{"assert":74}],58:[function(_dereq_,module,exports){
+},{"assert":76}],59:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -2943,7 +3158,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionExpression'], function(node) {
 
             if (!node.id) {
 
@@ -2981,7 +3196,117 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],59:[function(_dereq_,module,exports){
+},{"assert":76}],60:[function(_dereq_,module,exports){
+var assert = _dereq_('assert');
+
+module.exports = function() {};
+
+module.exports.prototype = {
+    configure: function(options) {
+        var validProperties = [
+            'afterTest',
+            'beforeConsequent',
+            'afterConsequent',
+            'beforeAlternate'
+        ];
+        var optionName = this.getOptionName();
+
+        if (options === true) {
+            options = {
+                'afterTest': true,
+                'beforeConsequent': true,
+                'afterConsequent': true,
+                'beforeAlternate': true
+            };
+        }
+
+        assert(
+            typeof options === 'object',
+            optionName + ' option must be an object or boolean true'
+        );
+
+        var isProperlyConfigured = validProperties.some(function(key) {
+            var isPresent = key in options;
+
+            if (isPresent) {
+                assert(
+                    options[key] === true,
+                    optionName + '.' + key + ' property requires true value or should be removed'
+                );
+            }
+
+            return isPresent;
+        });
+
+        assert(
+            isProperlyConfigured,
+            optionName + ' must have at least 1 of the following properties: ' + validProperties.join(', ')
+        );
+
+        validProperties.forEach(function(property) {
+            this['_' + property] = Boolean(options[property]);
+        }.bind(this));
+    },
+
+    getOptionName: function() {
+        return 'requireSpacesInConditionalExpression';
+    },
+
+    check: function(file, errors) {
+        var tokens = file.getTokens();
+
+        file.iterateNodesByType(['ConditionalExpression'], function(node) {
+            var test = node.test;
+            var consequent = node.consequent;
+            var alternate = node.alternate;
+            var questionMark;
+            var colon;
+
+            if (this._afterTest) {
+                questionMark = tokens[file.getTokenPosByRangeStart(test.range[1])];
+                if (questionMark && questionMark.value === '?') {
+                    errors.add(
+                        'Missing space after test',
+                        test.loc.end
+                    );
+                }
+            }
+
+            if (this._beforeConsequent) {
+                questionMark = tokens[file.getTokenPosByRangeStart(consequent.range[0] - 1)];
+                if (questionMark && questionMark.value === '?') {
+                    errors.add(
+                        'Missing space before consequent',
+                        consequent.loc.start
+                    );
+                }
+            }
+
+            if (this._afterConsequent) {
+                colon = tokens[file.getTokenPosByRangeStart(consequent.range[1])];
+                if (colon && colon.value === ':') {
+                    errors.add(
+                        'Missing space after consequent',
+                        consequent.loc.end
+                    );
+                }
+            }
+
+            if (this._beforeAlternate) {
+                colon = tokens[file.getTokenPosByRangeStart(alternate.range[0] - 1)];
+                if (colon && colon.value === ':') {
+                    errors.add(
+                        'Missing space before alternate',
+                        alternate.loc.start
+                    );
+                }
+            }
+        }.bind(this));
+    }
+
+};
+
+},{"assert":76}],61:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3027,7 +3352,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration' ], function(node) {
+        file.iterateNodesByType(['FunctionDeclaration'], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -3066,7 +3391,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],60:[function(_dereq_,module,exports){
+},{"assert":76}],62:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3112,7 +3437,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionDeclaration', 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionDeclaration', 'FunctionExpression'], function(node) {
 
             if (beforeOpeningRoundBrace) {
                 var nodeBeforeRoundBrace = node;
@@ -3151,7 +3476,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],61:[function(_dereq_,module,exports){
+},{"assert":76}],63:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3198,7 +3523,7 @@ module.exports.prototype = {
         var beforeOpeningCurlyBrace = this._beforeOpeningCurlyBrace;
         var tokens = file.getTokens();
 
-        file.iterateNodesByType([ 'FunctionExpression' ], function(node) {
+        file.iterateNodesByType(['FunctionExpression'], function(node) {
 
             if (node.id) {
 
@@ -3236,7 +3561,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],62:[function(_dereq_,module,exports){
+},{"assert":76}],64:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3298,7 +3623,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],63:[function(_dereq_,module,exports){
+},{"assert":76}],65:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3358,7 +3683,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],64:[function(_dereq_,module,exports){
+},{"assert":76}],66:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3410,7 +3735,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],65:[function(_dereq_,module,exports){
+},{"assert":76}],67:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3432,7 +3757,7 @@ module.exports.prototype = {
     },
 
     check: function(file, errors) {
-        var keywords = typeof this._keywords === 'string' ? [ this._keywords ] : this._keywords;
+        var keywords = typeof this._keywords === 'string' ? [this._keywords] : this._keywords;
 
         // var that = this
         file.iterateNodesByType('VariableDeclaration', function(node) {
@@ -3484,7 +3809,7 @@ function checkKeywords(name, keywords) {
     return true;
 }
 
-},{"assert":74}],66:[function(_dereq_,module,exports){
+},{"assert":76}],68:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3570,38 +3895,8 @@ module.exports.prototype = {
             }
         }
 
-        function getIndents(pushNode, indents) {
-            if (!pushNode.parentNode || !pushNode.parentNode.parentNode) {
-                return indents;
-            }
-
-            var parent = pushNode.parentNode;
-            var grandParent = pushNode.parentNode.parentNode;
-            var parentStart = parent.loc.start.line;
-            var grandParentStart = grandParent.loc.start.line;
-
-            if (parent.type !== 'VariableDeclarator' ) {
-                return indents;
-            }
-
-            if (parentStart !== grandParentStart) {
-                return indents;
-            }
-
-            var actualIndentation = getIndentationFromLine(grandParentStart -1);
-            var newIndentation;
-
-            if (grandParent.declarations.length > 1) {
-                newIndentation = getIndentationFromLine(grandParent.declarations[1].loc.start.line - 1);
-            } else {
-                newIndentation = getIndentationFromLine(pushNode.loc.end.line - 1);
-            }
-
-            return ((newIndentation - actualIndentation) / indentSize) + 1;
-        }
-
         function markPushAndCheck(pushNode, indents) {
-            linesToCheck[pushNode.loc.start.line - 1].push = getIndents(pushNode, indents);
+            linesToCheck[pushNode.loc.start.line - 1].push = indents;
             linesToCheck[pushNode.loc.end.line - 1].check = true;
         }
 
@@ -3644,7 +3939,7 @@ module.exports.prototype = {
                 var expectedIndentation;
                 var actualIndentation = getIndentationFromLine(i);
 
-                if (line.pop !== false) {
+                if (line.pop !== null) {
                     expectedIndentation = indentStack.pop() - (indentSize * line.pop);
                 } else {
                     expectedIndentation = indentStack[indentStack.length - 1];
@@ -3666,7 +3961,7 @@ module.exports.prototype = {
                     indentStack.pop();
                 }
 
-                if (line.push !== false) {
+                if (line.push !== null) {
                     indentStack.push(actualIndentation + (indentSize * line.push));
                 }
             });
@@ -3704,15 +3999,6 @@ module.exports.prototype = {
                 markPushAndCheck(node, 1);
             });
 
-            file.iterateNodesByType('IfStatement', function(node) {
-                checkAlternateBlockStatement(node, 'alternate');
-            });
-
-            file.iterateNodesByType('TryStatement', function(node) {
-                checkAlternateBlockStatement(node, 'handler');
-                checkAlternateBlockStatement(node, 'finalizer');
-            });
-
             file.iterateNodesByType('BlockStatement', function(node) {
                 if (!isMultiline(node)) {
                     return;
@@ -3721,6 +4007,23 @@ module.exports.prototype = {
                 markChildren(node);
                 markPop(node, 1);
                 markPushAndCheck(node.parentNode, 1);
+            });
+
+            file.iterateNodesByType('IfStatement', function(node) {
+                checkAlternateBlockStatement(node, 'alternate');
+
+                var test = node.test,
+                    endLine = test.loc.end.line - 1;
+
+                if (isMultiline(test) && linesToCheck[endLine].pop !== null) {
+                    linesToCheck[endLine].push = 1;
+                }
+
+            });
+
+            file.iterateNodesByType('TryStatement', function(node) {
+                checkAlternateBlockStatement(node, 'handler');
+                checkAlternateBlockStatement(node, 'finalizer');
             });
 
             file.iterateNodesByType('SwitchStatement', function(node) {
@@ -3750,10 +4053,33 @@ module.exports.prototype = {
                 var childrenProperty = indentableNodes[node.type];
                 var children = node[childrenProperty];
 
-                if ( children.length > 1 || children[0].type !== 'BlockStatement') {
+                if (children.length > 1 || children[0].type !== 'BlockStatement') {
                     markChildren(node);
                     markPop(node, 1, true);
                     markPushAndCheck(node, 1);
+                }
+            });
+
+            file.iterateNodesByType('VariableDeclaration', function(node) {
+                var startLine = node.loc.start.line - 1;
+                var decls = node.declarations;
+                var declStartLine = decls[0].loc.start.line - 1;
+                var actualIndents;
+                var newIndents;
+
+                if (startLine !== declStartLine) {
+                    return;
+                }
+
+                if (linesToCheck[startLine].push !== null) {
+                    actualIndents = getIndentationFromLine(startLine);
+
+                    if (decls.length > 1) {
+                        newIndents = getIndentationFromLine(decls[1].loc.start.line - 1);
+                    } else {
+                        newIndents = getIndentationFromLine(decls[0].loc.end.line - 1);
+                    }
+                    linesToCheck[startLine].push = ((newIndents - actualIndents) / indentSize) + 1;
                 }
             });
         }
@@ -3766,10 +4092,10 @@ module.exports.prototype = {
         var indentStack = [0];
         var linesToCheck = lines.map(function() {
             return {
-                push: false,
-                pop: false,
-                popAfter: false,
-                check: false
+                push: null,
+                pop: null,
+                popAfter: null,
+                check: null
             };
         });
 
@@ -3779,7 +4105,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],67:[function(_dereq_,module,exports){
+},{"assert":76}],69:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3872,7 +4198,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],68:[function(_dereq_,module,exports){
+},{"assert":76}],70:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3922,7 +4248,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],69:[function(_dereq_,module,exports){
+},{"assert":76}],71:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -3986,7 +4312,7 @@ module.exports.prototype = {
 
 };
 
-},{"assert":74}],70:[function(_dereq_,module,exports){
+},{"assert":76}],72:[function(_dereq_,module,exports){
 var esprima = _dereq_('esprima');
 var Errors = _dereq_('./errors');
 var JsFile = _dereq_('./js-file');
@@ -4084,6 +4410,9 @@ StringChecker.prototype = {
 
         this.registerRule(new (_dereq_('./rules/disallow-space-after-binary-operators'))());
         this.registerRule(new (_dereq_('./rules/require-space-after-binary-operators'))());
+
+        this.registerRule(new (_dereq_('./rules/require-spaces-in-conditional-expression'))());
+        this.registerRule(new (_dereq_('./rules/disallow-spaces-in-conditional-expression'))());
 
         this.registerRule(new (_dereq_('./rules/require-spaces-in-function-expression'))());
         this.registerRule(new (_dereq_('./rules/disallow-spaces-in-function-expression'))());
@@ -4218,7 +4547,7 @@ StringChecker.prototype = {
 
 module.exports = StringChecker;
 
-},{"./errors":1,"./js-file":2,"./options/preset":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-padding-newlines-in-blocks":15,"./rules/disallow-quoted-keys-in-objects":16,"./rules/disallow-right-sticked-operators":17,"./rules/disallow-space-after-binary-operators":18,"./rules/disallow-space-after-keywords":19,"./rules/disallow-space-after-object-keys":20,"./rules/disallow-space-after-prefix-unary-operators.js":21,"./rules/disallow-space-before-binary-operators":22,"./rules/disallow-space-before-block-statements.js":23,"./rules/disallow-space-before-postfix-unary-operators.js":24,"./rules/disallow-spaces-in-anonymous-function-expression":25,"./rules/disallow-spaces-in-function-declaration":26,"./rules/disallow-spaces-in-function-expression":27,"./rules/disallow-spaces-in-named-function-expression":28,"./rules/disallow-spaces-inside-array-brackets":29,"./rules/disallow-spaces-inside-object-brackets":30,"./rules/disallow-spaces-inside-parentheses":31,"./rules/disallow-trailing-comma":32,"./rules/disallow-trailing-whitespace":33,"./rules/disallow-yoda-conditions":34,"./rules/maximum-line-length":35,"./rules/require-aligned-object-values":36,"./rules/require-blocks-on-newline":37,"./rules/require-camelcase-or-uppercase-identifiers":38,"./rules/require-capitalized-constructors":39,"./rules/require-comma-before-line-break":40,"./rules/require-curly-braces":41,"./rules/require-dot-notation":42,"./rules/require-keywords-on-new-line":43,"./rules/require-left-sticked-operators":44,"./rules/require-line-feed-at-file-end":45,"./rules/require-multiple-var-decl":46,"./rules/require-operator-before-line-break":47,"./rules/require-padding-newlines-in-blocks":48,"./rules/require-parentheses-around-iife":49,"./rules/require-right-sticked-operators":50,"./rules/require-space-after-binary-operators":51,"./rules/require-space-after-keywords":52,"./rules/require-space-after-object-keys":53,"./rules/require-space-after-prefix-unary-operators.js":54,"./rules/require-space-before-binary-operators":55,"./rules/require-space-before-block-statements.js":56,"./rules/require-space-before-postfix-unary-operators.js":57,"./rules/require-spaces-in-anonymous-function-expression":58,"./rules/require-spaces-in-function-declaration":59,"./rules/require-spaces-in-function-expression":60,"./rules/require-spaces-in-named-function-expression":61,"./rules/require-spaces-inside-array-brackets":62,"./rules/require-spaces-inside-object-brackets":63,"./rules/require-trailing-comma":64,"./rules/safe-context-keyword":65,"./rules/validate-indentation":66,"./rules/validate-jsdoc":67,"./rules/validate-line-breaks":68,"./rules/validate-quote-marks":69,"esprima":80}],71:[function(_dereq_,module,exports){
+},{"./errors":1,"./js-file":2,"./options/preset":3,"./rules/disallow-comma-before-line-break":4,"./rules/disallow-dangling-underscores":5,"./rules/disallow-empty-blocks":6,"./rules/disallow-implicit-type-conversion":7,"./rules/disallow-keywords":9,"./rules/disallow-keywords-on-new-line":8,"./rules/disallow-left-sticked-operators":10,"./rules/disallow-mixed-spaces-and-tabs":11,"./rules/disallow-multiple-line-breaks":12,"./rules/disallow-multiple-line-strings":13,"./rules/disallow-multiple-var-decl":14,"./rules/disallow-padding-newlines-in-blocks":15,"./rules/disallow-quoted-keys-in-objects":16,"./rules/disallow-right-sticked-operators":17,"./rules/disallow-space-after-binary-operators":18,"./rules/disallow-space-after-keywords":19,"./rules/disallow-space-after-object-keys":20,"./rules/disallow-space-after-prefix-unary-operators.js":21,"./rules/disallow-space-before-binary-operators":22,"./rules/disallow-space-before-block-statements.js":23,"./rules/disallow-space-before-postfix-unary-operators.js":24,"./rules/disallow-spaces-in-anonymous-function-expression":25,"./rules/disallow-spaces-in-conditional-expression":26,"./rules/disallow-spaces-in-function-declaration":27,"./rules/disallow-spaces-in-function-expression":28,"./rules/disallow-spaces-in-named-function-expression":29,"./rules/disallow-spaces-inside-array-brackets":30,"./rules/disallow-spaces-inside-object-brackets":31,"./rules/disallow-spaces-inside-parentheses":32,"./rules/disallow-trailing-comma":33,"./rules/disallow-trailing-whitespace":34,"./rules/disallow-yoda-conditions":35,"./rules/maximum-line-length":36,"./rules/require-aligned-object-values":37,"./rules/require-blocks-on-newline":38,"./rules/require-camelcase-or-uppercase-identifiers":39,"./rules/require-capitalized-constructors":40,"./rules/require-comma-before-line-break":41,"./rules/require-curly-braces":42,"./rules/require-dot-notation":43,"./rules/require-keywords-on-new-line":44,"./rules/require-left-sticked-operators":45,"./rules/require-line-feed-at-file-end":46,"./rules/require-multiple-var-decl":47,"./rules/require-operator-before-line-break":48,"./rules/require-padding-newlines-in-blocks":49,"./rules/require-parentheses-around-iife":50,"./rules/require-right-sticked-operators":51,"./rules/require-space-after-binary-operators":52,"./rules/require-space-after-keywords":53,"./rules/require-space-after-object-keys":54,"./rules/require-space-after-prefix-unary-operators.js":55,"./rules/require-space-before-binary-operators":56,"./rules/require-space-before-block-statements.js":57,"./rules/require-space-before-postfix-unary-operators.js":58,"./rules/require-spaces-in-anonymous-function-expression":59,"./rules/require-spaces-in-conditional-expression":60,"./rules/require-spaces-in-function-declaration":61,"./rules/require-spaces-in-function-expression":62,"./rules/require-spaces-in-named-function-expression":63,"./rules/require-spaces-inside-array-brackets":64,"./rules/require-spaces-inside-object-brackets":65,"./rules/require-trailing-comma":66,"./rules/safe-context-keyword":67,"./rules/validate-indentation":68,"./rules/validate-jsdoc":69,"./rules/validate-line-breaks":70,"./rules/validate-quote-marks":71,"esprima":82}],73:[function(_dereq_,module,exports){
 /**
  * Returns token by range start. Ignores ()
  *
@@ -4227,7 +4556,7 @@ module.exports = StringChecker;
  * @param {Boolean} [backward=false] Direction
  * @returns {Object}
  */
-module.exports.getTokenByRangeStart = function(file, range, backward) {
+exports.getTokenByRangeStart = function(file, range, backward) {
     var tokens = file.getTokens();
 
     // get next token
@@ -4261,11 +4590,54 @@ module.exports.getTokenByRangeStart = function(file, range, backward) {
  * @param {String} punctuator
  * @returns {Boolean}
  */
-module.exports.tokenIsPunctuator = function(token, punctuator) {
+exports.tokenIsPunctuator = function(token, punctuator) {
     return token && token.type === 'Punctuator' && token.value === punctuator;
 };
 
-},{}],72:[function(_dereq_,module,exports){
+/**
+ * Find previous operator by range start
+ *
+ * @param {JsFile} file
+ * @param {Number} range
+ * @param {String} operator
+ * @returns {Object|null}
+ */
+exports.findOperatorByRangeStart = function(file, range, operator) {
+    var tokens = file.getTokens();
+    var index = file.getTokenPosByRangeStart(range);
+
+    while (index) {
+        if (tokens[ index ].value === operator) {
+            return tokens[ index ];
+        }
+
+        index--;
+    }
+
+    return null;
+
+};
+
+/**
+ * Returns token or false if there is a punctuator in a given range
+ *
+ * @param {JsFile} file
+ * @param {Number} range
+ * @param {String} operator
+ * @param {Boolean} [backward=false] Direction
+ * @returns {Object|null}
+ */
+exports.getTokenByRangeStartIfPunctuator = function(file, range, operator, backward) {
+    var part = this.getTokenByRangeStart(file, range, backward);
+
+    if (this.tokenIsPunctuator(part, operator)) {
+        return part;
+    }
+
+    return null;
+};
+
+},{}],74:[function(_dereq_,module,exports){
 module.exports = {
     iterate: iterate
 };
@@ -4339,7 +4711,7 @@ function iterate(node, cb, parentNode, parentCollection) {
                             iterate(contents[i], cb, node, contents);
                         }
                     } else {
-                        iterate(contents, cb, node, [ contents ]);
+                        iterate(contents, cb, node, [contents]);
                     }
                 }
             }
@@ -4347,7 +4719,7 @@ function iterate(node, cb, parentNode, parentCollection) {
     }
 }
 
-},{}],73:[function(_dereq_,module,exports){
+},{}],75:[function(_dereq_,module,exports){
 // 7.5.2 Keywords
 var ES3_KEYWORDS = {
     'break': true,
@@ -4444,7 +4816,7 @@ exports.isValidIdentifierName = function(name) {
     return IDENTIFIER_NAME_RE.test(name);
 };
 
-},{}],74:[function(_dereq_,module,exports){
+},{}],76:[function(_dereq_,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -4806,14 +5178,14 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-},{"util/":76}],75:[function(_dereq_,module,exports){
+},{"util/":78}],77:[function(_dereq_,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],76:[function(_dereq_,module,exports){
+},{}],78:[function(_dereq_,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5402,8 +5774,8 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-}).call(this,_dereq_("/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":75,"/Users/mdevils/Work/node-jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":78,"inherits":77}],77:[function(_dereq_,module,exports){
+}).call(this,_dereq_("/Users/arkel/Workspace/jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":77,"/Users/arkel/Workspace/jscs/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":80,"inherits":79}],79:[function(_dereq_,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5428,7 +5800,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],78:[function(_dereq_,module,exports){
+},{}],80:[function(_dereq_,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5490,7 +5862,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],79:[function(_dereq_,module,exports){
+},{}],81:[function(_dereq_,module,exports){
 /*
 colors.js
 
@@ -5834,7 +6206,7 @@ addProperty('zalgo', function () {
   return zalgo(this);
 });
 
-},{}],80:[function(_dereq_,module,exports){
+},{}],82:[function(_dereq_,module,exports){
 /*
   Copyright (C) 2013 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2013 Thaddee Tyl <thaddee.tyl@gmail.com>
@@ -9666,7 +10038,7 @@ parseStatement: true, parseSourceElement: true */
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */
 
-},{}],81:[function(_dereq_,module,exports){
+},{}],83:[function(_dereq_,module,exports){
 module.exports={
     "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch"],
     "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
@@ -9687,6 +10059,7 @@ module.exports={
     "disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
+    "disallowSpacesInsideArrayBrackets": true,
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true
@@ -9695,7 +10068,7 @@ module.exports={
     "validateQuoteMarks": "'"
 }
 
-},{}],82:[function(_dereq_,module,exports){
+},{}],84:[function(_dereq_,module,exports){
 module.exports={
     "requireCurlyBraces": [ "if", "else", "for", "while", "do" ],
     "requireSpaceAfterKeywords": [ "if", "else", "for", "while", "do", "switch", "return" ],
@@ -9723,6 +10096,6 @@ module.exports={
     "validateLineBreaks": "LF"
 }
 
-},{}]},{},[70])
-(70)
+},{}]},{},[72])
+(72)
 });

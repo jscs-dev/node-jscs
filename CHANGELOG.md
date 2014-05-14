@@ -1,3 +1,31 @@
+Version 1.4.4
+ * Remove newline char for consistancy (@markelog)
+ * Update readme for binary rules (@markelog)
+ * Improve requireSpaceAfterBinaryOperators rule (@markelog)
+ * Improve disallowSpaceAfterBinaryOperators rule (@markelog)
+ * Improve requireSpaceBeforeBinaryOperators rule (@markelog)
+ * Improve disallowSpaceBeforeBinaryOperators rule (@markelog)
+ * Update google preset (@markelog)
+ * Fix code style issues (@markelog)
+ * Review fixes (@markelog)
+ * Update readme for binary rules (@markelog)
+ * Improve disallowSpaceBeforeBinaryOperators rule (@markelog)
+ * Improve requireSpaceAfterBinaryOperators rule (@markelog)
+ * Improve disallowSpaceAfterBinaryOperators rule (@markelog)
+ * Add "backward" argument to checkIfPunctuator fn (@markelog)
+ * Improve requireSpaceBeforeBinaryOperator rule (@markelog)
+ * Add findOperatorByRangeStart fn to token helper (@markelog)
+ * Simplify definitions of token helper functions (@markelog)
+ * Add checkIfPunctuator method to token helper (@markelog)
+ * "requirePaddingNewlinesInBlocks" to support multi-line padding (@zz85)
+ * Update error message when no config is found. Fixes #372. (@mikesherov)
+ * Conditional Expression Spacing: documentation, Fixes #356 (@mikesherov)
+ * Require Spaces In Conditional Expressions: New Rule minus documentation (@mikesherov)
+ * Disallow Spaces In Conditional Expressions: New Rule minus documentation (@mikesherov)
+ * Indentation: fix more weird onevar constructs and associated indentation rules. (@mikesherov)
+ * Indentation: fix bug when IfStatement test contains a BlockStatement (@mikesherov)
+ * Fix "requirePaddingNewlinesInBlock" typo in README documentation (@zz85)
+
 Version 1.4.3:
  * Presets folder was missing in the package (@mdevils).
 
