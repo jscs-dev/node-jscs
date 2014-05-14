@@ -1,3 +1,6 @@
+Version 1.4.5
+ * Hotfix: Fix binary rules for "," and "=" operators (@markelog)
+
 Version 1.4.4
  * Improve `requireSpaceAfterBinaryOperators` rule (@markelog)
  * Improve `disallowSpaceAfterBinaryOperators` rule (@markelog)

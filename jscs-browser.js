@@ -1018,7 +1018,7 @@ module.exports.prototype = {
         if (operators[','] || operators['=']) {
             file.iterateTokensByType('Punctuator', function(token, i, tokens) {
                 var operator = token.value;
-                if (operator !== ',' && operator !== '=') {
+                if (operator !== ',' && operator !== '=' || !operators[operator]) {
                     return;
                 }
 
@@ -1193,7 +1193,7 @@ module.exports.prototype = {
         if (operators[','] || operators['=']) {
             file.iterateTokensByType('Punctuator', function(token, i, tokens) {
                 var operator = token.value;
-                if (operator !== ',' && operator !== '=') {
+                if (operator !== ',' && operator !== '=' || !operators[operator]) {
                     return;
                 }
 
@@ -2836,7 +2836,7 @@ module.exports.prototype = {
         if (operators[','] || operators['=']) {
             file.iterateTokensByType('Punctuator', function(token, i, tokens) {
                 var operator = token.value;
-                if (operator !== ',' && operator !== '=') {
+                if (operator !== ',' && operator !== '=' || !operators[operator]) {
                     return;
                 }
 
@@ -3017,7 +3017,7 @@ module.exports.prototype = {
         if (operators[','] || operators['=']) {
             file.iterateTokensByType('Punctuator', function(token, i, tokens) {
                 var operator = token.value;
-                if (operator !== ',' && operator !== '=') {
+                if (operator !== ',' && operator !== '=' || !operators[operator]) {
                     return;
                 }
 
