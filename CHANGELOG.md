@@ -7,7 +7,7 @@ Version 1.4.4
  * Fixes `requirePaddingNewlinesInBlocks`: support multi-line padding (@zz85)
  * Update error message when no config is found (@mikesherov)
  * Rule `requireSpacesInConditionalExpression` (@mikesherov)
- * Rule	`disallowSpacesInConditionalExpression`
+ * Rule `disallowSpacesInConditionalExpression` (@mikesherov)
  * Fixes for `validateIndentation` rule: fix more weird onevar constructs and associated indentation rules. (@mikesherov)
  * Fixes for `validateIndentation` rule: fix bug when IfStatement test contains a BlockStatement
 
