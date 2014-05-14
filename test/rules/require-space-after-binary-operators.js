@@ -53,5 +53,9 @@ describe('rules/require-space-after-binary-operators', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
         assert(checker.checkString('a=b').getErrorCount() === 1);
     });
+    it('should not report assignment operator for "a = b" without option', function() {
+        checker.configure({ requireSpaceAfterBinaryOperators: [','] });
+        assert(checker.checkString('a=b').isEmpty());
+    });
 
 });
