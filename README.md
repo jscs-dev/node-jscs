@@ -1572,6 +1572,7 @@ Values: Array of quoted operators
 
 ```js
 "disallowSpaceBeforeBinaryOperators": [
+    "=",
     ",",
     "+",
     "-",
@@ -1609,6 +1610,7 @@ Values: Array of quoted operators
 
 ```js
 "requireSpaceBeforeBinaryOperators": [
+    "=",
     ",",
     "+",
     "-",
@@ -1646,6 +1648,7 @@ Values: Array of quoted operators
 
 ```js
 "disallowSpaceAfterBinaryOperators": [
+    "=",
     ",",
     "+",
     "-",
@@ -1683,6 +1686,7 @@ Values: Array of quoted operators
 
 ```js
 "requireSpaceAfterBinaryOperators": [
+    "=",
     ",",
     "+",
     "-",
