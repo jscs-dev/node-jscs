@@ -18,6 +18,7 @@
     "disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
+    "disallowSpacesInsideArrayBrackets": true,
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true

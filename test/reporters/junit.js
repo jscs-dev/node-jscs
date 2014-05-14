@@ -43,6 +43,6 @@ describe('reporters/junit', function() {
         });
 
         checker.configure({ disallowKeywords: ['with'] });
-        junit([ checker.checkString('with (x) { y++; }') ]);
+        junit([checker.checkString('with (x) { y++; }')]);
     });
 });
