@@ -1564,9 +1564,9 @@ x = y++; y = z--;
 
 Requires sticking binary operators to the left.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to disallow space before all possible binary operators
 
 #### Example
 
@@ -1582,6 +1582,7 @@ Values: Array of quoted operators
     "===",
     "!=",
     "!=="
+    // etc
 ]
 ```
 
@@ -1601,9 +1602,9 @@ x + y;
 
 Disallows sticking binary operators to the left.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to require space before all possible binary operators
 
 #### Example
 
@@ -1619,6 +1620,7 @@ Values: Array of quoted operators
     "===",
     "!=",
     "!=="
+    // etc
 ]
 ```
 
@@ -1638,9 +1640,9 @@ x!== y;
 
 Requires sticking binary operators to the right.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to disallow space after all possible binary operators
 
 #### Example
 
@@ -1656,6 +1658,7 @@ Values: Array of quoted operators
     "===",
     "!=",
     "!=="
+    // etc
 ]
 ```
 
@@ -1675,9 +1678,9 @@ x+ y;
 
 Disallows sticking binary operators to the right.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to require space after all possible binary operators
 
 #### Example
 
@@ -1693,6 +1696,7 @@ Values: Array of quoted operators
     "===",
     "!=",
     "!=="
+    // etc
 ]
 ```
 
