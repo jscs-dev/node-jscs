@@ -1,20 +1,9 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
+var operators = require('../../lib/utils').binaryOperators;
 
 describe('rules/require-space-before-binary-operators', function() {
     var checker;
-    var operators = [
-
-        // assignment operators
-        '=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=',
-        '&=', '|=', '^=', '+=',
-
-        '+', '-', '*', '/', '%', '<<', '>>', '>>>', '&',
-        '|', '^', '&&', '||', '===', '==', '>=',
-        '<=', '<', '>', '!=', '!==',
-
-        ','
-    ];
 
     beforeEach(function() {
         checker = new Checker();
@@ -46,6 +35,10 @@ describe('rules/require-space-before-binary-operators', function() {
         });
     });
 
+    it('should report sticky operator for 2,2 with true option', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: true });
+        assert(checker.checkString('2,2').getErrorCount() === 1);
+    });
     it('should not report sticky operator for ({ test:2 })', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: [':'] });
         assert(checker.checkString('({ test : 2 })').isEmpty());
