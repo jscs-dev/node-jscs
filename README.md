@@ -1461,9 +1461,9 @@ x = [1 , 2];
 
 Requires sticking unary operators to the right.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to disallow space after prefix for all unary operators
 
 #### Example
 
