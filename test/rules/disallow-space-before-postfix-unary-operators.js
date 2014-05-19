@@ -1,5 +1,6 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
+var operators = require('../../lib/utils').iAndDecrementOperators;
 
 describe('rules/disallow-space-before-postfix-unary-operators', function() {
     var checker;
@@ -7,6 +8,40 @@ describe('rules/disallow-space-before-postfix-unary-operators', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
+
+    operators.forEach(function(operator) {
+        var values = [[operator], true];
+
+        values.forEach(function( value ) {
+            var sticked = 'var test; test' + operator;
+            var stickedWithParenthesis = 'var test; (test)' + operator;
+
+            var notSticked = 'var test; test ' + operator;
+            var notStickedWithParenthesis = 'var test; (test) ' + operator;
+
+            it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceBeforePostfixUnaryOperators: value });
+                    assert(checker.checkString(sticked).isEmpty());
+                });
+            it('should report sticky operator for ' + notSticked + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceBeforePostfixUnaryOperators: value });
+                    assert(checker.checkString(notSticked).getErrorCount() === 1);
+                });
+            it('should not report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceBeforePostfixUnaryOperators: value });
+                    assert(checker.checkString(stickedWithParenthesis).isEmpty());
+                });
+            it('should report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceBeforePostfixUnaryOperators: value });
+                    assert(checker.checkString(notStickedWithParenthesis).getErrorCount() === 1);
+                });
+        });
+    });
+
     it('should report separated operator', function() {
         checker.configure({ disallowSpaceBeforePostfixUnaryOperators: ['++', '--'] });
         assert(checker.checkString('var x = 2; x ++; x --;').getErrorCount() === 2);
