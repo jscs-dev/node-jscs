@@ -1,6 +1,6 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
-var operators = require('../../lib/utils').iAndDecrementOperators;
+var operators = require('../../lib/utils').incrementAndDecrementOperators;
 
 describe('rules/require-space-before-postfix-unary-operators', function() {
     var checker;
