@@ -20,6 +20,16 @@ describe('rules/disallow-spaces-in-function-expression', function() {
             assert(checker.checkString('var x = function a(){}').isEmpty());
         });
 
+        it('should not report missing space before round brace in getters', function() {
+            checker.configure({ disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = {get property() { }}').isEmpty());
+        });
+
+        it('should report space before opening round brace in getters', function() {
+            checker.configure({ disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            assert(checker.checkString('var x = {get property () {}}').getErrorCount() === 1);
+        });
+
         it('should report space before round brace in FunctionExpression', function() {
             checker.configure({ disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
             assert(checker.checkString('var x = function (){}').getErrorCount() === 1);
