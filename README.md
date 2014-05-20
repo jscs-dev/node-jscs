@@ -1541,7 +1541,7 @@ Disallows sticking unary operators to the left.
 
 Type: `Array`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to require space before postfix for all unary operators (i.e. increment/decrement operators)
 
 #### Example
 
