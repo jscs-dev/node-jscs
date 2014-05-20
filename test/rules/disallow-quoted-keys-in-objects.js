@@ -58,4 +58,12 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
 
         assert(checker.checkString('var x = { "default": 1, "class": "foo" }').isEmpty());
     });
+
+    it('does not report for "null" when "allButReserved" mode is used', function() {
+        checker = new Checker();
+        checker.registerDefaultRules();
+        checker.configure({ disallowQuotedKeysInObjects: 'allButReserved' });
+
+        assert(checker.checkString('var x = { "null": 1, undefined: "foo" }').isEmpty());
+    });
 });
