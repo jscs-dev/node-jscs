@@ -27,20 +27,20 @@
   "dependencies": {
     "colors": "~0.6.2",
     "commander": "~2.2.0",
-    "esprima": "~1.1.1",
-    "glob": "~3.2.9",
-    "minimatch": "~0.2.14",
+    "esprima": "~1.2.2",
+    "glob": "~4.0.0",
+    "minimatch": "~0.3.0",
     "strip-json-comments": "~0.1.1",
-    "vow": "~0.3.12",
-    "vow-fs": "~0.2.3",
+    "vow": "~0.4.3",
+    "vow-fs": "~0.3.1",
     "xmlbuilder": "~2.2.1"
   },
   "devDependencies": {
-    "browserify": "~3.43.0",
+    "browserify": "~4.1.5",
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
-    "mocha": "~1.18.2",
-    "sinon": "~1.9.1",
+    "mocha": "~1.19.0",
+    "sinon": "~1.10.0",
     "xml2js": "~0.4.2"
   },
   "bin": {
