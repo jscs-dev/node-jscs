@@ -64,7 +64,7 @@ describe('modules/cli', function() {
 
             Checker.prototype.checkPath = old;
 
-            return Vow.promise();
+            return Vow.defer().promise();
         };
 
         var result = cli({
