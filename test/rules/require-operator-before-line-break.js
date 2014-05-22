@@ -11,6 +11,10 @@ describe('rules/require-operator-before-line-break', function() {
     });
 
     operators.forEach(function(operator) {
+        if (operator === ':') {
+            return;
+        }
+
         var values = [[operator], true];
 
         values.forEach(function(value) {
@@ -26,16 +30,18 @@ describe('rules/require-operator-before-line-break', function() {
         });
     });
 
+    it('should report newline in object definition with true value', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        assert(checker.checkString('({ test \n: 1 })').getErrorCount() === 1);
+    });
     it('should report newline before ternary with true value', function() {
         checker.configure({ requireOperatorBeforeLineBreak: true });
         assert(checker.checkString('var x = y \n? a : b').getErrorCount() === 1);
     });
-
     it('should report newline before ternary', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['?'] });
         assert(checker.checkString('var x = y \n? a : b').getErrorCount() === 1);
     });
-
     it('should not report newline after ternary', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['?'] });
         assert(checker.checkString('var x = y ?\n a : b').isEmpty());

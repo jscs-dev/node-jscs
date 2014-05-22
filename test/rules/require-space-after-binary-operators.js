@@ -11,6 +11,10 @@ describe('rules/require-space-after-binary-operators', function() {
     });
 
     operators.forEach(function( operator ) {
+        if (operator === ':') {
+            return;
+        }
+
         var sticked = 'var test; test' + operator + '2';
         var stickedWithParenthesis = 'var test; (test)' + operator + '(2)';
 
@@ -38,6 +42,10 @@ describe('rules/require-space-after-binary-operators', function() {
     it('should report sticky operator for 2,2 with true option', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: true });
         assert(checker.checkString('2,2').getErrorCount() === 1);
+    });
+    it('should not report sticky operator for ({ test:2 }) with true value', function() {
+        checker.configure({ requireSpaceAfterBinaryOperators: true });
+        assert(checker.checkString('({ test : 2 })').isEmpty());
     });
     it('should not report sticky operator for ({ test:2 })', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [':'] });
