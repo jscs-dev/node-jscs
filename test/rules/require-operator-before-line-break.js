@@ -1,9 +1,9 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
+var operators = require('../../lib/utils').binaryOperators.slice();
 
 describe('rules/require-operator-before-line-break', function() {
-    var checker,
-        operators = ['||', '&&', '*', '/', '%', '+', '-', '>=', '==', '===', '!=', '!==', '>', '<', '<='];
+    var checker;
 
     beforeEach(function() {
         checker = new Checker();
@@ -11,16 +11,25 @@ describe('rules/require-operator-before-line-break', function() {
     });
 
     operators.forEach(function(operator) {
-        it('should report newline before ' + operator, function() {
-            checker.configure({ requireOperatorBeforeLineBreak: [operator] });
-            assert(checker.checkString('var x = y \n' + operator + ' String').getErrorCount() === 1);
-        });
+        var values = [[operator], true];
 
-        it('should not report newline after ' + operator, function() {
-            checker.configure({ requireOperatorBeforeLineBreak: [operator] });
-            assert(checker.checkString('var x = y ' + operator + '\n String').isEmpty());
+        values.forEach(function(value) {
+            it('should report newline before ' + operator + ' with ' + value + ' value', function() {
+                checker.configure({ requireOperatorBeforeLineBreak: value });
+                assert(checker.checkString('var x = y \n' + operator + ' String').getErrorCount() === 1);
+            });
+
+            it('should not report newline after ' + operator + ' with ' + value + ' value', function() {
+                checker.configure({ requireOperatorBeforeLineBreak: value });
+                assert(checker.checkString('var x = y ' + operator + '\n String').isEmpty());
+            });
         });
-    }, this);
+    });
+
+    it('should report newline before ternary with true value', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        assert(checker.checkString('var x = y \n? a : b').getErrorCount() === 1);
+    });
 
     it('should report newline before ternary', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['?'] });

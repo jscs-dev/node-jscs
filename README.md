@@ -1284,9 +1284,9 @@ var x = {
 
 Requires operators to appear before line breaks and not after.
 
-Type: `Array`
+Type: `Array` or `true`
 
-Values: Array of quoted operators
+Values: Array of quoted operators or true to require all possible binary operators to appear before line breaks
 
 JSHint: [`laxbreak`](http://www.jshint.com/docs/options/#laxbreak)
 
