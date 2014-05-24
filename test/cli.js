@@ -12,12 +12,27 @@ var startingDir = process.cwd();
 describe('modules/cli', function() {
     beforeEach(function() {
         sinon.stub(process, 'exit');
+        sinon.stub(process.stdout, 'write');
+        sinon.stub(process.stderr, 'write');
     });
-
     afterEach(function() {
         process.chdir(startingDir);
         process.exit.restore();
+
+        // If stdin rewrites were not used, restore them here
+        rAfter();
     });
+
+    // Can't do it in afterEach hook, because otherwise name of the test would not be printed
+    function rAfter() {
+        if (process.stdout.write.restore) {
+            process.stdout.write.restore();
+        }
+
+        if (process.stderr.write.restore) {
+            process.stderr.write.restore();
+        }
+    }
 
     it('should correctly exit if no files specified', function() {
         hooker.hook(console, 'error', {
@@ -50,9 +65,11 @@ describe('modules/cli', function() {
 
         process.chdir('./test/');
 
-        cli({
+        var result = cli({
             config: 'config.js'
         });
+
+        assert(typeof result === 'object');
     });
 
     it('should set jquery preset', function() {
@@ -76,16 +93,20 @@ describe('modules/cli', function() {
         assert(result.checker.getProcessedConfig().requireCurlyBraces);
     });
 
-    describe('reporter option', function() {
-        beforeEach(function() {
-            sinon.stub(process.stdout, 'write');
+    it('should bail out if no inputs files are specified', function(done) {
+        var result = cli({
+            args: ['']
         });
 
-        // Can't do it in afterEach hook, because otherwise name of the test would not be printed
-        function rAfter() {
-            process.stdout.write.restore();
-        }
+        result.promise.fail(function(status) {
+            assert(status);
+            rAfter();
 
+            done();
+        });
+    });
+
+    describe('reporter option', function() {
         it('should set implicitly set checkstyle reporter', function(done) {
             var result = cli({
                 args: ['test/data/cli/error.js'],
@@ -156,6 +177,21 @@ describe('modules/cli', function() {
 
             result.promise.always(function() {
                 assert(path.basename(result.reporter), 'text.js');
+                rAfter();
+
+                done();
+            });
+        });
+
+        it('should return exit if no reporter is found', function(done) {
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                reporter: 'does not exists',
+                config: 'test/data/cli/cli.json'
+            });
+
+            result.promise.fail(function(status) {
+                assert(status.valueOf());
                 rAfter();
 
                 done();
