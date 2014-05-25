@@ -12,7 +12,7 @@ describe('rules/disallow-space-after-prefix-unary-operators', function() {
     operators.forEach(function(operator) {
         var values = [[operator], true];
 
-        values.forEach(function( value ) {
+        values.forEach(function(value) {
             var sticked = 'var test;' + operator + 'test';
             var stickedWithParenthesis = 'var test;' + operator + '(test)';
 

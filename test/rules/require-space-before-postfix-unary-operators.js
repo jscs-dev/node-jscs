@@ -12,7 +12,7 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
     operators.forEach(function(operator) {
         var values = [[operator], true];
 
-        values.forEach(function( value ) {
+        values.forEach(function(value) {
             var sticked = 'var test; test' + operator;
             var stickedWithParenthesis = 'var test; (test)' + operator;
 
@@ -22,7 +22,7 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(sticked).getErrorCount() === 1 );
+                    assert(checker.checkString(sticked).getErrorCount() === 1);
                 });
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
@@ -32,7 +32,7 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1 );
+                    assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
                 });
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {

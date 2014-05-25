@@ -10,7 +10,7 @@ describe('rules/require-space-after-binary-operators', function() {
         checker.registerDefaultRules();
     });
 
-    operators.forEach(function( operator ) {
+    operators.forEach(function(operator) {
         if (operator === ':') {
             return;
         }

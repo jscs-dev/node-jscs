@@ -10,7 +10,7 @@ describe('rules/disallow-space-before-binary-operators', function() {
         checker.registerDefaultRules();
     });
 
-    operators.forEach(function( operator ) {
+    operators.forEach(function(operator) {
         if (operator === ':') {
             return;
         }
