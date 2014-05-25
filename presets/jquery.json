@@ -14,6 +14,8 @@
     "disallowSpaceAfterObjectKeys": true,
 
     "requireMultipleVarDecl": "onevar",
+    "disallowMixedSpacesAndTabs": "smart",
+    "disallowTrailingWhitespace": true,
 
     "requireSpacesInsideObjectBrackets": "all",
     "requireSpacesInsideArrayBrackets": "all",
