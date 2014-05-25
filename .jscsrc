@@ -1,4 +1,5 @@
 {
     "preset": "google",
+    "disallowKeywords": ["with"],
     "excludeFiles": ["test/data/**"]
 }
