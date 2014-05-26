@@ -43,4 +43,12 @@ describe('rules/require-space-after-keywords', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
         assert(checker.checkString('function foo() {\r\n\treturn\r\n}').getErrorCount() === 0);
     });
+    it('should show different error if there is more than one space (#396)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['if'] });
+
+        var errors = checker.checkString('if  (x) {}');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.explainError(error).indexOf('More than one space after') >= 0);
+    });
 });
