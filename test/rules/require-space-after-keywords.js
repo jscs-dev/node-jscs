@@ -49,7 +49,7 @@ describe('rules/require-space-after-keywords', function() {
         var errors = checker.checkString('if  (x) {}');
         var error = errors.getErrorList()[0];
 
-        assert(errors.explainError(error).indexOf('More than one space after') >= 0);
+        assert(errors.explainError(error).indexOf('Missing 2 spaces after "if" keyword') === 0);
     });
     it('should not trigger error for comments (#397)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
@@ -61,6 +61,6 @@ describe('rules/require-space-after-keywords', function() {
         var errors = checker.checkString('if  /**/(x) {}');
         var error = errors.getErrorList()[0];
 
-        assert(errors.explainError(error).indexOf('More than one space after') >= 0);
+        assert(errors.explainError(error).indexOf('Missing 2 spaces after "if" keyword') === 0);
     });
 });
