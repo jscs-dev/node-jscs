@@ -51,4 +51,16 @@ describe('rules/require-space-after-keywords', function() {
 
         assert(errors.explainError(error).indexOf('More than one space after') >= 0);
     });
+    it('should not trigger error for comments (#397)', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['if'] });
+        assert(checker.checkString('if /**/ (x) {}').isEmpty());
+    });
+    it('should trigger different error for comments with more than one space', function() {
+        checker.configure({ requireSpaceAfterKeywords: ['if'] });
+
+        var errors = checker.checkString('if  /**/(x) {}');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.explainError(error).indexOf('More than one space after') >= 0);
+    });
 });
