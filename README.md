@@ -632,7 +632,7 @@ Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child propert
 #### Example
 
 ```js
-"requireSpacesInFunctionExpression": {
+"requireSpacesInFunctionDeclaration": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
@@ -663,7 +663,7 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 #### Example
 
 ```js
-"disallowSpacesInFunctionExpression": {
+"disallowSpacesInFunctionDeclaration": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
@@ -1520,7 +1520,7 @@ x = ! y; y = ++ z;
 
 Disallows sticking unary operators to the right.
 
-Type: `Array` or true value
+Type: `Array` or `true` value
 
 Values: Array of quoted operators or true to require space after prefix for all unary operators
 
@@ -1985,7 +1985,7 @@ JSHint: [`indent`](http://jshint.com/docs/options/#indent)
 #### Example
 
 ```js
-"validateIndentation": "\t",
+"validateIndentation": "\t"
 ```
 
 ##### Valid example for mode `2`
@@ -2321,7 +2321,7 @@ Values: String value used for context local declaration
 #### Example
 
 ```js
-"safeContextKeyword": [ "that" ]
+"safeContextKeyword": ["that"]
 ```
 
 ##### Valid
