@@ -1520,7 +1520,7 @@ x = ! y; y = ++ z;
 
 Disallows sticking unary operators to the right.
 
-Type: `Array` or `true`
+Type: `Array` or `true` value
 
 Values: Array of quoted operators or true to require space after prefix for all unary operators
 
