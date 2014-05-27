@@ -10,15 +10,13 @@ describe('rules/disallow-space-after-prefix-unary-operators', function() {
     });
 
     operators.forEach(function(operator) {
-        var values = [[operator], true];
+        var sticked = 'var test;' + operator + 'test';
+        var stickedWithParenthesis = 'var test;' + operator + '(test)';
 
-        values.forEach(function(value) {
-            var sticked = 'var test;' + operator + 'test';
-            var stickedWithParenthesis = 'var test;' + operator + '(test)';
+        var notSticked = 'var test;' + operator + ' test';
+        var notStickedWithParenthesis = 'var test;' + operator + ' (test)';
 
-            var notSticked = 'var test;' + operator + ' test';
-            var notStickedWithParenthesis = 'var test;' + operator + ' (test)';
-
+        [[operator], true].forEach(function(value) {
             it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceAfterPrefixUnaryOperators: value });

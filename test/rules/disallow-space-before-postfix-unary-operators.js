@@ -10,15 +10,13 @@ describe('rules/disallow-space-before-postfix-unary-operators', function() {
     });
 
     operators.forEach(function(operator) {
-        var values = [[operator], true];
+        var sticked = 'var test; test' + operator;
+        var stickedWithParenthesis = 'var test; (test)' + operator;
 
-        values.forEach(function(value) {
-            var sticked = 'var test; test' + operator;
-            var stickedWithParenthesis = 'var test; (test)' + operator;
+        var notSticked = 'var test; test ' + operator;
+        var notStickedWithParenthesis = 'var test; (test) ' + operator;
 
-            var notSticked = 'var test; test ' + operator;
-            var notStickedWithParenthesis = 'var test; (test) ' + operator;
-
+        [[operator], true].forEach(function(value) {
             it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceBeforePostfixUnaryOperators: value });

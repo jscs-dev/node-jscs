@@ -21,34 +21,36 @@ describe('rules/disallow-space-after-binary-operators', function() {
         var notSticked = 'var test; test ' + operator + ' 2';
         var notStickedWithParenthesis = 'var test; (test) ' + operator + ' (2)';
 
-        it('should not report sticky operator for ' + sticked, function() {
-            checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
-            assert(checker.checkString(sticked).isEmpty());
-        });
-        it('should report sticky operator for ' + notSticked, function() {
-            checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
-            assert(checker.checkString(notSticked).getErrorCount() === 1);
-        });
-        it('should not report sticky operator for ' + stickedWithParenthesis, function() {
-            checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
-            assert(checker.checkString(stickedWithParenthesis).isEmpty());
-        });
-        it('should report sticky operator for ' + notStickedWithParenthesis, function() {
-            checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
-            assert(checker.checkString(notStickedWithParenthesis).getErrorCount() === 1);
+        [[operator], true].forEach(function(value) {
+            it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
+                    assert(checker.checkString(sticked).isEmpty());
+                }
+            );
+            it('should report sticky operator for ' + notSticked + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
+                    assert(checker.checkString(notSticked).getErrorCount() === 1);
+                }
+            );
+            it('should not report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
+                    assert(checker.checkString(stickedWithParenthesis).isEmpty());
+                }
+            );
+            it('should report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
+                function() {
+                    checker.configure({ disallowSpaceAfterBinaryOperators: [operator] });
+                    assert(checker.checkString(notStickedWithParenthesis).getErrorCount() === 1);
+                }
+            );
         });
     });
 
-    it('should report sticky operator for 2 , 2 with true option', function() {
-        checker.configure({ disallowSpaceAfterBinaryOperators: true });
-        assert(checker.checkString('2 , 2').getErrorCount() === 1);
-    });
     it('should not report sticky operator for ({ test:2 })', function() {
         checker.configure({ disallowSpaceAfterBinaryOperators: [':'] });
-        assert(checker.checkString('({ test:2 })').isEmpty());
-    });
-    it('should not report sticky operator for ({ test:2 }) with true value', function() {
-        checker.configure({ disallowSpaceAfterBinaryOperators: true });
         assert(checker.checkString('({ test:2 })').isEmpty());
     });
     it('should report sticky operator for ({ test :2 })', function() {
