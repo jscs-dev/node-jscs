@@ -2456,6 +2456,34 @@ add: function() {
 }
 ```
 
+### requireSpaceAfterLineComment
+
+Requires that a line comment (`//`) be followed by a space.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireSpaceAfterLineComment": true
+```
+
+##### Valid
+
+```js
+// A comment
+/*A comment*/
+```
+
+##### Invalid
+
+```js
+//A comment
+```
+
+
 ## Browser Usage
 
 File [jscs-browser.js](jscs-browser.js) contains browser-compatible version of `jscs`.
