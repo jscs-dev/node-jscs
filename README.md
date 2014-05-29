@@ -663,7 +663,7 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 #### Example
 
 ```js
-"disallowSpacesInFunctionExpression": {
+"disallowSpacesInFunctionDeclaration": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
