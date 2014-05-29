@@ -98,10 +98,12 @@ Values: `"jquery"`
 "preset": "jquery"
 ```
 
-If you want specifically disable preset rule assign it to `null`
-```js
-"preset": "jquery",
-"requireCurlyBraces": null
+If you want specifically disable preset rule assign it to `null`, like so:
+```json
+{
+    "preset": "jquery",
+    "requireCurlyBraces": null
+}
 ```
 
 ### excludeFiles
@@ -364,9 +366,9 @@ var d = function(){ return d; }.apply(this, args);
 
 Requires space before and/or after `?` or `:` in conditional expressions.
 
-Type: `Object` or `true`
+Type: `Object` or `Boolean`
 
-Values: `afterTest`, `beforeConsequent`, `afterConsequent`, `beforeAlternate` as child properties, or `true` to set all properties to true. Child properties must be set to `true`.
+Values: `"afterTest"`, `"beforeConsequent"`, `"afterConsequent"`, `"beforeAlternate"` as child properties, or `true` to set all properties to `true`. Child properties must be set to `true`.
 
 #### Example
 
@@ -400,9 +402,9 @@ var a = b ? c :d;
 
 Disallows space before and/or after `?` or `:` in conditional expressions.
 
-Type: `Object` or `true`
+Type: `Object` or `Boolean`
 
-Values: `afterTest`, `beforeConsequent`, `afterConsequent`, `beforeAlternate` as child properties, or `true` to set all properties to true. Child properties must be set to `true`.
+Values: `"afterTest"`, `"beforeConsequent"`, `"afterConsequent"`, `"beforeAlternate"` as child properties, or `true` to set all properties to true. Child properties must be set to `true`.
 
 #### Example
 
@@ -439,7 +441,7 @@ Requires space before `()` or `{}` in function declarations.
 
 Type: `Object`
 
-Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child properties. Child properties must be set to `true`.
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
 
 #### Example
 
@@ -503,7 +505,7 @@ Requires space before `()` or `{}` in anonymous function expressions.
 
 Type: `Object`
 
-Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child properties. Child properties must be set to `true`.
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
 
 #### Example
 
@@ -565,7 +567,7 @@ Requires space before `()` or `{}` in named function expressions.
 
 Type: `Object`
 
-Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child properties. Child properties must be set to `true`.
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
 
 #### Example
 
@@ -627,7 +629,7 @@ Requires space before `()` or `{}` in function declarations.
 
 Type: `Object`
 
-Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child properties. Child properties must be set to `true`.
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
 
 #### Example
 
@@ -719,10 +721,10 @@ Requires multiple `var` declaration.
 
 Type: `Boolean` or `String`
 
-Values: `true` or `onevar`
+Values: `true` or `"onevar"`
 
-if `requireMultipleVarDecl` defined as a `boolean` value, it will report only consecutive vars, if, on the other hand,
-value equals to `onevar` string, `requireMultipleVarDecl` will allow only one `var` per function scope.
+if `requireMultipleVarDecl` defined as a `true` value, it will report only consecutive vars, if, on the other hand,
+value equals to `"onevar"` string, `requireMultipleVarDecl` will allow only one `var` per function scope.
 
 JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
@@ -1031,7 +1033,7 @@ Requires space after opening array square bracket and before closing.
 
 Type: `String`
 
-Values: "all" for strict mode, "allButNested" ignores closing brackets in a row.
+Values: `"all"` for strict mode, `"allButNested"` ignores closing brackets in a row.
 
 #### Example
 
@@ -1063,7 +1065,7 @@ Requires space after opening round bracket and before closing.
 
 Type: `String`
 
-Values: "all" for strict mode, "allButNested" ignores nested brackets in a row.
+Values: `"all"` for strict mode, `"allButNested"` ignores nested brackets in a row.
 
 #### Example
 
@@ -1286,9 +1288,9 @@ Requires proper alignment in object literals.
 Type: `String`
 
 Values:
-    - `"all"` for strict mode,
-    - `"skipWithFunction"` ignores objects if one of the property values is a function expression,
-    - `"skipWithLineBreak"` ignores objects if there are line breaks between properties
+ - `"all"` for strict mode,
+ - `"skipWithFunction"` ignores objects if one of the property values is a function expression,
+ - `"skipWithLineBreak"` ignores objects if there are line breaks between properties
 
 #### Example
 
@@ -1317,9 +1319,9 @@ var x = {
 
 Requires operators to appear before line breaks and not after.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to require all possible binary operators to appear before line breaks
+Values: Array of quoted operators or `true` to require all possible binary operators to appear before line breaks
 
 JSHint: [`laxbreak`](http://www.jshint.com/docs/options/#laxbreak)
 
@@ -1494,9 +1496,9 @@ x = [1 , 2];
 
 Requires sticking unary operators to the right.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to disallow space after prefix for all unary operators
+Values: Array of quoted operators or `true` to disallow space after prefix for all unary operators
 
 #### Example
 
@@ -1520,9 +1522,9 @@ x = ! y; y = ++ z;
 
 Disallows sticking unary operators to the right.
 
-Type: `Array` or `true` value
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to require space after prefix for all unary operators
+Values: Array of quoted operators or `true` to require space after prefix for all unary operators
 
 #### Example
 
@@ -1546,9 +1548,9 @@ x = !y; y = ++z;
 
 Requires sticking unary operators to the left.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to disallow space before postfix for all unary operators (i.e. increment/decrement operators)
+Values: Array of quoted operators or `true` to disallow space before postfix for all unary operators (i.e. increment/decrement operators)
 
 #### Example
 
@@ -1572,9 +1574,9 @@ x = y ++; y = z --;
 
 Disallows sticking unary operators to the left.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to require space before postfix for all unary operators (i.e. increment/decrement operators)
+Values: Array of quoted operators or `true` to require space before postfix for all unary operators (i.e. increment/decrement operators)
 
 #### Example
 
@@ -1597,9 +1599,9 @@ x = y++; y = z--;
 
 Requires sticking binary operators to the left.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to disallow space before all possible binary operators
+Values: Array of quoted operators or `true` to disallow space before all possible binary operators
 
 #### Example
 
@@ -1635,9 +1637,9 @@ x + y;
 
 Disallows sticking binary operators to the left.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to require space before all possible binary operators
+Values: Array of quoted operators or `true` to require space before all possible binary operators
 
 #### Example
 
@@ -1673,9 +1675,9 @@ x!== y;
 
 Requires sticking binary operators to the right.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to disallow space after all possible binary operators
+Values: Array of quoted operators or `true` to disallow space after all possible binary operators
 
 #### Example
 
@@ -1711,9 +1713,9 @@ x+ y;
 
 Disallows sticking binary operators to the right.
 
-Type: `Array` or `true`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted operators or true to require space after all possible binary operators
+Values: Array of quoted operators or `true` to require space after all possible binary operators
 
 #### Example
 
