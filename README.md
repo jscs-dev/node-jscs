@@ -632,7 +632,7 @@ Values: `beforeOpeningRoundBrace` and `beforeOpeningCurlyBrace` as child propert
 #### Example
 
 ```js
-"requireSpacesInFunctionExpression": {
+"requireSpacesInFunctionDeclaration": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
