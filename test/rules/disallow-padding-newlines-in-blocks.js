@@ -36,7 +36,22 @@ describe('rules/disallow-padding-newlines-in-blocks', function() {
     it('should not report with multi-line comment on first line', function() {
         assert(checker.checkString('if (true) {\n/*\ncomment\n*/\nabc();\n}').isEmpty());
     });
-    it('should not report empty function definitions', function() {
+    it('should not report single line empty function definitions', function() {
         assert(checker.checkString('var a = function() {};').isEmpty());
+    });
+    it('should not report multiline empty function definitions', function() {
+        assert(checker.checkString('var a = function() {\n};').isEmpty());
+    });
+    it('should report extra padding newline followed by comments', function() {
+        assert(checker.checkString('if (true) {\n\n//comment\n\n/* comments */\n}').getErrorCount() === 1);
+    });
+    it('should report extra padding newline preceded by comments', function() {
+        assert(checker.checkString('if (true) {\n//comment\n\n/* comments */\n\n}').getErrorCount() === 1);
+    });
+    it('should report extra padding newlines in both cases with comments', function() {
+        assert(checker.checkString('if (true) {\n\n//comment\n\n/* comments */\n\n}').getErrorCount() === 2);
+    });
+    it('should not report leading nor trailing comments', function() {
+        assert(checker.checkString('if (true) {\n//comment\n\n/* comments */\n}').isEmpty());
     });
 });
