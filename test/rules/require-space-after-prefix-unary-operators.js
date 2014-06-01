@@ -48,4 +48,10 @@ describe('rules/require-space-after-prefix-unary-operators', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
         assert(checker.checkString('var x = ~(0); ++(((x))); -( x ); !(++( x ));').getErrorCount() === 5);
     });
+    it('should not report consecutive operators (#405)', function() {
+        checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['!'] });
+        assert(checker.checkString('!~test;').isEmpty());
+        assert(checker.checkString('!~test;').isEmpty());
+        assert(checker.checkString('!++test;').isEmpty());
+    });
 });
