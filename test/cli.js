@@ -34,6 +34,20 @@ describe('modules/cli', function() {
         }
     }
 
+    it('should provide friendly error message if config is corrupted', function(done) {
+        sinon.spy(console, 'error');
+
+        var result = cli({
+            config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json'),
+        });
+
+        result.promise.fail(function() {
+            assert(console.error.getCall(0).args[0] === 'Config source is corrupted:');
+            console.error.restore();
+            done();
+        });
+    });
+
     it('should correctly exit if no files specified', function() {
         hooker.hook(console, 'error', {
             pre: function(message) {
