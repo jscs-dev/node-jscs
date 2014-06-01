@@ -2452,6 +2452,36 @@ add: function() {
 }
 ```
 
+### validateParameterSeparator
+
+Enable validation of separators between function parameters.
+
+Type: `String`
+
+Values:
+
+ - `", "`: function parameters are immediately followed by a comma then a space
+ - `" ,"`: function parameters are immediately followed by a space then a comma
+ - `" , "`: function parameters are immediately followed by a space, a comma then a space
+
+#### Example
+
+```js
+"validateParameterSeparator": ", "
+```
+
+##### Valid
+
+```js
+function a(b, c) {}
+```
+
+##### Invalid
+
+```js
+function a(b , c) {}
+```
+
 ## Browser Usage
 
 File [jscs-browser.js](jscs-browser.js) contains browser-compatible version of `jscs`.
