@@ -42,7 +42,7 @@ describe('modules/cli', function() {
         });
 
         result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Config source is corrupted:');
+            assert(console.error.getCall(0).args[0] === 'Config source is corrupted -');
             console.error.restore();
             done();
         });
