@@ -2261,9 +2261,13 @@ Values: `true`
 
 Requires all lines to be at most the number of characters specified
 
-Type: `Integer`
+Type: `Integer` or `Object`
 
-Values: A positive integer
+Values:
+ - `Integer`: lines should be at most the number of characters specified
+ - `Object`:
+    - `value`: lines should be at most the number of characters specified
+    - `tabSize`: considered the tab character as number of specified spaces
 
 JSHint: [`maxlen`](http://jshint.com/docs/options/#maxlen)
 
