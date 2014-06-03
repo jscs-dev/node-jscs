@@ -15,9 +15,7 @@ describe('rules/require-operator-before-line-break', function() {
             return;
         }
 
-        var values = [[operator], true];
-
-        values.forEach(function(value) {
+        [[operator], true].forEach(function(value) {
             it('should report newline before ' + operator + ' with ' + value + ' value', function() {
                 checker.configure({ requireOperatorBeforeLineBreak: value });
                 assert(checker.checkString('var x = y \n' + operator + ' String').getErrorCount() === 1);
@@ -58,9 +56,12 @@ describe('rules/require-operator-before-line-break', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['?'] });
         assert(checker.checkString('var x = y ?\n a : b').isEmpty());
     });
-
     it('should not report newline for the unary operator', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['-'] });
         assert(checker.checkString('[\n-1, \n2]').isEmpty());
+    });
+    it('should not report anything if nothing is defined', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: [''] });
+        assert(checker.checkString('var x = y \n? a : b').isEmpty());
     });
 });
