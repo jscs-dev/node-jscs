@@ -2483,6 +2483,33 @@ Values: `true`
 //A comment
 ```
 
+### disallowSpaceAfterLineComment
+
+Requires that a line comment (`//`) not be followed by a space.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowSpaceAfterLineComment": true
+```
+
+##### Valid
+
+```js
+//A comment
+/* A comment*/
+```
+
+##### Invalid
+
+```js
+// A comment
+```
+
 
 ## Browser Usage
 
