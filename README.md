@@ -2,9 +2,15 @@
 
 JSCS — JavaScript Code Style.
 
-`jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules. [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) preset is also available.
+`jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules, including presets from popular style guides like jQuery.
 
 **This is a documentation for the development version, please refer to the https://www.npmjs.org/package/jscs instead**
+
+## Presets
+
+ * [jQuery](https://github.com/mdevils/node-jscs/blob/master/lib/presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
+ * [Google](https://github.com/mdevils/node-jscs/blob/master/lib/presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * [Wikimedia](https://github.com/mdevils/node-jscs/blob/master/lib/presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
 
 ## Friendly packages
 
