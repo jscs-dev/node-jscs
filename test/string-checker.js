@@ -28,7 +28,7 @@ describe('modules/string-checker', function() {
 
             assert(false);
         } catch (e) {
-            assert(e.toString() === 'Error: Preset "not-exist" does not exists');
+            assert(e.toString() === 'Error: Preset "not-exist" does not exist');
         }
     });
 

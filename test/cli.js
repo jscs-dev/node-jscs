@@ -56,7 +56,7 @@ describe('modules/cli', function() {
         });
 
         result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exists');
+            assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exist');
             console.error.restore();
             done();
         });
@@ -214,7 +214,7 @@ describe('modules/cli', function() {
         it('should return exit if no reporter is found', function(done) {
             var result = cli({
                 args: ['test/data/cli/error.js'],
-                reporter: 'does not exists',
+                reporter: 'does not exist',
                 config: 'test/data/cli/cli.json'
             });
 
