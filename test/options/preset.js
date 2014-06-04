@@ -31,4 +31,19 @@ describe('options/preset', function() {
         assert(config.requireCurlyBraces === preset.requireCurlyBraces);
         assert(config.config !== preset);
     });
+
+    it('should set rules from the wikimedia preset', function() {
+        var checker = new Checker();
+        var preset = require('../../presets/wikimedia');
+
+        checker.registerDefaultRules();
+        checker.configure({
+            preset: 'wikimedia'
+        });
+
+        var config = checker.getProcessedConfig();
+
+        assert(config.requireSpaceAfterKeywords === preset.requireSpaceAfterKeywords);
+        assert(config.config !== preset);
+    });
 });
