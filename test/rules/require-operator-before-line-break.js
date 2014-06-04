@@ -63,6 +63,7 @@ describe('rules/require-operator-before-line-break', function() {
     it('should not report anything if nothing is defined', function() {
         checker.configure({ requireOperatorBeforeLineBreak: [''] });
         assert(checker.checkString('var x = y \n? a : b').isEmpty());
+        assert(checker.checkString('var x = y \n + String').isEmpty());
     });
     it('should not confuse unary operator with binary one #413', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['+'] });
