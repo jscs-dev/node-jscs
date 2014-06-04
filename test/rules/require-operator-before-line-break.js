@@ -64,4 +64,12 @@ describe('rules/require-operator-before-line-break', function() {
         checker.configure({ requireOperatorBeforeLineBreak: [''] });
         assert(checker.checkString('var x = y \n? a : b').isEmpty());
     });
+    it('should not confuse unary operator with binary one #413', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: ['+'] });
+        assert(checker.checkString('test === "null" ? \n +test + "" : test').isEmpty());
+    });
+    it('should not confuse unary with binary operator, but do report errors if needed', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: ['?', '+'] });
+        assert(checker.checkString('test === "null" \n? +test + "" : test').getErrorCount() === 1);
+    });
 });
