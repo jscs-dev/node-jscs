@@ -46,4 +46,19 @@ describe('options/preset', function() {
         assert(config.requireSpaceAfterKeywords === preset.requireSpaceAfterKeywords);
         assert(config.config !== preset);
     });
+
+    it('should set rules from the yandex preset', function() {
+        var checker = new Checker();
+        var preset = require('../../presets/yandex');
+
+        checker.registerDefaultRules();
+        checker.configure({
+            preset: 'yandex'
+        });
+
+        var config = checker.getProcessedConfig();
+
+        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
+        assert(config.config !== preset);
+    });
 });
