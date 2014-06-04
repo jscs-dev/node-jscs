@@ -41,4 +41,12 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
     it('should not report node globals', function() {
         assert(checker.checkString('var a = __dirname + __filename;').isEmpty());
     });
+
+    it('should not report object keys', function() {
+        assert(checker.checkString('var extend = { snake_case: a };').isEmpty());
+    });
+
+    it('should report identifiers that are the last token', function() {
+        assert(checker.checkString('var a = snake_case').getErrorCount() === 1);
+    });
 });
