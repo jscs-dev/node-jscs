@@ -16,6 +16,21 @@ describe('modules/string-checker', function() {
             assert(false);
         }
     });
+    it('should throw if preset does not exist', function() {
+        var checker = new Checker();
+
+        checker.registerDefaultRules();
+
+        try {
+            checker.configure({
+                preset: 'not-exist'
+            });
+
+            assert(false);
+        } catch (e) {
+            assert(e.toString() === 'Error: Preset "not-exist" does not exists');
+        }
+    });
 
     describe('rules registration', function() {
         var checker;

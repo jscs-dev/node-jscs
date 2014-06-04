@@ -48,6 +48,20 @@ describe('modules/cli', function() {
         });
     });
 
+    it('should throw error if preset does not exist', function(done) {
+        sinon.spy(console, 'error');
+
+        var result = cli({
+            preset: 'not-exist'
+        });
+
+        result.promise.fail(function() {
+            assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exists');
+            console.error.restore();
+            done();
+        });
+    });
+
     it('should correctly exit if no files specified', function() {
         hooker.hook(console, 'error', {
             pre: function(message) {
