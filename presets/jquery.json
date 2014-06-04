@@ -6,9 +6,7 @@
         "while",
         "do",
         "try",
-        "catch",
-        "case",
-        "default"
+        "catch"
     ],
     "requireOperatorBeforeLineBreak": true,
     "requireParenthesesAroundIIFE": true,
@@ -59,7 +57,6 @@
 
     "disallowKeywords": [ "with" ],
     "disallowKeywordsOnNewLine": [ "else" ],
-    "disallowYodaConditions": true,
     "disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
