@@ -16,7 +16,9 @@
     "requireDotNotation": true,
     "maximumLineLength": {
         "value": 100,
-        "tabSize": 4
+        "tabSize": 4,
+        "allowComments": true,
+        "allowRegex": true
     },
     "validateQuoteMarks": { "mark": "\"", "escape": true },
 
