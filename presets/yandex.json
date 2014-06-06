@@ -1,5 +1,11 @@
 {
-    "requireCurlyBraces": ["if", "else", "for", "while", "do"],
+    "requireCurlyBraces": [
+        "if",
+        "else",
+        "for",
+        "while",
+        "do"
+    ],
     "requireSpaceAfterKeywords": [
         "if",
         "else",
@@ -11,43 +17,21 @@
         "function",
         "catch"
     ],
-    "disallowKeywords": ["with"],
-    "disallowKeywordsOnNewLine": ["else", "catch"],
+    "disallowKeywords": [
+        "with"
+    ],
+    "disallowKeywordsOnNewLine": [
+        "else",
+        "catch"
+    ],
 
-    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
-    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
-    "requireSpaceBeforeBinaryOperators": [
-        "+",
-        "-",
-        "/",
-        "*",
-        "%",
-        "=",
-        "==",
-        "===",
-        "!=",
-        "!==",
-        ">",
-        ">=",
-        "<",
-        "<="
+    "disallowSpaceAfterPrefixUnaryOperators": true,
+    "disallowSpaceBeforePostfixUnaryOperators": [
+        "++",
+        "--"
     ],
-    "requireSpaceAfterBinaryOperators": [
-        "+",
-        "-",
-        "/",
-        "*",
-        "%",
-        "=",
-        "==",
-        "===",
-        "!=",
-        "!==",
-        ">",
-        ">=",
-        "<",
-        "<="
-    ],
+    "requireSpaceBeforeBinaryOperators": true,
+    "requireSpaceAfterBinaryOperators": true,
 
     "disallowMultipleVarDecl": true,
 
@@ -72,10 +56,16 @@
         "beforeOpeningCurlyBrace": true
     },
 
-    "disallowLeftStickedOperators": ["?"],
-    "disallowRightStickedOperators": ["?"],
+    "requireSpacesInConditionalExpression": {
+        "afterTest": true,
+        "beforeConsequent": true,
+        "afterConsequent": true,
+        "beforeAlternate": true
+    },
 
-    "requireLeftStickedOperators": [","],
+    "disallowSpaceBeforeBinaryOperators": [
+        ","
+    ],
     "requireCommaBeforeLineBreak": true,
 
     "validateQuoteMarks": "'",
