@@ -929,26 +929,32 @@ if ( a == b ) { } else { c = d; }
 
 Disallows space after opening object curly brace and before closing.
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `"all"` or `true` for strict mode, `"nested"` ignores closing brackets in a row.
 
 #### Example
 
 ```js
-"disallowSpacesInsideObjectBrackets": true
+"disallowSpacesInsideObjectBrackets": "all"
 ```
 
-##### Valid
+##### Valid for mode `"all"`
 
 ```js
-var x = {a: 1};
+var x = {a: {b: 1}};
+```
+
+##### Valid for mode `"nested"`
+
+```js
+var x = { a: {b: 1} };
 ```
 
 ##### Invalid
 
 ```js
-var x = { a: 1 };
+var x = { a: { b: 1 } };
 ```
 
 ### disallowSpacesInsideArrayBrackets
