@@ -17,7 +17,7 @@
     "maximumLineLength": {
         "value": 100,
         "tabSize": 4,
-        "allowComments": true,
+        "allowUrlComments": true,
         "allowRegex": true
     },
     "validateQuoteMarks": { "mark": "\"", "escape": true },
