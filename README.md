@@ -961,26 +961,32 @@ var x = { a: { b: 1 } };
 
 Disallows space after opening array square bracket and before closing.
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `"all"` or `true` for strict mode, `"nested"` ignores closing brackets in a row.
 
 #### Example
 
 ```js
-"disallowSpacesInsideArrayBrackets": true
+"disallowSpacesInsideArrayBrackets": "all"
 ```
 
-##### Valid
+##### Valid for mode `"all"`
 
 ```js
-var x = [1];
+var x = [[1]];
+```
+
+##### Valid for mode `"nested"`
+
+```js
+var x = [ [1] ];
 ```
 
 ##### Invalid
 
 ```js
-var x = [ 1 ];
+var x = [ [ 1 ] ];
 ```
 
 ### disallowSpacesInsideParentheses
