@@ -10,5 +10,11 @@
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
 
-    "excludeFiles": ["test/data/**"]
+    "excludeFiles": [
+      "test/data/**",
+      // this file tests that snake cased configs are detected
+      // which violates the camelcase identifier rule
+      // TODO: remove when inline error exclusions exist
+      "test/rules/camel-case-options.js"
+    ]
 }

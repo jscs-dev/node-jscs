@@ -1803,9 +1803,9 @@ x = ~s.indexOf('.');
 
 Requires identifiers to be camelCased or UPPERCASE_WITH_UNDERSCORES
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `true` or `"ignoreProperties"`
 
 JSHint: [`camelcase`](http://jshint.com/docs/options/#camelcase)
 
@@ -1815,7 +1815,7 @@ JSHint: [`camelcase`](http://jshint.com/docs/options/#camelcase)
 "requireCamelCaseOrUpperCaseIdentifiers": true
 ```
 
-##### Valid
+##### Valid for mode `true`
 
 ```js
 var camelCase = 0;
@@ -1825,12 +1825,33 @@ var camelCase_ = 3;
 var UPPER_CASE = 4;
 ```
 
-##### Invalid
+##### Invalid for mode `true`
 
 ```js
 var lower_case = 1;
 var Mixed_case = 2;
 var mixed_Case = 3;
+```
+
+##### Valid for mode `ignoreProperties`
+
+```js
+var camelCase = 0;
+var CamelCase = 1;
+var _camelCase = 2;
+var camelCase_ = 3;
+var UPPER_CASE = 4;
+var obj.snake_case = 5;
+var camelCase = { snake_case: 6 };
+```
+
+##### Invalid for mode `ignoreProperties`
+
+```js
+var lower_case = 1;
+var Mixed_case = 2;
+var mixed_Case = 3;
+var snake_case = { snake_case: 6 };
 ```
 
 ### disallowKeywords
