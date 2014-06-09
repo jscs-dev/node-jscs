@@ -2308,6 +2308,7 @@ Values:
     - `value`: lines should be at most the number of characters specified
     - `tabSize`: considered the tab character as number of specified spaces
     - `allowComments`: allows comments to break the rule
+    - `allowUrlComments`: allows comments with long urls to break the rule
     - `allowRegex`: allows regular expression literals to break the rule
 
 JSHint: [`maxlen`](http://jshint.com/docs/options/#maxlen)
