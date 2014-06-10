@@ -60,9 +60,22 @@ describe('rules/require-spaces-inside-parentheses', function() {
     });
 
     describe('allButNested', function() {
-        it('should allow nested parentheses when configured', function() {
+        beforeEach(function() {
             checker.configure({ requireSpacesInsideParentheses: 'allButNested' });
+        });
+
+        it('should allow nested parentheses', function() {
             assert(checker.checkString('(( 1, 2 ))').isEmpty());
+        });
+        it('should allow nested parentheses with comma operator', function() {
+            assert(checker.checkString('( (1), 2 )').getErrorCount() === 2);
+            assert(checker.checkString('alert( (1), 2 )').getErrorCount() === 2);
+            assert(checker.checkString('if ( (1), 2 ) {}').getErrorCount() === 2);
+        });
+        it('should allow nested parentheses with "&&" operator', function() {
+            assert(checker.checkString('( (1) && 2 )').getErrorCount() === 2);
+            assert(checker.checkString('alert( (1) && 2 )').getErrorCount() === 2);
+            assert(checker.checkString('if ( (1) && 2 ) {}').getErrorCount() === 2);
         });
     });
 
