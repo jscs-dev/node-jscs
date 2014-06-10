@@ -1381,137 +1381,6 @@ x = y
     ? 1 : 2;
 ```
 
-### disallowLeftStickedOperators
-
-Disallows sticking operators to the left.
-
-Type: `Array`
-
-Values: Array of quoted operators
-
-#### Example
-
-```js
-"disallowLeftStickedOperators": [
-    "?",
-    "=",
-    "+",
-    "-",
-    "/",
-    "*",
-    "==",
-    "===",
-    "!=",
-    "!==",
-    ">",
-    ">=",
-    "<",
-    "<="
-]
-```
-
-##### Valid
-
-```js
-x = y ? 1 : 2;
-```
-
-##### Invalid
-
-```js
-x = y? 1 : 2;
-```
-
-### requireRightStickedOperators
-
-Requires sticking operators to the right.
-
-Type: `Array`
-
-Values: Array of quoted operators
-
-#### Example
-
-```js
-"requireRightStickedOperators": ["!"]
-```
-
-##### Valid
-
-```js
-x = !y;
-```
-
-##### Invalid
-
-```js
-x = ! y;
-```
-
-### disallowRightStickedOperators
-
-Disallows sticking operators to the right.
-
-Type: `Array`
-
-Values: Array of quoted operators
-
-#### Example
-
-```js
-"disallowRightStickedOperators": [
-    "?",
-    "=",
-    "+",
-    "/",
-    "*",
-    ":",
-    "==",
-    "===",
-    "!=",
-    "!==",
-    ">",
-    ">=",
-    "<",
-    "<="
-]
-```
-
-##### Valid
-```js
-x = y + 1;
-```
-##### Invalid
-```js
-x = y +1;
-```
-
-### requireLeftStickedOperators
-
-Requires sticking operators to the left.
-
-Type: `Array`
-
-Values: Array of quoted operators
-
-#### Example
-
-```js
-"requireLeftStickedOperators": [","]
-```
-
-##### Valid
-
-```js
-x = [1, 2];
-```
-
-##### Invalid
-
-```js
-x = [1 , 2];
-```
-
 ### disallowSpaceAfterPrefixUnaryOperators
 
 Requires sticking unary operators to the right.
@@ -2552,6 +2421,39 @@ Values: `true`
 // A comment
 ```
 
+## Removed Rules
+
+### ~~disallowLeftStickedOperators~~
+
+Use the following rules instead:
+
+* requireSpaceBeforeBinaryOperators
+* requireSpaceBeforePostfixUnaryOperators
+* requireSpacesInConditionalExpression
+
+### ~~disallowRightStickedOperators~~
+
+Use the following rules instead:
+
+* requireSpaceAfterBinaryOperators
+* requireSpaceAfterPrefixUnaryOperators
+* requireSpacesInConditionalExpression
+
+### ~~requireLeftStickedOperators~~
+
+Use the following rules instead:
+
+* disallowSpaceBeforeBinaryOperators
+* disallowSpaceBeforePostfixUnaryOperators
+* disallowSpacesInConditionalExpressions
+
+### ~~requireRightStickedOperators~~
+
+Use the following rules instead:
+
+* disallowSpaceAfterBinaryOperators
+* disallowSpaceAfterPrefixUnaryOperators
+* disallowSpacesInConditionalExpressions
 
 ## Browser Usage
 
