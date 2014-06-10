@@ -7,6 +7,10 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
+    it.skip('should report missing spaces for array and expression statement (#429)', function() {
+        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
+        assert(checker.checkString('[ 1 ][0];').getErrorCount() === 2);
+    });
     it('should report missing space after opening brace', function() {
         checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
         assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
@@ -50,5 +54,9 @@ describe('rules/require-spaces-inside-array-brackets', function() {
     it('should not report for nested array', function() {
         checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
         assert(checker.checkString('var x = [[ 1 ], [ 2 ]];').isEmpty());
+    });
+    it.skip('should report missing spaces for array and expression statement with nested array (#429)', function() {
+        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
+        assert(checker.checkString('[ [ 1 ][0] ];').getErrorCount() === 2);
     });
 });

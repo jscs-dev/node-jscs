@@ -15,6 +15,9 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
         });
 
         describe('when braces on same line', function() {
+            it.skip('should report illegal spaces for array and expression statement (#429)', function() {
+                assert(checker.checkString('[1][ 0 ];').getErrorCount() === 2);
+            });
             it('should report illegal space after opening brace', function() {
                 assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
             });
@@ -64,7 +67,7 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
         });
 
         describe('when braces on same line', function() {
-            it('should report illegal space after opening brace', function() {
+            it('should treat expression illegal space after opening brace', function() {
                 assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
             });
 
@@ -116,6 +119,9 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
             checker.configure({ disallowSpacesInsideArrayBrackets: 'nested' });
         });
 
+        it.skip('should report illegal spaces for array and expression statement (#429)', function() {
+            assert(checker.checkString('[ [1][ 0 ] ];').getErrorCount() === 2);
+        });
         it('should not report for not nested array', function() {
             assert(checker.checkString('var x = [ 1 ];').isEmpty());
         });
