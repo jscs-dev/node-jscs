@@ -1090,7 +1090,7 @@ Values: `"all"` for strict mode, `"allButNested"` ignores nested brackets in a r
 #### Example
 
 ```js
-"disallowSpacesInsideParentheses": "all"
+"requireSpacesInsideParentheses": "all"
 ```
 
 ##### Valid for mode `"all"`
