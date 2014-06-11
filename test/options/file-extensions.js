@@ -11,28 +11,22 @@ describe('options/file-extensions', function() {
 
     describe('default config', function() {
 
-        it('should not report any errors for non-matching extensions with default config', function() {
+        beforeEach(function() {
             checker.configure({
                 disallowKeywords: ['with']
             });
+        });
 
+        it('should not report any errors for non-matching extensions with default config', function() {
             assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') === null);
         });
 
         it('should report errors for matching extensions with default config', function() {
-            checker.configure({
-                disallowKeywords: ['with']
-            });
-
             // errors
             assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') !== null);
         });
 
         it('should report errors for matching extensions (case insensitive) with default config', function() {
-            checker.configure({
-                disallowKeywords: ['with']
-            });
-
             // errors
             assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions-2.jS') !== null);
         });
