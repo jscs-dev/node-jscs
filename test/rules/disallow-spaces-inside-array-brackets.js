@@ -83,7 +83,7 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
                 assert(checker.checkString('var x = [1, 2];').isEmpty());
             });
 
-            it('asdshould report illegal space in both cases', function() {
+            it('should report illegal space in both cases', function() {
                 assert(checker.checkString('[ 1, 2 ];').getErrorCount() === 2);
             });
         });
