@@ -7,56 +7,55 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
-    it.skip('should report missing spaces for array and expression statement (#429)', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('[ 1 ][0];').getErrorCount() === 2);
+
+    describe('"all"', function() {
+        beforeEach(function() {
+            checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
+        });
+        it.skip('should report missing spaces for array and expression statement (#429)', function() {
+            assert(checker.checkString('[ 1 ][0];').getErrorCount() === 2);
+        });
+        it('should report missing space after opening brace', function() {
+            assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
+        });
+        it('should report missing space before closing brace', function() {
+            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+        });
+        it('should report missing space in both cases', function() {
+            assert(checker.checkString('var x = [1];').getErrorCount() === 2);
+        });
+        it('should not report with spaces', function() {
+            assert(checker.checkString('var x = [ 1 ];').isEmpty());
+        });
+        it('should not report for empty array', function() {
+            assert(checker.checkString('var x = [];').isEmpty());
+        });
+        it('should report for nested array', function() {
+            assert(checker.checkString('var x = [[ 1 ]];').getErrorCount() === 2);
+        });
     });
-    it('should report missing space after opening brace', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
-    });
-    it('should report missing space before closing brace', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
-    });
-    it('should report missing space in both cases', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [1];').getErrorCount() === 2);
-    });
-    it('should not report with spaces', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [ 1 ];').isEmpty());
-    });
-    it('should not report for empty array', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [];').isEmpty());
-    });
-    it('should report for nested array', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
-        assert(checker.checkString('var x = [[ 1 ]];').getErrorCount() === 2);
-    });
-    it('should report missing space after opening brace', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
-    });
-    it('should report missing space before closing brace', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
-    });
-    it('should report missing space in both cases', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('var x = [1];').getErrorCount() === 2);
-    });
-    it('should not report with spaces', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('var x = [ 1 ];').isEmpty());
-    });
-    it('should not report for nested array', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('var x = [[ 1 ], [ 2 ]];').isEmpty());
-    });
-    it.skip('should report missing spaces for array and expression statement with nested array (#429)', function() {
-        checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
-        assert(checker.checkString('[ [ 1 ][0] ];').getErrorCount() === 2);
+
+    describe('"allButNested"', function() {
+        beforeEach(function() {
+            checker.configure({ requireSpacesInsideArrayBrackets: 'allButNested' });
+        });
+        it('should report missing space after opening brace', function() {
+            assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
+        });
+        it('should report missing space before closing brace', function() {
+            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+        });
+        it('should report missing space in both cases', function() {
+            assert(checker.checkString('var x = [1];').getErrorCount() === 2);
+        });
+        it('should not report with spaces', function() {
+            assert(checker.checkString('var x = [ 1 ];').isEmpty());
+        });
+        it('should not report for nested array', function() {
+            assert(checker.checkString('var x = [[ 1 ], [ 2 ]];').isEmpty());
+        });
+        it.skip('should report missing spaces for array and expression statement with nested array (#429)', function() {
+            assert(checker.checkString('[ [ 1 ][0] ];').getErrorCount() === 2);
+        });
     });
 });
