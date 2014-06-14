@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/require-spaces-inside-object-brackets', function() {
+describe('rules/require-spaces-inside-object-brackets', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
@@ -31,6 +31,9 @@ describe.only('rules/require-spaces-inside-object-brackets', function() {
         it('should report for nested object', function() {
             assert(checker.checkString('var x = { a: { b: 1 }};').getErrorCount() === 1);
         });
+        it('should report anything for empty object', function() {
+            assert(checker.checkString('var x = {};').isEmpty());
+        });
     });
 
     describe('"allButNested"', function() {
@@ -55,6 +58,9 @@ describe.only('rules/require-spaces-inside-object-brackets', function() {
         });
         it('should not report illegal space between closing braces for nested object', function() {
             assert(checker.checkString('var x = { a: { b: 1 } };').isEmpty());
+        });
+        it('should report anything for empty object', function() {
+            assert(checker.checkString('var x = { a: {}};').isEmpty());
         });
     });
 });

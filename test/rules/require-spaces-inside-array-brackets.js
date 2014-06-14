@@ -33,6 +33,9 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         it('should report for nested array', function() {
             assert(checker.checkString('var x = [[ 1 ]];').getErrorCount() === 2);
         });
+        it('should report anything for empty array', function() {
+            assert(checker.checkString('[];').isEmpty());
+        });
     });
 
     describe('"allButNested"', function() {
@@ -53,6 +56,9 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         });
         it('should not report for nested array', function() {
             assert(checker.checkString('var x = [[ 1 ], [ 2 ]];').isEmpty());
+        });
+        it('should report anything for empty array', function() {
+            assert(checker.checkString('[[]];').isEmpty());
         });
         it.skip('should report missing spaces for array and expression statement with nested array (#429)', function() {
             assert(checker.checkString('[ [ 1 ][0] ];').getErrorCount() === 2);
