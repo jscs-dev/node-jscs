@@ -21,15 +21,12 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
             it('should report illegal space after opening brace', function() {
                 assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
             });
-
             it('should report illegal space before closing brace', function() {
                 assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
             });
-
             it('should report illegal space in both cases', function() {
                 assert(checker.checkString('var x = [ 1, 2 ];').getErrorCount() === 2);
             });
-
             it('should not report with no spaces', function() {
                 assert(checker.checkString('var x = [1, 2];').isEmpty());
             });
@@ -42,14 +39,12 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
                     '   1, 2]'
                 ).isEmpty());
             });
-
             it('should not report with closing brace on new line', function() {
                 assert(checker.checkString(
                     'var x = [1, 2 \n' +
                     '   ]'
                 ).isEmpty());
             });
-
             it('should not report in both cases', function() {
                 assert(checker.checkString(
                     'var x = [\n' +
@@ -70,19 +65,15 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
             it('should treat expression illegal space after opening brace', function() {
                 assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
             });
-
             it('should report illegal space before closing brace', function() {
                 assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
             });
-
             it('should report illegal space in both cases', function() {
                 assert(checker.checkString('var x = [ 1, 2 ];').getErrorCount() === 2);
             });
-
             it('should not report with no spaces', function() {
                 assert(checker.checkString('var x = [1, 2];').isEmpty());
             });
-
             it('should report illegal space in both cases', function() {
                 assert(checker.checkString('[ 1, 2 ];').getErrorCount() === 2);
             });
@@ -95,14 +86,12 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
                     '   1, 2]'
                 ).isEmpty());
             });
-
             it('should not report with closing brace on new line', function() {
                 assert(checker.checkString(
                     'var x = [1, 2 \n' +
                     '   ]'
                 ).isEmpty());
             });
-
             it('should not report in both cases', function() {
                 assert(checker.checkString(
                     'var x = [\n' +
