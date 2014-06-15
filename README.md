@@ -2287,6 +2287,34 @@ var a = b['while']; //reserved word
 ```js
 var a = b['c'];
 ```
+### requireYodaConditions
+
+Requires the variable to be the right hand operator when doing a boolean comparison
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireYodaConditions": true
+```
+
+##### Valid
+```js
+if (1 == a) {
+  return
+}
+```
+
+##### Invalid
+
+```js
+if (a == 1) {
+  return
+}
+```
 
 ### disallowYodaConditions
 
