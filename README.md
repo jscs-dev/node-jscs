@@ -129,6 +129,26 @@ Values: Array of file matching patterns
 "excludeFiles": ["node_modules/**"]
 ```
 
+### fileExtensions
+
+Changes the set of file extensions that will be processed.
+
+Type: `Array`
+
+Values: Array of file extensions, each beginning with a `.`. The matching is case _insensitive_.
+
+#### Example
+
+```js
+"fileExtensions": [".js", ".jsx"]
+```
+
+#### Default
+
+```js
+"fileExtensions": [".js"]
+```
+
 ## Rules
 
 ### requireCurlyBraces
