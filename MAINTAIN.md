@@ -68,10 +68,20 @@ Preparing for a new version
    For new features update minor version (and reset patch version to zero).
    For backwards incompatible changes you should update major version,
    but be sure to discuss changes with other maintainers.
-2. Write changes to `CHANGELOG.md`.
+2. Write changes to `CHANGELOG.md`: `npm run-script changelog`.
+   Be sure to clean up the changelog so that changes are listed in following order:
+   1. breaking changes.
+   2. preset updates.
+   3. new rules.
+   4. new options.
+   5. bug fixes.
+   6. infrastructure or docs changes.
 3. Update browser-version: `npm run-script browserify`.
 4. Commit under message: `Prepare for version x.x.x`.
 5. Set a new version and tag: `npm version x.x.x`.
 6. Push changes and tags: `git push && git push --tags`.
-7. Ask @mdevils to publish new package for specified tag.
-8. Done!
+7. Temporarily remove (but do not commit) the notice in README.md about the docs being the "development version".
+8. Ask @mdevils to publish new package for specified tag, or use `npm publish` if you have privileges.
+9. Add back the "development version" notice to the README.md file.
+10. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
+11. Done!
