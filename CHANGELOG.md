@@ -1,3 +1,6 @@
+Version 1.5.1
+ * Version bump to address incorrectly published docs (Mike Sherov)
+
 Version 1.5.0
  * Sticked Operators Rules: Deprecate in favor of more specific rules (Mike Sherov)
  * Update google preset (Oleg Gaidarenko)
