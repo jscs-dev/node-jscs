@@ -2494,7 +2494,7 @@ Use the following rules instead:
 
 * disallowSpaceBeforeBinaryOperators
 * disallowSpaceBeforePostfixUnaryOperators
-* disallowSpacesInConditionalExpressions
+* disallowSpacesInConditionalExpression
 
 ### ~~requireRightStickedOperators~~
 
@@ -2502,7 +2502,7 @@ Use the following rules instead:
 
 * disallowSpaceAfterBinaryOperators
 * disallowSpaceAfterPrefixUnaryOperators
-* disallowSpacesInConditionalExpressions
+* disallowSpacesInConditionalExpression
 
 ## Browser Usage
 
