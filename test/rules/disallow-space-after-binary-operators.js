@@ -73,4 +73,20 @@ describe('rules/disallow-space-after-binary-operators', function() {
         checker.configure({ disallowSpaceAfterBinaryOperators: [','] });
         assert(checker.checkString('function test(a, b){}').getErrorCount() === 1);
     });
+    it('should report for assignment expression', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
+        assert(checker.checkString('x = 1').getErrorCount() === 1);
+    });
+    it('should report for assignment expressions', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
+        assert(checker.checkString('var x = 1, t = 2').getErrorCount() === 2);
+    });
+    it('should not report for assignment expressions if "=" is not specified', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: [','] });
+        assert(checker.checkString('var x = 1;').isEmpty());
+    });
+    it('should not report empty assignment expression', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
+        assert(checker.checkString('var x').isEmpty());
+    });
 });
