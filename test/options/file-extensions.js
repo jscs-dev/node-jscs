@@ -19,20 +19,22 @@ describe('options/file-extensions', function() {
         });
 
         it('should not report any errors for non-matching extensions with default config', function() {
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') === null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') === null);
         });
         it('should report errors for matching extensions with default config', function() {
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
         });
         it('should report errors for matching extensions (case insensitive) with default config', function() {
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions-2.jS') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions-2.jS') !== null);
         });
-        it('should report errors for matching extensions (case insensitive) in directory with default config', function(done) {
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
-                assert(errors.length === 2);
-                done();
-            });
-        });
+        it('should report errors for matching extensions (case insensitive) in directory with default config',
+            function(done) {
+                checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+                    assert(errors.length === 2);
+                    done();
+                });
+            }
+        );
     });
 
     describe('custom config', function() {
@@ -42,7 +44,7 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') === null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') === null);
         });
         it('should report errors for matching extensions with custom config', function(done) {
             checker.configure({
@@ -50,9 +52,9 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 1);
                 done();
             });
@@ -63,9 +65,9 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions-2.jS') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions-2.jS') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 2);
                 done();
             });
@@ -76,9 +78,9 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions-2.jS') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions-2.jS') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 2);
                 done();
             });
@@ -89,10 +91,10 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') !== null);
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 3);
                 done();
             });
@@ -103,10 +105,10 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') !== null);
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 3);
                 done();
             });
@@ -117,10 +119,10 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.js') !== null);
-            assert(checker.checkFile('./test/data/configs/fileExtensions/file-extensions.jsx') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
+            assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/configs/fileExtensions').then(function(errors) {
+            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 3);
                 done();
             });
