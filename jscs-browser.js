@@ -1028,42 +1028,6 @@ module.exports.prototype = {
     check: function(file, errors) {
         var operators = this._operatorIndex;
 
-        // 2 + 2, 2 == 2
-        file.iterateNodesByType(
-            ['BinaryExpression', 'AssignmentExpression', 'LogicalExpression'],
-            function(node) {
-                if (operators[node.operator]) {
-                    var indent;
-                    var range = node.right.range[0];
-
-                    if (tokenHelper.isTokenParenthesis(file, range - 1, true)) {
-                        indent = node.operator.length + 1;
-                    } else {
-                        indent = node.operator.length;
-                    }
-
-                    var part = tokenHelper.getTokenByRangeStartIfPunctuator(
-                        file,
-                        range - indent,
-                        node.operator,
-                        true
-                    );
-
-                    if (!part) {
-                        var loc = tokenHelper.findOperatorByRangeStart(
-                            file, node.right.range[0], node.operator, true
-                        ).loc.start;
-
-                        errors.add(
-                            'Operator ' + node.operator + ' should stick to following expression',
-                            loc.line,
-                            tokenHelper.getPointerEntities(loc.column, node.operator.length)
-                        );
-                    }
-                }
-            }
-        );
-
         function errorIfApplicable(token, i, tokens, operator) {
             var nextToken = tokens[i + 1];
 
@@ -1078,7 +1042,7 @@ module.exports.prototype = {
             }
         }
 
-         // ":" for object property only but not for ternar
+        // ":" for object property only but not for ternar
         if (operators[':']) {
             file.iterateNodesByType(['ObjectExpression'], function(node) {
                 node.properties.forEach(function(prop) {
@@ -1101,6 +1065,44 @@ module.exports.prototype = {
                 errorIfApplicable(token, i, tokens, operator);
             });
         }
+
+        // For everything else
+        file.iterateNodesByType(
+            ['BinaryExpression', 'AssignmentExpression', 'VariableDeclarator', 'LogicalExpression'],
+            function(node) {
+                var isDec = node.type === 'VariableDeclarator';
+                var operator = isDec ? '=' : node.operator;
+
+                if (!operators[operator] || node.init === null) {
+                    return;
+                }
+
+                var range = (isDec ? node.init : node.right).range[0];
+
+                var indent = tokenHelper.isTokenParenthesis(file, range - 1, true) ?
+                    operator.length + 1 :
+                    operator.length;
+
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    range - indent,
+                    operator,
+                    true
+                );
+
+                if (!part) {
+                    var loc = tokenHelper.findOperatorByRangeStart(
+                        file, range, operator, true
+                    ).loc.start;
+
+                    errors.add(
+                        'Operator ' + operator + ' should stick to following expression',
+                        loc.line,
+                        tokenHelper.getPointerEntities(loc.column, operator.length)
+                    );
+                }
+            }
+        );
     }
 
 };
@@ -1335,23 +1337,26 @@ module.exports.prototype = {
 
         // For everything else
         file.iterateNodesByType(
-            ['BinaryExpression', 'AssignmentExpression', 'LogicalExpression'],
+            ['BinaryExpression', 'AssignmentExpression', 'VariableDeclarator', 'LogicalExpression'],
             function(node) {
-                if (operators[node.operator]) {
-                    var part = tokenHelper.getTokenByRangeStartIfPunctuator(
-                        file,
-                        node.left.range[1],
-                        node.operator
-                    );
+                var isDec = node.type === 'VariableDeclarator';
+                var operator = isDec ? '=' : node.operator;
 
-                    if (!part) {
-                        errors.add(
-                            'Operator ' + node.operator + ' should stick to preceding expression',
-                            tokenHelper.findOperatorByRangeStart(
-                                file, node.right.range[0], node.operator, true
-                            ).loc.start
-                        );
-                    }
+                // !node.init is it's an empty assignment
+                if (!operators[operator] || node.init === null) {
+                    return;
+                }
+
+                var range = (isDec ? node.id : node.left).range;
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(file, range[1], operator);
+
+                if (!part) {
+                    errors.add(
+                        'Operator ' + node.operator + ' should stick to preceding expression',
+                        tokenHelper.findOperatorByRangeStart(
+                            file, range[0], operator
+                        ).loc.start
+                    );
                 }
             }
         );
@@ -3152,34 +3157,36 @@ module.exports.prototype = {
 
         // For everything else
         file.iterateNodesByType(
-            ['BinaryExpression', 'AssignmentExpression', 'LogicalExpression'],
+            ['BinaryExpression', 'AssignmentExpression', 'VariableDeclarator', 'LogicalExpression'],
             function(node) {
-                if (operators[node.operator]) {
-                    var indent;
-                    var range = node.right.range[0];
+                var isDec = node.type === 'VariableDeclarator';
+                var operator = isDec ? '=' : node.operator;
 
-                    if (tokenHelper.isTokenParenthesis(file, range - 1, true)) {
-                        indent = node.operator.length + 1;
-                    } else {
-                        indent = node.operator.length;
-                    }
+                if (!operators[operator] || node.init === null) {
+                    return;
+                }
 
-                    var part = tokenHelper.getTokenByRangeStartIfPunctuator(
-                        file,
-                        range - indent,
-                        node.operator,
-                        true
+                var range = (isDec ? node.init : node.right).range[0];
+
+                var indent = tokenHelper.isTokenParenthesis(file, range - 1, true) ?
+                    operator.length + 1 :
+                    operator.length;
+
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(
+                    file,
+                    range - indent,
+                    operator,
+                    true
+                );
+
+                if (part) {
+                    var loc = part.loc.start;
+
+                    errors.add(
+                        'Operator ' + operator + ' should not stick to following expression',
+                        loc.line,
+                        tokenHelper.getPointerEntities(loc.column, operator.length)
                     );
-
-                    if (part) {
-                        var loc = part.loc.start;
-
-                        errors.add(
-                            'Operator ' + node.operator + ' should not stick to following expression',
-                            loc.line,
-                            tokenHelper.getPointerEntities(loc.column, node.operator.length)
-                        );
-                    }
                 }
             }
         );
@@ -3452,23 +3459,25 @@ module.exports.prototype = {
 
         // For everything else
         file.iterateNodesByType(
-            ['BinaryExpression', 'AssignmentExpression', 'LogicalExpression'],
+            ['BinaryExpression', 'AssignmentExpression', 'VariableDeclarator', 'LogicalExpression'],
             function(node) {
-                if (operators[node.operator]) {
-                    var part = tokenHelper.getTokenByRangeStartIfPunctuator(
-                        file,
-                        node.left.range[1],
-                        node.operator
-                    );
+                var isDec = node.type === 'VariableDeclarator';
+                var operator = isDec ? '=' : node.operator;
 
-                    if (part) {
-                        var loc = part.loc.start;
-                        errors.add(
-                            'Operator ' + node.operator + ' should not stick to following expression',
-                            loc.line,
-                            tokenHelper.getPointerEntities(loc.column, node.operator.length)
-                        );
-                    }
+                if (!operators[operator]) {
+                    return;
+                }
+
+                var range = (isDec ? node.id : node.left).range[1];
+                var part = tokenHelper.getTokenByRangeStartIfPunctuator(file, range, operator);
+
+                if (part) {
+                    var loc = part.loc.start;
+                    errors.add(
+                        'Operator ' + operator + ' should not stick to following expression',
+                        loc.line,
+                        tokenHelper.getPointerEntities(loc.column, operator.length)
+                    );
                 }
             }
         );

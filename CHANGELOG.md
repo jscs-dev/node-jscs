@@ -1,3 +1,7 @@
+Version 1.5.2
+  * Improve binary rule (Oleg Gaidarenko)
+  * Fix recursive descend, #445 (Oleg Gaidarenko)
+
 Version 1.5.1
  * Version bump to address incorrectly published docs (Mike Sherov)
 
