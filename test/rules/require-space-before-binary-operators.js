@@ -73,4 +73,20 @@ describe('rules/require-space-before-binary-operators', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: [','] });
         assert(checker.checkString('function test(a,b){}').getErrorCount() === 1);
     });
+    it('should report for assignment expression', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
+        assert(checker.checkString('var x=1').getErrorCount() === 1);
+    });
+    it('should report for assignment expressions', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
+        assert(checker.checkString('var x=1, t=2').getErrorCount() === 2);
+    });
+    it('should not report for assignment expressions without "=" sign', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
+        assert(checker.checkString('var x,z;').isEmpty());
+    });
+    it('should not report for assignment expressions if "=" is not specified', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: [','] });
+        assert(checker.checkString('var x=1;').isEmpty());
+    });
 });
