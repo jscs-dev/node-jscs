@@ -2,6 +2,35 @@ var Checker = require('../lib/checker');
 var assert = require('assert');
 
 describe('modules/string-checker', function() {
+    describe('line srating with hash, temporary, until we will have inline rules', function() {
+        var checker;
+        beforeEach(function() {
+            checker = new Checker();
+        });
+
+        it('should ignore lines starting with #!', function() {
+            assert(checker.checkString(
+                '#! random stuff\n' +
+                '#! 1234\n' +
+                'var a = 5;\n'
+            ).isEmpty());
+        });
+        it('should ignore ios instruments style import', function() {
+            assert(checker.checkString(
+                '#import "abc.js"\n' +
+                '#import abc.js\n' +
+                'var a = 5;\n'
+            ).isEmpty());
+        });
+        it('should not replace when not beginning of line', function() {
+            assert(checker.checkString(
+                '#import "abc.js"\n' +
+                'var b="#import abc.js";\n' +
+                'var a = 5;\n'
+            ).isEmpty());
+        });
+    });
+
     it('should not process the rule if it is equals to null (#203)', function() {
         var checker = new Checker();
         checker.registerDefaultRules();
