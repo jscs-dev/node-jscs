@@ -1,6 +1,8 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
-var operators = require('../../lib/utils').binaryOperators;
+var operators = require('../../lib/utils').binaryOperators.filter(function(operator) {
+    return operator !== ',';
+});
 
 describe('rules/require-space-before-binary-operators', function() {
     var checker;
@@ -88,5 +90,9 @@ describe('rules/require-space-before-binary-operators', function() {
     it('should not report for assignment expressions if "=" is not specified', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: [','] });
         assert(checker.checkString('var x=1;').isEmpty());
+    });
+    it('should not report for comma with "true" value', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: true });
+        assert(checker.checkString('1,2;').isEmpty());
     });
 });

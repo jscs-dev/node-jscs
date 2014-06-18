@@ -1550,6 +1550,8 @@ Disallows sticking binary operators to the left.
 Type: `Array` or `Boolean`
 
 Values: Array of quoted operators or `true` to require space before all possible binary operators
+without comma operator, since it's rarely used with this rule
+
 
 #### Example
 
