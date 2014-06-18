@@ -19,6 +19,6 @@ describe('rules/require-left-sticked-operators', function() {
             '\n' +
             '\ndisallowSpaceBeforeBinaryOperators' +
             '\ndisallowSpaceBeforePostfixUnaryOperators' +
-            '\ndisallowSpacesInConditionalExpressions');
+            '\ndisallowSpacesInConditionalExpression');
     });
 });
