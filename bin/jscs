@@ -15,7 +15,7 @@ program
     .usage('[options] <file ...>')
     .option('-c, --config [path]', 'configuration file path')
     .option('-n, --no-colors', 'clean output without colors')
-    .option('-p, --preset <preset>', 'preset config, right now only jquery preset is available')
+    .option('-p, --preset <preset>', 'preset config')
     .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
     .option('', 'Also accepts relative or absolute path to custom reporter')
     .option('', 'For instance:')
