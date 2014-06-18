@@ -6,6 +6,7 @@ describe('modules/string-checker', function() {
         var checker;
         beforeEach(function() {
             checker = new Checker();
+            checker.registerDefaultRules();
         });
 
         it('should ignore lines starting with #!', function() {
@@ -23,11 +24,12 @@ describe('modules/string-checker', function() {
             ).isEmpty());
         });
         it('should not replace when not beginning of line', function() {
+            checker.configure({ disallowMultipleLineStrings: true });
             assert(checker.checkString(
                 '#import "abc.js"\n' +
-                'var b="#import abc.js";\n' +
+                'var b="#import \\\n abc.js";\n' +
                 'var a = 5;\n'
-            ).isEmpty());
+            ).getErrorCount() === 1);
         });
     });
 
