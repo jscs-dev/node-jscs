@@ -55,11 +55,23 @@
         "|", "^", "&&", "||", "===", "==", ">=",
         "<=", "<", ">", "!=", "!=="
     ],
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "requireSpacesInNamedFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
     "validateLineBreaks": "LF",
 
     "disallowKeywords": [ "with" ],
     "disallowKeywordsOnNewLine": [ "else" ],
     "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInNamedFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
     "disallowSpaceAfterObjectKeys": true,
