@@ -1,3 +1,9 @@
+Version 1.5.3
+  * Add missing rules in jQuery preset (Oleg Gaidarenko)
+  * Exclude comma operator from requireSpaceBeforeBinaryOperators rule (Oleg Gaidarenko)
+  * Ignore ios instruments style imports (@sebv)
+  * Various doc fixes (Christian Vuerings, Timo Tijhof, Oleg Gaidarenko)
+
 Version 1.5.2
   * Improve binary rule (Oleg Gaidarenko)
   * Fix recursive descend, #445 (Oleg Gaidarenko)

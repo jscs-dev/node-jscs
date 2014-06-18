@@ -2724,7 +2724,7 @@ module.exports.prototype = {
             '\n' +
             '\ndisallowSpaceBeforeBinaryOperators' +
             '\ndisallowSpaceBeforePostfixUnaryOperators' +
-            '\ndisallowSpacesInConditionalExpressions',
+            '\ndisallowSpacesInConditionalExpression',
             1,
             0
         );
@@ -3075,7 +3075,7 @@ module.exports.prototype = {
             '\n' +
             '\ndisallowSpaceAfterBinaryOperators' +
             '\ndisallowSpaceAfterPrefixUnaryOperators' +
-            '\ndisallowSpacesInConditionalExpressions',
+            '\ndisallowSpacesInConditionalExpression',
             1,
             0
         );
@@ -3388,7 +3388,9 @@ module.exports.prototype = {
 },{"../utils":80,"assert":81}],59:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 var tokenHelper = _dereq_('../token-helper');
-var allOperators = _dereq_('../utils').binaryOperators;
+var allOperators = _dereq_('../../lib/utils').binaryOperators.filter(function(operator) {
+    return operator !== ',';
+});
 
 module.exports = function() {};
 
@@ -3485,7 +3487,7 @@ module.exports.prototype = {
 
 };
 
-},{"../token-helper":78,"../utils":80,"assert":81}],60:[function(_dereq_,module,exports){
+},{"../../lib/utils":80,"../token-helper":78,"assert":81}],60:[function(_dereq_,module,exports){
 var assert = _dereq_('assert');
 
 module.exports = function() {};
@@ -5097,7 +5099,7 @@ StringChecker.prototype = {
     checkString: function(str, filename) {
         filename = filename || 'input';
         var tree;
-        str = str.replace(/^#![^\n]+\n/, '\n');
+        str = str.replace(/^#!?[^\n]+$/gm, '\n');
         try {
             tree = esprima.parse(str, {loc: true, range: true, comment: true, tokens: true});
         } catch (e) {
@@ -10732,11 +10734,23 @@ module.exports={
         "|", "^", "&&", "||", "===", "==", ">=",
         "<=", "<", ">", "!=", "!=="
     ],
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "requireSpacesInNamedFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
     "validateLineBreaks": "LF",
 
     "disallowKeywords": [ "with" ],
     "disallowKeywordsOnNewLine": [ "else" ],
     "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInNamedFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
     "disallowSpaceAfterObjectKeys": true,
