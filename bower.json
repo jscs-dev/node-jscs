@@ -1,0 +1,24 @@
+{
+  "name": "jscs",
+  "version": "1.5.3",
+  "homepage": "https://github.com/mdevils/node-jscs",
+  "authors": [
+    "Marat Dulin <mdevils@yandex.ru>",
+    "Oleg Gaidarenko <markelog@gmail.com>",
+    "Mike Sherov <mike.sherov@gmail.com>"
+  ],
+  "main": "jscs.js",
+  "keywords": [
+    "codestyle"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bin",
+    "lib",
+    "preset",
+    "test",
+    "*.md",
+    "package.json"
+  ]
+}
