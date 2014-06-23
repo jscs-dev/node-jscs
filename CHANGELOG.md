@@ -1,3 +1,6 @@
+Version 1.5.4
+  * Fix crash caused by multiline case statements that fall through for validateIndentation rule (Mike Sherov)
+
 Version 1.5.3
   * Add missing rules in jQuery preset (Oleg Gaidarenko)
   * Exclude comma operator from requireSpaceBeforeBinaryOperators rule (Oleg Gaidarenko)
