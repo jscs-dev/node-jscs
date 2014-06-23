@@ -392,3 +392,17 @@ var a = b.c(function() {
       d++;
     }),
     e;
+
+switch (true) {
+  case (a
+  && b):
+case (c // ->
+&& d):
+    case (e // <-
+    && f):
+  case (g
+&& h):
+      var i = j; // <-
+    var k = l;
+  var m = n; // ->
+}
