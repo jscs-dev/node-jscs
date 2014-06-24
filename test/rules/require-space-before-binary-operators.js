@@ -26,25 +26,25 @@ describe('rules/require-space-before-binary-operators', function() {
         [[operator], true].forEach(function(value) {
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceBeforeBinaryOperators: value });
                     assert(checker.checkString(sticked).getErrorCount() === 1);
                 }
             );
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceBeforeBinaryOperators: value });
                     assert(checker.checkString(notSticked).isEmpty());
                 }
             );
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceBeforeBinaryOperators: value });
                     assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
                 }
             );
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceBeforeBinaryOperators: value });
                     assert(checker.checkString(notStickedWithParenthesis).isEmpty());
                 }
             );
