@@ -89,4 +89,8 @@ describe('rules/disallow-space-before-binary-operators', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: ['='] });
         assert(checker.checkString('var x').isEmpty());
     });
+    it('should not report error if comma not on the same line with the first operand (#467)', function() {
+        checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
+        assert(checker.checkString('var x = [1, 2]\n  , y = 32').isEmpty());
+    });
 });
