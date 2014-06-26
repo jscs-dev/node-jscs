@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 
 var Checker = require('../../lib/checker');
 var assert = require('assert');
@@ -100,6 +101,8 @@ describe('options/file-extensions', function() {
             });
         });
         it('should report errors for matching extensions with Array *', function(done) {
+            var testPath = './test/data/options/file-extensions';
+
             checker.configure({
                 fileExtensions: ['*'],
                 disallowKeywords: ['with']
@@ -108,12 +111,14 @@ describe('options/file-extensions', function() {
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
-                assert(errors.length === 3);
+            checker.checkDirectory(testPath).then(function(errors) {
+                assert(errors.length === fs.readdirSync(testPath).length);
                 done();
             });
         });
         it('should report errors for matching extensions with string *', function(done) {
+            var testPath = './test/data/options/file-extensions';
+
             checker.configure({
                 fileExtensions: '*',
                 disallowKeywords: ['with']
@@ -122,8 +127,20 @@ describe('options/file-extensions', function() {
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
+            checker.checkDirectory(testPath).then(function(errors) {
+                assert(errors.length === fs.readdirSync(testPath).length);
+                done();
+            });
+        });
+
+        it('should report errors for file whose fullname is the same as matching extension', function(done) {
+            checker.configure({
+                fileExtensions: 'file-extensions',
+                disallowKeywords: ['with']
+            });
+
             checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
-                assert(errors.length === 3);
+                assert(errors.length === 1);
                 done();
             });
         });
