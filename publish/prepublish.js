@@ -7,4 +7,4 @@ browserify.add(path.resolve(__dirname, '../lib/string-checker.js'));
 
 browserify.bundle({
     standalone: 'JscsStringChecker'
-}).pipe(fs.createWriteStream('../jscs-browser.js'));
+}).pipe(fs.createWriteStream(path.resolve(__dirname, '../jscs-browser.js')));
