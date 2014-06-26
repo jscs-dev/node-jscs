@@ -14,6 +14,9 @@ describe('rules/require-multiple-var-decl', function() {
             checker.registerDefaultRules();
             checker.configure({ requireMultipleVarDecl: true });
         });
+        it('should not report const and var decls as one entity (#462)', function() {
+            assert(checker.checkString('const a = 1; var b = 2;').isEmpty());
+        });
         it('should report consecutive var decl', function() {
             assert(checker.checkString('var x; var y;').getErrorCount() === 1);
         });
@@ -32,6 +35,9 @@ describe('rules/require-multiple-var-decl', function() {
             checker.configure({ requireMultipleVarDecl: 'onevar' });
         });
 
+        it('should not report const and var decls as one entity (#462)', function() {
+            assert(checker.checkString('const a = 1; var b = 2;').isEmpty());
+        });
         it('should report consecutive var decl', function() {
             assert(checker.checkString('var x; var y;').getErrorCount() === 1);
         });
@@ -50,6 +56,30 @@ describe('rules/require-multiple-var-decl', function() {
                 }
             }
             assert(checker.checkString(test.toString()).getErrorCount() === 1);
+        });
+        it('should report multiple const in function', function() {
+            /* jshint esnext: true */
+            function test() {
+                const first = true;
+
+                if (true) {
+                    const second = 2;
+                }
+            }
+            assert(checker.checkString(test.toString()).getErrorCount() === 1);
+        });
+        it('should report multiple const and vars in function', function() {
+            /* jshint esnext: true */
+            function test() {
+                const firstConst = true;
+                var firstVar = true;
+
+                if (true) {
+                    const secondConst = 2;
+                    var secondVar = 2;
+                }
+            }
+            assert(checker.checkString(test.toString()).getErrorCount() === 2);
         });
         it('should not confuse two separate functions', function() {
             function testFunc() {
