@@ -91,7 +91,10 @@
         "requireParamTypes": true
     },
 
-    "maximumLineLength": 120,
+    "maximumLineLength": {
+        "value": 120,
+        "allowUrlComments": true
+    },
     "requireLineFeedAtFileEnd": true,
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,
