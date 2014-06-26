@@ -29,5 +29,13 @@ describe('modules/checker', function() {
                 done();
             });
         });
+
+        it('should check file by direct link (#468)', function(done) {
+            checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
+                assert(errors.length === 1);
+
+                done();
+            });
+        });
     });
 });
