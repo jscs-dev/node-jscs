@@ -1,3 +1,13 @@
+Version 1.5.5
+  * Add allowUrlComments to yandex preset (ikokostya)
+  * Improve requireMultipleVarDecl rule (Oleg Gaidarenko)
+  * Improve fileExtension option (Oleg Gaidarenko)
+  * Perform file check by direct reference (Oleg Gaidarenko)
+  * Comma not on the same line with the first operand (Oleg Gaidarenko)
+  * Simplify doc instruction a bit (Oleg Gaidarenko)
+  * Generate "jscs-browser.js" only during publishing (Oleg Gaidarenko)
+  * Fix tests for requireSpaceBeforeBinaryOperators (lemmy)
+
 Version 1.5.4
   * Fix crash caused by multiline case statements that fall through for validateIndentation rule (Mike Sherov)
 
