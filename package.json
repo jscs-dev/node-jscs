@@ -58,6 +58,7 @@
     "bin",
     "lib",
     "presets",
-    "LICENSE"
+    "LICENSE",
+    "jscs-browser.js"
   ]
 }
