@@ -68,7 +68,7 @@ Preparing for a new version
    For new features update minor version (and reset patch version to zero).
    For backwards incompatible changes you should update major version,
    but be sure to discuss changes with other maintainers.
-2. Write changes to `CHANGELOG.md`: `npm run-script changelog`.
+2. Write changes to `CHANGELOG.md`: `npm run changelog`.
    Be sure to clean up the changelog so that changes are listed in following order:
    1. breaking changes.
    2. preset updates.
