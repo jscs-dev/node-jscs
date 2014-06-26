@@ -54,4 +54,7 @@ describe('rules/disallow-padding-newlines-in-blocks', function() {
     it('should not report leading nor trailing comments', function() {
         assert(checker.checkString('if (true) {\n//comment\n\n/* comments */\n}').isEmpty());
     });
+    it('should report padding newline even when there is newline after block', function() {
+        assert(checker.checkString('if (true) {\n\nvar x = 5;\n}\n\nif (true) {}').getErrorCount() === 1);
+    });
 });
