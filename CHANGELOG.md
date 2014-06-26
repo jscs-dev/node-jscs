@@ -1,3 +1,6 @@
+Version 1.5.6
+  * Correct prebublish script (Oleg Gaidarenko)
+
 Version 1.5.5
   * Add allowUrlComments to yandex preset (ikokostya)
   * Improve requireMultipleVarDecl rule (Oleg Gaidarenko)
