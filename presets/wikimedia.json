@@ -15,10 +15,12 @@
         "while",
         "do",
         "switch",
+        "case",
         "return",
         "try",
         "catch",
-        "function"
+        "function",
+        "typeof"
     ],
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
