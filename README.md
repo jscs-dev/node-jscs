@@ -2508,9 +2508,11 @@ Use the following rules instead:
 
 ## Browser Usage
 
-File [jscs-browser.js](jscs-browser.js) contains browser-compatible version of `jscs`.
+The npm package contains a file named `jscs-browser.js`, which is a browser compatible version of `jscs`.
 
-Download and include `jscs-browser.js` into your page.
+If you'd like to generate this file yourself, run `npm browserify` after cloning this repo.
+
+Use `jscs-browser.js` on your page as follows:
 
 ```html
 <script src="jscs-browser.js"></script>
