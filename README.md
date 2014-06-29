@@ -2508,7 +2508,7 @@ Use the following rules instead:
 
 ## Browser Usage
 
-The npm package contains a file named `jscs-browser.js`, which is a browser compatible version of `jscs`.
+The npm package contains a file named `jscs-browser.js` (since version `1.5.7`), which is a browser compatible version of `jscs`.
 
 If you'd like to generate this file yourself, run `npm browserify` after cloning this repo.
 
