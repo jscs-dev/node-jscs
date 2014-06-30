@@ -1,4 +1,5 @@
 var assert = require('assert');
+var sinon = require('sinon');
 var Checker = require('../lib/checker');
 
 describe('modules/checker', function() {
@@ -8,6 +9,31 @@ describe('modules/checker', function() {
         checker.registerDefaultRules();
         checker.configure({
             disallowKeywords: ['with']
+        });
+    });
+
+    describe('checkFile', function() {
+        afterEach(function() {
+            if (checker._isExcluded.restore) {
+                checker._isExcluded.restore();
+            }
+        });
+        it('should check for exclusion', function() {
+            sinon.spy(checker, '_isExcluded');
+
+            checker.checkFile('./test/data/checker/file.js');
+
+            assert(checker._isExcluded.called);
+        });
+        it('should return empty array of errors for excluded files', function(done) {
+            sinon.stub(checker, '_isExcluded', function() {
+                return true;
+            });
+
+            checker.checkFile('./test/data/checker/file.js').then(function(errors) {
+                assert(errors === null);
+                done();
+            });
         });
     });
 
