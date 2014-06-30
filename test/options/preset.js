@@ -1,5 +1,6 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
+var fs = require('fs');
 
 describe('options/preset', function() {
     it('should set rules from the jquery preset', function() {
@@ -32,7 +33,7 @@ describe('options/preset', function() {
         assert(config.config !== preset);
     });
 
-    it('should set rules from the wikimedia preset', function() {
+    describe('wikimedia preset', function() {
         var checker = new Checker();
         var preset = require('../../presets/wikimedia');
 
@@ -43,8 +44,17 @@ describe('options/preset', function() {
 
         var config = checker.getProcessedConfig();
 
-        assert(config.requireSpaceAfterKeywords === preset.requireSpaceAfterKeywords);
-        assert(config.config !== preset);
+        it('should set rules from the wikimedia preset', function() {
+            assert(config.requireSpaceAfterKeywords === preset.requireSpaceAfterKeywords);
+            assert(config.config !== preset);
+        });
+
+        it('should not report any errors for the sample file', function() {
+            assert(
+                checker.checkString(fs.readFileSync('./test/data/options/preset/wikimedia.js', 'utf8'))
+                    .isEmpty()
+            );
+        });
     });
 
     it('should set rules from the yandex preset', function() {
