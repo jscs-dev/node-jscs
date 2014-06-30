@@ -30,7 +30,14 @@
         "++",
         "--"
     ],
-    "requireSpaceBeforeBinaryOperators": true,
+    "requireSpaceBeforeBinaryOperators": [
+        "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", ">>>=",
+        "&=", "|=", "^=",
+
+        "+", "-", "*", "/", "%", "<<", ">>", ">>>", "&",
+        "|", "^", "&&", "||", "===", "==", ">=",
+        "<=", "<", ">", "!=", "!=="
+    ],
     "requireSpaceAfterBinaryOperators": true,
 
     "disallowMultipleVarDecl": true,
