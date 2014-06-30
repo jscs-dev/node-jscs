@@ -1,3 +1,11 @@
+Version 1.5.7
+  * Exclude colon from binary rule of yandex preset (Oleg Gaidarenko)
+  * wikimedia: Add 'case' and 'typeof' to requireSpaceAfterKeywords (Timo Tijhof)
+  * Correct deal with exclusion and extensions (Oleg Gaidarenko)
+  * disallowPaddingNewlinesInBlocks: fix false negatives with newline after closing curly. (Iskren Chernev)
+  * Include jscs-browser file to npm package (Oleg Gaidarenko)
+  * Clarify docs of use of jscs-browser.js (Oleg Gaidarenko)
+
 Version 1.5.6
   * Correct prebublish script (Oleg Gaidarenko)
 
