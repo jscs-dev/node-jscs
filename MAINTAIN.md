@@ -59,6 +59,13 @@ File `lib/string-checker.js` is used in browserify process, exporting `JscsStrin
 `string-checker.js` (and its dependencies) should not depend on `nodejs` specifics like `fs`,
 `process` and so on.
 
+Adding new presets
+------------------
+
+1. Make sure they follow the rules listed in CONTRIBUTING.md
+1. Discuss the preset on the mailing list: jscs-dev@googlegroups.com
+1. Once discussed and agreed upon, land the PR!
+
 Publishing a new version
 ---------------------------
 
