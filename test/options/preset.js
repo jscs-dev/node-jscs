@@ -2,71 +2,44 @@ var Checker = require('../../lib/checker');
 var assert = require('assert');
 
 describe('options/preset', function() {
-    it('should set rules from the jquery preset', function() {
-        var checker = new Checker();
-        var preset = require('../../presets/jquery');
+    testPreset('google');
+    testPreset('jquery');
+    testPreset('wikimedia');
+    testPreset('yandex');
 
-        checker.registerDefaultRules();
-        checker.configure({
-            preset: 'jquery'
-        });
+    /**
+     * Helper to test a given preset's configuration against its test file
+     *
+     * Expects the given preset to have a configuration in /presets
+     * and real code taken from that project in /test/data/options/preset
+     *
+     * @example testPreset('google')
+     * @param  {String} presetName
+     */
+    function testPreset(presetName) {
+        var desc = describe;
 
-        var config = checker.getProcessedConfig();
+        desc(presetName + ' preset', function () {
+            var checker = new Checker();
+            var preset = require('../../presets/' + presetName);
 
-        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
-        assert(config.config !== preset);
-    });
+            checker.registerDefaultRules();
+            checker.configure({
+                preset: presetName
+            });
 
-    it('should set rules from the google preset', function() {
-        var checker = new Checker();
-        var preset = require('../../presets/google');
+            var config = checker.getProcessedConfig();
 
-        checker.registerDefaultRules();
-        checker.configure({
-            preset: 'google'
-        });
+            it('should set the correct rules', function () {
+                assert(config.requireCurlyBraces === preset.requireCurlyBraces);
+                assert(config.config !== preset);
+            });
 
-        var config = checker.getProcessedConfig();
-
-        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
-        assert(config.config !== preset);
-    });
-
-    describe('wikimedia preset', function() {
-        var checker = new Checker();
-        var preset = require('../../presets/wikimedia');
-
-        checker.registerDefaultRules();
-        checker.configure({
-            preset: 'wikimedia'
-        });
-
-        var config = checker.getProcessedConfig();
-
-        it('should set the correct rules', function() {
-            assert(config.requireSpaceAfterKeywords === preset.requireSpaceAfterKeywords);
-            assert(config.config !== preset);
-        });
-
-        it('should not report any errors from the sample file', function() {
-            return checker.checkFile('./test/data/options/preset/wikimedia.js').then(function(errors) {
-                assert(errors.isEmpty());
+            it('should not report any errors from the sample file', function () {
+                return checker.checkFile('./test/data/options/preset/' + presetName + '.js').then(function(errors) {
+                    assert(errors.isEmpty());
+                });
             });
         });
-    });
-
-    it('should set rules from the yandex preset', function() {
-        var checker = new Checker();
-        var preset = require('../../presets/yandex');
-
-        checker.registerDefaultRules();
-        checker.configure({
-            preset: 'yandex'
-        });
-
-        var config = checker.getProcessedConfig();
-
-        assert(config.requireCurlyBraces === preset.requireCurlyBraces);
-        assert(config.config !== preset);
-    });
+    }
 });
