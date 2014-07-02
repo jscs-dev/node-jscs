@@ -13,4 +13,11 @@ describe('modules/errors', function() {
 
         assert.ok(!/\t/.test(errors.explainError(error)));
     });
+
+    it('should show the correct rule for an error', function() {
+        var errors = checker.checkString('\tvar x = { "a": 1 }'),
+            error = errors.getErrorList()[0];
+
+        assert.ok(error.rule === 'disallowQuotedKeysInObjects');
+    });
 });
