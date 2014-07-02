@@ -8,8 +8,8 @@ describe('modules/errors', function() {
     checker.configure({ disallowQuotedKeysInObjects: true });
 
     it('should provide correct indent for tabbed lines', function() {
-        var errors = checker.checkString('\tvar x = { "a": 1 }'),
-            error = errors.getErrorList()[0];
+        var errors = checker.checkString('\tvar x = { "a": 1 }');
+        var error = errors.getErrorList()[0];
 
         assert.ok(!/\t/.test(errors.explainError(error)));
     });
