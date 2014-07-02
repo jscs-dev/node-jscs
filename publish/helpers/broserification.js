@@ -18,4 +18,4 @@ module.exports = {
     remove: function() {
         fs.unlinkSync(browserPath);
     }
-}
+};

@@ -4,7 +4,8 @@ var path = require('path');
 var readmePath = path.resolve(__dirname, '../../README.md');
 var tmpPath = path.resolve(__dirname, 'tmp-README.md');
 
-var replaceString = "\n\n**This is a documentation for the development version, please refer to the https://www.npmjs.org/package/jscs instead**";
+var replaceString = '\n\n**This is a documentation for the development version,' +
+    ' please refer to the https://www.npmjs.org/package/jscs instead**';
 
 module.exports = {
     replace: function() {
@@ -27,4 +28,4 @@ module.exports = {
         fs.writeFileSync(readmePath, fs.readFileSync(tmpPath));
         fs.unlinkSync(tmpPath);
     }
-}
+};
