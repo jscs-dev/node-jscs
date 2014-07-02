@@ -80,6 +80,5 @@ Preparing for a new version
 4. Set a new version and tag: `npm version x.x.x`.
 5. Push changes and tags: `git push && git push --tags`.
 6. Ask @mdevils to publish new package for specified tag, or use `npm publish` if you have privileges.
-7. Add back the "development version" notice to the README.md file.
-8. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
-9. Done!
+7. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
+8. Done!
