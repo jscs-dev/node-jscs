@@ -5,6 +5,7 @@ describe('options/preset', function() {
     testPreset('crockford');
     testPreset('google');
     testPreset('jquery');
+    testPreset('mdcs');
     testPreset('wikimedia');
     testPreset('yandex');
 

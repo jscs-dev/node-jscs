@@ -11,6 +11,7 @@ JSCS — JavaScript Code Style.
  * [Crockford](presets/crockford.json) - http://javascript.crockford.com/code.html
  * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
+ * [MDCS](presets/mdcs.json) - https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2
  * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Yandex](presets/yandex.json) - https://github.com/ymaps/codestyle/blob/master/js.md
 
@@ -103,7 +104,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"crockford"`, `"google"`, `"jquery"`, `"wikimedia"`, `"yandex"`
+Values: `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
 
 #### Example
 
