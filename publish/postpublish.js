@@ -1,2 +1,2 @@
-require('./helpers/broserification').remove();
+require('./helpers/browserification').remove();
 require('./helpers/readme').restore();

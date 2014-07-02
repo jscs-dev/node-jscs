@@ -1,2 +1,2 @@
-require('./helpers/broserification').create();
+require('./helpers/browserification').create();
 require('./helpers/readme').replace();
