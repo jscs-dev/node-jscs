@@ -51,7 +51,7 @@
     "test": "npm run lint && mocha",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:'%s (%an)' | grep -v 'Merge pull request'",
-    "prepublish": "node publish/prepublish",
+    "release": "node publish/prepublish && npm publish",
     "postpublish": "node publish/postpublish"
   },
   "files": [
