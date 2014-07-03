@@ -48,10 +48,9 @@ describe('options/preset', function() {
             assert(config.config !== preset);
         });
 
-        it('should not report any errors from the sample file', function(done) {
-            checker.checkFile('./test/data/options/preset/wikimedia.js').then(function(errors) {
+        it('should not report any errors from the sample file', function() {
+            return checker.checkFile('./test/data/options/preset/wikimedia.js').then(function(errors) {
                 assert(errors.isEmpty());
-                done();
             });
         });
     });

@@ -12,31 +12,29 @@ describe('options/exclude-files', function() {
     });
 
     describe('use config in script', function() {
-        it('should not report any errors', function(done) {
+        it('should not report any errors', function() {
             checker.configure({
                 excludeFiles: ['test/data/configs/excludeFiles/exclude-files.js'],
                 disallowKeywords: ['with']
             });
 
-            checker.checkFile('./test/data/configs/excludeFiles/exclude-files.js').then(function(errors) {
+            return checker.checkFile('./test/data/configs/excludeFiles/exclude-files.js').then(function(errors) {
                 assert(errors === null);
-                done();
             });
         });
 
-        it('should allow patterns to match filenames starting with a period', function(done) {
+        it('should allow patterns to match filenames starting with a period', function() {
             checker.configure({
                 excludeFiles: ['test/data/configs/excludeFiles/**'],
                 disallowKeywords: ['with']
             });
 
-            checker.checkFile('./test/data/configs/excludeFiles/.withdot/error.js').then(function(errors) {
+            return checker.checkFile('./test/data/configs/excludeFiles/.withdot/error.js').then(function(errors) {
                 assert(errors === null);
-                done();
             });
         });
 
-        it('should resolve pattern to process.cwd', function(done) {
+        it('should resolve pattern to process.cwd', function() {
             var results = [];
             checker.configure({
                 excludeFiles: ['test/data/exclude-files.js'],
@@ -51,12 +49,10 @@ describe('options/exclude-files', function() {
                 assert(errors.getErrorList().length === 0);
             }));
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
 
-        it('should resolve pattern to process.cwd', function(done) {
+        it('should resolve pattern to process.cwd', function() {
             var results = [];
             checker.configure({
                 excludeFiles: ['test/data/exclude-files.js'],
@@ -71,14 +67,12 @@ describe('options/exclude-files', function() {
                 assert(errors.getErrorList().length === 0);
             }));
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
     });
 
-    describe('should resolve pattern relative to config file', function(done) {
-        it('(pattern: *.js)', function(done) {
+    describe('should resolve pattern relative to config file', function() {
+        it('(pattern: *.js)', function() {
             var results = [];
             checker.configure(configFile.load('./test/data/configs/excludeFiles/test1.jscs.json'));
 
@@ -97,12 +91,10 @@ describe('options/exclude-files', function() {
                 })
             );
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
 
-        it('(pattern: exclude-files.js)', function(done) {
+        it('(pattern: exclude-files.js)', function() {
             var results = [];
             checker.configure(configFile.load('./test/data/configs/excludeFiles/test2.jscs.json'));
 
@@ -121,12 +113,10 @@ describe('options/exclude-files', function() {
                 })
             );
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
 
-        it('(pattern: */exclude-files.js)', function(done) {
+        it('(pattern: */exclude-files.js)', function() {
             var results = [];
             checker.configure(configFile.load('./test/data/configs/excludeFiles/test3.jscs.json'));
 
@@ -145,12 +135,10 @@ describe('options/exclude-files', function() {
                 assert(errors.getErrorList().length === 0);
             }));
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
 
-        it('(pattern: ../**/exclude-files.js)', function(done) {
+        it('(pattern: ../**/exclude-files.js)', function() {
             var results = [];
             checker.configure(configFile.load('./test/data/configs/excludeFiles/test4.jscs.json'));
 
@@ -169,9 +157,7 @@ describe('options/exclude-files', function() {
                 assert(errors.getErrorList().length === 0);
             }));
 
-            Vow.allResolved(results).then(function() {
-                done();
-            });
+            return Vow.allResolved(results);
         });
     });
 

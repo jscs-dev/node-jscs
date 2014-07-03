@@ -25,42 +25,35 @@ describe('modules/checker', function() {
 
             assert(checker._isExcluded.called);
         });
-        it('should return empty array of errors for excluded files', function(done) {
+        it('should return empty array of errors for excluded files', function() {
             sinon.stub(checker, '_isExcluded', function() {
                 return true;
             });
 
-            checker.checkFile('./test/data/checker/file.js').then(function(errors) {
+            return checker.checkFile('./test/data/checker/file.js').then(function(errors) {
                 assert(errors === null);
-                done();
             });
         });
     });
 
     describe('checkDirectory', function() {
-        it('should check sub dirs', function(done) {
-            checker.checkDirectory('./test/data/checker').then(function(errors) {
+        it('should check sub dirs', function() {
+            return checker.checkDirectory('./test/data/checker').then(function(errors) {
                 assert(errors.length === 2);
-
-                done();
             });
         });
     });
 
     describe('checkPath', function() {
-        it('should check sub dirs', function(done) {
-            checker.checkPath('./test/data/checker').then(function(errors) {
+        it('should check sub dirs', function() {
+            return checker.checkPath('./test/data/checker').then(function(errors) {
                 assert(errors.length === 2);
-
-                done();
             });
         });
 
-        it('should check file by direct link (#468)', function(done) {
-            checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
+        it('should check file by direct link (#468)', function() {
+            return checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
                 assert(errors.length === 1);
-
-                done();
             });
         });
     });
