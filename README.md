@@ -2080,9 +2080,13 @@ var bar = {a: "a", b: "b", }
 
 Requires an extra comma following the final element of an array or object literal.
 
-Type: `Boolean`
+Type: `Boolean` or `Object`
 
-Values: `true`
+Values:
+
+* `true`
+* Object:
+ * ignoreSingleValue: allow single property objects or single value arrays to not require a trailing comma
 
 #### Example
 
@@ -2095,6 +2099,12 @@ Values: `true`
 ```js
 var foo = [1, 2, 3,];
 var bar = {a: "a", b: "b",}
+```
+
+##### Valid with ignoreSingleValue
+```js
+var car = [1];
+var dar = {a: "a"};
 ```
 
 ##### Invalid
