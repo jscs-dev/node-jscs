@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 var cli = require('../lib/cli');
+var stdin = process.stdin;
+var _stdInput = [];
 
 /**
  * Command line implementation for JSCS.
@@ -26,4 +28,19 @@ program
     .option('', '\t  /path/to/my-reporter\t\t(absolute path without extension)')
     .parse(process.argv);
 
-cli(program);
+if (process.argv.length === 2) {
+    // Handle usage like cat myfile.js | jscs
+    stdin.setEncoding('utf8');
+
+    stdin.on('data', function(chunk) {
+        _stdInput.push(chunk);
+    });
+
+    stdin.on('end', function() {
+        program._stdin = _stdInput.join();
+        cli(program);
+    });
+
+} else {
+    cli(program);
+}
