@@ -2472,6 +2472,55 @@ Values: `true`
 // A comment
 ```
 
+
+### disallowMultipleSpaces
+
+Disallows multiple spaces
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowMultipleSpaces": true
+```
+
+##### Valid
+
+```js
+var x = 'something';
+
+if (cond) {
+  foo();
+}
+
+for (var e in elements) {
+  bar(e);
+}
+
+while (cond) {
+  foo();
+}
+```
+
+##### Invalid
+
+```js
+if (cond)  {
+  foo();
+}
+
+for  (var e in elements){
+  bar(e);
+}
+
+while  (cond){
+  foo();
+}
+```
+
 ## Removed Rules
 
 ### ~~disallowLeftStickedOperators~~
