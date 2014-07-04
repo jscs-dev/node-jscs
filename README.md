@@ -1330,8 +1330,8 @@ Type: `String`
 
 Values:
  - `"all"` for strict mode,
- - `"skipWithFunction"` ignores objects if one of the property values is a function expression,
- - `"skipWithLineBreak"` ignores objects if there are line breaks between properties
+ - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
+ - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
 
 #### Example
 
