@@ -7,6 +7,8 @@ var hasAnsi = require('has-ansi');
 
 var path = require('path');
 
+var exec = require('child_process').exec;
+
 var cli = require('../lib/cli');
 var startingDir = process.cwd();
 
@@ -158,6 +160,59 @@ describe('modules/cli', function() {
             return result.promise.fail(function() {
                 assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
                 console.log.restore();
+            });
+        });
+    });
+
+    describe('input via stdin (#448)', function() {
+        var bin = path.resolve(__dirname, '../bin/jscs');
+
+        it('should accept cat\'d file input via stdin', function (done) {
+            rAfter();
+
+            var testFile = __dirname + '/data/cli/stdin.js';
+            var cmd = 'cat ' + testFile + ' | ' + bin;
+
+            exec(cmd, function (error, stdout) {
+                assert(!error);
+                done();
+            });
+        });
+
+        it('should accept echo\'d input via stdin', function (done) {
+            rAfter();
+
+            var cmd = 'echo "var x = [1, 2];" | ' + bin;
+
+            exec(cmd, function (error, stdout) {
+                assert(!error);
+                done();
+            });
+        });
+
+        it('should should accept empty input being piped', function(done) {
+            // 'cat myEmptyFile.js | jscs' should report a successful run
+            rAfter();
+
+            var testFile = __dirname + '/data/cli/success.js';
+            var cmd = 'cat ' + testFile + ' | ' + bin;
+
+            exec(cmd, function (error) {
+                assert(!error);
+                done();
+            });
+        });
+
+        it('should not fail with additional args supplied', function(done) {
+            // 'cat myEmptyFile.js | jscs -n' should report a successful run
+            rAfter();
+
+            var testFile = __dirname + '/data/cli/success.js';
+            var cmd = 'cat ' + testFile + ' | ' + bin + ' -n';
+
+            exec(cmd, function (error) {
+                assert(!error);
+                done();
             });
         });
     });
