@@ -99,7 +99,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"jquery"`
+Values: `"jquery"`, `"wikimedia"`, `"yandex"`, `"google"`
 
 #### Example
 
