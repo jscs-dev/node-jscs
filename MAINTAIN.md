@@ -78,7 +78,7 @@ Publishing a new version
 1. Commit the changelog update with the message: `Prepare for version x.x.x`.
 1. Set a new version and tag: `npm version x.x.x`.
 1. Push changes and tags: `git push && git push --tags`.
-1. Use `npm release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
+1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
 1. Copy the changelog notes into the Github releases section located here: https://github.com/mdevils/node-jscs/releases
 1. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
 1. Done!
