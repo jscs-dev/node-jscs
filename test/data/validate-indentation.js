@@ -313,8 +313,8 @@ var a = function() {
 };
 
 $(b)
-  .on('a', 'b', function() { $(c).e('f') })
-  .on('g', 'h', function() { $(i).j('k') });
+  .on('a', 'b', function() { $(c).e('f'); })
+  .on('g', 'h', function() { $(i).j('k'); });
 
 a
   .b('c',
@@ -406,3 +406,30 @@ case (c // ->
     var k = l;
   var m = n; // ->
 }
+
+if (a) {
+  b();
+}
+else {
+c(); // ->
+  d();
+    e(); // <-
+}
+
+if (a) b();
+else {
+c(); // ->
+  d();
+    e(); // <-
+}
+
+if (a) {
+  b();
+} else c();
+
+if (a) {
+  b();
+}
+else c();
+
+a();
