@@ -2207,11 +2207,11 @@ Type: `Integer` or `Object`
 Values:
  - `Integer`: lines should be at most the number of characters specified
  - `Object`:
-    - `value`: lines should be at most the number of characters specified
-    - `tabSize`: considered the tab character as number of specified spaces
-    - `allowComments`: allows comments to break the rule
-    - `allowUrlComments`: allows comments with long urls to break the rule
-    - `allowRegex`: allows regular expression literals to break the rule
+    - `value`: (required) lines should be at most the number of characters specified
+    - `tabSize`: (default: `0`) considered the tab character as number of specified spaces
+    - `allowComments`: (default: `false`) allows comments to break the rule
+    - `allowUrlComments`: (default: `false`) allows comments with long urls to break the rule
+    - `allowRegex`: (default: `false`) allows regular expression literals to break the rule
 
 JSHint: [`maxlen`](http://jshint.com/docs/options/#maxlen)
 
