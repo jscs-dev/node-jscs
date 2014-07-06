@@ -4,6 +4,8 @@ JSCS — JavaScript Code Style.
 
 `jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules, including presets from popular style guides like jQuery.
 
+**This is a documentation for the development version, please refer to the https://www.npmjs.org/package/jscs instead**
+
 ## Presets
 
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
