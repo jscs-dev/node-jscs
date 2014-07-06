@@ -74,11 +74,11 @@ describe('options/preset', function() {
     describe('Mrdoob\'s Code Style preset', function() {
         this.timeout(5000);
         var checker = new Checker();
-        var preset = require('../../presets/MDCS');
+        var preset = require('../../presets/mdcs');
 
         checker.registerDefaultRules();
         checker.configure({
-            preset: 'MDCS'
+            preset: 'mdcs'
         });
 
         var config = checker.getProcessedConfig();
@@ -89,7 +89,6 @@ describe('options/preset', function() {
         });
 
         it('should not report any errors from the sample file', function(done) {
-
             checker.checkFile('./test/data/options/preset/WebglRenderer.js').then(function(errors) {
                 assert(errors.isEmpty());
                 done();
