@@ -2547,6 +2547,44 @@ Values: `true`
 // A comment
 ```
 
+### disallowAnonymousFunctions
+
+Requires that a function expression be named.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowAnonymousFunctions": true
+```
+
+##### Valid
+
+```js
+var a = function foo(){
+
+};
+
+$('#foo').click(function bar(){
+
+};)
+```
+
+##### Invalid
+
+```js
+var a = function(){
+
+};
+
+$('#foo').click(function(){
+
+};)
+```
+
 ## Removed Rules
 
 ### ~~disallowLeftStickedOperators~~
