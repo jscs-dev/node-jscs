@@ -469,7 +469,7 @@ var a = b?c: d;
 
 ### requireSpacesInFunctionExpression
 
-Requires space before `()` or `{}` in function declarations.
+Requires space before `()` or `{}` in function expressions (both named and anonymous).
 
 Type: `Object`
 
@@ -501,7 +501,7 @@ function (){}
 
 ### disallowSpacesInFunctionExpression
 
-Disallows space before `()` or `{}` in function declarations and expressions (both named and anonymous).
+Disallows space before `()` or `{}` in function expressions (both named and anonymous).
 
 Type: `Object`
 
@@ -698,6 +698,68 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 
 ```js
 "disallowSpacesInFunctionDeclaration": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function a(){}
+```
+
+##### Invalid
+
+```js
+function a () {}
+function a (){}
+```
+
+
+### requireSpacesInFunction
+
+Requires space before `()` or `{}` in function declarations and expressions.
+
+Type: `Object`
+
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"requireSpacesInFunction": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function a () {}
+```
+
+##### Invalid
+
+```js
+function a() {}
+function a (){}
+```
+
+
+### disallowSpacesInFunction
+
+Disallows space before `()` or `{}` in function declarations and expressions.
+
+Type: `Object`
+
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"disallowSpacesInFunction": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
