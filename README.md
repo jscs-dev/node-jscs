@@ -74,6 +74,9 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ### `--help`
 Outputs usage information.
 
+### `--verbose`
+Prepends the name of the offending rule to all error messages.
+
 ### `--version`
 Outputs version of `jscs`.
 

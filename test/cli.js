@@ -98,12 +98,12 @@ describe('modules/cli', function() {
         assert(typeof result === 'object');
     });
 
-    it('should set jquery preset', function() {
+    it('should set presets', function() {
         var Checker = require('../lib/checker');
         var old = Checker.prototype.checkPath;
 
         Checker.prototype.checkPath = function(path) {
-            assert(path, 'test/data/cli.js');
+            assert(path, 'test/data/cli/success.js');
 
             Checker.prototype.checkPath = old;
 
@@ -111,9 +111,9 @@ describe('modules/cli', function() {
         };
 
         var result = cli({
-            args: ['test/data/cli.js'],
+            args: ['test/data/cli/success.js'],
             preset: 'jquery',
-            config: 'test/data/cli.json'
+            config: 'test/data/cli/cli.json'
         });
 
         assert(result.checker.getProcessedConfig().requireCurlyBraces);
@@ -127,6 +127,37 @@ describe('modules/cli', function() {
         return result.promise.fail(function(status) {
             assert(status);
             rAfter();
+        });
+    });
+
+    describe('verbose option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        it('should not display rule names in error output by default', function() {
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === -1);
+                console.log.restore();
+            });
+        });
+
+        it('should display rule names in error output with verbose option', function() {
+            var result = cli({
+                verbose: true,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
+                console.log.restore();
+            });
         });
     });
 
@@ -160,9 +191,9 @@ describe('modules/cli', function() {
             process.chdir('test');
 
             var result = cli({
-                args: ['data/cli/error.js'],
+                args: ['test/data/cli/error.js'],
                 reporter: '../lib/reporters/junit.js',
-                config: 'data/cli/cli.json'
+                config: 'test/data/cli/cli.json'
             });
 
             return result.promise.always(function() {
