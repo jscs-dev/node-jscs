@@ -12,6 +12,11 @@
 
     "excludeFiles": [
       "test/data/**",
+      // Excluded because it contains sample jscs file configurations
+      // that would get picked up during the processing of this file
+      // and used to then throw errors since the file doesn't conform
+      // to the sample file configuration
+      "test/string-checker.js",
       // this file tests that snake cased configs are detected
       // which violates the camelcase identifier rule
       // TODO: remove when inline error exclusions exist
