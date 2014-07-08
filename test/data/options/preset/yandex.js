@@ -1,197 +1,152 @@
-// Code taken from yandex/csp-tester Copyright (C) Yandex
-// License: https://github.com/yandex/csp-tester/blob/master/LICENSE
-var directives = [
-    'default-src',
-    'script-src',
-    'object-src',
-    'style-src',
-    'img-src',
-    'media-src',
-    'frame-src',
-    'font-src',
-    'connect-src',
-    'sandbox',
-    'report-uri'
-    ];
+// Names.
+var SOME_CONSTANT = 1;
+var foo = new Foo();
 
-var keywords = ['self', 'unsafe-inline', 'unsafe-eval'];
+// Multiple var declaration.
+function testVars() {
+    var keys = ['foo', 'bar'];
+    var values = [23, 42];
 
-// http://www.w3.org/TR/CSP/#parsing
-function parse_policy(policy) {
-    var result = {};
-    var chunks = policy.split(';');
-    var tmp;
-    for (var i = 0; i < chunks.length; i++) {
-        for (var j = 0; j < directives.length; j++) {
-            tmp = chunks[i].split(directives[j] + ' ');
-            if (tmp.length > 1) {
-                result[directives[j]] = tmp[1].trim();
-                break;
-            }
-        }
-    }
-    return result;
-}
-
-function save_policy() {
-    var policies = [];
-    var csp_value = '';
-    var csp_chunks = {};
-    var tmp_value = '';
-    localStorage.target = document.getElementById('target').value;
-
-    if (localStorage.getItem('mode') == 2) {
-        localStorage.policy = document.getElementById('policy').value;
-        csp_chunks = parse_policy(localStorage.policy);
-        for (var i = 0;i < directives.length; i++) {
-            if (directives[i] in csp_chunks) {
-                localStorage[directives[i]] = csp_chunks[directives[i]];
-            } else {
-                localStorage[directives[i]] = '';
-            }
-        }
-    } else {
-        for (var i = 0; i < directives.length; i++) {
-            tmp_value = document.getElementById(directives[i]).value;
-            for (var j = 0; j < keywords.length; j++) {
-                tmp_value = tmp_value.replace('\'' + keywords[j] + '\'', '');
-                if (document.getElementById(directives[i] + '-' + keywords[j])
-                        && document.getElementById(directives[i] + '-' + keywords[j]).checked) {
-                    tmp_value += ' \'' + keywords[j] + '\'';
-                }
-            }
-            localStorage.setItem(directives[i], tmp_value.trim());
-            if (localStorage[directives[i]]) {
-                csp_value += directives[i] + ' ' + localStorage[directives[i]] + '; ';
-            }
-        }
-        if (csp_value) {
-            csp_value = csp_value.slice(0, csp_value.length - 2);
-        }
-        localStorage.policy = csp_value;
-    }
-
-    if (document.getElementById('state').checked) {
-        localStorage.state = 1;
-    } else {
-        localStorage.state = 0;
-    }
-    if (document.getElementById('report_only').checked) {
-        localStorage.report_only = 1;
-    } else {
-        localStorage.report_only = 0;
-    }
-    var status = document.getElementById('status');
-    var bg = chrome.extension.getBackgroundPage();
-    if (bg.reload()) {
-        status.innerHTML = 'Policy has been saved.';
-        status.style.display = 'block';
-    } else {
-        status.innerHTML = 'Policy has not been saved! Please, check URL pattern.';
-        status.style.display = 'block';
-        localStorage.state = 0;
-        document.getElementById('state').checked = false;
-    }
-    setTimeout(function () {
-        status.style.display = 'none';
-    }, 850);
-}
-
-function load_policy() {
-    var tmp_value = '';
-
-    if (localStorage.getItem('target')) {
-        document.getElementById('target').value = localStorage.getItem('target');
-    }
-
-    if (localStorage.getItem('policy')) {
-        document.getElementById('policy').value = localStorage.getItem('policy');
-    }
-    for (var i = 0; i < directives.length; i++) {
-        if (localStorage.getItem(directives[i])) {
-            tmp_value = localStorage.getItem(directives[i]);
-            for (var j = 0; j < keywords.length; j++) {
-                if (tmp_value.indexOf('\'' + keywords[j] + '\'') > -1
-                        && document.getElementById(directives[i] + '-' + keywords[j])) {
-                    tmp_value = tmp_value.replace('\'' + keywords[j] + '\'', '');
-                    document.getElementById(directives[i] + '-' + keywords[j]).checked = true;
-                }
-            }
-            document.getElementById(directives[i]).value = tmp_value.trim();
-        }
+    var object = {};
+    while (keys.length) {
+        var key = keys.pop();
+        object[key] = values.pop();
     }
 }
 
-function toggle_view() {
-    var adv = document.getElementById('advanced');
-    var advanced_link = document.getElementById('advanced_link');
-    var simple_link = document.getElementById('simple_link');
-    var simple = document.getElementById('simple');
+// Disallow spaces before and after curly braces.
+var obj = {a: 1, b: 2, c: 3};
+var nestedObj = {a: {b: 1}};
 
-    if (localStorage.getItem('mode') == 1) {
-        advanced_link.style.display = 'inline';
-        adv.style.display = 'none';
-        simple_link.style.display = 'none';
-        simple.style.display = 'block';
-    } else {
-        advanced_link.style.display = 'none';
-        adv.style.display = 'block';
-        simple_link.style.display = 'inline';
-        simple.style.display = 'none';
-    }
+// Disallow space before object keys.
+var obj = {
+    prop: 0
+};
+
+// Disallow alignment in object literals.
+var obj = {
+    a: 0,
+    b: 1,
+    lengthyName: 2
+};
+
+// Disallow quoted keys in object if possible.
+var obj = {
+    key: 0,
+    'key-key': 1
+};
+
+// Disallow spaces before and after square brackets.
+var fellowship = ['foo', 'bar', 'baz'];
+var nestedArr = [1, [2, 3]];
+
+// String should have single quotes.
+var lyrics = 'Never gonna give you up, Never gonna let you down';
+var test = 'It shouldn\'t fail';
+
+// Use spaces after all keywords
+if (test) {
+    doSomething();
 }
 
-function switch2advanced() {
-    localStorage.mode = 2;
-    var csp_value = '';
-    var tmp_value = '';
-
-    for (var i = 0; i < directives.length; i++) {
-        tmp_value = document.getElementById(directives[i]).value.trim();
-        for (var j = 0; j < keywords.length; j++) {
-            if (document.getElementById(directives[i] + '-' + keywords[j])
-                    && document.getElementById(directives[i] + '-' + keywords[j]).checked) {
-                tmp_value = tmp_value.replace('\'' + keywords[j] + '\'', '');
-                tmp_value += ' \'' + keywords[j] + '\'';
-            }
-        }
-        if (tmp_value) {
-            csp_value += directives[i] + ' ' + tmp_value + '; ';
-        }
-    }
-    if (csp_value) {
-        csp_value = csp_value.slice(0, csp_value.length - 2);
-    }
-    document.getElementById('policy').value = csp_value;
-    toggle_view();
+function foo() {
+    doSomething();
 }
 
-function switch2simple() {
-    localStorage.mode = 1;
-    var csp_chunks = parse_policy(document.getElementById('policy').value);
-    var tmp_value = '';
-    for (var i = 0; i < directives.length; i++) {
-        if (directives[i] in csp_chunks) {
-            tmp_value = csp_chunks[directives[i]];
-            for (var j = 0; j < keywords.length; j++) {
-                if (tmp_value.indexOf('\'' + keywords[j] + '\'') > -1
-                        && document.getElementById(directives[i] + '-' + keywords[j])) {
-                    tmp_value = tmp_value.replace('\'' + keywords[j] + '\'', '');
-                    document.getElementById(directives[i] + '-' + keywords[j]).checked = true;
-                }
-            }
-            document.getElementById(directives[i]).value = tmp_value.trim();
-        } else {
-            document.getElementById(directives[i]).value = '';
-        }
-    }
-    toggle_view();
+var bar = function () {
+    doSomething();
+};
+
+// No space after return
+function test() {
+    return;
 }
 
-document.addEventListener('DOMContentLoaded', load_policy);
-document.querySelector('#save').addEventListener('click', save_policy);
-document.querySelector('#save').addEventListener('click', save_policy);
-document.querySelector('#advanced_link').addEventListener('click', switch2advanced);
-document.querySelector('#simple_link').addEventListener('click', switch2simple);
+// if-else
+if (condition) {
+    actionIfTrue();
+} else {
+    actionIfFalse();
+}
 
-toggle_view();
+// Long conditions
+if (longCondition ||
+    anotherLongCondition &&
+    yetAnotherLongCondition
+) {
+    doSomething();
+}
+
+// No yoda conditions.
+if (getType() === 'driving') {
+    doSomething();
+}
+
+// Switch
+switch (value) {
+    case 1:
+        // ...
+        break;
+
+    case 2:
+        // ...
+        break;
+
+    default:
+        // ...
+        // no break keyword on the last case
+}
+
+// Ternary operators.
+var x = a ? b : c;
+
+var y = a ?
+    longButSimpleOperandB : longButSimpleOperandC;
+
+var z = a ?
+    moreComplicatedB :
+    moreComplicatedC;
+
+// No space with unary operators.
+var foo = !bar;
+
+// Use explicit type conversions.
+Boolean(foo);
+Number(bar);
+String(baz);
+[].indexOf(qux) === -1;
+[].indexOf(qux) < 0;
+
+// Require parentheses around IIFE
+(function () {
+
+}());
+
+// Long lines
+var debt = this.calculateBaseDebt() + this.calculateSharedDebt() + this.calculateDebtPayments() +
+    this.calculateDebtFine();
+
+// this and closures
+doAsync(function () {
+    this.fn();
+}.bind(this));
+
+var _this = this;
+doAsync(function () {
+    _this.fn();
+});
+
+[1, 2, 3].forEach(function (n) {
+    this.fn(n);
+}, this);
+
+// Comments with url can have maximum line length > 120 ................... https://github.com/ymaps/codestyle/blob/master/js.md
+
+/**
+ * Test jsdoc validation.
+ *
+ * @param {String} message
+ * @param {Number|Object} line
+ * @param {Number} [column]
+ */
+var add = function (message, line, column) {};
