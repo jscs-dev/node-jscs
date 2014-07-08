@@ -5,7 +5,10 @@ describe('modules/errors', function() {
     var checker = new Checker();
 
     checker.registerDefaultRules();
-    checker.configure({ disallowQuotedKeysInObjects: true });
+    checker.configure({
+        disallowQuotedKeysInObjects: true,
+        requireSpacesInConditionalExpression: true
+    });
 
     it('should provide correct indent for tabbed lines', function() {
         var errors = checker.checkString('\tvar x = { "a": 1 }');
@@ -15,9 +18,9 @@ describe('modules/errors', function() {
     });
 
     it('should show the correct rule for an error', function() {
-        var errors = checker.checkString('\tvar x = { "a": 1 }');
+        var errors = checker.checkString('\tvar x = a?b:c');
         var error = errors.getErrorList()[0];
 
-        assert.ok(error.rule === 'disallowQuotedKeysInObjects');
+        assert.ok(error.option === 'afterTest');
     });
 });
