@@ -95,6 +95,7 @@
         "value": 120,
         "allowUrlComments": true
     },
+    "requireSpaceAfterLineComment": true,
     "requireLineFeedAtFileEnd": true,
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,
