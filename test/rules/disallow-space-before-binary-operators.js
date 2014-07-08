@@ -11,10 +11,6 @@ describe('rules/disallow-space-before-binary-operators', function() {
     });
 
     operators.forEach(function(operator) {
-        if (operator === ':') {
-            return;
-        }
-
         var sticked = 'var test; test' + operator + '2';
         var stickedWithParenthesis = 'var test; (test)' + operator + '(2)';
 
@@ -49,13 +45,9 @@ describe('rules/disallow-space-before-binary-operators', function() {
         });
     });
 
-    it('should not report sticky operator for ({ test:2 })', function() {
+    it('should not report sticky operator for ({ test :2 })', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: [':'] });
-        assert(checker.checkString('({ test:2 })').isEmpty());
-    });
-    it('should report sticky operator for ({ test :2 })', function() {
-        checker.configure({ disallowSpaceBeforeBinaryOperators: [':'] });
-        assert(checker.checkString('({ test : 2 })').getErrorCount() === 1);
+        assert(checker.checkString('({ test : 2 })').isEmpty());
     });
     it('should not report sticky operator ":" in ternary', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: [':'] });
