@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/disallow-anonymous-function', function() {
+describe('rules/disallow-anonymous-function', function() {
     var checker;
 
     beforeEach(function() {
@@ -23,11 +23,11 @@ describe.only('rules/disallow-anonymous-function', function() {
     });
 
     it('should not report on named function declarations', function () {
-        assert(checker.checkString('$("hi").click(function named(){});').isEmpty());
         assert(checker.checkString('function named(){};').isEmpty());
     });
 
     it('should not report on named function expressions', function () {
+        assert(checker.checkString('$("hi").click(function named(){});').isEmpty());
         assert(checker.checkString('var x = function named(){};').isEmpty());
     });
 });
