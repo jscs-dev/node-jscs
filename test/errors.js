@@ -21,6 +21,7 @@ describe('modules/errors', function() {
         var errors = checker.checkString('\tvar x = a?b:c');
         var error = errors.getErrorList()[0];
 
+        assert.ok(error.rule === 'requireSpacesInConditionalExpression');
         assert.ok(error.option === 'afterTest');
     });
 });
