@@ -31,3 +31,14 @@ Features
 It you've got an idea about a new feature, it's most likely that you'll have to implement it on your own.
 If you cannot implement the feature, but it is very important, you can create an issue at GitHub,
 but expect it to be declined by the maintainer.
+
+Presets
+-------
+
+If you'd like to add an additional preset, please add the following:
+
+* The new preset's configuration to `/presets`
+* A file containing sample code, including any necessary license (ideally from that organization/project's codebase) to `/test/data/options/preset/`
+* An integration test by adding the line `testPreset('mynewpreset');` to `/test/options/preset.js`
+* The presets name to the possible values of the preset option in README.md
+* A link to the preset following the existing style in the "Presets" section of README.md

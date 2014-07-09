@@ -1,36 +1,43 @@
+Version 1.5.8
+ * Errors: include which rule triggered the error in the error output (gero3)
+ * requireTrailingComma: Allow single property objects  / arrays to ignore the rule. (Joel Kemp)
+ * requireTrailingComma: Avoids false positives from non object/array literal definitions. (Joel Kemp)
+ * validateIndentation: fix indentation for non-block `if` that has block `else`. (Mike Sherov)
+ * maximumLineLength: Document the required and default values. (Joel Kemp)
+
 Version 1.5.7
-  * Exclude colon from binary rule of yandex preset (Oleg Gaidarenko)
-  * wikimedia: Add 'case' and 'typeof' to requireSpaceAfterKeywords (Timo Tijhof)
-  * Correct deal with exclusion and extensions (Oleg Gaidarenko)
-  * disallowPaddingNewlinesInBlocks: fix false negatives with newline after closing curly. (Iskren Chernev)
-  * Include jscs-browser file to npm package (Oleg Gaidarenko)
-  * Clarify docs of use of jscs-browser.js (Oleg Gaidarenko)
+ * Exclude colon from binary rule of yandex preset (Oleg Gaidarenko)
+ * wikimedia: Add 'case' and 'typeof' to requireSpaceAfterKeywords (Timo Tijhof)
+ * Correct deal with exclusion and extensions (Oleg Gaidarenko)
+ * disallowPaddingNewlinesInBlocks: fix false negatives with newline after closing curly. (Iskren Chernev)
+ * Include jscs-browser file to npm package (Oleg Gaidarenko)
+ * Clarify docs of use of jscs-browser.js (Oleg Gaidarenko)
 
 Version 1.5.6
-  * Correct prebublish script (Oleg Gaidarenko)
+ * Correct prebublish script (Oleg Gaidarenko)
 
 Version 1.5.5
-  * Add allowUrlComments to yandex preset (ikokostya)
-  * Improve requireMultipleVarDecl rule (Oleg Gaidarenko)
-  * Improve fileExtension option (Oleg Gaidarenko)
-  * Perform file check by direct reference (Oleg Gaidarenko)
-  * Comma not on the same line with the first operand (Oleg Gaidarenko)
-  * Simplify doc instruction a bit (Oleg Gaidarenko)
-  * Generate "jscs-browser.js" only during publishing (Oleg Gaidarenko)
-  * Fix tests for requireSpaceBeforeBinaryOperators (lemmy)
+ * Add allowUrlComments to yandex preset (ikokostya)
+ * Improve requireMultipleVarDecl rule (Oleg Gaidarenko)
+ * Improve fileExtension option (Oleg Gaidarenko)
+ * Perform file check by direct reference (Oleg Gaidarenko)
+ * Comma not on the same line with the first operand (Oleg Gaidarenko)
+ * Simplify doc instruction a bit (Oleg Gaidarenko)
+ * Generate "jscs-browser.js" only during publishing (Oleg Gaidarenko)
+ * Fix tests for requireSpaceBeforeBinaryOperators (lemmy)
 
 Version 1.5.4
-  * Fix crash caused by multiline case statements that fall through for validateIndentation rule (Mike Sherov)
+ * Fix crash caused by multiline case statements that fall through for validateIndentation rule (Mike Sherov)
 
 Version 1.5.3
-  * Add missing rules in jQuery preset (Oleg Gaidarenko)
-  * Exclude comma operator from requireSpaceBeforeBinaryOperators rule (Oleg Gaidarenko)
-  * Ignore ios instruments style imports (@sebv)
-  * Various doc fixes (Christian Vuerings, Timo Tijhof, Oleg Gaidarenko)
+ * Add missing rules in jQuery preset (Oleg Gaidarenko)
+ * Exclude comma operator from requireSpaceBeforeBinaryOperators rule (Oleg Gaidarenko)
+ * Ignore ios instruments style imports (@sebv)
+ * Various doc fixes (Christian Vuerings, Timo Tijhof, Oleg Gaidarenko)
 
 Version 1.5.2
-  * Improve binary rule (Oleg Gaidarenko)
-  * Fix recursive descend, #445 (Oleg Gaidarenko)
+ * Improve binary rule (Oleg Gaidarenko)
+ * Fix recursive descend, #445 (Oleg Gaidarenko)
 
 Version 1.5.1
  * Version bump to address incorrectly published docs (Mike Sherov)

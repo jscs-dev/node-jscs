@@ -9,34 +9,35 @@ describe('rules/disallow-spaces-in-function-declaration', function() {
     });
 
     describe('beforeOpeningRoundBrace', function() {
+        beforeEach(function() {
+            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } });
+        });
 
         it('should not report missing space before round brace in FunctionDeclaration', function() {
-            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } });
             assert(checker.checkString('function abc(){}').isEmpty());
         });
 
         it('should report space before round brace in FunctionDeclaration', function() {
-            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } });
             assert(checker.checkString('function abc (){}').getErrorCount() === 1);
-        });
-
-        it('should not report missing space before round brace without option', function() {
-            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true } });
-            assert(checker.checkString('function abc (){}').isEmpty());
         });
 
     });
 
     describe('beforeOpeningCurlyBrace', function() {
+        beforeEach(function() {
+            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true } });
+        });
 
         it('should not report missing space before curly brace in FunctionDeclaration', function() {
-            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true } });
             assert(checker.checkString('function abc(){}').isEmpty());
         });
 
         it('should report space before curly brace in FunctionDeclaration', function() {
-            checker.configure({ disallowSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true } });
             assert(checker.checkString('function abc() {}').getErrorCount() === 1);
+        });
+
+        it('should not report missing space before round brace without option', function() {
+            assert(checker.checkString('function abc (){}').isEmpty());
         });
     });
 });

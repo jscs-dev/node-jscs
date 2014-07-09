@@ -30,14 +30,7 @@
         "++",
         "--"
     ],
-    "requireSpaceBeforeBinaryOperators": [
-        "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", ">>>=",
-        "&=", "|=", "^=",
-
-        "+", "-", "*", "/", "%", "<<", ">>", ">>>", "&",
-        "|", "^", "&&", "||", "===", "==", ">=",
-        "<=", "<", ">", "!=", "!=="
-    ],
+    "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
 
     "disallowMultipleVarDecl": true,
@@ -102,6 +95,7 @@
         "value": 120,
         "allowUrlComments": true
     },
+    "requireSpaceAfterLineComment": true,
     "requireLineFeedAtFileEnd": true,
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,

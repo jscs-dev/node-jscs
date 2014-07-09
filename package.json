@@ -2,7 +2,7 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "main": "lib/checker",
   "homepage": "https://github.com/mdevils/node-jscs",
   "license": "MIT",
@@ -50,8 +50,8 @@
     "lint": "jshint . && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
-    "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:'%s (%an)' | grep -v 'Merge pull request'",
-    "prepublish": "node publish/prepublish",
+    "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
+    "release": "node publish/prepublish && npm publish",
     "postpublish": "node publish/postpublish"
   },
   "files": [

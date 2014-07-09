@@ -34,31 +34,29 @@ describe('modules/cli', function() {
         }
     }
 
-    it('should provide friendly error message if config is corrupted', function(done) {
+    it('should provide friendly error message if config is corrupted', function() {
         sinon.spy(console, 'error');
 
         var result = cli({
             config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json'),
         });
 
-        result.promise.fail(function() {
+        return result.promise.fail(function() {
             assert(console.error.getCall(0).args[0] === 'Config source is corrupted -');
             console.error.restore();
-            done();
         });
     });
 
-    it('should throw error if preset does not exist', function(done) {
+    it('should throw error if preset does not exist', function() {
         sinon.spy(console, 'error');
 
         var result = cli({
             preset: 'not-exist'
         });
 
-        result.promise.fail(function() {
+        return result.promise.fail(function() {
             assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exist');
             console.error.restore();
-            done();
         });
     });
 
@@ -100,12 +98,12 @@ describe('modules/cli', function() {
         assert(typeof result === 'object');
     });
 
-    it('should set jquery preset', function() {
+    it('should set presets', function() {
         var Checker = require('../lib/checker');
         var old = Checker.prototype.checkPath;
 
         Checker.prototype.checkPath = function(path) {
-            assert(path, 'test/data/cli.js');
+            assert(path, 'test/data/cli/success.js');
 
             Checker.prototype.checkPath = old;
 
@@ -113,116 +111,133 @@ describe('modules/cli', function() {
         };
 
         var result = cli({
-            args: ['test/data/cli.js'],
+            args: ['test/data/cli/success.js'],
             preset: 'jquery',
-            config: 'test/data/cli.json'
+            config: 'test/data/cli/cli.json'
         });
 
         assert(result.checker.getProcessedConfig().requireCurlyBraces);
     });
 
-    it('should bail out if no inputs files are specified', function(done) {
+    it('should bail out if no inputs files are specified', function() {
         var result = cli({
             args: ['']
         });
 
-        result.promise.fail(function(status) {
+        return result.promise.fail(function(status) {
             assert(status);
             rAfter();
-
-            done();
         });
     });
 
-    describe('reporter option', function() {
-        it('should set implicitly set checkstyle reporter', function(done) {
+    describe('verbose option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        it('should not display rule names in error output by default', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             });
 
-            result.promise.always(function() {
-                assert(path.basename(result.reporter), 'checkstyle');
-                rAfter();
-
-                done();
+            return result.promise.fail(function() {
+                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === -1);
+                console.log.restore();
             });
         });
 
-        it('should set implicitly set text reporter', function(done) {
+        it('should display rule names in error output with verbose option', function() {
+            var result = cli({
+                verbose: true,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
+                console.log.restore();
+            });
+        });
+    });
+
+    describe('reporter option', function() {
+        it('should set implicitly set checkstyle reporter', function() {
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.always(function() {
+                assert(path.basename(result.reporter), 'checkstyle');
+                rAfter();
+            });
+        });
+
+        it('should set implicitly set text reporter', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
                 'no-colors': true,
                 config: 'test/data/cli/cli.json'
             });
 
-            result.promise.always(function() {
+            return result.promise.always(function() {
                 assert(path.basename(result.reporter), 'text.js');
                 rAfter();
-
-                done();
             });
         });
 
-        it('should set reporter through relative path', function(done) {
+        it('should set reporter through relative path', function() {
             process.chdir('test');
 
             var result = cli({
-                args: ['data/cli/error.js'],
+                args: ['test/data/cli/error.js'],
                 reporter: '../lib/reporters/junit.js',
-                config: 'data/cli/cli.json'
+                config: 'test/data/cli/cli.json'
             });
 
-            result.promise.always(function() {
+            return result.promise.always(function() {
                 assert(path.basename(result.reporter), 'junit.js');
                 rAfter();
-
-                done();
             });
         });
 
-        it('should set reporter through absolute path', function(done) {
+        it('should set reporter through absolute path', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
                 reporter: path.resolve(process.cwd(), 'lib/reporters/junit.js'),
                 config: 'test/data/cli/cli.json'
             });
 
-            result.promise.always(function() {
+            return result.promise.always(function() {
                 assert(path.basename(result.reporter), 'junit.js');
                 rAfter();
-
-                done();
             });
         });
 
-        it('should set reporter name of pre-defined reporter', function(done) {
+        it('should set reporter name of pre-defined reporter', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
                 reporter: 'text',
                 config: 'test/data/cli/cli.json'
             });
 
-            result.promise.always(function() {
+            return result.promise.always(function() {
                 assert(path.basename(result.reporter), 'text.js');
                 rAfter();
-
-                done();
             });
         });
 
-        it('should return exit if no reporter is found', function(done) {
+        it('should return exit if no reporter is found', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
                 reporter: 'does not exist',
                 config: 'test/data/cli/cli.json'
             });
 
-            result.promise.fail(function(status) {
+            return result.promise.fail(function(status) {
                 assert(status.valueOf());
                 rAfter();
-
-                done();
             });
         });
 
@@ -233,29 +248,25 @@ describe('modules/cli', function() {
             glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
                 var name = path.match(rname)[1];
 
-                it('should return fail exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return fail exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/error.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
                         assert(status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
 
-                it('should return successful exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return successful exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/success.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
                         assert(!status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
             });
@@ -264,29 +275,25 @@ describe('modules/cli', function() {
             glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(path) {
                 var name = path.match(rname).input;
 
-                it('should return fail exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return fail exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/error.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
                         assert(status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
 
-                it('should return successful exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return successful exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/success.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
                         assert(!status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
             });
@@ -295,29 +302,25 @@ describe('modules/cli', function() {
             glob.sync(path.resolve(process.cwd(), 'lib/reporters/*.js')).map(function(filepath) {
                 var name = 'lib/reporters' + filepath.match(rname)[0];
 
-                it('should return fail exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return fail exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/error.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
                         assert(status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
 
-                it('should return successful exit code for "' + name + '" reporter', function(done) {
-                    cli({
+                it('should return successful exit code for "' + name + '" reporter', function() {
+                    return cli({
                         args: ['test/data/cli/success.js'],
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
                         assert(!status.valueOf());
                         rAfter();
-
-                        done();
                     });
                 });
             });

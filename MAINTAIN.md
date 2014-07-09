@@ -25,7 +25,7 @@ Rule interface:
 
     interface Rule {
         /**
-         * Configures rule before beeing used in validations.
+         * Configures rule before being used in validations.
          *
          * @param {*} ruleConfigutationValue configuration value.
          * @returns {undefined}
@@ -59,28 +59,33 @@ File `lib/string-checker.js` is used in browserify process, exporting `JscsStrin
 `string-checker.js` (and its dependencies) should not depend on `nodejs` specifics like `fs`,
 `process` and so on.
 
-Preparing for a new version
+Adding new presets
+------------------
+
+1. Make sure they follow the rules listed in CONTRIBUTING.md
+1. Discuss the preset on the mailing list: jscs-dev@googlegroups.com
+1. Once discussed and agreed upon, land the PR!
+
+Publishing a new version
 ---------------------------
 
-1. Determine, which part of the version you are about to increase.
+1. Determine which part of the version you are about to increase.
    We are using `semver` (http://semver.org/).
-   If you are just fixing bugs, increase patch version.
-   For new features update minor version (and reset patch version to zero).
-   For backwards incompatible changes you should update major version,
-   but be sure to discuss changes with other maintainers.
-2. Write changes to `CHANGELOG.md`: `npm run changelog`.
-   Be sure to clean up the changelog so that changes are listed in following order:
+   For just fixing bugs, increment the patch version.
+   For new features, increment the minor version and reset patch version to zero.
+   For backwards incompatible features, increment the major version, and reset minor and patch versions, but be sure to discuss these changes with the other maintainers first.
+1. Write changes to `CHANGELOG.md`: `npm run changelog`.
+   Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
    1. breaking changes.
-   2. preset updates.
-   3. new rules.
-   4. new options.
-   5. bug fixes.
-   6. infrastructure or docs changes.
-3. Commit under message: `Prepare for version x.x.x`.
-4. Set a new version and tag: `npm version x.x.x`.
-5. Push changes and tags: `git push && git push --tags`.
-6. Temporarily remove (but do not commit) the notice in README.md about the docs being the "development version".
-7. Ask @mdevils to publish new package for specified tag, or use `npm publish` if you have privileges.
-8. Add back the "development version" notice to the README.md file.
-9. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
-10. Done!
+   1. preset updates.
+   1. new rules.
+   1. new options.
+   1. bug fixes.
+   1. infrastructure or docs changes.
+1. Commit the changelog update with the message: `Prepare for version x.x.x`.
+1. Set a new version and tag: `npm version x.x.x`.
+1. Push changes and tags: `git push && git push --tags`.
+1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
+1. Copy the changelog notes into the Github releases section located here: https://github.com/mdevils/node-jscs/releases
+1. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
+1. Done!

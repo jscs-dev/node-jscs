@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-spaces-in-function-expression', function() {
+describe('rules/require-spaces-in-function', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
@@ -10,72 +10,76 @@ describe('rules/require-spaces-in-function-expression', function() {
 
     describe('beforeOpeningRoundBrace', function() {
         beforeEach(function() {
-            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningRoundBrace: true } });
+            checker.configure({ requireSpacesInFunction: { beforeOpeningRoundBrace: true } });
         });
 
-        it('should report missing space before round brace in FunctionExpression', function() {
+        it('should report missing space before round brace in Function', function() {
             assert(checker.checkString('var x = function(){}').getErrorCount() === 1);
         });
 
-        it('should report missing space before round brace in named FunctionExpression', function() {
+        it('should report missing space before round brace in named Function', function() {
             assert(checker.checkString('var x = function a(){}').getErrorCount() === 1);
         });
 
-        it('should not report space before round brace in FunctionExpression', function() {
+        it('should not report space before round brace in Function', function() {
             assert(checker.checkString('var x = function (){}').isEmpty());
         });
 
-        it('should not report space before round brace in named FunctionExpression', function() {
+        it('should not report space before round brace in named Function', function() {
             assert(checker.checkString('var x = function a (){}').isEmpty());
         });
 
-        it('should not report missing space before round brace in FunctionDeclaration', function() {
-            assert(checker.checkString('function abc(){}').isEmpty());
+        it('should report missing space before round brace in FunctionDeclaration', function() {
+            assert(checker.checkString('function abc(){}').getErrorCount() === 1);
         });
 
-        it('should not report space before round brace in getter expression', function() {
+        it('should not report space before round brace in FunctionDeclaration', function() {
+            assert(checker.checkString('function abc (){}').isEmpty());
+        });
+
+        it('should not report space before round brace in getter', function() {
             assert(checker.checkString('var x = { get y () {} }').isEmpty());
         });
 
-        it('should not report space before round brace in setter expression', function() {
+        it('should not report space before round brace in setter', function() {
             assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
         });
 
-        it('should not report missing space before round brace in getter expression', function() {
+        it('should not report missing space before round brace in getter', function() {
             assert(checker.checkString('var x = { get y() {} }').isEmpty());
         });
 
-        it('should not report missing space before round brace in setter expression', function() {
+        it('should not report missing space before round brace in setter', function() {
             assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
         });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
         beforeEach(function() {
-            checker.configure({ requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            checker.configure({ requireSpacesInFunction: { beforeOpeningCurlyBrace: true } });
         });
 
-        it('should report missing space before curly brace in FunctionExpression', function() {
+        it('should report missing space before curly brace in Function', function() {
             assert(checker.checkString('var x = function(){}').getErrorCount() === 1);
         });
 
-        it('should not report space before curly brace in FunctionExpression', function() {
+        it('should not report space before curly brace in Function', function() {
             assert(checker.checkString('var x = function() {}').isEmpty());
         });
 
-        it('should not report space before curly brace in getter expression', function() {
+        it('should not report space before curly brace in getter', function() {
             assert(checker.checkString('var x = { get y () {} }').isEmpty());
         });
 
-        it('should not report space before curly brace in setter expression', function() {
+        it('should not report space before curly brace in setter', function() {
             assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
         });
 
-        it('should not report missing space before curly brace in getter expression', function() {
+        it('should not report missing space before curly brace in getter', function() {
             assert(checker.checkString('var x = { get y (){} }').isEmpty());
         });
 
-        it('should not report missing space before curly brace in setter expression', function() {
+        it('should not report missing space before curly brace in setter', function() {
             assert(checker.checkString('var x = { set y (v){} }').isEmpty());
         });
 

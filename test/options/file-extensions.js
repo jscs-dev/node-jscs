@@ -20,39 +20,36 @@ describe('options/file-extensions', function() {
         });
 
         it('should report errors for matching extensions (case insensitive) in directory with default config',
-            function(done) {
-                checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            function() {
+                return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                     assert(errors.length === 2);
-                    done();
                 });
             }
         );
     });
 
     describe('custom config', function() {
-        it('should report errors for matching extensions with custom config', function(done) {
+        it('should report errors for matching extensions with custom config', function() {
             checker.configure({
                 fileExtensions: ['.jsx'],
                 disallowKeywords: ['with']
             });
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 1);
-                done();
             });
         });
-        it('should report errors for matching extensions (case insensitive) with custom config', function(done) {
+        it('should report errors for matching extensions (case insensitive) with custom config', function() {
             checker.configure({
                 fileExtensions: ['.JS'],
                 disallowKeywords: ['with']
             });
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 2);
-                done();
             });
         });
-        it('should report errors for matching extensions (case insensitive) with string value', function(done) {
+        it('should report errors for matching extensions (case insensitive) with string value', function() {
             checker.configure({
                 fileExtensions: '.JS',
                 disallowKeywords: ['with']
@@ -60,12 +57,11 @@ describe('options/file-extensions', function() {
 
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions-2.jS') !== null);
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 2);
-                done();
             });
         });
-        it('should report errors for matching extensions with custom config with multiple extensions', function(done) {
+        it('should report errors for matching extensions with custom config with multiple extensions', function() {
             checker.configure({
                 fileExtensions: ['.js', '.jsx'],
                 disallowKeywords: ['with']
@@ -74,12 +70,11 @@ describe('options/file-extensions', function() {
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.js') !== null);
             assert(checker.checkFile('./test/data/options/file-extensions/file-extensions.jsx') !== null);
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 3);
-                done();
             });
         });
-        it('should report errors for matching extensions with Array *', function(done) {
+        it('should report errors for matching extensions with Array *', function() {
             var testPath = './test/data/options/file-extensions';
 
             checker.configure({
@@ -87,12 +82,11 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            checker.checkDirectory(testPath).then(function(errors) {
+            return checker.checkDirectory(testPath).then(function(errors) {
                 assert(errors.length === fs.readdirSync(testPath).length);
-                done();
             });
         });
-        it('should report errors for matching extensions with string *', function(done) {
+        it('should report errors for matching extensions with string *', function() {
             var testPath = './test/data/options/file-extensions';
 
             checker.configure({
@@ -100,21 +94,19 @@ describe('options/file-extensions', function() {
                 disallowKeywords: ['with']
             });
 
-            checker.checkDirectory(testPath).then(function(errors) {
+            return checker.checkDirectory(testPath).then(function(errors) {
                 assert(errors.length === fs.readdirSync(testPath).length);
-                done();
             });
         });
 
-        it('should report errors for file whose fullname is the same as matching extension', function(done) {
+        it('should report errors for file whose fullname is the same as matching extension', function() {
             checker.configure({
                 fileExtensions: 'file-extensions',
                 disallowKeywords: ['with']
             });
 
-            checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
+            return checker.checkDirectory('./test/data/options/file-extensions').then(function(errors) {
                 assert(errors.length === 1);
-                done();
             });
         });
     });

@@ -74,6 +74,9 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ### `--help`
 Outputs usage information.
 
+### `--verbose`
+Prepends the name of the offending rule to all error messages.
+
 ### `--version`
 Outputs version of `jscs`.
 
@@ -99,7 +102,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"jquery"`
+Values: `"jquery"`, `"wikimedia"`, `"yandex"`, `"google"`
 
 #### Example
 
@@ -466,7 +469,7 @@ var a = b?c: d;
 
 ### requireSpacesInFunctionExpression
 
-Requires space before `()` or `{}` in function declarations.
+Requires space before `()` or `{}` in function expressions (both named and anonymous).
 
 Type: `Object`
 
@@ -498,7 +501,7 @@ function (){}
 
 ### disallowSpacesInFunctionExpression
 
-Disallows space before `()` or `{}` in function declarations and expressions (both named and anonymous).
+Disallows space before `()` or `{}` in function expressions (both named and anonymous).
 
 Type: `Object`
 
@@ -695,6 +698,68 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 
 ```js
 "disallowSpacesInFunctionDeclaration": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function a(){}
+```
+
+##### Invalid
+
+```js
+function a () {}
+function a (){}
+```
+
+
+### requireSpacesInFunction
+
+Requires space before `()` or `{}` in function declarations and expressions.
+
+Type: `Object`
+
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"requireSpacesInFunction": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+}
+```
+
+##### Valid
+
+```js
+function a () {}
+```
+
+##### Invalid
+
+```js
+function a() {}
+function a (){}
+```
+
+
+### disallowSpacesInFunction
+
+Disallows space before `()` or `{}` in function declarations and expressions.
+
+Type: `Object`
+
+Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"disallowSpacesInFunction": {
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
 }
@@ -1330,8 +1395,8 @@ Type: `String`
 
 Values:
  - `"all"` for strict mode,
- - `"skipWithFunction"` ignores objects if one of the property values is a function expression,
- - `"skipWithLineBreak"` ignores objects if there are line breaks between properties
+ - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
+ - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
 
 #### Example
 
@@ -2080,9 +2145,13 @@ var bar = {a: "a", b: "b", }
 
 Requires an extra comma following the final element of an array or object literal.
 
-Type: `Boolean`
+Type: `Boolean` or `Object`
 
-Values: `true`
+Values:
+
+- `true`: validates all arrays and objects
+- `Object`:
+   - `ignoreSingleValue`: allows single property objects and single element arrays to not require a trailing comma
 
 #### Example
 
@@ -2095,6 +2164,12 @@ Values: `true`
 ```js
 var foo = [1, 2, 3,];
 var bar = {a: "a", b: "b",}
+```
+
+##### Valid with ignoreSingleValue
+```js
+var car = [1];
+var dar = {a: "a"};
 ```
 
 ##### Invalid
@@ -2197,11 +2272,11 @@ Type: `Integer` or `Object`
 Values:
  - `Integer`: lines should be at most the number of characters specified
  - `Object`:
-    - `value`: lines should be at most the number of characters specified
-    - `tabSize`: considered the tab character as number of specified spaces
-    - `allowComments`: allows comments to break the rule
-    - `allowUrlComments`: allows comments with long urls to break the rule
-    - `allowRegex`: allows regular expression literals to break the rule
+    - `value`: (required) lines should be at most the number of characters specified
+    - `tabSize`: (default: `1`) considered the tab character as number of specified spaces
+    - `allowComments`: (default: `false`) allows comments to break the rule
+    - `allowUrlComments`: (default: `false`) allows comments with long urls to break the rule
+    - `allowRegex`: (default: `false`) allows regular expression literals to break the rule
 
 JSHint: [`maxlen`](http://jshint.com/docs/options/#maxlen)
 
@@ -2510,7 +2585,7 @@ Use the following rules instead:
 
 The npm package contains a file named `jscs-browser.js` (since version `1.5.7`), which is a browser compatible version of `jscs`.
 
-If you'd like to generate this file yourself, run `npm browserify` after cloning this repo.
+If you'd like to generate this file yourself, run `npm run browserify` after cloning this repo.
 
 Use `jscs-browser.js` on your page as follows:
 
