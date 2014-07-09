@@ -25,7 +25,7 @@ Rule interface:
 
     interface Rule {
         /**
-         * Configures rule before beeing used in validations.
+         * Configures rule before being used in validations.
          *
          * @param {*} ruleConfigutationValue configuration value.
          * @returns {undefined}
