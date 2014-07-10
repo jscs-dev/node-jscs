@@ -2032,7 +2032,7 @@ function(d) {
 }
 ```
 
-#### disallowMixedSpacesAndTabs
+### disallowMixedSpacesAndTabs
 
 Requires lines to not contain both spaces and tabs consecutively,
 or spaces after tabs only for alignment if "smart"
@@ -2167,6 +2167,7 @@ var bar = {a: "a", b: "b",}
 ```
 
 ##### Valid with ignoreSingleValue
+
 ```js
 var car = [1];
 var dar = {a: "a"};
@@ -2384,6 +2385,7 @@ var a = b['while']; //reserved word
 ```js
 var a = b['c'];
 ```
+
 ### requireYodaConditions
 
 Requires the variable to be the right hand operator when doing a boolean comparison
