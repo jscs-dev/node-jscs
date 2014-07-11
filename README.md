@@ -15,7 +15,7 @@ JSCS — JavaScript Code Style.
 
 ## Friendly packages
 
- * Grunt task: https://github.com/gustavohenke/grunt-jscs-checker/
+ * Grunt task: https://github.com/gustavohenke/grunt-jscs/
  * Gulp task: https://github.com/sindresorhus/gulp-jscs/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
