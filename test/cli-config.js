@@ -77,11 +77,42 @@ describe('modules/cli-config', function() {
         assert.strictEqual(config.from, '.jscsrc');
     });
 
-    it('should load config from home path', function() {
+    it('should load config from home path: HOME', function() {
         var oldHome = process.env.HOME;
+        var oldHOMEPATH = process.env.HOMEPATH;
+        var oldUSERPROFILE = process.env.USERPROFILE;
 
+        process.env.HOMEPATH = process.env.USERPROFILE = null;
         process.env.HOME = './test/data/configs/jscsrc';
         assert.equal(configFile.load(null, '/').from, 'jscsrc');
         process.env.HOME = oldHome;
+        process.env.HOMEPATH = oldHOMEPATH;
+        process.env.USERPROFILE = oldUSERPROFILE;
+    });
+
+    it('should load a config from the available home path: HOMEPATH', function () {
+        var oldHome = process.env.HOME;
+        var oldHOMEPATH = process.env.HOMEPATH;
+        var oldUSERPROFILE = process.env.USERPROFILE;
+
+        process.env.HOME = process.env.USERPROFILE = null;
+        process.env.HOMEPATH = './test/data/configs/jscsrc';
+        assert.equal(configFile.load(null, '/').from, 'jscsrc');
+        process.env.HOME = oldHome;
+        process.env.HOMEPATH = oldHOMEPATH;
+        process.env.USERPROFILE = oldUSERPROFILE;
+    });
+
+    it('should load a config from the available home path: USERPROFILE', function () {
+        var oldHome = process.env.HOME;
+        var oldHOMEPATH = process.env.HOMEPATH;
+        var oldUSERPROFILE = process.env.USERPROFILE;
+
+        process.env.HOME = process.env.HOMEPATH = null;
+        process.env.USERPROFILE = './test/data/configs/jscsrc';
+        assert.equal(configFile.load(null, '/').from, 'jscsrc');
+        process.env.HOME = oldHome;
+        process.env.HOMEPATH = oldHOMEPATH;
+        process.env.USERPROFILE = oldUSERPROFILE;
     });
 });
