@@ -18,7 +18,7 @@ module.exports = {
             console.error('There is no string to remove from README.md');
             process.exit(1);
         }
-        readme.publish = readme.original.replace( replaceString, '' );
+        readme.publish = readme.original.replace(replaceString, '');
 
         fs.writeFileSync(tmpPath, readme.original);
         fs.writeFileSync(readmePath, readme.publish);

@@ -38,3 +38,10 @@ function rootCheck() {
     } catch (err) {}
   }
 }
+
+// disallowSpacesInsideArrayBrackets
+var arr = [1, 2, 3];
+// disallowSpacesInsideObjectBrackets
+var obj = {a: 1, b: 2, c: 3};
+// disallowSpacesInsideParentheses
+console.log('string');
