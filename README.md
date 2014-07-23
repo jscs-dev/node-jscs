@@ -2592,15 +2592,14 @@ while (cond){
 ##### Invalid
 
 ```js
-function good()
+function bad()
 {
     var obj = 
     {
         val: true
     };
 
-    return 
-    {
+    return {
         data: obj
     };
 }
@@ -2645,8 +2644,7 @@ function good()
         val: true
     };
 
-    return 
-    {
+    return {
         data: obj
     };
 }
@@ -2670,7 +2668,7 @@ while (cond)
 ##### Invalid
 
 ```js
-function good(){
+function bad(){
     var obj = {
         val: true
     };
