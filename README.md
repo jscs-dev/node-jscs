@@ -2551,7 +2551,7 @@ Values: `true`
 
 ### disallowNewlineBeforeBlockStatements
 
-Disallows newline before opening curly brace of all block statements - [except return statement](http://stackoverflow.com/a/3641525/14731).
+Disallows newline before opening curly brace of all block statements - [except return statements](http://stackoverflow.com/a/3641525/14731).
 
 Type: `Boolean`
 
@@ -2567,30 +2567,63 @@ Values: `true`
 
 ```js
 function good(){
-    //Return statement is ignored by this rule
-    return 
-    {
+    var obj = {
         val: true
-    }
+    };
+
+    return {
+        data: obj
+    };
+}
+
+if (cond){
+    foo();
+}
+
+for (var e in elements){
+    bar(e);
+}
+
+while (cond){
+    foo();
 }
 ```
 
 ##### Invalid
 
 ```js
-function bad()
+function good()
 {
-    //Return statement is ignored by this rule
-    return 
+    var obj = 
     {
         val: true
-    }
+    };
+
+    return 
+    {
+        data: obj
+    };
+}
+
+if (cond)
+{
+    foo();
+}
+
+for (var e in elements)
+{
+    bar(e);
+}
+
+while (cond)
+{
+    foo();
 }
 ```
 
 ### requireNewlineBeforeBlockStatements
 
-Requires newline before opening curly brace of all block statements - [except return statement](http://stackoverflow.com/a/3641525/14731).
+Requires newline before opening curly brace of all block statements - [except return statements](http://stackoverflow.com/a/3641525/14731).
 
 Type: `Boolean`
 
@@ -2607,21 +2640,56 @@ Values: `true`
 ```js
 function good()
 {
-    //Return statement is ignored by this rule
-    return {
+    var obj = 
+    {
         val: true
-    }
+    };
+
+    return 
+    {
+        data: obj
+    };
+}
+
+if (cond)
+{
+    foo();
+}
+
+for (var e in elements)
+{
+    bar(e);
+}
+
+while (cond)
+{
+    foo();
 }
 ```
 
 ##### Invalid
 
 ```js
-function bad(){
-    //Return statement is ignored by this rule
-    return {
+function good(){
+    var obj = {
         val: true
-    }
+    };
+
+    return {
+        data: obj
+    };
+}
+
+if (cond){
+    foo();
+}
+
+for (var e in elements){
+    bar(e);
+}
+
+while (cond){
+    foo();
 }
 ```
 
