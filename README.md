@@ -2551,7 +2551,7 @@ Values: `true`
 
 ### disallowNewlineBeforeBlockStatements
 
-Disallows newline before opening round bracket of block statements.
+Disallows newline before opening curly brace of block statements.
 
 Type: `Boolean`
 
@@ -2582,7 +2582,7 @@ function bad()
 
 ### requireNewlineBeforeBlockStatements
 
-Requires newline before opening round bracket of block statements.
+Requires newline before opening curly brace of block statements.
 
 Type: `Boolean`
 
