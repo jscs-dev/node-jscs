@@ -110,4 +110,15 @@ describe('options/file-extensions', function() {
             });
         });
     });
+
+    it('should should be present in config after initialization', function() {
+        checker.configure({
+            fileExtensions: 'test'
+        });
+
+        var config = checker.getProcessedConfig();
+
+        assert(config.fileExtensions !== undefined);
+        assert(Object.getOwnPropertyDescriptor(config, 'fileExtensions').enumerable === false);
+    });
 });
