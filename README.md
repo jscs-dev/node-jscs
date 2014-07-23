@@ -2551,7 +2551,7 @@ Values: `true`
 
 ### disallowNewlineBeforeBlockStatements
 
-Disallows newline before opening curly brace of block statements.
+Disallows newline before opening curly brace of all block statements - [except return statement](http://stackoverflow.com/a/3641525/14731).
 
 Type: `Boolean`
 
@@ -2567,7 +2567,11 @@ Values: `true`
 
 ```js
 function good(){
-    return true;
+    //Return statement is ignored by this rule
+    return 
+    {
+        val: true
+    }
 }
 ```
 
@@ -2576,13 +2580,17 @@ function good(){
 ```js
 function bad()
 {
-    return false;
+    //Return statement is ignored by this rule
+    return 
+    {
+        val: true
+    }
 }
 ```
 
 ### requireNewlineBeforeBlockStatements
 
-Requires newline before opening curly brace of block statements.
+Requires newline before opening curly brace of all block statements - [except return statement](http://stackoverflow.com/a/3641525/14731).
 
 Type: `Boolean`
 
@@ -2599,7 +2607,10 @@ Values: `true`
 ```js
 function good()
 {
-    return true;
+    //Return statement is ignored by this rule
+    return {
+        val: true
+    }
 }
 ```
 
@@ -2607,11 +2618,12 @@ function good()
 
 ```js
 function bad(){
-    return false;
+    //Return statement is ignored by this rule
+    return {
+        val: true
+    }
 }
 ```
-
-
 
 
 ## Removed Rules
