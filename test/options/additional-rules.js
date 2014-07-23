@@ -25,7 +25,7 @@ describe('options/additional-rules', function() {
         assert(checker.checkString('').getErrorCount() === 1);
     });
 
-    it('should should be present in config after initialization', function() {
+    it('should be present in config after initialization', function() {
         checker.configure({
             additionalRules: ['test/data/rules/*.js'],
             testAdditionalRules: true

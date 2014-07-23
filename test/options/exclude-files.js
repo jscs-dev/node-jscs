@@ -161,7 +161,7 @@ describe('options/exclude-files', function() {
         });
     });
 
-    it('should should be present in config after initialization', function() {
+    it('should be present in config after initialization', function() {
         checker.configure({
             excludeFiles: []
         });
