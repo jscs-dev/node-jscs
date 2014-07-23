@@ -2549,6 +2549,71 @@ Values: `true`
 // A comment
 ```
 
+### disallowNewlineBeforeBlockStatements
+
+Disallows newline before opening round bracket of block statements.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowNewlineBeforeBlockStatements": true
+```
+
+##### Valid
+
+```js
+function good(){
+    return true;
+}
+```
+
+##### Invalid
+
+```js
+function bad()
+{
+    return false;
+}
+```
+
+### requireNewlineBeforeBlockStatements
+
+Requires newline before opening round bracket of block statements.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireNewlineBeforeBlockStatements": true
+```
+
+##### Valid
+
+```js
+function good()
+{
+    return true;
+}
+```
+
+##### Invalid
+
+```js
+function bad(){
+    return false;
+}
+```
+
+
+
+
 ## Removed Rules
 
 ### ~~disallowLeftStickedOperators~~
