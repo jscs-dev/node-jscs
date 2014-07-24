@@ -25,7 +25,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "chalk": "~0.5.1",
+    "colors": "~0.6.2",
     "commander": "~2.3.0",
     "esprima": "~1.2.2",
     "glob": "~4.0.0",
