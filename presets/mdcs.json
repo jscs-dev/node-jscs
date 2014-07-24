@@ -10,7 +10,7 @@
     "requireSpaceBeforeBlockStatements": true,
     "disallowKeywords": [ "with" ],
     "requireLineFeedAtFileEnd": true,
-	"validateLineBreaks": "CRLF",
+    "validateLineBreaks": "CRLF",
     "validateIndentation": "\t",
 
     "requireSpaceAfterPrefixUnaryOperators": ["++", "--"],
