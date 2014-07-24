@@ -6,6 +6,7 @@ describe('options/preset', function() {
     testPreset('jquery');
     testPreset('wikimedia');
     testPreset('yandex');
+    testPreset('mdcs');
 
     /**
      * Helper to test a given preset's configuration against its test file
