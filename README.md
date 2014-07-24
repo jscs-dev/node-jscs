@@ -8,9 +8,10 @@ JSCS — JavaScript Code Style.
 
 ## Presets
 
+ * [Crockford](presets/crockford.json) - http://javascript.crockford.com/code.html
+ * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
  * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
- * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
  * [Yandex](presets/yandex.json) - https://github.com/ymaps/codestyle/blob/master/js.md
 
 ## Friendly packages

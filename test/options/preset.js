@@ -2,6 +2,7 @@ var Checker = require('../../lib/checker');
 var assert = require('assert');
 
 describe('options/preset', function() {
+    testPreset('crockford');
     testPreset('google');
     testPreset('jquery');
     testPreset('wikimedia');
