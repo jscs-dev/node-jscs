@@ -161,4 +161,14 @@ describe('options/exclude-files', function() {
         });
     });
 
+    it('should be present in config after initialization', function() {
+        checker.configure({
+            excludeFiles: []
+        });
+
+        var config = checker.getProcessedConfig();
+
+        assert(config.excludeFiles !== undefined);
+        assert(Object.getOwnPropertyDescriptor(config, 'excludeFiles').enumerable === false);
+    });
 });

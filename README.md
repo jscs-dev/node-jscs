@@ -8,9 +8,11 @@ JSCS — JavaScript Code Style.
 
 ## Presets
 
- * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
- * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
+ * [Crockford](presets/crockford.json) - http://javascript.crockford.com/code.html
  * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
+ * [MDCS](presets/mdcs.json) - https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2
+ * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Yandex](presets/yandex.json) - https://github.com/ymaps/codestyle/blob/master/js.md
 
 ## Friendly packages
@@ -102,7 +104,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"jquery"`, `"wikimedia"`, `"yandex"`, `"google"`
+Values: `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
 
 #### Example
 
@@ -2547,6 +2549,82 @@ Values: `true`
 
 ```js
 // A comment
+```
+
+### disallowAnonymousFunctions
+
+Requires that a function expression be named.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowAnonymousFunctions": true
+```
+
+##### Valid
+
+```js
+var a = function foo(){
+
+};
+
+$('#foo').click(function bar(){
+
+};)
+```
+
+##### Invalid
+
+```js
+var a = function(){
+
+};
+
+$('#foo').click(function(){
+
+};)
+```
+
+### requireAnonymousFunctions
+
+Requires that a function expression be anonymous.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireAnonymousFunctions": true
+```
+
+##### Valid
+
+```js
+var a = function(){
+
+};
+
+$('#foo').click(function(){
+
+};)
+```
+
+##### Invalid
+
+```js
+var a = function foo(){
+
+};
+
+$('#foo').click(function bar(){
+
+};)
 ```
 
 ### disallowNewlineBeforeBlockStatements

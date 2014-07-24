@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var glob = require('glob');
 var assert = require('assert');
 var Vow = require('vow');
+var hasAnsi = require('has-ansi');
 
 var path = require('path');
 
@@ -325,6 +326,40 @@ describe('modules/cli', function() {
                 });
             });
 
+        });
+    });
+
+    describe('colors option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should not have colors output', function() {
+            var result = cli({
+                colors: false,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                assert(!hasAnsi(console.log.getCall(0).args[0]));
+            });
+        });
+
+        it('should have colors output', function() {
+            var result = cli({
+                colors: true,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                assert(hasAnsi(console.log.getCall(0).args[0]));
+            });
         });
     });
 });
