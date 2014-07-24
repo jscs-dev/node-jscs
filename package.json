@@ -33,7 +33,8 @@
     "strip-json-comments": "~0.1.1",
     "vow": "~0.4.3",
     "vow-fs": "~0.3.1",
-    "xmlbuilder": "~2.3.0"
+    "xmlbuilder": "~2.3.0",
+    "supports-color": "~0.2.0"
   },
   "devDependencies": {
     "browserify": "~4.1.5",
@@ -41,7 +42,8 @@
     "jshint": "~2.5.0",
     "mocha": "~1.20.1",
     "sinon": "~1.10.0",
-    "xml2js": "~0.4.2"
+    "xml2js": "~0.4.2",
+    "has-ansi": "~0.1.0"
   },
   "bin": {
     "jscs": "./bin/jscs"
