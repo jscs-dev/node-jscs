@@ -5,11 +5,7 @@ describe('options/preset', function() {
     testPreset('crockford');
     testPreset('google');
     testPreset('jquery');
-
-    // mdcs uses Windows newline chars it conflicts with our git setup
-    delete require('../../presets/mdcs').validateLineBreaks;
     testPreset('mdcs');
-
     testPreset('wikimedia');
     testPreset('yandex');
 
