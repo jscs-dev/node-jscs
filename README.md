@@ -160,6 +160,51 @@ Values: A single file extension or an Array of file extensions, beginning with a
 "fileExtensions": [".js"]
 ```
 
+## Error Suppression
+
+### Inline Comments
+
+You can disable and reenable rules inline with two special comments: `//jscs:disable` and `//jscs:enable`. You can use them to disable rules in 3 ways.
+
+#### Disabling All Rules
+
+Simply using `//jscs:disable` or `//jscs:enable` will disable all rules.
+```
+var a = b;
+//jscs:disable
+var c = d; // all errors on this line will be ignored
+//jscs:enable
+var e = f; // all errors on this line will be reported
+```
+
+#### Disabling Specific Rules
+
+Including a comma separated list of rules to modify after `//jscs:disable` or `//jscs:enable` will modify only those rules.
+```
+//jscs:disable requireCurlyBraces
+if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
+//jscs:enable requireCurlyBraces
+if (z) a(); // all errors, including from requireCurlyBraces, on this line will be reported
+```
+
+You can enable all rules after disabling a specific rule, and that rule becomes reenabled as well.
+```
+//jscs:disable requireCurlyBraces
+if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
+//jscs:enable
+if (z) a(); // all errors, even from requireCurlyBraces, will be reported
+```
+
+You can disable multiple rules at once and progressively reeanble them.
+```
+//jscs:disable requireCurlyBraces, requireDotNotation
+if (x['a']) y(); // all errors from requireCurlyBraces OR requireDotNotation on this line will be ignored
+//jscs:enable requireCurlyBraces
+if (z['a']) a(); // all errors from requireDotNotation, but not requireCurlyBraces, will be ignored
+//jscs:enable requireDotNotation
+if (z['a']) a(); // all errors will be reported
+```
+
 ## Rules
 
 ### requireCurlyBraces
