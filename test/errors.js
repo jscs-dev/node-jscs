@@ -26,6 +26,11 @@ describe('modules/errors', function() {
         assert.ok(errors.isEmpty());
     });
 
+    it('should suppress errors with disable comment followed by another more specific disable comment', function() {
+        var errors = checker.checkString('//jscs:disable\n//jscs:disable someOtherRule\n\tvar x = { "a": 1 }');
+        assert.ok(errors.isEmpty());
+    });
+
     it('should not suppress errors with disable followed by enable comment', function() {
         var errors = checker.checkString('//jscs:disable\n//jscs:enable\n\tvar x = { "a": 1 }');
         assert.ok(!errors.isEmpty());
@@ -65,5 +70,22 @@ describe('modules/errors', function() {
             '//jscs:enable someRuleName, disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
 
         assert.ok(!errors.isEmpty());
+    });
+
+    it('should suppress errors with disable using liberal whitespace', function() {
+        var errors = checker.checkString('//   jscs:   disable   disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
+        assert.ok(errors.isEmpty());
+    });
+
+    it('should suppress errors with disable using block comment', function() {
+        var errors = checker.checkString('/*   jscs:   disable   disallowQuotedKeysInObjects */\n\tvar x = { "a": 1 }');
+        assert.ok(errors.isEmpty());
+    });
+
+    it('should suppress errors with disable using block comment and weird rule spacing', function() {
+        var errors = checker.checkString('/* jscs: disable   someOtherRule, , ' +
+            'disallowQuotedKeysInObjects */\nvar x = { "a": 1 }');
+
+        assert.ok(errors.isEmpty());
     });
 });

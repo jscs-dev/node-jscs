@@ -175,7 +175,14 @@ not require the use of `a.b` over `a['b']`.:
 
 ### Inline Comments
 
-You can disable and reenable rules inline with two special comments: `//jscs:disable` and `//jscs:enable`. You can use them to disable rules in 3 ways.
+You can disable and reenable rules inline with two special comments: `//jscs:disable` and `//jscs:enable`. Spacing in these comments is fairly lenient. All of the following are equivalent:
+```
+/* jscs: enable */
+// jscs: enable
+//jscs: enable
+// jscs:enable
+```
+You can use them to disable rules in several ways.
 
 #### Disabling All Rules
 
