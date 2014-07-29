@@ -162,6 +162,17 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 ## Error Suppression
 
+### Disabling Rules From Presets
+
+After using the `preset` option, you can set any rules values to `null` to remove it. i.e. The following config will use the jQuery preset except will
+not require the use of `a.b` over `a['b']`.:
+```
+{
+    "preset": "jquery",
+    "requireDotNotation": null
+}
+```
+
 ### Inline Comments
 
 You can disable and reenable rules inline with two special comments: `//jscs:disable` and `//jscs:enable`. You can use them to disable rules in 3 ways.
