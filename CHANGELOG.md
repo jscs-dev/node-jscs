@@ -1,3 +1,19 @@
+Version 1.5.9
+ * Binary Rules: Remove colon check from all binary rules (Oleg Gaidarenko)
+ * Presets: Add Mr. Doob's Code Style (MDCS) (gero3)
+ * Presets: Add Crockford (Timo Tijhof)
+ * Google Preset: Add missing constraints (Turadg Aleahmad)
+ * Yandex Preset: Remove repeated rule in yandex preset (Benjamin Tamborine)
+ * Yandex Preset: updated to be more accurate (ikokostya)
+ * New Rules: (require|disallow)NewlineBeforeBlockStatements (cipiripper)
+ * New Rules: (require|disallow)AnonymousFunctions (Rachel White)
+ * New Rules: (disallow|require)SpacesInFunction (Mike Sherov)
+ * CLI: Accepts piped input from stdin (Joel Kemp)
+ * CLI: Add --verbose option that adds rule names to error output. (Mike Sherov)
+ * Errors: report Esprima parse errors as rule violations. (Mike Sherov)
+ * disallowMultipleLineBreaks: fix issues with shebang line (Bryan Donovan)
+ * spacesInFunctionExpressions: ignore function declarations. (Mike Sherov)
+
 Version 1.5.8
  * Errors: include which rule triggered the error in the error output (gero3)
  * requireTrailingComma: Allow single property objects  / arrays to ignore the rule. (Joel Kemp)
