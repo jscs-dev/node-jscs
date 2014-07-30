@@ -35,6 +35,17 @@ describe('modules/string-checker', function() {
         });
     });
 
+    it('should report parse issues as errors', function() {
+        var errors = checker.checkString('this is not javascript');
+        assert(errors.getErrorCount() === 1);
+
+        var error = errors.getErrorList()[0];
+        assert(error.rule === 'parseError');
+        assert(error.message === 'Unexpected identifier');
+        assert(error.line === 1);
+        assert(error.column === 6);
+    });
+
     it('should not process the rule if it is equals to null (#203)', function() {
         try {
             checker.configure({
