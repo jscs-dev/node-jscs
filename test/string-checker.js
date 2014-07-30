@@ -2,13 +2,13 @@ var Checker = require('../lib/checker');
 var assert = require('assert');
 
 describe('modules/string-checker', function() {
-    describe('line srating with hash, temporary, until we will have inline rules', function() {
-        var checker;
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-        });
+    var checker;
+    beforeEach(function() {
+        checker = new Checker();
+        checker.registerDefaultRules();
+    });
 
+    describe('line starting with hash, temporary, until we will have inline rules', function() {
         it('should ignore lines starting with #!', function() {
             assert(checker.checkString(
                 '#! random stuff\n' +
@@ -16,6 +16,7 @@ describe('modules/string-checker', function() {
                 'var a = 5;\n'
             ).isEmpty());
         });
+
         it('should ignore ios instruments style import', function() {
             assert(checker.checkString(
                 '#import "abc.js"\n' +
@@ -23,6 +24,7 @@ describe('modules/string-checker', function() {
                 'var a = 5;\n'
             ).isEmpty());
         });
+
         it('should not replace when not beginning of line', function() {
             checker.configure({ disallowMultipleLineStrings: true });
             assert(checker.checkString(
@@ -34,9 +36,6 @@ describe('modules/string-checker', function() {
     });
 
     it('should not process the rule if it is equals to null (#203)', function() {
-        var checker = new Checker();
-        checker.registerDefaultRules();
-
         try {
             checker.configure({
                 preset: 'jquery',
@@ -47,11 +46,8 @@ describe('modules/string-checker', function() {
             assert(false);
         }
     });
+
     it('should throw if preset does not exist', function() {
-        var checker = new Checker();
-
-        checker.registerDefaultRules();
-
         try {
             checker.configure({
                 preset: 'not-exist'
@@ -64,11 +60,6 @@ describe('modules/string-checker', function() {
     });
 
     describe('rules registration', function() {
-        var checker;
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-        });
         it('should report rules in config which don\'t match any registered rules', function() {
             var error;
             try {
@@ -81,6 +72,7 @@ describe('modules/string-checker', function() {
                 'Unsupported rules: disallowMulipleLineBreaks, disallowMultipleVarDelc'
             );
         });
+
         it('should not report rules in config which match registered rules', function() {
             var error;
             try {
@@ -90,6 +82,7 @@ describe('modules/string-checker', function() {
             }
             assert(error === undefined);
         });
+
         it('should not report "excludeFiles" rule as unregistered', function() {
             var error;
             try {
