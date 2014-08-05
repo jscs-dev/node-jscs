@@ -11,9 +11,11 @@ describe('rules/require-space-before-keywords', function() {
 
     it('should report missing space before keyword', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['else'] });
+
         var errors = checker.checkString('if (true) {\n}else { x++; }');
-        assert(errors.getErrorCount() === 1);
         var error = errors.getErrorList()[0];
+
+        assert(errors.getErrorCount() === 1);
         assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
     });
 
