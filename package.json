@@ -29,18 +29,18 @@
     "commander": "~2.3.0",
     "esprima": "~1.2.2",
     "glob": "~4.0.0",
-    "minimatch": "~0.4.0",
-    "strip-json-comments": "~0.1.1",
+    "minimatch": "~1.0.0",
+    "strip-json-comments": "~1.0.1",
     "vow": "~0.4.3",
     "vow-fs": "~0.3.1",
-    "xmlbuilder": "~2.3.0",
+    "xmlbuilder": "~2.4.0",
     "supports-color": "~0.2.0"
   },
   "devDependencies": {
-    "browserify": "~5.8.0",
+    "browserify": "~5.9.1",
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
-    "mocha": "~1.20.1",
+    "mocha": "~1.21.4",
     "sinon": "~1.10.0",
     "xml2js": "~0.4.2",
     "has-ansi": "~0.1.0"
