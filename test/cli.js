@@ -190,7 +190,7 @@ describe('modules/cli', function() {
             });
         });
 
-        it('should still bail for empty input being piped', function(done) {
+        it('should should accept empty input being piped', function(done) {
             // 'cat myEmptyFile.js | jscs' should report a successful run
             rAfter();
 
@@ -198,7 +198,20 @@ describe('modules/cli', function() {
             var cmd = 'cat ' + testFile + ' | ' + bin;
 
             exec(cmd, function (error) {
-                assert(error.code);
+                assert(!error);
+                done();
+            });
+        });
+
+        it('should not fail with additional args supplied', function(done) {
+            // 'cat myEmptyFile.js | jscs -n' should report a successful run
+            rAfter();
+
+            var testFile = __dirname + '/data/cli/success.js';
+            var cmd = 'cat ' + testFile + ' | ' + bin + ' -n';
+
+            exec(cmd, function (error) {
+                assert(!error);
                 done();
             });
         });
