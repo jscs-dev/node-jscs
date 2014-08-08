@@ -42,7 +42,7 @@ describe('modules/cli-config', function() {
     it('should load a custom config file', function() {
         var config = configFile.load('config.js', './test/data/configs/custom');
 
-        assert.equal(typeof config, 'object');
+        assert.equal(config.from, 'js');
     });
 
     it('should prefer package.json over .jscs.json and .jscsrc', function() {
