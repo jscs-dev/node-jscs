@@ -38,23 +38,40 @@
   },
   "devDependencies": {
     "browserify": "~5.10.0",
+    "coveralls": "~2.11.1",
+    "has-ansi": "~1.0.0",
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
     "mocha": "~1.21.4",
+    "separated-coverage": "~2.0.5",
     "sinon": "~1.10.0",
-    "xml2js": "~0.4.2",
-    "has-ansi": "~1.0.0"
+    "xml2js": "~0.4.2"
   },
   "bin": {
     "jscs": "./bin/jscs"
   },
+  "separated-coverage": {
+    "common": [
+      "-a",
+      "lib",
+      "-a",
+      "test",
+      "-s",
+      "lib/**/*.js",
+      "-t",
+      "test/**/*.js"
+    ]
+  },
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha",
+    "coverage": "scov run -p common",
+    "coverage-html": "scov run -p common -r html -o coverage.html",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm publish",
-    "postpublish": "node publish/postpublish"
+    "postpublish": "node publish/postpublish",
+    "travis": "npm run test && scov run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
     "bin",

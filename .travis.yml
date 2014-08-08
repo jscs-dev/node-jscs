@@ -1,4 +1,6 @@
 language: node_js
 
+script: "npm run travis"
+
 node_js:
   - "0.10"
