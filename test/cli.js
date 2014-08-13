@@ -179,6 +179,24 @@ describe('modules/cli', function() {
             });
         });
 
+        it('should accept buffered input via stdin (#564)', function (done) {
+            rAfter();
+
+            var cmd = exec(bin, function (error, stdout) {
+                assert(!error);
+                done();
+            });
+
+            cmd.stdin.write('a = 1;\n');
+
+            // Simulate buffered stdin by delaying before sending the next chunk
+            // of data. Note: this arbitrary timeout appears to be the only way
+            // to reliably trigger two 'data' events on cmd's stdin.
+            setTimeout(function () {
+                cmd.stdin.end('a = 1;\n');
+            }, 500);
+        });
+
         it('should accept echo\'d input via stdin', function (done) {
             rAfter();
 
