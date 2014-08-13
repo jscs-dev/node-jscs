@@ -1242,7 +1242,9 @@ Requires space after opening round bracket and before closing.
 
 Type: `String`
 
-Values: `"all"` for strict mode, `"allButNested"` ignores nested brackets in a row.
+Values: `"all"` for strict mode, `"allButNested"` ignores nested brackets in a
+row, `"allButSolitaryPunctuators"` ignores a list of punctuators followed by a
+newline, or a list of puncutuators on their own line.
 
 #### Example
 
@@ -1266,6 +1268,28 @@ var x = Math.pow(( 1 + 2 ), ( 3 + 4 ));
 
 ```js
 var x = Math.pow(1 + 2, 3 + 4);
+```
+
+##### Valid for mode `"allButSolitaryPunctuators"`
+
+```js
+foo( function() {
+    return 'bar';
+});
+```
+
+##### Invalid
+
+```js
+foo( function() {
+    return 'bar';
+} )
+```
+
+```js
+foo(function() {
+    return 'bar';
+});
 ```
 
 
