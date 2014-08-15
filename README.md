@@ -2536,6 +2536,44 @@ $('#foo').click(function bar(){
 };)
 ```
 
+### disallowFunctionDeclarations
+
+Disallows function declarations.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowFunctionDeclarations": true
+```
+
+##### Valid
+
+```js
+var expressed = function() {
+
+};
+
+var expressed = function deeply() {
+
+};
+
+$('#foo').click(function bar() {
+
+};)
+```
+
+##### Invalid
+
+```js
+function stated() {
+
+}
+```
+
 ### disallowNewlineBeforeBlockStatements
 
 Disallows newline before opening curly brace of all block statements.
