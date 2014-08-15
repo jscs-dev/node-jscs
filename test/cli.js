@@ -208,7 +208,7 @@ describe('modules/cli', function() {
             });
         });
 
-        it('should should accept empty input being piped', function(done) {
+        it('should accept empty input being piped', function(done) {
             // 'cat myEmptyFile.js | jscs' should report a successful run
             rAfter();
 
@@ -231,6 +231,34 @@ describe('modules/cli', function() {
             exec(cmd, function (error) {
                 assert(!error);
                 done();
+            });
+        });
+
+        it('should not accept piped input if files were specified (#563)', function() {
+            var checker = require('../lib/checker');
+            var spy = sinon.spy(checker.prototype, 'checkPath');
+
+            var result = cli({
+                args: [__dirname + '/data/cli/success.js']
+            });
+
+            return result.promise.always(function() {
+                assert(spy.called);
+                checker.prototype.checkPath.restore();
+                rAfter();
+            });
+        });
+
+        it('should check stdin if - was supplied as the last argument (#563)', function() {
+            var spy = sinon.spy(process.stdin, 'on');
+
+            var result = cli({
+                args: [__dirname + '/data/cli/success.js', '-']
+            });
+
+            return result.promise.always(function() {
+                assert(spy.called);
+                rAfter();
             });
         });
     });
