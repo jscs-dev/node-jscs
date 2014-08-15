@@ -101,4 +101,42 @@ describe('rules/validate-indentation', function() {
             472
         ]);
     });
+
+    it('should report errors for break bad indentation', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    break;\n' +
+                    '    default:\n' +
+                    '        break;\n' +
+                    '}'
+            ).getErrorCount() === 1
+        );
+    });
+
+    it('should not report any error for break indentation', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '        break;\n' +
+                    '    case "2":\n' +
+                    '    case "3":\n' +
+                    '        break;\n' +
+                    '    default:\n' +
+                    '        break;\n' +
+                    '}\n' +
+                    'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    case "2":\n' +
+                    '    break;\n' +
+                    '    default:\n' +
+                    '    break;\n' +
+                    '}'
+            ).isEmpty()
+        );
+    });
 });
