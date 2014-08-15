@@ -103,4 +103,82 @@ describe('rules/validate-indentation', function() {
             488
         ]);
     });
+
+    it('should report errors for indent after no indent in same switch statement', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    break;\n' +
+                    '    case "2":\n' +
+                    '    break;\n' +
+                    '    default:\n' +
+                    '        break;\n' +
+                    '}'
+            ).getErrorCount() === 1
+        );
+    });
+
+    it('should report errors for no indent after indent in same switch statement', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '        break;\n' +
+                    '    case "2":\n' +
+                    '        break;\n' +
+                    '    default:\n' +
+                    '    break;\n' +
+                    '}'
+            ).getErrorCount() === 1
+        );
+    });
+
+    it('should report errors for no indent after indent in different switch statements', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    case "2":\n' +
+                    '        break;\n' +
+                    '    default:\n' +
+                    '        break;\n' +
+                    '}\n' +
+                    'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    break;\n' +
+                    '    case "2":\n' +
+                    '    break;\n' +
+                    '    default:\n' +
+                    '    break;\n' +
+                    '}'
+            ).getErrorCount() === 3
+        );
+    });
+
+    it('should report errors for indent after no indent in different switch statements', function() {
+        checker.configure({ validateIndentation: 4 });
+        assert(
+            checker.checkString(
+                'switch(value){\n' +
+                    '    case "1":\n' +
+                    '    case "2":\n' +
+                    '    break;\n' +
+                    '    default:\n' +
+                    '    break;\n' +
+                    '}\n' +
+                    'switch(value){\n' +
+                    '    case "1":\n' +
+                    '        break;\n' +
+                    '    case "2":\n' +
+                    '        break;\n' +
+                    '    default:\n' +
+                    '        break;\n' +
+                    '}'
+            ).getErrorCount() === 3
+        );
+    });
 });
