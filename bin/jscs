@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 var cli = require('../lib/cli');
-var stdin = process.stdin;
-var _stdInput = [];
 
 /**
  * Command line implementation for JSCS.
