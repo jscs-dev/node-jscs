@@ -78,7 +78,7 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
 ### `--no-colors`
-*Will be removed*. Clean output without colors.
+Clean output without colors.
 
 ### `--help`
 Outputs usage information.
