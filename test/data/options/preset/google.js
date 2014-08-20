@@ -16,7 +16,9 @@ var insight = new Insight({
 });
 
 // requireSpacesInFunctionExpression: before curly brace
-var foo = function() {};
+var functionExpression = function fooFn() {};
+// disallowSpacesInAnonymousFunctionExpression: before round brace
+var anonymousFunction = function() {};
 
 // requireCurlyBraces
 // requireSpaceAfterKeywords
