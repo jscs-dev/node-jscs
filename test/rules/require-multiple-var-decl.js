@@ -7,12 +7,33 @@ var assert = require('assert');
 describe('rules/require-multiple-var-decl', function() {
     var checker;
 
-    describe('boolean', function() {
+    describe('onedecl', function() {
         var checker;
         beforeEach(function() {
             checker = new Checker();
             checker.registerDefaultRules();
-            checker.configure({ requireMultipleVarDecl: true });
+            checker.configure({ requireMultipleVarDecl: 'onedecl' });
+        });
+        it('should not report const and var decls as one entity (#462)', function() {
+            assert(checker.checkString('const a = 1; var b = 2;').isEmpty());
+        });
+        it('should not report consecutive var decl', function() {
+            assert(checker.checkString('var x; var y;').isEmpty());
+        });
+        it('should report multiple var decl', function() {
+            assert(checker.checkString('var x, y;').getErrorCount() === 1);
+        });
+        it('should not report separated var decl', function() {
+            assert(checker.checkString('var x; x++; var y;').isEmpty());
+        });
+    });
+
+    describe('nonconsecutive', function() {
+        var checker;
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ requireMultipleVarDecl: 'nonconsecutive' });
         });
         it('should not report const and var decls as one entity (#462)', function() {
             assert(checker.checkString('const a = 1; var b = 2;').isEmpty());

@@ -872,19 +872,20 @@ var x = 1,
 
 Requires multiple `var` declaration.
 
-Type: `Boolean` or `String`
+Type: `String`
 
-Values: `true` or `"onevar"`
+Values: `"nonconsecutive"`, `"onevar"`, or `"onedecl"`
 
-if `requireMultipleVarDecl` defined as a `true` value, it will report only consecutive vars, if, on the other hand,
-value equals to `"onevar"` string, `requireMultipleVarDecl` will allow only one `var` per function scope.
+if `requireMultipleVarDecl` is defined as a `nonconsecutive` value, it will report only consecutive vars, if, on the other hand,
+value equals to `"onevar"` string, `requireMultipleVarDecl` will allow only one `var` per function scope. And lastly if
+value equals to `"onedecl"` string, `requireMultipleVarDecl` will require one `var` per variable declaration.
 
 JSHint: [`onevar`](http://jshint.com/docs/options/#onevar)
 
 #### Example
 
 ```js
-"requireMultipleVarDecl": true
+"requireMultipleVarDecl": "nonconsecutive"
 ```
 
 ##### Valid
@@ -899,6 +900,24 @@ var x = 1,
 ```js
 var x = 1;
 var y = 2;
+```
+
+```js
+"requireMultipleVarDecl": "onedecl"
+```
+
+##### Valid
+
+```js
+var x = 1;
+var y = 2; var z = 3;
+```
+
+##### Invalid
+
+```js
+var x = 1,
+    y = 2;
 ```
 
 ### requireBlocksOnNewline
