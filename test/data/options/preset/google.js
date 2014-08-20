@@ -15,7 +15,6 @@ var insight = new Insight({
   packageVersion: pkg.version
 });
 
-
 // requireSpacesInFunctionExpression: before curly brace
 var functionExpression = function fooFn() {};
 // disallowSpacesInAnonymousFunctionExpression: before round brace
