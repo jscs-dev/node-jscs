@@ -37,7 +37,7 @@
     "supports-color": "~1.1.0"
   },
   "devDependencies": {
-    "browserify": "~5.9.1",
+    "browserify": "^5.10.0",
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
     "mocha": "~1.21.4",
