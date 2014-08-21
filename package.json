@@ -43,7 +43,7 @@
     "mocha": "~1.21.4",
     "sinon": "~1.10.0",
     "xml2js": "~0.4.2",
-    "has-ansi": "~0.1.0"
+    "has-ansi": "~1.0.0"
   },
   "bin": {
     "jscs": "./bin/jscs"
