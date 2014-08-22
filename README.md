@@ -1094,6 +1094,120 @@ try { a = b; } catch( e ){}
 if ( a == b ) { } else { c = d; }
 ```
 
+### requirePaddingNewlinesBeforeKeywords
+
+Requires an empty line above the specified keywords unless the keyword is the first expression in a block.
+
+Type: `Array`
+
+Values: Array of quoted types
+
+#### Example
+
+```js
+"requirePaddingNewlinesBeforeKeywords": [
+  "if",
+  "for",
+  "return",
+  "switch",
+  "case",
+  "break",
+  "throw"
+]
+```
+
+##### Valid
+
+```js
+function(a) {
+	if (!a) {
+		return false;
+	}
+	
+	for (var i = 0; i < b; i++) {
+		if (!a[i]) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+```
+
+##### Invalid
+
+```js
+function(a) {
+	if (!a) {
+		return false;
+	}
+	for (var i = 0; i < b; i++) {
+		if (!a[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+```
+
+### disallowPaddingNewlinesBeforeKeywords
+
+Disallow an empty line above the specified keywords.
+
+Type: `Array`
+
+Values: Array of quoted types
+
+#### Example
+
+```js
+"requirePaddingNewlinesBeforeKeywords": [
+  "if",
+  "for",
+  "return",
+  "switch",
+  "case",
+  "break",
+  "throw"
+]
+```
+
+##### Valid
+
+```js
+function(a) {
+	if (!a) {
+		return false;
+	}
+	for (var i = 0; i < b; i++) {
+		if (!a[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+```
+
+##### Invalid
+
+```js
+function(a) {
+	if (!a) {
+	
+		return false;
+	}
+	
+	for (var i = 0; i < b; i++) {
+		if (!a[i]) {
+		
+			return false;
+		}
+	}
+	
+	return true;
+}
+```
+
 ### disallowSpacesInsideObjectBrackets
 
 Disallows space after opening object curly brace and before closing.
