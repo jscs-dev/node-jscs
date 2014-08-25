@@ -37,5 +37,4 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         assert(checker.checkString('function x(el/* comment */, i/* comment */) {  }').isEmpty());
         assert(checker.checkString('function x(el /* comment */, i /* comment */) {  }').isEmpty());
     });
-
 });

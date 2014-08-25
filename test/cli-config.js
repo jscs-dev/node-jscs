@@ -90,7 +90,7 @@ describe('modules/cli-config', function() {
         process.env.USERPROFILE = oldUSERPROFILE;
     });
 
-    it('should load a config from the available home path: HOMEPATH', function () {
+    it('should load a config from the available home path: HOMEPATH', function() {
         var oldHome = process.env.HOME;
         var oldHOMEPATH = process.env.HOMEPATH;
         var oldUSERPROFILE = process.env.USERPROFILE;
@@ -103,7 +103,7 @@ describe('modules/cli-config', function() {
         process.env.USERPROFILE = oldUSERPROFILE;
     });
 
-    it('should load a config from the available home path: USERPROFILE', function () {
+    it('should load a config from the available home path: USERPROFILE', function() {
         var oldHome = process.env.HOME;
         var oldHOMEPATH = process.env.HOMEPATH;
         var oldUSERPROFILE = process.env.USERPROFILE;

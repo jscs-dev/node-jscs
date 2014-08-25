@@ -167,22 +167,22 @@ describe('modules/cli', function() {
     describe('input via stdin (#448)', function() {
         var bin = path.resolve(__dirname, '../bin/jscs');
 
-        it('should accept cat\'d file input via stdin', function (done) {
+        it('should accept cat\'d file input via stdin', function(done) {
             rAfter();
 
             var testFile = __dirname + '/data/cli/stdin.js';
             var cmd = 'cat ' + testFile + ' | ' + bin;
 
-            exec(cmd, function (error, stdout) {
+            exec(cmd, function(error, stdout) {
                 assert(!error);
                 done();
             });
         });
 
-        it('should accept buffered input via stdin (#564)', function (done) {
+        it('should accept buffered input via stdin (#564)', function(done) {
             rAfter();
 
-            var cmd = exec(bin, function (error, stdout) {
+            var cmd = exec(bin, function(error, stdout) {
                 assert(!error);
                 done();
             });
@@ -192,17 +192,17 @@ describe('modules/cli', function() {
             // Simulate buffered stdin by delaying before sending the next chunk
             // of data. Note: this arbitrary timeout appears to be the only way
             // to reliably trigger two 'data' events on cmd's stdin.
-            setTimeout(function () {
+            setTimeout(function() {
                 cmd.stdin.end('a = 1;\n');
             }, 500);
         });
 
-        it('should accept echo\'d input via stdin', function (done) {
+        it('should accept echo\'d input via stdin', function(done) {
             rAfter();
 
             var cmd = 'echo "var x = [1, 2];" | ' + bin;
 
-            exec(cmd, function (error, stdout) {
+            exec(cmd, function(error, stdout) {
                 assert(!error);
                 done();
             });
@@ -215,7 +215,7 @@ describe('modules/cli', function() {
             var testFile = __dirname + '/data/cli/success.js';
             var cmd = 'cat ' + testFile + ' | ' + bin;
 
-            exec(cmd, function (error) {
+            exec(cmd, function(error) {
                 assert(!error);
                 done();
             });
@@ -228,7 +228,7 @@ describe('modules/cli', function() {
             var testFile = __dirname + '/data/cli/success.js';
             var cmd = 'cat ' + testFile + ' | ' + bin + ' -n';
 
-            exec(cmd, function (error) {
+            exec(cmd, function(error) {
                 assert(!error);
                 done();
             });

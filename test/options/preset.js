@@ -21,7 +21,7 @@ describe('options/preset', function() {
     function testPreset(presetName) {
         var desc = describe;
 
-        desc(presetName + ' preset', function () {
+        desc(presetName + ' preset', function() {
             var checker = new Checker();
             var preset = require('../../presets/' + presetName);
 
@@ -32,12 +32,12 @@ describe('options/preset', function() {
 
             var config = checker.getProcessedConfig();
 
-            it('should set the correct rules', function () {
+            it('should set the correct rules', function() {
                 assert(config.requireCurlyBraces === preset.requireCurlyBraces);
                 assert(config.config !== preset);
             });
 
-            it('should not report any errors from the sample file', function () {
+            it('should not report any errors from the sample file', function() {
                 return checker.checkFile('./test/data/options/preset/' + presetName + '.js').then(function(errors) {
                     assert(errors.isEmpty());
                 });
