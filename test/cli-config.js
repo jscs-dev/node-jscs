@@ -77,6 +77,15 @@ describe('modules/cli-config', function() {
         assert.strictEqual(config.from, '.jscsrc');
     });
 
+    it('should fail load json config with comments', function() {
+        try {
+            var s = configFile.load('./test/data/configs/json/withComments.json');
+            assert(false);
+        } catch (e) {
+            assert(true);
+        }
+    });
+
     it('should load config from home path: HOME', function() {
         var oldHome = process.env.HOME;
         var oldHOMEPATH = process.env.HOMEPATH;
