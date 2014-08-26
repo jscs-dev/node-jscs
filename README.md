@@ -1,6 +1,10 @@
-# node-jscs [![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs) [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master) [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs) [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
+# node-jscs
 
 JSCS — JavaScript Code Style.
+
+[![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs) [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master) [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs) [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
+
+-----
 
 `jscs` is a code style checker. You can configure `jscs` for your project in detail using **over 60** validation rules, including presets from popular style guides like jQuery.
 
