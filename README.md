@@ -1,4 +1,4 @@
-# node-jscs [![Build Status](https://travis-ci.org/mdevils/node-jscs.svg?branch=master)](https://travis-ci.org/mdevils/node-jscs) [![Dependency Status](https://david-dm.org/mdevils/node-jscs.svg?theme=shields.io)](https://david-dm.org/mdevils/node-jscs) [![devDependency Status](https://david-dm.org/mdevils/node-jscs/dev-status.svg?theme=shields.io)](https://david-dm.org/mdevils/node-jscs#info=devDependencies)
+# node-jscs [![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs) [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master) [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs) [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
 
 JSCS — JavaScript Code Style.
 
