@@ -25,5 +25,13 @@ describe('rules/require-space-after-line-comment', function() {
         it('should not report a line comment with no characters after it', function() {
             assert(checker.checkString('if (true) {abc();} //').isEmpty());
         });
+
+        it('should not report microsoft documentation triple slashed comments', function() {
+            assert(checker.checkString('function area() {\n  /// <summary>summary</summary>\n  return res;\n}')
+                .isEmpty());
+        });
+        it('should report triple slashed comments', function() {
+            assert(checker.checkString('if (true) {abc();} /// something').getErrorCount() === 1);
+        });
     });
 });
