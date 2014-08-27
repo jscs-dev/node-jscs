@@ -57,4 +57,30 @@ describe('modules/checker', function() {
             });
         });
     });
+
+    describe('checkStdin', function() {
+        it('should check stdin for input', function() {
+            var spy = sinon.spy(process.stdin, 'on');
+
+            checker.checkStdin();
+
+            assert(spy.called);
+        });
+
+        it('returns a promise', function() {
+            var spy = sinon.spy(process.stdin, 'on');
+
+            assert(typeof checker.checkStdin().then === 'function');
+        });
+
+        it('resolves with the errors from processing stdin', function(done) {
+            checker.checkStdin().then(function(errors) {
+                assert(typeof errors !== 'undefined');
+                done();
+            });
+
+            process.stdin.emit('data', 'foo');
+            process.stdin.emit('end');
+        });
+    });
 });
