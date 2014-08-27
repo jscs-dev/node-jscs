@@ -156,4 +156,13 @@ describe('modules/js-file', function() {
             assert(Array.isArray(tokens));
         });
     });
+
+    it('should not find string value', function() {
+        var str = '"("';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        file.iterateTokenByValue('(', function(token, index, tokens) {
+            assert(false);
+        });
+    });
 });
