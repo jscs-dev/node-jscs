@@ -143,10 +143,6 @@ describe('rules/require-spaces-inside-parentheses', function() {
             it('should not report if object is not the sole argument', function() {
                 assert(checker.checkString('foo( test, {} )').isEmpty());
             });
-
-            it('should not report if array is the sole argument', function() {
-                assert(checker.checkString('foo([])').isEmpty());
-            });
         });
 
     });
