@@ -134,4 +134,26 @@ describe('modules/js-file', function() {
         assert(ifToken.type === 'Keyword');
         assert(ifToken.value === 'if');
     });
+
+    it('should find token by value', function() {
+        var str = 'if (true);';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        file.iterateTokenByValue(')', function(token, index, tokens) {
+            assert(token.value === ')');
+            assert(index === 3);
+            assert(Array.isArray(tokens));
+        });
+    });
+
+    it('should find tokens by value', function() {
+        var str = 'if (true);';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        file.iterateTokenByValue([')', '('], function(token, index, tokens) {
+            assert(token.value === ')' || token.value === '(');
+            assert(index === 3 || index === 1);
+            assert(Array.isArray(tokens));
+        });
+    });
 });
