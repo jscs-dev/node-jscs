@@ -133,6 +133,42 @@ describe('modules/cli', function() {
         });
     });
 
+    it('should resolve with input via stdin', function() {
+        var data = 'var x = [1, 2];\n';
+
+        process.stdin.isTTY = false;
+
+        var result = cli({
+            args: []
+        });
+
+        process.stdin.emit('data', data);
+        process.stdin.emit('end');
+
+        return result.promise.then(function(status) {
+            assert(status === 0);
+            rAfter();
+        });
+    });
+
+    it('should bail on bad input via stdin', function() {
+        var data = 'var [1, 2];\n';
+
+        process.stdin.isTTY = false;
+
+        var result = cli({
+            args: []
+        });
+
+        process.stdin.emit('data', data);
+        process.stdin.emit('end');
+
+        return result.promise.fail(function(status) {
+            assert(status);
+            rAfter();
+        });
+    });
+
     describe('verbose option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
@@ -250,7 +286,8 @@ describe('modules/cli', function() {
         });
 
         it('should check stdin if - was supplied as the last argument (#563)', function() {
-            var spy = sinon.spy(process.stdin, 'on');
+            var checker = require('../lib/checker');
+            var spy = sinon.spy(checker.prototype, 'checkStdin');
 
             var result = cli({
                 args: [__dirname + '/data/cli/success.js', '-']
@@ -258,6 +295,7 @@ describe('modules/cli', function() {
 
             return result.promise.always(function() {
                 assert(spy.called);
+                checker.prototype.checkStdin.restore();
                 rAfter();
             });
         });
