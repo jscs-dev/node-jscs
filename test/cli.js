@@ -167,69 +167,92 @@ describe('modules/cli', function() {
     describe('input via stdin (#448)', function() {
         var bin = path.resolve(__dirname, '../bin/jscs');
 
-        it('should accept cat\'d file input via stdin', function(done) {
-            rAfter();
+        function assertLogIs(output) {
+            assert(console.log.getCall(0).args[0] === output);
+        }
 
-            var testFile = __dirname + '/data/cli/stdin.js';
-            var cmd = 'cat ' + testFile + ' | ' + bin;
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+            process.stdin.isTTY = false;
+        });
 
-            exec(cmd, function(error, stdout) {
-                assert(!error);
-                done();
-            });
+        afterEach(function() {
+            console.log.restore();
         });
 
         it('should accept buffered input via stdin (#564)', function(done) {
-            rAfter();
-
-            var cmd = exec(bin, function(error, stdout) {
-                assert(!error);
-                done();
+            var result = cli({
+                args: []
             });
 
-            cmd.stdin.write('a = 1;\n');
+            process.stdin.emit('data', 'var a = 1;\n');
 
             // Simulate buffered stdin by delaying before sending the next chunk
             // of data. Note: this arbitrary timeout appears to be the only way
             // to reliably trigger two 'data' events on cmd's stdin.
             setTimeout(function() {
-                cmd.stdin.end('a = 1;\n');
+                process.stdin.emit('data', 'var a = 1;\n');
+                process.stdin.emit('end');
             }, 500);
-        });
 
-        it('should accept echo\'d input via stdin', function(done) {
-            rAfter();
-
-            var cmd = 'echo "var x = [1, 2];" | ' + bin;
-
-            exec(cmd, function(error, stdout) {
-                assert(!error);
+            return result.promise.always(function() {
+                assertLogIs('No code style errors found.');
+                rAfter();
                 done();
             });
         });
 
-        it('should accept empty input being piped', function(done) {
+        it('should accept non-empty input', function(done) {
+            var data = 'var x = [1, 2];\n';
+
+            var result = cli({
+                args: []
+            });
+
+            process.stdin.emit('data', data);
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assertLogIs('No code style errors found.');
+                rAfter();
+                done();
+            });
+        });
+
+        it('should accept empty input', function(done) {
             // 'cat myEmptyFile.js | jscs' should report a successful run
-            rAfter();
+            var emptyData = '';
 
-            var testFile = __dirname + '/data/cli/success.js';
-            var cmd = 'cat ' + testFile + ' | ' + bin;
+            var result = cli({
+                args: []
+            });
 
-            exec(cmd, function(error) {
-                assert(!error);
+            process.stdin.emit('data', emptyData);
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assertLogIs('No code style errors found.');
+                rAfter();
                 done();
             });
         });
 
         it('should not fail with additional args supplied', function(done) {
             // 'cat myEmptyFile.js | jscs -n' should report a successful run
-            rAfter();
+            var data = 'var x = [1, 2];\n';
 
-            var testFile = __dirname + '/data/cli/success.js';
-            var cmd = 'cat ' + testFile + ' | ' + bin + ' -n';
+            var result = cli({
+                args: [],
+                'no-colors': true,
+                config: 'test/data/cli/cli.json'
+            });
 
-            exec(cmd, function(error) {
-                assert(!error);
+            process.stdin.emit('data', data);
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assertLogIs('No code style errors found.');
+                rAfter();
                 done();
             });
         });
