@@ -10,7 +10,7 @@ describe('rules/require-spaces-inside-object-brackets', function() {
 
     describe('"all"', function() {
         beforeEach(function() {
-            checker.configure({ requireSpacesInsideObjectBrackets: 'all' });
+            checker.configure({ requireSpacesInsideCurlyBraces: 'all' });
         });
 
         it('should report missing space after opening brace', function() {
@@ -38,7 +38,7 @@ describe('rules/require-spaces-inside-object-brackets', function() {
 
     describe('"allButNested"', function() {
         beforeEach(function() {
-            checker.configure({ requireSpacesInsideObjectBrackets: 'allButNested' });
+            checker.configure({ requireSpacesInsideCurlyBraces: 'allButNested' });
         });
 
         it('should report missing space after opening brace', function() {

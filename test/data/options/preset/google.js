@@ -43,7 +43,7 @@ function rootCheck() {
 
 // disallowSpacesInsideArrayBrackets
 var arr = [1, 2, 3];
-// disallowSpacesInsideObjectBrackets
+// disallowSpacesInsideCurlyBraces
 var obj = {a: 1, b: 2, c: 3};
 // disallowSpacesInsideParentheses
 console.log('string');

@@ -82,7 +82,7 @@
 
     "requireDotNotation": true,
     "disallowSpaceAfterObjectKeys": true,
-    "disallowSpacesInsideObjectBrackets": true,
+    "disallowSpacesInsideCurlyBraces": true,
     "disallowQuotedKeysInObjects": true,
 
     "validateJSDoc": {

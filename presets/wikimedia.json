@@ -34,7 +34,7 @@
     "requireMultipleVarDecl": "onevar",
     "requireBlocksOnNewline": 1,
     "disallowEmptyBlocks": true,
-    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideCurlyBraces": "all",
     "requireSpacesInsideArrayBrackets": "all",
     "disallowQuotedKeysInObjects": true,
     "disallowDanglingUnderscores": true,

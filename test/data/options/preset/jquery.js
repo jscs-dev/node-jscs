@@ -59,7 +59,7 @@ jQuery.extend = jQuery.fn.extend = function() {
   if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
     // Modified for requireCurlyBraces
     try {
-      // requireSpacesInsideObjectBrackets
+      // requireSpacesInsideCurlyBraces
       target = { foo: "bar" };
     } catch (e) {
       throw e;
