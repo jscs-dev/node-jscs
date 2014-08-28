@@ -1454,12 +1454,16 @@ var x = {
 
 Requires proper alignment in object literals.
 
-Type: `String`
+Type: `String` or `Object`
 
 Values:
- - `"all"` for strict mode,
- - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
- - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
+ - `String`:
+    - `"all"` for strict mode,
+    - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
+    - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
+ - `Object`:
+    - `mode`: (required) specify one of the string options above
+    - `tabSize`: (default: `1`) considered the tab character as number of specified spaces
 
 #### Example
 
