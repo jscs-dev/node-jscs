@@ -148,6 +148,7 @@ describe('modules/js-file', function() {
             assert(false);
         });
     });
+
     describe('findNextToken and findPrevToken methods', function() {
         var str = 'switch(varName){case"yes":a++;break;}';
         var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
@@ -322,4 +323,5 @@ describe('modules/js-file', function() {
             assert(ifToken.value === 'if');
         });
     });
+
 });
