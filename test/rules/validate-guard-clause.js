@@ -90,4 +90,37 @@ describe('/rules/validate-guard-clause', function() {
             ).isEmpty()
         );
     });
+
+    it('should not validate and even report normal `if` statement', function() {
+        checker.configure({
+            validateGuardClause: {
+                disallowCurlyBraces: true,
+                disallowInOneLine: true
+            }
+        });
+        assert(
+            checker.checkString(
+                'function test() {\n' +
+                    'if (x) { x++; }' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
+    it('should not validate and even report normal `if` statement', function() {
+        checker.configure({
+            validateGuardClause: {
+                requireCurlyBraces: true,
+                requireInOneLine: true
+            }
+        });
+        assert(
+            checker.checkString(
+                'function test() {\n' +
+                    'if (x)\n' +
+                        'x++;' +
+                '}'
+            ).isEmpty()
+        );
+    });
 });
