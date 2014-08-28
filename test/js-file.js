@@ -67,85 +67,96 @@ describe('modules/js-file', function() {
         assert(incToken.value === 'x');
     });
 
-    it('should return next token', function() {
-        var str = 'if (true);';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+    describe('iterateTokenByValue',  function() {
+        it('should find token by value', function() {
+            var str = 'if (true);';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        var ifToken = file.getTokens()[0];
-        assert(ifToken.type === 'Keyword');
-        assert(ifToken.value === 'if');
+            file.iterateTokenByValue(')', function(token, index, tokens) {
+                assert(token.value === ')');
+                assert(index === 3);
+                assert(Array.isArray(tokens));
+            });
+        });
 
-        var parenthesisToken = file.getNextToken(ifToken);
-        assert(parenthesisToken.type === 'Punctuator');
-        assert(parenthesisToken.value === '(');
+        it('should find tokens by value', function() {
+            var str = 'if (true);';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        var trueToken = file.getNextToken(parenthesisToken);
-        assert(trueToken.type === 'Boolean');
-        assert(trueToken.value === 'true');
-    });
+            file.iterateTokenByValue([')', '('], function(token, index, tokens) {
+                assert(token.value === ')' || token.value === '(');
+                assert(index === 3 || index === 1);
+                assert(Array.isArray(tokens));
+            });
+        });
 
-    it('should return prev token', function() {
-        var str = 'if (true);';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+        it('should not find string value', function() {
+            var str = '"("';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        var trueToken = file.getTokens()[2];
-        assert(trueToken.type === 'Boolean');
-        assert(trueToken.value === 'true');
+            file.iterateTokenByValue('(', function(token, index, tokens) {
+                assert(false);
+            });
+        });
 
-        var parenthesisToken = file.getPrevToken(trueToken);
-        assert(parenthesisToken.type === 'Punctuator');
-        assert(parenthesisToken.value === '(');
+        it('should not take only own propeties', function() {
+            var str = 'test.toString';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        var ifToken = file.getPrevToken(parenthesisToken);
-        assert(ifToken.type === 'Keyword');
-        assert(ifToken.value === 'if');
-    });
+            file.iterateTokenByValue('(', function(token, index, tokens) {
+                assert(false);
+            });
 
-    it('should find next token', function() {
-        var str = 'if (true);';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        var ifToken = file.getTokens()[0];
-        assert(ifToken.type === 'Keyword');
-        assert(ifToken.value === 'if');
-
-        var trueToken = file.findNextToken(ifToken, 'Boolean');
-        assert(trueToken.type === 'Boolean');
-        assert(trueToken.value === 'true');
-
-        trueToken = file.findNextToken(ifToken, 'Boolean', 'true');
-        assert(trueToken.type === 'Boolean');
-        assert(trueToken.value === 'true');
-    });
-
-    it('should find token by value', function() {
-        var str = 'if (true);';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        file.iterateTokenByValue(')', function(token, index, tokens) {
-            assert(token.value === ')');
-            assert(index === 3);
-            assert(Array.isArray(tokens));
+            assert(true);
         });
     });
 
-    it('should find tokens by value', function() {
-        var str = 'if (true);';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+    describe('getNodeByRange', function() {
+        it('should get node by range for function declaration', function() {
+            var str = 'function foo(a,b) {}';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        file.iterateTokenByValue([')', '('], function(token, index, tokens) {
-            assert(token.value === ')' || token.value === '(');
-            assert(index === 3 || index === 1);
-            assert(Array.isArray(tokens));
+            assert(file.getNodeByRange(16).type === 'FunctionDeclaration');
         });
-    });
 
-    it('should not find string value', function() {
-        var str = '"("';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+        it('should get node by range for function expression', function() {
+            var str = 'foo(a,b)';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-        file.iterateTokenByValue('(', function(token, index, tokens) {
-            assert(false);
+            assert(file.getNodeByRange(7).type === 'CallExpression');
+        });
+
+        it('should get node by range for function expression inside "if" statement', function() {
+            var str = 'if(true){foo(a,b)}';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            assert(file.getNodeByRange(16).type === 'CallExpression');
+        });
+
+        it('should get node by range for function expression with additional parentheses', function() {
+            var str = 'foo(1,(2))';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            assert(file.getNodeByRange(9).type === 'CallExpression');
+        });
+
+        it('should return empty object', function() {
+            var str = 'foo(1,2)';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            assert(file.getNodeByRange(20).type === undefined);
+        });
+
+        it('should not throw on regexp', function() {
+            var str = '/^/';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            try {
+                file.getNodeByRange(1);
+                assert(true);
+            } catch (e) {
+                assert(false);
+            }
         });
     });
 
@@ -331,9 +342,8 @@ describe('modules/js-file', function() {
                 file.getNodeByRange(1);
                 assert(true);
             } catch (e) {
-                assert(false)
+                assert(false);
             }
         });
     });
-
 });
