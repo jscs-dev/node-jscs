@@ -322,6 +322,18 @@ describe('modules/js-file', function() {
             assert(ifToken.type === 'Keyword');
             assert(ifToken.value === 'if');
         });
+
+        it('should not throw on regexp', function() {
+            var str = '/^/';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            try {
+                file.getNodeByRange(1);
+                assert(true);
+            } catch (e) {
+                assert(false)
+            }
+        });
     });
 
 });
