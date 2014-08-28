@@ -15,6 +15,10 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: ['if'] });
         assert(checker.checkString('if (x) { x++; }').isEmpty());
     });
+    it('should not report missing `if` braces when it is guard clause', function() {
+        checker.configure({ requireCurlyBraces: ['if'] });
+        assert(checker.checkString('function test() { if (x) return; }').isEmpty());
+    });
     it('should report missing `else` braces', function() {
         checker.configure({ requireCurlyBraces: ['else'] });
         assert(checker.checkString('if (x) x++; else x--;').getErrorCount() === 1);
