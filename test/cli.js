@@ -201,8 +201,6 @@ describe('modules/cli', function() {
     });
 
     describe('input via stdin (#448)', function() {
-        var bin = path.resolve(__dirname, '../bin/jscs');
-
         function assertLogIs(output) {
             assert(console.log.getCall(0).args[0] === output);
         }
@@ -275,7 +273,7 @@ describe('modules/cli', function() {
 
         it('should not fail with additional args supplied', function(done) {
             // 'cat myEmptyFile.js | jscs -n' should report a successful run
-            var data = 'var x = [1, 2];\n';
+            var data = 'var x = 1;\n';
 
             var result = cli({
                 args: [],
