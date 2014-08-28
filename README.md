@@ -2829,6 +2829,80 @@ while (cond){
 }
 ```
 
+### disallowGuardClause
+
+Disallow an `if` statement which has only consequent and its consequent has only a `return`, `break`, `continue` statement.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowGuardClause": true
+```
+
+##### Valid
+
+```js
+for (var key in o) {
+  if (o.hasOwnProperty(key)) {
+    // Do something.
+  }
+}
+```
+
+##### Invalid
+
+```js
+for (var key in o) {
+  if (!o.hasOwnProperty(key)) continue;
+  // Do something.
+}
+```
+
+### validateGuardCLause
+
+Option to check guard clause style.
+
+Type: `Object`
+
+Values: `"requireCurlyBraces"`, `"disallowCurlyBraces"`, `"requireInOneLine"`, `"disallowInOneLine"` as child properties. Child properties must be set to `true`.
+
+#### Example
+
+```js
+"validateGuardClause": {
+  "disallowCurlyBraces": true,
+  "requireInOneLine": true
+}
+```
+
+#### Valid
+
+```js
+function divide(a, b) {
+  if (b === 0) return NaN;
+  return a / b;
+}
+```
+
+### Invalid
+
+```js
+function divide(a, b) {
+  if (b === 0) { return NaN; }
+  return a / b;
+}
+
+function divide(a, b) {
+  if (b === 0)
+    return NaN;
+  return a / b;
+}
+```
+
 ## Removed Rules
 
 ### ~~disallowLeftStickedOperators~~
