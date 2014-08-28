@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe.skip('rules/require-spaces-inside-parentheses', function() {
+describe('rules/require-spaces-inside-parentheses', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();

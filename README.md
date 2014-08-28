@@ -1216,9 +1216,9 @@ var x = [ [ 1 ] ];
 
 Disallows space after opening round bracket and before closing.
 
-Type: `Boolean`
+Type: `Object` or `Boolean`
 
-Values: `true`
+Values: `true` or Object with either `"only"` with array of tokens or `"all"` with `true` value
 
 #### Example
 
@@ -1226,16 +1226,27 @@ Values: `true`
 "disallowSpacesInsideParentheses": true
 ```
 
-##### Valid
+##### Valid for `true` value
 
 ```js
 var x = (1 + 2) * 3;
 ```
 
+##### Valid for `only` value
+
+```js
+"disallowSpacesInsideParentheses": { "only": [ "{", "}" ] }
+```
+
+```js
+var x = ( 1 + 2 );
+var x = foo({});
+```
+
 ##### Invalid
 
 ```js
-var x = ( 1 + 2 ) * 3;
+var x = foo( {} );
 ```
 
 ### requireSpacesInsideObjectBrackets
