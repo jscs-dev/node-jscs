@@ -165,6 +165,11 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
                     assert(checker.checkString('foo( test, [])').isEmpty());
                     assert(checker.checkString('foo(test, [])').getErrorCount() === 1);
                 });
+
+                it('should report entity that look like array case', function() {
+                    assert(checker.checkString('foo( test[i] )').isEmpty());
+                    assert(checker.checkString('foo( test[i])').getErrorCount() === 1);
+                });
             });
 
             describe('cycles:"for", "for..of", "while", "do..while"', function() {
