@@ -194,7 +194,5 @@ describe('rules/require-spaces-inside-parentheses', function() {
                 });
             });
         });
-
     });
-
 });
