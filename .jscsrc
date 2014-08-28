@@ -11,6 +11,8 @@
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
 
+    "safeContextKeyword": "_this",
+
     "excludeFiles": [
       "test/data/**",
       // this file tests that snake cased configs are detected
