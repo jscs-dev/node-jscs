@@ -6,6 +6,7 @@ var opts = nopt({
 });
 
 // disallowMultipleLineBreaks
+// disallowMultipleVarDecl
 var insight = new Insight({
   // validateIndentation: 2
   // validateQuoteMarks: '',
@@ -33,7 +34,7 @@ if (opts.insight === false) {
 
 function rootCheck() {
   // requireSpaceBeforeBlockStatements
-  if (isRoot() && process.setuid) {
+  if (!isRoot() && process.setuid) {
     try {
       // Try to force yo to run on a safe uid
       process.setuid(501);
