@@ -10,7 +10,7 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
 
     describe('true value', function() {
         beforeEach(function() {
-            checker.configure({ disallowSpacesInsideObjectBrackets: true });
+            checker.configure({ disallowSpacesInsideCurlyBraces: true });
         });
 
         it('should report illegal space after opening brace, with true value', function() {
@@ -32,7 +32,7 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
 
     describe('"all"', function() {
         beforeEach(function() {
-            checker.configure({ disallowSpacesInsideObjectBrackets: 'all' });
+            checker.configure({ disallowSpacesInsideObjCurlyBracesall' });
         });
 
         it('should report illegal space after opening brace, with "all" value', function() {
@@ -54,7 +54,7 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
 
     describe('"nested"', function() {
         beforeEach(function() {
-            checker.configure({ disallowSpacesInsideObjectBrackets: 'nested' });
+            checker.configure({ disallowSpacesInsideCurlyBraces: 'nested' });
         });
 
         it('should not report illegal space for not nested object', function() {

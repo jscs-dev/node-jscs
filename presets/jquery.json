@@ -42,7 +42,7 @@
         "try",
         "catch"
     ],
-    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideCurlyBraces": "all",
     "requireSpacesInsideArrayBrackets": "all",
     "requireSpacesInConditionalExpression": true,
     "requireSpaceAfterBinaryOperators": true,

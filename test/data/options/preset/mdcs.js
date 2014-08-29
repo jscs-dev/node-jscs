@@ -63,7 +63,7 @@ for ( var i = 0; i < l; i ++ ) {
 
 }
 
-//"requireSpacesInsideObjectBrackets": "all",
+//"requireSpacesInsideCurlyBraces": "all",
 //"requireSpacesInsideArrayBrackets": "allButNested",
 //"disallowSpaceBeforeBinaryOperators": [","]
 var a = { test : { test2 : true },  test3 : { test4 : true } };

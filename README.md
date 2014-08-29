@@ -1073,7 +1073,7 @@ try { a = b; } catch( e ){}
 if ( a == b ) { } else { c = d; }
 ```
 
-### disallowSpacesInsideObjectBrackets
+### disallowSpacesInsideCurlyBraces
 
 Disallows space after opening object curly brace and before closing.
 
@@ -1084,7 +1084,7 @@ Values: `"all"` or `true` for strict mode, `"nested"` ignores closing brackets i
 #### Example
 
 ```js
-"disallowSpacesInsideObjectBrackets": "all"
+"disallowSpacesInsideCurlyBraces": "all"
 ```
 
 ##### Valid for mode `"all"`
@@ -1163,7 +1163,7 @@ var x = (1 + 2) * 3;
 var x = ( 1 + 2 ) * 3;
 ```
 
-### requireSpacesInsideObjectBrackets
+### requireSpacesInsideCurlyBraces
 
 Requires space after opening object curly brace and before closing.
 
@@ -1174,7 +1174,7 @@ Values: `"all"` for strict mode, `"allButNested"` ignores closing brackets in a 
 #### Example
 
 ```js
-"requireSpacesInsideObjectBrackets": "all"
+"requireSpacesInsideCurlyBraces": "all"
 ```
 
 ##### Valid for mode `"all"`
@@ -2862,6 +2862,18 @@ Use the following rules instead:
 * disallowSpaceAfterBinaryOperators
 * disallowSpaceAfterPrefixUnaryOperators
 * disallowSpacesInConditionalExpression
+
+### ~~requireSpacesInsideObjectBrackets~~
+
+Use the following rules instead:
+
+* requireSpacesInsideCurlyBraces
+
+### ~~disallowSpacesInsideObjectBrackets~~
+
+Use the following rules instead:
+
+* disallowSpacesInsideCurlyBraces
 
 ## Browser Usage
 

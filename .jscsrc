@@ -8,7 +8,7 @@
     "validateIndentation": 4,
 
     "disallowKeywords": ["with"],
-    "disallowSpacesInsideObjectBrackets": null,
+    "disallowSpacesInsideCurlyBraces": null,
     "disallowImplicitTypeConversion": ["string"],
 
     "safeContextKeyword": "_this",
