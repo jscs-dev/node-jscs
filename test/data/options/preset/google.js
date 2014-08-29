@@ -34,6 +34,7 @@ if (opts.insight === false) {
 
 function rootCheck() {
   // requireSpaceBeforeBlockStatements
+  // disallowSpaceAfterPrefixUnaryOperators
   if (!isRoot() && process.setuid) {
     try {
       // Try to force yo to run on a safe uid
