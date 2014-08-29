@@ -1,3 +1,18 @@
+Version 1.6.0
+ * Errors: ability to suppress errors via inline comments. (Mike Sherov)
+ * Fix Anonymous Functions in google preset (Ayoub Kaanich)
+ * Enhance google's preset (Joel Kemp)
+ * Add "iterateTokenByValue" method (Oleg Gaidarenko)
+ * Node -> Tokens navigation, token list navigation (Marat Dulin)
+ * Do not strip json config from comments (Oleg Gaidarenko)
+ * maximumLineLength should not be destructive (Oleg Gaidarenko)
+ * Use tilde for package definition (Jordan Harband)
+ * Improve stdin support (Joel Kemp)
+ * Use correct logic for piped input (Joel Kemp)
+ * Properly concatenate large files read from stdin (Nikhil Benesch)
+ * Add link to the Atom editor plugin for JSCS (Addy Osmani)
+ * Setting default tree to empty object (Bryan Donovan)
+
 Version 1.5.9
  * Binary Rules: Remove colon check from all binary rules (Oleg Gaidarenko)
  * Presets: Add Mr. Doob's Code Style (MDCS) (gero3)
