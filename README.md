@@ -11,6 +11,7 @@ JSCS — JavaScript Code Style.
 
 ## Presets
 
+ * [Airbnb](presets/airbnb.json) - https://github.com/airbnb/javascript
  * [Crockford](presets/crockford.json) - http://javascript.crockford.com/code.html
  * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
@@ -114,7 +115,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
+Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
 
 #### Example
 
