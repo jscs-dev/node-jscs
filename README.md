@@ -17,6 +17,7 @@ JSCS — JavaScript Code Style.
  * [MDCS](presets/mdcs.json) - https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2
  * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Yandex](presets/yandex.json) - https://github.com/ymaps/codestyle/blob/master/js.md
+ * [Airbnb](presets/airbnb.json) - https://github.com/airbnb/javascript
 
 ## Friendly packages
 
@@ -114,7 +115,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
+Values: `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`, `"airbnb"`
 
 #### Example
 
