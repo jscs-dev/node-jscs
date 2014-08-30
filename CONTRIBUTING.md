@@ -35,7 +35,7 @@ but expect it to be declined by the maintainer.
 Presets
 -------
 
-If you'd like to add an additional preset, please add the following:
+If you'd like to add an additional preset, please add the following, maintaining alphabetical order:
 
 * The new preset's configuration to `/presets`
 * A file containing sample code, including any necessary license (ideally from that organization/project's codebase) to `/test/data/options/preset/`
