@@ -8,6 +8,7 @@ describe('options/preset', function() {
     testPreset('mdcs');
     testPreset('wikimedia');
     testPreset('yandex');
+    testPreset('airbnb');
 
     /**
      * Helper to test a given preset's configuration against its test file
