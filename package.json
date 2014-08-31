@@ -28,6 +28,7 @@
     "colors": "~0.6.2",
     "commander": "~2.3.0",
     "esprima": "~1.2.2",
+    "exit": "~0.1.2",
     "glob": "~4.0.0",
     "minimatch": "~1.0.0",
     "strip-json-comments": "~1.0.1",
