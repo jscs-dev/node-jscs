@@ -4,23 +4,25 @@ var glob = require('glob');
 var assert = require('assert');
 var Vow = require('vow');
 var hasAnsi = require('has-ansi');
+var rewire = require('rewire');
 
 var path = require('path');
-
 var exec = require('child_process').exec;
 
-var cli = require('../lib/cli');
+var cli = rewire('../lib/cli');
 var startingDir = process.cwd();
 
 describe('modules/cli', function() {
+    before(function() {
+        cli.__set__('exit', function() {});
+    });
+
     beforeEach(function() {
-        sinon.stub(process, 'exit');
         sinon.stub(process.stdout, 'write');
         sinon.stub(process.stderr, 'write');
     });
     afterEach(function() {
         process.chdir(startingDir);
-        process.exit.restore();
 
         // If stdin rewrites were not used, restore them here
         rAfter();

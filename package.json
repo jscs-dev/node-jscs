@@ -44,6 +44,7 @@
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
     "mocha": "~1.21.4",
+    "rewire": "~2.1.0",
     "separated-coverage": "~2.1.0",
     "sinon": "~1.10.0",
     "xml2js": "~0.4.2"
