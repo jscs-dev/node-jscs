@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('rules/disallow-anonymous-function', function() {
+describe('rules/disallow-anonymous-functions', function() {
     var checker;
 
     beforeEach(function() {
