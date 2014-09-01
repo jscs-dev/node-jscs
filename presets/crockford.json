@@ -59,6 +59,5 @@
     "disallowKeywordsOnNewLine": [ "else" ],
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
-    "requireDotNotation": true,
-    "disallowYodaConditions": true
+    "requireDotNotation": true
 }
