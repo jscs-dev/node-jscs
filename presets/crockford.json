@@ -50,7 +50,6 @@
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "disallowKeywords": [ "with" ],
     "disallowMultipleLineBreaks": true,
-    "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
     "validateIndentation": 4,
     "disallowMixedSpacesAndTabs": true,
