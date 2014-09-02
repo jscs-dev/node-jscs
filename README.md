@@ -21,18 +21,18 @@ JSCS — JavaScript Code Style.
 
 ## Friendly packages
 
+ * Atom plugin: https://atom.io/packages/linter-jscs
+ * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
  * Grunt task: https://github.com/gustavohenke/grunt-jscs/
- * Gulp task: https://github.com/sindresorhus/gulp-jscs/
+ * Gulp task: https://github.com/jscs-dev/gulp-jscs/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
- * Atom plugin: https://atom.io/packages/linter-jscs
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
 
 ### Extensions
 
- * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
  * A team city reporter: https://github.com/wurmr/jscs-teamcity-reporter
- * JSdoc rules extension: https://github.com/zxqfox/jscs-jsdoc
+ * JSdoc rules extension: https://github.com/jscs-dev/jscs-jsdoc
 
 ## Installation
 
