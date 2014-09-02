@@ -23,7 +23,7 @@ JSCS — JavaScript Code Style.
 
  * Atom plugin: https://atom.io/packages/linter-jscs
  * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
- * Grunt task: https://github.com/gustavohenke/grunt-jscs/
+ * Grunt task: https://github.com/jscs-dev/grunt-jscs/
  * Gulp task: https://github.com/jscs-dev/gulp-jscs/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
