@@ -1,3 +1,9 @@
+Version 1.6.1
+ * Airbnb preset (Joel Kemp)
+ * Improve crockford preset (Vivien TINTILLIER)
+ * Avoid node.js 0.10.x exit code bug for MS Windows (Taku Watabe)
+ * Docs: Update packages and extensions sections with new URLs. (Mike Sherov)
+
 Version 1.6.0
  * Errors: ability to suppress errors via inline comments. (Mike Sherov)
  * Fix Anonymous Functions in google preset (Ayoub Kaanich)
