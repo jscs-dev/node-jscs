@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "browserify": "~5.10.0",
-    "cli-table": "^0.3.0",
+    "cli-table": "~0.3.0",
     "coveralls": "~2.11.1",
     "has-ansi": "~1.0.0",
     "hooker": "~0.2.3",
