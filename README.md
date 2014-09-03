@@ -1140,6 +1140,74 @@ if (true) {
 }
 ```
 
+### requirePaddingNewLinesInObjects
+
+Requires newline inside curly braces of all objects.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requirePaddingNewLinesInObjects": true
+```
+
+##### Valid
+
+```js
+var x = {
+    a: 1
+};
+foo({
+    a: {
+        b: 1
+    }
+});
+```
+
+##### Invalid
+
+```js
+var x = { a: 1 };
+foo({a:{b:1}});
+```
+
+### disallowPaddingNewLinesInObjects
+
+Disallows newline inside curly braces of all objects.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowPaddingNewLinesInObjects": true
+```
+
+##### Valid
+
+```js
+var x = { a: 1 };
+foo({a: {b: 1}});
+```
+
+##### Invalid
+
+```js
+var x = {
+    a: 1
+};
+foo({
+    a: {
+        b: 1
+    }
+});
+```
+
 ### disallowEmptyBlocks
 
 Disallows empty blocks (except for catch blocks).
