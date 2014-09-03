@@ -221,9 +221,23 @@ if (z['a']) a(); // all errors will be reported
 
 Requires curly braces after statements.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted keywords
+Values: Array of quoted keywords or `true` to require curly braces after the following keywords:
+
+```js
+[
+    'if',
+    'else',
+    'for',
+    'while',
+    'do',
+    'try',
+    'catch',
+    'case',
+    'default'
+]
+```
 
 JSHint: [`curly`](http://jshint.com/docs/options/#curly)
 
@@ -261,9 +275,9 @@ if (x) x++;
 
 Requires space after keyword.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted keywords
+Values: Array of quoted keywords or `true` to require all possible keywords to have a space afterward.
 
 #### Example
 
@@ -299,9 +313,9 @@ if(x) {
 
 Disallows space after keyword.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted keywords
+Values: Array of quoted keywords or `true` to disallow spaces after all possible keywords.
 
 #### Example
 
