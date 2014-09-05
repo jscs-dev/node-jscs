@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-space-before-keywords', function() {
+describe.only('rules/require-space-before-keywords', function() {
     var checker;
 
     beforeEach(function() {
@@ -52,5 +52,29 @@ describe('rules/require-space-before-keywords', function() {
         var error = errors.getErrorList()[0];
 
         assert(errors.explainError(error).indexOf('Should be one space instead of 2, before "else"') === 0);
+    });
+
+    it('should report on all possible ES3 keywords if a value of true is supplied', function() {
+        checker.configure({ requireSpaceBeforeKeywords: true });
+
+        var errors = checker.checkString('if (true) {\n}else { x++; }');
+        var error = errors.getErrorList()[0];
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
+
+        errors = checker.checkString('/**/if (true) {\n}else { x++; }');
+        error = errors.getErrorList()[0];
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
+
+        errors = checker.checkString('do {\nx++;\n}while (x < 5)');
+        error = errors.getErrorList()[0];
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error).indexOf('Missing space before "while" keyword') === 0);
+
+        errors = checker.checkString('try {\nx++;\n}catch (e) {}');
+        error = errors.getErrorList()[0];
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error).indexOf('Missing space before "catch" keyword') === 0);
     });
 });
