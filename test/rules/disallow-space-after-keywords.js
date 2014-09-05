@@ -19,11 +19,21 @@ describe('rules/disallow-space-after-keywords', function() {
         assert(checker.checkString('if(x) { x++; }').isEmpty());
     });
 
-    it('should report on all possible ES3 keywords if a value of true is supplied', function() {
+    it('should report on all spaced keywords if a value of true is supplied', function() {
         checker.configure({ disallowSpaceAfterKeywords: true });
 
-        assert(!checker.checkString('if (x) {}').isEmpty());
-        assert(!checker.checkString('while (x) {}').isEmpty());
         assert(!checker.checkString('do {}').isEmpty());
+        assert(!checker.checkString('for (){}').isEmpty());
+        assert(!checker.checkString('if (x) {}').isEmpty());
+        assert(!checker.checkString('if (){} else {}').isEmpty());
+        assert(!checker.checkString('switch (){ case 4: break;}').isEmpty());
+        assert(!checker.checkString('switch(){ case \'4\': break;}').isEmpty());
+        assert(!checker.checkString('try {}').isEmpty());
+        assert(!checker.checkString('try{} catch {}').isEmpty());
+        assert(!checker.checkString('void (0)').isEmpty());
+        assert(!checker.checkString('while (x) {}').isEmpty());
+        assert(!checker.checkString('with (){}').isEmpty());
+        assert(!checker.checkString('function foo(){}').isEmpty());
+        assert(!checker.checkString('typeof \'4\'').isEmpty());
     });
 });

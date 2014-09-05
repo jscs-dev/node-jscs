@@ -277,21 +277,26 @@ Requires space after keyword.
 
 Type: `Array` or `Boolean`
 
-Values: Array of quoted keywords or `true` to require all possible keywords to have a space afterward.
+Values: Array of quoted keywords or `true` to require all of the keywords below to have a space afterward.
 
 #### Example
 
 ```js
 "requireSpaceAfterKeywords": [
+    "do",
+    "for",
     "if",
     "else",
-    "for",
-    "while",
-    "do",
     "switch",
-    "return",
+    "case",
     "try",
-    "catch"
+    "catch",
+    "void",
+    "while",
+    "with",
+    "return",
+    "typeof",
+    "function"
 ]
 ```
 

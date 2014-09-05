@@ -109,12 +109,17 @@ describe('rules/require-curly-braces', function() {
         assert(checker.checkString('promise.catch()').isEmpty());
     });
 
-    it('should report on all possible ES3 keywords if a value of true is supplied', function() {
+    it('should report on all optionally curly braced keywords if a value of true is supplied', function() {
         checker.configure({ requireCurlyBraces: true });
 
         assert(!checker.checkString('if (x) x++;').isEmpty());
+        assert(!checker.checkString('if (x) {x++} else x--;;').isEmpty());
+        assert(!checker.checkString('for (x = 0; x < 10; x++) x++;').isEmpty());
         assert(!checker.checkString('while (x) x++;').isEmpty());
         assert(!checker.checkString('do x++;').isEmpty());
-        assert(!checker.checkString('for (x = 0; x < 10; x++) x++;').isEmpty());
+        assert(!checker.checkString('try x++;').isEmpty());
+        assert(!checker.checkString('try {x++;} catch(e) throw e;').isEmpty());
+        assert(!checker.checkString('switch(\'4\'){ case \'4\': break; }').isEmpty());
+        assert(!checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }').isEmpty());
     });
 });
