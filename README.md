@@ -2341,7 +2341,7 @@ Values:
  - `Integer`: lines should be at most the number of characters specified
  - `Object`:
     - `value`: (required) lines should be at most the number of characters specified
-    - `tabSize`: (default: `1`) considered the tab character as number of specified spaces
+    - `tabSize`: (default: `1`) considers the tab character as the number of specified spaces
     - `allowComments`: (default: `false`) allows comments to break the rule
     - `allowUrlComments`: (default: `false`) allows comments with long urls to break the rule
     - `allowRegex`: (default: `false`) allows regular expression literals to break the rule

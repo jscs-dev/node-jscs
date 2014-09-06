@@ -1,3 +1,7 @@
+/* globals require, module, describe, it, beforeEach */
+/* jshint -W097 */
+'use strict';
+
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
@@ -7,6 +11,21 @@ describe('rules/require-aligned-object-values', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+    });
+
+    describe('object{mode:all,tabSize:4} option', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireAlignedObjectValues: {
+                    mode: 'all',
+                    tabSize: 4
+                }
+            });
+        });
+
+        it('should not report any errors for tab alignment', function() {
+            assert(checker.checkString('var x = {\n').isEmpty());
+        });
     });
 
     describe('all option', function() {
