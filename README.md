@@ -1400,6 +1400,52 @@ var x = {a : 1};
 var x = {a: 1};
 ```
 
+### disallowSpaceBeforeObjectValues
+
+Disallows space after object keys.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowSpaceBeforeObjectValues": true
+```
+
+##### Valid
+```js
+var x = {a:1};
+```
+##### Invalid
+```js
+var x = {a: 1};
+```
+
+### requireSpaceBeforeObjectValues
+
+Requires space after object keys.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireSpaceBeforeObjectValues": true
+```
+
+##### Valid
+```js
+var x = {a: 1};
+```
+##### Invalid
+```js
+var x = {a:1};
+```
+
 ### disallowCommaBeforeLineBreak
 
 Disallows commas as last token on a line in lists.
