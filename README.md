@@ -2019,178 +2019,6 @@ var x = 1;
 x++;
 ```
 
-### validateLineBreaks
-
-Option to check line break characters
-
-Type: `String`
-
-Values: `"CR"`, `"LF"`, `"CRLF"`
-
-#### Example
-
-```js
-"validateLineBreaks": "LF"
-```
-
-##### Valid
-```js
-var x = 1;<LF>
-x++;
-```
-
-##### Invalid
-```js
-var x = 1;<CRLF>
-x++;
-```
-
-### validateQuoteMarks
-
-Requires all quote marks to be either the supplied value, or consistent if `true`
-
-Type: `String` or `Object`
-
-Values:
- - `"\""`: all strings require double quotes
- - `"'"`: all strings require single quotes
- - `true`: all strings require the quote mark first encountered in the source code
- - `Object`:
-    - `escape`: allow the "other" quote mark to be used, but only to avoid having to escape
-    - `mark`: the same effect as the non-object values
-
-JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
-
-#### Example
-
-```js
-"validateQuoteMarks": "\""
-```
-```js
-"validateQuoteMarks": { "mark": "\"", "escape": true }
-```
-
-##### Valid example for mode `{ "mark": "\"", "escape": true }`
-
-```js
-var x = "x";
-var y = '"x"';
-```
-##### Invalid example for mode `{ "mark": "\"", "escape": true }`
-
-```js
-var x = "x";
-var y = 'x';
-```
-
-##### Valid example for mode `"\""` or mode `true`
-
-```js
-var x = "x";
-```
-
-##### Valid example for mode `"'"` or mode `true`
-
-```js
-var x = 'x';
-```
-
-##### Invalid example for mode `true`
-
-```js
-var x = "x", y = 'y';
-```
-
-### validateIndentation
-
-Validates indentation for arrays, objects, switch statements, and block statements
-
-Type: `Integer` or `String`
-
-Values: A positive integer or `"\t"`
-
-JSHint: [`indent`](http://jshint.com/docs/options/#indent)
-
-#### Example
-
-```js
-"validateIndentation": "\t"
-```
-
-##### Valid example for mode `2`
-
-```js
-if (a) {
-  b=c;
-  function(d) {
-    e=f;
-  }
-}
-```
-
-##### Invalid example for mode `2`
-
-```js
-if (a) {
-   b=c;
-function(d) {
-       e=f;
-}
-}
-```
-
-##### Valid example for mode "\t"
-
-```js
-if (a) {
-    b=c;
-    function(d) {
-        e=f;
-    }
-}
-```
-
-##### Invalid example for mode "\t"
-
-```js
-if (a) {
-     b=c;
-function(d) {
-           e=f;
- }
-}
-```
-
-### validateParameterSeparator
-
-Enable validation of separators between function parameters.
-
-Type: `String`
-
-Values:
-
- - `", "`: function parameters are immediately followed by a comma then a space
- - `" ,"`: function parameters are immediately followed by a space then a comma
- - `" , "`: function parameters are immediately followed by a space, a comma then a space
-
-#### Example
-
-```js
-"validateParameterSeparator": ", "
-```
-
-##### Valid
-
-```js
-function a(b, c) {}
-```
-
-##### Invalid
-
-```js
-function a(b , c) {}
-```
-
 ### disallowMixedSpacesAndTabs
 
 Requires lines to not contain both spaces and tabs consecutively,
@@ -2604,56 +2432,6 @@ if (1 == a) {
 }
 ```
 
-### validateJSDoc
-
-Enables JSDoc validation.
-
-Type: `Object`
-
-Values:
-
- - "checkParamNames" ensures param names in jsdoc and in function declaration are equal
- - "requireParamTypes" ensures params in jsdoc contains type
- - "checkRedundantParams" reports redundant params in jsdoc
-
-#### Example
-
-```js
-"validateJSDoc": {
-    "checkParamNames": true,
-    "checkRedundantParams": true,
-    "requireParamTypes": true
-}
-```
-
-##### Valid
-
-```js
-/**
- * Adds style error to the list
- *
- * @param {String} message
- * @param {Number|Object} line
- * @param {Number} [column]
- */
-add: function(message, line, column) {
-}
-```
-
-##### Invalid
-
-```js
-/**
- * Adds style error to the list
- *
- * @param {String} message
- * @param {Number|Object} line
- * @param {Number} [column]
- */
-add: function() {
-}
-```
-
 ### requireSpaceAfterLineComment
 
 Requires that a line comment (`//`) be followed by a space.
@@ -2923,6 +2701,228 @@ for (var e in elements){
 
 while (cond){
     foo();
+}
+```
+
+### validateLineBreaks
+
+Option to check line break characters
+
+Type: `String`
+
+Values: `"CR"`, `"LF"`, `"CRLF"`
+
+#### Example
+
+```js
+"validateLineBreaks": "LF"
+```
+
+##### Valid
+```js
+var x = 1;<LF>
+x++;
+```
+
+##### Invalid
+```js
+var x = 1;<CRLF>
+x++;
+```
+
+### validateQuoteMarks
+
+Requires all quote marks to be either the supplied value, or consistent if `true`
+
+Type: `String` or `Object`
+
+Values:
+ - `"\""`: all strings require double quotes
+ - `"'"`: all strings require single quotes
+ - `true`: all strings require the quote mark first encountered in the source code
+ - `Object`:
+    - `escape`: allow the "other" quote mark to be used, but only to avoid having to escape
+    - `mark`: the same effect as the non-object values
+
+JSHint: [`quotmark`](http://jshint.com/docs/options/#quotmark)
+
+#### Example
+
+```js
+"validateQuoteMarks": "\""
+```
+```js
+"validateQuoteMarks": { "mark": "\"", "escape": true }
+```
+
+##### Valid example for mode `{ "mark": "\"", "escape": true }`
+
+```js
+var x = "x";
+var y = '"x"';
+```
+##### Invalid example for mode `{ "mark": "\"", "escape": true }`
+
+```js
+var x = "x";
+var y = 'x';
+```
+
+##### Valid example for mode `"\""` or mode `true`
+
+```js
+var x = "x";
+```
+
+##### Valid example for mode `"'"` or mode `true`
+
+```js
+var x = 'x';
+```
+
+##### Invalid example for mode `true`
+
+```js
+var x = "x", y = 'y';
+```
+
+### validateIndentation
+
+Validates indentation for arrays, objects, switch statements, and block statements
+
+Type: `Integer` or `String`
+
+Values: A positive integer or `"\t"`
+
+JSHint: [`indent`](http://jshint.com/docs/options/#indent)
+
+#### Example
+
+```js
+"validateIndentation": "\t"
+```
+
+##### Valid example for mode `2`
+
+```js
+if (a) {
+  b=c;
+  function(d) {
+    e=f;
+  }
+}
+```
+
+##### Invalid example for mode `2`
+
+```js
+if (a) {
+   b=c;
+function(d) {
+       e=f;
+}
+}
+```
+
+##### Valid example for mode "\t"
+
+```js
+if (a) {
+    b=c;
+    function(d) {
+        e=f;
+    }
+}
+```
+
+##### Invalid example for mode "\t"
+
+```js
+if (a) {
+     b=c;
+function(d) {
+           e=f;
+ }
+}
+```
+
+### validateParameterSeparator
+
+Enable validation of separators between function parameters.
+
+Type: `String`
+
+Values:
+
+ - `", "`: function parameters are immediately followed by a comma then a space
+ - `" ,"`: function parameters are immediately followed by a space then a comma
+ - `" , "`: function parameters are immediately followed by a space, a comma then a space
+
+#### Example
+
+```js
+"validateParameterSeparator": ", "
+```
+
+##### Valid
+
+```js
+function a(b, c) {}
+```
+
+##### Invalid
+
+```js
+function a(b , c) {}
+```
+
+### validateJSDoc
+
+Enables JSDoc validation.
+
+Type: `Object`
+
+Values:
+
+ - "checkParamNames" ensures param names in jsdoc and in function declaration are equal
+ - "requireParamTypes" ensures params in jsdoc contains type
+ - "checkRedundantParams" reports redundant params in jsdoc
+
+#### Example
+
+```js
+"validateJSDoc": {
+    "checkParamNames": true,
+    "checkRedundantParams": true,
+    "requireParamTypes": true
+}
+```
+
+##### Valid
+
+```js
+/**
+ * Adds style error to the list
+ *
+ * @param {String} message
+ * @param {Number|Object} line
+ * @param {Number} [column]
+ */
+add: function(message, line, column) {
+}
+```
+
+##### Invalid
+
+```js
+/**
+ * Adds style error to the list
+ *
+ * @param {String} message
+ * @param {Number|Object} line
+ * @param {Number} [column]
+ */
+add: function() {
 }
 ```
 
