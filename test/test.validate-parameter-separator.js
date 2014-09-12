@@ -9,6 +9,35 @@ describe('rules/validate-parameter-separator', function() {
         checker.registerDefaultRules();
     });
 
+    it('accepts valid separator', function() {
+        var validSeparators = [
+            ',',
+            ' ,',
+            ', ',
+            ' , ',
+        ];
+        validSeparators.forEach(function(sep) {
+            assert.doesNotThrow(function() {
+                checker.configure({ validateParameterSeparator: sep });
+            });
+        });
+    });
+
+    it('rejects invalid separator', function() {
+        var invalidSeparators = [
+            'x,',
+            ',x',
+            'x,x',
+            '  ,',
+            ',  ',
+        ];
+        invalidSeparators.forEach(function(sep) {
+            assert.throws(function() {
+                checker.configure({ validateParameterSeparator: sep });
+            }, assert.AssertionError);
+        });
+    });
+
     describe('(comma)', function() {
         it('should report unexpected space for function a(b, c) {}', function() {
             checker.configure({ validateParameterSeparator: ',' });
