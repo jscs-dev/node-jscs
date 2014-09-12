@@ -2315,32 +2315,6 @@ var c = new this();
 var d = new e();
 ```
 
-### safeContextKeyword
-
-Option to check `var that = this` expressions
-
-Type: `Array` or `String`
-
-Values: String value used for context local declaration
-
-#### Example
-
-```js
-"safeContextKeyword": ["that"]
-```
-
-##### Valid
-
-```js
-var that = this;
-```
-
-##### Invalid
-
-```js
-var _this = this;
-```
-
 ### requireDotNotation
 
 Requires member expressions to use dot notation when possible
@@ -2924,6 +2898,31 @@ add: function(message, line, column) {
  */
 add: function() {
 }
+```
+### safeContextKeyword
+
+Option to check `var that = this` expressions
+
+Type: `Array` or `String`
+
+Values: String value used for context local declaration
+
+#### Example
+
+```js
+"safeContextKeyword": ["that"]
+```
+
+##### Valid
+
+```js
+var that = this;
+```
+
+##### Invalid
+
+```js
+var _this = this;
 ```
 
 ## Removed Rules
