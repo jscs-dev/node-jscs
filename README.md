@@ -28,6 +28,7 @@ JSCS — JavaScript Code Style.
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
+ * IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm plugin: http://plugins.jetbrains.com/plugin/7554
 
 ### Extensions
 
