@@ -11,7 +11,10 @@ describe('rules/require-space-after-keywords', function() {
 
     it('should report missing space after keyword', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if(x) { x++; }').getErrorCount() === 1);
+        var errors = checker.checkString('if(x) { x++; }');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.explainError(error).indexOf('Missing space after "if" keyword') === 0);
     });
 
     it('should not report space after keyword', function() {
