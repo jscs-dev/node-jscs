@@ -272,6 +272,40 @@ if (x) {
 if (x) x++;
 ```
 
+### requireSpaceBeforeKeywords
+
+Requires space before keyword.
+
+Type: `Array` or `Boolean`
+
+Values: Array of quoted keywords or `true` to require all possible keywords to have a space afterward.
+
+#### Example
+
+```js
+"requireSpaceAfterKeywords": [
+    "else",
+    "while",
+    "catch"
+]
+```
+
+##### Valid
+
+```js
+} else {
+    x++;
+}
+```
+
+##### Invalid
+
+```js
+}else {
+    x++;
+}
+```
+
 ### requireSpaceAfterKeywords
 
 Requires space after keyword.
