@@ -18,6 +18,7 @@ describe('rules/disallow-multiple-line-breaks', function() {
     it('should not report single line break when first line starts with #!', function() {
         checker.configure({ disallowMultipleLineBreaks: true });
         assert(checker.checkString('#!/usr/bin/env node\nx = 1;').isEmpty());
+        assert(checker.checkString('#!/usr/bin/env node\n\nx = 1;').isEmpty());
     });
     it('should report only once per each sequence of line breaks', function() {
         checker.configure({ disallowMultipleLineBreaks: true });
