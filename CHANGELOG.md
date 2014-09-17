@@ -1,10 +1,10 @@
-Version 1.6.1
+## Version 1.6.1
  * Airbnb preset (Joel Kemp)
  * Improve crockford preset (Vivien TINTILLIER)
  * Avoid node.js 0.10.x exit code bug for MS Windows (Taku Watabe)
  * Docs: Update packages and extensions sections with new URLs. (Mike Sherov)
 
-Version 1.6.0
+## Version 1.6.0
  * Errors: ability to suppress errors via inline comments. (Mike Sherov)
  * Fix Anonymous Functions in google preset (Ayoub Kaanich)
  * Enhance google's preset (Joel Kemp)
@@ -19,7 +19,7 @@ Version 1.6.0
  * Add link to the Atom editor plugin for JSCS (Addy Osmani)
  * Setting default tree to empty object (Bryan Donovan)
 
-Version 1.5.9
+## Version 1.5.9
  * Binary Rules: Remove colon check from all binary rules (Oleg Gaidarenko)
  * Presets: Add Mr. Doob's Code Style (MDCS) (gero3)
  * Presets: Add Crockford (Timo Tijhof)
@@ -35,14 +35,14 @@ Version 1.5.9
  * disallowMultipleLineBreaks: fix issues with shebang line (Bryan Donovan)
  * spacesInFunctionExpressions: ignore function declarations. (Mike Sherov)
 
-Version 1.5.8
+## Version 1.5.8
  * Errors: include which rule triggered the error in the error output (gero3)
  * requireTrailingComma: Allow single property objects  / arrays to ignore the rule. (Joel Kemp)
  * requireTrailingComma: Avoids false positives from non object/array literal definitions. (Joel Kemp)
  * validateIndentation: fix indentation for non-block `if` that has block `else`. (Mike Sherov)
  * maximumLineLength: Document the required and default values. (Joel Kemp)
 
-Version 1.5.7
+## Version 1.5.7
  * Exclude colon from binary rule of yandex preset (Oleg Gaidarenko)
  * wikimedia: Add 'case' and 'typeof' to requireSpaceAfterKeywords (Timo Tijhof)
  * Correct deal with exclusion and extensions (Oleg Gaidarenko)
@@ -50,10 +50,10 @@ Version 1.5.7
  * Include jscs-browser file to npm package (Oleg Gaidarenko)
  * Clarify docs of use of jscs-browser.js (Oleg Gaidarenko)
 
-Version 1.5.6
+## Version 1.5.6
  * Correct prebublish script (Oleg Gaidarenko)
 
-Version 1.5.5
+## Version 1.5.5
  * Add allowUrlComments to yandex preset (ikokostya)
  * Improve requireMultipleVarDecl rule (Oleg Gaidarenko)
  * Improve fileExtension option (Oleg Gaidarenko)
@@ -63,23 +63,23 @@ Version 1.5.5
  * Generate "jscs-browser.js" only during publishing (Oleg Gaidarenko)
  * Fix tests for requireSpaceBeforeBinaryOperators (lemmy)
 
-Version 1.5.4
+## Version 1.5.4
  * Fix crash caused by multiline case statements that fall through for validateIndentation rule (Mike Sherov)
 
-Version 1.5.3
+## Version 1.5.3
  * Add missing rules in jQuery preset (Oleg Gaidarenko)
  * Exclude comma operator from requireSpaceBeforeBinaryOperators rule (Oleg Gaidarenko)
  * Ignore ios instruments style imports (@sebv)
  * Various doc fixes (Christian Vuerings, Timo Tijhof, Oleg Gaidarenko)
 
-Version 1.5.2
+## Version 1.5.2
  * Improve binary rule (Oleg Gaidarenko)
  * Fix recursive descend, #445 (Oleg Gaidarenko)
 
-Version 1.5.1
+## Version 1.5.1
  * Version bump to address incorrectly published docs (Mike Sherov)
 
-Version 1.5.0
+## Version 1.5.0
  * Sticked Operators Rules: Deprecate in favor of more specific rules (Mike Sherov)
  * Update google preset (Oleg Gaidarenko)
  * Update jQuery preset (Mike Sherov)
@@ -135,10 +135,10 @@ Version 1.5.0
  * Correct docs for requireSpacesInsideParentheses (Oleg Gaidarenko)
  * readme: Clean up assignment operators (Timo Tijhof)
 
-Version 1.4.5
+## Version 1.4.5
  * Hotfix: Fix binary rules for "," and "=" operators (@markelog)
 
-Version 1.4.4
+## Version 1.4.4
  * Improve `requireSpaceAfterBinaryOperators` rule (@markelog)
  * Improve `disallowSpaceAfterBinaryOperators` rule (@markelog)
  * Improve `requireSpaceBeforeBinaryOperators` rule (@markelog)
@@ -151,13 +151,13 @@ Version 1.4.4
  * Fixes for `validateIndentation` rule: fix more weird onevar constructs and associated indentation rules. (@mikesherov)
  * Fixes for `validateIndentation` rule: fix bug when IfStatement test contains a BlockStatement
 
-Version 1.4.3:
+## Version 1.4.3:
  * Presets folder was missing in the package (@mdevils).
 
-Version 1.4.2:
+## Version 1.4.2:
  * Rule `requireSpaceAfterKeywords`: do not fail on linebreaks (@mdevils).
 
-Version 1.4.1:
+## Version 1.4.1:
  * Rule `disallowPaddingNewlinesInBlocks`: check for comments in the whitespace. Fixes #347 (@mikesherov).
  * Introduce extensions section in README (@zxqfox)
  * Fixes for `validateIndentation` rule: properly validate finally clauses. Fixes #311 (@mikesherov).
@@ -168,7 +168,7 @@ Version 1.4.1:
    on same line as array opener, but array is not single line. Fixes #353 (@mikesherov)
  * Restructuration of lib/test files (@markelog)
 
-Version 1.4.0:
+## Version 1.4.0:
  * Dropped `node.js` 0.8 support.
  * Update all dependencies to their latest versions except `vow`/`vow-fs` (@XhmikosR).
  * Add dependency status badges (@XhmikosR).
@@ -186,7 +186,7 @@ Version 1.4.0:
  * Rule `requirePaddingNewlinesInBlock` (@mikesherov).
  * Rule `disallowPaddingNewlinesInBlock` (@mikesherov).
 
-Version 1.3.0:
+## Version 1.3.0:
  * New JSCS config format: `.jscsrc`. JSON-file with comments.
  * Rule `requireBlocksOnNewline` (@Famlam).
  * Rule `requireSpacesInAnonymousFunctionExpression` (@jamesallardice).
@@ -201,22 +201,22 @@ Version 1.3.0:
  * Documentation fixes (@tenorok).
  * Minor tweaks (@XhmikosR).
 
-Version 1.2.4:
+## Version 1.2.4:
  * Fixed typos.
  * Fixed `validateIndentation` rule.
  * Sorting errors.
 
-Version 1.2.3:
+## Version 1.2.3:
  * New reporter: `inline` (@clochix).
  * Fixed for rule `requireDotNotation` (@ikokostya).
 
-Version 1.2.2:
+## Version 1.2.2:
  * Fixed case with number for `requireDotNotation` rule (@andrewblond).
 
-Version 1.2.1:
+## Version 1.2.1:
  * Fix in error message for rule `maximumLineLength` (@pdehaan).
 
-Version 1.2.0:
+## Version 1.2.0:
  * Rule `requireCommaBeforeLineBreak` (@mikesherov).
  * Rule `disallowCommaBeforeLineBreak` (@mikesherov).
  * Rule `requireDotNotation` (@mikesherov).
@@ -238,57 +238,57 @@ Version 1.2.0:
    disallowSpaceBeforePostfixUnaryOperators, disallowSpaceAfterPrefixUnaryOperators (@mdevils).
  * Rule `disallowMultipleLineStrings` (@mikesherov).
 
-Version 1.0.15:
+## Version 1.0.15:
  * junit reporter (@markelog).
 
-Version 1.0.14:
+## Version 1.0.14:
  * Option `additionalRules` (@markelog).
  * disallowQuotedKeysInObjects: Exclusion array (@nschonni).
 
-Version 1.0.13:
+## Version 1.0.13:
  * Option `validateLineBreaks` (@twoRoger).
 
-Version 1.0.12:
+## Version 1.0.12:
  * Fixes for jsdoc params.
 
-Version 1.0.11:
+## Version 1.0.11:
  * Prefix unary rules: `disallowSpaceAfterPrefixUnaryOperators`, `requireSpaceAfterPrefixUnaryOperators` (@mishaberezin).
  * Postfix unary rules: `disallowSpaceBeforePostfixUnaryOperators`, `requireSpaceBeforePostfixUnaryOperators` (@mishaberezin).
 
-Version 1.0.10:
+## Version 1.0.10:
  * Reporter support — `console`, `text`, `checkstyle`.
 
-Version 1.0.9:
+## Version 1.0.9:
  * Browser-compatible version.
  * Fix for `disallowMultipleLineBreaks` option to report only once per each sequence of line breaks.
  * Fix for `disallowMultipleLineBreaks` option to work properly when CRLF line break is used.
 
-Version 1.0.8:
+## Version 1.0.8:
  * Fixes for `safeContextKeyword`.
 
-Version 1.0.7:
+## Version 1.0.7:
  * Disallow spaces inside parentheses (@ignovak).
 
-Version 1.0.6:
+## Version 1.0.6:
  * Convert tabs into spaces (@markelog).
  * Report illegal space between nested closing curly braces (@twoRoger).
  * Use absolute path to config when specified (@vtambourine).
  * safeContextKeyword option to check "var that = this" expressions (@doochik).
 
-Version 1.0.4-1.0.5:
+## Version 1.0.4-1.0.5:
  * Fixed mistype `disallowMulipleVarDecl` -> `disallowMultipleVarDecl`.
  * Fixed error for invalid symlink checking.
 
-Version 1.0.3:
+## Version 1.0.3:
  * Changed behaviour for `disallowMultipleVarDecl` options. Now accepts multiple var decl in `for` decl.
 
-Version 1.0.2:
+## Version 1.0.2:
  * Option `requireSpacesInsideArrayBrackets` (@mishanga).
 
-Version 1.0.1:
+## Version 1.0.1:
  * Not reporting about extra quotes for zero-starting numbers in `disallowQuotedKeysInObjects`.
 
-Version 1.0.0:
+## Version 1.0.0:
  * Camel-case configuration options.
  * Option `requireAlignedObjectValues`.
  * Option `requireSpaceAfterObjectKeys`.
@@ -296,44 +296,44 @@ Version 1.0.0:
  * Fix error position for disallowSpacesInsideObjectBrackets and disallowSpacesInsideArrayBrackets.
 
 
-Version 0.0.12:
+## Version 0.0.12:
  * Fix in `disallowSpaceAfterObjectKeys` location reporting.
 
-Version 0.0.11:
+## Version 0.0.11:
  * Option `disallowSpaceAfterObjectKeys`.
  * Option `disallowSpacesInsideArrayBrackets`.
  * Do not automatically exclude hidden files.
 
-Version 0.0.10:
+## Version 0.0.10:
  * Fix in `disallowQuotedKeysInObjects`.
 
-Version 0.0.9:
+## Version 0.0.9:
  * Fix in `disallowQuotedKeysInObjects`.
 
-Version 0.0.8:
+## Version 0.0.8:
  * Fix in `requireSpacesInsideObjectBrackets`.
  * Option `disallowQuotedKeysInObjects`.
 
-Version 0.0.7:
+## Version 0.0.7:
  * Option `requireSpacesInsideObjectBrackets`.
  * Option `disallowSpacesInsideObjectBrackets`.
 
-Version 0.0.6:
+## Version 0.0.6:
  * Fixes incorrent checkPath behavior.
 
-Version 0.0.5:
+## Version 0.0.5:
  * .jshintrc config.
  * Error message format fixes.
 
-Version 0.0.4:
+## Version 0.0.4:
  * Option `disallowYodaConditions`.
  * Option `requireMultipleVarDecl`.
 
-Version 0.0.3:
+## Version 0.0.3:
  * Option `excludeFiles`, which accepts patterns.
 
-Version 0.0.2:
+## Version 0.0.2:
  * Link to parent nodes.
 
-Version 0.0.1:
+## Version 0.0.1:
  * Initial implementation.
