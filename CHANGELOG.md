@@ -1,3 +1,11 @@
+Version 1.6.2
+ * Fix disallowMultipleLineBreaks with shebang line (Nicolas Gallagher)
+ * Improve validateParameterSeparator rule (David Chambers)
+ * Add rule for parameter separation validation (James Allardice)
+ * Add new rules for object values (Vivien TINTILLIER)
+ * Docs: add intellij plugin to friendly packages (idok)
+ * Support predefined values for another three rules (Joel Kemp)
+
 Version 1.6.1
  * Airbnb preset (Joel Kemp)
  * Improve crockford preset (Vivien TINTILLIER)
