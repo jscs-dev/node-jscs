@@ -79,4 +79,56 @@ describe('rules/require-spaces-inside-parentheses', function() {
         });
     });
 
+    describe('allButSolitaryPunctuators', function() {
+        beforeEach(function() {
+            checker.configure({ requireSpacesInsideParentheses: 'allButSolitaryPunctuators' });
+        });
+
+        it('should allow no space between solitary punctuators', function() {
+            assert(checker.checkString('foo( function() {\n  return;\n});').isEmpty());
+            assert(checker.checkString('foo({\n  foo: "bar"\n}, "bar" );').isEmpty());
+            assert(checker.checkString('foo({\n  foo: "bar",\n  bar: "baz"\n});').isEmpty());
+        });
+
+        it('should require spaces between nonpunctuators and parentheses', function() {
+            assert(checker.checkString('foo( function() {\n  return;\n}, "bar");').getErrorCount() === 1);
+            assert(checker.checkString('foo(function() {\n  return;\n}, "bar" );').getErrorCount() === 1);
+            assert(checker.checkString('foo(function() {\n  return;\n}, "bar");').getErrorCount() === 2);
+        });
+
+        it('should require between simple arguments', function() {
+            assert(checker.checkString('foo(a,b);').getErrorCount() === 2);
+            assert(checker.checkString('foo( a,b);').getErrorCount() === 1);
+            assert(checker.checkString('foo( a,b );').isEmpty());
+        });
+
+        it('should not require spaces for empty arguments list', function() {
+            assert(checker.checkString('foo();').isEmpty());
+        });
+
+        it('should require spaces for grouping parentheses', function() {
+            assert(checker.checkString('var test = (true ? true : false)').getErrorCount() === 2);
+            assert(checker.checkString('var test = ( true ? true : false)').getErrorCount() === 1);
+            assert(checker.checkString('var test = ( true ? true : false )').isEmpty());
+        });
+
+        it('should require spaces for "for" keyword', function() {
+            assert(checker.checkString('for (var i = 0; i < 100; i++) {}').getErrorCount() === 2);
+            assert(checker.checkString('for ( var i = 0; i < 100; i++) {}').getErrorCount() === 1);
+            assert(checker.checkString('for ( var i = 0; i < 100; i++ ) {}').isEmpty());
+        });
+
+        it('should require spaces for "while" keyword', function() {
+            assert(checker.checkString('while (!condition) {}').getErrorCount() === 2);
+            assert(checker.checkString('while ( !condition) {}').getErrorCount() === 1);
+            assert(checker.checkString('while ( !condition ) {}').isEmpty());
+        });
+
+        it('should require spaces for "try...catch" statement', function() {
+            assert(checker.checkString('try {} catch(e) {}').getErrorCount() === 2);
+            assert(checker.checkString('try {} catch( e) {}').getErrorCount() === 1);
+            assert(checker.checkString('try {} catch( e ) {}').isEmpty());
+        });
+    });
+
 });
