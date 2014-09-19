@@ -866,9 +866,9 @@ function a (){}
 
 Disallows multiple `var` declaration (except for-loop).
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `true` or 'strict' (to disallow multiple variable declarations within a for loop)
 
 #### Example
 
