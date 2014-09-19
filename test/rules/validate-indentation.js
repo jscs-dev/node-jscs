@@ -35,6 +35,22 @@ describe('rules/validate-indentation', function() {
         checkErrors('if (a){\n    b=c;\n      c=d;\n e=f;\n}', [3, 4]);
     });
 
+    it('should not incorrectly report an indentation issue (#640)', function() {
+        var fixture = 'define(function() {\n' +
+                        '        \'use strict\';\n' +
+                        '        var Foo = bar({\n' +
+                        '                init: function(args) {\n' +
+                        '                        this._super(args);\n' +
+                        '                }\n' +
+                        '        });\n' +
+                        '        return Foo;\n' +
+                        '});';
+
+        checker.configure({ validateIndentation: 8 });
+        var errors = checker.checkString(fixture);
+        assert(errors.isEmpty());
+    });
+
     it('should validate 2 spaces indentation properly', function() {
         checker.configure({ validateIndentation: 2 });
         checkErrors(fixture, [
