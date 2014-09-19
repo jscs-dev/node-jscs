@@ -2850,55 +2850,10 @@ function a(b, c) {}
 function a(b , c) {}
 ```
 
-### validateJSDoc
+### ~~validateJSDoc~~
 
-Enables JSDoc validation.
+Please use the [JSCS-JSDoc](https://github.com/jscs-dev/jscs-jsdoc) plugin instead.
 
-Type: `Object`
-
-Values:
-
- - "checkParamNames" ensures param names in jsdoc and in function declaration are equal
- - "requireParamTypes" ensures params in jsdoc contains type
- - "checkRedundantParams" reports redundant params in jsdoc
-
-#### Example
-
-```js
-"validateJSDoc": {
-    "checkParamNames": true,
-    "checkRedundantParams": true,
-    "requireParamTypes": true
-}
-```
-
-##### Valid
-
-```js
-/**
- * Adds style error to the list
- *
- * @param {String} message
- * @param {Number|Object} line
- * @param {Number} [column]
- */
-add: function(message, line, column) {
-}
-```
-
-##### Invalid
-
-```js
-/**
- * Adds style error to the list
- *
- * @param {String} message
- * @param {Number|Object} line
- * @param {Number} [column]
- */
-add: function() {
-}
-```
 ### safeContextKeyword
 
 Option to check `var that = this` expressions
