@@ -118,6 +118,190 @@ describe('modules/js-file', function() {
         assert(trueToken.value === 'true');
     });
 
+    it('should find the first next token when only the type is specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var switchToken = file.getTokens()[0];
+        assert(switchToken.type === 'Keyword');
+        assert(switchToken.value === 'switch');
+
+        var nextToken = file.findNextToken(switchToken, 'Identifier');
+        assert(nextToken.type === 'Identifier');
+        assert(nextToken.value === 'varName');
+
+        nextToken = file.findNextToken(switchToken, 'Keyword');
+        assert(nextToken.type === 'Keyword');
+        assert(nextToken.value === 'case');
+
+        nextToken = file.findNextToken(switchToken, 'Punctuator');
+        assert(nextToken.type === 'Punctuator');
+        assert(nextToken.value === '(');
+    });
+
+    it('should find the first next token when both type and value are specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var switchToken = file.getTokens()[0];
+        assert(switchToken.type === 'Keyword');
+        assert(switchToken.value === 'switch');
+
+        var nextToken = file.findNextToken(switchToken, 'Identifier', 'varName');
+        assert(nextToken.type === 'Identifier');
+        assert(nextToken.value === 'varName');
+
+        nextToken = file.findNextToken(switchToken, 'Keyword', 'case');
+        assert(nextToken.type === 'Keyword');
+        assert(nextToken.value === 'case');
+
+        nextToken = file.findNextToken(switchToken, 'Punctuator', '(');
+        assert(nextToken.type === 'Punctuator');
+        assert(nextToken.value === '(');
+    });
+
+    it('should find the correct next token when both type and value are specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var switchToken = file.getTokens()[0];
+        assert(switchToken.type === 'Keyword');
+        assert(switchToken.value === 'switch');
+
+        var nextToken = file.findNextToken(switchToken, 'Keyword', 'break');
+        assert(nextToken.type === 'Keyword');
+        assert(nextToken.value === 'break');
+
+        nextToken = file.findNextToken(switchToken, 'Punctuator', '{');
+        assert(nextToken.type === 'Punctuator');
+        assert(nextToken.value === '{');
+
+        nextToken = file.findNextToken(switchToken, 'Punctuator', ':');
+        assert(nextToken.type === 'Punctuator');
+        assert(nextToken.value === ':');
+
+        nextToken = file.findNextToken(switchToken, 'Punctuator', '}');
+        assert(nextToken.type === 'Punctuator');
+        assert(nextToken.value === '}');
+    });
+
+    it('should not find any token if it does not exist', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var switchToken = file.getTokens()[0];
+        assert(switchToken.type === 'Keyword');
+        assert(switchToken.value === 'switch');
+
+        var nextToken = file.findNextToken(switchToken, 'Keyword', 'if');
+        assert(nextToken === undefined);
+
+        nextToken = file.findNextToken(switchToken, 'Numeric');
+        assert(nextToken === undefined);
+
+        nextToken = file.findNextToken(switchToken, 'Boolean');
+        assert(nextToken === undefined);
+
+        nextToken = file.findNextToken(switchToken, 'Null');
+        assert(nextToken === undefined);
+    });
+
+    it('should find the first previous token when only the type is specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var tokens = file.getTokens();
+
+        var lastToken = tokens[tokens.length - 1];
+        assert(lastToken.type === 'Punctuator');
+        assert(lastToken.value === '}');
+
+        var previousToken = file.findPrevToken(lastToken, 'Identifier');
+        assert(previousToken.type === 'Identifier');
+        assert(previousToken.value === 'a');
+
+        previousToken = file.findPrevToken(lastToken, 'Keyword');
+        assert(previousToken.type === 'Keyword');
+        assert(previousToken.value === 'break');
+
+        previousToken = file.findPrevToken(lastToken, 'Punctuator');
+        assert(previousToken.type === 'Punctuator');
+        assert(previousToken.value === ';');
+    });
+
+    it('should find the first previous token when both type and value are specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var tokens = file.getTokens();
+
+        var lastToken = tokens[tokens.length - 1];
+        assert(lastToken.type === 'Punctuator');
+        assert(lastToken.value === '}');
+
+        var previousToken = file.findPrevToken(lastToken, 'Identifier', 'a');
+        assert(previousToken.type === 'Identifier');
+        assert(previousToken.value === 'a');
+
+        previousToken = file.findPrevToken(lastToken, 'Keyword', 'break');
+        assert(previousToken.type === 'Keyword');
+        assert(previousToken.value === 'break');
+
+        previousToken = file.findPrevToken(lastToken, 'Punctuator', ';');
+        assert(previousToken.type === 'Punctuator');
+        assert(previousToken.value === ';');
+    });
+
+    it('should find the correct previous token when both type and value are specified', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var tokens = file.getTokens();
+
+        var lastToken = tokens[tokens.length - 1];
+        assert(lastToken.type === 'Punctuator');
+        assert(lastToken.value === '}');
+
+        var previousToken = file.findPrevToken(lastToken, 'Keyword', 'case');
+        assert(previousToken.type === 'Keyword');
+        assert(previousToken.value === 'case');
+
+        previousToken = file.findPrevToken(lastToken, 'Punctuator', '{');
+        assert(previousToken.type === 'Punctuator');
+        assert(previousToken.value === '{');
+
+        previousToken = file.findPrevToken(lastToken, 'Punctuator', ':');
+        assert(previousToken.type === 'Punctuator');
+        assert(previousToken.value === ':');
+
+        previousToken = file.findPrevToken(lastToken, 'Punctuator', '(');
+        assert(previousToken.type === 'Punctuator');
+        assert(previousToken.value === '(');
+    });
+
+    it('should not find any token if it does not exist', function() {
+        var str = 'switch(varName){case"yes":a++;break;}';
+        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var tokens = file.getTokens();
+
+        var lastToken = tokens[tokens.length - 1];
+        assert(lastToken.type === 'Punctuator');
+        assert(lastToken.value === '}');
+
+        var previousToken = file.findPrevToken(lastToken, 'Keyword', 'if');
+        assert(previousToken === undefined);
+
+        previousToken = file.findPrevToken(lastToken, 'Numeric');
+        assert(previousToken === undefined);
+
+        previousToken = file.findPrevToken(lastToken, 'Boolean');
+        assert(previousToken === undefined);
+
+        previousToken = file.findPrevToken(lastToken, 'Null');
+        assert(previousToken === undefined);
+    });
+
     it('should find prev token', function() {
         var str = 'if (true);';
         var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
