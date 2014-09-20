@@ -433,3 +433,47 @@ if (a) {
 else c();
 
 a();
+
+if( "very very long multi line" +
+      "with weird indentation" ) {
+  b();
+a(); // ->
+    c(); // <-
+}
+
+a( "very very long multi line" +
+   "with weird indentation", function() {
+  b();
+a(); // ->
+    c(); // <-
+});
+
+a =
+    function(content, dom) {
+  b();
+    c(); // <-
+d(); // ->
+};
+
+a =
+    function(content, dom) {
+      b();
+        c(); // <-
+    d(); // ->
+    };
+
+a =
+    function(content, dom) {
+    b(); // ->
+    };
+
+a =
+    function(content, dom) {
+b(); // ->
+    };
+
+a('This is a terribly long description youll ' +
+  'have to read', function () {
+  b();
+  c();
+});
