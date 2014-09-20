@@ -2762,7 +2762,7 @@ var x = "x", y = 'y';
 
 ### validateIndentation
 
-Validates indentation for arrays, objects, switch statements, and block statements
+Validates indentation for switch statements and block statements
 
 Type: `Integer` or `String`
 
