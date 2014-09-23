@@ -63,5 +63,6 @@
         "requireParamTypes": true
     },
 
-    "disallowMultipleLineBreaks": true
+    "disallowMultipleLineBreaks": true,
+    "disallowNewlineBeforeBlockStatements": true
 }
