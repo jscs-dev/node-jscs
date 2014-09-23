@@ -862,6 +862,33 @@ function a (){}
 ```
 
 
+### requireSpacesInCallExpresison
+
+Requires space before `()` in call expressions.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireSpacesInCallExpression": true
+```
+
+##### Valid
+
+```js
+var x = foobar ();
+```
+
+##### Invalid
+
+```js
+var x = foobar();
+```
+
+
 ### disallowMultipleVarDecl
 
 Disallows multiple `var` declaration (except for-loop).
