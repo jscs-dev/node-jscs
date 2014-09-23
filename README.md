@@ -889,6 +889,33 @@ var x = foobar();
 ```
 
 
+### disallowSpacesInCallExpression
+
+Disallows space before `()` in call expressions.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowSpacesInCallExpression": true
+```
+
+##### Valid
+
+```js
+var x = foobar();
+```
+
+##### Invalid
+
+```js
+var x = foobar ();
+```
+
+
 ### disallowMultipleVarDecl
 
 Disallows multiple `var` declaration (except for-loop).
