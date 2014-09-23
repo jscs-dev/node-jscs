@@ -2408,11 +2408,11 @@ if (1 == a) {
 
 ### requireSpaceAfterLineComment
 
-Requires that a line comment (`//`) be followed by a space.
+Requires that a line comment (`//`) be followed by a space or slash space (`/// `).
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `true` or `'allowSlash'`
 
 #### Example
 
