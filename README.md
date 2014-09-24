@@ -3015,6 +3015,84 @@ function a(b, c) {}
 function a(b , c) {}
 ```
 
+### requireCapitalizedComments
+
+Requires the first alphabetical character of a comment to be uppercase
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+`requireCapitalizedComments: true`
+
+Valid:
+
+```
+// Valid
+//Valid
+
+/*
+  Valid
+ */
+
+/**
+ * Valid
+ */
+
+// 123 or any non-alphabetical starting character
+```
+
+Invalid:
+```
+// invalid
+//invalid
+/** invalid */
+/**
+ * invalid
+ */
+```
+
+### disallowCapitalizedComments
+
+Requires the first alphabetical character of a comment to be lowercase.
+
+Type: `String`
+
+Value: `true`
+
+#### Example
+
+`disallowCapitalizedComments: true`
+
+Valid:
+
+```
+// valid
+//valid
+
+/*
+  valid
+ */
+
+/**
+ * valid
+ */
+
+// 123 or any non-alphabetical starting character
+```
+
+Invalid:
+```
+// Invalid
+//Invalid
+/** Invalid */
+/**
+ * Invalid
+ */
+```
+
 ### ~~validateJSDoc~~
 
 Please use the [JSCS-JSDoc](https://github.com/jscs-dev/jscs-jsdoc) plugin instead.
