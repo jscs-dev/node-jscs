@@ -13,11 +13,13 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = foobar();').isEmpty());
         assert(checker.checkString('var x = foo.bar();').isEmpty());
         assert(checker.checkString('var x = foo. bar();').isEmpty());
+        assert(checker.checkString('var x = (foor .bar)();').isEmpty());
     });
 
     it('should report space before round brace in CallExpression', function() {
         assert(checker.checkString('var x = foobar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = foo.bar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = foo. bar ();').getErrorCount() === 1);
+        assert(checker.checkString('var x = (foor .bar) ();').getErrorCount() === 1);
     });
 });
