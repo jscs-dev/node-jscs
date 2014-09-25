@@ -862,7 +862,7 @@ function a (){}
 ```
 
 
-### requireSpacesInCallExpresison
+### requireSpacesInCallExpression
 
 Requires space before `()` in call expressions.
 
