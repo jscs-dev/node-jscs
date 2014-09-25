@@ -31,7 +31,7 @@ describe('rules/disallow-padding-newlines-before-keywords', function() {
 
     // Test case for 'switch', 'case' and 'break' statement
     it('should report on matching switch, case and break statements', function() {
-        assert(checker.checkString('function x() { var y = true;\n\nswitch ("Oranges") { case "Oranges": ' + 
+        assert(checker.checkString('function x() { var y = true;\n\nswitch ("Oranges") { case "Oranges": ' +
 			'y = !y;\n\nbreak;\n\ncase "Apples": y = !y;\n\nbreak; default: y = !y; } }').getErrorCount() === 4);
     });
 
