@@ -2462,11 +2462,11 @@ if (1 == a) {
 
 ### requireSpaceAfterLineComment
 
-Requires that a line comment (`//`) be followed by a space.
+Requires that a line comment (`//`) be followed by a space or slash space (`/// `).
 
-Type: `Boolean`
+Type: `Boolean` or `String`
 
-Values: `true`
+Values: `true` or `'allowSlash'`
 
 #### Example
 
@@ -2588,6 +2588,97 @@ var a = function foo(){
 $('#foo').click(function bar(){
 
 };)
+```
+
+### disallowFunctionDeclarations
+
+Disallows function declarations.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"disallowFunctionDeclarations": true
+```
+
+##### Valid
+
+```js
+var expressed = function() {
+
+};
+
+var expressed = function deeply() {
+
+};
+
+$('#foo').click(function bar() {
+
+};)
+```
+
+##### Invalid
+
+```js
+function stated() {
+
+}
+```
+
+### requireFunctionDeclarations
+
+Requires function declarations by disallowing assignment of functions
+expressions to variables. Function expressions are allowed in all other
+contexts, including when passed as function arguments or immediately invoked.
+
+Assignment of function expressions to object members is also permitted, since
+these can't be declared.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireFunctionDeclarations": true
+```
+
+##### Valid
+
+```js
+function declared() {
+
+};
+
+(function iife() {
+    void 0;
+})();
+
+var obj = {
+    a: function () {}
+};
+
+obj.b = function () { };
+
+$('#foo').click(function bar() {
+
+};)
+```
+
+##### Invalid
+
+```js
+var expressed = function() {
+
+};
+
+var expressed = function deeply() {
+
+};
 ```
 
 ### disallowNewlineBeforeBlockStatements
