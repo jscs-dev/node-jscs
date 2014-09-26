@@ -14,6 +14,8 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = foo.bar();').isEmpty());
         assert(checker.checkString('var x = foo. bar();').isEmpty());
         assert(checker.checkString('var x = (foor .bar)();').isEmpty());
+        assert(checker.checkString('var x = (function (){})();').isEmpty());
+        assert(checker.checkString('var x = (function (){foobar();})();').isEmpty());
     });
 
     it('should report space before round brace in CallExpression', function() {
@@ -21,5 +23,7 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = foo.bar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = foo. bar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = (foor .bar) ();').getErrorCount() === 1);
+        assert(checker.checkString('var x = (function(){}) ();').getErrorCount() === 1);
+        assert(checker.checkString('var x = (function(){foobar ();}) ();').getErrorCount() === 2);
     });
 });
