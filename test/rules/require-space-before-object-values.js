@@ -15,6 +15,20 @@ describe('rules/require-space-before-object-values', function() {
         assert.equal(checker.checkString('var x = { abc :1, b:2 };').getErrorCount(), 2, 'two errors are found');
     });
 
+    it('should not report with parenthesised property value', function() {
+        assert(checker.checkString('var data = { key: (x > 2) };').isEmpty());
+        assert(checker.checkString('var video = { isFullHD: ((width > 1920) && (height > 1080)) };').isEmpty());
+        assert(checker.checkString('var data = { key:    (    (   ( ( 2 ))))};').isEmpty());
+    });
+
+    it('should not report with array initializer as property value', function() {
+        assert(checker.checkString('var jsFiles = { src: ["*.js"] }').isEmpty());
+    });
+
+    it('should not report with nested objects', function() {
+        assert(checker.checkString('var foo = { bar: { baz: 127 } };').isEmpty());
+    });
+
     it('should not report with end of line after keys colons', function() {
         assert(checker.checkString(
             'var x = {\n' +
