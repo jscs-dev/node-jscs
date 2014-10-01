@@ -27,7 +27,7 @@
     "disallowMultipleLineStrings": true,
     "disallowTrailingComma": true,
 
-
+    "requireSpaceBeforeBlockStatements": true,
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
