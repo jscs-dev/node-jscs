@@ -113,13 +113,13 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: true });
 
         assert(!checker.checkString('if (x) x++;').isEmpty());
-        assert(!checker.checkString('if (x) {x++} else x--;;').isEmpty());
+        assert(!checker.checkString('if (x) {x++} else x--;').isEmpty());
         assert(!checker.checkString('for (x = 0; x < 10; x++) x++;').isEmpty());
         assert(!checker.checkString('while (x) x++;').isEmpty());
-        assert(!checker.checkString('do x++;').isEmpty());
-        assert(!checker.checkString('try x++;').isEmpty());
+        assert(!checker.checkString('do x++; while(x < 5);').isEmpty());
         assert(!checker.checkString('try {x++;} catch(e) throw e;').isEmpty());
         assert(!checker.checkString('switch(\'4\'){ case \'4\': break; }').isEmpty());
         assert(!checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }').isEmpty());
+        assert(!checker.checkString('with(x) console.log(toString());').isEmpty());
     });
 });
