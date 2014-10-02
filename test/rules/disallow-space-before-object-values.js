@@ -23,11 +23,18 @@ describe('rules/disallow-space-before-object-values', function() {
             2,
             'two errors are found'
         );
+        assert.equal(
+            checker.checkString('var x = { a: ((1 > 2) && 3)};').getErrorCount(),
+            1,
+            'one error is found'
+        );
     });
 
     it('should not report with no space after keys colons and parenthesised expression in property value', function() {
         assert(checker.checkString('var x = { a:(1 > 2)};').isEmpty());
         assert(checker.checkString('var x = { 0x7f   :(y?(z ? 1: 2):(3)) };').isEmpty());
+        assert(checker.checkString('var x = { a:((1 > 2) && 3)};').isEmpty());
+        assert(checker.checkString('var x = { a     :((  1 > 2) && 3)};').isEmpty());
     });
 
     it('should not report with no space after keys colons', function() {
