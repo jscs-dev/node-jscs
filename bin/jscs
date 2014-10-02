@@ -18,6 +18,7 @@ program
     .option('-p, --preset <preset>', 'preset config')
     .option('-r, --reporter <reporter>', 'error reporter, console - default, text, checkstyle, junit, inline')
     .option('-v, --verbose', 'adds rule names to the error output')
+    .option('-m, --max-errors <number>', 'maximum number of errors to report')
     .option('', 'Also accepts relative or absolute path to custom reporter')
     .option('', 'For instance:')
     .option('', '\t  ../some-dir/my-reporter.js\t(relative path with extension)')
