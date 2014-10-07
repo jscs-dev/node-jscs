@@ -717,14 +717,14 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function a () {}
+var x = function a () {}
 ```
 
 ##### Invalid
 
 ```js
-function a() {}
-function a(){}
+var x = function a() {}
+var x = function a(){}
 ```
 
 
