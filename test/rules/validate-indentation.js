@@ -98,7 +98,9 @@ describe('rules/validate-indentation', function() {
             461,
             462,
             467,
-            472
+            472,
+            486,
+            488
         ]);
     });
 });
