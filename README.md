@@ -218,7 +218,7 @@ if (z['a']) a(); // all errors will be reported
 
 ## Versioning & Semver
 
-We recommend installing JSCS via NPM using `^` as the version range.
+We recommend installing JSCS via NPM using `^`, or `~` if you want more stable releases.
 
 Semver (http://semver.org/) dictates that breaking changes be major version bumps. In the context of a linting tool, a bug fix that causes more errors to be reported can be interpreted as a breaking change. However, that would require major version bumps to occur more often than can be desirable. Therefore, as a compromise, we will only release bug fixes that cause more errors to be reported in minor versions.
 
