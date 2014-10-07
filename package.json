@@ -4,14 +4,14 @@
   "name": "jscs",
   "version": "1.6.2",
   "main": "lib/checker",
-  "homepage": "https://github.com/mdevils/node-jscs",
+  "homepage": "https://github.com/jscs-dev/node-jscs",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mdevils/node-jscs"
+    "url": "https://github.com/jscs-dev/node-jscs"
   },
   "bugs": {
-    "url": "https://github.com/mdevils/node-jscs/issues"
+    "url": "https://github.com/jscs-dev/node-jscs/issues"
   },
   "contributors": [
     "Marat Dulin <mdevils@yandex.ru>",
@@ -19,7 +19,8 @@
     "Igor Agarlev",
     "Alexey Androsov <doochik@ya.ru>",
     "Oleg Gaidarenko <markelog@gmail.com>",
-    "Mike Sherov <mike.sherov@gmail.com>"
+    "Mike Sherov <mike.sherov@gmail.com>",
+    "Joel Kemp <joel@mrjoelkemp.com>"
   ],
   "engines": {
     "node": ">= 0.10.0"
