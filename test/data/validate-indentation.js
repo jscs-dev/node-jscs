@@ -477,3 +477,13 @@ a('This is a terribly long description youll ' +
   b();
   c();
 });
+
+if (
+  array.some(function(){
+    return true;
+  })
+) {
+a++; // ->
+  b++;
+    c++; // <-
+}
