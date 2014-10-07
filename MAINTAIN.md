@@ -70,11 +70,7 @@ Adding new presets
 Publishing a new version
 ---------------------------
 
-1. Determine which part of the version you are about to increase.
-   We are using `semver` (http://semver.org/).
-   For just fixing bugs, increment the patch version.
-   For new features, increment the minor version and reset patch version to zero.
-   For backwards incompatible features, increment the major version, and reset minor and patch versions, but be sure to discuss these changes with the other maintainers first.
+1. Determine which part of the version you are about to increase. See our strategy in README.md.
 1. Write changes to `CHANGELOG.md`: `npm run changelog`.
    Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
    1. breaking changes.
