@@ -65,7 +65,7 @@ jscs path[ path[...]] --config=./.config.json
 
 If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
 
-You can write your config in plain `.js/`, `.json` or in a special `.jscsrc` format, which is JSON with comments.
+You can write your config in plain `.js`, `.json` or in a special `.jscsrc` format, which is JSON with comments.
 
 ### `--preset`
 If defined will use predefined rules for specific code style.
