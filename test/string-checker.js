@@ -104,4 +104,25 @@ describe('modules/string-checker', function() {
             assert(error === undefined);
         });
     });
+
+    describe('maxErrors', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireSpaceBeforeBinaryOperators: ['='],
+                maxErrors: 1
+            });
+        });
+
+        it('should allow a maximum number of reported errors to be set', function() {
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors.length === 1);
+        });
+
+        it('should not report more than the maximum errors across multiple checks', function() {
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            var errors2 = checker.checkString('var baz=1;\n var qux=2;').getErrorList();
+            assert(errors.length === 1);
+            assert(errors2.length === 0);
+        });
+    });
 });

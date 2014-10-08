@@ -7,7 +7,6 @@ var hasAnsi = require('has-ansi');
 var rewire = require('rewire');
 
 var path = require('path');
-var exec = require('child_process').exec;
 
 var cli = rewire('../lib/cli');
 var startingDir = process.cwd();
@@ -176,6 +175,10 @@ describe('modules/cli', function() {
             sinon.spy(console, 'log');
         });
 
+        afterEach(function() {
+            console.log.restore();
+        });
+
         it('should not display rule names in error output by default', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
@@ -184,7 +187,6 @@ describe('modules/cli', function() {
 
             return result.promise.fail(function() {
                 assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === -1);
-                console.log.restore();
             });
         });
 
@@ -197,7 +199,6 @@ describe('modules/cli', function() {
 
             return result.promise.fail(function() {
                 assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
-                console.log.restore();
             });
         });
     });
@@ -521,6 +522,40 @@ describe('modules/cli', function() {
 
             return result.promise.fail(function() {
                 assert(hasAnsi(console.log.getCall(0).args[0]));
+            });
+        });
+    });
+
+    describe('maxErrors option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should limit the number of errors reported to the provided amount', function() {
+            return cli({
+                maxErrors: 1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
+                rAfter();
+            });
+        });
+
+        it('should display a message indicating that there were more errors', function() {
+            return cli({
+                maxErrors: 1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                rAfter();
             });
         });
     });

@@ -85,6 +85,9 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ### `--no-colors`
 Clean output without colors.
 
+### '--max-errors'
+Set the maximum number of errors to report
+
 ### `--help`
 Outputs usage information.
 
@@ -164,6 +167,20 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 ```js
 "fileExtensions": [".js"]
+```
+
+### maxErrors
+
+Set the maximum number of errors to report
+
+Type: `Number`
+
+Default: Infinity
+
+#### Example
+
+```js
+"maxErrors": 10
 ```
 
 ## Error Suppression

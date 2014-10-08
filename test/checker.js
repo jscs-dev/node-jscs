@@ -3,9 +3,10 @@ var sinon = require('sinon');
 var Checker = require('../lib/checker');
 
 describe('modules/checker', function() {
-    var checker = new Checker();
+    var checker;
 
     beforeEach(function() {
+        checker = new Checker();
         checker.registerDefaultRules();
         checker.configure({
             disallowKeywords: ['with']
