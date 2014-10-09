@@ -104,4 +104,37 @@ describe('modules/string-checker', function() {
             assert(error === undefined);
         });
     });
+
+    describe('custom esprima version', function() {
+      var description = 'parsing error thrown by custom esprima';
+      var customEsprima = {
+        parse: function() {
+          var error = new Error();
+          error.description = description;
+
+          throw error;
+        }
+      };
+
+      it('uses the esprima provided to constructor for parsing', function() {
+        checker = new Checker(false, customEsprima);
+        checker.registerDefaultRules();
+
+        var errors = checker.checkString('import { foo } from "bar";');
+        var error = errors.getErrorList()[0];
+
+        assert(error.rule === 'parseError');
+        assert(error.message === description);
+      });
+
+      it('uses the _esprima property for parsing', function() {
+        checker._esprima = customEsprima;
+
+        var errors = checker.checkString('import { foo } from "bar";');
+        var error = errors.getErrorList()[0];
+
+        assert(error.rule === 'parseError');
+        assert(error.message === description);
+      });
+    });
 });
