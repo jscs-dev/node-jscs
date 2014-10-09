@@ -11,6 +11,7 @@ var exec = require('child_process').exec;
 
 var cli = rewire('../lib/cli');
 var startingDir = process.cwd();
+var Errors = require('../lib/errors');
 
 describe('modules/cli', function() {
     before(function() {
@@ -521,6 +522,44 @@ describe('modules/cli', function() {
 
             return result.promise.fail(function() {
                 assert(hasAnsi(console.log.getCall(0).args[0]));
+            });
+        });
+    });
+
+    describe('maxErrors option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+            var errors = new Errors();
+            errors.resetErrorCount();
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should limit the number of errors reported to the provided amount', function(done) {
+            return cli({
+                maxErrors: 1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
+                rAfter();
+                done();
+            });
+        });
+
+        it('should display a message indicating that there were more errors', function(done) {
+            return cli({
+                maxErrors: 1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(2).args[0].indexOf('Set the `maxErrors` configuration') !== -1);
+                rAfter();
+                done();
             });
         });
     });

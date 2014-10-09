@@ -88,4 +88,9 @@ describe('modules/errors', function() {
 
         assert.ok(errors.isEmpty());
     });
+
+    it('should report all errors, by default', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
+        assert(checker.checkString('var foo=1;\n var bar=2;').getErrorCount() === 2);
+    });
 });
