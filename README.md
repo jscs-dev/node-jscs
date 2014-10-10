@@ -9,6 +9,20 @@ JSCS — JavaScript Code Style.
 
 **This is a documentation for the development version, please refer to the https://www.npmjs.org/package/jscs instead**
 
+## Table of Contents
+
+- [Presets](#presets)
+- [Friendly Packages](#friendly-packages)
+- [Extensions](#extensions)
+- [Installation](#installation)
+- [CLI](#cli)
+- [Options](#options)
+- [Error Suppression](#error-suppression)
+- [Versioning & Semver](#versioning--semver)
+- [Rules](#rules)
+- [Removed Rules](#removed-rules)
+- [Browser Usage](#browser-usage)
+
 ## Presets
 
  * [Airbnb](presets/airbnb.json) - https://github.com/airbnb/javascript
