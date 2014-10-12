@@ -29,6 +29,7 @@
     "colors": "~0.6.2",
     "commander": "~2.3.0",
     "esprima": "~1.2.2",
+    "esprima-harmony-jscs": "1.1.0-dev-harmony",
     "exit": "~0.1.2",
     "glob": "~4.0.0",
     "minimatch": "~1.0.0",
