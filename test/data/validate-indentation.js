@@ -487,3 +487,10 @@ a++; // ->
   b++;
     c++; // <-
 }
+
+function c(d) {
+  return {
+    e: function(f, g) {
+    }
+  };
+}
