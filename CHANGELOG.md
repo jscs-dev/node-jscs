@@ -1,3 +1,34 @@
+## Version 1.7.0
+ * validateJSDoc: Deprecate rule (Joel Kemp)
+ * Updated google preset (Richard Poole)
+ * Add "requireSpaceBeforeBlockStatements" rule into the jquery preset (Oleg Gaidarenko)
+
+ * CLI: Support --esnext to Parse ES6. (Robert Jackson)
+ * CLI: Support a --max-errors option to limit the number of reported errors (mdevils)
+
+ * New Rules: (require|disallow)CapitalizedComments (Joel Kemp)
+ * New Rules: (require|disallow)SpacesInCallExpression (Mathieu Schroeter)
+ * New Rules: (disallow|require)FunctionDeclarations (Nikhil Benesch)
+ * New Rules: (require|disallow)PaddingNewLinesInObjects (Valentin Agachi)
+
+ * Implement "only" for parens rule (Oleg Gaidarenko)
+ * Simplify "allButNested" option for spaces rule (Oleg Gaidarenko)
+ * Implement "except" option for spaces rule (Oleg Gaidarenko)
+ * disallowMultipleVarDecl: Strict mode to disallow for statement exception (Joel Kemp)
+
+ * disallowSpaceBeforeObjectKeys: fix parenthesised property value (Jindrich Besta)
+ * requireSpaceBeforeObjectValues: fix parenthesised property value (Jindrich Besta)
+ * validateIndentation: Allow non-indented "break" in "switch" statement (kevin.destrem)
+ * ValidateIndentation: remove array and object indentation validation (Mike Sherov)
+ * validateIndentation: Allow the "if" test to be nested. (Jesper Birkestrøm)
+ * ValidateIndentation: Relax indentation rules for function expressions. (Mike Sherov)
+ * requireCurlyBraces: support the with statement (Joel Kemp)
+ * Fix invalid result of findXxxxToken methods when value is provided (Romain Guerin)
+ * requireSpaceAfterLineComment: skips msjsdoc comments (Alexej Yaroshevich)
+
+ * Docs: add a table of contents to README (Henry Zhu)
+ * Docs: Make version numbers real markdown headers (Alexander Artemenko)
+
 ## Version 1.6.2
  * Fix disallowMultipleLineBreaks with shebang line (Nicolas Gallagher)
  * Improve validateParameterSeparator rule (David Chambers)
