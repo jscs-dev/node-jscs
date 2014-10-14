@@ -1,3 +1,6 @@
+## Version 1.7.1
+ * validateIndentation: fix empty multiline function body regression (Mike Sherov)
+
 ## Version 1.7.0
  * validateJSDoc: Deprecate rule (Joel Kemp)
  * Updated google preset (Richard Poole)
