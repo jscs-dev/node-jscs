@@ -97,13 +97,13 @@ But you also can specify your own reporter, since this flag accepts relative or 
 jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
-### '--esnext'
+### `--esnext`
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
 ### `--no-colors`
 Clean output without colors.
 
-### '--max-errors'
+### `--max-errors`
 Set the maximum number of errors to report
 
 ### `--help`
