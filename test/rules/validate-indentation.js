@@ -104,81 +104,100 @@ describe('rules/validate-indentation', function() {
         ]);
     });
 
-    it('should report errors for indent after no indent in same switch statement', function() {
-        checker.configure({ validateIndentation: 4 });
-        assert(
-            checker.checkString(
-                'switch(value){\n' +
-                    '    case "1":\n' +
-                    '    break;\n' +
-                    '    case "2":\n' +
-                    '    break;\n' +
-                    '    default:\n' +
-                    '        break;\n' +
-                    '}'
-            ).getErrorCount() === 1
-        );
-    });
+    describe('switch identation', function() {
+        beforeEach(function() {
+            checker.configure({ validateIndentation: 4 });
+        });
 
-    it('should report errors for no indent after indent in same switch statement', function() {
-        checker.configure({ validateIndentation: 4 });
-        assert(
-            checker.checkString(
-                'switch(value){\n' +
-                    '    case "1":\n' +
-                    '        break;\n' +
-                    '    case "2":\n' +
-                    '        break;\n' +
-                    '    default:\n' +
-                    '    break;\n' +
-                    '}'
-            ).getErrorCount() === 1
-        );
-    });
-
-    it('should report errors for no indent after indent in different switch statements', function() {
-        checker.configure({ validateIndentation: 4 });
-        assert(
-            checker.checkString(
-                'switch(value){\n' +
-                    '    case "1":\n' +
-                    '    case "2":\n' +
-                    '        break;\n' +
-                    '    default:\n' +
-                    '        break;\n' +
+        it('should not report errors for indent when return statement is used instead of break', function() {
+            assert(
+                checker.checkString(
+                    'function foo() {\n' +
+                    '    var a = "a";\n' +
+                    '    switch(a) {\n' +
+                    '        case "a":\n' +
+                    '            return "A";\n' +
+                    '        case "b":\n' +
+                    '            return "B";\n' +
+                    '    }\n' +
                     '}\n' +
-                    'switch(value){\n' +
-                    '    case "1":\n' +
-                    '    break;\n' +
-                    '    case "2":\n' +
-                    '    break;\n' +
-                    '    default:\n' +
-                    '    break;\n' +
-                    '}'
-            ).getErrorCount() === 3
-        );
-    });
+                    'foo();'
+                ).getErrorCount() === 0
+            );
+        });
 
-    it('should report errors for indent after no indent in different switch statements', function() {
-        checker.configure({ validateIndentation: 4 });
-        assert(
-            checker.checkString(
-                'switch(value){\n' +
-                    '    case "1":\n' +
-                    '    case "2":\n' +
-                    '    break;\n' +
-                    '    default:\n' +
-                    '    break;\n' +
-                    '}\n' +
+        it('should report errors for indent after no indent in same switch statement', function() {
+            assert(
+                checker.checkString(
                     'switch(value){\n' +
-                    '    case "1":\n' +
-                    '        break;\n' +
-                    '    case "2":\n' +
-                    '        break;\n' +
-                    '    default:\n' +
-                    '        break;\n' +
-                    '}'
-            ).getErrorCount() === 3
-        );
+                        '    case "1":\n' +
+                        '    break;\n' +
+                        '    case "2":\n' +
+                        '    break;\n' +
+                        '    default:\n' +
+                        '        break;\n' +
+                        '}'
+                ).getErrorCount() === 1
+            );
+        });
+
+        it('should report errors for no indent after indent in same switch statement', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '    case "1":\n' +
+                        '        break;\n' +
+                        '    case "2":\n' +
+                        '        break;\n' +
+                        '    default:\n' +
+                        '    break;\n' +
+                        '}'
+                ).getErrorCount() === 1
+            );
+        });
+
+        it('should report errors for no indent after indent in different switch statements', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '    case "1":\n' +
+                        '    case "2":\n' +
+                        '        break;\n' +
+                        '    default:\n' +
+                        '        break;\n' +
+                        '}\n' +
+                        'switch(value){\n' +
+                        '    case "1":\n' +
+                        '    break;\n' +
+                        '    case "2":\n' +
+                        '    break;\n' +
+                        '    default:\n' +
+                        '    break;\n' +
+                        '}'
+                ).getErrorCount() === 3
+            );
+        });
+
+        it('should report errors for indent after no indent in different switch statements', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '    case "1":\n' +
+                        '    case "2":\n' +
+                        '    break;\n' +
+                        '    default:\n' +
+                        '    break;\n' +
+                        '}\n' +
+                        'switch(value){\n' +
+                        '    case "1":\n' +
+                        '        break;\n' +
+                        '    case "2":\n' +
+                        '        break;\n' +
+                        '    default:\n' +
+                        '        break;\n' +
+                        '}'
+                ).getErrorCount() === 3
+            );
+        });
     });
 });
