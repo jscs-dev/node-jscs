@@ -116,7 +116,7 @@ describe('rules/validate-indentation', function() {
                     '    default:\n' +
                     '        break;\n' +
                     '}'
-            ).getErrorCount() === 1
+            ).getErrorCount() === 2
         );
     });
 
@@ -178,7 +178,7 @@ describe('rules/validate-indentation', function() {
                     '    default:\n' +
                     '        break;\n' +
                     '}'
-            ).getErrorCount() === 3
+            ).getErrorCount() === 2
         );
     });
 });
