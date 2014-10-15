@@ -124,6 +124,17 @@ describe('modules/string-checker', function() {
             assert(errors.length === 1);
             assert(errors2.length === 0);
         });
+
+        it('should not be used when not a number', function() {
+            var errors;
+            checker.configure({
+                requireSpaceBeforeBinaryOperators: ['='],
+                maxErrors: NaN
+            });
+
+            errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors.length > 0);
+        });
     });
 
     describe('esprima version', function() {
