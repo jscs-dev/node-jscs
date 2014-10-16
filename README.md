@@ -1098,21 +1098,28 @@ if ( a == b ) { } else { c = d; }
 
 Requires an empty line above the specified keywords unless the keyword is the first expression in a block.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted types
+Values: Array of quoted types or `true` to require padding new lines after all of the keywords below
 
 #### Example
 
 ```js
 "requirePaddingNewlinesBeforeKeywords": [
-  "if",
-  "for",
-  "return",
-  "switch",
-  "case",
-  "break",
-  "throw"
+	"do",
+    "for",
+    "if",
+    "else",
+    "switch",
+    "case",
+    "try",
+    "catch",
+    "void",
+    "while",
+    "with",
+    "return",
+    "typeof",
+    "function"
 ]
 ```
 
@@ -1154,9 +1161,9 @@ function(a) {
 
 Disallow an empty line above the specified keywords.
 
-Type: `Array`
+Type: `Array` or `Boolean`
 
-Values: Array of quoted types
+Values: Array of quoted types or `true` to disallow padding newlines before all possible keywords.
 
 #### Example
 
