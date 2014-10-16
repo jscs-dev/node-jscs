@@ -42,18 +42,18 @@ describe('rules/require-padding-newlines-before-keywords', function() {
     });
 
     // Test case for 'switch', 'case' and 'break' statement
-    it('should report on matching if statement', function () {
+    it('should report on matching if statement', function() {
         assert(checker.checkString('function x() { var y = true; switch ("Oranges") { case "Oranges": y = !y; break;' +
 			' case "Apples": y = !y; break; default: y = !y; } }').getErrorCount() === 4);
     });
 
     // Test case for 'throw' statement
-    it('should report on matching if statement', function () {
+    it('should report on matching if statement', function() {
         assert(checker.checkString('function x() {try { var a; throw 0; } catch (e) { var b = 0; throw e; } }')
 			.getErrorCount() === 2);
     });
 
-    it('should report on multiple matching keywords', function () {
+    it('should report on multiple matching keywords', function() {
         assert(checker.checkString('function x(a) { var b = 0; if (!a) { return false; };' +
 			' for (var i = 0; i < b; i++) { if (!a[i]) return false; } return true; }').getErrorCount() === 3);
     });
