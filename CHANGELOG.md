@@ -1,3 +1,8 @@
+## Version 1.7.2
+ * validateIndentation: fix return in switch failure (Mike Sherov)
+ * Cast StringChecker maxErrors property to Number the first time (Florian Fesseler)
+ * Fix format of --esnext and --max-errors in README (Joe Lencioni)
+
 ## Version 1.7.1
  * validateIndentation: fix empty multiline function body regression (Mike Sherov)
 
