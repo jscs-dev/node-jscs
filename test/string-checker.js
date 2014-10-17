@@ -184,7 +184,10 @@ describe('modules/string-checker', function() {
             checker.configure({ esnext: true });
 
             var errors = checker.checkString('import { foo } from "bar";');
+            // Make sure that multiple checks don't fail
+            var errors2 = checker.checkString('import { bar } from "foo";');
             assert(errors.isEmpty());
+            assert(errors2.isEmpty());
         });
 
         it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
