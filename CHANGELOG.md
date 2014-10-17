@@ -1,3 +1,7 @@
+## Version 1.7.3
+ * Parsing: Use the harmony parser via the esnext flag in the config (Joel Kemp)
+ * validateIndentation: handle breakless case statements (Mike Sherov)
+
 ## Version 1.7.2
  * validateIndentation: fix return in switch failure (Mike Sherov)
  * Cast StringChecker maxErrors property to Number the first time (Florian Fesseler)
