@@ -178,6 +178,15 @@ describe('modules/string-checker', function() {
             assert(errors.isEmpty());
         });
 
+        it('uses the harmony esprima when esnext is set to true in the config', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ esnext: true });
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            assert(errors.isEmpty());
+        });
+
         it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
             checker = new Checker();
             checker.registerDefaultRules();

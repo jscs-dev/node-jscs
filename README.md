@@ -201,6 +201,20 @@ Default: Infinity
 "maxErrors": 10
 ```
 
+### esnext
+
+Attempts to parse your code as ES6 using the harmony version of the esprima parser.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"esnext": true
+```
+
 ## Error Suppression
 
 ### Inline Comments
