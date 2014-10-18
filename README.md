@@ -2673,16 +2673,20 @@ if (1 == a) {
 
 ### requireSpaceAfterLineComment
 
-Requires that a line comment (`//`) be followed by a space or slash space (`/// `).
+Requires that a line comment (`//`) be followed by a space.
 
-Type: `Boolean` or `String`
+Type: `Boolean` or `Object` or `String`
 
-Values: `true` or `'allowSlash'`
+Values:
+ - `true`
+ - `"allowSlash"` (*deprecated* use `"except": ["/"]`) allows `/// ` format
+ - `Object`:
+    - `allExcept`: array of allowed strings before space `//(here) `
 
 #### Example
 
 ```js
-"requireSpaceAfterLineComment": true
+"requireSpaceAfterLineComment": { "allExcept": ["#", "="] }
 ```
 
 ##### Valid
@@ -2690,6 +2694,8 @@ Values: `true` or `'allowSlash'`
 ```js
 // A comment
 /*A comment*/
+//# sourceURL=filename.js
+//= require something
 ```
 
 ##### Invalid
