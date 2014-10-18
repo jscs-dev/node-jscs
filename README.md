@@ -296,20 +296,6 @@ Type: `Array` or `Boolean`
 
 Values: Array of quoted keywords or `true` to require curly braces after the following keywords:
 
-```js
-[
-    'if',
-    'else',
-    'for',
-    'while',
-    'do',
-    'try',
-    'catch',
-    'case',
-    'default'
-]
-```
-
 JSHint: [`curly`](http://jshint.com/docs/options/#curly)
 
 #### Example
