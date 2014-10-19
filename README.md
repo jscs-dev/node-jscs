@@ -278,12 +278,12 @@ Requires space before keyword.
 
 Type: `Array` or `Boolean`
 
-Values: Array of quoted keywords or `true` to require all possible keywords to have a space afterward.
+Values: Array of quoted keywords or `true` to require all possible keywords to have a preceding space.
 
 #### Example
 
 ```js
-"requireSpaceAfterKeywords": [
+"requireSpaceBeforeKeywords": [
     "else",
     "while",
     "catch"
@@ -380,6 +380,39 @@ if(x > y) {
 }
 ```
 
+
+### disallowSpaceBeforeKeywords
+
+Disallows space before keyword.
+
+Type: `Array` or `Boolean`
+
+Values: Array of quoted keywords or `true` to disallow spaces before all possible keywords.
+
+#### Example
+
+```js
+"disallowSpaceBeforeKeywords": [
+    "else",
+    "catch"
+]
+```
+
+##### Valid
+
+```js
+}else {
+    y--;
+}
+```
+
+##### Invalid
+
+```js
+} else {
+    y--;
+}
+```
 
 ### requireSpaceBeforeBlockStatements
 
