@@ -47,14 +47,14 @@
     "jshint": "~2.5.0",
     "mocha": "~1.21.4",
     "rewire": "~2.1.0",
-    "separated-coverage": "~2.3.0",
+    "unit-coverage": "~3.0.0",
     "sinon": "~1.10.0",
     "xml2js": "~0.4.2"
   },
   "bin": {
     "jscs": "./bin/jscs"
   },
-  "separated-coverage": {
+  "unit-coverage": {
     "common": [
       "-a",
       "lib",
@@ -75,13 +75,13 @@
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha",
-    "coverage": "scov run -p common",
-    "coverage-html": "scov run -p common -r html -o coverage.html",
+    "coverage": "unit-coverage run -p common",
+    "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm publish",
     "postpublish": "node publish/postpublish",
-    "travis": "npm run test && scov run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
+    "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
     "bin",
