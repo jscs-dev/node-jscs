@@ -31,6 +31,16 @@ describe('rules/require-space-before-keywords', function() {
         ).isEmpty());
     });
 
+    it('should not report space before non-coddled keywords', function() {
+        checker.configure({ requireSpaceBeforeKeywords: ['while'] });
+
+        assert(checker.checkString(
+            'while (x < 5) {\n' +
+                'x++;\n' +
+            '}'
+        ).isEmpty());
+    });
+
     it('should show different error if there is more than one space', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['else'] });
 
