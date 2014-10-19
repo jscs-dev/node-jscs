@@ -73,7 +73,11 @@ describe('rules/require-space-after-keywords', function() {
 
     it('should trigger different error for comments with more than one space', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if(x) { x++; }').getErrorCount() === 1);
+
+        var errors = checker.checkString('if  /**/(x) {}');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.explainError(error).indexOf('Should be one space instead of 2, after "if"') === 0);
     });
 
     it('should report on all spaced keywords if a value of true is supplied', function() {
