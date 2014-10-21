@@ -32,8 +32,21 @@ describe('rules/require-space-after-line-comment', function() {
         it('should report triple slashed comments', function() {
             assert(checker.checkString('if (true) {abc();} /// something').getErrorCount() === 1);
         });
+
+        it('should report sharped line comments', function() {
+            assert(checker.checkString('if (true) {abc();} //# something').getErrorCount() === 1);
+        });
+
+        // testing tab with space indent. #592
+        it('should not report line comments with tabs', function() {
+            assert(checker.checkString(
+                'function area() {\n' +
+                '  //\t_shareViaEmail(target, url);\n' +
+                '}').isEmpty());
+        });
     });
 
+    // deprecated. fixes #697
     describe('option value allowSlash', function() {
         beforeEach(function() {
             checker.configure({ requireSpaceAfterLineComment: 'allowSlash' });
@@ -49,6 +62,31 @@ describe('rules/require-space-after-line-comment', function() {
                 '  /// <summary>\n' +
                 '  ///   summary\n' +
                 '  /// </summary>\n' +
+                '  return res;\n' +
+                '}')
+                .isEmpty());
+        });
+    });
+
+    describe('exceptions #, --, (xsharp)', function() {
+        beforeEach(function() {
+            checker.configure({ requireSpaceAfterLineComment: { allExcept: ['#', '--', '(xsharp)'] } });
+        });
+
+        it('should not report sharped comment', function() {
+            assert(checker.checkString('function area() {\n  //# require something.js\n}')
+                .isEmpty());
+        });
+
+        it('should not report (xsharp) line comment', function() {
+            assert(checker.checkString('function area() {\n  //(xsharp) special comment\n}')
+                .isEmpty());
+        });
+
+        it('should not report line comment with custom substrings', function() {
+            assert(checker.checkString('function area() {\n' +
+                '  //(xsharp) sourceURL=filename.js\n' +
+                '  //-- require something-else.js\n' +
                 '  return res;\n' +
                 '}')
                 .isEmpty());
