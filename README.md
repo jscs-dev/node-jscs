@@ -78,7 +78,15 @@ Allows to define path to the config file.
 jscs path[ path[...]] --config=./.config.json
 ```
 
-If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
+If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` (which is a just JSON with comments) and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
+
+You can also write your config in plain `.js`. In this case config object must be prepended with `module.exports = `:
+
+```js
+module.exports = {
+	// JSCS options go here
+}
+```
 
 ### `--preset`
 If defined will use predefined rules for specific code style.
