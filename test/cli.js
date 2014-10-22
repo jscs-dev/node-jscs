@@ -559,4 +559,53 @@ describe('modules/cli', function() {
             });
         });
     });
+
+    describe('esprima option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should use a custom esprima provided in the config file', function(done) {
+            var data = 'import { foo } from "bar";\n';
+
+            var result = cli({
+                args: [],
+                'no-colors': true,
+                config: 'test/data/cli/esprima.json'
+            });
+
+            process.stdin.emit('data', data);
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+                done();
+            });
+        });
+
+        it('should use a custom esprima provided at CLI', function(done) {
+            var data = 'import { foo } from "bar";\n';
+
+            var result = cli({
+                args: [],
+                esprima: 'esprima-harmony-jscs',
+                'no-colors': true,
+                config: 'test/data/cli/cli.json'
+            });
+
+            process.stdin.emit('data', data);
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+                done();
+            });
+        });
+    });
 });

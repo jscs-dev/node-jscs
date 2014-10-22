@@ -100,6 +100,9 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ### `--esnext`
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
+### `--esprima <path>`
+Attempts to parse your code with a custom Esprima version. For example `jscs --esprima=esprima-fb`
+
 ### `--no-colors`
 Clean output without colors.
 
