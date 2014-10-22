@@ -72,16 +72,12 @@ describe('modules/string-checker', function() {
 
     describe('rules registration', function() {
         it('should report rules in config which don\'t match any registered rules', function() {
-            var error;
-            try {
-                checker.configure({ disallowMulipleLineBreaks: true, disallowMultipleVarDelc: true });
-            } catch (e) {
-                error = e;
-            }
-            assert.equal(
-                error.message,
-                'Unsupported rules: disallowMulipleLineBreaks, disallowMultipleVarDelc'
-            );
+            checker.configure({ doesNotExist: true, noSuchRule: true });
+            var errors = checker.checkString('var foo = 1;').getErrorList();
+
+            assert(errors.length === 2);
+            assert.equal(errors[0].message, 'Unsupported rule: doesNotExist');
+            assert.equal(errors[1].message, 'Unsupported rule: noSuchRule');
         });
 
         it('should not report rules in config which match registered rules', function() {

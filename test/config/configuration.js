@@ -111,6 +111,13 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('getUnsupportedRuleNames', function() {
+        it('should return a list of the names of unsupported rules found', function() {
+            configuration.load({foobar: 5});
+            assert(configuration.getUnsupportedRuleNames().length === 1);
+        });
+    });
+
     describe('hasPreset', function() {
         it('should return true if preset presents in collection', function() {
             var preset = {maxErrors: 5};
@@ -227,24 +234,6 @@ describe('modules/config/configuration', function() {
             assert(configureSpy.callCount === 1);
             assert(configureSpy.getCall(0).args.length === 1);
             assert(configureSpy.getCall(0).args[0] === true);
-        });
-
-        it('should throw error on unsupported rule', function() {
-            try {
-                configuration.load({ruleName: true});
-                assert(false);
-            } catch (e) {
-                assert.equal(e.message, 'Unsupported rules: ruleName');
-            }
-        });
-
-        it('should throw error on list of unsupported rules', function() {
-            try {
-                configuration.load({ruleName1: true, ruleName2: true});
-                assert(false);
-            } catch (e) {
-                assert.equal(e.message, 'Unsupported rules: ruleName1, ruleName2');
-            }
         });
 
         it('should not configure rule on null', function() {
