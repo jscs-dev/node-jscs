@@ -103,6 +103,12 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ### `--esnext`
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
+### `--esprima`
+Attempts to parse your code with a custom Esprima version.
+```
+jscs path[ path[...]] --esprima=esprima-fb
+```
+
 ### `--error-filter`
 The path to a module that determines whether or not an error should be reported.
 ```

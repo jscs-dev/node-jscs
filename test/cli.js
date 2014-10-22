@@ -612,4 +612,48 @@ describe('modules/cli', function() {
             });
         });
     });
+
+    describe('esprima option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should use a custom esprima provided in the config file', function() {
+            return cli({
+                args: ['test/data/cli/esnext.js'],
+                config: 'test/data/cli/esprima.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+            });
+        });
+
+        it('should use the default esprima if null is provided in the config file', function() {
+            return cli({
+                args: ['test/data/cli/esnext.js'],
+                config: 'test/data/cli/esprimaNull.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
+                rAfter();
+            });
+        });
+
+        it('should use a custom esprima provided at CLI', function() {
+            return cli({
+                args: ['test/data/cli/esnext.js'],
+                esprima: 'esprima-harmony-jscs',
+                config: 'test/data/cli/cli.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+            });
+        });
+    });
 });
