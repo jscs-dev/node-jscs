@@ -59,7 +59,8 @@ describe('modules/cli', function() {
         });
 
         return result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exist');
+            assert(console.error.getCall(0).args[0] === 'Preset "%s" does not exist');
+            assert(console.error.getCall(0).args[1] === 'not-exist');
             console.error.restore();
         });
     });
