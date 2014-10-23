@@ -98,6 +98,42 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('hasPreset', function() {
+        it('should return true if preset presents in collection', function() {
+            var preset = {maxErrors: 5};
+            assert(!configuration.hasPreset('company'));
+            configuration.registerPreset('company', preset);
+            assert(configuration.hasPreset('company'));
+        });
+    });
+
+    describe('registerDefaultRules', function() {
+        it('should register built-in rules', function() {
+            configuration.registerDefaultRules();
+            var optionNames = configuration.getRegisteredRules().map(function(rule) {
+                return rule.getOptionName();
+            });
+
+            // checking for some of them
+            assert(optionNames.indexOf('requireCurlyBraces') !== -1);
+            assert(optionNames.indexOf('disallowEmptyBlocks') !== -1);
+        });
+    });
+
+    describe('registerDefaultPresets', function() {
+        it('should register built-in presets', function() {
+            assert(!configuration.hasPreset('jquery'));
+            configuration.registerDefaultPresets();
+            assert(configuration.hasPreset('airbnb'));
+            assert(configuration.hasPreset('crockford'));
+            assert(configuration.hasPreset('google'));
+            assert(configuration.hasPreset('jquery'));
+            assert(configuration.hasPreset('mdcs'));
+            assert(configuration.hasPreset('wikimedia'));
+            assert(configuration.hasPreset('yandex'));
+        });
+    });
+
     describe('getConfiguredRules', function() {
         it('should return configured rules after config load', function() {
             assert(configuration.getConfiguredRules().length === 0);
