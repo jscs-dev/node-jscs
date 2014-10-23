@@ -37,7 +37,7 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
         });
 
-        it.only('should set correct pointer', function() {
+        it('should set correct pointer', function() {
             var errors = checker.checkString('var x = function (){}');
             var error = errors.getErrorList()[0];
 
