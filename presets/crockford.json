@@ -49,7 +49,6 @@
     "requireSpaceAfterBinaryOperators": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "disallowKeywords": [ "with" ],
-    "disallowMultipleLineBreaks": true,
     "validateQuoteMarks": "'",
     "validateIndentation": 4,
     "disallowMixedSpacesAndTabs": true,
