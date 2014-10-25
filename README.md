@@ -1588,6 +1588,7 @@ Disallows identifiers that start or end in `_`, except for some popular exceptio
  - `_` (underscore.js)
  - `__filename` (node.js global)
  - `__dirname` (node.js global)
+ - `super_` (node.js, used by [`util.inherits`](http://nodejs.org/docs/latest/api/util.html#util_util_inherits_constructor_superconstructor))
 
 Type: `Boolean`
 
