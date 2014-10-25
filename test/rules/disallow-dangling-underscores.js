@@ -35,6 +35,10 @@ describe('rules/disallow-dangling-underscores', function() {
         assert(checker.checkString('var a = __dirname + __filename;').isEmpty());
     });
 
+    it('should not report the super constructor reference created by node\'s util.inherits', function() {
+        assert(checker.checkString('Inheritor.super_.call(this);').isEmpty());
+    });
+
     it('should not report inner underscores', function() {
         assert(checker.checkString('var x_y = "x";').isEmpty());
     });
