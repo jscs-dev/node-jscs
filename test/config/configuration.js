@@ -1,4 +1,5 @@
 var assert = require('assert');
+var sinon = require('sinon');
 var Configuration = require('../../lib/config/configuration');
 
 describe('modules/config/configuration', function() {
@@ -147,6 +148,108 @@ describe('modules/config/configuration', function() {
             configuration.load({ruleName: true});
             assert(configuration.getConfiguredRules().length === 1);
             assert(configuration.getConfiguredRules()[0] === rule);
+        });
+    });
+
+    describe('isFileExcluded', function() {
+        it('should return `false` if no `excludeFiles` are defined', function() {
+            assert(!configuration.isFileExcluded('1.js'));
+            assert(!configuration.isFileExcluded(''));
+            assert(!configuration.isFileExcluded('*'));
+        });
+
+        it('should return `true` for excluded file', function() {
+            configuration.load({excludeFiles: ['1.js', 'app/1.js']});
+            assert(configuration.isFileExcluded('1.js'));
+            assert(configuration.isFileExcluded('app/1.js'));
+            assert(!configuration.isFileExcluded('share/1.js'));
+            assert(!configuration.isFileExcluded('2.js'));
+            assert(!configuration.isFileExcluded(''));
+        });
+
+        it('should return resolve given path', function() {
+            configuration.load({excludeFiles: ['app/1.js']});
+            assert(configuration.isFileExcluded('app/lib/../1.js'));
+        });
+    });
+
+    describe('usePlugin', function() {
+        it('should run plugin with configuration specified', function() {
+            var plugin = function() {};
+            var spy = sinon.spy(plugin);
+            configuration.usePlugin(spy);
+            assert(spy.called);
+            assert(spy.callCount === 1);
+            assert(spy.getCall(0).args[0] === configuration);
+        });
+    });
+
+    describe('override', function() {
+        it('should override `preset` setting', function() {
+            configuration.registerPreset('1', {});
+            configuration.registerPreset('2', {});
+            configuration.override({preset: '2'});
+            configuration.load({preset: '1'});
+            assert(configuration.getProcessedConfig().preset === '2');
+        });
+
+        it('should override `maxErrors` setting', function() {
+            configuration.override({maxErrors: 2});
+            configuration.load({maxErrors: 1});
+            assert(configuration.getProcessedConfig().maxErrors === 2);
+        });
+    });
+
+    describe('load', function() {
+        it('should load specified preset', function() {
+            configuration.registerPreset('preset', {maxErrors: 1});
+            configuration.load({preset: 'preset'});
+            assert(configuration.getProcessedConfig().preset === 'preset');
+            assert(configuration.getProcessedConfig().maxErrors === 1);
+        });
+
+        it('should accept `maxErrors`', function() {
+            configuration.load({maxErrors: 1});
+            assert(configuration.getMaxErrors() === 1);
+        });
+
+        it('should accept `excludeFiles`', function() {
+            configuration.load({excludeFiles: ['**']});
+            assert(configuration.getExcludedFileMasks().length === 1);
+            assert(configuration.getExcludedFileMasks()[0] === '**');
+        });
+
+        it('should accept `fileExtensions`', function() {
+            configuration.load({fileExtensions: ['.jsx']});
+            assert(configuration.getFileExtensions().length === 1);
+            assert(configuration.getFileExtensions()[0] === '.jsx');
+        });
+
+        it('should accept `additionalRules`', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.load({additionalRules: [rule]});
+            assert(configuration.getRegisteredRules());
+            assert(configuration.getRegisteredRules().length === 1);
+            assert(configuration.getRegisteredRules()[0] === rule);
+        });
+
+        it('should accept `configPath`', function() {
+            configuration.load({configPath: 'app/1.js'});
+            assert(configuration.getBasePath() === 'app');
+        });
+
+        it('should accept `plugins`', function() {
+            var plugin = function() {};
+            var spy = sinon.spy(plugin);
+            configuration.load({plugins: [spy]});
+            assert(spy.called);
+            assert(spy.callCount === 1);
+            assert(spy.getCall(0).args[0] === configuration);
         });
     });
 });
