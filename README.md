@@ -1310,6 +1310,134 @@ foo({
 });
 ```
 
+### requirePaddingNewlinesBeforeKeywords
+
+Requires an empty line above the specified keywords unless the keyword is the first expression in a block.
+
+Type: `Array` or `Boolean`
+
+Values: Array of quoted types or `true` to require padding new lines after all of the keywords below.
+
+#### Example
+
+```js
+"requirePaddingNewlinesBeforeKeywords": [
+    "do",
+    "for",
+    "if",
+    "else",
+    "switch",
+    "case",
+    "try",
+    "catch",
+    "void",
+    "while",
+    "with",
+    "return",
+    "typeof",
+    "function"
+]
+```
+
+##### Valid
+
+```js
+function(a) {
+    if (!a) {
+        return false;
+    }
+
+    for (var i = 0; i < b; i++) {
+        if (!a[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
+##### Invalid
+
+```js
+function(a) {
+    if (!a) {
+        return false;
+    }
+    for (var i = 0; i < b; i++) {
+        if (!a[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+### disallowPaddingNewlinesBeforeKeywords
+
+Disallow an empty line above the specified keywords.
+
+Type: `Array` or `Boolean`
+
+Values: Array of quoted types or `true` to disallow padding new lines after all of the keywords below.
+
+#### Example
+
+```js
+"requirePaddingNewlinesBeforeKeywords": [
+    "do",
+    "for",
+    "if",
+    "else",
+    "switch",
+    "case",
+    "try",
+    "catch",
+    "void",
+    "while",
+    "with",
+    "return",
+    "typeof",
+    "function"
+]
+```
+
+##### Valid
+
+```js
+function(a) {
+    if (!a) {
+        return false;
+    }
+    for (var i = 0; i < b; i++) {
+        if (!a[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+##### Invalid
+
+```js
+function(a) {
+    if (!a) {
+
+        return false;
+    }
+
+    for (var i = 0; i < b; i++) {
+        if (!a[i]) {
+
+            return false;
+        }
+    }
+
+    return true;
+}
+```
+
 ### disallowEmptyBlocks
 
 Disallows empty blocks (except for catch blocks).
@@ -1337,127 +1465,6 @@ try { a = b; } catch( e ){}
 
 ```js
 if ( a == b ) { } else { c = d; }
-```
-
-### requirePaddingNewlinesBeforeKeywords
-
-Requires an empty line above the specified keywords unless the keyword is the first expression in a block.
-
-Type: `Array` or `Boolean`
-
-Values: Array of quoted types or `true` to require padding new lines after all of the keywords below
-
-#### Example
-
-```js
-"requirePaddingNewlinesBeforeKeywords": [
-	"do",
-    "for",
-    "if",
-    "else",
-    "switch",
-    "case",
-    "try",
-    "catch",
-    "void",
-    "while",
-    "with",
-    "return",
-    "typeof",
-    "function"
-]
-```
-
-##### Valid
-
-```js
-function(a) {
-	if (!a) {
-		return false;
-	}
-	
-	for (var i = 0; i < b; i++) {
-		if (!a[i]) {
-			return false;
-		}
-	}
-	
-	return true;
-}
-```
-
-##### Invalid
-
-```js
-function(a) {
-	if (!a) {
-		return false;
-	}
-	for (var i = 0; i < b; i++) {
-		if (!a[i]) {
-			return false;
-		}
-	}
-	return true;
-}
-```
-
-### disallowPaddingNewlinesBeforeKeywords
-
-Disallow an empty line above the specified keywords.
-
-Type: `Array` or `Boolean`
-
-Values: Array of quoted types or `true` to disallow padding newlines before all possible keywords.
-
-#### Example
-
-```js
-"requirePaddingNewlinesBeforeKeywords": [
-  "if",
-  "for",
-  "return",
-  "switch",
-  "case",
-  "break",
-  "throw"
-]
-```
-
-##### Valid
-
-```js
-function(a) {
-	if (!a) {
-		return false;
-	}
-	for (var i = 0; i < b; i++) {
-		if (!a[i]) {
-			return false;
-		}
-	}
-	return true;
-}
-```
-
-##### Invalid
-
-```js
-function(a) {
-	if (!a) {
-	
-		return false;
-	}
-	
-	for (var i = 0; i < b; i++) {
-		if (!a[i]) {
-		
-			return false;
-		}
-	}
-	
-	return true;
-}
 ```
 
 ### disallowSpacesInsideObjectBrackets
