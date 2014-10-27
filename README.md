@@ -488,15 +488,15 @@ Values: `true`
 
 ```js
 if (cond) {
-  foo();
+    foo();
 }
 
 for (var e in elements) {
-  bar(e);
+    bar(e);
 }
 
 while (cond) {
-  foo();
+    foo();
 }
 ```
 
@@ -504,15 +504,15 @@ while (cond) {
 
 ```js
 if (cond){
-  foo();
+    foo();
 }
 
 for (var e in elements){
-  bar(e);
+    bar(e);
 }
 
 while (cond){
-  foo();
+    foo();
 }
 ```
 
@@ -535,15 +535,15 @@ Values: `true`
 
 ```js
 if (cond){
-  foo();
+    foo();
 }
 
 for (var e in elements){
-  bar(e);
+    bar(e);
 }
 
 while (cond){
-  foo();
+    foo();
 }
 ```
 
@@ -551,15 +551,15 @@ while (cond){
 
 ```js
 if (cond) {
-  foo();
+    foo();
 }
 
 for (var e in elements) {
-  bar(e);
+    bar(e);
 }
 
 while (cond) {
-  foo();
+    foo();
 }
 ```
 
@@ -2758,7 +2758,7 @@ Values: `true`
 ##### Valid
 ```js
 if (1 == a) {
-  return
+    return
 }
 ```
 
@@ -2766,7 +2766,7 @@ if (1 == a) {
 
 ```js
 if (a == 1) {
-  return
+    return
 }
 ```
 
@@ -2788,7 +2788,7 @@ Values: `true`
 
 ```js
 if (a == 1) {
-  return
+    return
 }
 ```
 
@@ -2796,7 +2796,7 @@ if (a == 1) {
 
 ```js
 if (1 == a) {
-  return
+    return
 }
 ```
 
