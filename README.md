@@ -2921,7 +2921,7 @@ var a = function(){
 
 $('#foo').click(function(){
 
-};)
+})
 ```
 
 ##### Invalid
@@ -2933,7 +2933,7 @@ var a = function foo(){
 
 $('#foo').click(function bar(){
 
-};)
+});
 ```
 
 ### disallowFunctionDeclarations
