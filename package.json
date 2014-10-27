@@ -26,8 +26,8 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "colors": "~0.6.2",
-    "commander": "~2.3.0",
+    "colors": "~1.0.3",
+    "commander": "~2.5.0",
     "esprima": "~1.2.2",
     "esprima-harmony-jscs": "1.1.0-dev-harmony",
     "exit": "~0.1.2",
@@ -37,18 +37,18 @@
     "vow": "~0.4.3",
     "vow-fs": "~0.3.1",
     "xmlbuilder": "~2.4.0",
-    "supports-color": "~1.1.0"
+    "supports-color": "~1.2.0"
   },
   "devDependencies": {
-    "browserify": "~5.10.0",
+    "browserify": "~6.2.0",
     "coveralls": "~2.11.1",
     "has-ansi": "~1.0.0",
     "hooker": "~0.2.3",
     "jshint": "~2.5.0",
-    "mocha": "~1.21.4",
+    "mocha": "~2.0.1",
     "rewire": "~2.1.0",
     "unit-coverage": "~3.0.0",
-    "sinon": "~1.10.0",
+    "sinon": "~1.11.0",
     "xml2js": "~0.4.2"
   },
   "bin": {
