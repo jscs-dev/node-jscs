@@ -201,16 +201,83 @@ describe('modules/config/configuration', function() {
     });
 
     describe('load', function() {
-        it('should load specified preset', function() {
+        it('should configure rules', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            var configureSpy = sinon.spy(rule, 'configure');
+            configuration.registerRule(rule);
+            configuration.load({ruleName: true});
+            assert(configuration.getProcessedConfig().ruleName === true);
+            assert(configureSpy.callCount === 1);
+            assert(configureSpy.getCall(0).args.length === 1);
+            assert(configureSpy.getCall(0).args[0] === true);
+        });
+
+        it('should throw error on unsupported rule', function() {
+            try {
+                configuration.load({ruleName: true});
+                assert(false);
+            } catch (e) {
+                assert.equal(e.message, 'Unsupported rules: ruleName');
+            }
+        });
+
+        it('should throw error on list of unsupported rules', function() {
+            try {
+                configuration.load({ruleName1: true, ruleName2: true});
+                assert(false);
+            } catch (e) {
+                assert.equal(e.message, 'Unsupported rules: ruleName1, ruleName2');
+            }
+        });
+
+        it('should not configure rule on null', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            var configureSpy = sinon.spy(rule, 'configure');
+            configuration.registerRule(rule);
+            configuration.load({ruleName: null});
+            assert(!configuration.getProcessedConfig().hasOwnProperty('ruleName'));
+            assert(configureSpy.callCount === 0);
+        });
+
+        it('should load `preset` options', function() {
             configuration.registerPreset('preset', {maxErrors: 1});
             configuration.load({preset: 'preset'});
             assert(configuration.getProcessedConfig().preset === 'preset');
             assert(configuration.getProcessedConfig().maxErrors === 1);
         });
 
-        it('should accept `maxErrors`', function() {
+        it('should load `preset` rule settings', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+            configuration.registerPreset('preset', {ruleName: true});
+            configuration.load({preset: 'preset'});
+            assert(configuration.getProcessedConfig().preset === 'preset');
+            assert(configuration.getProcessedConfig().ruleName === true);
+        });
+
+        it('should accept `maxErrors` number', function() {
             configuration.load({maxErrors: 1});
             assert(configuration.getMaxErrors() === 1);
+        });
+
+        it('should accept `maxErrors` null', function() {
+            configuration.load({maxErrors: null});
+            assert(configuration.getMaxErrors() === null);
         });
 
         it('should accept `excludeFiles`', function() {
@@ -219,13 +286,23 @@ describe('modules/config/configuration', function() {
             assert(configuration.getExcludedFileMasks()[0] === '**');
         });
 
-        it('should accept `fileExtensions`', function() {
+        it('should accept `fileExtensions` array', function() {
             configuration.load({fileExtensions: ['.jsx']});
             assert(configuration.getFileExtensions().length === 1);
             assert(configuration.getFileExtensions()[0] === '.jsx');
         });
 
-        it('should accept `additionalRules`', function() {
+        it('should accept `fileExtensions` string', function() {
+            configuration.load({fileExtensions: '.jsx'});
+            assert(configuration.getFileExtensions().length === 1);
+            assert(configuration.getFileExtensions()[0] === '.jsx');
+        });
+
+        it('should accept `additionalRules` option', function() {
+            configuration.load({additionalRules: []});
+        });
+
+        it('should accept `additionalRules` to register rules', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';
@@ -233,9 +310,21 @@ describe('modules/config/configuration', function() {
                 configure: function() {}
             };
             configuration.load({additionalRules: [rule]});
-            assert(configuration.getRegisteredRules());
             assert(configuration.getRegisteredRules().length === 1);
             assert(configuration.getRegisteredRules()[0] === rule);
+            assert(configuration.getConfiguredRules().length === 0);
+        });
+
+        it('should accept `additionalRules` to configure rules', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.load({additionalRules: [rule], ruleName: true});
+            assert(configuration.getConfiguredRules().length === 1);
+            assert(configuration.getConfiguredRules()[0] === rule);
         });
 
         it('should accept `configPath`', function() {
