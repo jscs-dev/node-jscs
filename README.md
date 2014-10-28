@@ -1711,33 +1711,39 @@ var x = {'a': 1};
 
 ### disallowDanglingUnderscores
 
-Disallows identifiers that start or end in `_`, except for some popular exceptions:
+Disallows identifiers that start or end in `_`. Some popular identifiers that are automatically excepted:
 
+ - `__proto__` (javascript)
  - `_` (underscore.js)
  - `__filename` (node.js global)
  - `__dirname` (node.js global)
  - `super_` (node.js, used by [`util.inherits`](http://nodejs.org/docs/latest/api/util.html#util_util_inherits_constructor_superconstructor))
 
-Type: `Boolean`
+Type: `Boolean` or `Object`
 
-Values: `true`
+Values:
+ - `true`
+ - `Object`:
+    - `allExcept`: array of quoted identifiers
 
 JSHint: [`nomen`](http://www.jshint.com/docs/options/#nomen)
 
 #### Example
 
 ```js
-"disallowDanglingUnderscores": true
+"disallowDanglingUnderscores": { allExcept: ["_exception"] }
 ```
 
 ##### Valid
 
 ```js
 var x = 1;
+var o = obj.__proto__;
 var y = _.extend;
 var z = __dirname;
 var w = __filename;
 var x_y = 1;
+var v = _exception;
 ```
 
 ##### Invalid
