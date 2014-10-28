@@ -675,7 +675,7 @@ var a = b?c: d;
 
 ### requireSpacesInFunctionExpression
 
-Requires space before `()` or `{}` in function expressions (both named and anonymous).
+Requires space before `()` or `{}` in function expressions (both [named](#requirespacesinnamedfunctionexpression) and [anonymous](#requirespacesinanonymousfunctionexpression)).
 
 Type: `Object`
 
@@ -693,21 +693,21 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function () {}
-function a () {}
+var x = function () {};
+var x = function a () {};
 ```
 
 ##### Invalid
 
 ```js
-function() {}
-function (){}
+var x = function() {};
+var x = function a(){};
 ```
 
 
 ### disallowSpacesInFunctionExpression
 
-Disallows space before `()` or `{}` in function expressions (both named and anonymous).
+Disallows space before `()` or `{}` in function expressions (both [named](#disallowspacesinnamedfunctionexpression) and [anonymous](#disallowspacesinanonymousfunctionexpression)).
 
 Type: `Object`
 
@@ -725,15 +725,15 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function(){}
-function a(){}
+var x = function(){};
+var x = function a(){};
 ```
 
 ##### Invalid
 
 ```js
-function () {}
-function a (){}
+var x = function () {};
+var x = function a (){};
 ```
 
 
@@ -757,14 +757,21 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function () {}
+var foo = function () {};
+var Foo = {
+    foo: function () {};
+}
+array.map(function () {});
 ```
 
 ##### Invalid
 
 ```js
-function() {}
-function (){}
+var foo = function() {};
+var Foo = {
+    foo: function (){};
+}
+array.map(function(){});
 ```
 
 
@@ -788,14 +795,21 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function(){}
+var foo = function(){};
+var Foo = {
+    foo: function(){};
+}
+array.map(function(){});
 ```
 
 ##### Invalid
 
 ```js
-function () {}
-function (){}
+var foo = function () {};
+var Foo = {
+    foo: function (){};
+}
+array.map(function() {});
 ```
 
 
@@ -819,14 +833,14 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-var x = function a () {}
+var x = function a () {};
 ```
 
 ##### Invalid
 
 ```js
-var x = function a() {}
-var x = function a(){}
+var x = function a() {};
+var x = function a(){};
 ```
 
 
@@ -850,14 +864,14 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 ##### Valid
 
 ```js
-function a(){}
+var x = function a(){};
 ```
 
 ##### Invalid
 
 ```js
-function a () {}
-function a (){}
+var x = function a () {};
+var x = function a (){};
 ```
 
 
@@ -925,7 +939,7 @@ function a (){}
 
 ### requireSpacesInFunction
 
-Requires space before `()` or `{}` in function declarations and expressions.
+Requires space before `()` or `{}` in function [declarations](#requirespacesinfunctiondeclaration) and [expressions](#requirespacesinfunctionexpression).
 
 Type: `Object`
 
@@ -944,6 +958,8 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 
 ```js
 function a () {}
+
+var x = function a () {};
 ```
 
 ##### Invalid
@@ -951,12 +967,15 @@ function a () {}
 ```js
 function a() {}
 function a (){}
+
+var x = function a() {};
+var x = function a () {};
 ```
 
 
 ### disallowSpacesInFunction
 
-Disallows space before `()` or `{}` in function declarations and expressions.
+Disallows space before `()` or `{}` in function [declarations](#disallowspacesinfunctiondeclaration) and [expressions](#disallowspacesinfunctionexpression).
 
 Type: `Object`
 
@@ -975,6 +994,8 @@ Values: `"beforeOpeningRoundBrace"` and `"beforeOpeningCurlyBrace"` as child pro
 
 ```js
 function a(){}
+
+var x = function a(){};
 ```
 
 ##### Invalid
@@ -982,6 +1003,9 @@ function a(){}
 ```js
 function a () {}
 function a (){}
+
+var x = function a () {};
+var x = function a (){};
 ```
 
 
