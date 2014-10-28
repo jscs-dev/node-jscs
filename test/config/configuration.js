@@ -298,10 +298,6 @@ describe('modules/config/configuration', function() {
             assert(configuration.getFileExtensions()[0] === '.jsx');
         });
 
-        it('should accept `additionalRules` option', function() {
-            configuration.load({additionalRules: []});
-        });
-
         it('should accept `additionalRules` to register rules', function() {
             var rule = {
                 getOptionName: function() {
