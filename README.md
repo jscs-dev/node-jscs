@@ -671,7 +671,95 @@ var a = b?c :d;
 var a = b?c: d;
 ```
 
+### requireSpacesAroundFunctionArguments
 
+Requires spaces before first and after last function arguments
+
+Type: `Object` or `Boolean`
+
+Values: `"multiLine"` and `"singleLine"` as child properties of `Object` type or `true` value
+
+#### Example
+
+```js
+"requireSpacesAroundFunctionArguments": true
+// same as
+"requireSpacesAroundFunctionArguments": {
+    "singleLine": true,
+    "multiLine": true
+}
+
+```
+
+##### Valid
+
+```js
+call( argument );
+```
+
+##### Invalid
+
+```js
+call(argument)
+```
+
+#### Example
+
+```js
+"requireSpacesAroundFunctionArguments": {
+    "singleLine": {
+        "arity": "1" // or ">1" or "<2" or etc,
+        "except": [ '(', ')' ] // array of token exceptions
+    }
+}
+```
+
+##### Valid
+
+```js
+call( argument );
+call(first, second);
+call({
+    argument: "value"
+});
+call((argument))
+```
+
+##### Invalid
+
+```js
+call(argument)
+```
+
+#### Example
+
+```js
+"requireSpacesAroundFunctionArguments": {
+    "multiLine": {
+        "arity": "1" // or ">1" or "<2" or etc
+        "except": [ "{", "}" ]
+    }
+}
+```
+
+##### Valid
+
+```js
+call( function() {
+    ...
+})
+call({
+    argument: "value"
+});
+```
+
+##### Invalid
+
+```js
+call(function() {
+    ...
+})
+```
 
 ### requireSpacesInFunctionExpression
 
