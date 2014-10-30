@@ -66,7 +66,7 @@ describe('modules/string-checker', function() {
 
             assert(false);
         } catch (e) {
-            assert(e.toString() === 'Error: Preset "not-exist" does not exist');
+            assert.equal(e.toString(), 'AssertionError: Preset "not-exist" does not exist');
         }
     });
 

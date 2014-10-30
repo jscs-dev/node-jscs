@@ -14,23 +14,13 @@ describe('modules/checker', function() {
     });
 
     describe('checkFile', function() {
-        afterEach(function() {
-            if (checker._isExcluded.restore) {
-                checker._isExcluded.restore();
-            }
-        });
-        it('should check for exclusion', function() {
-            sinon.spy(checker, '_isExcluded');
-
-            checker.checkFile('./test/data/checker/file.js');
-
-            assert(checker._isExcluded.called);
-        });
         it('should return empty array of errors for excluded files', function() {
-            sinon.stub(checker, '_isExcluded', function() {
-                return true;
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                disallowKeywords: ['with'],
+                excludeFiles: ['./test/**']
             });
-
             return checker.checkFile('./test/data/checker/file.js').then(function(errors) {
                 assert(errors === null);
             });
