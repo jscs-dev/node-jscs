@@ -336,5 +336,59 @@ describe('modules/config/configuration', function() {
             assert(spy.callCount === 1);
             assert(spy.getCall(0).args[0] === configuration);
         });
+
+        it('should thow non-camelcase error for underscore-config', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+            try {
+                configuration.load({'rule_name': true});
+                assert(false);
+            } catch (e) {
+                assert.equal(
+                    e.message,
+                    'JSCS now accepts configuration options in camel case. ' +
+                    'Sorry for inconvenience. ' +
+                    'On the bright side, we tried to convert your jscs config to camel case.\n' +
+                    '----------------------------------------\n' +
+                    '{\n' +
+                    '    "ruleName": true\n' +
+                    '}\n' +
+                    '----------------------------------------\n'
+                );
+            }
+        });
+
+        it('should thow non-camelcase error with converted sub-configs', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+            try {
+                configuration.load({'rule_name': {'config_key': true}});
+                assert(false);
+            } catch (e) {
+                assert.equal(
+                    e.message,
+                    'JSCS now accepts configuration options in camel case. ' +
+                    'Sorry for inconvenience. ' +
+                    'On the bright side, we tried to convert your jscs config to camel case.\n' +
+                    '----------------------------------------\n' +
+                    '{\n' +
+                    '    "ruleName": {\n' +
+                    '        "configKey": true\n' +
+                    '    }\n' +
+                    '}\n' +
+                    '----------------------------------------\n'
+                );
+            }
+        });
     });
 });
