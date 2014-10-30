@@ -2,10 +2,14 @@ var Checker = require('../lib/checker');
 var assert = require('assert');
 
 describe('modules/errors', function() {
-    var checker = new Checker();
+    var checker;
 
-    checker.registerDefaultRules();
-    checker.configure({ disallowQuotedKeysInObjects: true });
+    beforeEach(function() {
+        checker = new Checker();
+
+        checker.registerDefaultRules();
+        checker.configure({ disallowQuotedKeysInObjects: true });
+    });
 
     it('should provide correct indent for tabbed lines', function() {
         var errors = checker.checkString('\tvar x = { "a": 1 }');
@@ -116,6 +120,16 @@ describe('modules/errors', function() {
             assert.equal(error.rule, 'anyRule');
             assert.equal(error.line, 1);
             assert.equal(error.column, 0);
+        });
+    });
+
+    describe('filter', function() {
+        it('filters the errorlist by the given function', function() {
+            var errors = checker.checkString('var');
+            errors.filter(function(error) {
+                return false;
+            });
+            assert(errors.isEmpty());
         });
     });
 });

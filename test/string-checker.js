@@ -199,4 +199,31 @@ describe('modules/string-checker', function() {
             assert(error.message !== customDescription);
         });
     });
+
+    describe('error filter', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+        });
+
+        it('should accept a path to a filter function to filter out errors', function() {
+            checker.configure({
+                disallowQuotedKeysInObjects: true,
+                errorFilter: __dirname + '/data/error-filter.js'
+            });
+
+            var errors = checker.checkString('var x = { "a": 1 }');
+
+            assert.ok(errors.isEmpty());
+        });
+
+        it('should not accept a filter function directly in the configuration', function() {
+            assert.throws(function() {
+                checker.configure({
+                    disallowQuotedKeysInObjects: true,
+                    errorFilter: function() { return false; }
+                });
+            });
+        });
+    });
 });

@@ -118,6 +118,13 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('getErrorFilter', function() {
+        it('should return the supplied error filter', function() {
+            configuration.load({errorFilter: function() {}});
+            assert(typeof configuration.getErrorFilter() === 'function');
+        });
+    });
+
     describe('hasPreset', function() {
         it('should return true if preset presents in collection', function() {
             var preset = {maxErrors: 5};

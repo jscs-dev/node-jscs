@@ -567,4 +567,25 @@ describe('modules/cli', function() {
             });
         });
     });
+
+    describe('errorFilter option', function() {
+        beforeEach(function() {
+            sinon.spy(console, 'log');
+        });
+
+        afterEach(function() {
+            console.log.restore();
+        });
+
+        it('should accept a path to a filter module', function() {
+            return cli({
+                errorFilter: __dirname + '/data/error-filter.js',
+                args: ['test/data/cli/error.js']
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+            });
+        });
+    });
 });
