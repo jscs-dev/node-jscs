@@ -280,6 +280,21 @@ describe('modules/config/configuration', function() {
             assert(configuration.getMaxErrors() === null);
         });
 
+        it('should accept `esnext` boolean (true)', function() {
+            configuration.load({esnext: true});
+            assert(configuration.isESNextEnabled() === true);
+        });
+
+        it('should accept `esnext` boolean (false)', function() {
+            configuration.load({esnext: false});
+            assert(configuration.isESNextEnabled() === false);
+        });
+
+        it('should accept `esnext` boolean (null)', function() {
+            configuration.load({esnext: null});
+            assert(configuration.isESNextEnabled() === false);
+        });
+
         it('should accept `excludeFiles`', function() {
             configuration.load({excludeFiles: ['**']});
             assert(configuration.getExcludedFileMasks().length === 1);
