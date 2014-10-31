@@ -53,6 +53,18 @@ describe('modules/config/configuration', function() {
             assert(configuration.getConfiguredRules().length === 0);
         });
 
+        it('should accept class', function() {
+            var Rule = function() {
+                this.getOptionName = function() {
+                    return 'ruleName';
+                };
+            };
+            configuration.registerRule(Rule);
+            assert(configuration.getRegisteredRules().length === 1);
+            assert(configuration.getRegisteredRules()[0] instanceof Rule);
+            assert(configuration.getConfiguredRules().length === 0);
+        });
+
         it('should fail on duplicate rule name', function() {
             var rule = {
                 getOptionName: function() {
