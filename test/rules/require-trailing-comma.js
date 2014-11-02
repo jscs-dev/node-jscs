@@ -76,4 +76,63 @@ describe('rules/require-trailing-comma', function() {
             assert(checker.checkString('var x = {}').getErrorCount() === 0);
         });
     });
+
+    describe('ignoreSingleLine', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireTrailingComma: {
+                    ignoreSingleLine: true
+                }
+            });
+        });
+
+        it('should allow object or array on single line with single property', function() {
+            assert(checker.checkString('var x = [1,]').getErrorCount() === 0);
+            assert(checker.checkString('var x = [1]').getErrorCount() === 0);
+            assert(checker.checkString('var x = {a: "a",}').getErrorCount() === 0);
+            assert(checker.checkString('var x = {a: "a"}').getErrorCount() === 0);
+        });
+
+        it('should allow object or array on single line with multiple properties', function() {
+            assert(checker.checkString('var x = [1, 2,]').getErrorCount() === 0);
+            assert(checker.checkString('var x = [1, 2]').getErrorCount() === 0);
+            assert(checker.checkString('var x = {a: "a", b: "b",}').getErrorCount() === 0);
+            assert(checker.checkString('var x = {a: "a", b: "b"}').getErrorCount() === 0);
+        });
+
+        it('should report trailing comma required for object or array on multiple lines', function() {
+            assert(
+                checker.checkString(
+                    'var x = [\n' +
+                        '1,\n' +
+                        '2,\n' +
+                        '3,\n' +
+                    ']'
+                ).getErrorCount() === 0);
+            assert(
+                checker.checkString(
+                    'var x = [\n' +
+                        '1,\n' +
+                        '2,\n' +
+                        '3\n' +
+                    ']'
+                ).getErrorCount() === 1);
+            assert(
+                checker.checkString(
+                    'var x = {\n' +
+                        'a: "a",\n' +
+                        'b: "b",\n' +
+                        'c: "c",\n' +
+                    '}'
+                ).getErrorCount() === 0);
+            assert(
+                checker.checkString(
+                    'var x = {\n' +
+                        'a: "a",\n' +
+                        'b: "b",\n' +
+                        'c: "c"\n' +
+                    '}'
+                ).getErrorCount() === 1);
+        });
+    });
 });
