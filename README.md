@@ -2562,7 +2562,8 @@ Values:
 
 - `true`: validates all arrays and objects
 - `Object`:
-   - `ignoreSingleValue`: allows single property objects and single element arrays to not require a trailing comma
+    - `ignoreSingleValue`: allows single property objects and single element arrays to not require a trailing comma
+    - `ignoreSingleLine`: allows objects and arrays on a single line to not require a trailing comma
 
 #### Example
 
@@ -2582,6 +2583,13 @@ var bar = {a: "a", b: "b",}
 ```js
 var car = [1];
 var dar = {a: "a"};
+```
+
+##### Valid with ignoreSingleLine
+
+```js
+var car = [1, 2, 3];
+var dar = {a: "a", b: "b"};
 ```
 
 ##### Invalid
