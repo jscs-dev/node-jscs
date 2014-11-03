@@ -20,6 +20,7 @@ describe('modules/cli', function() {
         sinon.stub(process.stdout, 'write');
         sinon.stub(process.stderr, 'write');
     });
+
     afterEach(function() {
         process.chdir(startingDir);
 
@@ -59,7 +60,8 @@ describe('modules/cli', function() {
         });
 
         return result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Preset "not-exist" does not exist');
+            assert(console.error.getCall(0).args[0] === 'Preset "%s" does not exist');
+            assert(console.error.getCall(0).args[1] === 'not-exist');
             console.error.restore();
         });
     });
@@ -104,14 +106,15 @@ describe('modules/cli', function() {
 
     it('should set presets', function() {
         var Checker = require('../lib/checker');
-        var old = Checker.prototype.checkPath;
+        var originalCheckPath = Checker.prototype.checkPath;
+
+        function restoreCheckPath() {
+            Checker.prototype.checkPath = originalCheckPath;
+        }
 
         Checker.prototype.checkPath = function(path) {
             assert(path, 'test/data/cli/success.js');
-
-            Checker.prototype.checkPath = old;
-
-            return Vow.defer().promise();
+            return originalCheckPath.apply(this, arguments);
         };
 
         var result = cli({
@@ -119,8 +122,13 @@ describe('modules/cli', function() {
             preset: 'jquery',
             config: 'test/data/cli/cli.json'
         });
-
-        assert(result.checker.getProcessedConfig().requireCurlyBraces);
+        return result.promise.then(function() {
+            assert(result.checker.getProcessedConfig().requireCurlyBraces);
+            restoreCheckPath();
+        }).fail(function(e) {
+            restoreCheckPath();
+            throw e;
+        });
     });
 
     it('should bail out if no inputs files are specified', function() {
