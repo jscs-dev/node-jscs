@@ -143,6 +143,8 @@ describe('modules/string-checker', function() {
             parse: function() {
                 var error = new Error();
                 error.description = customDescription;
+                error.lineNumber = 1;
+                error.column = 0;
 
                 throw error;
             }

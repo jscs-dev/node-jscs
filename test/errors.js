@@ -88,4 +88,34 @@ describe('modules/errors', function() {
 
         assert.ok(errors.isEmpty());
     });
+
+    describe('add', function() {
+        var errors;
+        before(function() {
+            errors = checker.checkString('yay');
+        });
+
+        it('should throw an error on invalid line', function() {
+            assert.throws(function() {
+                errors.add('msg', 0);
+            });
+        });
+
+        it('should throw an error on invalid column', function() {
+            assert.throws(function() {
+                errors.add('msg', 1, '2');
+            });
+        });
+
+        it('should not throw with good parameters', function() {
+            errors.setCurrentRule('anyRule');
+            errors.add('msg', 1, 0);
+
+            var error = errors.getErrorList()[0];
+
+            assert.equal(error.rule, 'anyRule');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 0);
+        });
+    });
 });
