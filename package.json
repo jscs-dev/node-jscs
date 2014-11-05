@@ -47,7 +47,7 @@
     "jshint": "~2.5.0",
     "mocha": "~2.0.1",
     "rewire": "~2.1.0",
-    "unit-coverage": "~3.0.0",
+    "unit-coverage": "~3.2.0",
     "sinon": "~1.11.0",
     "xml2js": "~0.4.2"
   },
