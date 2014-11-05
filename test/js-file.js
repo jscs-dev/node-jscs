@@ -51,32 +51,6 @@ describe('modules/js-file', function() {
         });
     });
 
-    it('should return token for specified node', function() {
-        var str = 'if (true) { while (true) x++; }';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        var ifToken = file.getFirstNodeToken(file.getNodesByType('IfStatement')[0]);
-        assert(ifToken.type === 'Keyword');
-        assert(ifToken.value === 'if');
-
-        var incToken = file.getFirstNodeToken(file.getNodesByType('UpdateExpression')[0]);
-        assert(incToken.type === 'Identifier');
-        assert(incToken.value === 'x');
-    });
-
-    it('should return token for specified position', function() {
-        var str = 'if (true) { x++; }';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        var ifToken = file.getTokenByRangeStart(0);
-        assert(ifToken.type === 'Keyword');
-        assert(ifToken.value === 'if');
-
-        var incToken = file.getTokenByRangeStart(12);
-        assert(incToken.type === 'Identifier');
-        assert(incToken.value === 'x');
-    });
-
     describe('iterateTokenByValue',  function() {
         it('should find token by value', function() {
             var str = 'if (true);';
@@ -354,6 +328,138 @@ describe('modules/js-file', function() {
             } catch (e) {
                 assert(false);
             }
+        });
+    });
+
+    function createJsFile(sources) {
+        return new JsFile(
+            'example.js',
+            sources,
+            esprima.parse(sources, {loc: true, range: true, comment: true, tokens: true})
+        );
+    }
+
+    describe('findNextOperatorToken', function() {
+        it('should should return next punctuator', function() {
+            var file = createJsFile('x = y;');
+            var token = file.findNextOperatorToken(file.getTokens()[0], '=');
+            assert.equal(token.type, 'Punctuator');
+            assert.equal(token.value, '=');
+            assert.equal(token.range[0], 2);
+        });
+
+        it('should should return next operator-keyword', function() {
+            var file = createJsFile('x instanceof y;');
+            var token = file.findNextOperatorToken(file.getTokens()[0], 'instanceof');
+            assert.equal(token.type, 'Keyword');
+            assert.equal(token.value, 'instanceof');
+            assert.equal(token.range[0], 2);
+        });
+
+        it('should should return undefined for non-found token', function() {
+            var file = createJsFile('x = y;');
+            var token = file.findNextOperatorToken(file.getTokens()[0], '-');
+            assert(token === undefined);
+        });
+    });
+
+    describe('findPrevOperatorToken', function() {
+        it('should should return next punctuator', function() {
+            var file = createJsFile('x = y;');
+            var token = file.findPrevOperatorToken(file.getTokens()[2], '=');
+            assert.equal(token.type, 'Punctuator');
+            assert.equal(token.value, '=');
+            assert.equal(token.range[0], 2);
+        });
+
+        it('should should return next operator-keyword', function() {
+            var file = createJsFile('x instanceof y;');
+            var token = file.findPrevOperatorToken(file.getTokens()[2], 'instanceof');
+            assert.equal(token.type, 'Keyword');
+            assert.equal(token.value, 'instanceof');
+            assert.equal(token.range[0], 2);
+        });
+
+        it('should should return undefined for non-found token', function() {
+            var file = createJsFile('x = y;');
+            var token = file.findPrevOperatorToken(file.getTokens()[2], '-');
+            assert(token === undefined);
+        });
+    });
+
+    describe('getTokenByRangeStart', function() {
+        it('should return token for specified start position', function() {
+            var str = 'if (true) { x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var ifToken = file.getTokenByRangeStart(0);
+            assert.equal(ifToken.type, 'Keyword');
+            assert.equal(ifToken.value, 'if');
+
+            var incToken = file.getTokenByRangeStart(12);
+            assert.equal(incToken.type, 'Identifier');
+            assert.equal(incToken.value, 'x');
+        });
+
+        it('should return undefined if token was not found', function() {
+            var str = 'if (true) { x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var token = file.getTokenByRangeStart(1);
+            assert(token === undefined);
+        });
+    });
+
+    describe('getTokenByRangeEnd', function() {
+        it('should return token for specified end position', function() {
+            var str = 'if (true) { x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var ifToken = file.getTokenByRangeEnd(2);
+            assert.equal(ifToken.type, 'Keyword');
+            assert.equal(ifToken.value, 'if');
+
+            var incToken = file.getTokenByRangeEnd(13);
+            assert.equal(incToken.type, 'Identifier');
+            assert.equal(incToken.value, 'x');
+        });
+
+        it('should return undefined if token was not found', function() {
+            var str = 'if (true) { x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var token = file.getTokenByRangeEnd(3);
+            assert(token === undefined);
+        });
+    });
+
+    describe('getFirstNodeToken', function() {
+        it('should return token for specified node', function() {
+            var str = 'if (true) { while (true) x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var ifToken = file.getFirstNodeToken(file.getNodesByType('IfStatement')[0]);
+            assert.equal(ifToken.type, 'Keyword');
+            assert.equal(ifToken.value, 'if');
+
+            var incToken = file.getFirstNodeToken(file.getNodesByType('UpdateExpression')[0]);
+            assert.equal(incToken.type, 'Identifier');
+            assert.equal(incToken.value, 'x');
+        });
+    });
+
+    describe('getLastNodeToken', function() {
+        it('should return token for specified node', function() {
+            var str = 'if (true) { while (true) x++; }';
+            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+            var ifToken = file.getLastNodeToken(file.getNodesByType('IfStatement')[0]);
+            assert.equal(ifToken.type, 'Punctuator');
+            assert.equal(ifToken.value, '}');
+
+            var incToken = file.getLastNodeToken(file.getNodesByType('UpdateExpression')[0]);
+            assert.equal(incToken.type, 'Punctuator');
+            assert.equal(incToken.value, '++');
         });
     });
 });
