@@ -1070,7 +1070,11 @@ Disallows multiple `var` declaration (except for-loop).
 
 Type: `Boolean` or `String`
 
-Values: `true` or 'strict' (to disallow multiple variable declarations within a for loop)
+Values:
+
+- `true` disallows multiple variable declarations except within a for loop
+- `'strict'` disallows all multiple variable declarations
+- `'exceptUndefined'` allows declarations where all variables are not defined
 
 #### Example
 
@@ -1078,9 +1082,26 @@ Values: `true` or 'strict' (to disallow multiple variable declarations within a 
 "disallowMultipleVarDecl": true
 ```
 
-##### Valid
+##### Valid for `true`
 
 ```js
+var x = 1;
+var y = 2;
+
+for (var i = 0, j = arr.length; i < j; i++) {}
+```
+
+##### Valid for `strict`
+
+```js
+var x = 1;
+var y = 2;
+```
+
+##### Valid for `exceptUndefined`
+
+```js
+var a, b;
 var x = 1;
 var y = 2;
 
@@ -1092,6 +1113,8 @@ for (var i = 0, j = arr.length; i < j; i++) {}
 ```js
 var x = 1,
     y = 2;
+
+var x, y = 2, z;
 ```
 
 ### requireMultipleVarDecl
