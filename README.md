@@ -31,6 +31,7 @@ JSCS — JavaScript Code Style. [Twitter](https://twitter.com/jscs_dev) | [Maili
  * [Airbnb](presets/airbnb.json) - https://github.com/airbnb/javascript
  * [Crockford](presets/crockford.json) - http://javascript.crockford.com/code.html
  * [Google](presets/google.json) - https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * [Grunt](presets/grunt.json) - http://gruntjs.com/contributing#syntax
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
  * [MDCS](presets/mdcs.json) - https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2
  * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
