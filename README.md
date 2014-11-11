@@ -21,6 +21,7 @@ JSCS — JavaScript Code Style. [Twitter](https://twitter.com/jscs_dev) | [Maili
 - [Error Suppression](#error-suppression)
 - [Versioning & Semver](#versioning--semver)
 - [Rules](#rules)
+- [Plugins](#plugins)
 - [Removed Rules](#removed-rules)
 - [Browser Usage](#browser-usage)
 - [How to Contribute](https://github.com/jscs-dev/node-jscs/blob/master/CONTRIBUTING.md)
@@ -117,6 +118,16 @@ Prepends the name of the offending rule to all error messages.
 Outputs version of `jscs`.
 
 ## Options
+
+### plugins
+
+Paths to load plugins. See the wiki page for more details about the [Plugin API](https://github.com/jscs-dev/node-jscs/wiki/Plugin-API)
+
+Values: Array of NPM package names or paths
+
+```js
+"plugins": ["jscs-plugin", "./lib/project-jscs-plugin"]
+```
 
 ### additionalRules
 
