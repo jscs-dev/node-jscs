@@ -23,6 +23,7 @@ JSCS — JavaScript Code Style. [Twitter](https://twitter.com/jscs_dev) | [Maili
 - [Rules](#rules)
 - [Removed Rules](#removed-rules)
 - [Browser Usage](#browser-usage)
+- [Plugin API](https://github.com/jscs-dev/node-jscs/wiki/Plugin-API)
 - [How to Contribute](https://github.com/jscs-dev/node-jscs/blob/master/CONTRIBUTING.md)
 
 ## Presets
