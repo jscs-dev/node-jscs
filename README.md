@@ -118,6 +118,16 @@ Outputs version of `jscs`.
 
 ## Options
 
+### plugins
+
+Paths to load plugins. See also wiki page about [Plugin API](https://github.com/jscs-dev/node-jscs/wiki/Plugin-API)
+
+Values: Array of NPM package names or paths
+
+```js
+"plugins": ["jscs-plugin", "./lib/project-jscs-plugin"]
+```
+
 ### additionalRules
 
 Path to load additional rules
