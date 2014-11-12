@@ -658,14 +658,13 @@ Values: `"afterTest"`, `"beforeConsequent"`, `"afterConsequent"`, `"beforeAltern
 
 ```
 var a = b ? c : d;
-         ^ ^    ^ ^
-         | |    | |
-         | |    | └- beforeAlternate
-         | |    └--- afterConsequent
+         ^ ^ ^ ^
+         | | | |
+         | | | └- beforeAlternate
+         | | └--- afterConsequent
          | └-------- beforeConsequent
          └---------- afterTest
 ```
-
 
 #### Example
 
