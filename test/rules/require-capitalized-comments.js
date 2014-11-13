@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/require-capitalized-comments', function() {
+describe('rules/require-capitalized-comments', function() {
     var checker;
 
     // Remark (indexzero): Test helper which makes multi-line comment testing look cleaner
