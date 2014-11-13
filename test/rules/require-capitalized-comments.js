@@ -48,7 +48,7 @@ describe('rules/require-capitalized-comments', function() {
         ].join('\n')).getErrorCount() === 1);
     });
 
-    it('should report on multiple uppercase lines in multiple "textblocks"', function() {
+    it('should not report on multiple uppercase lines in multiple "textblocks"', function() {
         assertEmpty([
             '// This is a textblock',
             '//',
