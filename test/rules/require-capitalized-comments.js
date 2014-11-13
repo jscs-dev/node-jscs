@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-capitalized-comments', function() {
+describe.only('rules/require-capitalized-comments', function() {
     var checker;
 
     // Remark (indexzero): Test helper which makes multi-line comment testing look cleaner
@@ -41,11 +41,17 @@ describe('rules/require-capitalized-comments', function() {
         assert(checker.checkString('/** 123*/').isEmpty());
     });
 
-    it('should report on multiple uppercase lines in a "textblock"', function() {
-        assert(checker.checkString([
-            '// This is a textblock',
+    it('should not report on multiple uppercase lines in a "textblock"', function() {
+        assertEmpty([
+            '// This is a textblock.',
             '// That has two uppercase lines'
-        ].join('\n')).getErrorCount() === 1);
+        ].join('\n'));
+
+        assertEmpty([
+            '// A textblock may also have multiple lines.',
+            '// Those lines can be uppercase as well to support',
+            '// sentense breaks in textblocks'
+        ].join('\n'));
     });
 
     it('should not report on multiple uppercase lines in multiple "textblocks"', function() {
@@ -53,6 +59,13 @@ describe('rules/require-capitalized-comments', function() {
             '// This is a textblock',
             '//',
             '// That has two uppercase lines'
+        ].join('\n'));
+    });
+
+    it('should not report on multiple lines that start with non-letters', function () {
+        assertEmpty([
+            '// 123 or any non-alphabetical starting character',
+            '// @are also valid anywhere'
         ].join('\n'));
     });
 
@@ -69,6 +82,13 @@ describe('rules/require-capitalized-comments', function() {
             '// So is this the beginning',
             '// of a textblock that can be',
             '// entered in and out of'
+        ].join('\n'));
+
+        assertEmpty([
+            '// A textblock is a set of lines',
+            '// that starts with a capitalized letter',
+            '// and has one or more non-capitalized lines',
+            '// afterwards'
         ].join('\n'));
     });
 });

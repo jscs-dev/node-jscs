@@ -3416,7 +3416,7 @@ function a(b , c) {}
 
 ### requireCapitalizedComments
 
-Requires the first alphabetical character of a comment to be uppercase
+Requires the first alphabetical character of a comment to be uppercase, unless it is part of a multi-line textblock.
 
 Type: `Boolean`
 
@@ -3440,7 +3440,17 @@ Valid:
  * Valid
  */
 
+// A textblock is a set of lines
+// that starts with a capitalized letter
+// and has one or more non-capitalized lines
+// afterwards
+
+// A textblock may also have multiple lines.
+// Those lines can be uppercase as well to support
+// sentense breaks in textblocks
+
 // 123 or any non-alphabetical starting character
+// @are also valid anywhere
 ```
 
 Invalid:
