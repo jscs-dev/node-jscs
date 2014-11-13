@@ -1385,7 +1385,7 @@ Requires an empty line above the specified keywords unless the keyword is the fi
 
 Type: `Array` or `Boolean`
 
-Values: Array of quoted types or `true` to require padding new lines after all of the keywords below.
+Values: Array of quoted types or `true` to require padding new lines before all of the keywords below.
 
 #### Example
 
