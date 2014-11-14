@@ -3435,6 +3435,7 @@ Values:
  - `", "`: arguments are immediately followed by a comma then a space
  - `" ,"`: arguments are immediately followed by a space then a comma
  - `" , "`: arguments are immediately followed by a space, a comma then a space
+ - `","`: arguments are immediately followed by a comma
 
 #### Example
 
