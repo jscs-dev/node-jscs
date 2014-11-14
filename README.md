@@ -3424,6 +3424,36 @@ function a(b, c) {}
 function a(b , c) {}
 ```
 
+### requireSpaceBetweenArguments
+
+Enable validation of separators between call expression arguments.
+
+Type: `String`
+
+Values:
+
+ - `", "`: arguments are immediately followed by a comma then a space
+ - `" ,"`: arguments are immediately followed by a space then a comma
+ - `" , "`: arguments are immediately followed by a space, a comma then a space
+
+#### Example
+
+```js
+"requireSpaceBetweenArguments": ", "
+```
+
+##### Valid
+
+```js
+a(b, c);
+```
+
+##### Invalid
+
+```js
+a(b , c);
+```
+
 ### requireCapitalizedComments
 
 Requires the first alphabetical character of a comment to be uppercase
