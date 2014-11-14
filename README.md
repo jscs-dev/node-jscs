@@ -3527,6 +3527,58 @@ function a(b, c) {}
 function a(b , c) {}
 ```
 
+### disallowSpaceBetweenArguments
+
+Ensure there are no spaces after argument separators in call expressions.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"disallowSpaceBetweenArguments": true
+```
+
+##### Valid
+
+```js
+a(b,c);
+```
+
+##### Invalid
+
+```js
+a(b, c);
+```
+
+### requireSpaceBetweenArguments
+
+Ensure there are spaces after argument separators in call expressions.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"requireSpaceBetweenArguments": true
+```
+
+##### Valid
+
+```js
+a(b, c);
+```
+
+##### Invalid
+
+```js
+a(b,c);
+```
+
 ### requireCapitalizedComments
 
 Requires the first alphabetical character of a comment to be uppercase, unless it is part of a multi-line textblock.
