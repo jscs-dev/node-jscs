@@ -77,12 +77,22 @@ describe('modules/config/node-configuration', function() {
             examplePluginSpy.reset();
         });
 
-        it('should accept `errorFilter` to register an error filter', function() {
-            configuration.load({
-                errorFilter: path.resolve(__dirname, '../data/error-filter.js')
+        describe('error filter', function() {
+            it('should accept `errorFilter` to register an error filter', function() {
+                configuration.load({
+                    errorFilter: path.resolve(__dirname, '../data/error-filter.js')
+                });
+
+                assert(typeof configuration.getErrorFilter() === 'function');
             });
 
-            assert(typeof configuration.getErrorFilter() === 'function');
+            it('should not fail with a value of null', function() {
+                assert.doesNotThrow(function() {
+                    configuration.load({
+                        errorFilter: null
+                    });
+                });
+            });
         });
     });
 });

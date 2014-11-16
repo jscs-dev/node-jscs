@@ -580,7 +580,31 @@ describe('modules/cli', function() {
         it('should accept a path to a filter module', function() {
             return cli({
                 errorFilter: __dirname + '/data/error-filter.js',
-                args: ['test/data/cli/error.js']
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+            });
+        });
+
+        it('should accept a relative path to a filter module', function() {
+            return cli({
+                errorFilter: './test/data/error-filter.js',
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+                rAfter();
+            });
+        });
+
+        it('should read the error filter from a config file', function() {
+            return cli({
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/errorFilter.json'
             })
             .promise.always(function() {
                 assert(console.log.getCall(0).args[0] === 'No code style errors found.');
