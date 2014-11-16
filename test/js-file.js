@@ -1,8 +1,21 @@
 var assert = require('assert');
 var esprima = require('esprima');
+var harmonyEsprima = require('esprima-harmony-jscs');
 var JsFile = require('../lib/js-file');
 
 describe('modules/js-file', function() {
+    it('should return valid list of VariableDeclaration', function() {
+        var str = 'export function foo() { var a = "b"; }; function bar() { var b = "c"; }';
+        var file = new JsFile(null, str, harmonyEsprima.parse(str, {loc: true, range: true, tokens: true}));
+
+        var count = 0;
+        file.iterateNodesByType('VariableDeclaration', function(node) {
+            count++;
+        });
+
+        assert.equal(count, 2);
+    });
+
     it('should fix token array for object keys', function() {
         var str = '({ for: 42 })';
         var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
