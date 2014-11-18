@@ -2662,6 +2662,45 @@ if (x < 0) {
 }
 ```
 
+### requireLineBreakAfterVariableAssignment
+
+Requires placing line feed after assigning a variable.
+
+Type: `Boolean`
+
+Values: `true`
+
+#### Example
+
+```js
+"requireLineBreakAfterVariableAssignment": true
+```
+
+##### Valid
+
+```js
+var abc = 8;
+var foo = 5;
+
+var a, b, c,
+    foo = 7,
+    bar = 8;
+
+var a,
+    foo = 7,
+    a, b, c,
+    bar = 8;
+```
+
+##### Invalid
+
+```js
+var abc = 8; var foo = 5;
+
+var a, b, c,
+    foo = 7, bar = 8;
+```
+
 ### requireLineFeedAtFileEnd
 
 Requires placing line feed at file end.
