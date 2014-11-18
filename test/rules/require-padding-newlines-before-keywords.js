@@ -112,6 +112,40 @@ describe('rules/require-padding-newlines-before-keywords', function() {
             );
         });
 
+        it('should not report in object definitions', function() {
+            assert(
+                checker.checkString(
+                    'var obj = {\n' +
+                    '  foo: function x() { return; }\n' +
+                    '};'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report when parameter inside a function', function() {
+            assert(
+                checker.checkString(
+                    'watchlist.on( "watch", function () {} );'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report when assigned to a variable', function() {
+            assert(
+                checker.checkString(
+                    ' Router.prototype.getPath = function () {};'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report when used inside closure', function() {
+            assert(
+                checker.checkString(
+                    '( function ( $ ) {} )( jQuery );'
+                ).isEmpty()
+            );
+        });
+
         it('should report on matching return statement', function() {
             assert(
                 checker.checkString(
