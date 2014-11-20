@@ -91,6 +91,7 @@ describe('rules/require-space-after-keywords', function() {
         assert(!checker.checkString('switch (){ case\'4\': break;}').isEmpty());
         assert(!checker.checkString('try{}').isEmpty());
         assert(!checker.checkString('try {} catch(e){}').isEmpty());
+        assert(!checker.checkString('try {} catch (e){} finally{}').isEmpty());
         assert(!checker.checkString('void(0)').isEmpty());
         assert(!checker.checkString('while(x) {}').isEmpty());
         assert(!checker.checkString('with(){}').isEmpty());
