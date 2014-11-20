@@ -85,11 +85,6 @@
     "disallowSpacesInsideObjectBrackets": true,
     "disallowQuotedKeysInObjects": true,
 
-    "validateJSDoc": {
-        "checkParamNames": true,
-        "requireParamTypes": true
-    },
-
     "maximumLineLength": {
         "value": 120,
         "allowUrlComments": true
