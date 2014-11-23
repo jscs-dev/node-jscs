@@ -231,6 +231,7 @@ describe('modules/string-checker', function() {
         testPreset('airbnb');
         testPreset('crockford');
         testPreset('google');
+        testPreset('grunt');
         testPreset('jquery');
         testPreset('mdcs');
         testPreset('wikimedia');
