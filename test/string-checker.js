@@ -226,4 +226,38 @@ describe('modules/string-checker', function() {
             });
         });
     });
+
+    describe('presets', function() {
+        testPreset('airbnb');
+        testPreset('crockford');
+        testPreset('google');
+        testPreset('jquery');
+        testPreset('mdcs');
+        testPreset('wikimedia');
+        testPreset('yandex');
+
+        /**
+         * Helper to test a given preset's configuration against its test file
+         *
+         * Expects the given preset to have a configuration in /presets
+         * and real code taken from that project in /test/data/options/preset
+         *
+         * @example testPreset('google')
+         * @param  {String} presetName
+         */
+        function testPreset(presetName) {
+            it('preset ' + presetName + ' should not report any errors from the sample file', function() {
+                var checker = new Checker();
+
+                checker.registerDefaultRules();
+                checker.configure({
+                    preset: presetName
+                });
+
+                return checker.checkFile('./test/data/options/preset/' + presetName + '.js').then(function(errors) {
+                    assert(errors.isEmpty());
+                });
+            });
+        }
+    });
 });
