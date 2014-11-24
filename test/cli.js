@@ -39,6 +39,13 @@ describe('modules/cli', function() {
         }
     }
 
+    function assertNoCliErrors(vow) {
+        return vow.promise.always(function() {
+            assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+            rAfter();
+        });
+    }
+
     it('should provide friendly error message if config is corrupted', function() {
         sinon.spy(console, 'error');
 
@@ -212,10 +219,6 @@ describe('modules/cli', function() {
     });
 
     describe('input via stdin (#448)', function() {
-        function assertLogIs(output) {
-            assert(console.log.getCall(0).args[0] === output);
-        }
-
         beforeEach(function() {
             sinon.spy(console, 'log');
             process.stdin.isTTY = false;
@@ -225,7 +228,7 @@ describe('modules/cli', function() {
             console.log.restore();
         });
 
-        it('should accept buffered input via stdin (#564)', function(done) {
+        it('should accept buffered input via stdin (#564)', function() {
             var result = cli({
                 args: []
             });
@@ -240,66 +243,42 @@ describe('modules/cli', function() {
                 process.stdin.emit('end');
             }, 500);
 
-            return result.promise.always(function() {
-                assertLogIs('No code style errors found.');
-                rAfter();
-                done();
-            });
+            return assertNoCliErrors(result);
         });
 
-        it('should accept non-empty input', function(done) {
-            var data = 'var x = [1, 2];\n';
-
+        it('should accept non-empty input', function() {
             var result = cli({
                 args: []
             });
 
-            process.stdin.emit('data', data);
+            process.stdin.emit('data', 'var x = [1, 2];\n');
             process.stdin.emit('end');
 
-            return result.promise.always(function() {
-                assertLogIs('No code style errors found.');
-                rAfter();
-                done();
-            });
+            return assertNoCliErrors(result);
         });
 
-        it('should accept empty input', function(done) {
-            // 'cat myEmptyFile.js | jscs' should report a successful run
-            var emptyData = '';
-
+        it('should accept empty input: `cat myEmptyFile.js | jscs`', function() {
             var result = cli({
                 args: []
             });
 
-            process.stdin.emit('data', emptyData);
+            process.stdin.emit('data', '');
             process.stdin.emit('end');
 
-            return result.promise.always(function() {
-                assertLogIs('No code style errors found.');
-                rAfter();
-                done();
-            });
+            return assertNoCliErrors(result);
         });
 
-        it('should not fail with additional args supplied', function(done) {
-            // 'cat myEmptyFile.js | jscs -n' should report a successful run
-            var data = 'var x = 1;\n';
-
+        it('should not fail with additional args supplied: `cat myEmptyFile.js | jscs -n`', function() {
             var result = cli({
                 args: [],
                 'no-colors': true,
                 config: 'test/data/cli/cli.json'
             });
 
-            process.stdin.emit('data', data);
+            process.stdin.emit('data', 'var x = 1;\n');
             process.stdin.emit('end');
 
-            return result.promise.always(function() {
-                assertLogIs('No code style errors found.');
-                rAfter();
-                done();
-            });
+            return assertNoCliErrors(result);
         });
 
         it('should not accept piped input if files were specified (#563)', function() {
@@ -578,38 +557,26 @@ describe('modules/cli', function() {
         });
 
         it('should accept a path to a filter module', function() {
-            return cli({
+            return assertNoCliErrors(cli({
                 errorFilter: __dirname + '/data/error-filter.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
-                rAfter();
-            });
+            }));
         });
 
         it('should accept a relative path to a filter module', function() {
-            return cli({
+            return assertNoCliErrors(cli({
                 errorFilter: './test/data/error-filter.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
-                rAfter();
-            });
+            }));
         });
 
         it('should read the error filter from a config file', function() {
-            return cli({
+            return assertNoCliErrors(cli({
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/errorFilter.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
-                rAfter();
-            });
+            }));
         });
     });
 
@@ -623,14 +590,10 @@ describe('modules/cli', function() {
         });
 
         it('should use a custom esprima provided in the config file', function() {
-            return cli({
+            return assertNoCliErrors(cli({
                 args: ['test/data/cli/esnext.js'],
                 config: 'test/data/cli/esprima.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
-                rAfter();
-            });
+            }));
         });
 
         it('should use the default esprima if null is provided in the config file', function() {
@@ -645,15 +608,11 @@ describe('modules/cli', function() {
         });
 
         it('should use a custom esprima provided at CLI', function() {
-            return cli({
+            return assertNoCliErrors(cli({
                 args: ['test/data/cli/esnext.js'],
                 esprima: 'esprima-harmony-jscs',
                 config: 'test/data/cli/cli.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(0).args[0] === 'No code style errors found.');
-                rAfter();
-            });
+            }));
         });
     });
 });
