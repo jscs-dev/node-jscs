@@ -57,12 +57,6 @@
     "disallowSpacesInsideArrayBrackets": "all",
     "disallowSpacesInsideParentheses": true,
 
-
-    "validateJSDoc": {
-        "checkParamNames": true,
-        "requireParamTypes": true
-    },
-
     "disallowMultipleLineBreaks": true,
     "disallowNewlineBeforeBlockStatements": true
 }
