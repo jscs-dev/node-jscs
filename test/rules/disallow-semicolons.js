@@ -33,5 +33,4 @@ describe('rules/disallow-semicolons', function() {
             ';[1, 2].forEach(foo)'
         ].join('\n')).isEmpty());
     });
-
 });
