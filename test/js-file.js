@@ -2,52 +2,64 @@ var assert = require('assert');
 var esprima = require('esprima');
 var harmonyEsprima = require('esprima-harmony-jscs');
 var JsFile = require('../lib/js-file');
+var sinon = require('sinon');
 
 describe('modules/js-file', function() {
-    it('should return valid list of VariableDeclaration', function() {
-        var str = 'export function foo() { var a = "b"; };';
-        var file = new JsFile(null, str, harmonyEsprima.parse(str, {loc: true, range: true, tokens: true}));
+    describe('constructor', function() {
 
-        file.iterateNodesByType('VariableDeclaration', function(node) {
-            assert(true);
+        it('should accept empty token tree', function() {
+            var file = new JsFile(null, 'Hello\nWorld', null);
+            assert(Array.isArray(file.getTokens()));
+            assert.equal(file.getTokens().length, 0);
+        });
+
+        // Testing esprima token fix
+        // https://code.google.com/p/esprima/issues/detail?id=481
+        describe('Keywords -> Identifier fixing', function() {
+            it('should affect object keys tokens', function() {
+                var str = '({' +
+                    'break: true, export: true, return: true, case: true, for: true, switch: true, comment: true,' +
+                    'function: true, this: true, continue: true, if: true, typeof: true, default: true, import: true,' +
+                    'var: true, delete: true, in: true, void: true, do: true, label: true, while: true, else: true,' +
+                    'new: true, with: true, catch: true, try: true, finally: true' +
+                    '})';
+                var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+                file.getTokens().forEach(function(token) {
+                    assert(token.type !== 'Keyword');
+                });
+            });
+
+            it('should affect member access tokens', function() {
+                var str = 'o.break(); o.export(); o.return(); o.case(); o.for(); o.switch(); o.comment();' +
+                    'o.function(); o.this(); o.continue(); o.if(); o.typeof(); o.default(); o.import();' +
+                    'o.var(); o.delete(); o.in(); o.void(); o.do(); o.label(); o.while(); o.else();' +
+                    'o.new(); o.with(); o.catch(); o.try(); o.finally();';
+                var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+                file.getTokens().forEach(function(token) {
+                    assert(token.type !== 'Keyword');
+                });
+            });
+
+            it('should not affect valid nested constructions', function() {
+                var str = 'if (true) { if (false); }';
+                var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+
+                file.getTokens().forEach(function(token) {
+                    if (token.value === 'if') {
+                        assert(token.type === 'Keyword');
+                    }
+                });
+            });
         });
     });
 
-    it('should fix token array for object keys', function() {
-        var str = '({ for: 42 })';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        file.getTokens().forEach(function(token) {
-            assert(token.type !== 'Keyword');
-        });
-    });
-
-    it('should fix token array for object keys with multiple keys', function() {
-        var str = '({ test: 1, for: 42 })';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        file.getTokens().forEach(function(token) {
-            assert(token.type !== 'Keyword');
-        });
-    });
-
-    it('should fix token array for method calls', function() {
-        var str = 'promise.catch()';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        file.getTokens().forEach(function(token) {
-            assert(token.type !== 'Keyword');
-        });
-    });
-
-    it('should not affect valid nested constructions', function() {
-        var str = 'if (true) { if (false); }';
-        var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
-
-        file.getTokens().forEach(function(token) {
-            if (token.value === 'if') {
-                assert(token.type === 'Keyword');
-            }
+    describe('iterateNodesByType', function() {
+        it('should handle ES6 export keyword', function() {
+            var str = 'export function foo() { var a = "b"; };';
+            var file = new JsFile(null, str, harmonyEsprima.parse(str, {loc: true, range: true, tokens: true}));
+            var spy = sinon.spy();
+            file.iterateNodesByType('VariableDeclaration', spy);
+            assert(spy.calledOnce);
         });
     });
 
@@ -78,20 +90,18 @@ describe('modules/js-file', function() {
             var str = '"("';
             var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-            file.iterateTokenByValue('(', function(token, index, tokens) {
-                assert(false);
-            });
+            var spy = sinon.spy();
+            file.iterateTokenByValue('(', spy);
+            assert(!spy.calledOnce);
         });
 
         it('should not take only own propeties', function() {
             var str = 'test.toString';
             var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
 
-            file.iterateTokenByValue('(', function(token, index, tokens) {
-                assert(false);
-            });
-
-            assert(true);
+            var spy = sinon.spy();
+            file.iterateTokenByValue('(', spy);
+            assert(!spy.calledOnce);
         });
     });
 
