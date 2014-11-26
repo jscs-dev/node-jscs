@@ -1,3 +1,42 @@
+## Version 1.8.0
+ * Preset: Grunt (Joel Kemp)
+ * Preset: remove "disallowMultipleLineBreaks" rule from crockford preset (Oleg Gaidarenko)
+
+ * New Rules: disallowOperatorBeforeLineBreak (jdlrobson)
+ * New Rules: (require | disallow)PaddingNewlinesBeforeKeywords (Anton Vishnyak)
+ * New Rules: disallowSpaceBeforeKeywords (Bryan Donovan)
+ * New Rules: requireSpaceBeforeKeywords (Bryan Donovan)
+
+ * Parsing: Ability to specify a custom esprima version via CLI or config (Konstantin Tarkus)
+ * Errors: Support a filter to control which errors are reported (Joel Kemp)
+ * Assertions: better rule error reporting. (mdevils)
+ * Better configuration, plugin support (mdevils)
+
+ * disallowDanglingUnderscores: Support an array of additional exceptions (Henry Zhu)
+ * requireTrailingComma: add option ignoreSingleLine (eltacodeldiablo)
+ * StringChecker: unsupported rules shown as style errors and not thrown exceptions (Joel Kemp)
+ * Iterate over "export" statement of ES6 (Oleg Gaidarenko)
+ * disallowMultipleVarDecl: add exception for undefined variable declarations (Henry Zhu)
+ * disallowDanglingUnderscores: add "super_" to allowed identifier list (Markus Dolic)
+ * disallowSpacesInAnonymousFunctionExpression: set correct error pointer (Oleg Gaidarenko)
+ * requireSpaceAfterLineComment: add "except" option (Alexej Yaroshevich)
+
+ * validateParameterSeparator: fix for multiple spaces between parameters (Henry Zhu)
+ * Added test and patch for `finally` as a spaced keyword (Todd Wolfson)
+ * requireCapitalizedComments: Better support for multi-line comments (indexzero)
+ * disallowSpaceBeforeKeywords: Fix assertion typo (Jeremy Fleischman)
+ * Errors: Simplify rules debugging and prevent crashes in error reporters (Alexej Yaroshevich)
+ * Correct error message for "requireSpaceAfterKeywords" rule (Bryan Donovan)
+
+ * Docs: Fix Yandex codestyle link (Garmash Nikolay)
+ * Docs: Added clarification of tokens in disallowSpacesInConditionalExpression (indexzero)
+ * Docs: add twitter and mailling list links (Oleg Gaidarenko)
+ * Docs: add more specific cases for function spaces rules (Henry Zhu)
+ * Docs: make indentation to be consistent at 4 spaces (Henry Zhu)
+ * Docs: Correct docs for requireAnonymousFunctions rule (Oleg Gaidarenko)
+ * Docs: Clarify "config" option (MaximAL)
+ * Docs: Add Plugins section (Alexej Yaroshevich)
+
 ## Version 1.7.3
  * Parsing: Use the harmony parser via the esnext flag in the config (Joel Kemp)
  * validateIndentation: handle breakless case statements (Mike Sherov)
