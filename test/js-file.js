@@ -25,7 +25,7 @@ describe('modules/js-file', function() {
     describe('constructor', function() {
 
         it('should accept empty token tree', function() {
-            var file = new JsFile(null, 'Hello\nWorld', null);
+            var file = new JsFile('example.js', 'Hello\nWorld', null);
             assert(Array.isArray(file.getTokens()));
             assert.equal(file.getTokens().length, 0);
         });
@@ -38,7 +38,7 @@ describe('modules/js-file', function() {
                     'break: true, export: true, return: true, case: true, for: true, switch: true, comment: true,' +
                     'function: true, this: true, continue: true, if: true, typeof: true, default: true, import: true,' +
                     'var: true, delete: true, in: true, void: true, do: true, label: true, while: true, else: true,' +
-                    'new: true, with: true, catch: true, try: true, finally: true' +
+                    'new: true, with: true, catch: true, try: true, finally: true, \'\': true, null: true, 0: true' +
                     '})';
                 createJsFile(str).getTokens().forEach(function(token) {
                     assert(token.type !== 'Keyword');
@@ -458,8 +458,7 @@ describe('modules/js-file', function() {
 
     describe('getTokenByRangeStart', function() {
         it('should return token for specified start position', function() {
-            var str = 'if (true) { x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { x++; }');
 
             var ifToken = file.getTokenByRangeStart(0);
             assert.equal(ifToken.type, 'Keyword');
@@ -471,8 +470,7 @@ describe('modules/js-file', function() {
         });
 
         it('should return undefined if token was not found', function() {
-            var str = 'if (true) { x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { x++; }');
 
             var token = file.getTokenByRangeStart(1);
             assert(token === undefined);
@@ -481,8 +479,7 @@ describe('modules/js-file', function() {
 
     describe('getTokenByRangeEnd', function() {
         it('should return token for specified end position', function() {
-            var str = 'if (true) { x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { x++; }');
 
             var ifToken = file.getTokenByRangeEnd(2);
             assert.equal(ifToken.type, 'Keyword');
@@ -494,8 +491,7 @@ describe('modules/js-file', function() {
         });
 
         it('should return undefined if token was not found', function() {
-            var str = 'if (true) { x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { x++; }');
 
             var token = file.getTokenByRangeEnd(3);
             assert(token === undefined);
@@ -504,8 +500,7 @@ describe('modules/js-file', function() {
 
     describe('getFirstNodeToken', function() {
         it('should return token for specified node', function() {
-            var str = 'if (true) { while (true) x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { while (true) x++; }');
 
             var ifToken = file.getFirstNodeToken(file.getNodesByType('IfStatement')[0]);
             assert.equal(ifToken.type, 'Keyword');
@@ -519,8 +514,7 @@ describe('modules/js-file', function() {
 
     describe('getLastNodeToken', function() {
         it('should return token for specified node', function() {
-            var str = 'if (true) { while (true) x++; }';
-            var file = new JsFile(null, str, esprima.parse(str, {loc: true, range: true, tokens: true}));
+            var file = createJsFile('if (true) { while (true) x++; }');
 
             var ifToken = file.getLastNodeToken(file.getNodesByType('IfStatement')[0]);
             assert.equal(ifToken.type, 'Punctuator');
@@ -529,6 +523,186 @@ describe('modules/js-file', function() {
             var incToken = file.getLastNodeToken(file.getNodesByType('UpdateExpression')[0]);
             assert.equal(incToken.type, 'Punctuator');
             assert.equal(incToken.value, '++');
+        });
+    });
+
+    describe('getNodesByType', function() {
+        it('should return nodes using specified type', function() {
+            var nodes = createJsFile('x++;y++;').getNodesByType('Identifier');
+            assert.equal(nodes.length, 2);
+            assert.equal(nodes[0].type, 'Identifier');
+            assert.equal(nodes[0].name, 'x');
+            assert.equal(nodes[1].type, 'Identifier');
+            assert.equal(nodes[1].name, 'y');
+        });
+
+        it('should return empty array for non-existing type', function() {
+            var nodes = createJsFile('x++;y++;').getNodesByType('Literal');
+            assert.equal(nodes.length, 0);
+        });
+
+        it('should accept array as an argument', function() {
+            var nodes = createJsFile('x += 1;').getNodesByType(['Identifier', 'Literal']);
+            assert.equal(nodes.length, 2);
+            assert.equal(nodes[0].type, 'Identifier');
+            assert.equal(nodes[0].name, 'x');
+            assert.equal(nodes[1].type, 'Literal');
+            assert.equal(nodes[1].value, 1);
+        });
+
+        it('should return empty array for non-existing type array', function() {
+            var nodes = createJsFile('x++;y++;').getNodesByType(['Literal', 'BinaryExpression']);
+            assert.equal(nodes.length, 0);
+        });
+    });
+
+    describe('iterate', function() {
+        it('should iterate all nodes in the document', function() {
+            var file = createJsFile('x++;');
+
+            var spy = sinon.spy();
+            file.iterate(spy);
+
+            assert.equal(spy.callCount, 4);
+
+            assert.equal(spy.getCall(0).args[0].type, 'Program');
+            assert.equal(spy.getCall(1).args[0].type, 'ExpressionStatement');
+            assert.equal(spy.getCall(2).args[0].type, 'UpdateExpression');
+            assert.equal(spy.getCall(3).args[0].type, 'Identifier');
+        });
+
+        it('should iterate nested nodes', function() {
+            var file = createJsFile('x = (5 + 4) && (3 + 1);');
+
+            var spy = sinon.spy();
+            file.iterate(spy, file.getNodesByType('LogicalExpression')[0].left);
+
+            assert.equal(spy.callCount, 3);
+            assert.equal(spy.getCall(0).args[0].type, 'BinaryExpression');
+            assert.equal(spy.getCall(1).args[0].type, 'Literal');
+            assert.equal(spy.getCall(1).args[0].value, 5);
+            assert.equal(spy.getCall(2).args[0].type, 'Literal');
+            assert.equal(spy.getCall(2).args[0].value, 4);
+        });
+    });
+
+    describe('iterateNodesByType', function() {
+        it('should apply callback using specified type', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateNodesByType('Identifier', spy);
+            assert.equal(spy.callCount, 2);
+            assert.equal(spy.getCall(0).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(0).args[0].name, 'x');
+            assert.equal(spy.getCall(1).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(1).args[0].name, 'y');
+        });
+
+        it('should not apply callback for non-existing type', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateNodesByType('Literal', spy);
+            assert(!spy.called);
+        });
+
+        it('should accept array as an argument', function() {
+            var spy = sinon.spy();
+            createJsFile('x += 1;').iterateNodesByType(['Identifier', 'Literal'], spy);
+            assert.equal(spy.callCount, 2);
+            assert.equal(spy.getCall(0).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(0).args[0].name, 'x');
+            assert.equal(spy.getCall(1).args[0].type, 'Literal');
+            assert.equal(spy.getCall(1).args[0].value, 1);
+        });
+
+        it('should not apply callback for non-existing type array', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateNodesByType(['Literal', 'BinaryExpression'], spy);
+            assert(!spy.called);
+        });
+    });
+
+    describe('iterateTokensByType', function() {
+        it('should apply callback using specified type', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateTokensByType('Identifier', spy);
+            assert.equal(spy.callCount, 2);
+            assert.equal(spy.getCall(0).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(0).args[0].value, 'x');
+            assert.equal(spy.getCall(1).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(1).args[0].value, 'y');
+        });
+
+        it('should not apply callback for non-existing type', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateTokensByType('Boolean', spy);
+            assert(!spy.called);
+        });
+
+        it('should accept array as an argument', function() {
+            var spy = sinon.spy();
+            createJsFile('x += 1;').iterateTokensByType(['Identifier', 'Numeric'], spy);
+            assert.equal(spy.callCount, 2);
+            assert.equal(spy.getCall(0).args[0].type, 'Identifier');
+            assert.equal(spy.getCall(0).args[0].value, 'x');
+            assert.equal(spy.getCall(1).args[0].type, 'Numeric');
+            assert.equal(spy.getCall(1).args[0].value, '1');
+        });
+
+        it('should not apply callback for non-existing type array', function() {
+            var spy = sinon.spy();
+            createJsFile('x++;y++;').iterateTokensByType(['Boolean', 'Numeric'], spy);
+            assert(!spy.called);
+        });
+    });
+
+    describe('getTree', function() {
+        it('should return specified esprima-tree', function() {
+            var sources = 'var x;';
+            var tree = esprima.parse(sources, {loc: true, range: true, comment: true, tokens: true});
+            var file = new JsFile('example.js', sources, tree);
+            assert.equal(file.getTree(), tree);
+        });
+
+        it('should return empty token tree for non-existing esprima-tree', function() {
+            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            assert.equal(typeof file.getTree(), 'object');
+            assert(file.getTree() !== null);
+        });
+    });
+
+    describe('getSource', function() {
+        it('should return specified source code', function() {
+            var sources = 'var x = 1;\nvar y = 2;';
+            var file = createJsFile(sources);
+            assert.equal(file.getSource(), sources);
+        });
+    });
+
+    describe('getLines', function() {
+        it('should return specified source code lines', function() {
+            var sources = ['var x = 1;', 'var y = 2;'];
+            var file = createJsFile(sources.join('\n'));
+            assert.equal(file.getLines().length, 2);
+            assert.equal(file.getLines()[0], sources[0]);
+            assert.equal(file.getLines()[1], sources[1]);
+        });
+
+        it('should accept all line endings', function() {
+            var lineEndings = ['\r\n', '\r', '\n'];
+
+            lineEndings.forEach(function(lineEnding) {
+                var sources = ['var x = 1;', 'var y = 2;'];
+                var file = createJsFile(sources.join(lineEnding));
+                assert.equal(file.getLines().length, 2);
+                assert.equal(file.getLines()[0], sources[0]);
+                assert.equal(file.getLines()[1], sources[1]);
+            });
+        });
+    });
+
+    describe('getFilename', function() {
+        it('should return given filename', function() {
+            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            assert.equal(file.getFilename(), 'example.js');
         });
     });
 });
