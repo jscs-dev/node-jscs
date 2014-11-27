@@ -91,7 +91,7 @@ describe('modules/token-assert', function() {
             assert.equal(error.column, 1);
         });
 
-        it('should trigger error on newline between tokens', function() {
+        it('should not trigger error on newline between tokens', function() {
             var file = createJsFile('x\n=y;');
 
             var tokenAssert = new TokenAssert(file);
@@ -105,12 +105,7 @@ describe('modules/token-assert', function() {
                 spaces: 2
             });
 
-            assert(onError.calledOnce);
-
-            var error = onError.getCall(0).args[0];
-            assert.equal(error.message, '2 spaces required between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            assert(!onError.calledOnce);
         });
 
         it('should not trigger error on valid space count between tokens', function() {
