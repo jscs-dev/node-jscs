@@ -108,6 +108,10 @@ describe('rules/validate-parameter-separator', function() {
             assert.strictEqual(checker.checkString('function a(b\n, c) {}').getErrorCount(), 0);
         });
 
+        it('should not report any errors for function a(b,<line-break>c) {}', function() {
+            assert.strictEqual(checker.checkString('function a(b,\nc) {}').getErrorCount(), 0);
+        });
+
         it('should report errors for function a(b,<space><space>c) {}', function() {
             assert.strictEqual(checker.checkString('function a(b,  c) {}').getErrorCount(), 1);
         });
@@ -143,7 +147,11 @@ describe('rules/validate-parameter-separator', function() {
             assert.strictEqual(checker.checkString('function a(b ,c) {}').getErrorCount(), 0);
         });
 
-        it('should not report any errors for function a(b,<line-break>c) {}', function() {
+        it('should not report any errors for function a(b<line-break>,c) {}', function() {
+            assert.strictEqual(checker.checkString('function a(b\n,c) {}').getErrorCount(), 0);
+        });
+
+        it('should not report any errors for function a(b ,<line-break>c) {}', function() {
             assert.strictEqual(checker.checkString('function a(b ,\nc) {}').getErrorCount(), 0);
         });
 
@@ -180,6 +188,14 @@ describe('rules/validate-parameter-separator', function() {
 
         it('should not report any errors for function a(b , c) {}', function() {
             assert.strictEqual(checker.checkString('function a(b , c) {}').getErrorCount(), 0);
+        });
+
+        it('should not report any errors for function a(b<line-break>, c) {}', function() {
+            assert.strictEqual(checker.checkString('function a(b\n, c) {}').getErrorCount(), 0);
+        });
+
+        it('should not report any errors for function a(b ,<line-break>c) {}', function() {
+            assert.strictEqual(checker.checkString('function a(b ,\nc) {}').getErrorCount(), 0);
         });
 
         it('should report errors for function a(b<space>,<space><space>c) {}', function() {

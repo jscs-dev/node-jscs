@@ -3459,15 +3459,16 @@ function(d) {
 
 ### validateParameterSeparator
 
-Enable validation of separators between function parameters.
+Enable validation of separators between function parameters. Will ignore newlines.
 
 Type: `String`
 
 Values:
 
- - `", "`: function parameters are immediately followed by a comma then a space
- - `" ,"`: function parameters are immediately followed by a space then a comma
- - `" , "`: function parameters are immediately followed by a space, a comma then a space
+ - `","`: function parameters are immediately followed by a comma
+ - `", "`: function parameters are immediately followed by a comma and then a space
+ - `" ,"`: function parameters are immediately followed by a space and then a comma
+ - `" , "`: function parameters are immediately followed by a space, a comma, and then a space
 
 #### Example
 
