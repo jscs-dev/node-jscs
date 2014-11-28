@@ -1,3 +1,7 @@
+## Version 1.8.1
+ * Assertions: always allow new lines in whitespaceBetween (Henry Zhu)
+ * Tests: reorganization, full coverage for JsFile (mdevils)
+
 ## Version 1.8.0
  * Preset: Grunt (Joel Kemp)
  * Preset: remove "disallowMultipleLineBreaks" rule from crockford preset (Oleg Gaidarenko)
