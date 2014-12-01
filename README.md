@@ -3498,7 +3498,7 @@ Value: `true`
 
 #### Example
 
-`requireCapitalizedComments: true`
+`"requireCapitalizedComments": true`
 
 Valid:
 
@@ -3547,7 +3547,7 @@ Value: `true`
 
 #### Example
 
-`disallowCapitalizedComments: true`
+`"disallowCapitalizedComments": true`
 
 Valid:
 
