@@ -3424,23 +3424,44 @@ function a(b, c) {}
 function a(b , c) {}
 ```
 
-### requireSpaceBetweenArguments
+### disallowSpaceBetweenArguments
 
-Enable validation of separators between call expression arguments.
+Ensure there are no spaces after argument separators in call expressions.
 
-Type: `String`
+Type: `Boolean`
 
-Values:
-
- - `", "`: arguments are immediately followed by a comma then a space
- - `" ,"`: arguments are immediately followed by a space then a comma
- - `" , "`: arguments are immediately followed by a space, a comma then a space
- - `","`: arguments are immediately followed by a comma
+Value: `true`
 
 #### Example
 
 ```js
-"requireSpaceBetweenArguments": ", "
+"disallowSpaceBetweenArguments": true
+```
+
+##### Valid
+
+```js
+a(b,c);
+```
+
+##### Invalid
+
+```js
+a(b, c);
+```
+
+### requireSpaceBetweenArguments
+
+Ensure there are spaces after argument separators in call expressions.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"requireSpaceBetweenArguments": true
 ```
 
 ##### Valid
@@ -3452,7 +3473,7 @@ a(b, c);
 ##### Invalid
 
 ```js
-a(b , c);
+a(b,c);
 ```
 
 ### requireCapitalizedComments
