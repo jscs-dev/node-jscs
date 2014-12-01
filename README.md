@@ -3576,6 +3576,34 @@ Invalid:
  */
 ```
 
+### disallowSemicolons
+
+Disallows lines from ending in a semicolon.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"disallowSemicolons": true
+```
+
+##### Valid
+
+```js
+var a = 1
+;[b].forEach(c)
+```
+
+##### Invalid
+
+```js
+var a = 1;
+[b].forEach(c);
+```
+
 ### ~~validateJSDoc~~
 
 Please use the [JSCS-JSDoc](https://github.com/jscs-dev/jscs-jsdoc) plugin instead.
