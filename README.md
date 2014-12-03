@@ -2587,8 +2587,8 @@ Values: Array of operators to apply to or `true`
 $el.on( 'click', fn )
 	.appendTo( 'body' );
 
-var x = 4 + 5 +
-	12 + 13;
+var x = 4 + 5
+	+ 12 + 13;
 ```
 
 ##### Invalid
@@ -2597,8 +2597,8 @@ var x = 4 + 5 +
 $el.on( 'click', fn ).
 	appendTo( 'body' );
 
-var x = 4 + 5
-	+ 12 + 13;
+var x = 4 + 5 +
+	12 + 13;
 ```
 
 
