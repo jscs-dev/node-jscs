@@ -140,7 +140,7 @@ doAsync(function () {
     this.fn(n);
 }, this);
 
-// Comments with url can have maximum line length > 120 ................... https://github.com/ymaps/codestyle/blob/master/js.md
+// Comments with url can have maximum line length > 120 ................... https://github.com/yandex/codestyle/blob/master/javascript.md
 
 /**
  * Test jsdoc validation.
