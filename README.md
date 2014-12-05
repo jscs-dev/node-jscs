@@ -35,7 +35,7 @@ JSCS — JavaScript Code Style. [Twitter](https://twitter.com/jscs_dev) | [Maili
  * [jQuery](presets/jquery.json) - https://contribute.jquery.org/style-guide/js/
  * [MDCS](presets/mdcs.json) - https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2
  * [Wikimedia](presets/wikimedia.json) - https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
- * [Yandex](presets/yandex.json) - https://github.com/ymaps/codestyle/blob/master/javascript.md
+ * [Yandex](presets/yandex.json) - https://github.com/yandex/codestyle/blob/master/javascript.md
 
 ## Friendly packages
 
