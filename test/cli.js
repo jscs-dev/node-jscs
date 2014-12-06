@@ -524,7 +524,7 @@ describe('modules/cli', function() {
 
         it('should limit the number of errors reported to the provided amount', function() {
             return cli({
-                maxErrors: 1,
+                maxErrors: '1',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/maxErrors.json'
             })
@@ -534,9 +534,21 @@ describe('modules/cli', function() {
             });
         });
 
+        it('should not limit the number of errors reported if non numeric value provided', function() {
+            return cli({
+                maxErrors: '1a',
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                assert(console.log.getCall(2).args[0].indexOf('2 code style errors found.') !== -1);
+                rAfter();
+            });
+        });
+
         it('should display a message indicating that there were more errors', function() {
             return cli({
-                maxErrors: 1,
+                maxErrors: '1',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/maxErrors.json'
             })
