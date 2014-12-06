@@ -18,6 +18,35 @@ describe('modules/config/node-configuration', function() {
         });
     });
 
+    describe('overrideFromCLI', function() {
+        it('should override allowed options from CLI', function() {
+            configuration.overrideFromCLI({
+                preset: 'jquery',
+                maxErrors: '2',
+                errorFilter: path.resolve(__dirname, '../data/error-filter.js'),
+                esprima: 'esprima-harmony-jscs'
+            });
+
+            configuration.registerPreset('jquery', {});
+            configuration.load({});
+
+            assert.equal(configuration.getProcessedConfig().preset, 'jquery');
+            assert.equal(configuration.getMaxErrors(), 2);
+            assert.equal(typeof configuration.getErrorFilter, 'function');
+            assert.equal(configuration.hasCustomEsprima(), true);
+        });
+
+        it('should not override disallowed options from CLI', function() {
+            configuration.overrideFromCLI({
+                fileExtensions: '.override'
+            });
+
+            configuration.load({});
+
+            assert.deepEqual(configuration.getFileExtensions(), ['.js']);
+        });
+    });
+
     describe('load', function() {
         it('should accept `additionalRules` to register rule instances', function() {
             var rule = {
