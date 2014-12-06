@@ -63,12 +63,12 @@ describe('modules/cli', function() {
         sinon.spy(console, 'error');
 
         var result = cli({
+            args: ['test/data/cli/success.js'],
             preset: 'not-exist'
         });
 
         return result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Preset "%s" does not exist');
-            assert(console.error.getCall(0).args[1] === 'not-exist');
+            assert.equal(console.error.getCall(0).args[0], 'Preset "not-exist" does not exist');
             console.error.restore();
         });
     });
