@@ -22,6 +22,8 @@ describe('rules/require-dot-notation', function() {
         assert(checker.checkString('var x = a["null"]').isEmpty());
         assert(checker.checkString('var x = a["true"]').isEmpty());
         assert(checker.checkString('var x = a["false"]').isEmpty());
+        assert(checker.checkString('var x = a["undefined"]').isEmpty());
+        assert(checker.checkString('var x = a["arguments"]').isEmpty());
     });
 
     it('should not report number subscription', function() {
