@@ -49,6 +49,16 @@ cat myfile.js | jscs
 
 ## CLI
 
+### `--auto-configure`
+Presents a walkthrough that allows you to generate a JSCS configuration by
+choosing a preset and handling violated rules.
+
+```
+jscs --auto-configure path
+```
+
+`path` can be a file or directory to check the presets against
+
 ### `--config`
 Allows to define path to the config file.
 ```

@@ -2,6 +2,7 @@ var utils = require('../lib/utils');
 var assert = require('assert');
 var JsFile = require('../lib/js-file');
 var esprima = require('esprima');
+var path = require('path');
 
 describe('modules/utils', function() {
 
@@ -124,6 +125,29 @@ describe('modules/utils', function() {
         it('should not trim underscores for underscores only', function() {
             assert.equal(utils.trimUnderscores('_'), '_');
             assert.equal(utils.trimUnderscores('__'), '__');
+        });
+    });
+
+    describe('isRelativePath', function() {
+        it('returns true if the path is relative', function() {
+            assert.ok(utils.isRelativePath('../'));
+            assert.ok(utils.isRelativePath('./'));
+        });
+
+        it('returns false if the path is not relative', function() {
+            assert.ok(!utils.isRelativePath('path/to'));
+        });
+    });
+
+    describe('normalizePath', function() {
+        var base = __dirname + '/bar/baz';
+
+        it('returns the original path if it is not relative', function() {
+            assert.ok(utils.normalizePath('foo', base) === 'foo');
+        });
+
+        it('returns the relative path resolved against the base path', function() {
+            assert.ok(utils.normalizePath('../foo', base) === (path.dirname(base) + '/foo'));
         });
     });
 });
