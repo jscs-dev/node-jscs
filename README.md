@@ -295,7 +295,7 @@ if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
 if (z) a(); // all errors, even from requireCurlyBraces, will be reported
 ```
 
-You can disable multiple rules at once and progressively reeanble them.
+You can disable multiple rules at once and progressively reenable them.
 ```js
 // jscs:disable requireCurlyBraces, requireDotNotation
 if (x['a']) y(); // all errors from requireCurlyBraces OR requireDotNotation on this line will be ignored
