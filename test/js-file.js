@@ -690,43 +690,41 @@ describe('modules/js-file', function() {
         });
     });
 
-    describe('isES3Enabled', function() {
-        it('should return false when unspecified', function() {
+    describe('getDialect', function() {
+        it('should return es5 with no options specified', function() {
             var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources);
-            assert.equal(file.isES3Enabled(), false);
+            assert.equal(file.getDialect(), 'es5');
         });
 
-        it('should return false when specified', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
-            var file = createJsFile(sources, {es3: false});
-            assert.equal(file.isES3Enabled(), false);
-        });
-
-        it('should return true when specified', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
-            var file = createJsFile(sources, {es3: true});
-            assert.equal(file.isES3Enabled(), true);
-        });
-    });
-
-    describe('isES6Enabled', function() {
-        it('should return false when unspecified', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
-            var file = createJsFile(sources);
-            assert.equal(file.isES6Enabled(), false);
-        });
-
-        it('should return false when specified', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
-            var file = createJsFile(sources, {es6: false});
-            assert.equal(file.isES6Enabled(), false);
-        });
-
-        it('should return true when specified', function() {
+        it('should return es6 when es6 is specified as true', function() {
             var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es6: true});
-            assert.equal(file.isES6Enabled(), true);
+            assert.equal(file.getDialect(), 'es6');
+        });
+
+        it('should return es5 when es6 is specified as false', function() {
+            var sources = 'var x = 1;\nvar y = 2;';
+            var file = createJsFile(sources, {es6: false});
+            assert.equal(file.getDialect(), 'es5');
+        });
+
+        it('should return es3 when es3 is specified as true', function() {
+            var sources = 'var x = 1;\nvar y = 2;';
+            var file = createJsFile(sources, {es3: true});
+            assert.equal(file.getDialect(), 'es3');
+        });
+
+        it('should return es5 when es3 is specified as false', function() {
+            var sources = 'var x = 1;\nvar y = 2;';
+            var file = createJsFile(sources, {es3: false});
+            assert.equal(file.getDialect(), 'es5');
+        });
+
+        it('should return es6 when es3 and es6 are both specified as true', function() {
+            var sources = 'var x = 1;\nvar y = 2;';
+            var file = createJsFile(sources, {es3: true, es6: true});
+            assert.equal(file.getDialect(), 'es6');
         });
     });
 
