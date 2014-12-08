@@ -104,6 +104,9 @@ But you also can specify your own reporter, since this flag accepts relative or 
 jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
+### `--es3`
+Validates your code as targetted for an ES3 environment. This effects the behavior of certain rules, e.g., requireDotNotation.
+
 ### `--esnext`
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
@@ -228,6 +231,20 @@ Default: Infinity
 
 ```js
 "maxErrors": 10
+```
+
+### es3
+
+Validates your code as targetted for an ES3 environment. This effects the behavior of certain rules, e.g., requireDotNotation.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"es3": true
 ```
 
 ### esnext

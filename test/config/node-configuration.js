@@ -24,7 +24,8 @@ describe('modules/config/node-configuration', function() {
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../data/error-filter.js'),
-                esprima: 'esprima-harmony-jscs'
+                esprima: 'esprima-harmony-jscs',
+                es3: true
             });
 
             configuration.registerPreset('jquery', {});
@@ -32,6 +33,7 @@ describe('modules/config/node-configuration', function() {
 
             assert.equal(configuration.getProcessedConfig().preset, 'jquery');
             assert.equal(configuration.getMaxErrors(), 2);
+            assert.equal(configuration.isES3Enabled(), true);
             assert.equal(typeof configuration.getErrorFilter, 'function');
             assert.equal(configuration.hasCustomEsprima(), true);
         });

@@ -101,6 +101,28 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('isES3Enabled', function() {
+        it('should return false when null is specified', function() {
+            configuration.load({es3: null});
+            assert.equal(configuration.isES3Enabled(), false);
+        });
+
+        it('should return false when false is specified', function() {
+            configuration.load({es3: false});
+            assert.equal(configuration.isES3Enabled(), false);
+        });
+
+        it('should return true when true is specified', function() {
+            configuration.load({es3: true});
+            assert.equal(configuration.isES3Enabled(), true);
+        });
+
+        it('should return true when unspecified', function() {
+            configuration.load({});
+            assert.equal(configuration.isES3Enabled(), true);
+        });
+    });
+
     describe('getRegisteredPresets', function() {
         it('should return registered presets object', function() {
             var preset = {maxErrors: 5};
