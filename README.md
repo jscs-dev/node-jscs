@@ -2913,7 +2913,7 @@ var d = new e();
 
 ### requireDotNotation
 
-Requires member expressions to use dot notation when possible
+Requires member expressions to use dot notation when possible. Note, if you specify the --es3 option to JSCS, ES3 keywords and future reserved words MUST remain quoted.
 
 Type: `Boolean`
 
@@ -2921,10 +2921,11 @@ Values: `true`
 
 JSHint: [`sub`](http://www.jshint.com/docs/options/#sub)
 
-#### Example
+#### Example for `"es3": true`
 
 ```js
-"requireDotNotation": true
+"requireDotNotation": true,
+"es3": true
 ```
 
 ##### Valid
@@ -2941,6 +2942,30 @@ var a = b['while']; //reserved word
 
 ```js
 var a = b['c'];
+```
+
+#### Example for `"es3": false` or `"es3": null`
+
+```js
+"requireDotNotation": true,
+"es3": false
+```
+
+##### Valid
+
+```js
+var a = b[c];
+var a = b.c;
+var a = b[c.d];
+var a = b[1];
+var a = b.while;
+```
+
+##### Invalid
+
+```js
+var a = b['c'];
+var a = b['while']; //reserved words can be property names in ES5
 ```
 
 ### requireYodaConditions
