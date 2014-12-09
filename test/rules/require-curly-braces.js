@@ -122,4 +122,20 @@ describe('rules/require-curly-braces', function() {
         assert(!checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }').isEmpty());
         assert(!checker.checkString('with(x) console.log(toString());').isEmpty());
     });
+
+    it('should correctly set pointer (#799)', function() {
+        checker.configure({ requireCurlyBraces: ['else'] });
+
+        // jscs:disable
+        var error = checker.checkString(function foo() {
+            if (foo === 1)
+                return 1;
+            else
+                return 3;
+        }.toString()).getErrorList()[ 0 ];
+        // jscs:enable
+
+        assert(error.line === 4);
+        assert(error.column === 12);
+    });
 });
