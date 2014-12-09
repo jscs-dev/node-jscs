@@ -5,6 +5,9 @@
   "version": "1.8.1",
   "main": "lib/checker",
   "homepage": "https://github.com/jscs-dev/node-jscs",
+  "keywords": ["code style", "code quality", "formatter",
+               "Javascript", "js", "jscs", "lint", "linter",
+               "style guide", "validate"],
   "license": "MIT",
   "repository": {
     "type": "git",
