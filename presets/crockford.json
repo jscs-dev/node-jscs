@@ -59,6 +59,7 @@
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
+    "disallowYodaConditions": true,
     "disallowNewlineBeforeBlockStatements": true,
     "disallowMultipleLineStrings": true
 }
