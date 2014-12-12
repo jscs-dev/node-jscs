@@ -578,6 +578,8 @@ Values: `true`
 ```js
 if (cond){
     foo();
+} else{
+    bar();
 }
 
 for (var e in elements){
@@ -594,6 +596,8 @@ while (cond){
 ```js
 if (cond) {
     foo();
+} else {
+    bar();
 }
 
 for (var e in elements) {
