@@ -1483,7 +1483,7 @@ Values: Array of quoted types or `true` to disallow padding new lines after all 
 #### Example
 
 ```js
-"requirePaddingNewlinesBeforeKeywords": [
+"disallowPaddingNewlinesBeforeKeywords": [
     "do",
     "for",
     "if",
