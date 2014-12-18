@@ -1,4 +1,4 @@
 {
-  "errorFilter": "./test/data/error-filter.js",
+  "errorFilter": "../error-filter.js",
   "disallowKeywords": ["with"]
 }

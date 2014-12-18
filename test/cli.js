@@ -2,7 +2,6 @@ var hooker = require('hooker');
 var sinon = require('sinon');
 var glob = require('glob');
 var assert = require('assert');
-var Vow = require('vow');
 var hasAnsi = require('has-ansi');
 var rewire = require('rewire');
 
@@ -41,7 +40,13 @@ describe('modules/cli', function() {
 
     function assertNoCliErrors(vow) {
         return vow.promise.always(function() {
-            assert(console.log.getCall(0).args[0] === 'No code style errors found.');
+            var stdout = process.stdout.write.getCall(0) ? process.stdout.write.getCall(0).args[0] : '';
+            var stderr = process.stderr.write.getCall(0) ? process.stderr.write.getCall(0).args[0] : '';
+            assert.equal(
+                stdout,
+                'No code style errors found.\n',
+                stderr
+            );
             rAfter();
         });
     }
@@ -578,7 +583,7 @@ describe('modules/cli', function() {
 
         it('should accept a relative path to a filter module', function() {
             return assertNoCliErrors(cli({
-                errorFilter: './test/data/error-filter.js',
+                errorFilter: '../error-filter.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             }));
@@ -624,6 +629,15 @@ describe('modules/cli', function() {
                 args: ['test/data/cli/esnext.js'],
                 esprima: 'esprima-harmony-jscs',
                 config: 'test/data/cli/cli.json'
+            }));
+        });
+    });
+
+    describe('additionalRules', function() {
+        it('should correctly handle additionalRules paths', function() {
+            return assertNoCliErrors(cli({
+                args: ['test/data/cli/success.js'],
+                config: 'test/data/configs/additionalRules/.jscsrc'
             }));
         });
     });
