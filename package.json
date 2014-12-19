@@ -39,7 +39,9 @@
     "vow": "~0.4.3",
     "vow-fs": "~0.3.1",
     "xmlbuilder": "~2.4.0",
-    "supports-color": "~1.2.0"
+    "supports-color": "~1.2.0",
+    "unicode-6.3.0": "~0.1.5",
+    "regenerate": "~1.0.1"
   },
   "devDependencies": {
     "browserify": "~6.2.0",
