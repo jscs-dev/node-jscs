@@ -22,6 +22,8 @@ describe('rules/require-capitalized-comments', function() {
         assert(checker.checkString('/**\n * invalid\n*/').getErrorCount() === 1);
         assert(checker.checkString('//\n// invalid\n//').getErrorCount() === 1);
         assert(checker.checkString('/*\ninvalid\n*/').getErrorCount() === 1);
+        assert(checker.checkString('//über').getErrorCount() === 1);
+        assert(checker.checkString('//π').getErrorCount() === 1);
     });
 
     it('should not report an uppercase start of a comment', function() {
@@ -30,6 +32,8 @@ describe('rules/require-capitalized-comments', function() {
         assertEmpty('/** Valid */');
         assertEmpty('//\n// Valid\n//');
         assertEmpty('/*\nValid\n*/');
+        assertEmpty('//Über');
+        assertEmpty('//∏');
     });
 
     it('should not report on comments that start with a non-alphabetical character', function() {
@@ -89,5 +93,10 @@ describe('rules/require-capitalized-comments', function() {
             '// and has one or more non-capitalized lines',
             '// afterwards'
         ].join('\n'));
+
+        assert(checker.checkString([
+            '// Über',
+            '// diese Funktion'
+        ].join('\n')).isEmpty());
     });
 });
