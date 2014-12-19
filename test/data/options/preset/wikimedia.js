@@ -2,7 +2,13 @@
 	var APP,
 		hasOwn = Object.prototype.hasOwnProperty;
 
+	// Empty function declaration
 	function upHere() {}
+
+	// Non-empty function declaration
+	function upHereAlso( y ) {
+		return y;
+	}
 
 	/**
 	 * Example description.
@@ -19,10 +25,14 @@
 
 		this.total = upHere() + id;
 
-		name = options.bar ? upHere( id ) : id;
+		name = options.bar ? upHereAlso( id ) : id;
 
 		if ( options.quux ) {
 			name += options.quux;
+		} else if ( options.quux ) {
+			name += options.quux;
+		} else {
+			name += 'default';
 		}
 
 		if ( bar &&
@@ -32,6 +42,16 @@
 		) {
 			return;
 		}
+
+		// One line function
+		inline = function ( items ) { return items.slice(); };
+
+		// Multi-line function
+		inline = function ( items ) {
+			items = items.slice();
+			items.pop();
+			return items;
+		};
 
 		inline = function named( items ) {
 			try {
@@ -49,6 +69,7 @@
 
 	APP.loop = function ( items ) {
 		var i, len, item, key,
+			j = 1,
 			ret = {};
 
 		for ( i = 0, len = items.length; i < len; i++ ) {
@@ -68,6 +89,11 @@
 			}
 		}
 
+		do {
+			j = i++;
+			APP.fall( --j );
+		} while ( i < 5 );
+
 		return ret;
 	};
 
@@ -80,11 +106,34 @@
 		}
 	};
 
+	APP.cast = function ( options, val ) {
+		options.enable = !!val;
+		options.disable = Boolean( val );
+
+		options.posX = +val;
+		options.posY = Number( val );
+
+		options.title = String( val );
+
+		return options.title.indexOf( '.' ) !== -1;
+	};
+
 	APP.example = new APP.Example( 'banana', {
 		first: 'Who',
 		second: 'What',
-		third: 'I don\'t know'
+		third: 'I don\'t know',
+		'default': 'Legacy'
 	} );
+
+	APP.example( 'banana' )
+		.done( function () { } );
+
+	APP.example( 'banana' )
+		.done( function () {} )
+		.fail( function () {} );
+
+	APP.$head
+		.appendTo( APP.$element );
 
 	global.APP = APP;
 
