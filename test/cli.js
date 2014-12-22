@@ -557,6 +557,24 @@ describe('modules/cli', function() {
                 rAfter();
             });
         });
+
+        it('should display a message for input via stdin', function() {
+            process.stdin.isTTY = false;
+
+            var result = cli({
+                args: [],
+                config: 'test/data/cli/maxErrors.json',
+                maxErrors: '1'
+            });
+
+            process.stdin.emit('data', 'with (x) { y++; }\n');
+            process.stdin.emit('end');
+
+            return result.promise.always(function() {
+                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                rAfter();
+            });
+        });
     });
 
     describe('errorFilter option', function() {
