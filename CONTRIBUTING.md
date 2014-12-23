@@ -163,9 +163,8 @@ Example:
 ```
 validateIndentation: remove array and object indentation validation
 
-Fixes #627
-Closes #545
+Fixes #627 - issue
+Closes gh-545 - pull request
 ```
 
 You can find other examples of this format by [viewing recent commits](https://github.com/jscs-dev/node-jscs/commits/master) made to master.
-
