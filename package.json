@@ -2,10 +2,17 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "main": "lib/checker",
   "homepage": "https://github.com/jscs-dev/node-jscs",
-  "keywords": ["code style", "formatter", "lint", "linter", "style guide", "validate"],
+  "keywords": [
+    "code style",
+    "formatter",
+    "lint",
+    "linter",
+    "style guide",
+    "validate"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
