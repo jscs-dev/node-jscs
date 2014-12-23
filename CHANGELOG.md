@@ -1,3 +1,30 @@
+# Version 1.9.0
+* Preset: update wikimedia preset (Timo Tijhof)
+* Preset: update crockford preset (Jackson Ray Hamilton)
+
+* New Rules: (require | disallow)SpaceBetweenArguments (James Allardice)
+* New Rules: requireLineBreakAfterVariableAssignment (jdlrobson)
+* New Rules: disallowSemicolons (Christopher Cliff)
+
+* CLI: relative path resolving fix (mdevils)
+* requireCurlyBraces: correctly set error pointer (Oleg Gaidarenko)
+* requireOperatorBeforeLineBreak: Detect binary operator after literal (Lucas Cimon)
+* requireCapitalizedComments: correct letter recognition (alawatthe)
+
+* CLI: Remove duplicated error reporting code paths (Mike Sherov)
+* CLI: remove duplicated preset existence check (Mike Sherov)
+* Iterator: extend estraverse rules to support JSX (Yannick Croissant)
+* Iterator: use estraverse in tree-iterator. (mdevils)
+* CLI: Move configuration override to node-configuration (Mike Sherov)
+
+* Docs: small correction to contributing guide (Oleg Gaidarenko)
+* Docs: fixed incorrect rule name in example (alawatthe)
+* Docs: added keywords for Googleability (Devin Ekins)
+* Docs: Correct documentation for disallowOperatorBeforeLineBreak (jdlrobson)
+* Docs: Added quotes for uniformity (Callum Macrae)
+* Docs: Typo fix (Alexander Sofin)
+* Docs: fix urls to yandex codestyle (Andrey Morozov)
+
 ## Version 1.8.1
  * Assertions: always allow new lines in whitespaceBetween (Henry Zhu)
  * Tests: reorganization, full coverage for JsFile (mdevils)
