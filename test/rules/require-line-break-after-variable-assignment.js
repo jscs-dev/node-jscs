@@ -33,12 +33,12 @@ describe('rules/require-line-break-after-variable-assignment', function() {
             assert(checker.checkString('var x, y, z, y = 5, z;').getErrorCount() === 1);
         });
 
-        it('should report when multiple var statements on single line.', function() {
-            assert(checker.checkString('var bad = {\nkey : value;\n}; var heckWhyNot = 5;').getErrorCount() === 1);
+        it('should report when unitialised variables follow a declaration.', function() {
+            assert(checker.checkString('var a, b,\n\tc=1, d;').getErrorCount() === 1);
         });
 
-        it('should not report when single variable declaration.', function() {
-            assert(checker.checkString('var good = {\nkey : value\n};\nvar heckWhyNot = 5;\n').isEmpty());
+        it('should report when multiple var statements on single line.', function() {
+            assert(checker.checkString('var bad = {\n\tkey : value\n}; var heckWhyNot = 5;').getErrorCount() === 1);
         });
     });
 });
