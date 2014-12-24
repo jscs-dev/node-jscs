@@ -182,7 +182,7 @@ If you want specifically disable preset rule assign it to `null`, like so:
 
 ### excludeFiles
 
-Disables style checking for specified paths.
+Disables style checking for specified paths declared with glob patterns.
 
 Type: `Array`
 
@@ -191,7 +191,7 @@ Values: Array of file matching patterns
 #### Example
 
 ```js
-"excludeFiles": ["node_modules/**"]
+"excludeFiles": ["node_modules/**", "src/!(bar|foo)"]
 ```
 
 ### fileExtensions
