@@ -1,14 +1,16 @@
 # node-jscs
 
-
-[![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs) [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master) [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs) [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
+[![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs)
+[![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg?style=flat)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master)
+[![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs)
+[![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
 
 JSCS — JavaScript Code Style. [Twitter](https://twitter.com/jscs_dev) | [Mailing List](https://groups.google.com/group/jscs-dev)
 
 
 `jscs` is a code style linter for programmatically enforcing your style guide.
-You can configure `jscs` for your project in detail using **over 60** validation rules,
-including presets from popular style guides like jQuery, AirBnb, Google, and more.
+You can configure `jscs` for your project in detail using **over 90** validation rules,
+including presets from popular style guides like jQuery, Airbnb, Google, and more.
 
 **This is a documentation for the development version, please refer to the https://www.npmjs.org/package/jscs instead**
 
