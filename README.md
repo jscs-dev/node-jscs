@@ -2021,12 +2021,16 @@ var x = {
 
 Requires proper alignment in object literals.
 
-Type: `String`
+Type: `String` or `Object`
 
 Values:
- - `"all"` for strict mode,
- - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
- - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
+ - `String`:
+    - `"all"` for strict mode,
+    - `"ignoreFunction"` ignores objects if one of the property values is a function expression,
+    - `"ignoreLineBreak"` ignores objects if there are line breaks between properties
+ - `Object`:
+    - `mode`: (required) specify one of the string options above
+    - `tabSize`: (default: `1`) considered the tab character as number of specified spaces
 
 #### Example
 
@@ -2844,7 +2848,7 @@ Values:
  - `Integer`: lines should be at most the number of characters specified
  - `Object`:
     - `value`: (required) lines should be at most the number of characters specified
-    - `tabSize`: (default: `1`) considered the tab character as number of specified spaces
+    - `tabSize`: (default: `1`) considers the tab character as the number of specified spaces
     - `allowComments`: (default: `false`) allows comments to break the rule
     - `allowUrlComments`: (default: `false`) allows comments with long urls to break the rule
     - `allowRegex`: (default: `false`) allows regular expression literals to break the rule
