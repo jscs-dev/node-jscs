@@ -204,8 +204,20 @@ describe('modules/js-file', function() {
             assert.equal(createJsFile('function foo(a,b) {}').getNodeByRange(16).type, 'FunctionDeclaration');
         });
 
+        it('should get node by range for identifier', function() {
+            assert.equal(createJsFile('foo(a,b)').getNodeByRange(0).type, 'Identifier');
+        });
+
         it('should get node by range for function expression', function() {
             assert.equal(createJsFile('foo(a,b)').getNodeByRange(7).type, 'CallExpression');
+        });
+
+        it('should get node by range for "if" statement', function() {
+            assert.equal(createJsFile('if(true){foo(a,b)}').getNodeByRange(0).type, 'IfStatement');
+        });
+
+        it('should get node by range for identifier inside "if" statement', function() {
+            assert.equal(createJsFile('if(true){foo(a,b)}').getNodeByRange(9).type, 'Identifier');
         });
 
         it('should get node by range for function expression inside "if" statement', function() {
