@@ -56,12 +56,16 @@ describe('modules/checker', function() {
             checker.checkStdin();
 
             assert(spy.called);
+
+            spy.restore();
         });
 
         it('returns a promise', function() {
             var spy = sinon.spy(process.stdin, 'on');
 
             assert(typeof checker.checkStdin().then === 'function');
+
+            spy.restore();
         });
 
         it('resolves with the errors from processing stdin', function(done) {
