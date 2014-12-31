@@ -104,6 +104,21 @@ describe('rules/require-curly-braces', function() {
         assert(checker.checkString('switch(x){default:{a=b;}}').isEmpty());
     });
 
+    it('should report missing braces in `case` with expression', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(true){case x&&y:a=b;}').getErrorCount() === 1);
+    });
+
+    it('should report missing braces in `case` with more that one consequent statement', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 1:a=b;c=d;}').getErrorCount() === 1);
+    });
+
+    it('should not report missing braces in `case` with braces', function() {
+        checker.configure({ requireCurlyBraces: ['case'] });
+        assert(checker.checkString('switch(x){case 1:{a=b;c=d;}}').isEmpty());
+    });
+
     it('should ignore method name if it\'s a reserved word (#180)', function() {
         checker.configure({ requireCurlyBraces: ['catch'] });
         assert(checker.checkString('promise.catch()').isEmpty());
