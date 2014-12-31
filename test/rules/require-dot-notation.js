@@ -9,7 +9,7 @@ describe('rules/require-dot-notation', function() {
         checker.registerDefaultRules();
     });
 
-    describe('true value', function() {
+    describe('option value `true`', function() {
         beforeEach(function() {
             checker.configure({ requireDotNotation: true });
         });
@@ -72,6 +72,40 @@ describe('rules/require-dot-notation', function() {
         it('should not report literal subscription for es3 keywords or future reserved words', function() {
             assert.equal(checker.checkString('var x = a[\'while\']').getErrorCount(), 1);
             assert.equal(checker.checkString('var x = a[\'abstract\']').getErrorCount(), 1);
+        });
+    });
+
+    describe('option value `except_snake_case`', function() {
+        beforeEach(function() {
+            checker.configure({ requireDotNotation: 'except_snake_case' });
+        });
+
+        it('should report literal subscription', function() {
+            assert(checker.checkString('var x = a[\'b\']').getErrorCount() === 1);
+            assert(checker.checkString('var x = a[\'camelA\']').getErrorCount() === 1);
+        });
+
+        it('should not report snake case identifier', function() {
+            assert(checker.checkString('var x = a[\'snake_a\']').isEmpty());
+        });
+
+        it('should not report snake case identifier with trailing underscores', function() {
+            assert(checker.checkString('var x = a[\'_snake_a\']').isEmpty());
+            assert(checker.checkString('var x = a[\'__snake_a\']').isEmpty());
+            assert(checker.checkString('var x = a[\'snake_a_\']').isEmpty());
+            assert(checker.checkString('var x = a[\'snake_a__\']').isEmpty());
+        });
+
+        it('should not report camel case identifier delimited with snake', function() {
+            assert(checker.checkString('var x = a[\'camelA_camelB\']').isEmpty());
+            assert(checker.checkString('var x = a[\'camelA_camelB_camelC\']').isEmpty());
+        });
+
+        it('should report camel case identifier with trailing underscores', function() {
+            assert(checker.checkString('var x = a[\'_camelA\']').getErrorCount() === 1);
+            assert(checker.checkString('var x = a[\'__camelA\']').getErrorCount() === 1);
+            assert(checker.checkString('var x = a[\'camelA_\']').getErrorCount() === 1);
+            assert(checker.checkString('var x = a[\'camelA__\']').getErrorCount() === 1);
         });
     });
 });
