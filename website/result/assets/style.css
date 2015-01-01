@@ -1,0 +1,271 @@
+html, body {
+    color: #333;
+    font-family: "Frutiger", Helvetica, sans-serif;
+    margin: 0;
+}
+
+/* About page */
+
+.about {
+    overflow: hidden;
+}
+
+.about-left {
+    float: left;
+    width: 450px;
+    padding-right: 50px;
+}
+
+.about-right {
+    float: left;
+    width: 300px;
+}
+
+/* Team */
+
+.team h1 {
+    margin-bottom: 40px;
+}
+
+.team-member-photo {
+    width: 100px;
+    height: 100px;
+}
+
+.team-member-name {
+    font-weight: bold;
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+.team-member {
+    overflow: hidden;
+}
+
+.team-member dt {
+    float: left;
+}
+
+.team-member dd {
+    float: left;
+    margin-left: 30px;
+}
+
+.team-member-role {
+    margin-bottom: 5px;
+}
+
+/* Layout */
+
+.content {
+    overflow: hidden;
+}
+
+.header {
+    margin-bottom: 60px;
+}
+
+.header .header-top-content, .header .header-bottom, .content, .footer-main {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.header-top {
+    background: #DEE2CC;
+}
+
+.header .header-top-content {
+    height: 110px;
+    position: relative;
+}
+
+.header .header-bottom {
+    position: relative;
+}
+
+.header .logo {
+    width: 130px;
+    height: 130px;
+    background: url(logo.png);
+    display: block;
+    position: absolute;
+    margin-top: 10px;
+}
+
+.header ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.header .header-top-nav {
+    position: absolute;
+    left: 170px;
+    bottom: 5px;
+}
+
+.header .header-top-nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.header .header-top-nav li a {
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+}
+
+.header .header-top-nav li a:hover {
+    text-decoration: underline;
+}
+
+.header .header-bottom-nav {
+    margin: 10px 0 0 170px;
+    position: absolute;
+    right: 0;
+}
+
+.header .header-bottom-nav li {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.header .header-bottom-nav .mailing-list {
+    display: block;
+    border: 1px #D4D4D4 solid;
+    border-radius: 3px;
+    color: #333;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    height: 17px;
+    padding: 1px 5px 0;
+    line-height: 17px;
+    background: #fafafa linear-gradient(#fafafa, #eaeaea);
+}
+
+.footer {
+    margin-top: 50px;
+    background: #DEE2CC;
+}
+
+.footer-main {
+    height: 50px;
+    font-size: 12px;
+    line-height: 50px;
+    color: #777;
+    text-align: right;
+}
+
+/* Content */
+
+.markdown {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.markdown .toc {
+    border: 1px solid #eee;
+    background: #ffffff;
+    float: right;
+    position: relative;
+    z-index: 1;
+    padding: 10px 20px;
+    color: #555;
+    margin: 0 0 10px 20px;
+}
+
+.markdown .toc ul {
+    list-style-type: disc;
+    margin: 0;
+    padding: 0 0 0 20px;
+}
+
+.markdown .toc a {
+    border-bottom: 1px dotted #4183c4;
+    font-size: 14px;
+}
+
+.markdown .toc-header {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.markdown a, .team a {
+    color: #4183c4;
+    text-decoration: none;
+}
+
+.markdown a:hover, .team a:hover {
+    text-decoration: underline;
+}
+
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5 {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.markdown h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+.markdown h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+
+.markdown code:before, .markdown code:after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+}
+
+.markdown code {
+    padding: 0.2em 0;
+    margin: 0;
+    background-color: rgba(0,0,0,0.04);
+    border-radius: 3px;
+    font: 85% Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.markdown pre {
+    background-color: rgba(0,0,0,0.04);
+    padding: 16px;
+    overflow: auto;
+    background-color: #f7f7f7;
+    border-radius: 3px;
+}
+
+.markdown pre code {
+    border-radius: 0;
+    background: none;
+}
+
+.markdown pre code:before, .markdown pre code:after {
+    display: none;
+}
+
+.markdown ul {
+    padding-left: 2em;
+}
+
+.hljs-string {
+    color: #df5000;
+}
+
+.hljs-comment {
+    color: #969896;
+}
+
+.hljs-keyword {
+    color: #a71d5d;
+}
+

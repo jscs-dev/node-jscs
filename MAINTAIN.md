@@ -16,8 +16,8 @@ Maintaining validation rules
 Each rule should have:
 
  * Implementation in `lib/rules/rule-name.js`.
+ * Documentation in `lib/rules/rule-name.js` (`JSDoc` comment should start at the beginning of the file).
  * Registration in `registerDefaultRules` method of `StringChecker` (`lib/string-checker.js`).
- * Documentation in `README.md`.
  * Tests in `lib/test.rule-name.js`
 
 Rule interface:
@@ -70,7 +70,7 @@ Adding new presets
 Publishing a new version
 ---------------------------
 
-1. Determine which part of the version you are about to increase. See our strategy in README.md.
+1. Determine which part of the version you are about to increase. See our strategy in OVERVIEW.md.
 1. Write changes to `CHANGELOG.md`: `npm run changelog`.
    Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
    1. breaking changes.

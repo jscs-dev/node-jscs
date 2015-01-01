@@ -121,8 +121,8 @@ If you'd like to add an additional preset, please add the following (maintaining
 * The new preset's configuration to `/presets`
 * A file containing sample code, including any necessary license (ideally from that organization/project's codebase) to `/test/data/options/preset/`
 * An integration test by adding the line `testPreset('mynewpreset');` to `/test/string-checker.js`
-* The presets name to the possible values of the preset option in README.md
-* A link to the preset following the existing style in the "Presets" section of README.md
+* The presets name to the possible values of the preset option in OVERVIEW.md
+* A link to the preset following the existing style in the "Presets" section of OVERVIEW.md
 
 Setting up your environment
 -------

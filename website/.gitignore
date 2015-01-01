@@ -1,0 +1,4 @@
+/result/*.html
+/node_modules
+/rules/*
+/publish

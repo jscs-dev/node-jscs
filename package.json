@@ -30,6 +30,32 @@
     "Mike Sherov <mike.sherov@gmail.com>",
     "Joel Kemp <joel@mrjoelkemp.com>"
   ],
+  "maintainers": [
+    {
+      "name": "Marat Dulin",
+      "email": "mdevils@yandex.ru",
+      "github-username": "mdevils",
+      "role": "General architecture, common rules"
+    },
+    {
+      "name": "Oleg Gaidarenko",
+      "email": "markelog@gmail.com",
+      "github-username": "markelog",
+      "role": "CLI, integration, common rules"
+    },
+    {
+      "name": "Mike Sherov",
+      "email": "mike.sherov@gmail.com",
+      "github-username": "mikesherov",
+      "role": "Ex-jshint rules, common rules"
+    },
+    {
+      "name": "Joel Kemp",
+      "email": "joel@mrjoelkemp.com",
+      "github-username": "mrjoelkemp",
+      "role": "Bug fixes, common rules"
+    }
+  ],
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -90,7 +116,7 @@
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm publish",
-    "postpublish": "node publish/postpublish",
+    "postpublish": "node publish/postpublish && cd website && npm install && npm run publish",
     "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
