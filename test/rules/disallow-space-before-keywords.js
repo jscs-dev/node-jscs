@@ -45,6 +45,16 @@ describe('rules/dissalow-space-before-keywords', function() {
         assert(checker.checkString('if (true) {\n} /**/else { x++; }').isEmpty());
     });
 
+    it('should not report if tokens placed on different lines', function() {
+        checker.configure({ disallowSpaceBeforeKeywords: true });
+        assert(checker.checkString('x\nif (true) false').isEmpty());
+    });
+
+    it('should not report if there are no braces', function() {
+        checker.configure({ disallowSpaceBeforeKeywords: true });
+        assert(checker.checkString('if (true) x++;  else x--;').isEmpty());
+    });
+
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
         checker.configure({ disallowSpaceBeforeKeywords: true });
 

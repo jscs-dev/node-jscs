@@ -36,4 +36,10 @@ describe('rules/disallow-space-after-keywords', function() {
         assert(!checker.checkString('function foo(){}').isEmpty());
         assert(!checker.checkString('typeof \'4\'').isEmpty());
     });
+
+    it('should not report on `var` and `in` keywords', function() {
+        checker.configure({ disallowSpaceAfterKeywords: true });
+
+        assert(checker.checkString('for(var i in a){}').isEmpty());
+    });
 });
