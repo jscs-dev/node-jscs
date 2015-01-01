@@ -55,7 +55,8 @@
     "disallowTrailingWhitespace": true,
     "disallowTrailingComma": true,
     "disallowKeywordsOnNewLine": [
-        "else"
+        "else",
+        "catch"
     ],
     "requireLineBreakAfterVariableAssignment": true,
     "requireLineFeedAtFileEnd": true,
