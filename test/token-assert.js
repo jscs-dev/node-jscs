@@ -373,6 +373,27 @@ describe('modules/token-assert', function() {
     });
 
     describe('tokenBefore', function() {
+        it('should trigger error on missing token itself before', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.tokenBefore({
+                token: tokens[0],
+                expectedTokenBefore: {value: 'something'}
+            });
+
+            assert(onError.calledOnce);
+
+            var error = onError.getCall(0).args[0];
+            assert.equal(error.message, 'something was expected before x but document start found');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 0);
+        });
+
         it('should trigger error on missing token value before', function() {
             var file = createJsFile('x=y;');
 
@@ -461,6 +482,22 @@ describe('modules/token-assert', function() {
     });
 
     describe('noTokenBefore', function() {
+        it('should not trigger error on document start before', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.noTokenBefore({
+                token: tokens[0],
+                expectedTokenBefore: {value: 'something'}
+            });
+
+            assert(onError.notCalled);
+        });
+
         it('should trigger error on illegal token value before', function() {
             var file = createJsFile('x=y;');
 
