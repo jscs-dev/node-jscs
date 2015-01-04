@@ -52,7 +52,7 @@ describe('rules/require-padding-newlines-in-blocks', function() {
         it('should report missing padding newline after opening brace', function() {
             assert(checker.checkString('if (true) {\n/**/\nabc();\n\n}').getErrorCount() === 1);
         });
-        it('should report missing padding newline before closing brace', function() {
+        it('should report missing padding newline between oneline comment and closing brace', function() {
             assert(checker.checkString('if (true) {\n\nabc();\n\n//\n}').getErrorCount() === 1);
         });
     });
