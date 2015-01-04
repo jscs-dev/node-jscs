@@ -64,6 +64,16 @@ describe('rules/require-space-before-keywords', function() {
         assert(errors.explainError(error).indexOf('Should be one space instead of 2, before "else"') === 0);
     });
 
+    it('should not trigger error for different lines', function() {
+        checker.configure({ requireSpaceBeforeKeywords: ['else'] });
+        assert(checker.checkString('if (true) {\n} /**/ \nelse { x++; }').isEmpty());
+    });
+
+    it('should not report if there are no braces', function() {
+        checker.configure({ requireSpaceBeforeKeywords: true });
+        assert(checker.checkString('if (true) x++;else x--;').isEmpty());
+    });
+
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
         checker.configure({ requireSpaceBeforeKeywords: true });
 

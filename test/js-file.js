@@ -667,6 +667,73 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getCommentAfterToken', function() {
+        it('should return comment after specified token', function() {
+            var file = createJsFile('/* a */{  y++  ;  /* x */ x++; // y\n }/* last */');
+
+            var token = file.getTokenByRangeStart(15);
+            var comment = file.getCommentAfterToken(token);
+            assert.equal(comment.value, ' x ');
+
+            token = file.getTokenByRangeStart(29);
+            comment = file.getCommentAfterToken(token);
+            assert.equal(comment.value, ' y');
+
+            token = file.getTokenByRangeStart(37);
+            comment = file.getCommentAfterToken(token);
+            assert.equal(comment.value, ' last ');
+        });
+
+        it('should return undefined if there is no comment after token', function() {
+            var file = createJsFile('/*x*/true');
+
+            var token = file.getTokenByRangeStart(5);
+            var comment = file.getCommentAfterToken(token);
+            assert(comment === undefined);
+        });
+
+        it('should not fail if there are no tokens', function() {
+            var file = createJsFile('/*x*/');
+
+            var token = file.getTokenByRangeStart(0);
+            assert(token === undefined);
+        });
+    });
+
+    describe('getCommentBeforeToken', function() {
+        it('should return comment before specified token', function() {
+            var file = createJsFile('/* a */{  y++  ;  /* x */ x++; // y\n }/* last */');
+
+            var token = file.getTokenByRangeStart(7);
+            var comment = file.getCommentBeforeToken(token);
+            assert.equal(comment.value, ' a ');
+
+            token = file.getTokenByRangeStart(26);
+            comment = file.getCommentBeforeToken(token);
+            assert.equal(comment.value, ' x ');
+
+            token = file.getTokenByRangeStart(37);
+            comment = file.getCommentBeforeToken(token);
+            assert.equal(comment.value, ' y');
+        });
+
+        it('should return single comment before last token', function() {
+            var file = createJsFile('{\n//\n}');
+
+            var tokens = file.getTokens();
+            var comment = file.getCommentBeforeToken(tokens[tokens.length - 1]);
+            assert.equal(comment.value, '');
+        });
+
+        it('should return undefined if there is no comment before token', function() {
+            var file = createJsFile('true');
+
+            var token = file.getTokenByRangeStart(0);
+            var comment = file.getCommentBeforeToken(token);
+            assert(comment === undefined);
+        });
+    });
+
     describe('getTree', function() {
         it('should return specified esprima-tree', function() {
             var sources = 'var x;';
@@ -691,38 +758,34 @@ describe('modules/js-file', function() {
     });
 
     describe('getDialect', function() {
+        var sources = 'var x = 1;\nvar y = 2;';
+
         it('should return es5 with no options specified', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources);
             assert.equal(file.getDialect(), 'es5');
         });
 
         it('should return es6 when es6 is specified as true', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es6: true});
             assert.equal(file.getDialect(), 'es6');
         });
 
         it('should return es5 when es6 is specified as false', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es6: false});
             assert.equal(file.getDialect(), 'es5');
         });
 
         it('should return es3 when es3 is specified as true', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es3: true});
             assert.equal(file.getDialect(), 'es3');
         });
 
         it('should return es5 when es3 is specified as false', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es3: false});
             assert.equal(file.getDialect(), 'es5');
         });
 
         it('should return es6 when es3 and es6 are both specified as true', function() {
-            var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources, {es3: true, es6: true});
             assert.equal(file.getDialect(), 'es6');
         });
