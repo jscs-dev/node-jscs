@@ -20,7 +20,7 @@ including presets from popular style guides like jQuery, Airbnb, Google, and mor
 
  * [jQuery](http://jquery.com/)
  * [Adobe](http://www.adobe.com/)
- * [Twitter Bootstrap](http://getbootstrap.com/)
+ * [Bootstrap](http://getbootstrap.com/)
  * [AngularJS](https://angularjs.org/)
  * [Yandex](https://yandex.com/)
  * [Wikimedia](https://www.wikimedia.org/)
