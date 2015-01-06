@@ -14,8 +14,6 @@
     "safeContextKeyword": "_this",
 
     "excludeFiles": [
-        "test/data/**",
-        "website/node_modules/**",
-        "website/publish/**"
+        "test/data/**"
     ]
 }

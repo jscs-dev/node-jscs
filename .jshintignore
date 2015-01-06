@@ -1,5 +1,3 @@
 node_modules
-website/node_modules
-website/publish
 jscs-browser.js
 test/data/**
