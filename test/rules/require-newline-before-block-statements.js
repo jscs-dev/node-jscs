@@ -49,5 +49,9 @@ describe('rules/require-newline-before-block-statements', function() {
             assert(checker.checkString('function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}')
                 .isEmpty());
         });
+
+        it('should not report missing newline if file begins with block statement', function() {
+            assert(checker.checkString('{}').isEmpty());
+        });
     });
 });
