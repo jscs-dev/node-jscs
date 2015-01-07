@@ -12,6 +12,7 @@ including presets from popular style guides like jQuery, Airbnb, Google, and mor
 #### More about JSCS
 
  * [Tutorial and Overview](http://jscs.info/overview.html)
+ * [Try JSCS Online](http://jscs.info/demo.html)
  * [Codestyle Rules](http://jscs.info/rules.html)
  * [How to Contribute](http://jscs.info/contributing.html)
  * [Development Team](http://jscs.info/team.html)
