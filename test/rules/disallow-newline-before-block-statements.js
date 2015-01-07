@@ -51,5 +51,9 @@ describe('rules/disallow-newline-before-block-statements', function() {
                 'function test(){\nif(true){\nreturn {\nval:1\n}\n}\nvar obj = \n{a:1,\nb:2,\nc:3\n};\n}')
                 .isEmpty());
         });
+
+        it('should not report disallowed newline if file begins with block statement', function() {
+            assert(checker.checkString('{}').isEmpty());
+        });
     });
 });
