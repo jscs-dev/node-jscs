@@ -49,5 +49,9 @@ describe('rules/require-newline-before-block-statements', function() {
             assert(checker.checkString('function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}')
                 .isEmpty());
         });
+
+        it('should not throw error if opening parentheses is first symbol in the file', function() {
+            assert(checker.checkString('{test: 1 }').isEmpty());
+        });
     });
 });
