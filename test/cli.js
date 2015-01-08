@@ -276,7 +276,7 @@ describe('modules/cli', function() {
         it('should not fail with additional args supplied: `cat myEmptyFile.js | jscs -n`', function() {
             var result = cli({
                 args: [],
-                'no-colors': true,
+                colors: true,
                 config: 'test/data/cli/cli.json'
             });
 
@@ -318,27 +318,33 @@ describe('modules/cli', function() {
     });
 
     describe('reporter option', function() {
-        it('should set implicitly set checkstyle reporter', function() {
+        it('should implicitly set console reporter', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
+                colors: true,
                 config: 'test/data/cli/cli.json'
             });
 
             return result.promise.always(function() {
-                assert(path.basename(result.reporter), 'checkstyle');
+                assert.equal(path.basename(result.reporter), 'console');
                 rAfter();
             });
         });
 
-        it('should set implicitly set text reporter', function() {
+        it('should implicitly set text reporter', function() {
+            var old = cli.__get__('supportsColor');
+
+            cli.__set__('supportsColor', false);
+
             var result = cli({
                 args: ['test/data/cli/error.js'],
-                'no-colors': true,
+                colors: true,
                 config: 'test/data/cli/cli.json'
             });
 
             return result.promise.always(function() {
-                assert(path.basename(result.reporter), 'text.js');
+                assert.equal(path.basename(result.reporter), 'text');
+                cli.__set__('supportsColor', old);
                 rAfter();
             });
         });
@@ -353,7 +359,7 @@ describe('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(path.basename(result.reporter), 'junit.js');
+                assert.equal(path.basename(result.reporter), 'junit.js');
                 rAfter();
             });
         });
@@ -366,7 +372,7 @@ describe('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(path.basename(result.reporter), 'junit.js');
+                assert.equal(path.basename(result.reporter), 'junit.js');
                 rAfter();
             });
         });
@@ -379,7 +385,7 @@ describe('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(path.basename(result.reporter), 'text.js');
+                assert.equal(path.basename(result.reporter), 'text');
                 rAfter();
             });
         });
