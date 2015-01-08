@@ -292,6 +292,17 @@ describe('modules/token-assert', function() {
 
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
         });
+
+        it('should not throw if token or subjectToken properties are undefined', function() {
+            var file = createJsFile('x\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+
+            tokenAssert.sameLine({
+                token: undefined,
+                subjectToken: undefined
+            });
+        });
     });
 
     describe('differentLine', function() {
@@ -347,6 +358,17 @@ describe('modules/token-assert', function() {
             });
 
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+        });
+
+        it('should not throw if token or subjectToken properties are undefined', function() {
+            var file = createJsFile('x\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+
+            tokenAssert.differentLine({
+                token: undefined,
+                subjectToken: undefined
+            });
         });
     });
 
