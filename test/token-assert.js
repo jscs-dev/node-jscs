@@ -249,7 +249,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                subjectToken: tokens[1]
             });
 
             assert(onError.calledOnce);
@@ -270,7 +270,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                subjectToken: tokens[1]
             });
 
             assert(!onError.calledOnce);
@@ -286,7 +286,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1],
+                subjectToken: tokens[1],
                 message: 'Custom message'
             });
 
@@ -305,7 +305,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                subjectToken: tokens[1]
             });
 
             assert(onError.calledOnce);
@@ -326,7 +326,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                subjectToken: tokens[1]
             });
 
             assert(!onError.calledOnce);
@@ -342,7 +342,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1],
+                subjectToken: tokens[1],
                 message: 'Custom message'
             });
 
