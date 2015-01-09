@@ -16,30 +16,39 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         it('should report missing space after opening brace', function() {
             assert(checker.checkString('var x = {a: 1 };').getErrorCount() === 1);
         });
+
         it('should report missing space before closing brace', function() {
             assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
         });
+
         it('should report missing space in both cases', function() {
             assert(checker.checkString('var x = {a: 1};').getErrorCount() === 2);
         });
+
         it('should not report with spaces', function() {
             assert(checker.checkString('var x = { a: 1 };').isEmpty());
         });
+
         it('should not report for empty object', function() {
             assert(checker.checkString('var x = {};').isEmpty());
         });
+
         it('should report for nested object', function() {
             assert(checker.checkString('var x = { a: { b: 1 }};').getErrorCount() === 1);
         });
+
         it('should report anything for empty object', function() {
             assert(checker.checkString('var x = {};').isEmpty());
         });
+
         it('should report for function value', function() {
             assert(checker.checkString('var x = { a: function() {}};').getErrorCount() === 1);
         });
+
         it('should report for array literal', function() {
             assert(checker.checkString('var x = { a: []};').getErrorCount() === 1);
         });
+
         it('should report for parentheses', function() {
             assert(checker.checkString('var x = { a: (1)};').getErrorCount() === 1);
         });
@@ -53,21 +62,27 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         it('should report missing space after opening brace', function() {
             assert(checker.checkString('var x = {a: 1 };').getErrorCount() === 1);
         });
+
         it('should report missing space before closing brace', function() {
             assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
         });
+
         it('should report missing space in both cases', function() {
             assert(checker.checkString('var x = {a: 1};').getErrorCount() === 2);
         });
+
         it('should not report with spaces', function() {
             assert(checker.checkString('var x = { a: 1 };').isEmpty());
         });
+
         it('should not report for nested object', function() {
             assert(checker.checkString('var x = { a: { b: 1 }};').isEmpty());
         });
+
         it('should not report illegal space between closing braces for nested object', function() {
             assert(checker.checkString('var x = { a: { b: 1 } };').isEmpty());
         });
+
         it('should report not anything for empty object', function() {
             assert(checker.checkString('var x = { a: {}};').isEmpty());
         });
