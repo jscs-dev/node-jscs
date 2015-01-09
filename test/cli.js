@@ -1,11 +1,11 @@
-var hooker = require('hooker');
+var path = require('path');
+
 var sinon = require('sinon');
-var glob = require('glob');
 var assert = require('assert');
+
+var glob = require('glob');
 var hasAnsi = require('has-ansi');
 var rewire = require('rewire');
-
-var path = require('path');
 
 var cli = rewire('../lib/cli');
 var startingDir = process.cwd();
@@ -78,33 +78,29 @@ describe('modules/cli', function() {
         });
     });
 
-    it('should correctly exit if no files specified', function() {
-        hooker.hook(console, 'error', {
-            pre: function(message) {
-                assert.equal(message, 'No input files specified. Try option --help for usage information.');
+    it('should correctly exit if no files specified', function(done) {
+        sinon.stub(console, 'error', function(message) {
+            assert.equal(message, 'No input files specified. Try option --help for usage information.');
 
-                return hooker.preempt();
-            },
-            once: true
+            done();
         });
 
         cli({
             args: []
         });
+
+        console.error.restore();
     });
 
-    it('should exit if no custom config is found', function() {
-        hooker.hook(console, 'error', {
-            pre: function(arg1, arg2, arg3) {
-                assert.equal(arg1, 'Configuration source');
-                assert.equal(arg2, 'config.js');
-                assert.equal(arg3, 'was not found.');
+    it('should exit if no custom config is found', function(done) {
+        sinon.stub(console, 'error', function(arg1, arg2, arg3) {
+            assert.equal(arg1, 'Configuration source');
+            assert.equal(arg2, 'config.js');
+            assert.equal(arg3, 'was not found.');
 
-                process.chdir('../');
+            process.chdir('../');
 
-                return hooker.preempt();
-            },
-            once: true
+            done();
         });
 
         process.chdir('./test/');
@@ -114,6 +110,8 @@ describe('modules/cli', function() {
         });
 
         assert(typeof result === 'object');
+
+        console.error.restore();
     });
 
     it('should set presets', function() {

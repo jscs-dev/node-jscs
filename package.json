@@ -79,7 +79,6 @@
     "browserify": "~7.0.3",
     "coveralls": "~2.11.1",
     "has-ansi": "~1.0.0",
-    "hooker": "~0.2.3",
     "jshint": "~2.5.0",
     "mocha": "~2.1.0",
     "rewire": "~2.1.0",
