@@ -15,7 +15,10 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
         });
 
         describe('when braces on same line', function() {
-            it.skip('should report illegal spaces for array and expression statement (#429)', function() {
+            it('should report missing spaces for array accessor', function() {
+                assert(checker.checkString('var x = []; x[ 0 ]').getErrorCount() === 2);
+            });
+            it('should report illegal spaces for array and expression statement (#429)', function() {
                 assert(checker.checkString('[1][ 0 ];').getErrorCount() === 2);
             });
             it('should report illegal space after opening brace', function() {
@@ -107,12 +110,11 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInsideArrayBrackets: 'nested' });
         });
-
-        it.skip('should report illegal spaces for array and expression statement (#429)', function() {
-            assert(checker.checkString('[ [1][ 0 ] ];').getErrorCount() === 2);
+        it('should report missing spaces for array accessor', function() {
+            assert(checker.checkString('var x = []; x[ 0 ]').getErrorCount() === 2);
         });
-        it('should not report for not nested array', function() {
-            assert(checker.checkString('var x = [ 1 ];').isEmpty());
+        it('should report illegal spaces for array and expression statement (#429)', function() {
+            assert(checker.checkString('[ [1][ 0 ] ];').getErrorCount() === 2);
         });
         it('should report illegal space before closing bracket for nested array', function() {
             assert(checker.checkString('var x = [[1 ]];').getErrorCount() === 1);
@@ -132,6 +134,39 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
 
             assert(check.getErrorCount() === 1);
             assert(column === 4);
+        });
+    });
+
+    describe('exceptions', function() {
+        it('should not report missing space for parentheses', function() {
+            checker.configure({
+                disallowSpacesInsideArrayBrackets: {
+                    allExcept: ['{', '}']
+                }
+            });
+
+            assert(checker.checkString('var x = [ 1 ];').getErrorCount() === 2);
+            assert(checker.checkString('var x = [ { a: 1 } ];').isEmpty());
+        });
+        it('should report missing space for the array brackets', function() {
+            checker.configure({
+                disallowSpacesInsideArrayBrackets: {
+                    allExcept: ['[', ']']
+                }
+            });
+
+            assert(checker.checkString('var x = [ {} ];').getErrorCount() === 2);
+            assert(checker.checkString('var x = [ [] ];').isEmpty());
+        });
+        it('should not report missing space in both cases', function() {
+            checker.configure({
+                disallowSpacesInsideArrayBrackets: {
+                    allExcept: ['(', ')']
+                }
+            });
+
+            assert(checker.checkString('var x = [ { a: 1 } ];').getErrorCount() === 2);
+            assert(checker.checkString('var x = [ (1) ];').isEmpty());
         });
     });
 });
