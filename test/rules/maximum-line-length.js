@@ -123,7 +123,7 @@ describe('rules/maximum-line-length', function() {
             assert(checker.checkString('var a = /l/;\nvar b = l;\nvar a = new Regex("/l/");').getErrorCount() === 2);
         });
         it('should not be destructive to original data', function() {
-            assert(checker.checkString('var a = /regex/;')._file._lines[ 0 ].length > 1);
+            assert(checker.checkString('var a = /regex/;')._file._lines[0].length > 1);
         });
 
     });
