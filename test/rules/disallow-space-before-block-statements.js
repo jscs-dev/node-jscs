@@ -10,13 +10,13 @@ describe('rules/disallow-space-before-block-statements', function() {
         checker.configure({ disallowSpaceBeforeBlockStatements: true });
     });
 
-    it('should report missing space for control structures', function() {
+    it('should report extra space for control structures', function() {
         assert(checker.checkString('if (true) { var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('if (true)\n{ var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('if (true){ var a = false; }').getErrorCount() === 0);
     });
 
-    it('should report missing space for control structures with multiple branches', function() {
+    it('should report extra space for control structures with multiple branches', function() {
         assert(checker.checkString(
           'if (true) {\n' +
           '    var a = false;\n' +
@@ -74,7 +74,7 @@ describe('rules/disallow-space-before-block-statements', function() {
           '}').getErrorCount() === 0, '1tbs: correct if and else');
     });
 
-    it('should report missing space for loops', function() {
+    it('should report extra space for loops', function() {
         assert(checker.checkString('while (true) { var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('while (true)\n{ var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('while (true){ var a = false; }').getErrorCount() === 0);
@@ -83,7 +83,7 @@ describe('rules/disallow-space-before-block-statements', function() {
         assert(checker.checkString('for (var e in es){ var a = false; }').getErrorCount() === 0);
     });
 
-    it('should report missing space for function declarations', function() {
+    it('should report extra space for function declarations', function() {
         assert(checker.checkString('function foo(i) { var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('function foo(i){ var a = false; }').getErrorCount() === 0);
     });
