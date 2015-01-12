@@ -50,6 +50,19 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         });
     });
 
+    describe('es6', function() {
+        beforeEach(function() {
+            checker.configure({
+                esnext: true,
+                disallowSpacesInsideParentheses: true
+            });
+        });
+
+        it('should not report with no spaces around a regex', function() {
+            assert(checker.checkString('expect(a).toMatch(/home/);').isEmpty());
+        });
+    });
+
     describe('"only" option', function() {
         describe('"{", "}", "[", "]", "function"', function() {
             beforeEach(function() {

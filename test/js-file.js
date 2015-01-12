@@ -19,7 +19,7 @@ describe('modules/js-file', function() {
         return new JsFile(
             'example.js',
             sources,
-            harmonyEsprima.parse(sources, {loc: true, range: true, comment: true, tokens: true})
+            harmonyEsprima.parse(sources, {sourceType: 'module', loc: true, range: true, comment: true, tokens: true})
         );
     }
 
