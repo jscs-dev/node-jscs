@@ -125,6 +125,31 @@ describe('rules/validate-indentation', function() {
         ]);
     });
 
+    describe('includeEmptyLines', function() {
+        it('should validate indentation on an empty line when includeEmptyLines is true', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    includeEmptyLines: true
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').getErrorCount() === 1);
+            assert(checker.checkString('if (a){\n\t\n}').isEmpty());
+        });
+
+        it('should not validate indentation on an empty line when includeEmptyLines is false', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    includeEmptyLines: false
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').isEmpty());
+        });
+    });
+
     describe('switch identation', function() {
         beforeEach(function() {
             checker.configure({ validateIndentation: 4 });
