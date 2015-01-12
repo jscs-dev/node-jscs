@@ -74,11 +74,6 @@ describe('rules/disallow-space-before-block-statements', function() {
           '}').getErrorCount() === 0, '1tbs: correct if and else');
     });
 
-    it('should report missing space for bare blocks', function() {
-        assert(checker.checkString(' {}').getErrorCount() === 1);
-        assert(checker.checkString('{}').getErrorCount() === 0);
-    });
-
     it('should report missing space for loops', function() {
         assert(checker.checkString('while (true) { var a = false; }').getErrorCount() === 1);
         assert(checker.checkString('while (true)\n{ var a = false; }').getErrorCount() === 1);
