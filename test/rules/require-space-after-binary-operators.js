@@ -101,4 +101,15 @@ describe('rules/require-space-after-binary-operators', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [','] });
         assert(checker.checkString('var x=1;').isEmpty());
     });
+
+    it('should report correct error message (#907)', function() {
+        checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
+
+        var errors = checker.checkString('var x =1;');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error)
+            .indexOf('Operator = should not stick to following expression at input') === 0);
+    });
 });
