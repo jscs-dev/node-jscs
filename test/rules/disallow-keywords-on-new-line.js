@@ -7,6 +7,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
+
     it('should report illegal keyword placement', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
@@ -20,6 +21,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should not report legal keyword placement', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
@@ -32,4 +34,14 @@ describe('rules/disallow-keywords-on-new-line', function() {
             ).isEmpty()
         );
     });
+
+    it('should not report special case for "else" statement without braces (#905)', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['else'] });
+        assert(
+            checker.checkString(
+                'if (block) block[v]["(type)"] = "var";\n' +
+                'else funct[v] = "var";'
+            ).isEmpty()
+        );
+    })
 });
