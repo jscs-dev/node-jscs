@@ -23,6 +23,7 @@
     "disallowTrailingWhitespace": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowMultipleVarDecl": true,
+    "disallowKeywordsOnNewLine": ["else"],
 
     "requireSpaceAfterKeywords": [
       "if",
