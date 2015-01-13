@@ -516,3 +516,28 @@ function a(b) {
     case 1: c;
   }
 }
+
+function test() {
+  var a = 1;
+  {
+    a();
+  }
+}
+
+{
+  a();
+}
+
+function a(b) {
+  switch(x) {
+    case 1:
+        {
+        a();
+      }
+      break;
+    default:
+      {
+        b();
+        }
+  }
+}
