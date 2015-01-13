@@ -43,5 +43,5 @@ describe('rules/disallow-keywords-on-new-line', function() {
                 'else funct[v] = "var";'
             ).isEmpty()
         );
-    })
+    });
 });
