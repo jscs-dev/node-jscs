@@ -541,3 +541,9 @@ function a(b) {
         }
   }
 }
+
+switch (a) {
+  default:
+    if (b)
+      c();
+}
