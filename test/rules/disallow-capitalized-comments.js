@@ -9,7 +9,6 @@ describe('rules/disallow-capitalized-comments', function() {
         checker.registerDefaultRules();
         checker.configure({ disallowCapitalizedComments: true });
     });
-
     it('should report on an uppercase start of a comment', function() {
         assert(checker.checkString('//Invalid').getErrorCount() === 1);
         assert(checker.checkString('// Invalid').getErrorCount() === 1);
@@ -17,12 +16,16 @@ describe('rules/disallow-capitalized-comments', function() {
         assert(checker.checkString('/**\n * Invalid\n */').getErrorCount() === 1);
         assert(checker.checkString('/* Invalid */').getErrorCount() === 1);
         assert(checker.checkString('/*\n Invalid\n */').getErrorCount() === 1);
+        assert(checker.checkString('//\xDCber').getErrorCount() === 1);
+        assert(checker.checkString('//\u03A0').getErrorCount() === 1);
     });
 
     it('should not report on a lowercase start of a comment', function() {
         assert(checker.checkString('//valid').isEmpty());
         assert(checker.checkString('// valid').isEmpty());
         assert(checker.checkString('/** valid */').isEmpty());
+        assert(checker.checkString('//\xFCber').isEmpty());
+        assert(checker.checkString('//\u03C0').isEmpty());
     });
 
     it('should not report on comments that start with a non-alphabetical character', function() {
