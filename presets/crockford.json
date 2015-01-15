@@ -43,6 +43,7 @@
     "disallowSpaceBeforeBinaryOperators": [
         ","
     ],
+    "requireSpacesInForStatement": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
     "disallowKeywords": [

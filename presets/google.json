@@ -46,6 +46,7 @@
     "requireSpaceAfterBinaryOperators": true,
     "requireSpacesInConditionalExpression": true,
     "requireSpaceBeforeBlockStatements": true,
+    "requireSpacesInForStatement": true,
     "requireLineFeedAtFileEnd": true,
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
