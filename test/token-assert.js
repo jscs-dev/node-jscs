@@ -249,7 +249,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                subjectToken: tokens[1]
+                nextToken: tokens[1]
             });
 
             assert(onError.calledOnce);
@@ -270,7 +270,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                subjectToken: tokens[1]
+                nextToken: tokens[1]
             });
 
             assert(!onError.calledOnce);
@@ -286,21 +286,21 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                subjectToken: tokens[1],
+                nextToken: tokens[1],
                 message: 'Custom message'
             });
 
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
         });
 
-        it('should not throw if token or subjectToken properties are undefined', function() {
+        it('should not throw if token or nextToken properties are undefined', function() {
             var file = createJsFile('x\n=y;');
 
             var tokenAssert = new TokenAssert(file);
 
             tokenAssert.sameLine({
                 token: undefined,
-                subjectToken: undefined
+                nextToken: undefined
             });
         });
     });
@@ -316,7 +316,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                subjectToken: tokens[1]
+                nextToken: tokens[1]
             });
 
             assert(onError.calledOnce);
@@ -337,7 +337,7 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                subjectToken: tokens[1]
+                nextToken: tokens[1]
             });
 
             assert(!onError.calledOnce);
@@ -353,21 +353,21 @@ describe('modules/token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                subjectToken: tokens[1],
+                nextToken: tokens[1],
                 message: 'Custom message'
             });
 
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
         });
 
-        it('should not throw if token or subjectToken properties are undefined', function() {
+        it('should not throw if token or nextToken properties are undefined', function() {
             var file = createJsFile('x\n=y;');
 
             var tokenAssert = new TokenAssert(file);
 
             tokenAssert.differentLine({
                 token: undefined,
-                subjectToken: undefined
+                nextToken: undefined
             });
         });
     });
