@@ -1,4 +1,4 @@
-## Version 1.11.0
+## Version 1.10.0
 * Preset: correct wikimedia preset test (Oleg Gaidarenko)
 * Preset: correct jquery preset test (Oleg Gaidarenko)
 * Preset: add disallowKeywordsOnNewLine rule to google preset (Oleg Gaidarenko)
