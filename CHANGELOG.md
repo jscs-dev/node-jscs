@@ -3,6 +3,7 @@
 * Preset: correct jquery preset test (Oleg Gaidarenko)
 * Preset: add disallowKeywordsOnNewLine rule to google preset (Oleg Gaidarenko)
 * Preset: add "requireSpacesInForStatement" rule to the presets (Oleg Gaidarenko)
+* Preset: add 'catch' to "disallowKeywordsOnNewLine" rule for wikimedia (James Forrester)
 
 * disallowSpacesInForStatement: Disallow spaces in between for statement (gero3)
 * requireSpacesInForStatement: Requires spaces inbetween for statement (gero3)
