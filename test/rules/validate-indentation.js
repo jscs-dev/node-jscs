@@ -133,10 +133,13 @@ describe('rules/validate-indentation', function() {
                 checker.checkString(
                     'switch(value){\n' +
                         '    case "1":\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '    case "2":\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '    default:\n' +
+                        '        a();\n' +
                         '        break;\n' +
                         '}'
                 ).getErrorCount() === 1
@@ -148,8 +151,10 @@ describe('rules/validate-indentation', function() {
                 checker.checkString(
                     'switch(value){\n' +
                         '    case "1":\n' +
+                        '        a();\n' +
                         '        break;\n' +
                         '    case "2":\n' +
+                        '        a();\n' +
                         '        break;\n' +
                         '    default:\n' +
                         '    break;\n' +
@@ -164,6 +169,7 @@ describe('rules/validate-indentation', function() {
                     'switch(value){\n' +
                         '    case "1":\n' +
                         '    case "2":\n' +
+                        '        a();\n' +
                         '        break;\n' +
                         '    default:\n' +
                         '        break;\n' +
@@ -172,8 +178,10 @@ describe('rules/validate-indentation', function() {
                         '    case "1":\n' +
                         '    break;\n' +
                         '    case "2":\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '    default:\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '}'
                 ).getErrorCount() === 3
@@ -186,12 +194,15 @@ describe('rules/validate-indentation', function() {
                     'switch(value){\n' +
                         '    case "1":\n' +
                         '    case "2":\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '    default:\n' +
+                        '        a();\n' +
                         '    break;\n' +
                         '}\n' +
                         'switch(value){\n' +
                         '    case "1":\n' +
+                        '        a();\n' +
                         '        break;\n' +
                         '    case "2":\n' +
                         '        break;\n' +

@@ -547,3 +547,19 @@ switch (a) {
     if (b)
       c();
 }
+
+function test(x) {
+  switch (x) {
+    case 1:
+      return function() {
+        var a = 5;
+        return a;
+      };
+  }
+}
+
+switch (a) {
+  default:
+    if (b)
+      c();
+}
