@@ -102,7 +102,9 @@ describe('rules/validate-indentation', function() {
             486,
             488,
             534,
-            541
+            541,
+            569,
+            575
         ]);
     });
 
