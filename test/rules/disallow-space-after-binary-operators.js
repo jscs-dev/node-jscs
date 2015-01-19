@@ -81,4 +81,20 @@ describe('rules/disallow-space-after-binary-operators', function() {
         checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
         assert(checker.checkString('var x').isEmpty());
     });
+
+    it('should not report empty assignment expression', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
+        assert(checker.checkString('var x').isEmpty());
+    });
+
+    it('should report correct error message (#907)', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
+
+        var errors = checker.checkString('var x= 1;');
+        var error = errors.getErrorList()[0];
+
+        assert(errors.getErrorCount() === 1);
+        assert(errors.explainError(error)
+            .indexOf('Operator = should stick to following expression at input') === 0);
+    });
 });

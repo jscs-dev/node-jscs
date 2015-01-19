@@ -2,16 +2,24 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.5.9",
+  "version": "1.10.0",
   "main": "lib/checker",
-  "homepage": "https://github.com/mdevils/node-jscs",
+  "homepage": "https://github.com/jscs-dev/node-jscs",
+  "keywords": [
+    "code style",
+    "formatter",
+    "lint",
+    "linter",
+    "style guide",
+    "validate"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mdevils/node-jscs"
+    "url": "https://github.com/jscs-dev/node-jscs"
   },
   "bugs": {
-    "url": "https://github.com/mdevils/node-jscs/issues"
+    "url": "https://github.com/jscs-dev/node-jscs/issues"
   },
   "contributors": [
     "Marat Dulin <mdevils@yandex.ru>",
@@ -19,42 +27,95 @@
     "Igor Agarlev",
     "Alexey Androsov <doochik@ya.ru>",
     "Oleg Gaidarenko <markelog@gmail.com>",
-    "Mike Sherov <mike.sherov@gmail.com>"
+    "Mike Sherov <mike.sherov@gmail.com>",
+    "Joel Kemp <joel@mrjoelkemp.com>"
+  ],
+  "maintainers": [
+    {
+      "name": "Marat Dulin",
+      "email": "mdevils@yandex.ru",
+      "github-username": "mdevils",
+      "role": "General architecture, common rules"
+    },
+    {
+      "name": "Oleg Gaidarenko",
+      "email": "markelog@gmail.com",
+      "github-username": "markelog",
+      "role": "CLI, integration, common rules"
+    },
+    {
+      "name": "Mike Sherov",
+      "email": "mike.sherov@gmail.com",
+      "github-username": "mikesherov",
+      "role": "Ex-jshint rules, common rules"
+    },
+    {
+      "name": "Joel Kemp",
+      "email": "joel@mrjoelkemp.com",
+      "github-username": "mrjoelkemp",
+      "role": "Bug fixes, common rules"
+    }
   ],
   "engines": {
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "colors": "~0.6.2",
-    "commander": "~2.3.0",
+    "colors": "~1.0.3",
+    "commander": "~2.5.0",
     "esprima": "~1.2.2",
+    "esprima-harmony-jscs": "1.1.0-regex-token-fix",
+    "estraverse": "~1.9.0",
+    "exit": "~0.1.2",
     "glob": "~4.0.0",
-    "minimatch": "~1.0.0",
+    "minimatch": "~2.0.0",
     "strip-json-comments": "~1.0.1",
     "vow": "~0.4.3",
     "vow-fs": "~0.3.1",
     "xmlbuilder": "~2.4.0",
-    "supports-color": "~0.2.0"
+    "supports-color": "~1.2.0"
   },
   "devDependencies": {
-    "browserify": "~5.9.1",
-    "hooker": "~0.2.3",
+    "browserify": "~7.0.3",
+    "coveralls": "~2.11.1",
+    "has-ansi": "~1.0.0",
     "jshint": "~2.5.0",
-    "mocha": "~1.21.4",
-    "sinon": "~1.10.0",
-    "xml2js": "~0.4.2",
-    "has-ansi": "~0.1.0"
+    "mocha": "~2.1.0",
+    "rewire": "~2.1.0",
+    "unit-coverage": "~3.2.0",
+    "sinon": "~1.12.0",
+    "xml2js": "~0.4.2"
   },
   "bin": {
     "jscs": "./bin/jscs"
   },
+  "unit-coverage": {
+    "common": [
+      "-a",
+      "lib",
+      "-a",
+      "test",
+      "-s",
+      "lib/**/*.js",
+      "-t",
+      "test/**/*.js",
+      "-S",
+      "relative",
+      "-O",
+      "sources=lib",
+      "-O",
+      "tests=test"
+    ]
+  },
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha",
+    "coverage": "unit-coverage run -p common",
+    "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm publish",
-    "postpublish": "node publish/postpublish"
+    "postpublish": "node publish/postpublish",
+    "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
     "bin",

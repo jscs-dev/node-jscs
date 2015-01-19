@@ -1,3 +1,3 @@
-test/*.js test/rules/*.js test/options/*.js test/reporters/*.js
+test/*.js test/rules/*.js test/reporters/*.js test/config/*.js
 -R dot
 -u bdd

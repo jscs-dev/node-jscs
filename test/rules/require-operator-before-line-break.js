@@ -61,4 +61,8 @@ describe('rules/require-operator-before-line-break', function() {
         checker.configure({ requireOperatorBeforeLineBreak: ['?', '+'] });
         assert(checker.checkString('test === "null" \n? +test + "" : test').getErrorCount() === 1);
     });
+    it('should report after a binary operator with a literal on the left hand side #733', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        assert(checker.checkString('var err = "Cannot call " + modelName \n + " !";').getErrorCount() === 1);
+    });
 });

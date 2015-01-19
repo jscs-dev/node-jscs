@@ -14,6 +14,7 @@
     "requireCommaBeforeLineBreak": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireDotNotation": true,
+    "requireSpacesInForStatement": true,
     "maximumLineLength": {
         "value": 100,
         "tabSize": 4,
@@ -27,7 +28,7 @@
     "disallowMultipleLineStrings": true,
     "disallowTrailingComma": true,
 
-
+    "requireSpaceBeforeBlockStatements": true,
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },

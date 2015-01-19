@@ -41,7 +41,7 @@ the terms above.
 jQuery.extend = jQuery.fn.extend = function() {
   // requireMultipleVarDecl: "onyvar"
   var options, name, src, copy, copyIsArray, clone,
-    target = arguments[0] || {},
+    target = arguments[ 0 ] || {},
     i = 1,
     length = arguments.length,
     deep = false;

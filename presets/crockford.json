@@ -32,33 +32,34 @@
         "beforeOpeningRoundBrace": true
     },
     "requireMultipleVarDecl": "onevar",
-    "requireBlocksOnNewline": 1,
+    "requireBlocksOnNewline": true,
     "disallowEmptyBlocks": true,
     "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideParentheses": true,
-    "disallowQuotedKeysInObjects": true,
     "disallowDanglingUnderscores": true,
-    "disallowSpaceAfterObjectKeys": true,
     "requireCommaBeforeLineBreak": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "disallowSpaceBeforeBinaryOperators": [
         ","
     ],
+    "requireSpacesInForStatement": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "disallowKeywords": [ "with" ],
-    "disallowMultipleLineBreaks": true,
-    "validateLineBreaks": "LF",
-    "validateQuoteMarks": "'",
+    "disallowKeywords": [
+        "with",
+        "continue"
+    ],
     "validateIndentation": 4,
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
     "disallowTrailingComma": true,
-    "disallowKeywordsOnNewLine": [ "else" ],
+    "disallowKeywordsOnNewLine": [
+        "else"
+    ],
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
-    "disallowYodaConditions": true
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowMultipleLineStrings": true
 }

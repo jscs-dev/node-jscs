@@ -47,65 +47,65 @@ if (a) {
 
 var arr = [
   a,
-    b, // <-
-c, // ->
+  b,
+  c,
   function (){
     d
     }, // <-
   {},
   {
     a: b,
-      c: d, // <-
-  d: e // ->
+    c: d,
+    d: e
   },
   [
     f,
     g,
-      h, // <-
-  i // ->
+    h,
+    i
   ],
   [j]
 ];
 
 var obj = {
   a: {
-      b: { // <-
+    b: {
       c: d,
-    e: f, // ->
+      e: f,
       g: h +
     i // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
-  } // ->
+    }
   },
   g: [
     h,
     i,
-      j, // <-
-  k // ->
+    j,
+    k
   ]
 };
 
 var arrObject = {a:[
-    a, // <-
+  a,
   b, // NO ERROR: INDENT ONCE WHEN MULTIPLE INDENTED EXPRESSIONS ARE ON SAME LINE
-c // ->
+  c
 ]};
 
 var objArray = [{
-    a: b, // <-
+  a: b,
   b: c, // NO ERROR: INDENT ONCE WHEN MULTIPLE INDENTED EXPRESSIONS ARE ON SAME LINE
-c: d // ->
+  c: d
 }];
 
 var arrArray = [[
-    a, // <-
+  a,
   b, // NO ERROR: INDENT ONCE WHEN MULTIPLE INDENTED EXPRESSIONS ARE ON SAME LINE
-c // ->
+  c
 ]];
 
 var objObject = {a:{
-    a: b, // <-
+  a: b,
   b: c, // NO ERROR: INDENT ONCE WHEN MULTIPLE INDENTED EXPRESSIONS ARE ON SAME LINE
-c: d // ->
+  c: d
 }};
 
 
@@ -186,14 +186,14 @@ var a = b,
       l = m; // <-
   },
   e = {
-  f: g, // ->
+    f: g,
     n: o,
-      p: q // <-
+    p: q
   },
   r = [
-  s, // ->
+    s,
     t,
-      u // <-
+    u
   ];
 
 var a = function () {
@@ -240,8 +240,8 @@ a(
   b(
     c({
       d: 1,
-    e: 1,    // ->
-        f: 1 // <-
+      e: 1,
+      f: 1
     })
   )
 );
@@ -251,7 +251,7 @@ a({ d: 1 });
 aa(
    b({ // NO ERROR: aligned with previous opening paren
      c: d,
-       e: f,  // <-
+     e: f,
      f: g
    })
 );
@@ -277,8 +277,8 @@ aaaaaa(
   c, {
     d: a
   }, {
-      e: f // <-
-    } // <-
+    e: f
+  }
 );
 
 a.b()
@@ -327,63 +327,63 @@ a
 
 var a = function() {
       a++;
-    b++; // <--
-        c++; // <--
+    b++; // <-
+        c++; // <-
     },
     b;
 
 var b = [
       a,
-    b, // -->
-        c // <--
+      b,
+      c
     ],
     c;
 
 var c = {
       a: 1,
-    b: 2, // -->
-        c: 3 // <--
+      b: 2,
+      c: 3
     },
     d;
 
 var d = {
       a: 1,
-    b: 2, // -->
-        c: 3 // <--
+      b: 2, // ->
+      c: 3 // <-
     };
 
 // holes in arrays indentation
 [
- , // ->
-  1,
-
-  ,,
- 4, // ->
-  , 5,
-   , // <-
-  ,
- , // ->
-
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
+ 1,
 ];
 
 try {
   a++;
     b++; // <-
-c++; // -->
+c++; // ->
 } catch (d) {
   e++;
     f++; // <-
-g++; // -->
+g++; // ->
 } finally {
   h++;
     i++; // <-
-j++; // -->
+j++; // ->
 }
 
 if (array.some(function(){
   return true;
 })) {
-a++; // -->
+a++; // ->
   b++;
     c++; // <-
 }
@@ -433,3 +433,133 @@ if (a) {
 else c();
 
 a();
+
+if( "very very long multi line" +
+      "with weird indentation" ) {
+  b();
+a(); // ->
+    c(); // <-
+}
+
+a( "very very long multi line" +
+   "with weird indentation", function() {
+  b();
+a(); // ->
+    c(); // <-
+});
+
+a =
+    function(content, dom) {
+  b();
+    c(); // <-
+d(); // ->
+};
+
+a =
+    function(content, dom) {
+      b();
+        c(); // <-
+    d(); // ->
+    };
+
+a =
+    function(content, dom) {
+    b(); // ->
+    };
+
+a =
+    function(content, dom) {
+b(); // ->
+    };
+
+a('This is a terribly long description youll ' +
+  'have to read', function () {
+  b();
+  c();
+});
+
+if (
+  array.some(function(){
+    return true;
+  })
+) {
+a++; // ->
+  b++;
+    c++; // <-
+}
+
+function c(d) {
+  return {
+    e: function(f, g) {
+    }
+  };
+}
+
+function a(b) {
+  switch(x) {
+    case 1:
+      if (foo) {
+        return 5;
+      }
+  }
+}
+
+function a(b) {
+  switch(x) {
+    case 1:
+      c;
+  }
+}
+
+function a(b) {
+  switch(x) {
+    case 1: c;
+  }
+}
+
+function test() {
+  var a = 1;
+  {
+    a();
+  }
+}
+
+{
+  a();
+}
+
+function a(b) {
+  switch(x) {
+    case 1:
+        {
+        a();
+      }
+      break;
+    default:
+      {
+        b();
+        }
+  }
+}
+
+switch (a) {
+  default:
+    if (b)
+      c();
+}
+
+function test(x) {
+  switch (x) {
+    case 1:
+      return function() {
+        var a = 5;
+        return a;
+      };
+  }
+}
+
+switch (a) {
+  default:
+    if (b)
+      c();
+}

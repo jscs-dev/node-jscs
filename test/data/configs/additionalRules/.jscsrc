@@ -1,0 +1,6 @@
+{
+    "successRule": true,
+    "additionalRules": [
+        "./success-rule.js"
+    ]
+}

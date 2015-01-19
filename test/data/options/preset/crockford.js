@@ -42,6 +42,7 @@ function getElementsByClassName(className) {
     return results;
 }
 
+
 div.onclick = function (e) {
     return false;
 };

@@ -2,3 +2,4 @@
 .idea
 *.sublime-*
 /npm-debug.log
+coverage.html

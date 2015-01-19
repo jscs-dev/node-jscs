@@ -66,22 +66,18 @@ describe('modules/string-checker', function() {
 
             assert(false);
         } catch (e) {
-            assert(e.toString() === 'Error: Preset "not-exist" does not exist');
+            assert.equal(e.toString(), 'AssertionError: Preset "not-exist" does not exist');
         }
     });
 
     describe('rules registration', function() {
         it('should report rules in config which don\'t match any registered rules', function() {
-            var error;
-            try {
-                checker.configure({ disallowMulipleLineBreaks: true, disallowMultipleVarDelc: true });
-            } catch (e) {
-                error = e;
-            }
-            assert.equal(
-                error.message,
-                'Unsupported rules: disallowMulipleLineBreaks, disallowMultipleVarDelc'
-            );
+            checker.configure({ doesNotExist: true, noSuchRule: true });
+            var errors = checker.checkString('var foo = 1;').getErrorList();
+
+            assert(errors.length === 2);
+            assert.equal(errors[0].message, 'Unsupported rule: doesNotExist');
+            assert.equal(errors[1].message, 'Unsupported rule: noSuchRule');
         });
 
         it('should not report rules in config which match registered rules', function() {
@@ -103,5 +99,166 @@ describe('modules/string-checker', function() {
             }
             assert(error === undefined);
         });
+    });
+
+    describe('maxErrors', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireSpaceBeforeBinaryOperators: ['='],
+                maxErrors: 1
+            });
+        });
+
+        it('should allow a maximum number of reported errors to be set', function() {
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors.length === 1);
+        });
+
+        it('should not report more than the maximum errors across multiple checks', function() {
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            var errors2 = checker.checkString('var baz=1;\n var qux=2;').getErrorList();
+            assert(errors.length === 1);
+            assert(errors2.length === 0);
+        });
+
+        it('should not be used when not a number', function() {
+            var errors;
+            checker.configure({
+                requireSpaceBeforeBinaryOperators: ['='],
+                maxErrors: NaN
+            });
+
+            errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors.length > 0);
+        });
+    });
+
+    describe('esprima version', function() {
+        var customDescription = 'in no way a real error message';
+        var customEsprima = {
+            parse: function() {
+                var error = new Error();
+                error.description = customDescription;
+                error.lineNumber = 1;
+                error.column = 0;
+
+                throw error;
+            }
+        };
+
+        it('uses a custom esprima when provided to the constructor', function() {
+            checker = new Checker({ esprima: customEsprima });
+            checker.registerDefaultRules();
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            var error = errors.getErrorList()[0];
+
+            assert(error.rule === 'parseError');
+            assert(error.message === customDescription);
+        });
+
+        it('uses a custom esprima when both esprima and esnext are provided to the constructor', function() {
+            checker = new Checker({ esprima: customEsprima, esnext: true });
+            checker.registerDefaultRules();
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            var error = errors.getErrorList()[0];
+
+            assert(error.rule === 'parseError');
+            assert(error.message === customDescription);
+        });
+
+        it('uses the harmony esprima when true is provided to the constructor', function() {
+            checker = new Checker({ esnext: true });
+            checker.registerDefaultRules();
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            assert(errors.isEmpty());
+        });
+
+        it('uses the harmony esprima when esnext is set to true in the config', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ esnext: true });
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            // Make sure that multiple checks don't fail
+            var errors2 = checker.checkString('import { bar } from "foo";');
+            assert(errors.isEmpty());
+            assert(errors2.isEmpty());
+        });
+
+        it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+
+            var errors = checker.checkString('import { foo } from "bar";');
+            var error = errors.getErrorList()[0];
+
+            assert(error.rule === 'parseError');
+            assert(error.message !== customDescription);
+        });
+    });
+
+    describe('error filter', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+        });
+
+        it('should accept a path to a filter function to filter out errors', function() {
+            checker.configure({
+                disallowQuotedKeysInObjects: true,
+                errorFilter: __dirname + '/data/error-filter.js'
+            });
+
+            var errors = checker.checkString('var x = { "a": 1 }');
+
+            assert.ok(errors.isEmpty());
+        });
+
+        it('should not accept a filter function directly in the configuration', function() {
+            assert.throws(function() {
+                checker.configure({
+                    disallowQuotedKeysInObjects: true,
+                    errorFilter: function() { return false; }
+                });
+            });
+        });
+    });
+
+    describe('presets', function() {
+        testPreset('airbnb');
+        testPreset('crockford');
+        testPreset('google');
+        testPreset('grunt');
+        testPreset('jquery');
+        testPreset('mdcs');
+        testPreset('wikimedia');
+        testPreset('yandex');
+
+        /**
+         * Helper to test a given preset's configuration against its test file
+         *
+         * Expects the given preset to have a configuration in /presets
+         * and real code taken from that project in /test/data/options/preset
+         *
+         * @example testPreset('google')
+         * @param  {String} presetName
+         */
+        function testPreset(presetName) {
+            it('preset ' + presetName + ' should not report any errors from the sample file', function() {
+                var checker = new Checker();
+
+                checker.registerDefaultRules();
+                checker.configure({
+                    preset: presetName
+                });
+
+                return checker.checkFile('./test/data/options/preset/' + presetName + '.js').then(function(errors) {
+                    assert(errors.isEmpty());
+                });
+            });
+        }
     });
 });

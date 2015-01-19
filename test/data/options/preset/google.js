@@ -6,6 +6,7 @@ var opts = nopt({
 });
 
 // disallowMultipleLineBreaks
+// disallowMultipleVarDecl
 var insight = new Insight({
   // validateIndentation: 2
   // validateQuoteMarks: '',
@@ -16,7 +17,9 @@ var insight = new Insight({
 });
 
 // requireSpacesInFunctionExpression: before curly brace
-var foo = function() {};
+var functionExpression = function fooFn() {};
+// disallowSpacesInAnonymousFunctionExpression: before round brace
+var anonymousFunction = function() {};
 
 // requireCurlyBraces
 // requireSpaceAfterKeywords
@@ -31,7 +34,8 @@ if (opts.insight === false) {
 
 function rootCheck() {
   // requireSpaceBeforeBlockStatements
-  if (isRoot() && process.setuid) {
+  // disallowSpaceAfterPrefixUnaryOperators
+  if (!isRoot() && process.setuid) {
     try {
       // Try to force yo to run on a safe uid
       process.setuid(501);

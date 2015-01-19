@@ -2,10 +2,14 @@ var Checker = require('../lib/checker');
 var assert = require('assert');
 
 describe('modules/errors', function() {
-    var checker = new Checker();
+    var checker;
 
-    checker.registerDefaultRules();
-    checker.configure({ disallowQuotedKeysInObjects: true });
+    beforeEach(function() {
+        checker = new Checker();
+
+        checker.registerDefaultRules();
+        checker.configure({ disallowQuotedKeysInObjects: true });
+    });
 
     it('should provide correct indent for tabbed lines', function() {
         var errors = checker.checkString('\tvar x = { "a": 1 }');
@@ -87,5 +91,45 @@ describe('modules/errors', function() {
             'disallowQuotedKeysInObjects */\nvar x = { "a": 1 }');
 
         assert.ok(errors.isEmpty());
+    });
+
+    describe('add', function() {
+        var errors;
+        before(function() {
+            errors = checker.checkString('yay');
+        });
+
+        it('should throw an error on invalid line', function() {
+            assert.throws(function() {
+                errors.add('msg', 0);
+            });
+        });
+
+        it('should throw an error on invalid column', function() {
+            assert.throws(function() {
+                errors.add('msg', 1, '2');
+            });
+        });
+
+        it('should not throw with good parameters', function() {
+            errors.setCurrentRule('anyRule');
+            errors.add('msg', 1, 0);
+
+            var error = errors.getErrorList()[0];
+
+            assert.equal(error.rule, 'anyRule');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 0);
+        });
+    });
+
+    describe('filter', function() {
+        it('filters the errorlist by the given function', function() {
+            var errors = checker.checkString('var');
+            errors.filter(function(error) {
+                return false;
+            });
+            assert(errors.isEmpty());
+        });
     });
 });

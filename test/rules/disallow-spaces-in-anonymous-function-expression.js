@@ -36,6 +36,14 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
         it('should not report missing space before round brace in setter expression', function() {
             assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
         });
+
+        it('should set correct pointer', function() {
+            var errors = checker.checkString('var x = function (){}');
+            var error = errors.getErrorList()[0];
+
+            assert(errors.getErrorCount() === 1);
+            assert(error.column === 16);
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
