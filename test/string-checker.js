@@ -8,7 +8,7 @@ describe('modules/string-checker', function() {
         checker.registerDefaultRules();
     });
 
-    describe('line starting with hash, temporary, until we will have inline rules', function() {
+    describe('line starting with hash', function() {
         it('should ignore lines starting with #!', function() {
             assert(checker.checkString(
                 '#! random stuff\n' +
@@ -32,6 +32,13 @@ describe('modules/string-checker', function() {
                 'var b="#import \\\n abc.js";\n' +
                 'var a = 5;\n'
             ).getErrorCount() === 1);
+        });
+
+        it('should report error in the correct location when first line starts with #!', function() {
+            checker.configure({ disallowMultipleLineBreaks: true });
+            var error = checker.checkString('#!/usr/bin/env node\n\n\nx = 1;').getErrorList()[0];
+            assert.equal(error.line, 2);
+            assert.equal(error.column, 0);
         });
     });
 
