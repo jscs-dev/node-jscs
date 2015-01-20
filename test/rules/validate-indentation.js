@@ -126,7 +126,27 @@ describe('rules/validate-indentation', function() {
                     '    }\n' +
                     '}\n' +
                     'foo();'
-                ).getErrorCount() === 0
+                ).isEmpty()
+            );
+        });
+
+        it('should not report errors for mixed indent between return and break', function() {
+            assert(
+                checker.checkString(
+                    'function foo() {\n' +
+                    '    var a = "a";\n' +
+                    '    switch(a) {\n' +
+                    '        case "a":\n' +
+                    '            return "A";\n' +
+                    '        case "b":\n' +
+                    '        break;\n' +
+                    '        case "c":\n' +
+                    '            a++;\n' +
+                    '        break;\n' +
+                    '    }\n' +
+                    '}\n' +
+                    'foo();'
+                ).isEmpty()
             );
         });
 
