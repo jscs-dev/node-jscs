@@ -1,5 +1,6 @@
 var Checker = require('../lib/checker');
 var assert = require('assert');
+var sinon = require('sinon');
 
 describe('modules/string-checker', function() {
     var checker;
@@ -204,6 +205,106 @@ describe('modules/string-checker', function() {
 
             assert(error.rule === 'parseError');
             assert(error.message !== customDescription);
+        });
+    });
+
+    describe('esprima options', function() {
+        var code = 'import { foo } from "bar";';
+        var customEsprima = {
+            parse: function(code, options) {
+                var error = new Error();
+                error.description = 'in no way a real error message';
+                error.lineNumber = 1;
+                error.column = 0;
+
+                throw error;
+            }
+        };
+
+        beforeEach(function() {
+            sinon.spy(customEsprima, 'parse');
+        });
+        afterEach(function() {
+            customEsprima.parse.restore();
+        });
+
+        it('sets the "tolerant" esprima option to true by default', function() {
+            checker = new Checker({ esprima: customEsprima });
+            checker.registerDefaultRules();
+
+            checker.checkString(code);
+
+            assert(customEsprima.parse.calledOnce);
+            assert(customEsprima.parse.calledWith(code, {
+                tolerant: true,
+                loc: true,
+                range: true,
+                comment: true,
+                tokens: true,
+                sourceType: 'module'
+            }));
+        });
+
+        it('allows the "tolerant" esprima option to be overridden', function() {
+            checker = new Checker({ esprima: customEsprima });
+            checker.registerDefaultRules();
+            checker.configure({ esprimaOptions: { tolerant: false } });
+
+            checker.checkString(code);
+
+            assert(customEsprima.parse.calledOnce);
+            assert(customEsprima.parse.calledWith(code, {
+                tolerant: false,
+                loc: true,
+                range: true,
+                comment: true,
+                tokens: true,
+                sourceType: 'module'
+            }));
+        });
+
+        it('uses custom esprima options when set in the config', function() {
+            checker = new Checker({ esprima: customEsprima });
+            checker.registerDefaultRules();
+            checker.configure({ esprimaOptions: { foobar: 'qux', barbaz: 'fred' } });
+
+            checker.checkString(code);
+
+            assert(customEsprima.parse.calledOnce);
+            assert(customEsprima.parse.calledWith(code, {
+                foobar: 'qux',
+                barbaz: 'fred',
+                tolerant: true,
+                loc: true,
+                range: true,
+                comment: true,
+                tokens: true,
+                sourceType: 'module'
+            }));
+        });
+
+        it('does not override required esprima options', function() {
+            checker = new Checker({ esprima: customEsprima });
+            checker.registerDefaultRules();
+            checker.configure({ esprimaOptions: {
+                loc: false,
+                range: false,
+                comment: false,
+                tokens: false,
+                sourceType: 'script'
+            }});
+
+            checker.checkString(code);
+
+            assert(customEsprima.parse.calledOnce);
+            assert(customEsprima.parse.calledWith(code, {
+                tolerant: true, // not required
+                loc: true,
+                range: true,
+                comment: true,
+                tokens: true,
+                sourceType: 'module'
+            }));
         });
     });
 
