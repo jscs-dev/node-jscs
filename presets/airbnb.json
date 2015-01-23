@@ -39,6 +39,7 @@
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
+    "requireSpacesInForStatement": true,
     "requireCurlyBraces": [
         "do"
     ],

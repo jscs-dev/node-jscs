@@ -31,6 +31,7 @@
     "disallowSpaceAfterObjectKeys": true,
     "requireSpaceBeforeObjectValues": true,
     "requireCommaBeforeLineBreak": true,
+    "requireSpacesInForStatement": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "disallowSpaceBeforeBinaryOperators": [
@@ -54,7 +55,8 @@
     "disallowTrailingWhitespace": true,
     "disallowTrailingComma": true,
     "disallowKeywordsOnNewLine": [
-        "else"
+        "else",
+        "catch"
     ],
     "requireLineBreakAfterVariableAssignment": true,
     "requireLineFeedAtFileEnd": true,

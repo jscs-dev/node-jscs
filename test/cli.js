@@ -211,6 +211,7 @@ describe('modules/cli', function() {
         it('should display rule names in error output with verbose option', function() {
             var result = cli({
                 verbose: true,
+                colors: false,
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             });
@@ -325,24 +326,6 @@ describe('modules/cli', function() {
 
             return result.promise.always(function() {
                 assert.equal(path.basename(result.reporter), 'console');
-                rAfter();
-            });
-        });
-
-        it('should implicitly set text reporter', function() {
-            var old = cli.__get__('supportsColor');
-
-            cli.__set__('supportsColor', false);
-
-            var result = cli({
-                args: ['test/data/cli/error.js'],
-                colors: true,
-                config: 'test/data/cli/cli.json'
-            });
-
-            return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'text');
-                cli.__set__('supportsColor', old);
                 rAfter();
             });
         });
