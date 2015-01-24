@@ -1,0 +1,4 @@
+// should allow comments in this type of config
+{
+	"from": "jscsrc"
+}

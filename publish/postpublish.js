@@ -1,0 +1,1 @@
+require('./helpers/browserification').remove();

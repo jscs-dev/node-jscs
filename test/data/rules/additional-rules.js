@@ -4,7 +4,7 @@ module.exports.prototype = {
 
     configure: function() {},
 
-    getOptionName: function () {
+    getOptionName: function() {
         return 'testAdditionalRules';
     },
 

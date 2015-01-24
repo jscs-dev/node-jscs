@@ -1,3 +1,5 @@
-node_modules
+/node_modules
 .idea
 *.sublime-*
+/npm-debug.log
+coverage.html

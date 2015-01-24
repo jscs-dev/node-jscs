@@ -8,6 +8,7 @@ Some maintainers can have areas of responsibility:
  * @mdevils: general architecture, common rules.
  * @markelog: CLI, integration, common rules.
  * @mikesherov: ex-jshint rules, common rules.
+ * @mrjoelkemp: bug fixes, common rules.
 
 Maintaining validation rules
 ----------------------------
@@ -15,8 +16,8 @@ Maintaining validation rules
 Each rule should have:
 
  * Implementation in `lib/rules/rule-name.js`.
+ * Documentation in `lib/rules/rule-name.js` (`JSDoc` comment should start at the beginning of the file).
  * Registration in `registerDefaultRules` method of `StringChecker` (`lib/string-checker.js`).
- * Documentation in `README.md`.
  * Tests in `lib/test.rule-name.js`
 
 Rule interface:
@@ -25,7 +26,7 @@ Rule interface:
 
     interface Rule {
         /**
-         * Configures rule before beeing used in validations.
+         * Configures rule before being used in validations.
          *
          * @param {*} ruleConfigutationValue configuration value.
          * @returns {undefined}
@@ -56,22 +57,32 @@ Keeping browser-version alive
 -----------------------------
 
 File `lib/string-checker.js` is used in browserify process, exporting `JscsStringChecker` class.
-`string-checker.js` (and it's dependencies) should not depend on `nodejs` specifics like `fs`,
+`string-checker.js` (and its dependencies) should not depend on `nodejs` specifics like `fs`,
 `process` and so on.
 
-Preparing for a new version
+Adding new presets
+------------------
+
+1. Make sure they follow the rules listed in CONTRIBUTING.md
+1. Discuss the preset on the mailing list: jscs-dev@googlegroups.com
+1. Once discussed and agreed upon, land the PR!
+
+Publishing a new version
 ---------------------------
 
-1. Determine, which part of the version you are about to increase.
-   We are using `semver` (http://semver.org/).
-   If you are just fixing bugs, increase patch version.
-   For new features update minor version (and reset patch version to zero).
-   For backwards incompatible changes you should update major version,
-   but be sure to discuss changes with other maintainers.
-2. Write changes to `CHANGELOG.md`.
-3. Update browser-version: `npm run-script browserify`.
-4. Commit under message: `Prepare for version x.x.x`.
-5. Set a new version and tag: `npm version x.x.x`.
-6. Push changes and tags: `git push && git push --tags`.
-7. Ask @mdevils to publish new package for specified tag.
-8. Done!
+1. Determine which part of the version you are about to increase. See our strategy in OVERVIEW.md.
+1. Write changes to `CHANGELOG.md`: `npm run changelog`.
+   Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
+   1. breaking changes.
+   1. preset updates.
+   1. new rules.
+   1. new options.
+   1. bug fixes.
+   1. infrastructure or docs changes.
+1. Commit the changelog update with the message: `Prepare for version x.x.x`.
+1. Set a new version and tag: `npm version x.x.x`.
+1. Push changes and tags: `git push && git push --tags`.
+1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
+1. Copy the changelog notes into the Github releases section located here: https://github.com/jscs-dev/node-jscs/releases
+1. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
+1. Done!
