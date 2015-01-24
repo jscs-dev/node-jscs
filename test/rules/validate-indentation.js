@@ -25,6 +25,23 @@ describe('rules/validate-indentation', function() {
         assert(expectedErrorLines.length === errors.length);
     }
 
+    it('should error if a negative indentation is provided', function() {
+        assert.throws(function() {
+            checker.configure({ validateIndentation: -2 });
+        });
+    });
+
+    it('should error if a nonsense string is provided', function() {
+        assert.throws(function() {
+            checker.configure({ validateIndentation: 'wrong' });
+        });
+    });
+
+    it('should report no errors on a single line program', function() {
+        checker.configure({ validateIndentation: '\t' });
+        assert(checker.checkString('switch(true){case b:break;}').isEmpty());
+    });
+
     it('should validate tab indentation properly', function() {
         checker.configure({ validateIndentation: '\t' });
         checkErrors('if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}', [3, 4]);
