@@ -7,9 +7,28 @@ describe('rules/disallow-operator-before-line-break', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+        checker.configure({ disallowOperatorBeforeLineBreak: true });
+    });
 
-        checker.configure({
-            disallowOperatorBeforeLineBreak: true
+    describe('array option', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ disallowOperatorBeforeLineBreak: ['+'] });
+        });
+
+        it('should not report unspecified operators', function() {
+            assert(checker.checkString(
+                'var x = foo.\n' +
+                '   on();\n'
+            ).isEmpty());
+        });
+
+        it('should report unspecified operators', function() {
+            assert(checker.checkString(
+                'var x = foo +\n' +
+                '   on();\n'
+            ).getErrorCount() === 1);
         });
     });
 
