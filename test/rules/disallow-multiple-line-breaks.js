@@ -14,6 +14,10 @@ describe('rules/disallow-multiple-line-breaks', function() {
         assert(checker.checkString('x = 1;\n\n\ny = 2;').getErrorCount() === 1);
     });
 
+    it('should report multiple line break at EOF', function() {
+        assert(checker.checkString('x = 1;\n\n\n').getErrorCount() === 1);
+    });
+
     it('should not report single line break', function() {
         assert(checker.checkString('x = 1;\n\ny = 2').isEmpty());
     });
