@@ -383,7 +383,7 @@ describe('modules/config/configuration', function() {
             assert(spy.getCall(0).args[0] === configuration);
         });
 
-        it('should thow non-camelcase error for underscore-config', function() {
+        it('should throw non-camelcase error for underscore-config', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';
@@ -409,7 +409,7 @@ describe('modules/config/configuration', function() {
             }
         });
 
-        it('should thow non-camelcase error with converted sub-configs', function() {
+        it('should throw non-camelcase error with converted sub-configs', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';
