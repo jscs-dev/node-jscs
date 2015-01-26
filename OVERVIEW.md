@@ -214,6 +214,20 @@ Value: `true`
 "esnext": true
 ```
 
+### esprimaOptions
+
+Custom `options` to be passed to `esprima.parse(code, options)`
+
+Type: `Object`
+
+Default: `{ "tolerant": true }`
+
+#### Example
+
+```js
+"esprimaOptions": { "tolerant": true }
+```
+
 ### errorFilter
 
 A filter function that determines whether or not to report an error.
