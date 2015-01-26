@@ -19,6 +19,7 @@ describe('rules/disallow-identifier-names', function() {
         assert(checker.checkString('if(temp){}').getErrorCount() === 1);
         assert(checker.checkString('for(temp = 0; temp<1; temp++){temp;}').getErrorCount() === 4);
         assert(checker.checkString('obj[foo] = 1;').getErrorCount() === 1);
+        assert(checker.checkString('obj["foo"] = 1;').getErrorCount() === 1);
         assert(checker.checkString('obj.foo = 1;').getErrorCount() === 1);
     });
 
@@ -32,6 +33,9 @@ describe('rules/disallow-identifier-names', function() {
         assert(checker.checkString('if(good){}').isEmpty());
         assert(checker.checkString('for(good = 0; good < 1; good++){good;}').isEmpty());
         assert(checker.checkString('obj[good] = 1;').isEmpty());
+        assert(checker.checkString('obj["good"] = 1;').isEmpty());
         assert(checker.checkString('obj.good = 1;').isEmpty());
+
+        assert(checker.checkString('FOO = 1;').isEmpty());
     });
 });
