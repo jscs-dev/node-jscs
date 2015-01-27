@@ -9,6 +9,20 @@ describe('rules/validate-quote-marks', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw if config.escape is not set', function() {
+            assert.throws(function() {
+                checker.configure({ validateQuoteMarks: {} });
+            });
+        });
+
+        it('should throw if config.mark is not set', function() {
+            assert.throws(function() {
+                checker.configure({ validateQuoteMarks: { escape: true } });
+            });
+        });
+    });
+
     describe('option value \' ', function() {
         beforeEach(function() {
             checker.configure({ validateQuoteMarks: '\'' });
