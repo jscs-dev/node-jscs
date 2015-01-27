@@ -22,6 +22,13 @@ describe('rules/require-parentheses-around-iife', function() {
         assert(checker.checkString('var d = function(){return d;}.apply(this, args);').getErrorCount() === 1);
     });
 
+    it('should report iife invoked with no trailing semicolon', function() {
+        assert(checker.checkString('+function(){return 1;}()').getErrorCount() === 1);
+        assert(checker.checkString('var a = function(){return 1;}()').getErrorCount() === 1);
+        assert(checker.checkString('var c = function(){return 3;}.call(this, arg1)').getErrorCount() === 1);
+        assert(checker.checkString('var d = function(){return d;}.apply(this, args)').getErrorCount() === 1);
+    });
+
     it('should not report non-iife function expressions', function() {
         assert(checker.checkString('var a = function(){return 1;};').isEmpty());
     });
