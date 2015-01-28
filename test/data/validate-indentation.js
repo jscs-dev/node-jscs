@@ -582,3 +582,10 @@ do {
     nextop.type !== "(end)");
 
 a++;
+
+if ( i < some )
+{
+  thing();
+}
+else
+  other();
