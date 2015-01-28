@@ -23,18 +23,21 @@ describe('rules/require-space-after-prefix-unary-operators', function() {
                     assert(checker.checkString(sticked).getErrorCount() === 1);
                 }
             );
+
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterPrefixUnaryOperators: value });
                     assert(checker.checkString(notSticked).isEmpty());
                 }
             );
+
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterPrefixUnaryOperators: value });
                     assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
                 }
             );
+
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterPrefixUnaryOperators: value });
@@ -48,6 +51,7 @@ describe('rules/require-space-after-prefix-unary-operators', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
         assert(checker.checkString('var x = ~(0); ++(((x))); -( x ); !(++( x ));').getErrorCount() === 5);
     });
+
     it('should not report consecutive operators (#405)', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['!'] });
         assert(checker.checkString('!~test;').isEmpty());
