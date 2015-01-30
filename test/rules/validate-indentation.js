@@ -25,6 +25,23 @@ describe('rules/validate-indentation', function() {
         assert(expectedErrorLines.length === errors.length);
     }
 
+    it('should error if a negative indentation is provided', function() {
+        assert.throws(function() {
+            checker.configure({ validateIndentation: -2 });
+        });
+    });
+
+    it('should error if a nonsense string is provided', function() {
+        assert.throws(function() {
+            checker.configure({ validateIndentation: 'wrong' });
+        });
+    });
+
+    it('should report no errors on a single line program', function() {
+        checker.configure({ validateIndentation: '\t' });
+        assert(checker.checkString('switch(true){case b:break;}').isEmpty());
+    });
+
     it('should validate tab indentation properly', function() {
         checker.configure({ validateIndentation: '\t' });
         checkErrors('if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}', [3, 4]);
@@ -102,8 +119,35 @@ describe('rules/validate-indentation', function() {
             486,
             488,
             534,
-            541
+            541,
+            569,
+            575
         ]);
+    });
+
+    describe('includeEmptyLines', function() {
+        it('should validate indentation on an empty line when includeEmptyLines is true', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    includeEmptyLines: true
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').getErrorCount() === 1);
+            assert(checker.checkString('if (a){\n\t\n}').isEmpty());
+        });
+
+        it('should not validate indentation on an empty line when includeEmptyLines is false', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    includeEmptyLines: false
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').isEmpty());
+        });
     });
 
     describe('switch identation', function() {
@@ -124,7 +168,27 @@ describe('rules/validate-indentation', function() {
                     '    }\n' +
                     '}\n' +
                     'foo();'
-                ).getErrorCount() === 0
+                ).isEmpty()
+            );
+        });
+
+        it('should not report errors for mixed indent between return and break', function() {
+            assert(
+                checker.checkString(
+                    'function foo() {\n' +
+                    '    var a = "a";\n' +
+                    '    switch(a) {\n' +
+                    '        case "a":\n' +
+                    '            return "A";\n' +
+                    '        case "b":\n' +
+                    '        break;\n' +
+                    '        case "c":\n' +
+                    '            a++;\n' +
+                    '        break;\n' +
+                    '    }\n' +
+                    '}\n' +
+                    'foo();'
+                ).isEmpty()
             );
         });
 

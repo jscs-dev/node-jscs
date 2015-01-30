@@ -13,7 +13,7 @@
     "requireMultipleVarDecl": "onevar",
     "requireCommaBeforeLineBreak": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "requireDotNotation": true,
+    "requireDotNotation": "except_snake_case",
     "requireSpacesInForStatement": true,
     "maximumLineLength": {
         "value": 100,

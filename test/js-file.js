@@ -813,6 +813,59 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getLinesWithCommentsRemoved', function() {
+        it('should strip line comments', function() {
+            var source = 'a++; //comment\n//comment';
+            var file = createJsFile(source);
+            var lines = file.getLinesWithCommentsRemoved();
+            assert.equal(lines.length, 2);
+            assert.equal(lines[0], 'a++; ');
+            assert.equal(lines[1], '');
+        });
+
+        it('should strip single-line block comments', function() {
+            var source = 'a++;/*comment*/b++;\n/*comment*/';
+            var file = createJsFile(source);
+            var lines = file.getLinesWithCommentsRemoved();
+            assert.equal(lines.length, 2);
+            assert.equal(lines[0], 'a++;b++;');
+            assert.equal(lines[1], '');
+        });
+
+        it('should strip multi-line block comments', function() {
+            var source = 'a++;/*comment\nmore comment\nmore comment*/';
+            var file = createJsFile(source);
+            var lines = file.getLinesWithCommentsRemoved();
+            assert.equal(lines.length, 3);
+            assert.equal(lines[0], 'a++;');
+            assert.equal(lines[1], '');
+            assert.equal(lines[2], '');
+        });
+
+        it('should strip an multi-line block comments with trailing tokens', function() {
+            var source = 'a++;/*comment\nmore comment\nmore comment*/b++;';
+            var file = createJsFile(source);
+            var lines = file.getLinesWithCommentsRemoved();
+            assert.equal(lines.length, 3);
+            assert.equal(lines[0], 'a++;');
+            assert.equal(lines[1], '');
+            assert.equal(lines[2], 'b++;');
+        });
+
+        it('should add an error when on multi-line block comments with trailing tokens', function() {
+            var source = 'a++;/*comment\nmore comment\nmore comment*/b++;';
+            var file = createJsFile(source);
+            var errors = { add: sinon.spy() };
+            var lines = file.getLinesWithCommentsRemoved(errors);
+            assert(errors.add.called);
+            assert(errors.add.calledWith(
+                'Multiline comments should not have tokens on its ending line',
+                3,
+                14
+            ));
+        });
+    });
+
     describe('getFilename', function() {
         it('should return given filename', function() {
             var file = new JsFile('example.js', 'Hello\nWorld', null);

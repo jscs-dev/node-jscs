@@ -9,6 +9,14 @@ describe('rules/disallow-dangling-underscores', function() {
         checker.registerDefaultRules();
     });
 
+    describe('misconfiguration', function() {
+        it('should error when provided a non-array allExcept', function() {
+            assert.throws(function() {
+                checker.configure({ disallowDanglingUnderscores: { allExcept: true } });
+            });
+        });
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowDanglingUnderscores: true });

@@ -3,10 +3,54 @@ var assert = require('assert');
 
 describe('rules/validate-jsdoc', function() {
     var checker;
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
+
+    it('should not report normal comments directly above functions', function() {
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                '// a comment\n' +
+                'function funcName(xxx) {\n' +
+                    '\n' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report normal comments a few lines above functions', function() {
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                '// a comment\n' +
+                '\n' +
+                'function funcName(xxx) {\n' +
+                    '\n' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
+    it('should report invalid jsdoc if no options provided', function() {
+        checker.configure({ validateJSDoc: {} });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                '/**\n' +
+                ' * @param' +
+                ' */\n' +
+                'function funcName(xxx) {\n' +
+                    '\n' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
     it('should report invalid jsdoc', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
@@ -21,6 +65,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should report error in jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
@@ -35,6 +80,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should report error in jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
@@ -50,6 +96,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
@@ -64,6 +111,7 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
+
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
         assert(
@@ -76,6 +124,21 @@ describe('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report redundant jsdoc-param for function if not configured', function() {
+        checker.configure({ validateJSDoc: { checkParamNames: true } });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                '/**\n' +
+                ' * @param {String} yyy\n' +
+                ' */\n' +
+                'function funcName() {\n' +
+                    '\n' +
+                '}'
             ).isEmpty()
         );
     });
@@ -94,6 +157,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should report redundant jsdoc-param for method', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
@@ -109,6 +173,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
@@ -123,6 +188,7 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
+
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
         assert(
@@ -153,6 +219,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should report missing jsdoc-param type for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
@@ -168,6 +235,7 @@ describe('rules/validate-jsdoc', function() {
             ).getErrorCount() === 1
         );
     });
+
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
@@ -182,6 +250,23 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
+
+    it('should not report valid jsdoc option property name for method', function() {
+        checker.configure({ validateJSDoc: { requireParamTypes: true } });
+        assert(
+            checker.checkString(
+                'var x = 1;\n' +
+                '/**\n' +
+                ' * @param {Object} xxx\n' +
+                ' * @param {String} xxx.yyy\n' +
+                ' */\n' +
+                'function funcName(xxx) {\n' +
+                    '\n' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
@@ -197,6 +282,7 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
+
     it('should not report valid jsdoc with object type for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
@@ -211,6 +297,7 @@ describe('rules/validate-jsdoc', function() {
             ).isEmpty()
         );
     });
+
     it('should not report valid jsdoc with object type for function', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
         assert(
