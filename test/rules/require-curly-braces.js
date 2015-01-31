@@ -153,4 +153,9 @@ describe('rules/require-curly-braces', function() {
         assert(error.line === 4);
         assert(error.column === 12);
     });
+
+    it('should not report missing `else` braces for `else if`', function() {
+        checker.configure({ requireCurlyBraces: ['else'] });
+        assert(checker.checkString('if (x) { x++; } else if (x) { x++; }').isEmpty());
+    });
 });
