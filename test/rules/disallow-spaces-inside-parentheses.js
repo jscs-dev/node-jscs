@@ -9,6 +9,20 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw when given an number', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideParentheses: 2 });
+            });
+        });
+
+        it('should throw when only is not specified in an object', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideParentheses: {} });
+            });
+        });
+    });
+
     describe('true', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInsideParentheses: true });
