@@ -31,15 +31,6 @@ describe('rules/dissalow-space-before-keywords', function() {
         ).isEmpty());
     });
 
-    it('should show different error if there is more than one space', function() {
-        checker.configure({ disallowSpaceBeforeKeywords: ['else'] });
-
-        var errors = checker.checkString('if (true) {\n}  else { x++; }');
-        var error = errors.getErrorList()[0];
-
-        assert(errors.explainError(error).indexOf('Should be zero spaces instead of 2, before "else" keyword') === 0);
-    });
-
     it('should not trigger error for comments', function() {
         checker.configure({ disallowSpaceBeforeKeywords: ['else'] });
         assert(checker.checkString('if (true) {\n} /**/else { x++; }').isEmpty());
@@ -53,6 +44,11 @@ describe('rules/dissalow-space-before-keywords', function() {
     it('should not report if there are no braces', function() {
         checker.configure({ disallowSpaceBeforeKeywords: true });
         assert(checker.checkString('if (true) x++;  else x--;').isEmpty());
+    });
+
+    it('should not report if preceding token is another keyword', function() {
+        checker.configure({ disallowSpaceBeforeKeywords: true });
+        assert(checker.checkString('function test() {return void(0);}').isEmpty());
     });
 
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
