@@ -9,6 +9,14 @@ describe('rules/disallow-spaces-inside-brackets', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw when given an number', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideBrackets: 2 });
+            });
+        });
+    });
+
     describe('true value', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInsideBrackets: true });
@@ -67,6 +75,15 @@ describe('rules/disallow-spaces-inside-brackets', function() {
     });
 
     describe('exceptions', function() {
+        it('should act like "true" when allExcept is false', function() {
+            checker.configure({
+                disallowSpacesInsideBrackets: {
+                    allExcept: false
+                }
+            });
+            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+        });
+
         it('should not report missing space for parentheses', function() {
             checker.configure({
                 disallowSpacesInsideBrackets: {

@@ -8,6 +8,14 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw when given an number', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideObjectBrackets: 2 });
+            });
+        });
+    });
+
     describe('true value', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInsideObjectBrackets: true });
@@ -87,6 +95,15 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
     });
 
     describe('exceptions', function() {
+        it('should act like "true" when allExcept is false', function() {
+            checker.configure({
+                disallowSpacesInsideObjectBrackets: {
+                    allExcept: false
+                }
+            });
+            assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
+        });
+
         it('should report for function', function() {
             checker.configure({
                 disallowSpacesInsideObjectBrackets: {
