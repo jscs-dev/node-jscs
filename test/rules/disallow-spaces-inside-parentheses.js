@@ -75,6 +75,10 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         it('should not report with no spaces around a regex', function() {
             assert(checker.checkString('expect(a).toMatch(/home/);').isEmpty());
         });
+
+        it('should not report with no spaces in an export default statement', function() {
+            assert(checker.checkString('export default function() {}').isEmpty());
+        });
     });
 
     describe('"only" option', function() {
