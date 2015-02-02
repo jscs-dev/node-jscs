@@ -19,7 +19,8 @@ describe('modules/js-file', function() {
         return new JsFile(
             'example.js',
             sources,
-            harmonyEsprima.parse(sources, {sourceType: 'module', loc: true, range: true, comment: true, tokens: true})
+            harmonyEsprima.parse(sources, {sourceType: 'module', loc: true, range: true, comment: true, tokens: true}),
+            { es6: true }
         );
     }
 
@@ -198,6 +199,12 @@ describe('modules/js-file', function() {
             createJsFile('test.toString').iterateTokenByValue('(', spy);
             assert(!spy.calledOnce);
         });
+
+        it('should not have duplicate tokens in es6 export default statements', function() {
+            var spy = sinon.spy();
+            createHarmonyJsFile('export default function() {}').iterateTokenByValue('(', spy);
+            assert(spy.calledOnce);
+        });
     });
 
     describe('getNodeByRange', function() {
@@ -245,7 +252,11 @@ describe('modules/js-file', function() {
     });
 
     describe('findNextToken', function() {
-        var file = createJsFile('switch(varName){case"yes":a++;break;}');
+        var file;
+
+        beforeEach(function() {
+            file = createJsFile('switch(varName){case"yes":a++;break;}');
+        });
 
         it('should find the first next token when only the type is specified', function() {
             var switchToken = file.getTokens()[0];
@@ -325,8 +336,13 @@ describe('modules/js-file', function() {
     });
 
     describe('findPrevToken', function() {
-        var file = createJsFile('switch(varName){case"yes":a++;break;}');
-        var tokens = file.getTokens();
+        var file;
+        var tokens;
+
+        beforeEach(function() {
+            file = createJsFile('switch(varName){case"yes":a++;break;}');
+            tokens = file.getTokens();
+        });
 
         it('should find the first previous token when only the type is specified', function() {
             var lastToken = tokens[tokens.length - 1];
