@@ -150,6 +150,67 @@ describe('rules/validate-indentation', function() {
         });
     });
 
+    describe('module pattern indentation', function() {
+        beforeEach(function() {
+            checker.configure({ validateIndentation: 4 });
+        });
+
+        var cases = {
+            'no indentation': 'a++;',
+            indentation: '    a++;'
+        };
+
+        Object.keys(cases).forEach(function(title) {
+            var statement = cases[title];
+
+            it('should allow ' + title + ' in UMD Shim', function() {
+                var source = '\n' +
+                '(function( factory ) {\n' +
+                '    if ( typeof define === "function" && define.amd ) {\n' +
+                '        define(factory);\n' +
+                '    } else {\n' +
+                '        factory();\n' +
+                '    }\n' +
+                '}(function( $ ) {\n' +
+                statement + '\n' +
+                '}));';
+                assert(checker.checkString(source).isEmpty());
+            });
+
+            it('should allow ' + title + ' in define', function() {
+                var source = '\n' +
+                'define(["dep"], function( dep ) {\n' +
+                statement + '\n' +
+                '});';
+                assert(checker.checkString(source).isEmpty());
+            });
+
+            it('should allow ' + title + ' in require', function() {
+                var source = '\n' +
+                'require(["dep"], function( dep ) {\n' +
+                statement + '\n' +
+                '});';
+                assert(checker.checkString(source).isEmpty());
+            });
+
+            it('should allow ' + title + ' in full file IIFE', function() {
+                var source = '\n' +
+                '(function(global) {\n' +
+                statement + '\n' +
+                '}(this));';
+                assert(checker.checkString(source).isEmpty());
+            });
+        });
+
+        it('should not allow no indentation in some other top level function', function() {
+            var source = '\n' +
+            'defines(["dep"], function( dep ) {\n' +
+            'a++;\n' +
+            '});';
+            assert(!checker.checkString(source).isEmpty());
+        });
+    });
+
     describe('switch identation', function() {
         beforeEach(function() {
             checker.configure({ validateIndentation: 4 });

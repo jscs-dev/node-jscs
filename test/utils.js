@@ -1,7 +1,18 @@
 var utils = require('../lib/utils');
 var assert = require('assert');
+var JsFile = require('../lib/js-file');
+var esprima = require('esprima');
 
 describe('modules/utils', function() {
+
+    function createJsFile(source) {
+        return new JsFile(
+            'example.js',
+            source,
+            esprima.parse(source, {loc: true, range: true, comment: true, tokens: true})
+        );
+    }
+
     describe('isEs3Keyword', function() {
         it('should return true for ES3 keywords', function() {
             assert(utils.isEs3Keyword('break'));
@@ -57,6 +68,46 @@ describe('modules/utils', function() {
             assert(!utils.isSnakeCased('1invalidName'));
             assert(!utils.isSnakeCased('invalid-name'));
             assert(!utils.isSnakeCased('$'));
+        });
+    });
+
+    describe('getFunctionNodeFromIIFE', function() {
+        it('should return the function from simple IIFE', function() {
+            var file = createJsFile('var a = function(){a++;}();');
+            var callExpression = file.getNodesByType('CallExpression')[0];
+            var functionExpression = file.getNodesByType('FunctionExpression')[0];
+
+            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+        });
+
+        it('should return the function from call()\'ed IIFE', function() {
+            var file = createJsFile('var a = function(){a++;}.call();');
+            var callExpression = file.getNodesByType('CallExpression')[0];
+            var functionExpression = file.getNodesByType('FunctionExpression')[0];
+
+            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+        });
+
+        it('should return the function from apply()\'ed IIFE', function() {
+            var file = createJsFile('var a = function(){a++;}.apply();');
+            var callExpression = file.getNodesByType('CallExpression')[0];
+            var functionExpression = file.getNodesByType('FunctionExpression')[0];
+
+            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+        });
+
+        it('should return undefined for non callExpressions', function() {
+            var file = createJsFile('var a = 1;');
+            var notCallExpression = file.getNodesByType('VariableDeclaration')[0];
+
+            assert.equal(utils.getFunctionNodeFromIIFE(notCallExpression), undefined);
+        });
+
+        it('should return undefined for normal function calls', function() {
+            var file = createJsFile('call();');
+            var callExpression = file.getNodesByType('CallExpression')[0];
+
+            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), undefined);
         });
     });
 
