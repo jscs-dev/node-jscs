@@ -28,4 +28,15 @@ describe('rules/disallow-space-after-object-keys', function() {
     it('should not report without space after keys', function() {
         assert(checker.checkString('var x = { a: 1, bcd: 2 };').isEmpty());
     });
+
+    it('should not report shorthand object properties', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a, b };').isEmpty());
+        assert(checker.checkString('var x = {a, b};').isEmpty());
+    });
+
+    it('should report mixed shorthand and normal object propertis', function() {
+        checker.configure({ esnext: true });
+        assert.equal(checker.checkString('var x = { a : 1, b };').getErrorCount(), 1);
+    });
 });
