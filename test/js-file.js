@@ -205,6 +205,15 @@ describe('modules/js-file', function() {
             createHarmonyJsFile('export default function() {}').iterateTokenByValue('(', spy);
             assert(spy.calledOnce);
         });
+
+        it('should not have duplicate tokens in es6 export default statements', function() {
+            var spy = sinon.spy();
+            createHarmonyJsFile('export default function init() {\n' +
+            '  window.addEventListener(\'fb-flo-reload\', function(ev) {\n' +
+            '  });\n' +
+            '}').iterateTokenByValue('(', spy);
+            assert(spy.calledThrice);
+        });
     });
 
     describe('getNodeByRange', function() {
