@@ -33,6 +33,19 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
 
+        it('should not report shorthand properties', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString(
+                    'var x = {\n' +
+                        'bcd : 2,\n' +
+                        'a,\n' +
+                        'efg : 2\n' +
+                    '};'
+                ).isEmpty()
+            );
+        });
+
         it('should report invalid alignment', function() {
             assert(
                 checker.checkString(
