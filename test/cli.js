@@ -44,7 +44,7 @@ describe('modules/cli', function() {
             var stderr = process.stderr.write.getCall(0) ? process.stderr.write.getCall(0).args[0] : '';
             assert.equal(
                 stdout,
-                'No code style errors found.\n',
+                '',
                 stderr
             );
             rAfter();

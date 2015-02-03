@@ -19,11 +19,10 @@ describe('reporters/console', function() {
         console.log.restore();
     });
 
-    it('should correctly reports no errors', function() {
+    it('should not call console.log when there are no errors', function() {
         consoleReporter([checker.checkString('a++;')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'No code style errors found.');
-        assert(console.log.calledOnce);
+        assert(console.log.notCalled);
     });
 
     it('should correctly report 1 error', function() {
