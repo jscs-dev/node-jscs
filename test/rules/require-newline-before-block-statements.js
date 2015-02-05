@@ -56,16 +56,17 @@ describe('rules/require-newline-before-block-statements', function() {
     });
 
     describe('with option value array - ', function() {
-
         describe('"if" blocks', function() {
-            it('should report missing newlines when configured with "if"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
+            });
+
+            it('should report missing newlines when configured with "if"', function() {
                 assert(checker.checkString('if(i == 0) {\n\tx++;\n\ty = {\n\t\tb: "1"\n\t};\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "if" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
                 assert(checker.checkString('if(i == 0)\n{\n\tx++;\n\ty = {\n\t\tb: "1"\n\t};\n}')
                     .isEmpty());
             });
@@ -78,14 +79,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"else" and "else if" blocks', function() {
-            it('should report missing newlines when configured with "else"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['else'] });
+            });
+
+            it('should report missing newlines when configured with "else"', function() {
                 assert(checker.checkString('if(i == 0)\n{\n\tx++;\n\ty = {\n\t\tb: "1"\n\t};\n}\nelse{\n\tx--;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "else" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['else'] });
                 assert(checker.checkString('if(i == 0)\n{\n\tx++;\n\ty = {\n\t\tb: "1"\n\t};\n}\nelse\n{\n\tx--;\n}')
                     .isEmpty());
             });
@@ -98,14 +101,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"for" loops', function() {
-            it('should report missing newlines when configured with "for"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['for'] });
+            });
+
+            it('should report missing newlines when configured with "for"', function() {
                 assert(checker.checkString('for (var i = 0, len = 10; i < 10; ++i) {\n\tx++;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "for" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['for'] });
                 assert(checker.checkString('for (var i = 0, len = 10; i < 10; ++i)\n{\n\tx++;\n}')
                     .isEmpty());
             });
@@ -118,14 +123,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"for...in" loops', function() {
-            it('should report missing newlines when configured with "for"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['for'] });
+            });
+
+            it('should report missing newlines when configured with "for"', function() {
                 assert(checker.checkString('for (var i in x) {\n\ty++;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "for" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['for'] });
                 assert(checker.checkString('for (var i in x)\n{\n\ty++;\n}')
                     .isEmpty());
             });
@@ -138,14 +145,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('function declarations', function() {
-            it('should report missing newlines when configured with "function"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
+            });
+
+            it('should report missing newlines when configured with "function"', function() {
                 assert(checker.checkString('function myFunc(y) {\n\ty++;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "function" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
                 assert(checker.checkString('function myFunc(y)\n{\n\ty++;\n}')
                     .isEmpty());
             });
@@ -158,14 +167,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('function statements', function() {
-            it('should report missing newlines when configured with "function"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
+            });
+
+            it('should report missing newlines when configured with "function"', function() {
                 assert(checker.checkString('var z = function(y) {\n\ty++;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "function" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
                 assert(checker.checkString('var z = function(y)\n{\n\ty++;\n}')
                     .isEmpty());
             });
@@ -178,14 +189,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"try" blocks', function() {
-            it('should report missing newlines when configured with "try"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['try'] });
+            });
+
+            it('should report missing newlines when configured with "try"', function() {
                 assert(checker.checkString('try {\n\ty++;\n}\ncatch(e)\n{\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "try" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['try'] });
                 assert(checker.checkString('try\n{\n\ty++;\n}\ncatch(e)\n{\n}\nfinally\n{\n\tq = 5;\n}')
                     .isEmpty());
             });
@@ -198,14 +211,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"catch" blocks', function() {
-            it('should report missing newlines when configured with "catch"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['catch'] });
+            });
+
+            it('should report missing newlines when configured with "catch"', function() {
                 assert(checker.checkString('try\n{\n\ty++;\n}\ncatch(e) {\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "catch" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['catch'] });
                 assert(checker.checkString('try\n{\n\ty++;\n}\ncatch(e)\n{\n}')
                     .isEmpty());
             });
@@ -218,14 +233,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"finally" blocks', function() {
-            it('should report missing newlines when configured with "finally"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['finally'] });
+            });
+
+            it('should report missing newlines when configured with "finally"', function() {
                 assert(checker.checkString('try\n{\n\ty++;\n}\ncatch(e)\n{\n}\nfinally {\n\tq = 5;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "finally" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['finally'] });
                 assert(checker.checkString('try\n{\n\ty++;\n}\ncatch(e)\n{\n}\nfinally\n{\n\tq = 5;\n}')
                     .isEmpty());
             });
@@ -238,14 +255,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"while" loops', function() {
-            it('should report missing newlines when configured with "while"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['while'] });
+            });
+
+            it('should report missing newlines when configured with "while"', function() {
                 assert(checker.checkString('while (x < 10) {\n\tx++;\n}')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "while" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['while'] });
                 assert(checker.checkString('while (x < 10)\n{\n\tx++;\n}')
                     .isEmpty());
             });
@@ -258,14 +277,16 @@ describe('rules/require-newline-before-block-statements', function() {
         });
 
         describe('"do...while" loops', function() {
-            it('should report missing newlines when configured with "do"', function() {
+            beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['do'] });
+            });
+
+            it('should report missing newlines when configured with "do"', function() {
                 assert(checker.checkString('do {\n\tx++;\n}\nwhile (x < 10);')
                     .getErrorCount() === 1);
             });
 
             it('should not complain when configured with "do" and newline exists', function() {
-                checker.configure({ requireNewlineBeforeBlockStatements: ['do'] });
                 assert(checker.checkString('do\n{\n\tx++;\n}\nwhile (x < 10);')
                     .isEmpty());
             });
@@ -273,6 +294,29 @@ describe('rules/require-newline-before-block-statements', function() {
             it('should not complain when not configured with "do"', function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['for'] });
                 assert(checker.checkString('do {\n\tx++;\n}\nwhile (x < 10);')
+                    .isEmpty());
+            });
+        });
+
+        describe('other block types', function() {
+            beforeEach(function() {
+                checker.configure({
+                    requireNewlineBeforeBlockStatements: [
+                        'if',
+                        'else',
+                        'try',
+                        'catch',
+                        'finally',
+                        'do',
+                        'while',
+                        'for',
+                        'function'
+                    ]
+                });
+            });
+
+            it('should be ignored', function() {
+                assert(checker.checkString('{ var y = { "things": "stuff" }; }')
                     .isEmpty());
             });
         });
