@@ -150,3 +150,6 @@ doAsync(function () {
  * @param {Number} [column]
  */
 var add = function (message, line, column) {};
+
+// requireSpaceBetweenArguments
+console.log(1, 2);

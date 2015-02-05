@@ -15,6 +15,7 @@
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireDotNotation": "except_snake_case",
     "requireSpacesInForStatement": true,
+    "requireSpaceBetweenArguments": true,
     "maximumLineLength": {
         "value": 100,
         "tabSize": 4,

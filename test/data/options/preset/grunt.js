@@ -57,3 +57,6 @@ grunt.tasks = function(tasks, options, done) {
     }
   });
 };
+
+// requireSpaceBetweenArguments
+console.log(1, 2);

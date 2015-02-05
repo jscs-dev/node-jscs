@@ -113,6 +113,8 @@ var each = function( obj, callback, args ) {
   if ( args ) {
     if ( isArray ) {
       for ( ; i < length; i++ ) {
+
+        // requireSpaceBetweenArguments
         value = callback.apply( obj[ i ], args );
         // requireSpaceAfterBinaryOperators
         if ( value === false ) {

@@ -84,6 +84,7 @@
 		}
 
 		for ( key in item ) {
+			// requireSpaceBetweenArguments
 			if ( hasOwn.call( item, key ) ) {
 				ret[ key ] = new APP.Example( item[ key ] );
 			}

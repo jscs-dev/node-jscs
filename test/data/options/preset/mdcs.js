@@ -47,6 +47,9 @@ if ( i < l ) {
 
 }
 
+// requireSpaceBetweenArguments
+test(1, 2);
+
 //"requireSpaceAfterKeywords": ["for", "switch"]
 //"requireSpaceBeforeBlockStatements": true
 //"requireSpaceAfterPrefixUnaryOperators": ["++", "--"],
