@@ -32,6 +32,7 @@
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
+    "requireSpacesInsideParentheses": "all",
     "requireSpaceAfterKeywords": [
         "if",
         "else",
