@@ -15,6 +15,7 @@
     "validateIndentation": "\t",
 
     "requireSpaceAfterPrefixUnaryOperators": ["++", "--"],
+    "requireSpaceBetweenArguments": true,
     "requireSpaceBeforePostfixUnaryOperators": ["++", "--"],
     "requireSpaceBeforeBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],
     "requireSpaceAfterBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ],

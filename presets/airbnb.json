@@ -40,6 +40,7 @@
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
     "requireSpacesInForStatement": true,
+    "requireSpaceBetweenArguments": true,
     "requireCurlyBraces": [
         "do"
     ],

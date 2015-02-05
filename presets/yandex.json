@@ -38,6 +38,7 @@
     "disallowEmptyBlocks": true,
 
     "requireParenthesesAroundIIFE": true,
+    "requireSpaceBetweenArguments": true,
     "requireSpacesInFunctionDeclaration": {
         "beforeOpeningCurlyBrace": true
     },

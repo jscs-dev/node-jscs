@@ -47,7 +47,8 @@
 
         // disallowEmptyBlocks
         return function() {
-          console.log('bar');
+          // requireSpaceBetweenArguments
+          console.log('bar', 'foo');
         }
       },
 
