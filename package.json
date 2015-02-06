@@ -63,7 +63,7 @@
     "cli-table": "~0.3.1",
     "colors": "~1.0.3",
     "commander": "~2.6.0",
-    "esprima": "~1.2.2",
+    "esprima": "~1.2.4",
     "esprima-harmony-jscs": "1.1.0-tolerate-import",
     "estraverse": "~1.9.0",
     "exit": "~0.1.2",

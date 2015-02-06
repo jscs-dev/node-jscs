@@ -253,6 +253,21 @@ describe('rules/validate-indentation', function() {
             );
         });
 
+        it('should not report errors for switches without semicolons', function() {
+            assert(
+                checker.checkString(' ' +
+                'function a (x) {\n' +
+                '    switch (x) {\n' +
+                '        case 1:\n' +
+                '            return 1\n' +
+                '        default:\n' +
+                '            return 2\n' +
+                '    }\n' +
+                '}'
+                ).isEmpty()
+            );
+        });
+
         it('should report errors for indent after no indent in same switch statement', function() {
             assert(
                 checker.checkString(
