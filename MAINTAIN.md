@@ -75,10 +75,11 @@ Publishing a new version
    Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
    1. breaking changes.
    1. preset updates.
-   1. new rules.
-   1. new options.
+   1. new CLI or config options.
+   1. new rules or rule values.
    1. bug fixes.
-   1. infrastructure or docs changes.
+   1. infrastructure changes.
+   1. tests-only, docs changes, contributor minutia.
 1. Commit the changelog update with the message: `Prepare for version x.x.x`.
 1. Set a new version and tag: `npm version x.x.x`.
 1. Push changes and tags: `git push && git push --tags`.

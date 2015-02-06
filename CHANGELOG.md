@@ -1,3 +1,65 @@
+## Version 1.11.0
+
+### Preset Updates
+* Preset: add "requireSpaceBetweenArguments" rule to all presets (Oleg Gaidarenko)
+* Presets: Remove use of outdated validateJSDoc rule (Joel Kemp)
+* Preset: Add "requireSpacesInsideParentheses" to jquery preset (Oleg Gaidarenko)
+* Preset: switch multipleVarDecl rule in airbnb preset (Martin Bohal)
+* Preset: change value of "requireDotNotation" rule for jquery preset (Oleg Gaidarenko)
+
+### New Config Options
+* Configuration: Auto-generation (Joel Kemp)
+* Config: Add support for custom Esprima options. (Chris Rebert)
+
+### New Rules / Rule Values
+* New Rule: disallowKeywordsInComments (Joe Sepi)
+* New Rules: (require|disallow)SpacesInsideBrackets (Mike Sherov)
+* validateIndentation: new rule value - includeEmptyLines (Jonathan Gawrych)
+* disallowTrailingWhitespace: new rule value - ignoreEmptyLines (Jonathan Gawrych)
+* New Rule: disallowCurlyBraces (Henry Zhu)
+* requireCapitalizedConstructors: accept list of exempt constructors (Sam L'ecuyer)
+* validateIndentation: exception to indentation rules for module pattern (Mike Sherov)
+
+### Bug Fixes
+* (require|disallow)SpacesInsideArrayBrackets: only check for ArrayExpressions (Mike Sherov)
+* JsFile: remove all duplicate tokens. (Mike Sherov)
+* ObjectExpression Rules: take into account shorthand syntax. (Mike Sherov)
+* disallowSpaceBeforeKeywords: don't report an error on back-to-back keywords (Mike Sherov)
+* requireParenthesesAroundIIFE: fix crash on semicolon-free IIFE (Yuheng Zhang)
+* Parsing: tolerate non-leading import statements (Chris Rebert)
+* requireCapitalizedComments: improve letter recognition (Mathias Bynens)
+* requireSpaces*: fix error message to 'Exactly one space required' (Henry Zhu)
+* StringChecker: leading hashbangs should still report correct error line numbers (Mike Sherov)
+* validateIndentation: don't check bracelets else indentation. (Mike Sherov)
+* validateIndentation: don't consider return when classifying break indentation (Mike Sherov)
+* validateIndentation: fix multiline while in doWhile statements (Mike Sherov)
+* validateIndentation: ensure pushes and pops are matching (Mike Sherov)
+* validateIndentation: ensure semicolon free indentations are on correct line (Mike Sherov)
+* SpaceBetweenArguments: catch call expression arguments (Oleg Gaidarenko)
+* token-assert: add check for document start to prevent crashes (Alexej Yaroshevich)
+* requireSpaceBeforeBlockStatements: reworded an error message (Alexej Yaroshevich)
+
+### Infrastructure Changes
+* js-file: added getCommentAfter/BeforeToken functions (Alexej Yaroshevich)
+* cleanup: remove lib/token-helper (Mike Sherov)
+* JsFile: move getLinesWithCommentsRemoved from comment-helper (Mike Sherov)
+
+### Misc.
+* disallowSpacesInsideArrayBrackets: fix rule name in example (Gustavo Henke)
+* Misc: update dependencies (Oleg Gaidarenko)
+* various rules: use tokenAssert (Henry Zhu)
+* Speed up builds by using Docker-based Travis CI (Pavel Strashkin)
+* 100% code coverage on various files(Mike Sherov)
+* disallowSpace(Before | After)Keywords: more tests (Alexej Yaroshevich)
+* requireCurlyBrace: more tests (Alexej Yaroshevich)
+* CLI: correct JSDoc comment (Oleg Gaidarenko)
+* requireQuotedKeysInObjects: fixing file permissions (Joe Sepi)
+* Changelog: correct version number (Oleg Gaidarenko)
+* Docs: add missed commit to the changelog (Oleg Gaidarenko)
+* Misc: .editorconfig - fix for invalid indent_style value (Dmitriy Schekhovtsov)
+* Update regenerate to ~1.2.1 (Chris Rebert)
+* Add description to commander CLI help (Chris Rebert)
+
 ## Version 1.10.0
 * Preset: correct wikimedia preset test (Oleg Gaidarenko)
 * Preset: correct jquery preset test (Oleg Gaidarenko)
