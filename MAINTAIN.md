@@ -85,5 +85,6 @@ Publishing a new version
 1. Push changes and tags: `git push && git push --tags`.
 1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
 1. Copy the changelog notes into the Github releases section located here: https://github.com/jscs-dev/node-jscs/releases
+1. Rebuild the website: `git clone git@github.com:jscs-dev/jscs-dev.github.io.git && cd jscs-dev.github.io && npm install && npm run publish`
 1. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
 1. Done!
