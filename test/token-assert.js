@@ -322,7 +322,7 @@ describe('modules/token-assert', function() {
             assert(onError.calledOnce);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be on different lines');
+            assert.equal(error.message, 'x and = should be at least 1 line(s) apart');
             assert.equal(error.line, 1);
             assert.equal(error.column, 1);
         });
@@ -357,6 +357,22 @@ describe('modules/token-assert', function() {
             });
 
             assert(!onError.called);
+        });
+
+        it('should not trigger on additional newlines between tokens', function() {
+            var file = createJsFile('x\n\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.differentLine({
+                token: tokens[0],
+                nextToken: tokens[1]
+            });
+
+            assert(!onError.calledOnce);
         });
 
         it('should accept message for missing newline between tokens', function() {
