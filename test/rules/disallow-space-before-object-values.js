@@ -51,4 +51,9 @@ describe('rules/disallow-space-before-object-values', function() {
         checker.configure({ esnext: true });
         assert.equal(checker.checkString('var x = { a : 1, b };').getErrorCount(), 1);
     });
+
+    it('should not report es6-methods. #1013', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a() { } };').isEmpty());
+    });
 });
