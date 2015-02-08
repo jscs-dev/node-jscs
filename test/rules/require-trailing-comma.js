@@ -45,6 +45,16 @@ describe('rules/require-trailing-comma', function() {
         it('should not report array access (#368)', function() {
             assert(checker.checkString('var foo = [\'Hello World\',\n];\nvar bar = foo[0];').getErrorCount() === 0);
         });
+
+        it('should report right location for no trailing comma in object (#1018)', function() {
+            var errs = checker.checkString('var obj = {\n    foo: "foo"\n};').getErrorList();
+            assert.equal(errs[0].line + ':' + errs[0].column, '2:14');
+        });
+
+        it('should report right location for no trailing comma in array (#1018)', function() {
+            var errs = checker.checkString('var arr = [\n    \'foo\'\n];').getErrorList();
+            assert.equal(errs[0].line + ':' + errs[0].column, '2:9');
+        });
     });
 
     describe('ignoreSingleValue', function() {
