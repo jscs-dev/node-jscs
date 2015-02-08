@@ -150,4 +150,35 @@ describe('modules/utils', function() {
             assert.ok(utils.normalizePath('../foo', base) === (path.dirname(base) + '/foo'));
         });
     });
+
+    describe('promisify', function() {
+        var resolveFn = function(data, cb) {
+            cb(null, data);
+        };
+        var rejectFn = function(data, cb) {
+            cb(new Error('foobar'), null);
+        };
+
+        it('returns a function that yields a promise', function() {
+            var wrapped = utils.promisify(resolveFn);
+            assert.ok(typeof wrapped(1).then === 'function');
+        });
+
+        it('resolves the promise when the node-style callback has no error', function(done) {
+            var wrapped = utils.promisify(resolveFn);
+
+            wrapped(1).then(function(data) {
+                assert.ok(data === 1);
+                done();
+            });
+        });
+
+        it('rejects the promise when the node-style callback has an error', function(done) {
+            var wrapped = utils.promisify(rejectFn);
+            wrapped(1).then(null, function(err) {
+                assert.ok(err);
+                done();
+            });
+        });
+    });
 });
