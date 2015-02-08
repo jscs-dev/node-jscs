@@ -382,17 +382,17 @@ describe('modules/token-assert', function() {
             tokenAssert.differentLine({
                 token: tokens[0],
                 nextToken: tokens[1],
-                lines: 2
+                lines: 1
             });
 
             assert(onError.calledOnce);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be separated by 2 lines');
+            assert.equal(error.message, 'x and = should be separated by 1 lines');
         });
 
         it('should trigger error on too many specified newlines', function() {
-            var file = createJsFile('x\n\n\n=y;');
+            var file = createJsFile('x\n\n\n\n=y;');
 
             var tokenAssert = new TokenAssert(file);
             var onError = sinon.spy();
@@ -406,6 +406,8 @@ describe('modules/token-assert', function() {
             });
 
             assert(onError.calledOnce);
+            var error = onError.getCall(0).args[0];
+            assert.equal(error.message, 'x and = should be separated by 2 lines');
         });
 
         it('should not trigger error on multiple specified newlines', function() {
@@ -419,7 +421,7 @@ describe('modules/token-assert', function() {
             tokenAssert.differentLine({
                 token: tokens[0],
                 nextToken: tokens[1],
-                lines: 2
+                lines: 1
             });
 
             assert(!onError.calledOnce);
@@ -436,7 +438,7 @@ describe('modules/token-assert', function() {
             tokenAssert.differentLine({
                 token: tokens[1],
                 nextToken: tokens[0],
-                lines: 2
+                lines: 1
             });
 
             assert(!onError.calledOnce);
