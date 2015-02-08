@@ -398,7 +398,6 @@ describe('modules/token-assert', function() {
                 this.tokenAssert.on('error', onError);
 
                 this.tokens = file.getTokens();
-
             });
 
             it('should throw if no options are specified', function() {
@@ -446,12 +445,10 @@ describe('modules/token-assert', function() {
                 }).bind(this),
                 /atLeast and atMost are in conflict/);
             });
-
         });
 
         it('should not throw if token or nextToken properties are undefined', function() {
             var file = createJsFile('x\n=y;');
-
             var tokenAssert = new TokenAssert(file);
 
             tokenAssert.linesBetween({
@@ -606,7 +603,6 @@ describe('modules/token-assert', function() {
 
                 assert(!onError.called);
             });
-
         });
 
         describe('atMost', function() {
