@@ -34,6 +34,10 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         assert(checker.checkString('if(true){}\n\nvar a = 2;').isEmpty());
     });
 
+    it('should not report additional padding after block', function() {
+        assert(checker.checkString('if(true){}\n\n\nvar a = 2;').isEmpty());
+    });
+
     it('should not report padding after nested block', function() {
         assert(checker.checkString('if(true){\nif(true) {}\n}').isEmpty());
     });

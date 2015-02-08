@@ -322,13 +322,29 @@ describe('modules/token-assert', function() {
             assert(onError.calledOnce);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be on different lines');
+            assert.equal(error.message, 'x and = should be at least 1 line(s) apart');
             assert.equal(error.line, 1);
             assert.equal(error.column, 1);
         });
 
         it('should not trigger error on existing newline between tokens', function() {
             var file = createJsFile('x\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.differentLine({
+                token: tokens[0],
+                nextToken: tokens[1]
+            });
+
+            assert(!onError.calledOnce);
+        });
+
+        it('should not trigger on additional newlines between tokens', function() {
+            var file = createJsFile('x\n\n=y;');
 
             var tokenAssert = new TokenAssert(file);
             var onError = sinon.spy();
@@ -371,94 +387,250 @@ describe('modules/token-assert', function() {
             });
         });
 
-        it('should trigger error on too few specified newlines', function() {
-            var file = createJsFile('x\n=y;');
+        describe('exact', function() {
+            it('should trigger error on too few newlines', function() {
+                var file = createJsFile('x\n=y;');
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
-            tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: tokens[1],
-                lines: 1
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should be exactly 2 line(s) apart');
             });
 
-            assert(onError.calledOnce);
+            it('should trigger error on too many specified newlines', function() {
+                var file = createJsFile('x\n\n\n\n=y;');
 
-            var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be separated by 1 lines');
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should be exactly 2 line(s) apart');
+            });
+
+            it('should not trigger error on correct specified newlines', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 1
+                });
+
+                assert(!onError.calledOnce);
+            });
+
+            it('should not trigger error on multiple specified newlines negative', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[1],
+                    nextToken: tokens[0],
+                    exactly: 1
+                });
+
+                assert(!onError.calledOnce);
+            });
         });
 
-        it('should trigger error on too many specified newlines', function() {
-            var file = createJsFile('x\n\n\n\n=y;');
+        describe('atLeast', function() {
+            it('should trigger on too few lines', function() {
+                var file = createJsFile('x\n\n=y;');
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
-            tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: tokens[1],
-                lines: 2
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 3
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should be at least 3 line(s) apart');
             });
 
-            assert(onError.calledOnce);
-            var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be separated by 2 lines');
+            it('should not trigger with exact lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2
+                });
+
+                assert(!onError.calledOnce);
+            });
+
+            it('should not trigger error on too many lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 1
+                });
+
+                assert(!onError.calledOnce);
+            });
+
         });
 
-        it('should not trigger error on multiple specified newlines', function() {
-            var file = createJsFile('x\n\n=y;');
+        describe('atMost', function() {
+            // should trigger on too many
+            // shouldn't trigger on exact
+            // shouldn't fewer
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+            it('should not trigger on too few lines', function() {
+                var file = createJsFile('x\n\n=y;');
 
-            var tokens = file.getTokens();
-            tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: tokens[1],
-                lines: 1
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 3
+                });
+
+                assert(!onError.calledOnce);
             });
 
-            assert(!onError.calledOnce);
+            it('should not trigger with exact lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 2
+                });
+
+                assert(!onError.calledOnce);
+            });
+
+            it('should trigger error on too many lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 1
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should be at most 1 line(s) apart');
+            });
         });
 
-        it('should not trigger error on multiple specified newlines negative', function() {
-            var file = createJsFile('x\n\n=y;');
+        describe('between', function() {
+            it('should not trigger if within range', function() {
+                var file = createJsFile('x\n\n=y;');
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
-            tokenAssert.differentLine({
-                token: tokens[1],
-                nextToken: tokens[0],
-                lines: 1
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 3,
+                    atLeast: 2
+                });
+
+                assert(!onError.calledOnce);
             });
 
-            assert(!onError.calledOnce);
-        });
+            it('should trigger if below range', function() {
+                var file = createJsFile('x\n=y;');
 
-        it('should not trigger error on optional extra lines', function() {
-            var file = createJsFile('x\n\n=y;');
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 3,
+                    atLeast: 2
+                });
 
-            var tokens = file.getTokens();
-            tokenAssert.differentLine({
-                token: tokens[1],
-                nextToken: tokens[0],
-                allowExtra: true
+                assert(onError.calledOnce);
             });
 
-            assert(!onError.calledOnce);
+            it('should trigger if above range', function() {
+                var file = createJsFile('x\n\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.differentLine({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 3,
+                    atLeast: 2
+                });
+
+                assert(onError.calledOnce);
+            });
         });
     });
 
