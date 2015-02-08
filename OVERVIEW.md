@@ -55,10 +55,12 @@ Presents a walkthrough that allows you to generate a JSCS configuration by
 choosing a preset and handling violated rules.
 
 ```
-jscs --auto-configure path
+jscs --auto-configure path [--esnext]
 ```
 
-`path` can be a file or directory to check the presets against
+`path` can be a file or directory to check the presets against.
+
+Include the `--esnext` flag to auto-configure an es6 codebase.
 
 ### `--config`
 Allows to define path to the config file.
