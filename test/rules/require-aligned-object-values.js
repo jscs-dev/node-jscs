@@ -46,6 +46,11 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
 
+        it('should not report es6-methods. #1013', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('var x = { a() { } };').isEmpty());
+        });
+
         it('should report invalid alignment', function() {
             assert(
                 checker.checkString(
