@@ -126,7 +126,7 @@ describe('modules/errors', function() {
     describe('filter', function() {
         it('filters the errorlist by the given function', function() {
             var errors = checker.checkString('var');
-            errors.filter(function(error) {
+            errors.filter(function() {
                 return false;
             });
             assert(errors.isEmpty());

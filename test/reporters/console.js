@@ -37,10 +37,6 @@ describe('reporters/console', function() {
     it('should correctly reports 2 errors', function() {
         consoleReporter([checker.checkString('with(x){} with(x){} ')]);
 
-        var line1 = console.log.getCall(0).args[0];
-        var line2 = console.log.getCall(1).args[0];
-        var line3 = console.log.getCall(2).args[0];
-
         assert(console.log.getCall(0).args[0].indexOf('Illegal keyword: with') > -1);
         assert(console.log.getCall(1).args[0].indexOf('Illegal keyword: with') > -1);
         assert.equal(console.log.getCall(2).args[0], '\n2 code style errors found.');

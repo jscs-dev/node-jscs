@@ -881,7 +881,8 @@ describe('modules/js-file', function() {
             var source = 'a++;/*comment\nmore comment\nmore comment*/b++;';
             var file = createJsFile(source);
             var errors = { add: sinon.spy() };
-            var lines = file.getLinesWithCommentsRemoved(errors);
+
+            file.getLinesWithCommentsRemoved(errors);
             assert(errors.add.called);
             assert(errors.add.calledWith(
                 'Multiline comments should not have tokens on its ending line',
