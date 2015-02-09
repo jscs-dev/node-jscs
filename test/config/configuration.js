@@ -154,6 +154,11 @@ describe('modules/config/configuration', function() {
             }, /^AssertionError: `esprimaOptions` should be an object$/);
         }
 
+        it('should accept `esprimaOptions` rule', function() {
+            configuration.load({esprimaOptions: { foo: 'bar' }});
+            assert(configuration.getUnsupportedRuleNames().length === 0);
+        });
+
         it('should return the supplied esprima options', function() {
             configuration.load({esprimaOptions: { foo: 'bar' }});
             assert.deepEqual(configuration.getEsprimaOptions(), {foo: 'bar'});
