@@ -1,3 +1,22 @@
+## Version 1.11.1
+
+### New Rules / Rule Values
+* disallowSpaceAfterObjectKeys: implement ignoreSingleLine and ignoreMultiLine options (Henry Zhu)
+
+### Bug Fixes
+* disallowAllowSpacesInsideParentheses: reintroduce archaic "all" config option (Mike Sherov)
+* requireSpaceBetweenArguments: loosen rule restriction (Mike Sherov)
+* Object Key rules: ignore method syntax (Alexej Yaroshevich)
+* (require|disallow)TrailingComma: fixed error location (Alexej Yaroshevich)
+
+### Infrastructure Changes
+* Auto-generate: Move promisify to utils (Joel Kemp)
+
+### Misc.
+* JSHint: add unused true (Mike Sherov)
+* Updating rules to use File Traversal APIs. (Eli White)
+* Docs: Add website rebuild instructions to maintenance (Mike Sherov)
+
 ## Version 1.11.0
 
 ### Preset Updates
