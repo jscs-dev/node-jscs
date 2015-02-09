@@ -10,7 +10,6 @@ var rewire = require('rewire');
 var cli = rewire('../lib/cli');
 var startingDir = process.cwd();
 
-var ConfigGenerator = rewire('../lib/config/generator');
 var Vow = require('vow');
 
 describe('modules/cli', function() {

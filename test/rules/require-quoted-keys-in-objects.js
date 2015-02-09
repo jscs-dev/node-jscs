@@ -67,4 +67,9 @@ describe('rules/require-quoted-keys-in-objects', function() {
         checker.configure({ esnext: true });
         assert(checker.checkString('var x = { a, b };').isEmpty());
     });
+
+    it('should not report es6-methods. #1013', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a() { } };').isEmpty());
+    });
 });

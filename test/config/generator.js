@@ -5,7 +5,6 @@ var fs = require('fs');
 var Vow = require('vow');
 
 var Checker = require('../../lib/checker');
-var Configuration = require('../../lib/config/configuration');
 var ConfigGenerator = require('../../lib/config/generator');
 
 describe('lib/config/generator', function() {

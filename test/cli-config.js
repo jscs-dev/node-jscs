@@ -1,7 +1,6 @@
 var path = require('path');
 
 var assert = require('assert');
-var sinon = require('sinon');
 var rewire = require('rewire');
 
 var configFile = rewire('../lib/cli-config');
@@ -85,7 +84,7 @@ describe('modules/cli-config', function() {
 
         it('should fail load json config with comments', function() {
             try {
-                var s = configFile.load('./test/data/configs/json/withComments.json');
+                configFile.load('./test/data/configs/json/withComments.json');
                 assert(false);
             } catch (e) {
                 assert(true);

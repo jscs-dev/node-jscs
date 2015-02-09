@@ -211,6 +211,7 @@ describe('modules/config/configuration', function() {
             assert(configuration.hasPreset('wikimedia'));
             assert(configuration.hasPreset('yandex'));
             assert(configuration.hasPreset('grunt'));
+            assert(configuration.hasPreset('jscs'));
         });
     });
 
