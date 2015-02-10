@@ -1,3 +1,16 @@
+## Version 1.11.2
+
+### Bug Fixes
+* validateIndentation: ignore empty module bodies (Mike Sherov)
+* Object rules: ignore ES5 getters/setters when appropriate. (Mike Sherov)
+* Ensure esprimaOptions is not mistaken for a rule (Yannick Croissant)
+
+### Infrastructure Changes
+* CI: Add AppVeyor (Adeel)
+
+### Misc.
+* Add @zxqfox to the list of maintainers (mdevils)
+
 ## Version 1.11.1
 
 ### New Rules / Rule Values
