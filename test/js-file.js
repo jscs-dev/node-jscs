@@ -890,6 +890,15 @@ describe('modules/js-file', function() {
                 14
             ));
         });
+
+        it('should preserve comment order', function() {
+            var source = '//comment1\n//comment2';
+            var file = createJsFile(source);
+
+            file.getLinesWithCommentsRemoved();
+            assert.equal(file.getComments()[0].value, 'comment1');
+            assert.equal(file.getComments()[1].value, 'comment2');
+        });
     });
 
     describe('getFilename', function() {
