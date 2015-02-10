@@ -54,6 +54,12 @@
       "email": "joel@mrjoelkemp.com",
       "github-username": "mrjoelkemp",
       "role": "Bug fixes, common rules"
+    },
+    {
+      "name": "Alexej Yaroshevich",
+      "email": "zxqfox@gmail.com",
+      "github-username": "zxqfox",
+      "role": "Bug fixes, common rules"
     }
   ],
   "engines": {

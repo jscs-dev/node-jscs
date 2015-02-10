@@ -23,6 +23,7 @@ The maintainers of the project are:
  * Oleg Gaidarenko (@markelog).
  * Mike Sherov (@mikesherov).
  * Joel Kemp (@mrjoelkemp).
+ * Alexej Yaroshevich (@zxqfox).
 
 The project is being developed by the community. Maintainers merge pull-requests and fix critical bugs. All other features
 and patches are welcomed to be implemented by community members.
