@@ -1,3 +1,11 @@
+## Version 1.11.3
+
+### Bug Fixes
+* JsFile: ensure getLinesWithCommentsRemoved does not alter future getComments calls. (Mike Sherov)
+
+### Misc.
+* modules/utils normalizePath: fixed test for windows env (Alexej Yaroshevich)
+
 ## Version 1.11.2
 
 ### Bug Fixes
