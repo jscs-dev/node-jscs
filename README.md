@@ -32,4 +32,5 @@ including presets from popular style guides like jQuery, Airbnb, Google, and mor
  * [Moment.js](http://momentjs.com/)
  * [TodoMVC](http://todomvc.com/)
  * [Famous](http://famo.us/)
+ * [less.js](http://lesscss.org/)
 
