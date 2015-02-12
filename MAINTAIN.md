@@ -9,6 +9,7 @@ Some maintainers can have areas of responsibility:
  * @markelog: CLI, integration, common rules.
  * @mikesherov: ex-jshint rules, common rules.
  * @mrjoelkemp: bug fixes, common rules.
+ * @zxqfox: bug fixes, common rules.
 
 Maintaining validation rules
 ----------------------------

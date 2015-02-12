@@ -331,7 +331,6 @@ describe('modules/string-checker', function() {
         testPreset('mdcs');
         testPreset('wikimedia');
         testPreset('yandex');
-        testPreset('jscs', __filename);
 
         /**
          * Helper to test a given preset's configuration against its test file
@@ -341,19 +340,17 @@ describe('modules/string-checker', function() {
          *
          * @example testPreset('google')
          * @param  {String} presetName
-         * @param  {String} [fixturePath]
          */
-        function testPreset(presetName, fixturePath) {
+        function testPreset(presetName) {
             it('preset ' + presetName + ' should not report any errors from the sample file', function() {
-                fixturePath = fixturePath || './test/data/options/preset/' + presetName + '.js';
-
                 var checker = new Checker();
+
                 checker.registerDefaultRules();
                 checker.configure({
                     preset: presetName
                 });
 
-                return checker.checkFile(fixturePath).then(function(errors) {
+                return checker.checkFile('./test/data/options/preset/' + presetName + '.js').then(function(errors) {
                     assert(errors.isEmpty());
                 });
             });

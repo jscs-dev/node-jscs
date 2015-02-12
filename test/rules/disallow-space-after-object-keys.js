@@ -85,4 +85,9 @@ describe('rules/disallow-space-after-object-keys', function() {
         checker.configure({ esnext: true });
         assert(checker.checkString('var x = { a() { } };').isEmpty());
     });
+
+    it('should not report es5 getters/setters #1037', function() {
+        assert(checker.checkString('var x = { get a() { } };').isEmpty());
+        assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
+    });
 });
