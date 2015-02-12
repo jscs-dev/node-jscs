@@ -22,6 +22,34 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             assert(checker.checkString('var $x = $();').isEmpty());
         });
 
+        it('should not report basic assignment', function() {
+            assert(checker.checkString('var x = 2;').isEmpty());
+        });
+
+        it('should not report function assignment', function() {
+            assert(checker.checkString('var x = function() {};').isEmpty());
+        });
+
+        it('should not report logical assignment', function() {
+            assert(checker.checkString('var a = 1 || 2;').isEmpty());
+        });
+
+        it('should not report binary assignment', function() {
+            assert(checker.checkString('var a = 1 + 2;').isEmpty());
+        });
+
+        it('should not report for loops', function() {
+            assert(checker.checkString('for (var prop in rawVars) {}').isEmpty());
+        });
+
+        it('should not report keyed object assignments with string key', function() {
+            assert(checker.checkString('obj["foo"] = "bar"').isEmpty());
+        });
+
+        it('should not report jquery root functions', function() {
+            assert(checker.checkString('var x = $.extends();').isEmpty());
+        });
+
         it('should report jquery operator with html', function() {
             assert(checker.checkString('var x = $("<p>foo</p>");').getErrorCount() === 1);
         });
@@ -40,6 +68,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
 
         it('should not report jquery operator using val', function() {
             assert(checker.checkString('var x = $(".foo").val();').isEmpty());
+        });
+
+        it('should not report chained jquery operator with variable', function() {
+            assert(checker.checkString('var x = $(evt.target).val();').isEmpty());
         });
 
         it('should not report jquery operator using val over multiple lines', function() {
@@ -63,6 +95,14 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
         });
 
         describe('in object definition', function() {
+            it('should not report basic object creation with string key assignment', function() {
+                assert(checker.checkString('!{"a": true}').isEmpty());
+            });
+
+            it('should not report object with string key assignment', function() {
+                assert(checker.checkString('var a = {"a": true};').isEmpty());
+            });
+
             it('should report basic jquery operator', function() {
                 assert(checker.checkString('var x = { foo: $() }').getErrorCount() === 1);
             });
@@ -148,6 +188,31 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             it('should not report jquery operator with dollar and single quotes around selector', function() {
                 assert(checker.checkString('this.$x = $(\'.foo\');').isEmpty());
             });
+
+            it('should not report direct assignment', function() {
+                assert(checker.checkString('this.$video = $video;').isEmpty());
+            });
+
+            it('should not report basic assignment', function() {
+                assert(checker.checkString('w.x = 2;').isEmpty());
+            });
+
+            it('should not report function assignment', function() {
+                assert(checker.checkString('w.x = function() {};').isEmpty());
+            });
+
+            it('should not report logical assignment', function() {
+                assert(checker.checkString('w.a = 1 || 2;').isEmpty());
+            });
+
+            it('should not report object logical assignment', function() {
+                assert(checker.checkString('w.a = w.a || {};').isEmpty());
+            });
+
+            it('should not report binary assignment', function() {
+                assert(checker.checkString('w.a = 1 + 2;').isEmpty());
+            });
+
         });
     });
 });
