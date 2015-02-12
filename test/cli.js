@@ -121,7 +121,7 @@ describe('modules/cli', function() {
         console.error.restore();
     });
 
-    it('should not exit if missing custom configs are ignored', function() {
+    it('should not exit with error status if missing config is ignored', function() {
         var result = cli({
             args: ['test/data/cli/success.js'],
             config: 'config.js',
