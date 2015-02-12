@@ -48,7 +48,7 @@ div.onclick = function (e) {
 };
 
 obj = {
-    method: function () {
+    method: function () { // requireSpaceBeforeObjectValues
         return this.datum; // requireDotNotation
     },
     datum: 0
