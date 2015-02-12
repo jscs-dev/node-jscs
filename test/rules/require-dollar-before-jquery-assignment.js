@@ -30,8 +30,24 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             assert(checker.checkString('var x = function() {};').isEmpty());
         });
 
+        it('should not report function call', function() {
+            assert(checker.checkString('var x = fn("foo")').isEmpty());
+        });
+
         it('should not report logical assignment', function() {
             assert(checker.checkString('var a = 1 || 2;').isEmpty());
+        });
+
+        it('should report assignment on nextline without semicolon', function() {
+            assert(checker.checkString('var a = $(".foo")\nvar b = $()').getErrorCount() === 2);
+        });
+
+        it('should not report assignment against dollar prefixed function', function() {
+            assert(checker.checkString('var a = $func("foo")').isEmpty());
+        });
+
+        it('should not report dollar addition', function() {
+            assert(checker.checkString('var a = $ + 2').isEmpty());
         });
 
         it('should not report binary assignment', function() {
@@ -213,6 +229,13 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
                 assert(checker.checkString('w.a = 1 + 2;').isEmpty());
             });
 
+            it('should not report multi level object assignment', function() {
+                assert(checker.checkString('a.b.$c = $()').isEmpty());
+            });
+
+            it('should report multi level object assignment without dollar', function() {
+                assert(checker.checkString('a.b.c = $()').getErrorCount() === 1);
+            });
         });
     });
 });
