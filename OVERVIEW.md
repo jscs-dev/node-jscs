@@ -74,7 +74,7 @@ jscs path[ path[...]] --preset=jquery
 ```
 
 ### `--reporter`
-`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `junit` and `text`.
+`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
 ```
 jscs path[ path[...]] --reporter=console
 ```
