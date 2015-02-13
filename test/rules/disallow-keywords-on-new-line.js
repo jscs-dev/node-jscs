@@ -23,6 +23,18 @@ describe('rules/disallow-keywords-on-new-line', function() {
         );
     });
 
+    it('should report illegal keyword placement for do while', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+        assert(
+            checker.checkString(
+                'do {\n' +
+                    'x++;\n' +
+                '}\n' +
+                'while(x > 0)'
+            ).getErrorCount() === 1
+        );
+    });
+
     it('should report illegal keyword placement', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
@@ -56,6 +68,52 @@ describe('rules/disallow-keywords-on-new-line', function() {
             checker.checkString(
                 'if (block) block[v]["(type)"] = "var";\n' +
                 'else funct[v] = "var";'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report special case for "while" statement without is not part of do (#885)', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+        assert(
+            checker.checkString(
+                'var i = 0\n' +
+                'while(i > 0) {\n' +
+                    ';\n' +
+                '}'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report special case for "do while" multiple line statement without braces (#885)', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+        assert(
+            checker.checkString(
+                'do\n' +
+                    ';\n' +
+                'while(i > 0)'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report special case for "do while" single line statement without braces (#885)', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+        assert(
+            checker.checkString(
+                'do ; while(i > 0)'
+            ).isEmpty()
+        );
+    });
+
+    it('should not report special case for "do while" enclosing an inner while loop (#885)', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+        assert(
+            checker.checkString(
+                'do {\n' +
+                    'while(i > 0) {\n' +
+                        ';\n' +
+                    '}' +
+                    'x++;\n' +
+                '} while(x > 0)'
             ).isEmpty()
         );
     });
