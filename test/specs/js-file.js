@@ -589,6 +589,68 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getNodesByFirstToken', function() {
+        describe('invalid arguments', function() {
+            var file;
+            beforeEach(function() {
+                file = createJsFile('x++;y++;');
+            });
+
+            it('should return empty array if the argument is invalid', function() {
+                var nodes = file.getNodesByFirstToken();
+                assert.equal(nodes.length, 0);
+            });
+
+            it('should return empty array if the argument.range is invalid', function() {
+                var nodes = file.getNodesByFirstToken({});
+                assert.equal(nodes.length, 0);
+            });
+
+            it('should return empty array if the argument.range[0] is invalid', function() {
+                var nodes = file.getNodesByFirstToken({
+                    range: {}
+                });
+                assert.equal(nodes.length, 0);
+            });
+        });
+
+        describe('empty progam', function() {
+            var file;
+            beforeEach(function() {
+                file = createJsFile('');
+            });
+
+            it('should return 1 node of type Program when provided the first token', function() {
+                var token = file.getFirstToken();
+                var nodes = file.getNodesByFirstToken(token);
+                assert.equal(nodes.length, 1);
+                assert.equal(nodes[0].type, 'Program');
+            });
+        });
+
+        describe('normal progam', function() {
+            var file;
+            beforeEach(function() {
+                file = createJsFile('var x;\ndo {\n\tx++;\n} while (x < 10);');
+            });
+
+            it('should return nodes when supplied with a token that is the start of a node', function() {
+                var token = file.getFirstToken();
+                var nodes = file.getNodesByFirstToken(token);
+                assert.equal(nodes.length, 2);
+                assert.equal(nodes[0].type, 'Program');
+                assert.equal(nodes[1].type, 'VariableDeclaration');
+            });
+
+            it('should return an empty array when supplied with a token that is not the start of a node', function() {
+                var token = file.getFirstToken();
+                var nextToken = file.findNextToken(token, 'Keyword', 'while');
+                var nodes = file.getNodesByFirstToken(nextToken);
+                assert.equal(nodes.length, 0);
+            });
+        });
+    });
+
     describe('getNodesByType', function() {
         it('should return nodes using specified type', function() {
             var nodes = createJsFile('x++;y++;').getNodesByType('Identifier');
