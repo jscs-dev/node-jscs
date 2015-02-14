@@ -121,6 +121,18 @@ describe('modules/cli', function() {
         console.error.restore();
     });
 
+    it('should not exit with error status if missing config is ignored', function() {
+        var result = cli({
+            args: ['test/data/cli/success.js'],
+            config: 'config.js',
+            ignoreMissingConfig: true
+        });
+
+        assert(typeof result === 'object');
+
+        return assertNoCliErrors(result);
+    });
+
     it('should set presets', function() {
         var Checker = require('../lib/checker');
         var originalCheckPath = Checker.prototype.checkPath;
