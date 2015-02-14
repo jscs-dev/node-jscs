@@ -16,6 +16,7 @@ program
     .description('A code style linter for programmatically enforcing your style guide.')
     .option('-c, --config [path]', 'configuration file path')
     .option('--auto-configure [path]', 'auto-generate a JSCS configuration file')
+    .option('-x, --fix', 'fix code style violations (applies to fixable violations)')
     .option('-e, --esnext', 'attempts to parse esnext code (currently es6)')
     .option('--es3', 'validates code as es3')
     .option('-s, --esprima <path>', 'attempts to use a custom version of Esprima')
