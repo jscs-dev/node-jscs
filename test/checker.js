@@ -144,11 +144,10 @@ describe('modules/checker', function() {
                 });
 
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
-                    assert.equal(errors.getErrorCount(), 1);
-                    assert.equal(errors.getErrorList()[0].message, 'Missing space after "if" keyword');
+                    assert.equal(errors.getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif(x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
                     );
                 });
             });
@@ -175,12 +174,10 @@ describe('modules/checker', function() {
                 });
 
                 return checker.fixPath(tmpDir).then(function(errorsCollection) {
-                    var errors = errorsCollection[0];
-                    assert.equal(errors.getErrorCount(), 1);
-                    assert.equal(errors.getErrorList()[0].message, 'Missing space after "if" keyword');
+                    assert.equal(errorsCollection[0].getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif(x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
                     );
                 });
             });

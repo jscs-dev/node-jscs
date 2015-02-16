@@ -595,6 +595,68 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getFirstLineToken', function() {
+        it('should return first line token', function() {
+            var file = createJsFile('x += 1;\ny += 4;');
+            var xToken = file.getFirstTokenOnLine(1);
+            assert.equal(xToken.type, 'Identifier');
+            assert.equal(xToken.value, 'x');
+            var yToken = file.getFirstTokenOnLine(2);
+            assert.equal(yToken.type, 'Identifier');
+            assert.equal(yToken.value, 'y');
+        });
+
+        it('should return first line token if token is indented', function() {
+            var file = createJsFile('\t\tx += 1;\n\t\ty += 4;');
+            var xToken = file.getFirstTokenOnLine(1);
+            assert.equal(xToken.type, 'Identifier');
+            assert.equal(xToken.value, 'x');
+            var yToken = file.getFirstTokenOnLine(2);
+            assert.equal(yToken.type, 'Identifier');
+            assert.equal(yToken.value, 'y');
+        });
+
+        it('should return undefined if no token was found', function() {
+            var file = createJsFile('\t\tx += 1;\n\n');
+            var yToken = file.getFirstTokenOnLine(2);
+            assert.equal(yToken, undefined);
+        });
+
+        it('should return undefined if only comment was found', function() {
+            var file = createJsFile('\t\tx += 1;\n/*123*/\n');
+            var yToken = file.getFirstTokenOnLine(2);
+            assert.equal(yToken, undefined);
+        });
+
+        it('should return first line token ignoring comments', function() {
+            var file = createJsFile('\t/* 123 */\tx += 1;\n\t/* 321 */\ty += 4;');
+            var xToken = file.getFirstTokenOnLine(1);
+            assert.equal(xToken.type, 'Identifier');
+            assert.equal(xToken.value, 'x');
+            var yToken = file.getFirstTokenOnLine(2);
+            assert.equal(yToken.type, 'Identifier');
+            assert.equal(yToken.value, 'y');
+        });
+
+        it('should return first line token including comments', function() {
+            var file = createJsFile('\t/*123*/\tx += 1;\n\t/*321*/\ty += 4;');
+            var commentToken1 = file.getFirstTokenOnLine(1, {includeComments: true});
+            assert(commentToken1.isComment);
+            assert.equal(commentToken1.type, 'Block');
+            assert.equal(commentToken1.value, '123');
+            var commentToken2 = file.getFirstTokenOnLine(2, {includeComments: true});
+            assert(commentToken2.isComment);
+            assert.equal(commentToken2.type, 'Block');
+            assert.equal(commentToken2.value, '321');
+        });
+
+        it('should return undefined if no token was found including comments', function() {
+            var file = createJsFile('\t\tx += 1;\n\n');
+            var yToken = file.getFirstTokenOnLine(2, {includeComments: true});
+            assert.equal(yToken, undefined);
+        });
+    });
+
     describe('iterate', function() {
         it('should iterate all nodes in the document', function() {
             var file = createJsFile('x++;');
