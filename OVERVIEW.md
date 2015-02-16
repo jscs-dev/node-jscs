@@ -10,7 +10,6 @@
  * [MDCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/mdcs.json) — [https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style™](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2)
  * [Wikimedia](https://github.com/jscs-dev/node-jscs/blob/master/presets/wikimedia.json) — https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
- * [JSCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/jscs.json)
 
 ## Friendly packages
 
@@ -75,7 +74,7 @@ jscs path[ path[...]] --preset=jquery
 ```
 
 ### `--reporter`
-`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `junit` and `text`.
+`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
 ```
 jscs path[ path[...]] --reporter=console
 ```

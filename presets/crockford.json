@@ -62,5 +62,6 @@
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
     "disallowNewlineBeforeBlockStatements": true,
-    "disallowMultipleLineStrings": true
+    "disallowMultipleLineStrings": true,
+    "requireSpaceBeforeObjectValues": true
 }

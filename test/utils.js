@@ -147,7 +147,7 @@ describe('modules/utils', function() {
         });
 
         it('returns the relative path resolved against the base path', function() {
-            assert.ok(utils.normalizePath('../foo', base) === (path.dirname(base) + '/foo'));
+            assert.equal(utils.normalizePath('../foo', base), path.resolve(path.dirname(base), 'foo'));
         });
     });
 

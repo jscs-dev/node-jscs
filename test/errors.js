@@ -99,15 +99,27 @@ describe('modules/errors', function() {
             errors = checker.checkString('yay');
         });
 
-        it('should throw an error on invalid line', function() {
+        it('should throw an error on invalid line type', function() {
+            assert.throws(function() {
+                errors.add('msg', '0');
+            });
+        });
+
+        it('should throw an error on invalid line value', function() {
             assert.throws(function() {
                 errors.add('msg', 0);
             });
         });
 
-        it('should throw an error on invalid column', function() {
+        it('should throw an error on invalid column type', function() {
             assert.throws(function() {
                 errors.add('msg', 1, '2');
+            });
+        });
+
+        it('should throw an error on invalid column value', function() {
+            assert.throws(function() {
+                errors.add('msg', 1, -1);
             });
         });
 
@@ -130,6 +142,23 @@ describe('modules/errors', function() {
                 return false;
             });
             assert(errors.isEmpty());
+        });
+    });
+
+    describe('stripErrorList', function() {
+        it('should stip error list to specified length', function() {
+            var errors = checker.checkString('var x;');
+            errors.add('msg1', 1, 0);
+            errors.add('msg2', 1, 1);
+            errors.add('msg3', 1, 2);
+            errors.stripErrorList(2);
+            assert.equal(errors.getErrorCount(), 2);
+            assert.equal(errors.getErrorList()[0].message, 'msg1');
+            assert.equal(errors.getErrorList()[0].line, 1);
+            assert.equal(errors.getErrorList()[0].column, 0);
+            assert.equal(errors.getErrorList()[1].message, 'msg2');
+            assert.equal(errors.getErrorList()[1].line, 1);
+            assert.equal(errors.getErrorList()[1].column, 1);
         });
     });
 });

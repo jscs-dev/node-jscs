@@ -157,7 +157,8 @@ describe('rules/validate-indentation', function() {
 
         var cases = {
             'no indentation': 'a++;',
-            indentation: '    a++;'
+            indentation: '    a++;',
+            'empty body': ''
         };
 
         Object.keys(cases).forEach(function(title) {
