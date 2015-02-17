@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('rules/dissalow-space-before-keywords', function() {
+describe('rules/disallow-space-before-keywords', function() {
     var checker;
 
     beforeEach(function() {
