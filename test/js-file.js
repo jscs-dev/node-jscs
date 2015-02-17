@@ -755,74 +755,6 @@ describe('modules/js-file', function() {
         });
     });
 
-    describe('getCommentAfterToken', function() {
-        it('should return comment after specified token', function() {
-            var file = createJsFile('/* a */{  y++  ;  /* x */ x++; // y\n }/* last */');
-
-            var token = file.getTokenByRangeStart(15);
-            var comment = file.getCommentAfterToken(token);
-            assert.equal(comment.value, ' x ');
-
-            token = file.getTokenByRangeStart(29);
-            comment = file.getCommentAfterToken(token);
-            assert.equal(comment.value, ' y');
-
-            token = file.getTokenByRangeStart(37);
-            comment = file.getCommentAfterToken(token);
-            assert.equal(comment.value, ' last ');
-        });
-
-        it('should return undefined if there is no comment after token', function() {
-            var file = createJsFile('/*x*/true');
-
-            var token = file.getTokenByRangeStart(5);
-            var comment = file.getCommentAfterToken(token);
-            assert(comment === undefined);
-        });
-
-        it('should return undefined after EOF', function() {
-            var file = createJsFile('x');
-
-            var token = file.getTokenByRangeStart(1);
-            var comment = file.getCommentAfterToken(token);
-            assert(comment === undefined);
-        });
-    });
-
-    describe('getCommentBeforeToken', function() {
-        it('should return comment before specified token', function() {
-            var file = createJsFile('/* a */{  y++  ;  /* x */ x++; // y\n }/* last */');
-
-            var token = file.getTokenByRangeStart(7);
-            var comment = file.getCommentBeforeToken(token);
-            assert.equal(comment.value, ' a ');
-
-            token = file.getTokenByRangeStart(26);
-            comment = file.getCommentBeforeToken(token);
-            assert.equal(comment.value, ' x ');
-
-            token = file.getTokenByRangeStart(37);
-            comment = file.getCommentBeforeToken(token);
-            assert.equal(comment.value, ' y');
-        });
-
-        it('should return single comment before last token', function() {
-            var file = createJsFile('{\n//\n}');
-
-            var tokens = file.getTokens();
-            var comment = file.getCommentBeforeToken(tokens[tokens.length - 1]);
-            assert.equal(comment.value, '');
-        });
-
-        it('should return undefined if there is no comment before token', function() {
-            var file = createJsFile('true');
-
-            var token = file.getTokenByRangeStart(0);
-            var comment = file.getCommentBeforeToken(token);
-            assert(comment === undefined);
-        });
-    });
-
     describe('getTree', function() {
         it('should return specified esprima-tree', function() {
             var sources = 'var x;';
@@ -1104,13 +1036,6 @@ describe('modules/js-file', function() {
             assert.equal(spy.getCall(0).args[0].value, '1');
             assert.equal(spy.getCall(1).args[0].type, 'Numeric');
             assert.equal(spy.getCall(1).args[0].value, '2');
-        });
-    });
-
-    describe('getTokenPosByRangeStart', function() {
-        it('should return correct token pos', function() {
-            var file = createJsFile('x = 1;');
-            assert.equal(file.getTokenPosByRangeStart(2), 1);
         });
     });
 
