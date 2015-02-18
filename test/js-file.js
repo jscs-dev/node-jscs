@@ -970,6 +970,28 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getLineBreaks', function() {
+        it('should return \\n', function() {
+            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            assert.deepEqual(file.getLineBreaks(), ['\n']);
+        });
+
+        it('should return empty array for single line file', function() {
+            var file = new JsFile('example.js', 'Hello', null);
+            assert.deepEqual(file.getLineBreaks(), []);
+        });
+
+        it('should return \\r', function() {
+            var file = new JsFile('example.js', 'Hello\rWorld', null);
+            assert.deepEqual(file.getLineBreaks(), ['\r']);
+        });
+
+        it('should return \\r\\n', function() {
+            var file = new JsFile('example.js', 'Hello\r\nWorld', null);
+            assert.deepEqual(file.getLineBreaks(), ['\r\n']);
+        });
+    });
+
     describe('getNextToken', function() {
         it('should return next token', function() {
             var file = createJsFile('x++');
