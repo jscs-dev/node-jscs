@@ -927,20 +927,6 @@ describe('modules/js-file', function() {
             assert.equal(lines[2], 'b++;');
         });
 
-        it('should add an error when on multi-line block comments with trailing tokens', function() {
-            var source = 'a++;/*comment\nmore comment\nmore comment*/b++;';
-            var file = createJsFile(source);
-            var errors = { add: sinon.spy() };
-
-            file.getLinesWithCommentsRemoved(errors);
-            assert(errors.add.called);
-            assert(errors.add.calledWith(
-                'Multiline comments should not have tokens on its ending line',
-                3,
-                14
-            ));
-        });
-
         it('should preserve comment order', function() {
             var source = '//comment1\n//comment2';
             var file = createJsFile(source);
@@ -989,6 +975,33 @@ describe('modules/js-file', function() {
         it('should return \\r\\n', function() {
             var file = new JsFile('example.js', 'Hello\r\nWorld', null);
             assert.deepEqual(file.getLineBreaks(), ['\r\n']);
+        });
+    });
+
+    describe('getLineBreakStyle', function() {
+        it('should return \\n', function() {
+            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            assert.equal(file.getLineBreakStyle(), '\n');
+        });
+
+        it('should return \\r', function() {
+            var file = new JsFile('example.js', 'Hello\rWorld', null);
+            assert.equal(file.getLineBreakStyle(), '\r');
+        });
+
+        it('should return \\r\\n', function() {
+            var file = new JsFile('example.js', 'Hello\r\nWorld', null);
+            assert.equal(file.getLineBreakStyle(), '\r\n');
+        });
+
+        it('should return \\n for single line file', function() {
+            var file = new JsFile('example.js', 'Hello', null);
+            assert.equal(file.getLineBreakStyle(), '\n');
+        });
+
+        it('should return first line break for mixed file', function() {
+            var file = new JsFile('example.js', 'Hello\nWorld\r\n!', null);
+            assert.equal(file.getLineBreakStyle(), file.getLineBreaks()[0]);
         });
     });
 

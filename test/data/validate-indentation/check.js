@@ -3,7 +3,7 @@ if (a) {
   var d = e
     * f;
     var e = f; // <-
-// NO ERROR: DON'T VALIDATE EMPTY OR COMMENT ONLY LINES
+// MISALIGNED COMMENT
   function g() {
     if (h) {
       var i = j;
@@ -589,3 +589,98 @@ if ( i < some )
 }
 else
   other();
+
+if (a) {
+  b++;
+}
+  else if (d) {
+  c++;
+}
+  else
+{
+  e++;
+}
+
+try {
+  a++;
+}
+  catch(b)
+{
+  c++;
+}
+  finally
+{
+  d++;
+}
+
+var obj = {
+  // correct
+  prop: prop,
+    // wrong
+};
+
+function comments() {
+// error, because comment is above a checked line
+  a++;
+    // error, because comment is above a checked line (the comment below it)
+// error, because comment is above a checked line
+};
+
+function blockComments() {
+/**
+ *  error, because comment is above a checked line
+ */
+  a++;
+    /**
+     * error, because comment is above a checked line
+     */
+}
+
+if (c) {
+  a++;
+// no error because next line has a push and a pop
+} else if (d) {
+
+// error because next line has push but no pop
+  if (e) {
+    f++;
+  }
+}
+
+switch (a) {
+  case 'a':
+    b++;
+    /* falls through */
+  case 'c':
+    d++;
+}
+
+try { a++; }
+  catch(b) { c++; }
+  finally { d++; }
+
+function blockComments() {
+/**
+ *  error, because comment is first token before a checked line
+ */
+
+  a++;
+}
+
+try {
+  a++;
+}
+  finally
+{
+  d++;
+}
+
+var a = { a:b,
+          c:d,
+          e:f };
+
+var g = {
+a:b,
+  c:d,
+    e:f
+  };

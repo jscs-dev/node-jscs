@@ -1,10 +1,13 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 var fs = require('fs');
-var fixture = fs.readFileSync(__dirname + '/../data/validate-indentation.js', 'utf8');
 
 describe('rules/validate-indentation', function() {
     var checker;
+
+    function readData(filename) {
+        return fs.readFileSync(__dirname + '/../data/' + filename, 'utf8');
+    }
 
     beforeEach(function() {
         checker = new Checker();
@@ -53,9 +56,11 @@ describe('rules/validate-indentation', function() {
     });
 
     it('should validate 2 spaces indentation properly', function() {
+        var fixture = readData('validate-indentation/check.js');
         checker.configure({ validateIndentation: 2 });
         checkErrors(fixture, [
             5,
+            6,
             10,
             11,
             15,
@@ -121,7 +126,25 @@ describe('rules/validate-indentation', function() {
             534,
             541,
             569,
-            575
+            575,
+            596,
+            599,
+            607,
+            611,
+            619,
+            623,
+            625,
+            626,
+            630,
+            634,
+            644,
+            659,
+            660,
+            663,
+            673,
+            683,
+            685,
+            686
         ]);
     });
 
@@ -209,6 +232,22 @@ describe('rules/validate-indentation', function() {
             'a++;\n' +
             '});';
             assert(!checker.checkString(source).isEmpty());
+        });
+    });
+
+    describe('fixing', function() {
+        it('should fix files with 2 spaces', function() {
+            checker.configure({ validateIndentation: 2 });
+            var fixtureInput = readData('validate-indentation/fix-input.js');
+            var fixtureExpected = readData('validate-indentation/fix-expected.js');
+            assert.equal(checker.fixString(fixtureInput).output, fixtureExpected);
+        });
+
+        it('should fix files with 2 spaces and includeEmptyLines', function() {
+            checker.configure({ validateIndentation: { value: 2, includeEmptyLines: true } });
+            var fixtureInput = readData('validate-indentation/fix-include-empty-input.js');
+            var fixtureExpected = readData('validate-indentation/fix-include-empty-expected.js');
+            assert.equal(checker.fixString(fixtureInput).output, fixtureExpected);
         });
     });
 

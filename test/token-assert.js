@@ -577,7 +577,7 @@ describe('modules/token-assert', function() {
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
-                var file = createJsFile('x\n=y;');
+                var file = createJsFile('  x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -589,11 +589,11 @@ describe('modules/token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
-                var file = createJsFile('x\n\n\n=y;');
+                var file = createJsFile('  x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -605,11 +605,11 @@ describe('modules/token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
-                var file = createJsFile('x\n\n=y;');
+                var file = createJsFile('  x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -621,7 +621,7 @@ describe('modules/token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
 
             it('should error, but not fix, when a comment exists between the two tokens', function() {
@@ -701,7 +701,7 @@ describe('modules/token-assert', function() {
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
-                var file = createJsFile('x\n=y;');
+                var file = createJsFile('x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -713,11 +713,43 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+            });
+
+            it('should edit the whitespaceBefore with too few lines (spaced then non spaced) between', function() {
+                var file = createJsFile('x  \n\n  =y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 4
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '  \n\n\n\n  ');
+            });
+
+            it('should edit the whitespaceBefore with too few lines (non spaced then spaced) between ', function() {
+                var file = createJsFile('x\n  \n  =y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 4
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n  \n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with too many lines between', function() {
-                var file = createJsFile('x\n\n\n=y;');
+                var file = createJsFile('x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -729,11 +761,11 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
-                var file = createJsFile('x\n\n=y;');
+                var file = createJsFile('x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -745,7 +777,7 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
         });
 
@@ -804,7 +836,7 @@ describe('modules/token-assert', function() {
             });
 
             it('should not edit the whitespaceBefore with too few lines between', function() {
-                var file = createJsFile('x\n=y;');
+                var file = createJsFile('x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -816,11 +848,11 @@ describe('modules/token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
-                var file = createJsFile('x\n\n\n=y;');
+                var file = createJsFile('x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -832,11 +864,11 @@ describe('modules/token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
-                var file = createJsFile('x\n\n=y;');
+                var file = createJsFile('x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
@@ -848,7 +880,7 @@ describe('modules/token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
             });
         });
 
@@ -1114,6 +1146,185 @@ describe('modules/token-assert', function() {
                 message: 'Custom message'
             });
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+        });
+    });
+
+    describe('indentation', function() {
+        it('should not trigger on correct indentation', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 0,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert(onError.notCalled);
+        });
+
+        it('should trigger on incorrect indentation', function() {
+            var file = createJsFile('  x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert(onError.called);
+        });
+
+        it('with silent option, should not trigger on incorrect indentation', function() {
+            var file = createJsFile('  x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' ',
+                silent: true
+            });
+
+            assert(onError.notCalled);
+        });
+
+        it('should fix whitespace on incorrect indentation', function() {
+            var file = createJsFile('  x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert.equal(file.getTokens()[0].whitespaceBefore, '');
+        });
+
+        it('should fix whitespace on incorrect indentation', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 0,
+                expected: 2,
+                indentChar: ' '
+            });
+
+            assert.equal(file.getTokens()[0].whitespaceBefore, '  ');
+        });
+
+        it('should fix empty line whitespace on incorrect indentation', function() {
+            var file = createJsFile('  \n  \nx=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert.equal(file.getTokens()[0].whitespaceBefore, '\n\n');
+        });
+
+        it('should fix docblock on incorrect overindentation', function() {
+            var file = createJsFile('  /*\n   *\n   */\nx=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            var token = file.getFirstTokenOnLine(1, {includeComments: true});
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert.equal(token.whitespaceBefore, '');
+            assert.equal(token.value, '\n *\n ');
+        });
+
+        it('should fix docblock on incorrect underindentation', function() {
+            var file = createJsFile('  /*\n   *\n   */\nx=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            var token = file.getFirstTokenOnLine(1, {includeComments: true});
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 4,
+                indentChar: ' '
+            });
+
+            assert.equal(token.whitespaceBefore, '    ');
+            assert.equal(token.value, '\n     *\n     ');
+        });
+
+        it('should fix whitespace after docblock on incorrect indentation', function() {
+            var file = createJsFile('/**/\n  \nx=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            var token = file.getFirstTokenOnLine(3);
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 2,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert.equal(token.whitespaceBefore, '\n\n');
+        });
+
+        it('should not lose lines with mixed line endings', function() {
+            var file = createJsFile('  \r\n  \r\n  \nx=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            var token = file.getFirstTokenOnLine(4);
+            tokenAssert.on('error', onError);
+
+            tokenAssert.indentation({
+                lineNumber: 1,
+                actual: 2,
+                expected: 0,
+                indentChar: ' '
+            });
+
+            assert.equal(token.whitespaceBefore, '\r\n\r\n\r\n');
         });
     });
 });
