@@ -97,4 +97,14 @@ describe('rules/disallow-space-before-binary-operators', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
         assert(checker.checkString('var x = [1, 2]\n  , y = 32').isEmpty());
     });
+
+    it('should not report error if a comment is ahead of the comma', function() {
+        checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
+        assert(checker.checkString('var x = [1, 2] /* test*/, y = 32').isEmpty());
+    });
+
+    it('should report error if a space is between comment and the comma', function() {
+        checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
+        assert(checker.checkString('var x = [1, 2] /* test*/ , y = 32').getErrorCount() === 1);
+    });
 });
