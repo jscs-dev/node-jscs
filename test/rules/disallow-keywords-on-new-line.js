@@ -76,7 +76,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
             assert.equal(result.output,
                 'try {\n' +
                     'x++;\n' +
-                '}catch(e) {\n' +
+                '} catch(e) {\n' +
                     'x--;\n' +
                 '}'
                 );
