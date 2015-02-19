@@ -147,20 +147,6 @@ describe('modules/string-checker', function() {
     });
 
     describe('fixString', function() {
-        it('should apply fixes to the specified string', function() {
-            checker.configure({ requireSpaceBeforeBinaryOperators: true });
-            var result = checker.fixString('x=1+2;');
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, 'x =1 +2;');
-        });
-
-        it('should apply multiple fixes to the specified string', function() {
-            checker.configure({ requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true });
-            var result = checker.fixString('x=1+2;');
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, 'x = 1 + 2;');
-        });
-
         it('should return unfixable errors', function() {
             checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
             var result = checker.fixString('x = !!x;');
@@ -180,6 +166,22 @@ describe('modules/string-checker', function() {
             checker.configure({});
             var result = checker.fixString('x = 1;', '1.js');
             assert.equal(result.errors.getFilename(), '1.js');
+        });
+
+        describe('space rules', function() {
+            it('should apply fixes to the specified string', function() {
+                checker.configure({ requireSpaceBeforeBinaryOperators: true });
+                var result = checker.fixString('x=1+2;');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'x =1 +2;');
+            });
+
+            it('should apply multiple fixes to the specified string', function() {
+                checker.configure({ requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true });
+                var result = checker.fixString('x=1+2;');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'x = 1 + 2;');
+            });
         });
     });
 

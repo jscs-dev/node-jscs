@@ -59,4 +59,41 @@ describe('rules/disallow-keywords-on-new-line', function() {
             ).isEmpty()
         );
     });
+
+    describe('fix', function() {
+        it ('should fix try catch', function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['catch'] });
+            var result = checker.fixString(
+                'try {\n' +
+                    'x++;\n' +
+                '}\n' +
+                'catch(e) {\n' +
+                    'x--;\n' +
+                '}'
+            );
+
+            assert(result.errors.isEmpty());
+            assert.equal(result.output,
+                'try {\n' +
+                    'x++;\n' +
+                '} catch(e) {\n' +
+                    'x--;\n' +
+                '}'
+                );
+        });
+
+        it('should not fix special case for "else" statement without braces (#905)', function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['else'] });
+            var result = checker.fixString(
+                'if (block) block[v]["(type)"] = "var";\n' +
+                'else funct[v] = "var";'
+            );
+
+            assert(result.errors.isEmpty());
+            assert.equal(result.output,
+                'if (block) block[v]["(type)"] = "var";\n' +
+                'else funct[v] = "var";'
+            );
+        });
+    });
 });
