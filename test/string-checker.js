@@ -147,39 +147,41 @@ describe('modules/string-checker', function() {
     });
 
     describe('fixString', function() {
-        it('should apply fixes to the specified string', function() {
-            checker.configure({ requireSpaceBeforeBinaryOperators: true });
-            var result = checker.fixString('x=1+2;');
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, 'x =1 +2;');
-        });
+        describe('space rules', function() {
+            it('should apply fixes to the specified string', function() {
+                checker.configure({ requireSpaceBeforeBinaryOperators: true });
+                var result = checker.fixString('x=1+2;');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'x =1 +2;');
+            });
 
-        it('should apply multiple fixes to the specified string', function() {
-            checker.configure({ requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true });
-            var result = checker.fixString('x=1+2;');
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, 'x = 1 + 2;');
-        });
+            it('should apply multiple fixes to the specified string', function() {
+                checker.configure({ requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true });
+                var result = checker.fixString('x=1+2;');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'x = 1 + 2;');
+            });
 
-        it('should return unfixable errors', function() {
-            checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
-            var result = checker.fixString('x = !!x;');
-            assert.equal(result.errors.getErrorCount(), 1);
-            assert.equal(result.errors.getErrorList()[0].message, 'Implicit boolean conversion');
-        });
+            it('should return unfixable errors', function() {
+                checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
+                var result = checker.fixString('x = !!x;');
+                assert.equal(result.errors.getErrorCount(), 1);
+                assert.equal(result.errors.getErrorList()[0].message, 'Implicit boolean conversion');
+            });
 
-        it('should process parse error', function() {
-            checker.configure({});
-            var result = checker.fixString('x =');
-            assert.equal(result.errors.getErrorCount(), 1);
-            assert.equal(result.errors.getErrorList()[0].message, 'Unexpected end of input');
-            assert.equal(result.output, 'x =');
-        });
+            it('should process parse error', function() {
+                checker.configure({});
+                var result = checker.fixString('x =');
+                assert.equal(result.errors.getErrorCount(), 1);
+                assert.equal(result.errors.getErrorList()[0].message, 'Unexpected end of input');
+                assert.equal(result.output, 'x =');
+            });
 
-        it('should accept file name', function() {
-            checker.configure({});
-            var result = checker.fixString('x = 1;', '1.js');
-            assert.equal(result.errors.getFilename(), '1.js');
+            it('should accept file name', function() {
+                checker.configure({});
+                var result = checker.fixString('x = 1;', '1.js');
+                assert.equal(result.errors.getFilename(), '1.js');
+            });
         });
     });
 

@@ -55,5 +55,19 @@ describe('rules/disallow-newline-before-block-statements', function() {
         it('should not throw error if opening parentheses is first symbol in the file', function() {
             assert(checker.checkString('{ test: 1 }').isEmpty());
         });
+
+        describe('fix', function() {
+            it ('should fix disallowed newline before opening brace', function() {
+                var result = checker.fixString('function test()\n{abc();}');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'function test(){abc();}');
+            });
+
+            it('should fix all three statements', function() {
+                var result = checker.fixString('function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}');
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, 'function test(){\nif(true){\nreturn 1;\n}\nfor(var i in [1,2,3]){\n}\n}');
+            });
+        });
     });
 });
