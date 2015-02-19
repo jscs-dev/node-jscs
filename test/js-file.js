@@ -738,6 +738,18 @@ describe('modules/js-file', function() {
             assert(!spy.called);
         });
 
+        it('should apply callback for line comments', function() {
+            var spy = sinon.spy();
+            createJsFile('//foo').iterateTokensByType('Line', spy);
+            assert(spy.calledOnce);
+        });
+
+        it('should apply callback for block comments', function() {
+            var spy = sinon.spy();
+            createJsFile('/*foo*/').iterateTokensByType('Block', spy);
+            assert(spy.calledOnce);
+        });
+
         it('should accept array as an argument', function() {
             var spy = sinon.spy();
             createJsFile('x += 1;').iterateTokensByType(['Identifier', 'Numeric'], spy);
