@@ -27,10 +27,18 @@ describe('modules/js-file', function() {
 
     describe('constructor', function() {
 
-        it('should accept empty token tree', function() {
+        it('empty file should have one token EOF', function() {
+            var file = new JsFile('example.js', '', null);
+            assert(Array.isArray(file.getTokens()));
+            assert.equal(file.getTokens().length, 1);
+            assert.equal(file.getTokens()[0].type, 'EOF');
+        });
+
+        it('empty token tree should have one token EOF', function() {
             var file = new JsFile('example.js', 'Hello\nWorld', null);
             assert(Array.isArray(file.getTokens()));
-            assert.equal(file.getTokens().length, 0);
+            assert.equal(file.getTokens().length, 1);
+            assert.equal(file.getTokens()[0].type, 'EOF');
         });
 
         // Testing esprima token fix
@@ -356,10 +364,14 @@ describe('modules/js-file', function() {
 
         it('should find the first previous token when only the type is specified', function() {
             var lastToken = tokens[tokens.length - 1];
-            assert.equal(lastToken.type, 'Punctuator');
-            assert.equal(lastToken.value, '}');
+            assert.equal(lastToken.type, 'EOF');
 
-            var previousToken = file.findPrevToken(lastToken, 'Identifier');
+            var previousToken = file.findPrevToken(lastToken, 'Punctuator');
+            var firstPunctuator = previousToken;
+            assert.equal(previousToken.type, 'Punctuator');
+            assert.equal(previousToken.value, '}');
+
+            previousToken = file.findPrevToken(lastToken, 'Identifier');
             assert.equal(previousToken.type, 'Identifier');
             assert.equal(previousToken.value, 'a');
 
@@ -367,13 +379,13 @@ describe('modules/js-file', function() {
             assert.equal(previousToken.type, 'Keyword');
             assert.equal(previousToken.value, 'break');
 
-            previousToken = file.findPrevToken(lastToken, 'Punctuator');
+            previousToken = file.findPrevToken(firstPunctuator, 'Punctuator');
             assert.equal(previousToken.type, 'Punctuator');
             assert.equal(previousToken.value, ';');
         });
 
         it('should find the first previous token when both type and value are specified', function() {
-            var lastToken = tokens[tokens.length - 1];
+            var lastToken = tokens[tokens.length - 2];
             assert.equal(lastToken.type, 'Punctuator');
             assert.equal(lastToken.value, '}');
 
@@ -391,7 +403,7 @@ describe('modules/js-file', function() {
         });
 
         it('should find the correct previous token when both type and value are specified', function() {
-            var lastToken = tokens[tokens.length - 1];
+            var lastToken = tokens[tokens.length - 2];
             assert.equal(lastToken.type, 'Punctuator');
             assert.equal(lastToken.value, '}');
 
@@ -413,7 +425,7 @@ describe('modules/js-file', function() {
         });
 
         it('should not find any token if it does not exist', function() {
-            var lastToken = tokens[tokens.length - 1];
+            var lastToken = tokens[tokens.length - 2];
             assert.equal(lastToken.type, 'Punctuator');
             assert.equal(lastToken.value, '}');
 
@@ -738,6 +750,18 @@ describe('modules/js-file', function() {
             assert(!spy.called);
         });
 
+        it('should apply callback for line comments', function() {
+            var spy = sinon.spy();
+            createJsFile('//foo').iterateTokensByType('Line', spy);
+            assert(spy.calledOnce);
+        });
+
+        it('should apply callback for block comments', function() {
+            var spy = sinon.spy();
+            createJsFile('/*foo*/').iterateTokensByType('Block', spy);
+            assert(spy.calledOnce);
+        });
+
         it('should accept array as an argument', function() {
             var spy = sinon.spy();
             createJsFile('x += 1;').iterateTokensByType(['Identifier', 'Numeric'], spy);
@@ -775,6 +799,24 @@ describe('modules/js-file', function() {
             var sources = 'var x = 1;\nvar y = 2;';
             var file = createJsFile(sources);
             assert.equal(file.getSource(), sources);
+        });
+    });
+
+    describe('getTokens', function() {
+        it('should return EOF for empty string', function() {
+            var tokens = createJsFile('').getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].type, 'EOF');
+        });
+
+        it('should end with EOF', function() {
+            var tokens = createJsFile('if(true) {\nvar a = 2;\n}').getTokens();
+            assert.equal(tokens[tokens.length - 1].type, 'EOF');
+        });
+
+        it('should include comments', function() {
+            var tokens = createJsFile('/* foo */').getTokens();
+            assert.equal(tokens[0].type, 'Block');
         });
     });
 
@@ -989,14 +1031,14 @@ describe('modules/js-file', function() {
 
         it('should ignore comments', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTokens()[0];
+            var xToken = file.getTokens()[1];
             var nextToken = file.getPrevToken(xToken, {includeComments: false});
             assert.equal(nextToken, undefined);
         });
 
         it('should return previous comment', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTokens()[0];
+            var xToken = file.getTokens()[1];
             var nextToken = file.getPrevToken(xToken, {includeComments: true});
             assert.equal(nextToken.type, 'Block');
         });
