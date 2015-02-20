@@ -1031,7 +1031,7 @@ describe('modules/js-file', function() {
 
         it('should ignore comments', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTokens()[0];
+            var xToken = file.getTokens()[1];
             var nextToken = file.getPrevToken(xToken, {includeComments: false});
             assert.equal(nextToken, undefined);
         });
