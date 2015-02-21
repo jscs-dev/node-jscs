@@ -565,6 +565,25 @@ describe('modules/js-file', function() {
         });
     });
 
+    describe('getFirstToken', function() {
+        it('should return token for specified file', function() {
+            var file = createJsFile('if (true) { while (true) x++; }');
+
+            var ifToken = file.getFirstToken();
+            assert.equal(ifToken.type, 'Keyword');
+            assert.equal(ifToken.value, 'if');
+        });
+    });
+
+    describe('getLastToken', function() {
+        it('should return token for specified file', function() {
+            var file = createJsFile('if (true) { while (true) x++; }');
+
+            var EOFToken = file.getLastToken();
+            assert.equal(EOFToken.type, 'EOF');
+        });
+    });
+
     describe('getNodesByType', function() {
         it('should return nodes using specified type', function() {
             var nodes = createJsFile('x++;y++;').getNodesByType('Identifier');
