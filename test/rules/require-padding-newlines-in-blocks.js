@@ -90,4 +90,14 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             assert(checker.checkString('var a = function() {abc();};').isEmpty());
         });
     });
+
+    describe('option value 1', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: true });
+        });
+
+        it('should report missing padding newline after opening brace', function() {
+            assert(checker.fixString('if (true) {abc();abc();\n\n}').errors.isEmpty());
+        });
+    });
 });
