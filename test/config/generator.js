@@ -135,4 +135,20 @@ describe('lib/config/generator', function() {
             done();
         });
     });
+
+    it('supports es6 checking if given an esnext option', function(done) {
+        generator = new ConfigGenerator({
+            esnext: true
+        });
+
+        var stub = sinon.stub(Checker.prototype, 'configure');
+        var checkStub = sinon.stub(generator, '_getUserPresetChoice').throws();
+
+        generator.generate(_path).then(null, function() {
+            assert.ok(stub.getCall(0).args[0].esnext);
+            stub.restore();
+            checkStub.restore();
+            done();
+        });
+    });
 });
