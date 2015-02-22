@@ -30,6 +30,10 @@ describe('rules/disallow-padding-newlines-after-blocks', function() {
         assert(checker.checkString('if(true){}').isEmpty());
     });
 
+    it('should not report end of file with extra line', function() {
+        assert(checker.checkString('if(true){}\n').isEmpty());
+    });
+
     it('should not report missing padding after block', function() {
         assert(checker.checkString('if(true){}\nvar a = 2;').isEmpty());
     });
