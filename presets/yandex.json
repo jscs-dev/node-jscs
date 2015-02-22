@@ -38,6 +38,7 @@
     "disallowEmptyBlocks": true,
 
     "requireParenthesesAroundIIFE": true,
+    "requireSpaceBetweenArguments": true,
     "requireSpacesInFunctionDeclaration": {
         "beforeOpeningCurlyBrace": true
     },
@@ -84,11 +85,6 @@
     "disallowSpaceAfterObjectKeys": true,
     "disallowSpacesInsideObjectBrackets": true,
     "disallowQuotedKeysInObjects": true,
-
-    "validateJSDoc": {
-        "checkParamNames": true,
-        "requireParamTypes": true
-    },
 
     "maximumLineLength": {
         "value": 120,

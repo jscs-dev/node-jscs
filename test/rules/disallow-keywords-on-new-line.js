@@ -3,9 +3,24 @@ var assert = require('assert');
 
 describe('rules/disallow-keywords-on-new-line', function() {
     var checker;
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+    });
+
+    it('should report illegal keyword placement for catch', function() {
+        checker.configure({ disallowKeywordsOnNewLine: ['catch'] });
+        assert(
+            checker.checkString(
+                'try {\n' +
+                    'x++;\n' +
+                '}\n' +
+                'catch(e) {\n' +
+                    'x--;\n' +
+                '}'
+            ).getErrorCount() === 1
+        );
     });
 
     it('should report illegal keyword placement', function() {

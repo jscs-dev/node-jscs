@@ -24,4 +24,14 @@ describe('rules/disallow-trailing-comma', function() {
         assert(checker.checkString('var x = [1, 2,\n]').getErrorCount() === 1);
     });
 
+    it('should report right location for trailing comma in object (#1018)', function() {
+        var errs = checker.checkString('var obj = {\n    foo: "foo",\n};').getErrorList();
+        assert.equal(errs[0].line + ':' + errs[0].column, '2:15');
+    });
+
+    it('should report right location for trailing comma in array (#1018)', function() {
+        var errs = checker.checkString('var arr = [\n    \'foo\',\n];').getErrorList();
+        assert.equal(errs[0].line + ':' + errs[0].column, '2:10');
+    });
+
 });

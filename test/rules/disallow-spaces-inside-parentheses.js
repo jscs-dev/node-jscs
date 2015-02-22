@@ -9,6 +9,26 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw when given an number', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideParentheses: 2 });
+            });
+        });
+
+        it('should throw when only is not specified in an object', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideParentheses: {} });
+            });
+        });
+
+        it('should throw when all is specified but not true', function() {
+            assert.throws(function() {
+                checker.configure({ disallowSpacesInsideParentheses: { all: ['invalid'] } });
+            });
+        });
+    });
+
     describe('true', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInsideParentheses: true });
@@ -50,6 +70,18 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         });
     });
 
+    describe('"all" option', function() {
+        beforeEach(function() {
+            checker.configure({ disallowSpacesInsideParentheses: { all: true } });
+        });
+
+        it('should report illegal space after opening round bracket', function() {
+            assert(checker.checkString('( 1 + 2) * 3').getErrorCount() === 1);
+            assert(checker.checkString('if ( 1 + 2)\n    3').getErrorCount() === 1);
+            assert(checker.checkString('function my( a, b) {  }').getErrorCount() === 1);
+        });
+    });
+
     describe('es6', function() {
         beforeEach(function() {
             checker.configure({
@@ -60,6 +92,10 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
 
         it('should not report with no spaces around a regex', function() {
             assert(checker.checkString('expect(a).toMatch(/home/);').isEmpty());
+        });
+
+        it('should not report with no spaces in an export default statement', function() {
+            assert(checker.checkString('export default function() {}').isEmpty());
         });
     });
 

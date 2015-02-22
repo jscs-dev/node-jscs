@@ -11,10 +11,7 @@ describe('rules/require-space-after-keywords', function() {
 
     it('should report missing space after keyword', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        var errors = checker.checkString('if(x) { x++; }');
-        var error = errors.getErrorList()[0];
-
-        assert(errors.explainError(error).indexOf('Missing space after "if" keyword') === 0);
+        assert(checker.checkString('if(x) { x++; }').getErrorCount() === 1);
     });
 
     it('should not report space after keyword', function() {
@@ -57,13 +54,9 @@ describe('rules/require-space-after-keywords', function() {
         assert(checker.checkString('function foo() {\r\n\treturn\r\n}').getErrorCount() === 0);
     });
 
-    it('should show different error if there is more than one space (#396)', function() {
+    it('should trigger error if there is more than one space (#396)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-
-        var errors = checker.checkString('if  (x) {}');
-        var error = errors.getErrorList()[0];
-
-        assert(errors.explainError(error).indexOf('Should be one space instead of 2, after "if"') === 0);
+        assert(checker.checkString('if  (x) {}').getErrorCount() === 1);
     });
 
     it('should not trigger error for comments (#397)', function() {
@@ -73,11 +66,7 @@ describe('rules/require-space-after-keywords', function() {
 
     it('should trigger different error for comments with more than one space', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-
-        var errors = checker.checkString('if  /**/(x) {}');
-        var error = errors.getErrorList()[0];
-
-        assert(errors.explainError(error).indexOf('Should be one space instead of 2, after "if"') === 0);
+        assert(checker.checkString('if  /**/(x) {}').getErrorCount() === 1);
     });
 
     it('should report on all spaced keywords if a value of true is supplied', function() {

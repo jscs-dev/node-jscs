@@ -33,6 +33,29 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
 
+        it('should not report shorthand properties', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString(
+                    'var x = {\n' +
+                        'bcd : 2,\n' +
+                        'a,\n' +
+                        'efg : 2\n' +
+                    '};'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report es6-methods. #1013', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('var x = { a() { } };').isEmpty());
+        });
+
+        it('should not report es5 getters/setters #1037', function() {
+            assert(checker.checkString('var x = { get a() { } };').isEmpty());
+            assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
+        });
+
         it('should report invalid alignment', function() {
             assert(
                 checker.checkString(

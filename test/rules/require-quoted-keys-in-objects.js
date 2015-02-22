@@ -3,6 +3,7 @@ var assert = require('assert');
 
 describe('rules/require-quoted-keys-in-objects', function() {
     var checker;
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
@@ -60,5 +61,20 @@ describe('rules/require-quoted-keys-in-objects', function() {
         assert(error.message === 'Object key without surrounding quotes');
         assert(error.line === 1);
         assert(error.column === 10);
+    });
+
+    it('should not report shorthand object properties', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a, b };').isEmpty());
+    });
+
+    it('should not report es6-methods. #1013', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a() { } };').isEmpty());
+    });
+
+    it('should not report es5 getters/setters #1037', function() {
+        assert(checker.checkString('var x = { get a() { } };').isEmpty());
+        assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
     });
 });

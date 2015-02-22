@@ -30,7 +30,8 @@ describe('rules/validate-parameter-separator', function() {
             ',x',
             'x,x',
             '  ,',
-            ',  '
+            ',  ',
+            true
         ];
 
         invalidSeparators.forEach(function(sep) {

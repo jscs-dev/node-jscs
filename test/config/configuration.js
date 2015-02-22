@@ -147,6 +147,41 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('getEsprimaOptions', function() {
+        function assertBadEsprimaOptions(esprimaOptions) {
+            assert.throws(function() {
+                configuration.load({esprimaOptions: esprimaOptions});
+            }, /^AssertionError: `esprimaOptions` should be an object$/);
+        }
+
+        it('should accept `esprimaOptions` rule', function() {
+            configuration.load({esprimaOptions: { foo: 'bar' }});
+            assert(configuration.getUnsupportedRuleNames().length === 0);
+        });
+
+        it('should return the supplied esprima options', function() {
+            configuration.load({esprimaOptions: { foo: 'bar' }});
+            assert.deepEqual(configuration.getEsprimaOptions(), {foo: 'bar'});
+        });
+
+        it('should reject null as the esprima options', function() {
+            assertBadEsprimaOptions(null);
+        });
+
+        it('should reject booleans as the esprima options', function() {
+            assertBadEsprimaOptions(true);
+            assertBadEsprimaOptions(false);
+        });
+
+        it('should reject a number as the esprima options', function() {
+            assertBadEsprimaOptions(42.7);
+        });
+
+        it('should reject a string as the esprima options', function() {
+            assertBadEsprimaOptions('snafu');
+        });
+    });
+
     describe('hasPreset', function() {
         it('should return true if preset presents in collection', function() {
             var preset = {maxErrors: 5};
@@ -383,7 +418,7 @@ describe('modules/config/configuration', function() {
             assert(spy.getCall(0).args[0] === configuration);
         });
 
-        it('should thow non-camelcase error for underscore-config', function() {
+        it('should throw non-camelcase error for underscore-config', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';
@@ -409,7 +444,7 @@ describe('modules/config/configuration', function() {
             }
         });
 
-        it('should thow non-camelcase error with converted sub-configs', function() {
+        it('should throw non-camelcase error with converted sub-configs', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';

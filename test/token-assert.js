@@ -66,7 +66,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should trigger error on invalid space count between tokens', function() {
@@ -105,7 +105,7 @@ describe('modules/token-assert', function() {
                 spaces: 2
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should not trigger error on valid space count between tokens', function() {
@@ -122,7 +122,7 @@ describe('modules/token-assert', function() {
                 spaces: 3
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should accept message for invalid space count between tokens', function() {
@@ -179,7 +179,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should trigger error on newline between tokens with disallowNewLine option', function() {
@@ -217,7 +217,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should accept message for existing space count between tokens', function() {
@@ -273,7 +273,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should accept message for unexpected newline between tokens', function() {
@@ -340,7 +340,39 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
+        });
+
+        it('should not trigger on additional newlines between tokens', function() {
+            var file = createJsFile('x\n\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.differentLine({
+                token: tokens[0],
+                nextToken: tokens[1]
+            });
+
+            assert(!onError.called);
+        });
+
+        it('should not trigger on additional newlines between tokens', function() {
+            var file = createJsFile('x\n\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.differentLine({
+                token: tokens[0],
+                nextToken: tokens[1]
+            });
+
+            assert(!onError.called);
         });
 
         it('should accept message for missing newline between tokens', function() {
@@ -372,7 +404,357 @@ describe('modules/token-assert', function() {
         });
     });
 
+    describe('linesBetween', function() {
+        describe('error messages', function() {
+            beforeEach(function() {
+                var file = createJsFile('x=y;');
+
+                this.tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                this.tokenAssert.on('error', onError);
+
+                this.tokens = file.getTokens();
+            });
+
+            it('should throw if no options are specified', function() {
+                assert.throws((function() {
+                    this.tokenAssert.linesBetween({
+                        token: this.tokens[0],
+                        nextToken: this.tokens[1],
+                    });
+                }).bind(this),
+                /You must specify at least one option/);
+            });
+
+            it('should throw if atLeast and exactly are specified', function() {
+                assert.throws((function() {
+                    this.tokenAssert.linesBetween({
+                        token: this.tokens[0],
+                        nextToken: this.tokens[1],
+                        atLeast: 2,
+                        exactly: 1
+                    });
+                }).bind(this),
+                /You cannot specify atLeast or atMost with exactly/);
+            });
+
+            it('should throw if atMost and exactly are specified', function() {
+                assert.throws((function() {
+                    this.tokenAssert.linesBetween({
+                        token: this.tokens[0],
+                        nextToken: this.tokens[1],
+                        atMost: 2,
+                        exactly: 1
+                    });
+                }).bind(this),
+                /You cannot specify atLeast or atMost with exactly/);
+            });
+
+            it('should throw if atLeast and atMost are in conflict', function() {
+                assert.throws((function() {
+                    this.tokenAssert.linesBetween({
+                        token: this.tokens[0],
+                        nextToken: this.tokens[1],
+                        atLeast: 3,
+                        atMost: 2
+                    });
+                }).bind(this),
+                /atLeast and atMost are in conflict/);
+            });
+        });
+
+        it('should not throw if token or nextToken properties are undefined', function() {
+            var file = createJsFile('x\n=y;');
+            var tokenAssert = new TokenAssert(file);
+
+            tokenAssert.linesBetween({
+                token: undefined,
+                nextToken: undefined,
+                exactly: 1
+            });
+        });
+
+        describe('exact', function() {
+            it('should trigger error on too few newlines', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should have exactly 2 line(s) between them');
+            });
+
+            it('should trigger error on too many specified newlines', function() {
+                var file = createJsFile('x\n\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should have exactly 2 line(s) between them');
+            });
+
+            it('should not trigger error on correct specified newlines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should not trigger error on exactly 0 blank lines', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 1
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should not trigger error on multiple specified newlines negative', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[1],
+                    nextToken: tokens[0],
+                    exactly: 2
+                });
+
+                assert(!onError.called);
+            });
+        });
+
+        describe('atLeast', function() {
+            it('should trigger on too few lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 3
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should have at least 3 line(s) between them');
+            });
+
+            it('should not trigger with exact lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should not trigger error on too many lines', function() {
+                var file = createJsFile('x\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2
+                });
+
+                assert(!onError.called);
+            });
+        });
+
+        describe('atMost', function() {
+            it('should not trigger on too few lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 2
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should not trigger with exact lines', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 2
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should trigger error on too many lines', function() {
+                var file = createJsFile('x\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 1
+                });
+
+                assert(onError.calledOnce);
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'x and = should have at most 1 line(s) between them');
+            });
+        });
+
+        describe('between', function() {
+            it('should not trigger if within range', function() {
+                var file = createJsFile('x\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 1,
+                    atMost: 3
+                });
+
+                assert(!onError.called);
+            });
+
+            it('should trigger if below range', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2,
+                    atMost: 3
+                });
+
+                assert(onError.calledOnce);
+            });
+
+            it('should trigger if above range', function() {
+                var file = createJsFile('x\n\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 1,
+                    atMost: 2
+                });
+
+                assert(onError.calledOnce);
+            });
+        });
+    });
+
     describe('tokenBefore', function() {
+        it('should trigger error on missing token itself before', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.tokenBefore({
+                token: tokens[0],
+                expectedTokenBefore: {value: 'something'}
+            });
+
+            assert(onError.calledOnce);
+
+            var error = onError.getCall(0).args[0];
+            assert.equal(error.message, 'something was expected before x but document start found');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 0);
+        });
+
         it('should trigger error on missing token value before', function() {
             var file = createJsFile('x=y;');
 
@@ -437,7 +819,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should accept message for missing token before', function() {
@@ -461,6 +843,22 @@ describe('modules/token-assert', function() {
     });
 
     describe('noTokenBefore', function() {
+        it('should not trigger error on document start before', function() {
+            var file = createJsFile('x=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.noTokenBefore({
+                token: tokens[0],
+                expectedTokenBefore: {value: 'something'}
+            });
+
+            assert(onError.notCalled);
+        });
+
         it('should trigger error on illegal token value before', function() {
             var file = createJsFile('x=y;');
 
@@ -501,7 +899,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should not trigger error on missing token type before', function() {
@@ -520,7 +918,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.calledOnce);
+            assert(!onError.called);
         });
 
         it('should accept message for illegal token before', function() {

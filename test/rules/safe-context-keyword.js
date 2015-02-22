@@ -11,6 +11,16 @@ describe('rules/safe-context-keyword', function() {
             checker.configure({ safeContextKeyword: 'that' });
         });
 
+        describe('not assigning this', function() {
+            it('should not report variable declarations', function() {
+                assert(checker.checkString('var a = b;').isEmpty());
+            });
+
+            it('should not report assignment expressions', function() {
+                assert(checker.checkString('a = b;').isEmpty());
+            });
+        });
+
         describe('var', function() {
             it('should not report "var that = this"', function() {
                 assert(checker.checkString('var that = this;').isEmpty());

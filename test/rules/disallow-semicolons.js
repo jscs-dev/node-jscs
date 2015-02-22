@@ -11,12 +11,12 @@ describe('rules/disallow-semicolons', function() {
     });
 
     it('should not allow semicolons at end of line', function() {
-        assert(checker.checkString([
+        assert.equal(checker.checkString([
             'var a = 1;',
             'var b = 2;',
             'function c() {}',
             'd();'
-        ].join('\n')).getErrorCount() === 3);
+        ].join('\n')).getErrorCount(), 3);
     });
 
     it('should allow semicolons inline', function() {

@@ -50,29 +50,29 @@ jQuery.extend = jQuery.fn.extend = function() {
   if ( typeof target === "boolean" ) {
     // requireSpacesInAnonymousFunctionExpression: before curly
     // disallowSpacesInAnonymousFunctionExpression: before opening round brace
-    $("#foo").click(function() {
-    });
+    $( "#foo" ).click( function() {
+    } );
   }
 
   // disallowMultipleLineBreaks
   // Handle case when target is a string or something (possible in deep copy)
-  if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
+  if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
     // Modified for requireCurlyBraces
     try {
       // requireSpacesInsideObjectBrackets
       target = { foo: "bar" };
-    } catch (e) {
+    } catch ( e ) {
       throw e;
     }
   }
 
   // requireParenthesesAroundIIFE
-  (function() {
+  ( function() {
 
-  })();
+  } )();
 
   // Only deal with non-null/undefined values
-  if ( (options = arguments[ i ]) != null ) {
+  if ( ( options = arguments[ i ] ) != null ) {
     // Extend the base object
     for ( name in options ) {
       // Prevent never-ending loop
@@ -85,8 +85,8 @@ jQuery.extend = jQuery.fn.extend = function() {
       }
 
       // requireOperatorBeforeLineBreak
-      if ( deep && copy && ( jQuery.isPlainObject(copy) ||
-          (copyIsArray = jQuery.isArray(copy)) ) ) {
+      if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
+          ( copyIsArray = jQuery.isArray( copy ) ) ) ) {
 
       // Don't bring in undefined values
       } else if ( copy !== undefined ) {
@@ -113,6 +113,8 @@ var each = function( obj, callback, args ) {
   if ( args ) {
     if ( isArray ) {
       for ( ; i < length; i++ ) {
+
+        // requireSpaceBetweenArguments
         value = callback.apply( obj[ i ], args );
         // requireSpaceAfterBinaryOperators
         if ( value === false ) {

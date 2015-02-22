@@ -1,5 +1,6 @@
-/node_modules
+node_modules
 .idea
 *.sublime-*
-/npm-debug.log
+npm-debug.log
 coverage.html
+jscs-browser.js

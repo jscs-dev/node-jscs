@@ -41,4 +41,25 @@ describe('rules/require-space-before-object-values', function() {
     it('should not report with space after keys colons', function() {
         assert(checker.checkString('var x = { a: 1, bcd: 2 };').isEmpty());
     });
+
+    it('should not report shorthand object properties', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a, b };').isEmpty());
+        assert(checker.checkString('var x = {a, b};').isEmpty());
+    });
+
+    it('should report mixed shorthand and normal object propertis', function() {
+        checker.configure({ esnext: true });
+        assert.equal(checker.checkString('var x = { a:1, b };').getErrorCount(), 1);
+    });
+
+    it('should not report es6-methods. #1013', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a() { } };').isEmpty());
+    });
+
+    it('should not report es5 getters/setters #1037', function() {
+        assert(checker.checkString('var x = { get a() { } };').isEmpty());
+        assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
+    });
 });

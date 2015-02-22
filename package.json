@@ -2,7 +2,7 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.10.0",
+  "version": "1.11.3",
   "main": "lib/checker",
   "homepage": "https://github.com/jscs-dev/node-jscs",
   "keywords": [
@@ -54,36 +54,47 @@
       "email": "joel@mrjoelkemp.com",
       "github-username": "mrjoelkemp",
       "role": "Bug fixes, common rules"
+    },
+    {
+      "name": "Alexej Yaroshevich",
+      "email": "zxqfox@gmail.com",
+      "github-username": "zxqfox",
+      "role": "Bug fixes, common rules"
     }
   ],
   "engines": {
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "cli-table": "~0.3.1",
     "colors": "~1.0.3",
-    "commander": "~2.5.0",
-    "esprima": "~1.2.2",
-    "esprima-harmony-jscs": "1.1.0-regex-token-fix",
-    "estraverse": "~1.9.0",
+    "commander": "~2.6.0",
+    "esprima": "~1.2.4",
+    "esprima-harmony-jscs": "1.1.0-tolerate-import",
+    "estraverse": "~1.9.1",
     "exit": "~0.1.2",
-    "glob": "~4.0.0",
-    "minimatch": "~2.0.0",
-    "strip-json-comments": "~1.0.1",
-    "vow": "~0.4.3",
-    "vow-fs": "~0.3.1",
-    "xmlbuilder": "~2.4.0",
-    "supports-color": "~1.2.0"
+    "glob": "~4.3.5",
+    "lodash.assign": "~3.0.0",
+    "minimatch": "~2.0.1",
+    "prompt": "~0.2.14",
+    "strip-json-comments": "~1.0.2",
+    "supports-color": "~1.2.0",
+    "vow": "~0.4.8",
+    "vow-fs": "~0.3.4",
+    "xmlbuilder": "~2.5.0"
   },
   "devDependencies": {
-    "browserify": "~7.0.3",
-    "coveralls": "~2.11.1",
-    "has-ansi": "~1.0.0",
-    "jshint": "~2.5.0",
+    "browserify": "~8.1.3",
+    "coveralls": "~2.11.2",
+    "has-ansi": "~1.0.1",
+    "jshint": "~2.6.0",
     "mocha": "~2.1.0",
-    "rewire": "~2.1.0",
-    "unit-coverage": "~3.2.0",
-    "sinon": "~1.12.0",
-    "xml2js": "~0.4.2"
+    "regenerate": "~1.2.1",
+    "rewire": "~2.1.5",
+    "sinon": "~1.12.2",
+    "unicode-7.0.0": "~0.1.5",
+    "unit-coverage": "~3.3.0",
+    "xml2js": "~0.4.4"
   },
   "bin": {
     "jscs": "./bin/jscs"
@@ -108,18 +119,19 @@
   },
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
-    "test": "npm run lint && mocha",
+    "test": "npm run lint && mocha --color",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
-    "release": "node publish/prepublish && npm publish",
+    "release": "node publish/prepublish && npm test && npm publish",
     "postpublish": "node publish/postpublish",
     "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
     "bin",
     "lib",
+    "patterns",
     "presets",
     "LICENSE",
     "jscs-browser.js"

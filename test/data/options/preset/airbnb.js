@@ -10,13 +10,13 @@
     console.log('foo');
   } while (true);
 
-  // "requireMultipleVarDecl": "onevar"
+  // "disallowMultipleVarDecl": true
   // requireCommaBeforeLineBreak
-  var x = 1,
-      // requireSpacesInConditionalExpression
-      y = x ? x : null,
+  var x = 1;
+  // requireSpacesInConditionalExpression
+  var y = x ? x : null;
       // disallowSpacesInsideArrayBrackets
-      z = [1];
+  var z = [1];
 
   // requireSpaceAfterKeywords
   if (1) console.log('foo');
@@ -40,14 +40,15 @@
       // disallowSpaceAfterObjectKeys
       foo: function() {
         // safeContextKeyword
-        var _this = this,
-            // disallowDanglingUnderscores: false
-            // validateQuoteMarks: ''
-            _priv = 'yo';
+        var _this = this;
+        // disallowDanglingUnderscores: false
+        // validateQuoteMarks: ''
+        var _priv = 'yo';
 
         // disallowEmptyBlocks
         return function() {
-          console.log('bar');
+          // requireSpaceBetweenArguments
+          console.log('bar', 'foo');
         }
       },
 

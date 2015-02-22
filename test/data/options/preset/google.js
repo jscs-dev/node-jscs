@@ -27,6 +27,8 @@ var anonymousFunction = function() {};
 // requireSpaceAfterBinaryOperators
 // requireSpacesInConditionalExpression
 if (opts.insight === false) {
+
+  // requireSpaceBetweenArguments
   insight.config.set('optOut', true);
 } else if (opts.insight) {
   insight.config.set('optOut', false);

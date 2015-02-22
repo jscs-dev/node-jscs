@@ -55,6 +55,10 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             assert(checker.checkString('var x = function(){}').isEmpty());
         });
 
+        it('should not report named FunctionExpression', function() {
+            assert(checker.checkString('var x = function test() {}').isEmpty());
+        });
+
         it('should report space before curly brace in FunctionExpression', function() {
             assert(checker.checkString('var x = function() {}').getErrorCount() === 1);
         });
