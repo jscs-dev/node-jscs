@@ -565,7 +565,7 @@ describe('modules/token-assert', function() {
                 assert(!onError.called);
             });
 
-            it('should edit the whitespaceBefore', function() {
+            it('should edit the whitespaceBefore with too few lines between', function() {
                 var file = createJsFile('x\n=y;');
 
                 var tokenAssert = new TokenAssert(file);
@@ -575,13 +575,13 @@ describe('modules/token-assert', function() {
                 tokenAssert.linesBetween({
                     token: tokens[0],
                     nextToken: tokens[1],
-                    atLeast: 2
+                    exactly: 2
                 });
 
-                assert(tokens[1].whitespaceBefore.length = 2);
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
             });
 
-            it('should edit the whitespaceBefore', function() {
+            it('should edit the whitespaceBefore with too many lines between', function() {
                 var file = createJsFile('x\n\n\n=y;');
 
                 var tokenAssert = new TokenAssert(file);
@@ -591,10 +591,26 @@ describe('modules/token-assert', function() {
                 tokenAssert.linesBetween({
                     token: tokens[0],
                     nextToken: tokens[1],
-                    atLeast: 2
+                    exactly: 2
                 });
 
-                assert(tokens[1].whitespaceBefore.length = 2);
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+            });
+
+            it('should not edit the whitespaceBefore with correct lines between', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
             });
         });
 
@@ -652,7 +668,7 @@ describe('modules/token-assert', function() {
                 assert(!onError.called);
             });
 
-            it('should edit the whitespaceBefore', function() {
+            it('should edit the whitespaceBefore with too few lines between', function() {
                 var file = createJsFile('x\n=y;');
 
                 var tokenAssert = new TokenAssert(file);
@@ -665,7 +681,39 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert(tokens[1].whitespaceBefore.length >= 2);
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+            });
+
+            it('should not edit the whitespaceBefore with too many lines between', function() {
+                var file = createJsFile('x\n\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n\n\n');
+            });
+
+            it('should not edit the whitespaceBefore with correct lines between', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atLeast: 2
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
             });
         });
 
@@ -723,7 +771,23 @@ describe('modules/token-assert', function() {
                 assert.equal(error.message, 'x and = should have at most 1 line(s) between them');
             });
 
-            it('should edit the whitespaceBefore', function() {
+            it('should not edit the whitespaceBefore with too few lines between', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 2
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n');
+            });
+
+            it('should edit the whitespaceBefore with too many lines between', function() {
                 var file = createJsFile('x\n\n\n=y;');
 
                 var tokenAssert = new TokenAssert(file);
@@ -733,10 +797,26 @@ describe('modules/token-assert', function() {
                 tokenAssert.linesBetween({
                     token: tokens[0],
                     nextToken: tokens[1],
-                    atMost: 1
+                    atMost: 2
                 });
 
-                assert(tokens[1].whitespaceBefore.length <= 1);
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
+            });
+
+            it('should not edit the whitespaceBefore with correct lines between', function() {
+                var file = createJsFile('x\n\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                tokenAssert.on('error', function() {});
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 2
+                });
+
+                assert.equal(tokens[1].whitespaceBefore, '\n\n');
             });
         });
 
