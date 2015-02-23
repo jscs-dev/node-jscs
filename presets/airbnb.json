@@ -57,6 +57,8 @@
         "catch",
         "typeof"
     ],
+    "requirePaddingNewLinesBeforeLineComments": true,
+    "requirePaddingNewLinesAfterBlocks": true,
     "safeContextKeyword": "_this",
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
