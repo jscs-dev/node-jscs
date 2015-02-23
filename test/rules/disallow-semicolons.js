@@ -33,4 +33,11 @@ describe('rules/disallow-semicolons', function() {
             ';[1, 2].forEach(foo)'
         ].join('\n')).isEmpty());
     });
+
+    it('should not autofix semicolons', function() {
+        var input = 'var a = 1;\nvar b = 1;';
+        var result = checker.fixString(input);
+        assert.equal(result.output, input);
+        assert.equal(result.errors.getErrorCount(), 2);
+    });
 });
