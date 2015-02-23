@@ -217,6 +217,7 @@ describe('modules/config/configuration', function() {
             assert(configuration.hasPreset('yandex'));
             assert(configuration.hasPreset('grunt'));
             assert(configuration.hasPreset('node-style-guide'));
+            assert(configuration.hasPreset('wordpress'));
         });
     });
 

@@ -366,6 +366,7 @@ describe('modules/string-checker', function() {
         testPreset('mdcs');
         testPreset('node-style-guide');
         testPreset('wikimedia');
+        testPreset('wordpress');
         testPreset('yandex');
 
         /**
