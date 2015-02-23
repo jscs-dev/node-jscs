@@ -3,6 +3,7 @@
   // validateIndentation: 2
   'use strict';
 
+  // requirePaddingNewLinesBeforeLineComments
   // requireCurlyBraces
   // requireSpaceBeforeBlockStatements
   do {
@@ -12,22 +13,29 @@
 
   // "disallowMultipleVarDecl": true
   // requireCommaBeforeLineBreak
+  // requirePaddingNewLinesAfterBlocks
   var x = 1;
+
   // requireSpacesInConditionalExpression
   var y = x ? x : null;
+
   // disallowSpacesInsideArrayBrackets
   var z = [1];
 
   // requireSpaceAfterKeywords
   if (1) console.log('foo');
+
   // requireBlocksOnNewline
   else {
     console.log('foobar');
     console.log('bar');
+
     // disallowSpaceAfterPrefixUnaryOperators
     ++x;
+
     // disallowSpaceBeforePostfixUnaryOperators
     x++;
+
     // requireSpaceBeforeBinaryOperators
     // requireSpaceAfterBinaryOperators
     z[0] = x + y;
@@ -41,6 +49,7 @@
       foo: function() {
         // safeContextKeyword
         var _this = this;
+
         // disallowDanglingUnderscores: false
         // validateQuoteMarks: ''
         var _priv = 'yo';
