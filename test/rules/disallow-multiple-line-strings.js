@@ -14,11 +14,14 @@ describe('rules/disallow-multiple-line-strings', function() {
         assert(checker.checkString('x = " \\\n oops";').getErrorCount() === 1);
     });
 
-    it('should not report multiple line strings', function() {
-        assert(checker.checkString('x = " \\\\n oops";').isEmpty());
+    it('should not fix multiple line strings', function() {
+        var input = 'x = " \\\n oops";';
+        var result = checker.fixString(input);
+        assert.equal(result.output, input);
+        assert.equal(result.errors.getErrorCount(), 1);
     });
 
-    it('should not report concatendated strings on multiple lines', function() {
+    it('should not report concatenated strings on multiple lines', function() {
         assert(checker.checkString('x = " " + \n " ok";').isEmpty());
     });
 
