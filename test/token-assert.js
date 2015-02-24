@@ -461,6 +461,17 @@ describe('modules/token-assert', function() {
                 }).bind(this),
                 /atLeast and atMost are in conflict/);
             });
+
+            it('should throw if token and nextToken are the same', function() {
+                assert.throws((function() {
+                    this.tokenAssert.linesBetween({
+                        token: this.tokens[0],
+                        nextToken: this.tokens[0],
+                        atLeast: 1
+                    });
+                }).bind(this),
+                /You cannot specify the same token as both token and nextToken/);
+            });
         });
 
         it('should not throw if token or nextToken properties are undefined', function() {
