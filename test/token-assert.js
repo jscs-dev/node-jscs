@@ -485,7 +485,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('exact', function() {
+        describe('exactly', function() {
             it('should trigger error on too few newlines', function() {
                 var file = createJsFile('x\n=y;');
 
@@ -622,6 +622,27 @@ describe('modules/token-assert', function() {
                 });
 
                 assert.equal(tokens[1].whitespaceBefore, '\n\n');
+            });
+
+            it('should error, but not fix, when a comment exists between the two tokens', function() {
+                var file = createJsFile('x\n//linecomment\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.linesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[2],
+                    exactly: 5
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.fixed, false);
+                assert.equal(tokens[2].whitespaceBefore, '\n');
             });
         });
 
