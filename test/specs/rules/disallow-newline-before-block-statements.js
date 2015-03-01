@@ -3,6 +3,8 @@ var assert = require('assert');
 
 describe('rules/disallow-newline-before-block-statements', function() {
     var checker;
+    var input;
+    var output;
 
     beforeEach(function() {
         checker = new Checker();
@@ -14,6 +16,57 @@ describe('rules/disallow-newline-before-block-statements', function() {
             checker.configure({ disallowNewlineBeforeBlockStatements: true });
         });
 
+        describe('disallowed newline if there is one', function() {
+            beforeEach(function() {
+                input = 'function test()\n{abc();}';
+                output = 'function test() {abc();}';
+            });
+
+            it('should report', function() {
+                assert(checker.checkString(input).getErrorCount() === 1);
+            });
+
+            it('should fix', function() {
+                var result = checker.fixString(input);
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, output);
+            });
+        });
+
+        describe('disallowed newline only for function definition block statement', function() {
+            beforeEach(function() {
+                input = 'function test()\n{var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}';
+                output = 'function test() {var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}';
+            });
+
+            it('should report', function() {
+                assert(checker.checkString(input).getErrorCount() === 1);
+            });
+
+            it('should fix', function() {
+                var result = checker.fixString(input);
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, output);
+            });
+        });
+
+        describe('disallowed newline for all 3 statements', function() {
+            beforeEach(function() {
+                input = 'function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}';
+                output = 'function test() {\nif(true) {\nreturn 1;\n}\nfor(var i in [1,2,3]) {\n}\n}';
+            });
+
+            it('should report', function() {
+                assert(checker.checkString(input).getErrorCount() === 3);
+            });
+
+            it('should fix', function() {
+                var result = checker.fixString(input);
+                assert(result.errors.isEmpty());
+                assert.equal(result.output, output);
+            });
+        });
+
         it('should not report disallowed newline before opening brace', function() {
             assert(checker.checkString('function test() {abc();}').isEmpty());
         });
@@ -22,28 +75,9 @@ describe('rules/disallow-newline-before-block-statements', function() {
             assert(checker.checkString('function test()      /* COOOMMMENTTT*/ {abc();}').isEmpty());
         });
 
-        it('should report disallowed newline if there is one', function() {
-            assert(checker.checkString('function test()\n{abc();}').getErrorCount() === 1);
-        });
-
-        it('should report disallowed newline if there are more of them combined with white-spaces', function() {
-            assert(checker.checkString('function test()       \n    \n/*BLOCK*/   {abc();}').isEmpty() === false);
-        });
-
         it('should not report disallowed newline for object definitions', function() {
             assert(checker.checkString('function test(){var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}')
                 .isEmpty());
-        });
-
-        it('should report disallowed newline only for function definition block statement', function() {
-            assert(
-            checker.checkString('function test()\n{var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}')
-                .getErrorCount() === 1);
-        });
-
-        it('should report disallowed newline for all 3 statements', function() {
-            assert(checker.checkString('function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}')
-                .getErrorCount() === 3);
         });
 
         it('should not report disallowed newline', function() {
@@ -54,39 +88,6 @@ describe('rules/disallow-newline-before-block-statements', function() {
 
         it('should not throw error if opening parentheses is first symbol in the file', function() {
             assert(checker.checkString('{ test: 1 }').isEmpty());
-        });
-
-        describe('fix', function() {
-            it ('should fix disallowed newline before opening brace', function() {
-                var result = checker.fixString('function test()\n{abc();}');
-                assert(result.errors.isEmpty());
-                assert.equal(result.output, 'function test() {abc();}');
-            });
-
-            it('should fix all three statements', function() {
-                var result = checker.fixString(
-                    'function test()\n' +
-                    '{\n' +
-                        'if(true)\n' +
-                        '{\n' +
-                            'return 1;\n' +
-                        '}\n' +
-                        'for(var i in [1,2,3])\n' +
-                        '{\n' +
-                        '}\n' +
-                    '}'
-                );
-                assert(result.errors.isEmpty());
-                assert.equal(result.output,
-                    'function test() {\n' +
-                        'if(true) {\n' +
-                            'return 1;\n' +
-                        '}\n' +
-                        'for(var i in [1,2,3]) {\n' +
-                        '}\n' +
-                    '}'
-                );
-            });
         });
     });
 });

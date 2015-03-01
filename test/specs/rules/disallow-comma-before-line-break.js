@@ -2,24 +2,65 @@ var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
 describe('rules/disallow-comma-before-line-break', function() {
-
     var checker;
+    var input;
+    var output;
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
         checker.configure({ disallowCommaBeforeLineBreak: true });
     });
 
-    it('should report illegal comma placement in multiline var declaration', function() {
-        assert(checker.checkString('var a,\nb;').getErrorCount() === 1);
+    describe('illegal comma placement in multiline var declaration', function() {
+        beforeEach(function() {
+            input = 'var a,\nb;';
+            output = 'var a, b;';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
     });
 
-    it('should report illegal comma placement in multiline array declaration', function() {
-        assert(checker.checkString('var a = [1,\n2];').getErrorCount() === 1);
+    describe('illegal comma placement in multiline array declaration', function() {
+        beforeEach(function() {
+            input = 'var a = [1,\n2];';
+            output = 'var a = [1, 2];';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
     });
 
-    it('should report illegal comma placement in multiline object declaration', function() {
-        assert(checker.checkString('var a = {a:1,\nc:3};').getErrorCount() === 1);
+    describe('illegal comma placement in multiline object declaration', function() {
+        beforeEach(function() {
+            input = 'var a = {a:1,\nc:3};';
+            output = 'var a = {a:1, c:3};';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
     });
 
     it('should not report legal comma placement in multiline var declaration', function() {
