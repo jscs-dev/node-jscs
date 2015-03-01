@@ -13,11 +13,11 @@ describe('lib/config/generator', function() {
 
     // jscs:disable maximumLineLength
     var crockfordViolationsAllExceptions = {
-        '\u001b[32mrequireMultipleVarDecl\u001b[39m: Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
-        '\u001b[32mdisallowDanglingUnderscores\u001b[39m: Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
-        '\u001b[32mrequireSpaceAfterKeywords\u001b[39m: Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
-        '\u001b[32mrequireBlocksOnNewline\u001b[39m: Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
-        '\u001b[32mdisallowSpaceBeforeBinaryOperators\u001b[39m: Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e'
+        '\u001b[32mrequireMultipleVarDecl\u001b[39m (18 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
+        '\u001b[32mdisallowDanglingUnderscores\u001b[39m (25 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
+        '\u001b[32mrequireSpaceAfterKeywords\u001b[39m (17 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
+        '\u001b[32mrequireBlocksOnNewline\u001b[39m (2 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
+        '\u001b[32mdisallowSpaceBeforeBinaryOperators\u001b[39m (1 violation in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e'
     };
     // jscs:enable maximumLineLength
 
