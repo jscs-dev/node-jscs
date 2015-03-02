@@ -21,9 +21,7 @@ describe('reporters/text', function() {
 
     it('should correctly reports no errors', function() {
         text([checker.checkString('a++;')]);
-
-        assert.equal(console.log.getCall(0).args[0], 'No code style errors found.');
-        assert(console.log.calledOnce);
+        assert(!console.log.called);
     });
 
     it('should correctly report 1 error', function() {
