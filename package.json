@@ -107,13 +107,13 @@
       "-s",
       "lib/**/*.js",
       "-t",
-      "test/**/*.js",
+      "test/specs/**/*.js",
       "-S",
       "relative",
       "-O",
       "sources=lib",
       "-O",
-      "tests=test"
+      "tests=test/specs"
     ]
   },
   "scripts": {
