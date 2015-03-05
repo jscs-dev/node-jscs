@@ -10,19 +10,19 @@ module.exports = {
     {
       "type":"ExpressionStatement",
       "expression":{
-        "type":"XJSElement",
+        "type":"JSXElement",
         "openingElement":{
-          "type":"XJSOpeningElement",
+          "type":"JSXOpeningElement",
           "name":{
-            "type":"XJSIdentifier",
+            "type":"JSXIdentifier",
             "name":"div"
           },
           "selfClosing":false,
           "attributes":[
             {
-              "type":"XJSAttribute",
+              "type":"JSXAttribute",
               "name":{
-                "type":"XJSIdentifier",
+                "type":"JSXIdentifier",
                 "name":"id"
               },
               "value":{
@@ -32,9 +32,9 @@ module.exports = {
               }
             },
             {
-              "type":"XJSAttribute",
+              "type":"JSXAttribute",
               "name":{
-                "type":"XJSIdentifier",
+                "type":"JSXIdentifier",
                 "name":"disabled"
               },
               "value":null
@@ -42,9 +42,9 @@ module.exports = {
           ]
         },
         "closingElement":{
-          "type":"XJSClosingElement",
+          "type":"JSXClosingElement",
           "name":{
-            "type":"XJSIdentifier",
+            "type":"JSXIdentifier",
             "name":"div"
           }
         },
@@ -55,24 +55,24 @@ module.exports = {
             "raw":"\n"
           },
           {
-            "type":"XJSElement",
+            "type":"JSXElement",
             "openingElement":{
-              "type":"XJSOpeningElement",
+              "type":"JSXOpeningElement",
               "name":{
-                "type":"XJSNamespacedName",
+                "type":"JSXNamespacedName",
                 "namespace":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Component"
                 },
                 "name":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Test"
                 }
               },
               "selfClosing":false,
               "attributes":[
                 {
-                  "type":"XJSSpreadAttribute",
+                  "type":"JSXSpreadAttribute",
                   "argument":{
                     "type":"Identifier",
                     "name":"x"
@@ -81,22 +81,22 @@ module.exports = {
               ]
             },
             "closingElement":{
-              "type":"XJSClosingElement",
+              "type":"JSXClosingElement",
               "name":{
-                "type":"XJSNamespacedName",
+                "type":"JSXNamespacedName",
                 "namespace":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Component"
                 },
                 "name":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Test"
                 }
               }
             },
             "children":[
               {
-                "type":"XJSExpressionContainer",
+                "type":"JSXExpressionContainer",
                 "expression":{
                   "type":"MemberExpression",
                   "computed":false,
@@ -120,17 +120,17 @@ module.exports = {
             ]
           },
           {
-            "type":"XJSElement",
+            "type":"JSXElement",
             "openingElement":{
-              "type":"XJSOpeningElement",
+              "type":"JSXOpeningElement",
               "name":{
-                "type":"XJSMemberExpression",
+                "type":"JSXMemberExpression",
                 "object":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Component"
                 },
                 "property":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Test"
                 }
               },
@@ -140,24 +140,24 @@ module.exports = {
               ]
             },
             "closingElement":{
-              "type":"XJSClosingElement",
+              "type":"JSXClosingElement",
               "name":{
-                "type":"XJSMemberExpression",
+                "type":"JSXMemberExpression",
                 "object":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Component"
                 },
                 "property":{
-                  "type":"XJSIdentifier",
+                  "type":"JSXIdentifier",
                   "name":"Test"
                 }
               }
             },
             "children":[
               {
-                "type":"XJSExpressionContainer",
+                "type":"JSXExpressionContainer",
                 "expression":{
-                  "type":"XJSEmptyExpression"
+                  "type":"JSXEmptyExpression"
                 }
               }
             ]

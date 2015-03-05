@@ -33,7 +33,7 @@ function getElementsByClassName(className) {
         var array,                // array of class names
             ncn = node.className; // the node's classname
 
-// validateQuoteMarks
+        // validateQuoteMarks
 
         if (ncn && ncn.split(' ').indexOf(className) >= 0) {
             results.push(node);

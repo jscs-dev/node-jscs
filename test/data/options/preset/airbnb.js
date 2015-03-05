@@ -15,7 +15,7 @@
   var x = 1;
   // requireSpacesInConditionalExpression
   var y = x ? x : null;
-      // disallowSpacesInsideArrayBrackets
+  // disallowSpacesInsideArrayBrackets
   var z = [1];
 
   // requireSpaceAfterKeywords
