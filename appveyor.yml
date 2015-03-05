@@ -1,5 +1,11 @@
 version: "{build}"
 
+environment:
+  nodejs_version: "0.12"
+
+matrix:
+  fast_finish: true
+
 install:
   - ps: Install-Product node $env:nodejs_version
   - node --version
