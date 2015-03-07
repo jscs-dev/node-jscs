@@ -18,6 +18,42 @@ describe('modules/config/node-configuration', function() {
         });
     });
 
+    describe('loadExternal', function() {
+        it('should check type', function() {
+            assert.throws(
+                configuration.loadExternal.bind(configuration, 'test', 1),
+                "test option requires a string or null value"
+            );
+        });
+
+        it('should not load or throw if value is null', function() {
+            assert.equal(configuration.loadExternal(null), null);
+        });
+
+        it('should load relative path', function() {
+            assert.equal(
+                typeof configuration.loadExternal('./test/data/plugin/plugin'),
+                "function"
+            );
+        });
+
+        it('should load absolute path', function() {
+            assert.equal(
+                typeof configuration.loadExternal(
+                    path.resolve('./test/data/plugin/plugin')
+                ),
+                "function"
+            );
+        });
+
+        it('should load node module', function() {
+            assert.equal(
+                typeof configuration.loadExternal('path'),
+                "object"
+            );
+        });
+    });
+
     describe('overrideFromCLI', function() {
         it('should override allowed options from CLI', function() {
             configuration.overrideFromCLI({
@@ -68,7 +104,7 @@ describe('modules/config/node-configuration', function() {
 
         it('should accept `additionalRules` to register rule paths', function() {
             configuration.load({
-                additionalRules: ['rules/additional-rules.js'],
+                additionalRules: ['./rules/additional-rules.js'],
                 configPath: path.resolve(__dirname + '/../../data/config.json')
             });
             assert(configuration.getRegisteredRules().length === 1);
@@ -77,7 +113,7 @@ describe('modules/config/node-configuration', function() {
 
         it('should accept `additionalRules` to register rule path masks', function() {
             configuration.load({
-                additionalRules: ['rules/*.js'],
+                additionalRules: ['./rules/*.js'],
                 configPath: path.resolve(__dirname + '/../../data/config.json')
             });
             assert(configuration.getRegisteredRules().length === 1);
@@ -120,10 +156,36 @@ describe('modules/config/node-configuration', function() {
             examplePluginSpy.reset();
         });
 
+        describe('esprima', function() {
+            it('should get esprima', function() {
+                configuration.load({
+                    esprima: 'esprima'
+                });
+
+                assert(typeof configuration.getCustomEsprima() === 'object');
+            });
+        });
+
         describe('error filter', function() {
             it('should accept `errorFilter` to register an error filter', function() {
                 configuration.load({
                     errorFilter: path.resolve(__dirname, '../../data/error-filter.js')
+                });
+
+                assert(typeof configuration.getErrorFilter() === 'function');
+            });
+
+            it('should accept `errorFilter` from node', function() {
+                configuration.load({
+                    errorFilter: 'stream'
+                });
+
+                assert(typeof configuration.getErrorFilter() === 'function');
+            });
+
+            it('should accept `errorFilter` from node_modules', function() {
+                configuration.load({
+                    errorFilter: 'browserify'
                 });
 
                 assert(typeof configuration.getErrorFilter() === 'function');
