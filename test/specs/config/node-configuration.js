@@ -107,10 +107,16 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve(__dirname + '/../../../presets/jquery.json')
             });
 
-            assert.equal(
-                configuration.getRegisteredRules()[0].getOptionName(),
-                'requireCurlyBraces'
-            );
+            var exist = false
+            configuration.getRegisteredRules().forEach(function(rule) {
+                if (exist) {
+                    return;
+                }
+
+                exist = rule.getOptionName() === 'requireCurlyBraces';
+            })
+
+            assert(exist);
             assert.equal(configuration.getPresetName(), 'jquery');
         });
 
