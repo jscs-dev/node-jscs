@@ -81,7 +81,7 @@ describe('modules/cli', function() {
             preset: 'not-exist'
         });
 
-        return result.promise.fail(function() {
+        return result.promise.always(function() {
             assert.equal(console.error.getCall(0).args[0], 'Preset "not-exist" does not exist');
             console.error.restore();
         });
