@@ -7,12 +7,12 @@ var Checker = require('../../../lib/checker');
 var checkstyle = require('../../../lib/reporters/checkstyle');
 
 describe('reporters/checkstyle', function() {
-    var checker = new Checker();
-
-    checker.registerDefaultRules();
-    checker.configure({ disallowKeywords: ['with'] });
-
     it('should correctly report error results', function(done) {
+        var checker = new Checker();
+
+        checker.registerDefaultRules();
+        checker.configure({ disallowKeywords: ['with'] });
+
         var output = '';
 
         sinon.stub(console, 'log', function(xml) {
