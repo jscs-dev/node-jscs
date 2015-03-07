@@ -391,7 +391,7 @@ describe('modules/config/configuration', function() {
             };
             configuration.registerPreset('test1', {
                 es3: true,
-                ruleName: "test",
+                ruleName: 'test',
                 additionalRules: [rule]
             });
             configuration.registerPreset('test2', {
@@ -413,7 +413,7 @@ describe('modules/config/configuration', function() {
         it('should handle preset with custom rule which is not included', function() {
             configuration.registerPreset('test', {
                 es3: true,
-                ruleName: "test",
+                ruleName: 'test',
             });
 
             configuration.load({
