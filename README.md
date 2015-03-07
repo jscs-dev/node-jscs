@@ -34,3 +34,5 @@ including presets from popular style guides like jQuery, Airbnb, Google, and mor
  * [Famous](http://famo.us/)
  * [less.js](http://lesscss.org/)
  * [Goodvidio](http://goodvid.io/)
+ * [JSHint](http://jshint.com/)
+ * [html5-boilerplate](https://html5boilerplate.com/)
