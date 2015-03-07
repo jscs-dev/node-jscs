@@ -38,6 +38,10 @@ describe('modules/config/configuration', function() {
         it('should have no default maximal error count', function() {
             assert(configuration.getMaxErrors() === null);
         });
+
+        it('should have no default preset', function() {
+            assert(configuration.getPresetName() === null);
+        });
     });
 
     describe('registerRule', function() {
@@ -363,7 +367,21 @@ describe('modules/config/configuration', function() {
             assert(configuration.getProcessedConfig().preset === 'test2');
             assert(configuration.getProcessedConfig().maxErrors === 1);
             assert(configuration.getProcessedConfig().es3);
+
             assert(configuration.getConfiguredRules()[0].exceptUndefined);
+        });
+
+        it('should load nullify rule from the preset', function() {
+            configuration.registerDefaultRules();
+            configuration.registerPreset('test', {
+                disallowMultipleVarDecl: true
+            });
+            configuration.load({
+                preset: 'test',
+                disallowMultipleVarDecl: null
+            });
+            assert(configuration.getProcessedConfig().preset === 'test');
+            assert.equal(configuration.getConfiguredRules().length, 0);
         });
 
         it('should not add duplicative values to list of unsupported rules', function() {
@@ -412,15 +430,14 @@ describe('modules/config/configuration', function() {
 
         it('should handle preset with custom rule which is not included', function() {
             configuration.registerPreset('test', {
-                es3: true,
-                ruleName: 'test',
+                ruleName: 'test'
             });
 
             configuration.load({
                 preset: 'test'
             });
 
-            assert(configuration.getUnsupportedRuleNames()[ 0 ], 'ruleName')
+            assert(configuration.getUnsupportedRuleNames()[ 0 ], 'ruleName');
             assert(!('ruleName' in configuration.getProcessedConfig()));
         });
 

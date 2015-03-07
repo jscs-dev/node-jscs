@@ -22,7 +22,7 @@ describe('modules/config/node-configuration', function() {
         it('should check type', function() {
             assert.throws(
                 configuration.loadExternal.bind(configuration, 'test', 1),
-                "test option requires a string or null value"
+                'test option requires a string or null value'
             );
         });
 
@@ -33,7 +33,7 @@ describe('modules/config/node-configuration', function() {
         it('should load relative path', function() {
             assert.equal(
                 typeof configuration.loadExternal('./test/data/plugin/plugin'),
-                "function"
+                'function'
             );
         });
 
@@ -42,14 +42,14 @@ describe('modules/config/node-configuration', function() {
                 typeof configuration.loadExternal(
                     path.resolve('./test/data/plugin/plugin')
                 ),
-                "function"
+                'function'
             );
         });
 
         it('should load node module', function() {
             assert.equal(
                 typeof configuration.loadExternal('path'),
-                "object"
+                'object'
             );
         });
     });
@@ -90,6 +90,70 @@ describe('modules/config/node-configuration', function() {
     });
 
     describe('load', function() {
+        it('should load existed preset', function() {
+            configuration.registerDefaultRules();
+            configuration.registerPreset('test', {
+                disallowMultipleVarDecl: 'exceptUndefined'
+            });
+            configuration.load({preset: 'test'});
+
+            assert(configuration.getRegisteredRules()[0].getOptionName(), 'exceptUndefined');
+        });
+
+        it('should load external preset', function() {
+            configuration.registerDefaultRules();
+
+            configuration.load({
+                preset: path.resolve(__dirname + '/../../../presets/jquery.json')
+            });
+
+            assert.equal(
+                configuration.getRegisteredRules()[0].getOptionName(),
+                'requireCurlyBraces'
+            );
+            assert.equal(configuration.getPresetName(), 'jquery');
+        });
+
+        it('should try to load preset from node', function() {
+            configuration.registerDefaultRules();
+            configuration.load({
+                preset: 'path'
+            });
+
+            assert.equal(configuration.getPresetName(), 'path');
+            assert(configuration.getUnsupportedRuleNames().indexOf('resolve') > -1);
+        });
+
+        it('should try to load preset from node_modules', function() {
+            configuration.registerDefaultRules();
+            configuration.load({
+                preset: 'sinon'
+            });
+
+            assert.equal(configuration.getPresetName(), 'sinon');
+            assert(configuration.getUnsupportedRuleNames().indexOf('spy') > -1);
+        });
+
+        it('should throw if preset is missing', function() {
+            configuration.registerDefaultRules();
+            assert.throws(
+                configuration.load.bind(configuration, {
+                    preset: 'not-exist'
+                }),
+                'Preset "not-exist" does not exist'
+            );
+        });
+
+        it('should try to load preset from node_modules', function() {
+            configuration.registerDefaultRules();
+            configuration.load({
+                preset: 'sinon'
+            });
+
+            assert.equal(configuration.getPresetName(), 'sinon');
+            assert(configuration.getUnsupportedRuleNames().indexOf('spy') > -1);
+        });
+
         it('should accept `additionalRules` to register rule instances', function() {
             var rule = {
                 getOptionName: function() {
