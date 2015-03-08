@@ -109,7 +109,9 @@ describe('modules/cli-config', function() {
             var oldHOMEPATH = process.env.HOMEPATH;
             var oldUSERPROFILE = process.env.USERPROFILE;
 
-            process.env.HOME = process.env.USERPROFILE = null;
+            delete process.env.USERPROFILE;
+            delete process.env.HOME;
+
             process.env.HOMEPATH = './test/data/configs/jscsrc';
             assert.equal(configFile.load(null, '/').from, 'jscsrc');
             process.env.HOME = oldHome;
