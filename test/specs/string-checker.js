@@ -364,6 +364,7 @@ describe('modules/string-checker', function() {
         testPreset('grunt');
         testPreset('jquery');
         testPreset('mdcs');
+        testPreset('node-style-guide');
         testPreset('wikimedia');
         testPreset('yandex');
 
