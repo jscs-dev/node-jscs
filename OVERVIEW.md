@@ -8,6 +8,7 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [Crockford](https://github.com/jscs-dev/node-jscs/blob/master/presets/crockford.json) — http://javascript.crockford.com/code.html
  * [Google](https://github.com/jscs-dev/node-jscs/blob/master/presets/google.json) — https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
  * [Grunt](https://github.com/jscs-dev/node-jscs/blob/master/presets/grunt.json) — http://gruntjs.com/contributing#syntax
+ * [Idiomatic](https://github.com/jscs-dev/node-jscs/blob/master/presets/idiomatic.json) — https://github.com/rwaldron/idiomatic.js#idiomatic-style-manifesto
  * [jQuery](https://github.com/jscs-dev/node-jscs/blob/master/presets/jquery.json) — https://contribute.jquery.org/style-guide/js/
  * [MDCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/mdcs.json) — [https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style™](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2)
  * [node-style-guide](https://github.com/jscs-dev/node-jscs/blob/master/presets/node-style-guide.json) - https://github.com/felixge/node-style-guide
@@ -221,7 +222,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: You can choose one of the default presets: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`.
+Values: You can choose one of the default presets: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`, `"idiomatic"`.
 
 Or you can load from it local path or as node module
 
