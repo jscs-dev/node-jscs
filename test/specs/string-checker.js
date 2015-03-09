@@ -522,6 +522,7 @@ describe('string-checker', function() {
         testPreset('crockford');
         testPreset('google');
         testPreset('grunt');
+        testPreset('idiomatic');
         testPreset('jquery');
         testPreset('mdcs');
         testPreset('node-style-guide');

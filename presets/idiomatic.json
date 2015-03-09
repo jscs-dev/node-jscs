@@ -1,0 +1,17 @@
+{
+    "preset": "jquery",
+    "requireSpacesInsideParentheses": {
+        "all": true,
+        "ignoreParenthesizedExpression": true,
+        "except": [ "{", "}", "[", "]", "function", "\"" ]
+    },
+    "disallowSpacesInCallExpression": true,
+    "requirePaddingNewLinesBeforeLineComments": null,
+    "requireSpaceAfterLineComment": {
+        "allExcept": ["#", "="]
+    },
+    "disallowMultipleLineBreaks": null,
+    "requireCapitalizedComments": null,
+    "validateIndentation": null,
+    "validateCommentPosition": { "position": "above" }
+}
