@@ -40,5 +40,26 @@ describe('rules/require-line-break-after-variable-assignment', function() {
         it('should report when multiple var statements on single line.', function() {
             assert(checker.checkString('var bad = {\n\tkey : value\n}; var heckWhyNot = 5;').getErrorCount() === 1);
         });
+
+        it('should not report when variables are defined in the init part of a for loop', function() {
+            assert(checker.checkString('for (var i = 0, length = myArray.length; i < length; i++) {}').isEmpty());
+        });
+
+        it('should not report when variables are defined in the init part of a for in loop', function() {
+            assert(checker.checkString('for (var i in arr) {}').isEmpty());
+        });
+
+        it('should not report when variables are defined in the init part of a for of loop', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('for (var i of arr) {}').isEmpty());
+        });
+
+        it('should report for variables defined in the body of a for loop', function() {
+            assert(checker.checkString(
+                'for (var i = 0, length = myArray.length; i < length; i++) {' +
+                    'var x = 1, y = 2;' +
+                '}'
+            ).getErrorCount() === 1);
+        });
     });
 });
