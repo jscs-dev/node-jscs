@@ -41,6 +41,18 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         it('should report anything for empty array', function() {
             assert(checker.checkString('[];').isEmpty());
         });
+
+        it('should not report with comments before the first element', function() {
+            assert(checker.checkString(
+                'var x = [ /*A*/ 1, 2 ]'
+            ).isEmpty());
+        });
+
+        it('should not report with comments after the last element', function() {
+            assert(checker.checkString(
+                'var x = [ 1, 2, /*Z*/ ]'
+            ).isEmpty());
+        });
     });
 
     describe('"allButNested"', function() {
