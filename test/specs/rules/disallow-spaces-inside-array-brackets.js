@@ -64,6 +64,18 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
                 ).isEmpty());
             });
         });
+
+        it('should not report with comments before the first element', function() {
+            assert(checker.checkString(
+                'var x = [/*A*/ 1, 2]'
+            ).isEmpty());
+        });
+
+        it('should not report with comments after the last element', function() {
+            assert(checker.checkString(
+                'var x = [1, 2, /*Z*/]'
+            ).isEmpty());
+        });
     });
 
     describe('"all"', function() {
