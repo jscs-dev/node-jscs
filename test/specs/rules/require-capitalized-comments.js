@@ -52,6 +52,13 @@ describe('rules/require-capitalized-comments', function() {
             ].join('\n')).isEmpty());
         });
 
+        it('should not report on comments that disable or enable JSCS rules', function() {
+            assert(checker.checkString('//jscs:enable').isEmpty());
+            assert(checker.checkString('// jscs:disable').isEmpty());
+            assert(checker.checkString('/*jscs:enable rule*/').isEmpty());
+            assert(checker.checkString('/* jscs:disable rule*/').isEmpty());
+        });
+
         it('should not report on multiple uppercase lines in a "textblock"', function() {
             assertEmpty([
                 '// This is a textblock.',
@@ -116,8 +123,6 @@ describe('rules/require-capitalized-comments', function() {
 
         it('should report for other comment directives', function() {
             assert(checker.checkString('/* jshint: -W071 */').getErrorCount() === 1);
-
-            assert(checker.checkString('/* jscs:disable requireCurlyBraces */').getErrorCount() === 1);
         });
 
         it('should not report for custom exceptions', function() {
