@@ -32,6 +32,7 @@
     "requireSpaceBeforeObjectValues": true,
     "requireCommaBeforeLineBreak": true,
     "requireSpacesInForStatement": true,
+    "requireSpaceBetweenArguments": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "disallowSpaceBeforeBinaryOperators": [

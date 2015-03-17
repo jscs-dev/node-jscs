@@ -95,6 +95,7 @@ switch (value) {
     default:
         // ...
         // no break keyword on the last case
+        doSomething();
 }
 
 // Ternary operators.
@@ -150,3 +151,6 @@ doAsync(function () {
  * @param {Number} [column]
  */
 var add = function (message, line, column) {};
+
+// requireSpaceBetweenArguments
+console.log(1, 2);

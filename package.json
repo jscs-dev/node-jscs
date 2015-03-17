@@ -2,7 +2,7 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.10.0",
+  "version": "1.11.3",
   "main": "lib/checker",
   "homepage": "https://github.com/jscs-dev/node-jscs",
   "keywords": [
@@ -54,38 +54,46 @@
       "email": "joel@mrjoelkemp.com",
       "github-username": "mrjoelkemp",
       "role": "Bug fixes, common rules"
+    },
+    {
+      "name": "Alexej Yaroshevich",
+      "email": "zxqfox@gmail.com",
+      "github-username": "zxqfox",
+      "role": "Bug fixes, common rules"
     }
   ],
   "engines": {
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "colors": "~1.0.3",
+    "chalk": "~1.0.0",
+    "cli-table": "~0.3.1",
     "commander": "~2.6.0",
-    "esprima": "~1.2.2",
+    "esprima": "^1.2.5",
     "esprima-harmony-jscs": "1.1.0-tolerate-import",
-    "estraverse": "~1.9.0",
+    "estraverse": "^1.9.3",
     "exit": "~0.1.2",
-    "glob": "~4.3.5",
-    "minimatch": "~2.0.0",
-    "strip-json-comments": "~1.0.1",
-    "vow": "~0.4.3",
-    "vow-fs": "~0.3.1",
-    "xmlbuilder": "~2.4.0",
-    "supports-color": "~1.2.0"
+    "glob": "^5.0.1",
+    "lodash.assign": "~3.0.0",
+    "minimatch": "~2.0.1",
+    "prompt": "~0.2.14",
+    "strip-json-comments": "~1.0.2",
+    "vow": "~0.4.8",
+    "vow-fs": "~0.3.4",
+    "xmlbuilder": "^2.6.1"
   },
   "devDependencies": {
-    "browserify": "~8.1.1",
-    "coveralls": "~2.11.1",
-    "has-ansi": "~1.0.0",
+    "browserify": "^9.0.3",
+    "coveralls": "~2.11.2",
+    "has-ansi": "~1.0.1",
     "jshint": "~2.6.0",
-    "mocha": "~2.1.0",
+    "mocha": "^2.2.0",
     "regenerate": "~1.2.1",
-    "rewire": "~2.1.0",
-    "sinon": "~1.12.0",
+    "rewire": "^2.3.1",
+    "sinon": "^1.13.0",
     "unicode-7.0.0": "~0.1.5",
-    "unit-coverage": "~3.3.0",
-    "xml2js": "~0.4.2"
+    "unit-coverage": "^3.4.0",
+    "xml2js": "~0.4.4"
   },
   "bin": {
     "jscs": "./bin/jscs"
@@ -99,18 +107,18 @@
       "-s",
       "lib/**/*.js",
       "-t",
-      "test/**/*.js",
+      "test/specs/**/*.js",
       "-S",
       "relative",
       "-O",
       "sources=lib",
       "-O",
-      "tests=test"
+      "tests=test/specs"
     ]
   },
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
-    "test": "npm run lint && mocha",
+    "test": "npm run lint && mocha --color",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",

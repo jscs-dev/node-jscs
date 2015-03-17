@@ -9,6 +9,7 @@ Some maintainers can have areas of responsibility:
  * @markelog: CLI, integration, common rules.
  * @mikesherov: ex-jshint rules, common rules.
  * @mrjoelkemp: bug fixes, common rules.
+ * @zxqfox: bug fixes, common rules.
 
 Maintaining validation rules
 ----------------------------
@@ -75,14 +76,16 @@ Publishing a new version
    Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
    1. breaking changes.
    1. preset updates.
-   1. new rules.
-   1. new options.
+   1. new CLI or config options.
+   1. new rules or rule values.
    1. bug fixes.
-   1. infrastructure or docs changes.
+   1. infrastructure changes.
+   1. tests-only, docs changes, contributor minutia.
 1. Commit the changelog update with the message: `Prepare for version x.x.x`.
 1. Set a new version and tag: `npm version x.x.x`.
 1. Push changes and tags: `git push && git push --tags`.
 1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
 1. Copy the changelog notes into the Github releases section located here: https://github.com/jscs-dev/node-jscs/releases
+1. Rebuild the website: `git clone git@github.com:jscs-dev/jscs-dev.github.io.git && cd jscs-dev.github.io && npm install && npm run publish`
 1. Tweet or otherwise promote the fact that a new version has been released with a link to the changelog and npm download page.
 1. Done!

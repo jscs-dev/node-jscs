@@ -8,6 +8,7 @@
  * [Grunt](https://github.com/jscs-dev/node-jscs/blob/master/presets/grunt.json) — http://gruntjs.com/contributing#syntax
  * [jQuery](https://github.com/jscs-dev/node-jscs/blob/master/presets/jquery.json) — https://contribute.jquery.org/style-guide/js/
  * [MDCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/mdcs.json) — [https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style™](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2)
+ * [node-style-guide](https://github.com/jscs-dev/node-jscs/blob/master/presets/node-style-guide.json) - https://github.com/felixge/node-style-guide
  * [Wikimedia](https://github.com/jscs-dev/node-jscs/blob/master/presets/wikimedia.json) — https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
@@ -49,6 +50,16 @@ cat myfile.js | jscs
 
 ## CLI
 
+### `--auto-configure` (Experimental)
+Presents a walkthrough that allows you to generate a JSCS configuration by
+choosing a preset and handling violated rules.
+
+```
+jscs --auto-configure path
+```
+
+`path` can be a file or directory to check the presets against
+
 ### `--config`
 Allows to define path to the config file.
 ```
@@ -64,7 +75,7 @@ jscs path[ path[...]] --preset=jquery
 ```
 
 ### `--reporter`
-`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `junit` and `text`.
+`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
 ```
 jscs path[ path[...]] --reporter=console
 ```

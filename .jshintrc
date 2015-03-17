@@ -4,5 +4,6 @@
     "undef"    : true,
     "eqeqeq"   : true,
     "noarg"    : true,
-    "mocha"    : true
+    "mocha"    : true,
+    "unused"   : true
 }

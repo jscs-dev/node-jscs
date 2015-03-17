@@ -39,7 +39,9 @@ the terms above.
 **/
 
 jQuery.extend = jQuery.fn.extend = function() {
+
   // requireMultipleVarDecl: "onyvar"
+  // requirePaddingNewLinesBeforeLineComments
   var options, name, src, copy, copyIsArray, clone,
     target = arguments[ 0 ] || {},
     i = 1,
@@ -48,48 +50,56 @@ jQuery.extend = jQuery.fn.extend = function() {
 
   // validateQuoteMarks: ""
   if ( typeof target === "boolean" ) {
+
     // requireSpacesInAnonymousFunctionExpression: before curly
     // disallowSpacesInAnonymousFunctionExpression: before opening round brace
-    $("#foo").click(function() {
-    });
+    $( "#foo" ).click( function() {
+    } );
   }
 
   // disallowMultipleLineBreaks
   // Handle case when target is a string or something (possible in deep copy)
-  if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
+  if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
+
     // Modified for requireCurlyBraces
     try {
+
       // requireSpacesInsideObjectBrackets
       target = { foo: "bar" };
-    } catch (e) {
+    } catch ( e ) {
       throw e;
     }
   }
 
   // requireParenthesesAroundIIFE
-  (function() {
+  ( function() {
 
-  })();
+  } )();
 
   // Only deal with non-null/undefined values
-  if ( (options = arguments[ i ]) != null ) {
+  if ( ( options = arguments[ i ] ) != null ) {
+
     // Extend the base object
     for ( name in options ) {
+
       // Prevent never-ending loop
       if ( target === copy ) {
+
         // disallowSpaceAfterPrefixUnaryOperators
         ++i;
+
         // disallowSpaceBeforePostfixUnaryOperators
         i++;
         continue;
       }
 
       // requireOperatorBeforeLineBreak
-      if ( deep && copy && ( jQuery.isPlainObject(copy) ||
-          (copyIsArray = jQuery.isArray(copy)) ) ) {
+      if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
+          ( copyIsArray = jQuery.isArray( copy ) ) ) ) {
 
       // Don't bring in undefined values
       } else if ( copy !== undefined ) {
+
         // requireSpacesInsideArrayBrackets
         target[ name ] = copy;
       }
@@ -102,27 +112,35 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 // requireSpacesInFunctionExpression: before curly
 var each = function( obj, callback, args ) {
+
   // commaBeforeLineBreak
   var value,
     i = 0,
+
     // requireDotNotation
     length = obj.length,
+
     // requireCamelCaseOrUpperCaseIdentifiers
     isArray = isArraylike( obj );
 
   if ( args ) {
     if ( isArray ) {
       for ( ; i < length; i++ ) {
+
+        // requireSpaceBetweenArguments
         value = callback.apply( obj[ i ], args );
+
         // requireSpaceAfterBinaryOperators
         if ( value === false ) {
           break;
         }
       }
+
     // disallowKeywordsOnNewLine
     } else {
       for ( i in obj ) {
         value = callback.apply( obj[ i ], args );
+
         // requireSpacesInConditionalExpression
         if ( value === false ) {
           break;

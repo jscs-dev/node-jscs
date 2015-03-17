@@ -38,6 +38,7 @@
     "disallowEmptyBlocks": true,
 
     "requireParenthesesAroundIIFE": true,
+    "requireSpaceBetweenArguments": true,
     "requireSpacesInFunctionDeclaration": {
         "beforeOpeningCurlyBrace": true
     },
@@ -85,11 +86,6 @@
     "disallowSpacesInsideObjectBrackets": true,
     "disallowQuotedKeysInObjects": true,
 
-    "validateJSDoc": {
-        "checkParamNames": true,
-        "requireParamTypes": true
-    },
-
     "maximumLineLength": {
         "value": 120,
         "allowUrlComments": true
@@ -99,5 +95,6 @@
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
+    "validateIndentation": 4,
     "validateLineBreaks": "LF"
 }
