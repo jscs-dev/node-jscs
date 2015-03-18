@@ -142,6 +142,102 @@ describe('modules/token-assert', function() {
 
             assert.equal(onError.getCall(0).args[0].message, 'Custom message');
         });
+
+        it('should trigger error on invalid maximum space count between tokens', function() {
+            var file = createJsFile('x   =   y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.whitespaceBetween({
+                token: tokens[0],
+                nextToken: tokens[1],
+                atMost: 1
+            });
+
+            assert(onError.calledOnce);
+
+            var error = onError.getCall(0).args[0];
+            assert.equal(error.message, 'At most 1 space is allowed between x and =');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 1);
+        });
+
+        it('should trigger plural error on invalid maximum space count between tokens', function() {
+            var file = createJsFile('x    =    y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.whitespaceBetween({
+                token: tokens[0],
+                nextToken: tokens[1],
+                atMost: 2
+            });
+
+            assert(onError.calledOnce);
+
+            var error = onError.getCall(0).args[0];
+            assert.equal(error.message, 'At most 2 spaces are allowed between x and =');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 1);
+        });
+
+        it('should not trigger error on newline between tokens for maximum spaces', function() {
+            var file = createJsFile('x\n=y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.whitespaceBetween({
+                token: tokens[0],
+                nextToken: tokens[1],
+                atMost: 1
+            });
+
+            assert(!onError.calledOnce);
+        });
+
+        it('should not trigger error on valid maximum space count between tokens', function() {
+            var file = createJsFile('x   =   y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.whitespaceBetween({
+                token: tokens[0],
+                nextToken: tokens[1],
+                atMost: 3
+            });
+
+            assert(!onError.calledOnce);
+        });
+
+        it('should accept message for invalid maximum space count between tokens', function() {
+            var file = createJsFile('x   =   y;');
+
+            var tokenAssert = new TokenAssert(file);
+            var onError = sinon.spy();
+            tokenAssert.on('error', onError);
+
+            var tokens = file.getTokens();
+            tokenAssert.whitespaceBetween({
+                token: tokens[0],
+                nextToken: tokens[1],
+                atMost: 1,
+                message: 'Custom message'
+            });
+
+            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+        });
     });
 
     describe('noWhitespaceBetween', function() {
