@@ -7,7 +7,7 @@ describe('rules/require-semicolons', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ requireSemicolons: true });
+        checker.configure({ esnext: true, requireSemicolons: true });
     });
 
     describe('var declaration', function() {
@@ -34,6 +34,14 @@ describe('rules/require-semicolons', function() {
 
             it('for (var a in b){ var c; }', function() {
                 assert(checker.checkString('for (var a in b){ var c; }').isEmpty());
+            });
+
+            it('for (var a of b){}', function() {
+                assert(checker.checkString('for (var a of b){}').isEmpty());
+            });
+
+            it('for (var a of b){ var c; }', function() {
+                assert(checker.checkString('for (var a of b){ var c; }').isEmpty());
             });
 
             it('for (var a;;){}', function() {
@@ -72,6 +80,10 @@ describe('rules/require-semicolons', function() {
 
             it('for (var a in b) var c', function() {
                 assert(checker.checkString('for (var a in b) var c').getErrorCount() === 1);
+            });
+
+            it('for (var a of b) var c', function() {
+                assert(checker.checkString('for (var a of b) var c').getErrorCount() === 1);
             });
 
             it('for (;;) var a', function() {
@@ -136,12 +148,20 @@ describe('rules/require-semicolons', function() {
                 assert(checker.checkString('function foo(){ return a; }').isEmpty());
             });
 
+            it('function foo(){ return a\\n; }', function() {
+                assert(checker.checkString('function foo(){ return a\n; }').isEmpty());
+            });
+
             it('function foo(){ return a\\n,b; }', function() {
                 assert(checker.checkString('function foo(){ return a\n,b; }').isEmpty());
             });
 
-            it('function foo(){ return a\\n; }', function() {
-                assert(checker.checkString('function foo(){ return a\n; }').isEmpty());
+            it('function foo(){ return a//;\\n; }', function() {
+                assert(checker.checkString('function foo(){ return a//;\n; }').isEmpty());
+            });
+
+            it('function foo(){ return\\n; }', function() {
+                assert(checker.checkString('function foo(){ return\n; }').isEmpty());
             });
         });
 
@@ -154,8 +174,8 @@ describe('rules/require-semicolons', function() {
                 assert(checker.checkString('function foo(){ return a }').getErrorCount() === 1);
             });
 
-            it('function foo(){ return\\n; }', function() {
-                assert(checker.checkString('function foo(){ return\n; }').getErrorCount() === 1);
+            it('function foo(){ return\\na; }', function() {
+                assert(checker.checkString('function foo(){ return\na; }').getErrorCount() === 1);
             });
 
             it('function foo(){ return a//;\\n }', function() {
