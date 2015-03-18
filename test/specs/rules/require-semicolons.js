@@ -4,6 +4,27 @@ var assert = require('assert');
 describe('rules/require-semicolons', function() {
     var checker;
 
+    // helpers
+    function valid(tests) {
+        describe('valid', function() {
+            tests.forEach(function(test) {
+                it(test.replace(/\n/g, '\\n'), function() {
+                    assert(checker.checkString(test).isEmpty());
+                });
+            });
+        });
+    }
+
+    function invalid(tests) {
+        describe('invalid', function() {
+            tests.forEach(function(test) {
+                it(test.replace(/\n/g, '\\n'), function() {
+                    assert(checker.checkString(test).getErrorCount() === 1);
+                });
+            });
+        });
+    }
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
@@ -11,256 +32,170 @@ describe('rules/require-semicolons', function() {
     });
 
     describe('var declaration', function() {
-        describe('valid', function() {
-            it('var a;', function() {
-                assert(checker.checkString('var a;').isEmpty());
-            });
+        valid([
+            'var a;',
+            'var a\n,b;',
+            'var a\n,b\n = 1;',
+            'var a\n,b\n = 1 ;',
+            'var a\n,b \n;',
+            'var a\n,b\n = 1\n;',
+            'for (var a in b){}',
+            'for (var a in b){ var c; }',
+            'for (var a of b){}',
+            'for (var a of b){ var c; }',
+            'for (var a;;){}',
+            'for (;;) var a;',
+            'for (var a;;) var b;'
+        ]);
 
-            it('var a\\n,b;', function() {
-                assert(checker.checkString('var a\n,b;').isEmpty());
-            });
+        invalid([
+            'var a',
+            'var a\n,b \n',
+            'var a\n,b\n = 1//;',
+            'var a\n,b\n = 1\n//;',
+            'for (var a in b) var c',
+            'for (var a of b) var c',
+            'for (var a in b) { var c };',
+            'for (var a of b) { var c };',
+            'for (var a;;) var a'
+        ]);
+    });
 
-            it('var a\\n,b\\n = 1;', function() {
-                assert(checker.checkString('var a\n,b\n = 1;').isEmpty());
-            });
+    describe('let declaration', function() {
+        valid([
+            'let a;',
+            'let a\n,b;',
+            'let a\n,b\n = 1;',
+            'let a\n,b\n = 1 ;',
+            'let a\n,b \n;',
+            'let a\n,b\n = 1\n;',
+            'for (let a in b){}',
+            'for (let a in b){ let c; }',
+            'for (let a of b){}',
+            'for (let a of b){ let c; }',
+            'for (let a;;){}'
+        ]);
 
-            it('var a\\n,b\\n = 1 ;', function() {
-                assert(checker.checkString('var a\n,b\n = 1 ;').isEmpty());
-            });
+        invalid([
+            'let a',
+            'let a\n,b \n',
+            'let a\n,b\n = 1//;',
+            'let a\n,b\n = 1\n//;',
+            'for (let a in b) { let c }',
+            'for (let a of b) { let c }',
+            'for (let a in b) { let c };',
+            'for (let a of b) { let c };'
+        ]);
+    });
 
-            it('for (var a in b){}', function() {
-                assert(checker.checkString('for (var a in b){}').isEmpty());
-            });
+    describe('const declaration', function() {
+        valid([
+            'const a = 1;',
+            'const a = 1\n,b = 1;',
+            'const a = 1\n,b\n = 1;',
+            'const a = 1\n,b\n = 1 ;',
+            'const a = 1\n,b = 1\n;',
+            'const a = 1\n,b\n = 1\n;'
+        ]);
 
-            it('for (var a in b){ var c; }', function() {
-                assert(checker.checkString('for (var a in b){ var c; }').isEmpty());
-            });
-
-            it('for (var a of b){}', function() {
-                assert(checker.checkString('for (var a of b){}').isEmpty());
-            });
-
-            it('for (var a of b){ var c; }', function() {
-                assert(checker.checkString('for (var a of b){ var c; }').isEmpty());
-            });
-
-            it('for (var a;;){}', function() {
-                assert(checker.checkString('for (var a;;){}').isEmpty());
-            });
-
-            it('for (;;) var a;', function() {
-                assert(checker.checkString('for (var a;;) var a;').isEmpty());
-            });
-
-            it('var a\\n,b \\n;', function() {
-                assert(checker.checkString('var a\n,b \n;').isEmpty());
-            });
-
-            it('var a\\n,b\\n = 1\\n;', function() {
-                assert(checker.checkString('var a\n,b\n = 1\n;').isEmpty());
-            });
-        });
-
-        describe('invalid', function() {
-            it('var a', function() {
-                assert(checker.checkString('var a').getErrorCount() === 1);
-            });
-
-            it('var a\\n,b \\n', function() {
-                assert(checker.checkString('var a\n,b \n').getErrorCount() === 1);
-            });
-
-            it('var a\\n,b\\n = 1//;', function() {
-                assert(checker.checkString('var a\n,b\n = 1//;').getErrorCount() === 1);
-            });
-
-            it('var a\\n,b\\n = 1\\n//;', function() {
-                assert(checker.checkString('var a\n,b\n = 1\n//;').getErrorCount() === 1);
-            });
-
-            it('for (var a in b) var c', function() {
-                assert(checker.checkString('for (var a in b) var c').getErrorCount() === 1);
-            });
-
-            it('for (var a of b) var c', function() {
-                assert(checker.checkString('for (var a of b) var c').getErrorCount() === 1);
-            });
-
-            it('for (;;) var a', function() {
-                assert(checker.checkString('for (var a;;) var a').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'const a = 1',
+            'const a = 1\n,b = 2 \n',
+            'const a = 1\n,b\n = 1//;',
+            'const a = 1\n,b\n = 1\n//;'
+        ]);
     });
 
     describe('expression statement', function() {
-        describe('valid', function() {
-            it('a;', function() {
-                assert(checker.checkString('a;').isEmpty());
-            });
+        valid([
+            'a;',
+            'a\n,b;',
+            'a\n,b\n = 1;',
+            'a\n,b\n = 1 ;',
+            'a\n;',
+            'a\n = 1\n;'
+        ]);
 
-            it('a\\n,b;', function() {
-                assert(checker.checkString('a\n,b;').isEmpty());
-            });
-
-            it('a\\n,b\\n = 1;', function() {
-                assert(checker.checkString('a\n,b\n = 1;').isEmpty());
-            });
-
-            it('a\\n,b\\n = 1 ;', function() {
-                assert(checker.checkString('a\n,b\n = 1 ;').isEmpty());
-            });
-
-            it('a\\n;', function() {
-                assert(checker.checkString('a\n;').isEmpty());
-            });
-
-            it('a\\n = 1\\n;', function() {
-                assert(checker.checkString('a\n = 1\n;').isEmpty());
-            });
-        });
-
-        describe('invalid', function() {
-            it('a', function() {
-                assert(checker.checkString('a').getErrorCount() === 1);
-            });
-
-            it('a\\n', function() {
-                assert(checker.checkString('a\n').getErrorCount() === 1);
-            });
-
-            it('a\\n = 1//;', function() {
-                assert(checker.checkString('a\n = 1//;').getErrorCount() === 1);
-            });
-
-            it('a\\n = 1\\n//;', function() {
-                assert(checker.checkString('a\n = 1\n//;').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'a',
+            'a\n',
+            'a\n = 1//;',
+            'a\n = 1\n//;'
+        ]);
     });
 
     describe('return statement', function() {
-        describe('valid', function() {
-            it('function foo(){ return; }', function() {
-                assert(checker.checkString('function foo(){ return; }').isEmpty());
-            });
+        valid([
+            'function foo(){ return; }',
+            'function foo(){ return a; }',
+            'function foo(){ return a\n; }',
+            'function foo(){ return a\n,b; }',
+            'function foo(){ return a//;\n; }',
+            'function foo(){ return\n; }'
+        ]);
 
-            it('function foo(){ return a; }', function() {
-                assert(checker.checkString('function foo(){ return a; }').isEmpty());
-            });
-
-            it('function foo(){ return a\\n; }', function() {
-                assert(checker.checkString('function foo(){ return a\n; }').isEmpty());
-            });
-
-            it('function foo(){ return a\\n,b; }', function() {
-                assert(checker.checkString('function foo(){ return a\n,b; }').isEmpty());
-            });
-
-            it('function foo(){ return a//;\\n; }', function() {
-                assert(checker.checkString('function foo(){ return a//;\n; }').isEmpty());
-            });
-
-            it('function foo(){ return\\n; }', function() {
-                assert(checker.checkString('function foo(){ return\n; }').isEmpty());
-            });
-        });
-
-        describe('invalid', function() {
-            it('function foo(){ return }', function() {
-                assert(checker.checkString('function foo(){ return }').getErrorCount() === 1);
-            });
-
-            it('function foo(){ return a }', function() {
-                assert(checker.checkString('function foo(){ return a }').getErrorCount() === 1);
-            });
-
-            it('function foo(){ return\\na; }', function() {
-                assert(checker.checkString('function foo(){ return\na; }').getErrorCount() === 1);
-            });
-
-            it('function foo(){ return a//;\\n }', function() {
-                assert(checker.checkString('function foo(){ return a//;\n }').getErrorCount() === 1);
-            });
-
-            it('function foo(){ return a\\n,b }', function() {
-                assert(checker.checkString('function foo(){ return a\n,b }').getErrorCount() === 1);
-            });
-
-            it('function foo(){ return a\\n,b//;\\n }', function() {
-                assert(checker.checkString('function foo(){ return a\n,b//;\n }').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'function foo(){ return }',
+            'function foo(){ return a }',
+            'function foo(){ return\na; }',
+            'function foo(){ return a//;\n }',
+            'function foo(){ return a\n,b }',
+            'function foo(){ return a\n,b//;\n }'
+        ]);
     });
 
     describe('throw statement', function() {
-        describe('valid', function() {
-            it('throw "Error";', function() {
-                assert(checker.checkString('throw "Error";').isEmpty());
-            });
-        });
+        valid([
+            'throw "Error";',
+            'throw new Error("Error");',
+            'throw "Error"\n;',
+            'for (var a in b) throw new Error(1);'
+        ]);
 
-        describe('invalid', function() {
-            it('throw "Error"', function() {
-                assert(checker.checkString('throw "Error"').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'throw "Error"',
+            'throw new Error("Error")',
+            'for (var a in b) throw new Error(1)'
+        ]);
     });
 
     describe('break statement', function() {
-        describe('valid', function() {
-            it('for (;;) break;', function() {
-                assert(checker.checkString('for (;;) break;').isEmpty());
-            });
+        valid([
+            'for (;;) break;',
+            'for (;;) break\n;',
+            'switch (a) { case "x": break; }',
+            'switch (a) { case "x": break\n; }'
+        ]);
 
-            it('switch (a) { case "x": break; }', function() {
-                assert(checker.checkString('switch (a) { case "x": break; }').isEmpty());
-            });
-        });
-
-        describe('invalid', function() {
-            it('for (;;) break', function() {
-                assert(checker.checkString('for (;;) break').getErrorCount() === 1);
-            });
-
-            it('switch (a) { case "x": break }', function() {
-                assert(checker.checkString('switch (a) { case "x": break }').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'for (;;) break',
+            'for (;;) { break };',
+            'switch (a) { case "x": break }'
+        ]);
     });
 
     describe('continue statement', function() {
-        describe('valid', function() {
-            it('for (;;) continue;', function() {
-                assert(checker.checkString('for (;;) continue;').isEmpty());
-            });
-        });
+        valid([
+            'for (;;) continue;',
+            'for (;;) continue\n;'
+        ]);
 
-        describe('invalid', function() {
-            it('for (;;) continue', function() {
-                assert(checker.checkString('for (;;) continue').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'for (;;) continue',
+            'for (;;) { continue };'
+        ]);
     });
 
     describe('do-while statement', function() {
-        describe('valid', function() {
-            it('do {} while (expr);', function() {
-                assert(checker.checkString('do {} while (expr);').isEmpty());
-            });
-        });
+        valid([
+            'do {} while (expr);',
+            'do {} while (expr)\n;'
+        ]);
 
-        describe('invalid', function() {
-            it('do {} while (expr)', function() {
-                assert(checker.checkString('do {} while (expr)').getErrorCount() === 1);
-            });
-
-            it('do {} while (expr)//;', function() {
-                assert(checker.checkString('do {} while (expr)//;').getErrorCount() === 1);
-            });
-
-            it('do {} while (expr)\\n//;', function() {
-                assert(checker.checkString('do {} while (expr)\n//;').getErrorCount() === 1);
-            });
-        });
+        invalid([
+            'do {} while (expr)',
+            'do {} while (expr)//;',
+            'do {} while (expr)\n//;'
+        ]);
     });
 });
