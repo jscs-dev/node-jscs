@@ -29,8 +29,8 @@ describe('rules/disallow-multiple-line-breaks', function() {
 
     it('should report error in the correct location when first line starts with #!', function() {
         var error = checker.checkString('#!/usr/bin/env node\n\n\nx = 1;').getErrorList()[0];
-        assert.equal(error.line, 2);
-        assert.equal(error.column, 0);
+        assert.equal(error.line, 1);
+        assert.equal(error.column, 19);
     });
 
     it('should report only once per each sequence of line breaks', function() {
