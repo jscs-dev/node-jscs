@@ -66,10 +66,12 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
+    });
 
-        it('should trigger error on invalid space count between tokens', function() {
+    describe('spacesBetween', function() {
+        it('should do nothing if either token or nextToken is not specified', function() {
             var file = createJsFile('x   =   y;');
 
             var tokenAssert = new TokenAssert(file);
@@ -77,70 +79,174 @@ describe('modules/token-assert', function() {
             tokenAssert.on('error', onError);
 
             var tokens = file.getTokens();
-            tokenAssert.whitespaceBetween({
+
+            tokenAssert.spacesBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
-                spaces: 2
+                exactly: 10
             });
 
-            assert(onError.calledOnce);
+            tokenAssert.spacesBetween({
+                nextToken: tokens[0],
+                exactly: 10
+            });
 
-            var error = onError.getCall(0).args[0];
-            assert.equal(error.message, '2 spaces required between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            assert(onError.notCalled);
         });
 
-        it('should not trigger error on newline between tokens', function() {
-            var file = createJsFile('x\n=y;');
+        describe('exactly', function() {
+            it('should trigger error on invalid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
-            tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: tokens[1],
-                spaces: 2
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, '2 spaces required between x and =');
+                assert.equal(error.line, 1);
+                assert.equal(error.column, 1);
             });
 
-            assert(!onError.called);
+            it('should not trigger error on newline between tokens', function() {
+                var file = createJsFile('x\n=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2
+                });
+
+                assert(onError.notCalled);
+            });
+
+            it('should not trigger error on valid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 3
+                });
+
+                assert(onError.notCalled);
+            });
+
+            it('should accept message for invalid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    exactly: 2,
+                    message: 'Custom message'
+                });
+
+                assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            });
+
+            it('should error, but not fix, when a comment exists between the two tokens', function() {
+                var file = createJsFile('x/*blockcomment*/=y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[2],
+                    exactly: 5
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.fixed, false);
+                assert.equal(tokens[2].whitespaceBefore, '');
+            });
         });
 
-        it('should not trigger error on valid space count between tokens', function() {
-            var file = createJsFile('x   =   y;');
+        describe('atMost', function() {
+            it('should trigger error on invalid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
-            tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: tokens[1],
-                spaces: 3
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 1
+                });
+
+                assert(onError.calledOnce);
+
+                var error = onError.getCall(0).args[0];
+                assert.equal(error.message, 'at most 1 spaces required between x and =');
+                assert.equal(error.line, 1);
+                assert.equal(error.column, 1);
             });
 
-            assert(!onError.called);
-        });
+            it('should not trigger error on valid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
 
-        it('should accept message for invalid space count between tokens', function() {
-            var file = createJsFile('x   =   y;');
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
 
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 3
+                });
 
-            var tokens = file.getTokens();
-            tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: tokens[1],
-                spaces: 2,
-                message: 'Custom message'
+                assert(onError.notCalled);
             });
 
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            it('should accept message for invalid space count between tokens', function() {
+                var file = createJsFile('x   =   y;');
+
+                var tokenAssert = new TokenAssert(file);
+                var onError = sinon.spy();
+                tokenAssert.on('error', onError);
+
+                var tokens = file.getTokens();
+                tokenAssert.spacesBetween({
+                    token: tokens[0],
+                    nextToken: tokens[1],
+                    atMost: 1,
+                    message: 'Custom message'
+                });
+
+                assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            });
         });
 
         it('should trigger error on invalid maximum space count between tokens', function() {
@@ -160,7 +266,7 @@ describe('modules/token-assert', function() {
             assert(onError.calledOnce);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'At most 1 space is allowed between x and =');
+            assert.equal(error.message, 'at most 1 spaces required between x and =');
             assert.equal(error.line, 1);
             assert.equal(error.column, 1);
         });
@@ -182,7 +288,7 @@ describe('modules/token-assert', function() {
             assert(onError.calledOnce);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'At most 2 spaces are allowed between x and =');
+            assert.equal(error.message, 'at most 2 spaces required between x and =');
             assert.equal(error.line, 1);
             assert.equal(error.column, 1);
         });
@@ -275,7 +381,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should trigger error on newline between tokens with disallowNewLine option', function() {
@@ -313,7 +419,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should accept message for existing space count between tokens', function() {
@@ -369,7 +475,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should accept message for unexpected newline between tokens', function() {
@@ -436,7 +542,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should not trigger on additional newlines between tokens', function() {
@@ -452,7 +558,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should not trigger on additional newlines between tokens', function() {
@@ -468,7 +574,7 @@ describe('modules/token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should accept message for missing newline between tokens', function() {
@@ -635,7 +741,7 @@ describe('modules/token-assert', function() {
                     exactly: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should not trigger error on exactly 0 blank lines', function() {
@@ -652,7 +758,7 @@ describe('modules/token-assert', function() {
                     exactly: 1
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should not trigger error on multiple specified newlines negative', function() {
@@ -669,7 +775,7 @@ describe('modules/token-assert', function() {
                     exactly: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
@@ -776,7 +882,7 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should not trigger error on too many lines', function() {
@@ -793,7 +899,7 @@ describe('modules/token-assert', function() {
                     atLeast: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
@@ -892,7 +998,7 @@ describe('modules/token-assert', function() {
                     atMost: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should not trigger with exact lines', function() {
@@ -909,7 +1015,7 @@ describe('modules/token-assert', function() {
                     atMost: 2
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should trigger error on too many lines', function() {
@@ -996,7 +1102,7 @@ describe('modules/token-assert', function() {
                     atMost: 3
                 });
 
-                assert(!onError.called);
+                assert(onError.notCalled);
             });
 
             it('should trigger if below range', function() {
@@ -1123,7 +1229,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should accept message for missing token before', function() {
@@ -1203,7 +1309,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should not trigger error on missing token type before', function() {
@@ -1222,7 +1328,7 @@ describe('modules/token-assert', function() {
                 }
             });
 
-            assert(!onError.called);
+            assert(onError.notCalled);
         });
 
         it('should accept message for illegal token before', function() {
