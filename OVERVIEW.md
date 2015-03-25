@@ -2,6 +2,8 @@
 
 ## Presets
 
+Note: the easiest way to use a preset is with the [preset](#preset) option described below.
+
  * [Airbnb](https://github.com/jscs-dev/node-jscs/blob/master/presets/airbnb.json) — https://github.com/airbnb/javascript
  * [Crockford](https://github.com/jscs-dev/node-jscs/blob/master/presets/crockford.json) — http://javascript.crockford.com/code.html
  * [Google](https://github.com/jscs-dev/node-jscs/blob/master/presets/google.json) — https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
