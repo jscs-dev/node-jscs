@@ -97,6 +97,10 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         it('should not report with no spaces in an export default statement', function() {
             assert(checker.checkString('export default function() {}').isEmpty());
         });
+
+        it('should not report with no spaces in an interpolated template string', function() {
+            assert(checker.checkString('throw new Error(`foo ${"bar"}`);').isEmpty());
+        });
     });
 
     describe('"only" option', function() {
