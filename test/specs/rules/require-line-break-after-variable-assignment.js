@@ -61,5 +61,15 @@ describe('rules/require-line-break-after-variable-assignment', function() {
                 '}'
             ).getErrorCount() === 1);
         });
+
+        it('should report for let when defined and assigned on the same line.', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('let x = 1, y = 2;').getErrorCount() === 1);
+        });
+
+        it('should report for const when defined and assigned on the same line.', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('const x = 1, y = 2;').getErrorCount() === 1);
+        });
     });
 });
