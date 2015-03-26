@@ -2,7 +2,7 @@
   "author": "Marat Dulin <mdevils@yandex.ru>",
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.11.3",
+  "version": "1.12.0",
   "main": "lib/checker",
   "homepage": "https://github.com/jscs-dev/node-jscs",
   "keywords": [
