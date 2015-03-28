@@ -32,4 +32,26 @@ describe('rules/require-padding-newline-after-variable-declaration', function() 
         assert(checker.checkString('function a() { var x; console.log(x); }').getErrorCount() === 1);
         assert(checker.checkString('var y; function a() { var x; console.log(x); }').getErrorCount() === 2);
     });
+
+    it('should not report when variables are defined in the init part of a for loop', function() {
+        assert(checker.checkString('for (var i = 0, length = myArray.length; i < length; i++) {}').isEmpty());
+    });
+
+    it('should not report when variables are defined in the init part of a for in loop', function() {
+        assert(checker.checkString('for (var i in arr) {}').isEmpty());
+    });
+
+    it('should not report when variables are defined in the init part of a for of loop', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('for (var i of arr) {}').isEmpty());
+    });
+
+    it('should report if no extra newline is present after var declaration in the body of a for loop', function() {
+        assert(checker.checkString(
+            'for (var i = 0, length = myArray.length; i < length; i++) {' +
+                'var x = 1;' +
+                'console.log(x);' +
+            '}'
+        ).getErrorCount() === 1);
+    });
 });
