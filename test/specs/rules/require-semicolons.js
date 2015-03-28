@@ -25,6 +25,27 @@ describe('rules/require-semicolons', function() {
         });
     }
 
+    function checkPosition(tests) {
+        describe('check position', function() {
+            tests.forEach(function(test) {
+                var code = test.code;
+                var positions = test.warnings;
+
+                it(code.replace(/\n/g, '\\n'), function() {
+                    var result = checker.checkString(code);
+                    var errors = result.getErrorList();
+
+                    assert(errors.length === positions.length);
+
+                    for (var i = 0; i < errors.length; i++) {
+                        assert(errors[i].line === positions[i][0]);
+                        assert(errors[i].column === positions[i][1]);
+                    }
+                });
+            });
+        });
+    }
+
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
@@ -196,6 +217,17 @@ describe('rules/require-semicolons', function() {
             'do {} while (expr)',
             'do {} while (expr)//;',
             'do {} while (expr)\n//;'
+        ]);
+    });
+
+    describe('warning position', function() {
+        checkPosition([
+            {
+                code: 'if (true) {\n  var foo = 2\n}',
+                warnings: [
+                    [2, 13]
+                ]
+            }
         ]);
     });
 });
