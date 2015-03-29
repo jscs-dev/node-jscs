@@ -75,6 +75,37 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('object[jkl] = 1;').isEmpty());
             assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
+            assert(checker.checkString('asdfAsdf = 1;').isEmpty());
+            assert(checker.checkString('object[jklJkl] = 1;').isEmpty());
+            assert(checker.checkString('object["jklJkl"] = 1;').isEmpty());
+            assert(checker.checkString('object.jklJkl = 1;').isEmpty());
+        });
+    });
+
+    describe('allowNamesForIdentifiersAndProperties', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireDictionaryWords: {
+                    allowNamesForIdentifiersAndProperties: [
+                        'asdf',
+                        'jkl'
+                    ]
+                }
+            });
+        });
+
+        it('should report names used as substrings', function() {
+            assert(checker.checkString('asdfAsdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object[jklJkl] = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object["jklJkl"] = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object.jklJkl = 1;').getErrorCount() === 2);
+        });
+
+        it('should not report included names', function() {
+            assert(checker.checkString('asdf = 1;').isEmpty());
+            assert(checker.checkString('object[jkl] = 1;').isEmpty());
+            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
+            assert(checker.checkString('object.jkl = 1;').isEmpty());
         });
     });
 
@@ -93,9 +124,43 @@ describe('rules/require-dictionary-words', function() {
         it('should report non-words', function() {
             assert(checker.checkString('asdf = 1;').getErrorCount() === 1);
             assert(checker.checkString('object[jkl] = 1;').getErrorCount() === 1);
+            assert(checker.checkString('asdfAsdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object[jklJkl] = 1;').getErrorCount() === 2);
         });
 
         it('should not report included words', function() {
+            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
+            assert(checker.checkString('object.jkl = 1;').isEmpty());
+            assert(checker.checkString('object["jklJkl"] = 1;').isEmpty());
+            assert(checker.checkString('object.jklJkl = 1;').isEmpty());
+        });
+    });
+
+    describe('allowNamesForProperties', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireDictionaryWords: {
+                    allowNamesForProperties: [
+                        'asdf',
+                        'jkl'
+                    ]
+                }
+            });
+        });
+
+        it('should report names used as substrings', function() {
+            assert(checker.checkString('object["jklJkl"] = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object.jklJkl = 1;').getErrorCount() === 2);
+        });
+
+        it('should report non-names', function() {
+            assert(checker.checkString('asdf = 1;').getErrorCount() === 1);
+            assert(checker.checkString('object[jkl] = 1;').getErrorCount() === 1);
+            assert(checker.checkString('asdfAsdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('object[jklJkl] = 1;').getErrorCount() === 2);
+        });
+
+        it('should not report included names', function() {
             assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
         });
