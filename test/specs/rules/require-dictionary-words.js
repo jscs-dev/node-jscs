@@ -185,6 +185,36 @@ describe('rules/require-dictionary-words', function() {
         });
     });
 
+    describe('dictionaries', function() {
+        describe('english', function () {
+            beforeEach(function() {
+                checker.configure({
+                    requireDictionaryWords: {
+                        dictionaries: ['english']
+                    }
+                });
+            });
+
+            it('should report non-words', function() {
+                assert(checker.checkString('color = 1;').getErrorCount() === 1);
+            });
+        });
+
+        describe('english, american', function () {
+            beforeEach(function() {
+                checker.configure({
+                    requireDictionaryWords: {
+                        dictionaries: ['english', 'american']
+                    }
+                });
+            });
+
+            it('should not report real words', function() {
+                assert(checker.checkString('color = 1;').isEmpty());
+            });
+        });
+    });
+
     describe('exceptions', function() {
         beforeEach(function() {
             checker.configure({
