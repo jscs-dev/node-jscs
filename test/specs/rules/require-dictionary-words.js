@@ -58,11 +58,11 @@ describe('rules/require-dictionary-words', function() {
         });
     });
 
-    describe('includedForIdentifiersAndProperties', function() {
+    describe('allowWordsInIdentifiersAndProperties', function() {
         beforeEach(function() {
             checker.configure({
                 requireDictionaryWords: {
-                    includedForIdentifiersAndProperties: [
+                    allowWordsInIdentifiersAndProperties: [
                         'asdf',
                         'jkl'
                     ]
@@ -78,11 +78,11 @@ describe('rules/require-dictionary-words', function() {
         });
     });
 
-    describe('includedForProperties', function() {
+    describe('allowWordsInProperties', function() {
         beforeEach(function() {
             checker.configure({
                 requireDictionaryWords: {
-                    includedForProperties: [
+                    allowWordsInProperties: [
                         'asdf',
                         'jkl'
                     ]
@@ -125,6 +125,15 @@ describe('rules/require-dictionary-words', function() {
             checker.configure({
                 requireDictionaryWords: true
             });
+        });
+
+        it('should report non-words from the standard APIs used out-of-context', function() {
+            assert(checker.checkString('"foo".substrMe();').getErrorCount() === 1);
+            assert(checker.checkString('[].unshiftMe();').getErrorCount() === 1);
+            assert(checker.checkString('({}).proto();').getErrorCount() === 1);
+            assert(checker.checkString('new RegExp123();').getErrorCount() === 2);
+            assert(checker.checkString('evalMe();').getErrorCount() === 1);
+            assert(checker.checkString('isNaNYourself();').getErrorCount() === 1);
         });
 
         it('should not report non-words from the standard APIs', function() {
