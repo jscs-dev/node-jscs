@@ -75,6 +75,7 @@
     "exit": "~0.1.2",
     "glob": "^5.0.1",
     "lodash.assign": "~3.0.0",
+    "lodash.indexof": "~3.0.0",
     "minimatch": "~2.0.1",
     "prompt": "~0.2.14",
     "strip-json-comments": "~1.0.2",
