@@ -25,6 +25,8 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('object[jkl] = 1;').getErrorCount() === 1);
             assert(checker.checkString('object["jkl"] = 1;').getErrorCount() === 1);
             assert(checker.checkString('object.jkl = 1;').getErrorCount() === 1);
+            assert(checker.checkString('object = {jkl: 1};').getErrorCount() === 1);
+            assert(checker.checkString('object = {"jkl": 1};').getErrorCount() === 1);
 
             assert(checker.checkString('JKL = 1;').getErrorCount() === 1);
         });
@@ -48,6 +50,8 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('object[good] = 1;').isEmpty());
             assert(checker.checkString('object["good"] = 1;').isEmpty());
             assert(checker.checkString('object.good = 1;').isEmpty());
+            assert(checker.checkString('object = {good: 1};').isEmpty());
+            assert(checker.checkString('object = {"good": 1};').isEmpty());
         });
 
         it('should not report multiple real words', function() {
@@ -186,7 +190,7 @@ describe('rules/require-dictionary-words', function() {
     });
 
     describe('dictionaries', function() {
-        describe('english', function () {
+        describe('english', function() {
             beforeEach(function() {
                 checker.configure({
                     requireDictionaryWords: {
@@ -200,7 +204,7 @@ describe('rules/require-dictionary-words', function() {
             });
         });
 
-        describe('english, american', function () {
+        describe('english, american', function() {
             beforeEach(function() {
                 checker.configure({
                     requireDictionaryWords: {
