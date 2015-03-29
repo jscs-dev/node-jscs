@@ -1,3 +1,109 @@
+## Version 1.12.0
+
+### Overview
+Ladies and Gentlemen... Elvis is in the building - auto-fixing is finally here! We were working really hard to make this powerful new feature, and to make it right. We're hoping it will truly help make your code look good.
+
+Auto-fixing supports the [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend) and all rules related to spacing, including [validateIndentation](http://jscs.info/rules.html#validateindentation) which is the most complicated rule we have (big thanks to @mikesherov for making that happen). 
+
+Although this chunk of rules covers most of the popular use-cases, we're determine to add more rules to this list, please help us out and report any bugs or consider contributing with some code - http://jscs.info/contributing.html. We're really friendly to every new contributor.
+
+Apart from auto-fixing, there are six new rules – fresh out of the oven. Special thanks goes to @lahmatiy, who had the patience and perseverance to implement [`requireSemicolons`](http://jscs.info/rules.html#requiresemicolons).
+
+Because of tireless efforts of @hzoo, we're adding two new presets in this release - [`node-style-guide`](https://github.com/felixge/node-style-guide ) and [`wordpress`](https://make.wordpress.org/core/handbook/coding-standards/javascript). They have pretty consistent style guides... try it out; They are a breeze to work with.
+
+We're very grateful to everyone who helped out with this release, especially to @TheSavior who helped review the pull requests and shape out our API.
+
+### Preset updates
+* Preset: remove "requireMultipleVarDecl" rule from jquery preset (Oleg Gaidarenko)
+* Preset: wordpress (Henry Zhu)
+* Preset: Add "requireSemicolons" rule to the Yandex preset (ikokostya)
+* Preset: Add validate indentation rule for Yandex (Gunnar Lium)
+* Preset: node-style-guide (Henry Zhu)
+* Preset: update airbnb preset (Eli White)
+* Preset: require blank line before all line comments for jQuery preset (Eli White)
+* Preset: Add "requireSpaceBeforeObjectValues" to crockford test (Jackson Ray Hamilton)
+
+### Auto-fixing
+* validateIndentation: autofixing! (Mike Sherov)
+* TokenAssert: only fix lines when comments do not exist between tokens (Mike Sherov)
+* disallowMultipleLineString: do not yet allow autofixing, which is a non-whitespace change (Mike Sherov)
+* disallowSemicolons: do not yet allow autofixing, which is a non-whitespace change (Mike Sherov)
+* Autofixing: add more rules to use assertion framework (Henry Zhu)
+* Autofixing: make most rules use assertion framework when possible (Eli White)
+* Autofixing: initial implementation (mdevils)
+* Autofixing: token data (mdevils)
+
+### New rules
+* New Rule: requireSemicolons (Roman Dvornov)
+* New Rule: disallow-multiple-spaces (Todd Wolfson)
+* New Rule: disallowIdentifierNames (alawatthe)
+* New Rule: requirePaddingNewLineAfterVariableDeclaration (Evan Jacobs)
+* New Rule: requireDollarBeforejQueryAssignment (Eli White)
+* New Rules: (disallow/require)PaddingNewLinesBeforeLineComments (Eli White)
+
+### Rule Values
+* requireCapitalizedComments: Add `allExcept` option (Ash Clarke)
+
+### Auto-configuration
+* Auto-Configuration: show error count when handling violated rules (fubu)
+* Auto-Configuration: show number of violated rules (fubu)
+
+### CLI
+* CLI: simplify and increase coverage of "cli-config" module (Oleg Gaidarenko)
+* CLI: increase coverage of the "cli" module (Oleg Gaidarenko)
+
+### Bug fixes
+* (require|disallow)spacesIn*: add more invalid examples and fixes for rules (Henry Zhu)
+* disallowSpacesInsideArrayBrackets: fix error messages (Henry Zhu)
+* requireSpacesInsideArrayBrackets: comments should be also taken into account (gero3)
+* disallowSpaceBeforeBinaryOperators: comments are allowed (gero3)
+* requireLineBreakAfterVariableAssignment: allow exception for init part of for loop (Henry Zhu)
+* (require|disallow)SpacesInsideArrayBrackets: use includeComments in token (Henry Zhu)
+* disallowAnonymousFunctions: remove errant "s" from error message (James Chin)
+* disallowDanglingUnderscores: Corrected rule name in assert message (Oswald Maskens)
+* Parsing: Extend estraverse rules to support both XJS and JSX (Henry Zhu)
+* (disallow/require)PaddingNewLinesAfterBlocks: Ignoring the end of files (Eli White)
+* requirePaddingNewLinesBeforeLineComments: Allow consecutive comments and firstAfterCurly exception (Eli White)
+
+### Misc
+* disallowSpacesInsideParentheses: fix es6 template literal token issues (Mike Sherov)
+* RequireAlignedObjectValues: use assertions (Mike Sherov)
+* DisallowMultipleLineBreaks: use assertions (Mike Sherov)
+* Tests: Move to spec folder (Joel Kemp)
+* Tests: Adding some more fix tests (Eli White)
+* Tests: move specs into a subdir so that tests, fixtures, and utilities aren't intermingled (Mike Sherov)
+* Misc: update dependencies (Oleg Gaidarenko)
+* JsFile: Make getTokens include comments (Eli White)
+* Assertions: Add fixing tests to several rules (Eli White)
+* Assertions: add tests for linesBetween (Mike Sherov)
+* Assertions: Make sure newlines get fixed (gero3)
+* TokenAssert: remove newline fixing logic duplication to prepare for further fixes (Mike Sherov)
+* TokenAssert: simplify and strengthen linesBetween rules (Mike Sherov)
+* Token Assert: normalize whiteSpace assertions to match line assertions (Mike Sherov)
+* requireLineFeedAtFileEnd: make use of assert (gero3)
+* Don't trim whitespace in markdown-files (Simen Bekkhus)
+* Cleanup: use this.getOptionName() for consistency, options variable (Henry Zhu)
+* Cleanup: use iterateTokensByTypeAndValue where appropriate (Mike Sherov)
+* Cleanup: remove archaic functions from JsFile (Mike Sherov)
+* Cleanup: remove usage of getComment(After|Before)Token (Mike Sherov)
+* Cleanup: remove redundant boolean check, use consistent error messages (Henry Zhu)
+* Cleanup: use iterateTokensByTypeAndValue and this.getOptionName() (Henry Zhu)
+* requireSpaceAfterKeywords: use token assert (Henry Zhu)
+* JsFile::getFirstTokenOnLine implementation (for indentation rules) (mdevils)
+* Replaces the 'colors' and 'supports-colors' packages with 'chalk'. (Joshua Appelman)
+* Fix various doc typos (Jérémie Astori)
+* requirePaddingNewLinesAfterBlockDeclarations / disallowPaddingNewLinesAfterBlockDeclarations Adding an option to specify lines for errors.assert.differentLine (Eli White)
+* JsFile: add getLineBreaks function to support future whitespace fixes (Mike Sherov)
+* Appveyor: freeze node version to 0.12.x (Alexej Yaroshevich)
+* requireCapitalizedComments: automatically except `jscs` comments (James Reggio)
+
+### Docs
+* Docs: Change "Values" and "Types" to grammatically correct forms (Shmavon Gazanchyan)
+* Docs: add reporter (sanemat)
+* Docs: less.js uses jscs (Bass Jobsen)
+* Docs: added Goodvidio to the list of adopters (Adonis K)
+* Fix types and descriptions in documentation (Shmavon Gazanchyan)
+
 ## Version 1.11.3
 
 ### Bug Fixes

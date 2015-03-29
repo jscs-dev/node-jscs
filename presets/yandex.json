@@ -95,5 +95,8 @@
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
-    "validateLineBreaks": "LF"
+    "validateIndentation": 4,
+    "validateLineBreaks": "LF",
+
+    "requireSemicolons": true
 }

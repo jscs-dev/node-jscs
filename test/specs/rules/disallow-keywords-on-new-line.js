@@ -3,38 +3,70 @@ var assert = require('assert');
 
 describe('rules/disallow-keywords-on-new-line', function() {
     var checker;
+    var input;
+    var output;
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
 
-    it('should report illegal keyword placement for catch', function() {
-        checker.configure({ disallowKeywordsOnNewLine: ['catch'] });
-        assert(
-            checker.checkString(
-                'try {\n' +
+    describe('illegal comma illegal keyword placement for catch', function() {
+        beforeEach(function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['catch'] });
+
+            input = 'try {\n' +
                     'x++;\n' +
                 '}\n' +
                 'catch(e) {\n' +
                     'x--;\n' +
-                '}'
-            ).getErrorCount() === 1
-        );
+                '}';
+
+            output = 'try {\n' +
+                    'x++;\n' +
+                '} catch(e) {\n' +
+                    'x--;\n' +
+                '}';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
     });
 
-    it('should report illegal keyword placement', function() {
-        checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-        assert(
-            checker.checkString(
-                'if (x) {\n' +
+    describe('illegal keyword placement', function() {
+        beforeEach(function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['else'] });
+
+            input = 'if (x) {\n' +
                     'x++;\n' +
                 '}\n' +
                 'else {\n' +
                     'x--;\n' +
-                '}'
-            ).getErrorCount() === 1
-        );
+                '}';
+
+            output = 'if (x) {\n' +
+                    'x++;\n' +
+                '} else {\n' +
+                    'x--;\n' +
+                '}';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
     });
 
     it('should not report legal keyword placement', function() {
@@ -61,39 +93,15 @@ describe('rules/disallow-keywords-on-new-line', function() {
     });
 
     describe('fix', function() {
-        it ('should fix try catch', function() {
-            checker.configure({ disallowKeywordsOnNewLine: ['catch'] });
-            var result = checker.fixString(
-                'try {\n' +
-                    'x++;\n' +
-                '}\n' +
-                'catch(e) {\n' +
-                    'x--;\n' +
-                '}'
-            );
-
-            assert(result.errors.isEmpty());
-            assert.equal(result.output,
-                'try {\n' +
-                    'x++;\n' +
-                '} catch(e) {\n' +
-                    'x--;\n' +
-                '}'
-                );
-        });
-
         it('should not fix special case for "else" statement without braces (#905)', function() {
             checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-            var result = checker.fixString(
-                'if (block) block[v]["(type)"] = "var";\n' +
-                'else funct[v] = "var";'
-            );
 
+            var input = 'if (block) block[v]["(type)"] = "var";\n' +
+                'else funct[v] = "var";';
+
+            var result = checker.fixString(input);
             assert(result.errors.isEmpty());
-            assert.equal(result.output,
-                'if (block) block[v]["(type)"] = "var";\n' +
-                'else funct[v] = "var";'
-            );
+            assert.equal(result.output, input);
         });
     });
 });

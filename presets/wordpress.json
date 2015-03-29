@@ -1,0 +1,13 @@
+{
+    "preset": "jquery",
+    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
+    "disallowSpaceBeforePostfixUnaryOperators": true,
+    "maximumLineLength": null,
+    "requireSpaceAfterPrefixUnaryOperators": ["!"],
+    "requireSpacesInsideParentheses": {
+        "all": true,
+        "except": [ "{", "}", "[", "]", "function" ]
+    },
+    "requireYodaConditions": true,
+    "validateQuoteMarks": "'"
+}

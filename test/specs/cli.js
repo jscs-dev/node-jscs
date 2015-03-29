@@ -8,6 +8,8 @@ var hasAnsi = require('has-ansi');
 var rewire = require('rewire');
 
 var cli = rewire('../../lib/cli');
+var configFile = require('../../lib/cli-config');
+var Checker = require('../../lib/checker');
 var startingDir = process.cwd();
 
 var Vow = require('vow');
@@ -82,6 +84,47 @@ describe('modules/cli', function() {
         return result.promise.fail(function() {
             assert.equal(console.error.getCall(0).args[0], 'Preset "not-exist" does not exist');
             console.error.restore();
+        });
+    });
+
+    it('should return error if default config was not found', function() {
+        sinon.spy(console, 'error');
+        sinon.stub(configFile, 'load', function() {
+            return undefined;
+        });
+
+        var result = cli({
+            args: []
+        });
+        var text = 'No configuration found. Add a .jscsrc file to your' +
+            ' project root or use the -c option.';
+
+        return result.promise.always(function() {
+            assert.equal(console.error.getCall(0).args[0], text);
+
+            configFile.load.restore();
+            console.error.restore();
+        });
+    });
+
+    it('should call checker if config does not exist but "preset" option is defined', function() {
+        sinon.stub(configFile, 'load', function() {
+            return undefined;
+        });
+        sinon.spy(Checker.prototype, 'configure');
+
+        var result = cli({
+            args: ['test/data/cli/error.js'],
+            preset: 'google'
+        });
+
+        return result.promise.always(function() {
+            var config = Checker.prototype.configure.getCall(0).args[0];
+
+            assert(!Object.keys(config).length);
+
+            Checker.prototype.configure.restore();
+            configFile.load.restore();
         });
     });
 

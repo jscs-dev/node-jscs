@@ -40,8 +40,8 @@ describe('modules/string-checker', function() {
             it('should report error in the correct location when first line starts with #!', function() {
                 checker.configure({ disallowMultipleLineBreaks: true });
                 var error = checker.checkString('#!/usr/bin/env node\n\n\nx = 1;').getErrorList()[0];
-                assert.equal(error.line, 2);
-                assert.equal(error.column, 0);
+                assert.equal(error.line, 1);
+                assert.equal(error.column, 19);
             });
         });
 
@@ -364,7 +364,9 @@ describe('modules/string-checker', function() {
         testPreset('grunt');
         testPreset('jquery');
         testPreset('mdcs');
+        testPreset('node-style-guide');
         testPreset('wikimedia');
+        testPreset('wordpress');
         testPreset('yandex');
 
         /**

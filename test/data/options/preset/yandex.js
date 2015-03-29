@@ -95,6 +95,7 @@ switch (value) {
     default:
         // ...
         // no break keyword on the last case
+        doSomething();
 }
 
 // Ternary operators.
