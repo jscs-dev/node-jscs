@@ -11,6 +11,7 @@ install:
   - node --version
   - npm --version
   - npm install
+  - npm install wordlist-english
 
 test_script:
   - npm test
