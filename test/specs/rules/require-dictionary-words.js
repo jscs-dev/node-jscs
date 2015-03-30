@@ -200,5 +200,18 @@ describe('rules/require-dictionary-words', function() {
                 assert(checker.checkString('color = 1;').isEmpty());
             });
         });
+
+        describe('missing dictionary', function() {
+            it('should throw an informative error', function() {
+                var missingLanguage = 'elvish';
+                assert.throws(function() {
+                    checker.configure({
+                        requireDictionaryWords: {
+                            dictionaries: [missingLanguage]
+                        }
+                    });
+                }, new RegExp('wordlist-' + missingLanguage));
+            });
+        });
     });
 });
