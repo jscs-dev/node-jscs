@@ -37,6 +37,14 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('asdf_asdf = 1;').getErrorCount() === 2);
         });
 
+        it('should ignore numbers and symbols', function() {
+            assert(checker.checkString('$asdfAsdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('asdf$Asdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('asdfAsdf$ = 1;').getErrorCount() === 2);
+            assert(checker.checkString('asdf9Asdf = 1;').getErrorCount() === 2);
+            assert(checker.checkString('asdfAsdf9 = 1;').getErrorCount() === 2);
+        });
+
         it('should not report non-"instantiation" usages', function() {
             assert(checker.checkString('asdf').isEmpty());
             assert(checker.checkString('asdf.jkl').isEmpty());
@@ -70,6 +78,17 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('goodGOOD = 1;').isEmpty());
             assert(checker.checkString('goodGOODGood = 1;').isEmpty());
             assert(checker.checkString('good_good = 1;').isEmpty());
+        });
+    });
+
+    describe('esnext', function() {
+        beforeEach(function() {
+            checker.configure({ requireDictionaryWords: true, esnext: true });
+        });
+
+        it('should report non-words in ES6', function() {
+            assert(checker.checkString('object = {asdf, jkl() {}, [0 + 1]: 2};').getErrorCount() === 2);
+            assert(checker.checkString('class Asdf { jkl() {} }').getErrorCount() === 2);
         });
     });
 
