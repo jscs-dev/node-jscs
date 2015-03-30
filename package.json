@@ -130,7 +130,7 @@
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm test && npm publish",
     "postpublish": "node publish/postpublish",
-    "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
+    "travis": "npm install wordlist-english && npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
   },
   "files": [
     "bin",
