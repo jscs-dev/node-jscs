@@ -25,6 +25,7 @@ describe('rules/require-dictionary-words', function() {
             assert(checker.checkString('object.jkl = 1;').getErrorCount() === 1);
             assert(checker.checkString('object = {jkl: 1};').getErrorCount() === 1);
             assert(checker.checkString('object = {"jkl": 1};').getErrorCount() === 1);
+            assert(checker.checkString('asdf: void 0;').getErrorCount() === 1);
 
             assert(checker.checkString('JKL = 1;').getErrorCount() === 1);
         });
@@ -37,10 +38,13 @@ describe('rules/require-dictionary-words', function() {
         });
 
         it('should not report non-"instantiation" usages', function() {
+            assert(checker.checkString('asdf').isEmpty());
+            assert(checker.checkString('asdf.jkl').isEmpty());
+            assert(checker.checkString('asdf(jkl)').isEmpty());
+            assert(checker.checkString('asdf.jkl(jkl)').isEmpty());
             assert(checker.checkString('value = asdf').isEmpty());
             assert(checker.checkString('var value = asdf').isEmpty());
             assert(checker.checkString('object.property = asdf').isEmpty());
-            assert(checker.checkString('asdf(asdf)').isEmpty());
             assert(checker.checkString('if(asdf){}').isEmpty());
             assert(checker.checkString('object[jkl] = 1;').isEmpty());
         });
