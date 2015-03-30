@@ -59,25 +59,10 @@ describe('rules/require-dictionary-words', function() {
 
         it('should not report real words', function() {
             assert(checker.checkString('good = 1;').isEmpty());
-            assert(checker.checkString('var good = 1;').isEmpty());
-            assert(checker.checkString('let good = 1;').isEmpty());
-            assert(checker.checkString('const good = 1;').isEmpty());
-            assert(checker.checkString('function routine(fine) {var good = 1;}').isEmpty());
-            assert(checker.checkString('routine(good)').isEmpty());
-            assert(checker.checkString('if(good){}').isEmpty());
-            assert(checker.checkString('for(good = 0; good < 1; good++){good;}').isEmpty());
-            assert(checker.checkString('object[good] = 1;').isEmpty());
-            assert(checker.checkString('object["good"] = 1;').isEmpty());
-            assert(checker.checkString('object.good = 1;').isEmpty());
-            assert(checker.checkString('object = {good: 1};').isEmpty());
-            assert(checker.checkString('object = {"good": 1};').isEmpty());
         });
 
         it('should not report multiple real words', function() {
             assert(checker.checkString('goodGood = 1;').isEmpty());
-            assert(checker.checkString('goodGOOD = 1;').isEmpty());
-            assert(checker.checkString('goodGOODGood = 1;').isEmpty());
-            assert(checker.checkString('good_good = 1;').isEmpty());
         });
     });
 
@@ -103,12 +88,8 @@ describe('rules/require-dictionary-words', function() {
 
         it('should not report included words', function() {
             assert(checker.checkString('asdf = 1;').isEmpty());
-            assert(checker.checkString('object[jkl] = 1;').isEmpty());
-            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
             assert(checker.checkString('asdfAsdf = 1;').isEmpty());
-            assert(checker.checkString('object[jklJkl] = 1;').isEmpty());
-            assert(checker.checkString('object["jklJkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jklJkl = 1;').isEmpty());
         });
     });
@@ -124,13 +105,11 @@ describe('rules/require-dictionary-words', function() {
 
         it('should report names used as substrings', function() {
             assert(checker.checkString('asdfAsdf = 1;').getErrorCount() === 2);
-            assert(checker.checkString('object["jklJkl"] = 1;').getErrorCount() === 2);
             assert(checker.checkString('object.jklJkl = 1;').getErrorCount() === 2);
         });
 
         it('should not report included names', function() {
             assert(checker.checkString('asdf = 1;').isEmpty());
-            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
         });
     });
@@ -150,9 +129,7 @@ describe('rules/require-dictionary-words', function() {
         });
 
         it('should not report included words', function() {
-            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
-            assert(checker.checkString('object["jklJkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jklJkl = 1;').isEmpty());
         });
     });
@@ -167,7 +144,6 @@ describe('rules/require-dictionary-words', function() {
         });
 
         it('should report names used as substrings', function() {
-            assert(checker.checkString('object["jklJkl"] = 1;').getErrorCount() === 2);
             assert(checker.checkString('object.jklJkl = 1;').getErrorCount() === 2);
         });
 
@@ -177,7 +153,6 @@ describe('rules/require-dictionary-words', function() {
         });
 
         it('should not report included names', function() {
-            assert(checker.checkString('object["jkl"] = 1;').isEmpty());
             assert(checker.checkString('object.jkl = 1;').isEmpty());
         });
     });
@@ -193,7 +168,6 @@ describe('rules/require-dictionary-words', function() {
 
         it('should report excluded words', function() {
             assert(checker.checkString('good = 1;').getErrorCount() === 1);
-            assert(checker.checkString('object["good"] = 1;').getErrorCount() === 1);
             assert(checker.checkString('object.good = 1;').getErrorCount() === 1);
         });
     });
