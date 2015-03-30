@@ -71,9 +71,14 @@ describe('rules/require-dictionary-words', function() {
             checker.configure({ requireDictionaryWords: true, esnext: true });
         });
 
-        it('should report non-words in ES6', function() {
+        it('should report non-words in es6', function() {
             assert(checker.checkString('object = {asdf, jkl() {}, [0 + 1]: 2};').getErrorCount() === 2);
             assert(checker.checkString('class Asdf { jkl() {} }').getErrorCount() === 2);
+        });
+
+        it('should not report real words in es6', function() {
+            assert(checker.checkString('object = {good, good() {}, [0 + 1]: 2};').isEmpty());
+            assert(checker.checkString('class Good { good() {} }').isEmpty());
         });
     });
 
