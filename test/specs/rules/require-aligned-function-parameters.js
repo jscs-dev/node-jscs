@@ -19,6 +19,17 @@ describe('rules/require-aligned-function-parameters', function() {
             );
         });
 
+        it('should not report inline function parameters on a new line', function() {
+            checker.configure({ requireAlignedFunctionParameters: true });
+            assert(
+                checker.checkString(
+                    'function a(\n' +
+                        '  b, c\n' +
+                    ') {}'
+                ).isEmpty()
+            );
+        });
+
         it('should report unaligned multi-line function parameters', function() {
             checker.configure({ requireAlignedFunctionParameters: true });
             assert(
