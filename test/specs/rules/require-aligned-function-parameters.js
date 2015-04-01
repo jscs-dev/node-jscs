@@ -10,8 +10,11 @@ describe('rules/require-aligned-function-parameters', function() {
     });
 
     describe('no option', function() {
-        it('should not report inline function parameters', function() {
+        beforeEach(function() {
             checker.configure({ requireAlignedFunctionParameters: true });
+        });
+
+        it('should not report inline function parameters', function() {
             assert(
                 checker.checkString(
                     'function a(b, c) {}'
@@ -20,7 +23,6 @@ describe('rules/require-aligned-function-parameters', function() {
         });
 
         it('should not report inline function parameters on a new line', function() {
-            checker.configure({ requireAlignedFunctionParameters: true });
             assert(
                 checker.checkString(
                     'function a(\n' +
@@ -31,7 +33,6 @@ describe('rules/require-aligned-function-parameters', function() {
         });
 
         it('should report unaligned multi-line function parameters', function() {
-            checker.configure({ requireAlignedFunctionParameters: true });
             assert(
                 checker.checkString(
                     'function a(\n' +
@@ -43,11 +44,10 @@ describe('rules/require-aligned-function-parameters', function() {
         });
 
         it('should not report aligned multi-line function parameters', function() {
-            checker.configure({ requireAlignedFunctionParameters: true });
             assert(
                 checker.checkString(
                     'function a(b,\n' +
-                    '           c\) {}'
+                    '           c) {}'
                 ).isEmpty()
             );
         });
