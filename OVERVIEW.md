@@ -157,7 +157,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
+Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `wordpress`, `"yandex"`
 
 #### Example
 
