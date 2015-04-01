@@ -3,6 +3,7 @@
     "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "maximumLineLength": null,
+    "requirePaddingNewLinesBeforeLineComments": null,
     "requireSpaceAfterPrefixUnaryOperators": ["!"],
     "requireSpacesInsideParentheses": {
         "all": true,
