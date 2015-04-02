@@ -51,7 +51,14 @@ cat myfile.js | jscs
 
 ## CLI
 
-### `--auto-configure` (Experimental)
+### `--fix`
+Will apply fixes to all supported style rules. (Currently whitespace rules, [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend), and [validateIndentation](http://jscs.info/rules.html#validateindentation))
+
+```
+jscs path[ path[...]] --fix
+```
+
+### `--auto-configure`
 Presents a walkthrough that allows you to generate a JSCS configuration by
 choosing a preset and handling violated rules.
 
