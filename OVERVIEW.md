@@ -51,7 +51,7 @@ cat myfile.js | jscs
 
 ## CLI
 
-### `--fix`
+### `--fix` (`-x`)
 Will apply fixes to all supported style rules. (Currently whitespace rules, [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend), and [validateIndentation](http://jscs.info/rules.html#validateindentation))
 
 ```
@@ -68,7 +68,7 @@ jscs --auto-configure path
 
 `path` can be a file or directory to check the presets against
 
-### `--config`
+### `--config` (`-c`)
 Allows to define path to the config file.
 ```
 jscs path[ path[...]] --config=./.config.json
@@ -76,13 +76,13 @@ jscs path[ path[...]] --config=./.config.json
 
 If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` (which is a just JSON with comments) and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
 
-### `--preset`
+### `--preset` (`-p`)
 If defined will use predefined rules for specific code style.
 ```
 jscs path[ path[...]] --preset=jquery
 ```
 
-### `--reporter`
+### `--reporter` (`-r`)
 `jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
 ```
 jscs path[ path[...]] --reporter=console
@@ -93,34 +93,34 @@ But you also can specify your own reporter, since this flag accepts relative or 
 jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
-### `--esnext`
+### `--esnext` (`-e`)
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
-### `--esprima`
+### `--esprima` (`-s`)
 Attempts to parse your code with a custom Esprima version.
 ```
 jscs path[ path[...]] --esprima=esprima-fb
 ```
 
-### `--error-filter`
+### `--error-filter` (`-f`)
 The path to a module that determines whether or not an error should be reported.
 ```
 jscs path[ path[...]] --error-filter=path/to/my/module.js
 ```
 
-### `--no-colors`
+### `--no-colors` (`-n`)
 Clean output without colors.
 
-### `--max-errors`
+### `--max-errors` (`-m`)
 Set the maximum number of errors to report
 
-### `--help`
+### `--help` (`-h`)
 Outputs usage information.
 
-### `--verbose`
+### `--verbose` (`-v`)
 Prepends the name of the offending rule to all error messages.
 
-### `--version`
+### `--version` (`-V`)
 Outputs version of `jscs`.
 
 ## Options
