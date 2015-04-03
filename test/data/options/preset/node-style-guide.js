@@ -92,7 +92,7 @@ function isPercentage(val) {
   return true;
 }
 
-// shows else statement being used
+// Shows else statement being used
 if (val < 100) {
   return true;
 } else {
