@@ -23,6 +23,14 @@ describe('rules/require-padding-newline-after-variable-declaration', function() 
         assert(checker.checkString('var a = 1; var b = 2; var c = 3;').isEmpty());
     });
 
+    it('should not report for consecutive let declarations', function() {
+        assert(checker.checkString('let a = 1; let b = 2; let c = 3;').isEmpty());
+    });
+
+    it('should not report for consecutive const declarations', function() {
+        assert(checker.checkString('const a = 1; const b = 2; const c = 3;').isEmpty());
+    });
+
     it('should not report if var is the last expression in the block', function() {
         assert(checker.checkString('function a() { var x; }').isEmpty());
     });
