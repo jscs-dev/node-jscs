@@ -85,4 +85,8 @@ describe('rules/require-padding-newlines-after-blocks', function() {
     it('should not report missing padding in function chain', function() {
         assert(checker.checkString('[].map(function() {})\n.filter(function(){})').isEmpty());
     });
+
+    it('should not report missing padding in arguments', function() {
+        assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+    });
 });
