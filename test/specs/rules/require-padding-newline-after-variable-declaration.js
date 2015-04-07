@@ -54,4 +54,15 @@ describe('rules/require-padding-newline-after-variable-declaration', function() 
             '}'
         ).getErrorCount() === 1);
     });
+
+    it('should not trip of on the semicolons (#1244)', function() {
+        assert(checker.checkString(
+            'var View = Backbone.View.extend({' +
+                'initialize: function () {' +
+                    'this.listenTo(this.doge, "woof", this.onWoof);' +
+                    'this.listenTo(this.doge, "bark", this.onBark);' +
+                '}' +
+            '});'
+        ).isEmpty());
+    });
 });
