@@ -110,6 +110,26 @@ describe('rules/require-capitalized-comments', function() {
             ].join('\n'));
         });
 
+        it('should handle "textblocks" correctly', function() {
+            assert(checker.checkString([
+                '// This is a comment',
+                '// that is part of a textblock',
+                'console.log(0)',
+                '// and this is another comment'
+            ].join('\n')).getErrorCount() === 1);
+
+            assert(checker.checkString([
+                '/*',
+                ' * This is a comment',
+                ' * that is part of a textblock',
+                ' */',
+                '/*',
+                ' * and this is a another comment',
+                ' * that is part of a textblock',
+                ' */'
+            ].join('\n')).getErrorCount() === 1);
+        });
+
     });
 
     describe('option value allExcept', function() {
