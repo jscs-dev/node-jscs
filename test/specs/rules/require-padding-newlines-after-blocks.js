@@ -94,4 +94,12 @@ describe('rules/require-padding-newlines-after-blocks', function() {
     it('should not be so strict in function calls if it is not the last argument (#1232)', function() {
         assert(checker.checkString('callingAFunction("with",function() {},\n"another")').isEmpty());
     });
+
+    it('should not report missing padding when function is last in array', function() {
+        assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+    });
+
+    it('should not report missing padding when function is middle in array', function() {
+        assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').isEmpty());
+    });
 });
