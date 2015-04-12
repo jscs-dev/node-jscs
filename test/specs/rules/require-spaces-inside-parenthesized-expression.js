@@ -25,7 +25,6 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
             assert(checker.checkString('if ( 1 + 2)\n    3').isEmpty());
             assert(checker.checkString('function my( a, b) {  }').isEmpty());
             assert(checker.checkString('my( a, b)').isEmpty());
-            assert(checker.checkString('do {} while (false)').isEmpty());
         });
 
         it('should report required space in both cases', function() {
@@ -33,14 +32,19 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
             assert(checker.checkString('if (1 + 2)\n    3').isEmpty());
             assert(checker.checkString('function my(a, b) {  }').isEmpty());
             assert(checker.checkString('my(a, b)').isEmpty());
-            assert(checker.checkString('function ret0() { return(0); }').getErrorCount() === 2);
+            assert(checker.checkString('id = function(v) { return(v); }').getErrorCount() === 2);
             assert(checker.checkString('(my(a), 1)').getErrorCount() === 2);
+            assert(checker.checkString('do {} while (false)').isEmpty());
+            assert(checker.checkString('switch (a) { case(b): c }').getErrorCount() === 2);
+            assert(checker.checkString('(a)\n{ fn(); }').getErrorCount() === 2);
         });
 
         it('should not report with spaces', function() {
             assert(checker.checkString('( 1 + 2 ) * 3').isEmpty());
-            assert(checker.checkString('function ret0() { return( 0 ); }').isEmpty());
+            assert(checker.checkString('id = function(v) { return( v ); }').isEmpty());
             assert(checker.checkString('( my(a), 1 )').isEmpty());
+            assert(checker.checkString('switch (a) { case( b ): c }').isEmpty());
+            assert(checker.checkString('( a )\n{ fn(); }').isEmpty());
         });
 
         it('should not report with closing parentheses on new line', function() {
@@ -62,13 +66,13 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
         it('should report nested parentheses', function() {
             assert(checker.checkString('((1, 2))').getErrorCount() === 4);
             assert(checker.checkString('if ((1 + 2))\n    3').getErrorCount() === 2);
-            assert(checker.checkString('(my)((a))').getErrorCount() === 4);
+            assert(checker.checkString('(my)((a),(b))').getErrorCount() === 6);
         });
 
         it('should not report with nested spaces', function() {
             assert(checker.checkString('( ( 1, 2 ) )').isEmpty());
             assert(checker.checkString('if (( 1 + 2 ))\n    3').isEmpty());
-            assert(checker.checkString('( my )(( a ))').isEmpty());
+            assert(checker.checkString('( my )(( a ),( b ))').isEmpty());
         });
     });
 
@@ -100,6 +104,24 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
             assert(checker.checkString('(1)').getErrorCount() === 2);
             assert(checker.checkString('(function() {}, {})').getErrorCount() === 1);
             assert(checker.checkString('( function() {}, {})').isEmpty());
+        });
+    });
+
+    describe('invalid configuration', function() {
+        it('should not accept objects without at least one valid key', function() {
+            assert.throws(function() {
+                    checker.configure({ requireSpacesInsideParenthesizedExpression: {} });
+                },
+                assert.AssertionError
+            );
+        });
+
+        it('should not accept non-boolean non-objects', function() {
+            assert.throws(function() {
+                    checker.configure({ requireSpacesInsideParenthesizedExpression: 'true' });
+                },
+                assert.AssertionError
+            );
         });
     });
 });
