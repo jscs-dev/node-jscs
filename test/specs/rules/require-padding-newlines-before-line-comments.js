@@ -85,6 +85,12 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
         it('should report error if first line after a curly', function() {
             assert(checker.checkString('if (true) {\n// comment\n}').getErrorCount() === 1);
         });
+
+        it('should not consider code and comment on the same line (#1194)', function() {
+            assert(checker.checkString('var a; \n var b; //comment\n').isEmpty());
+            assert(checker.checkString('var a; \n var b; //comment\nvar c;').isEmpty());
+            assert(checker.checkString('/**/var a; \n var b// comment\n').isEmpty());
+        });
     });
 
     describe('value allExcept: firstAfterCurly', function() {
