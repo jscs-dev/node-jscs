@@ -22,6 +22,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             assert(checker.checkString('var $x = $();').isEmpty());
         });
 
+        it('should not report basic jquery operator with leading underscore and dollar', function() {
+            assert(checker.checkString('var _$x = $();').isEmpty());
+        });
+
         it('should not report basic assignment', function() {
             assert(checker.checkString('var x = 2;').isEmpty());
         });
