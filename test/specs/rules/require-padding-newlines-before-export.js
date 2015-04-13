@@ -25,5 +25,10 @@ describe('rules/require-padding-newlines-before-export', function() {
         it('should not report padding before export', function() {
             assert(checker.checkString('var a = 2;\n\nmodule.exports = a;').isEmpty());
         });
+
+        it('should not report lack of padding before object assignment', function() {
+            assert(checker.checkString('var a = 2;\nfoo.exports = a;').isEmpty());
+            assert(checker.checkString('var a = 2;\nmodule.foo = a;').isEmpty());
+        });
     });
 });

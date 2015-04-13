@@ -33,5 +33,10 @@ describe('rules/disallow-padding-newlines-before-export', function() {
         it('should not report comment with extra padding before export', function() {
             assert(checker.checkString('var a = 2;\n\n// foo\nmodule.exports = a;').isEmpty());
         });
+
+        it('should not report padding before object assignment', function() {
+            assert(checker.checkString('var a = 2;\n\nfoo.exports = a;').isEmpty());
+            assert(checker.checkString('var a = 2;\n\nmodule.foo = a;').isEmpty());
+        });
     });
 });
