@@ -1,37 +1,26 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-padding-newlines-after-use-strict', function() {
+    var rules = { disallowPaddingNewLinesAfterUseStrict: true };
     var checker;
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallowPaddingNewLinesAfterUseStrict: true });
+        checker.configure(rules);
     });
 
     it('should not report if use strict is not present', function() {
         assert(checker.checkString('var a = 2;').isEmpty());
     });
 
-    describe('with blank line', function() {
-        var input;
-        var output;
-
-        beforeEach(function() {
-            input = '"use strict";\n\nvar a = 2;';
-            output = '"use strict";\nvar a = 2;';
-        });
-
-        it('should report', function() {
-            assert(checker.checkString(input).getErrorCount() === 1);
-        });
-
-        it('should fix', function() {
-            var result = checker.fixString(input);
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, output);
-        });
+    reportAndFix({
+        name: 'with blank line',
+        rules: rules,
+        input: '"use strict";\n\nvar a = 2;',
+        output: '"use strict";\nvar a = 2;'
     });
 
     it('should not report when followed by comment without blank line', function() {
