@@ -1,6 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
-var reportAndFix = require('../../assertHelpers').reportAndFix;
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-newline-before-block-statements', function() {
     var checker;

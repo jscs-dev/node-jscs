@@ -1,6 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
-var reportAndFix = require('../../assertHelpers').reportAndFix;
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-padding-newlines-after-use-strict', function() {
     var rules = { requirePaddingNewLinesAfterUseStrict: true };

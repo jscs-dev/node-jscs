@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Checker = require('../lib/checker');
+var Checker = require('../../lib/checker');
 
 var AssertHelpers = {
 
