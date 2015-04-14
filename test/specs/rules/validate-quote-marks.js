@@ -181,4 +181,14 @@ describe('rules/validate-quote-marks', function() {
             assert(checker.checkString('var x = "x", y = "y"; /*\'y\'*/').isEmpty());
         });
     });
+
+    describe('option value false', function() {
+        beforeEach(function() {
+            checker.configure({ validateQuoteMarks: false });
+        });
+
+        it('should not report inconsistent quotes', function() {
+            assert(checker.checkString('var x = \'x\', y = "y";').getErrorCount() === 0);
+        });
+    });
 });
