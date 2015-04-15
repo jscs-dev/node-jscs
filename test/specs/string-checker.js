@@ -357,6 +357,33 @@ describe('modules/string-checker', function() {
         });
     });
 
+    describe('throwing rules', function() {
+        function _beforeEach(_verbose) {
+            checker = new StringChecker({verbose: _verbose});
+            // register rule that throw
+            checker.registerRule({
+                configure : function() {},
+                getOptionName: function() { return 'thrower'; },
+                check : function() {
+                    throw Error('Here we are!');
+                }
+            });
+            checker.configure({thrower: true});
+        }
+
+        it('should be handled internally with verbose', function() {
+            _beforeEach(true);
+
+            var errs = checker.checkString('var a');
+            assert.equal(errs.getErrorCount(), 1);
+
+            var err = errs.getErrorList()[0];
+            assert.equal(err.rule, 'thrower');
+            assert.ok(err.message.indexOf('Error running rule thrower:') !== -1);
+            assert.ok(err.message.indexOf('Error: Here we are!') !== -1);
+        });
+    });
+
     describe('presets', function() {
         testPreset('airbnb');
         testPreset('crockford');
