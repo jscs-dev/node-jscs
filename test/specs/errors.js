@@ -95,7 +95,7 @@ describe('modules/errors', function() {
 
     describe('add', function() {
         var errors;
-        before(function() {
+        beforeEach(function() {
             errors = checker.checkString('yay');
         });
 
