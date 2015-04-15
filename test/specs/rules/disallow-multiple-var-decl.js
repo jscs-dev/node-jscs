@@ -37,6 +37,10 @@ describe('rules/disallow-multiple-var-decl', function() {
         it('should report multiple var decl with some assignment', function() {
             assert(checker.checkString('var x, y = 2, z;').getErrorCount() === 1);
         });
+
+        it('should report separated var decl inside switch', function() {
+            assert(checker.checkString('switch (1) { case 1: var a, b; }').getErrorCount() === 1);
+        });
     });
 
     describe('strict', function() {
