@@ -18,10 +18,6 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         assert(checker.checkString('if(true){\nif(true) {}\nvar a = 2;}').getErrorCount() === 1);
     });
 
-    it('should report missing padding after obj func definition', function() {
-        assert(checker.checkString('var a = {\nfoo: function() {\n},\nbar: function() {\n}}').getErrorCount() === 1);
-    });
-
     it('should report missing padding after immed func', function() {
         assert(checker.checkString('(function(){\n})()\nvar a = 2;').getErrorCount() === 1);
     });
@@ -101,5 +97,13 @@ describe('rules/require-padding-newlines-after-blocks', function() {
 
     it('should not report missing padding when function is middle in array', function() {
         assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').isEmpty());
+    });
+
+    it('should not report missing padding when function is last in object', function() {
+        assert(checker.checkString('({ a: 1,\n b: 2,\n c: function() {\n}\n})').isEmpty());
+    });
+
+    it('should not report missing padding when function is middle in object', function() {
+        assert(checker.checkString('({ a: 1, b: function() {\n},\n c: 3 \n})').isEmpty());
     });
 });
