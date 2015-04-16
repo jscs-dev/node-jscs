@@ -83,5 +83,13 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         it('should report identifiers that are the first token', function() {
             assert(checker.checkString('snake_case = a;').getErrorCount() === 1);
         });
+
+        it('should not report es5 getters', function() {
+            assert(checker.checkString('var extend = { get a_b() { } };').isEmpty());
+        });
+
+        it('should not report es5 setters', function() {
+            assert(checker.checkString('var extend = { set c_d(v) { } };').isEmpty());
+        });
     });
 });
