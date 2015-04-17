@@ -35,7 +35,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 
 ### New rules
 * New Rule: requireSemicolons (Roman Dvornov)
-* New Rule: disallow-multiple-spaces (Todd Wolfson)
+* New Rule: disallowMultipleSpaces (Todd Wolfson)
 * New Rule: disallowIdentifierNames (alawatthe)
 * New Rule: requirePaddingNewLineAfterVariableDeclaration (Evan Jacobs)
 * New Rule: requireDollarBeforejQueryAssignment (Eli White)
