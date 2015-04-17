@@ -182,4 +182,22 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').isEmpty());
         });
     });
+
+    describe('value allExcept: inProperties', function() {
+        beforeEach(function() {
+            checker.configure({
+                requirePaddingNewLinesAfterBlocks: {
+                    allExcept: ['inProperties']
+                }
+            });
+        });
+
+        it('should not report missing padding when function is last in object', function() {
+            assert(checker.checkString('var a = {\na: 2,\nb: 3,\nc: function() {\n}\n};').isEmpty());
+        });
+
+        it('should not report missing padding when function is middle in object', function() {
+            assert(checker.checkString('var a = {\na: 3,\nb: function() {\n},\nc: 2\n}').isEmpty());
+        });
+    });
 });
