@@ -89,6 +89,14 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
         it('should report error if first line after a curly', function() {
             assert(checker.checkString('if (true) {\n// comment\n}').getErrorCount() === 1);
         });
+
+        it('should report error if first line after shebang', function() {
+            assert(checker.checkString('#!/usr/bin/env node\n// comment').getErrorCount() === 1);
+        });
+
+        it('should not report if padding after shebang', function() {
+            assert(checker.checkString('#!/usr/bin/env node\n\n// comment').isEmpty());
+        });
     });
 
     describe('value allExcept: firstAfterCurly', function() {
