@@ -195,7 +195,7 @@ describe('modules/errors', function() {
                 var error = errors.getErrorList()[0];
 
                 assert.equal(
-                    errors.explainError(error).indexOf( ": Unsupported rule: unsupported" ), -1
+                    errors.explainError(error).indexOf(': Unsupported rule: unsupported'), -1
                 );
             }
         );

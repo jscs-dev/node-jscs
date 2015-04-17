@@ -248,6 +248,19 @@ Value: `true`
 "esnext": true
 ```
 
+### verbose
+Prepends the name of the offending rule to all error messages.
+
+Type: `Boolean`
+
+Default: `false`
+
+#### Example
+
+```js
+"verbose": true
+```
+
 ### esprimaOptions
 
 Custom `options` to be passed to `esprima.parse(code, options)`

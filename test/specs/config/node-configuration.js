@@ -25,7 +25,8 @@ describe('modules/config/node-configuration', function() {
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter.js'),
                 esprima: 'esprima-harmony-jscs',
-                es3: true
+                es3: true,
+                verbose: true
             });
 
             configuration.registerPreset('jquery', {});
@@ -36,6 +37,7 @@ describe('modules/config/node-configuration', function() {
             assert.equal(configuration.isES3Enabled(), true);
             assert.equal(typeof configuration.getErrorFilter, 'function');
             assert.equal(configuration.hasCustomEsprima(), true);
+            assert.equal(configuration.getVerbose(), true);
         });
 
         it('should not override disallowed options from CLI', function() {
