@@ -183,6 +183,22 @@ describe('modules/errors', function() {
 
             assert.ok(errors.explainError(error, true).indexOf('\u001b') !== -1);
         });
+
+        it('should show correct error message for "verbose" option and unsupported rule error',
+           function() {
+                checker = new Checker({ verbose: true });
+
+                checker.registerDefaultRules();
+                checker.configure({ unsupported: true });
+
+                var errors = checker.checkString('var x = { "a": 1 };');
+                var error = errors.getErrorList()[0];
+
+                assert.equal(
+                    errors.explainError(error).indexOf( ": Unsupported rule: unsupported" ), -1
+                );
+            }
+        );
     });
 
     describe('filter', function() {
