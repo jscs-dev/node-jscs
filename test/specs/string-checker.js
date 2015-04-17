@@ -114,6 +114,16 @@ describe('modules/string-checker', function() {
             }
         });
 
+        it('should set verbose option', function() {
+            checker.configure({
+                verbose: true,
+                requireSpaceBeforeBinaryOperators: ['=']
+            });
+
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors[0].message.indexOf('requireSpaceBeforeBinaryOperators') > -1);
+        });
+
         describe('rules registration', function() {
             it('should report rules in config which don\'t match any registered rules', function() {
                 checker.configure({ doesNotExist: true, noSuchRule: true });
