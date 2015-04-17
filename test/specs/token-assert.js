@@ -1351,6 +1351,80 @@ describe('modules/token-assert', function() {
         });
     });
 
+    describe('preformat tokens', function() {
+        beforeEach(function() {
+            var file = createJsFile([
+                '/* abcdefghijklmnopqrstuvwxyz */ var veryLongVariable /* ABCDEFGHIJKLMNOPQRSTUVWXYZ */;',
+                '/* qq */ var a;',
+                'var /* a\nX\nb */ c;',
+                '// simple   line',
+                'var longToken // after token',
+            ].join('\n'));
+            this.tokenAssert = new TokenAssert(file);
+            this.tokens = file.getTokens();
+            this.onError = sinon.spy();
+            this.tokenAssert.on('error', this.onError);
+        });
+
+        it('should show `...*/` as end of block comments', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[0],
+                nextToken: this.tokens[1],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message, '...xyz */ and var should be on different lines');
+        });
+
+        it('should show `/*...` as start of block comments', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[2],
+                nextToken: this.tokens[3],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message,
+                'veryLongVariable and /* ABC... should be on different lines');
+        });
+
+        it('should show `/*...*/` as a short block comments', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[5],
+                nextToken: this.tokens[6],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message, '/* qq */ and var should be on different lines');
+        });
+
+        it('should strip value on newline at the start of multilined block comment', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[9],
+                nextToken: this.tokens[10],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message, 'var and /* a... should be on different lines');
+        });
+
+        it('should strip value on newline at the end of multilined block comment', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[10],
+                nextToken: this.tokens[11],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message, '...b */ and c should be on different lines');
+        });
+
+        it('should show `//...comment` as oneline comment', function() {
+            this.tokenAssert.sameLine({
+                token: this.tokens[13],
+                nextToken: this.tokens[14],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message, '//...line and var should be on the same line');
+        });
+
+        it('should show `// comment...` as oneline comment', function() {
+            this.tokenAssert.differentLine({
+                token: this.tokens[15],
+                nextToken: this.tokens[16],
+            });
+            assert.equal(this.onError.getCall(0).args[0].message,
+                'longToken and // after... should be on different lines');
+        });
+    });
+
     describe('indentation', function() {
         it('should not trigger on correct indentation', function() {
             var file = createJsFile('x=y;');
