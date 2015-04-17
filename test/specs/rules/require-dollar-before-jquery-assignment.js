@@ -242,4 +242,30 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             });
         });
     });
+
+    describe('option value `"ignoreProperties"`', function() {
+        beforeEach(function() {
+            checker.configure({ requireDollarBeforejQueryAssignment: 'ignoreProperties' });
+        });
+
+        it('should report basic jquery operator', function() {
+            assert(checker.checkString('var x = $();').getErrorCount() === 1);
+        });
+
+        it('should not report basic jquery operator with dollar', function() {
+            assert(checker.checkString('var $x = $();').isEmpty());
+        });
+
+        describe('in object definition', function() {
+            it('should not report basic jquery operator', function() {
+                assert(checker.checkString('var x = { foo: $() }').isEmpty());
+            });
+        });
+
+        describe('in object properties', function() {
+            it('should not report basic jquery operator', function() {
+                assert(checker.checkString('this.x = $();').isEmpty());
+            });
+        });
+    });
 });
