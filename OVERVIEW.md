@@ -29,6 +29,7 @@ You can specifically disable any preset rule by creating a `.jscsrc` config file
  * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
  * Grunt task: https://github.com/jscs-dev/grunt-jscs/
  * Gulp task: https://github.com/jscs-dev/gulp-jscs/
+ * Overcommit Git pre-commit hook manager: https://github.com/brigade/overcommit/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
