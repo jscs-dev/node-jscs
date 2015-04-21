@@ -10,6 +10,7 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [Grunt](https://github.com/jscs-dev/node-jscs/blob/master/presets/grunt.json) — http://gruntjs.com/contributing#syntax
  * [jQuery](https://github.com/jscs-dev/node-jscs/blob/master/presets/jquery.json) — https://contribute.jquery.org/style-guide/js/
  * [MDCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/mdcs.json) — [https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style™](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2)
+ * [Mozilla](https://github.com/jscs-dev/node-jscs/blob/master/presets/mozilla.json) — https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Coding_Style
  * [node-style-guide](https://github.com/jscs-dev/node-jscs/blob/master/presets/node-style-guide.json) - https://github.com/felixge/node-style-guide
  * [Wikimedia](https://github.com/jscs-dev/node-jscs/blob/master/presets/wikimedia.json) — https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
  * [Wordpress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
@@ -157,7 +158,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `wordpress`, `"yandex"`
+Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"mozilla"`, `"node-style-guide"`, `"wikimedia"`, `wordpress`, `"yandex"`
 
 #### Example
 
