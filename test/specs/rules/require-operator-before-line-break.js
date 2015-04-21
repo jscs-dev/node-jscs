@@ -1,6 +1,7 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
 var operators = require('../../../lib/utils').binaryOperators.slice();
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-operator-before-line-break', function() {
     var checker;
@@ -64,5 +65,60 @@ describe('rules/require-operator-before-line-break', function() {
     it('should report after a binary operator with a literal on the left hand side #733', function() {
         checker.configure({ requireOperatorBeforeLineBreak: true });
         assert(checker.checkString('var err = "Cannot call " + modelName \n + " !";').getErrorCount() === 1);
+    });
+    it('should not autofix line comment on first line', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        var input = 'var x = y // comment \n? a : b';
+        var result = checker.fixString(input);
+        assert.equal(1, result.errors.getErrorCount());
+        assert.equal(result.output, input);
+    });
+    it('should not autofix inline comment on first line', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        var input = 'var x = y /* comment */\n? a : b';
+        var result = checker.fixString(input);
+        assert.equal(1, result.errors.getErrorCount());
+        assert.equal(result.output, input);
+    });
+    it('should not autofix inline comment on second line', function() {
+        checker.configure({ requireOperatorBeforeLineBreak: true });
+        var input = 'var x = y\n /* comment */ ? a : b';
+        var result = checker.fixString(input);
+        assert.equal(1, result.errors.getErrorCount());
+        assert.equal(result.output, input);
+    });
+
+    reportAndFix({
+        name: 'should fix operator by moving to previous line',
+        rules: { requireOperatorBeforeLineBreak: true },
+        input: [
+          'if (x',
+          '    && y) {',
+          '  alert(z);',
+          '}'
+        ].join('\n'),
+        output: [
+          'if (x &&',
+          '    y) {',
+          '  alert(z);',
+          '}'
+        ].join('\n')
+    });
+
+    reportAndFix({
+        name: 'should fix operator by moving to previous line (respecting comments)',
+        rules: { requireOperatorBeforeLineBreak: true },
+        input: [
+          'if (x',
+          '    && /* comment */ y) {',
+          '  alert(z);',
+          '}'
+        ].join('\n'),
+        output: [
+          'if (x &&',
+          '    /* comment */ y) {',
+          '  alert(z);',
+          '}'
+        ].join('\n')
     });
 });
