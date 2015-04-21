@@ -1,0 +1,26 @@
+{
+    "validateIndentation": 2,
+    "validateLineBreaks": "LF",
+    "disallowTrailingWhitespace": true,
+    "requireLineFeedAtFileEnd": true,
+    "maximumLineLength": 80,
+    "disallowKeywordsOnNewLine": ["else"],
+    "requireAnonymousFunctions": true,
+    "requireSpaceBeforeBlockStatements": true,
+    "requireSpaceBeforeObjectValues": true,
+    "requireSpacesInsideObjectBrackets": "all",
+    "requireCapitalizedConstructors": true,
+    "validateQuoteMarks": {
+         "mark": "\"",
+         "escape": true
+     },
+    "requireCurlyBraces": [
+        "if",
+        "else",
+        "for",
+        "while",
+        "do",
+        "try",
+        "catch"
+    ]
+}

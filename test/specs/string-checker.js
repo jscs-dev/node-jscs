@@ -391,6 +391,7 @@ describe('modules/string-checker', function() {
         testPreset('grunt');
         testPreset('jquery');
         testPreset('mdcs');
+        testPreset('mozilla');
         testPreset('node-style-guide');
         testPreset('wikimedia');
         testPreset('wordpress');

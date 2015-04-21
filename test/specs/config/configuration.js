@@ -218,6 +218,7 @@ describe('modules/config/configuration', function() {
             assert(configuration.hasPreset('grunt'));
             assert(configuration.hasPreset('node-style-guide'));
             assert(configuration.hasPreset('wordpress'));
+            assert(configuration.hasPreset('mozilla'));
         });
     });
 
