@@ -505,6 +505,22 @@ describe('modules/token-assert', function() {
                 nextToken: undefined
             });
         });
+
+        it('should move tokens instead of collapsing lines when asked.', function() {
+            var file = createJsFile('x\n  + y;');
+
+            var tokenAssert = new TokenAssert(file);
+            tokenAssert.on('error', function() {}); // do nothing
+            var tokens = file.getTokens();
+
+            tokenAssert.sameLine({
+                token: tokens[0],
+                nextToken: tokens[1],
+                stickToPreviousToken: true
+            });
+
+            assert.equal('x +\n  y;', file.render());
+        });
     });
 
     describe('differentLine', function() {
