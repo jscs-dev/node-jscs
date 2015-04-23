@@ -71,6 +71,7 @@ When it comes to bugs, the more details you provide, the easier it is to reprodu
 
 Some helpful datapoints to provide (if you can):
 
+1. Specific rules that that have issues (`jscs --verbose` helps with this)
 1. A failing test would be amazing
 1. Code snippets that make jscs exhibit the issue
 1. The version of jscs that you're using
