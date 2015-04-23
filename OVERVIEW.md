@@ -61,6 +61,8 @@ cat myfile.js | jscs
 
 ## CLI
 
+Some CLI options can be put in your `.jscsrc` as well (such as `esnext`).
+
 ### `--fix` (`-x`)
 Will apply fixes to all supported style rules. (Currently whitespace rules, [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend), and [validateIndentation](http://jscs.info/rules.html#validateindentation))
 
