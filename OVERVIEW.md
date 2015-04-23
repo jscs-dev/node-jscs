@@ -15,6 +15,14 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [Wordpress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
+You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null, like so:
+```json
+{
+    "preset": "jquery",
+    "requireCurlyBraces": null
+}
+```
+
 ## Friendly packages
 
  * Atom plugin: https://atom.io/packages/linter-jscs
@@ -83,6 +91,8 @@ If defined will use predefined rules for specific code style.
 ```
 jscs path[ path[...]] --preset=jquery
 ```
+
+In order to add/remove preset rules you will need to create a `.jscsrc` config file.
 
 ### `--reporter` (`-r`)
 `jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
@@ -165,7 +175,7 @@ Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-styl
 "preset": "jquery"
 ```
 
-If you want specifically disable preset rule assign it to `null`, like so:
+You can specifically disable any preset rule by assigning it to null, like so:
 ```json
 {
     "preset": "jquery",
@@ -266,9 +276,19 @@ See [how to define an error filter](https://github.com/jscs-dev/node-jscs/wiki/E
 
 ## Error Suppression
 
+### Disabling a Rule
+
+You can specifically disable any rule by ommitting it from your `.jscsrc` config or by assigning it to null, like so:
+```json
+{
+    "preset": "jquery",
+    "requireCurlyBraces": null
+}
+```
+
 ### Inline Comments
 
-You can disable and reenable rules inline with two special comments: `// jscs:disable` and `// jscs:enable`. Spacing in these comments is fairly lenient. All of the following are equivalent:
+You can disable and re-enable rules inline with two special comments: `// jscs:disable` and `// jscs:enable`. Spacing in these comments is fairly lenient. All of the following are equivalent:
 ```js
 /* jscs: enable */
 // jscs: enable
@@ -296,7 +316,7 @@ if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
 if (z) a(); // all errors, including from requireCurlyBraces, on this line will be reported
 ```
 
-You can enable all rules after disabling a specific rule, and that rule becomes reenabled as well.
+You can enable all rules after disabling a specific rule, and that rule becomes re-enabled as well.
 ```js
 // jscs:disable requireCurlyBraces
 if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
@@ -304,7 +324,7 @@ if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
 if (z) a(); // all errors, even from requireCurlyBraces, will be reported
 ```
 
-You can disable multiple rules at once and progressively reenable them.
+You can disable multiple rules at once and progressively re-enable them.
 ```js
 // jscs:disable requireCurlyBraces, requireDotNotation
 if (x['a']) y(); // all errors from requireCurlyBraces OR requireDotNotation on this line will be ignored
