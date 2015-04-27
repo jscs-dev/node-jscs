@@ -66,10 +66,6 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
             assert(checker.checkString('// comment\nvar a = 2;').isEmpty());
         });
 
-        it('should not report missing padding if comment is first token and not first line (#1261)', function() {
-            assert(checker.checkString('\n// comment').isEmpty());
-        });
-
         it('should not report padding before line comment', function() {
             assert(checker.checkString('var a = 2;\n\n// comment').isEmpty());
         });
@@ -90,12 +86,10 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
             assert(checker.checkString('if (true) {\n// comment\n}').getErrorCount() === 1);
         });
 
-        it('should report error if first line after shebang', function() {
-            assert(checker.checkString('#!/usr/bin/env node\n// comment').getErrorCount() === 1);
-        });
-
-        it('should not report if padding after shebang', function() {
-            assert(checker.checkString('#!/usr/bin/env node\n\n// comment').isEmpty());
+        it('should not consider code and comment on the same line (#1194)', function() {
+            assert(checker.checkString('var a; \n var b; //comment\n').isEmpty());
+            assert(checker.checkString('var a; \n var b; //comment\nvar c;').isEmpty());
+            assert(checker.checkString('/**/var a; \n var b// comment\n').isEmpty());
         });
     });
 
