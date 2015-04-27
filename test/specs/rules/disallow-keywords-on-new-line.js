@@ -67,6 +67,31 @@ describe('rules/disallow-keywords-on-new-line', function() {
         });
     });
 
+    describe('illegal keyword placement for "do while" (#885)', function() {
+        beforeEach(function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+
+            input = 'do {\n' +
+                    'x++;\n' +
+                '}\n' +
+                'while(x > 0)';
+
+            output = 'do {\n' +
+                    'x++;\n' +
+                '} while(x > 0)';
+        });
+
+        it('should report', function() {
+            assert(checker.checkString(input).getErrorCount() === 1);
+        });
+
+        it('should fix', function() {
+            var result = checker.fixString(input);
+            assert(result.errors.isEmpty());
+            assert.equal(result.output, output);
+        });
+    });
+
     it('should not report legal keyword placement', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
         assert(
