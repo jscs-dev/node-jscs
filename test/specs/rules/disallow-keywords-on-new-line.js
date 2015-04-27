@@ -43,6 +43,9 @@ describe('rules/disallow-keywords-on-new-line', function() {
     });
 
     describe('illegal keyword placement for "do while" (#885)', function() {
+        var input;
+        var output;
+
         beforeEach(function() {
             checker.configure({ disallowKeywordsOnNewLine: ['while'] });
 
