@@ -1,8 +1,8 @@
 ## Version 1.13.0
 
-## Overview
+### Overview
 
-This is mostly an incremental update, which includes important fixes for annoyances: `npm ERR! EEXIST, symlink` error at `npm install`, improved ES6 support, six new rules, three new rule values and now you can declare `verbose` option at the config.
+This is mostly an incremental update, which includes important fixes for annoyances like `npm ERR! EEXIST, symlink` error at `npm install`. We also improved ES6 support, added seven new rules, three new rule values and now you can declare `verbose` option at the config.
 
 There are no preset updates in this release, but if you feel that rules are missing in
 the supported [presets](http://jscs.info/overview.html#presets) - please send us a PR.
@@ -21,6 +21,7 @@ We would like specifically thanks @TheSavior and @hzoo for their hard work on th
 * New rule: (require |disallow)NamedUnassignedFunctions (Todd Wolfson)
 * New rule: maximumNumberOfLines (Henry Zhu)
 * New rule: (disallow|require)PaddingNewLinesAfterUseStrict (Eli White)
+* New rule: disallowNotOperatorsInConditionals (Henry Zhu)
 
 ### New rule values
 * requirePaddingNewLinesAfterBlocks: add exceptions (Eli White)
