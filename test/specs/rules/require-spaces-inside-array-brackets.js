@@ -53,6 +53,10 @@ describe('rules/require-spaces-inside-array-brackets', function() {
                 'var x = [ 1, 2, /*Z*/ ]'
             ).isEmpty());
         });
+
+        it('should report with no spaces after function', function() {
+            assert(checker.checkString('var x = "hello-there".split("-")[0];').getErrorCount() === 1);
+        });
     });
 
     describe('"allButNested"', function() {
