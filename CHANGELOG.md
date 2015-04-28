@@ -1,3 +1,78 @@
+## Version 1.13.0
+
+## Overview
+
+This is mostly an incremental update, which includes important fixes for annoyances: `npm ERR! EEXIST, symlink` error at `npm install`, improved ES6 support, six new rules, three new rule values and now you can declare `verbose` option at the config.
+
+There are no preset updates in this release, but if you feel that rules are missing in
+the supported [presets](http://jscs.info/overview.html#presets) - please send us a PR.
+
+We eagerly wait for the Esprima 2.3 release, since soon after, `esnext` option will be set to `true` by default.
+
+We would like specifically thanks @TheSavior and @hzoo for their hard work on this release.
+
+### New options
+* New option: add "verbose" option as a config option (Oleg Gaidarenko)
+
+### New rules
+* New rule: validateAlignedFunctionParameters (Bram Cordie)
+* New rule: (disallow|require)PaddingNewLinesBeforeExport (Eli White)
+* New rule: validateNewlineAfterArrayElements (Alexej Yaroshevich)
+* New rule: (require |disallow)NamedUnassignedFunctions (Todd Wolfson)
+* New rule: maximumNumberOfLines (Henry Zhu)
+* New rule: (disallow|require)PaddingNewLinesAfterUseStrict (Eli White)
+
+### New rule values
+* requirePaddingNewLinesAfterBlocks: add exceptions (Eli White)
+* requireSpaceBeforeBlockStatements: add number of spaces argument (Oleg Pesok)
+* requireDollarBeforejQueryAssignment: add "ignoreProperties" rule value (Alexej Yaroshevich)
+
+### Bug fixes
+* paddingNewLinesBeforeLineComments: code and comment on the same line (Oleg Gaidarenko)
+* disallowKeywordsOnNewLine: "do..while" on new line (oredi)
+* requirePaddingNewLinesBeforeLineComments: first token and not first line (Eli White)
+* Errors: should not show rule for "Unsupported rule" error (Oleg Gaidarenko)
+* requireOperatorBeforeLineBreak: autofix by moving operator (Nick Santos)
+* disallowIdentifierNames: fix errors with using object properties as an identifier (Henry Zhu)
+* requireDollarBeforejQueryAssignment: Allow leading underscores before $ sign (Eli White)
+* requireCamelCaseOrUpperCaseIdentifiers: skip es5 getters if ignoreProperties is set (Alexej Yaroshevich)
+* requireSemicolons: fix warning positions (Roman Dvornov)
+* requireMultipleVarDecl: fix switch statement case (Todd Wolfson)
+* paddingNewLineAfterVariableDeclaration: simlification and more tests (Oleg Gaidarenko)
+* paddingNewLineAfterVariableDeclaration: add check for let and const (Martin Kolárik)
+* paddingNewLineAfterVariableDeclaration: do not trip off on the semicolon (Oleg Gaidarenko)
+* paddingNewLinesAfterBlocks: ease up on function calls (Oleg Gaidarenko)
+* requirePaddingNewLineAfterVariableDeclaration: allow exception (Henry Zhu)
+* requireLineBreakAfterVariableAssignment: add check for let and const (Henry Zhu)
+* requireCapitalizedComments: handle textblocks correctly (Martin Kolárik)
+
+### Misc
+* js-file: small JSDoc improvement (Oleg Gaidarenko)
+* Tests: fix node-style-guide preset (Martin Kolárik)
+* Utils: add "true" and "false" to list of reserved words (Dmitry Sorin)
+* Update esprima-harmony version (Oleg Gaidarenko)
+* Tests: Add a test helper for asserting errors and autofix (Eli White)
+* disallowKeywordsOnNewLine: make jshint happy (Oleg Gaidarenko)
+* disallowMultipleVarDecl: add test for var inside switch clause (Alexej Yaroshevich)
+* errors: additional tests, coverage (Alexej Yaroshevich)
+* string-checker: wrap rule.check into try-catch (Alexej Yaroshevich)
+* errors: fix test flow with filtering (Alexej Yaroshevich)
+
+### Docs
+* Docs: add link to overcommit under "Friendly packages" (Joe Lencioni)
+* Docs: add a message to mention the verbose option (Henry Zhu)
+* Docs: clarify that CLI options can be used in the config (Henry Zhu)
+* Docs: clarify that disallowMultipleSpaces matches tabs and spaces (Henry Zhu)
+* Docs: clarify how to disable a rule and use a config file (Henry Zhu)
+* Docs: Clarify behavior of requireCamelCaseOrUpperCaseIdentifiers (Henry Zhu)
+* Docs: fix disallowMultipleSpaces rule name in CHANGELOG (Alexej Yaroshevich)
+* Docs: add two new presets to list of preset values (Jed Wood)
+* Docs: add link to the preset option from the list of presets (Steve Lee)
+* Docs: add shorten flags to cli (Henry Zhu)
+* Docs: add auto fix option to cli docs (Henry Zhu)
+* Docs: fix disallowMultipleSpaces invalid example (Henry Zhu)
+* Docs: fix various docs typos (Eli White)
+
 ## Version 1.12.0
 
 ### Overview
