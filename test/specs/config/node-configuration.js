@@ -19,7 +19,7 @@ describe('modules/config/node-configuration', function() {
     });
 
     describe('overrideFromCLI', function() {
-        it.only('should override allowed options from CLI', function() {
+        it('should override allowed options from CLI', function() {
             configuration.overrideFromCLI({
                 preset: 'jquery',
                 maxErrors: '2',
