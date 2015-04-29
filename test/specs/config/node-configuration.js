@@ -19,14 +19,15 @@ describe('modules/config/node-configuration', function() {
     });
 
     describe('overrideFromCLI', function() {
-        it('should override allowed options from CLI', function() {
+        it.only('should override allowed options from CLI', function() {
             configuration.overrideFromCLI({
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter.js'),
                 esprima: 'esprima-harmony-jscs',
                 es3: true,
-                verbose: true
+                verbose: true,
+                esnext: true
             });
 
             configuration.registerPreset('jquery', {});
@@ -38,6 +39,7 @@ describe('modules/config/node-configuration', function() {
             assert.equal(typeof configuration.getErrorFilter, 'function');
             assert.equal(configuration.hasCustomEsprima(), true);
             assert.equal(configuration.getVerbose(), true);
+            assert.equal(configuration.isESNextEnabled(), true);
         });
 
         it('should not override disallowed options from CLI', function() {
