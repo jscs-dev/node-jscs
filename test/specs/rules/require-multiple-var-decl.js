@@ -34,6 +34,36 @@ describe('rules/require-multiple-var-decl', function() {
         });
     });
 
+    describe('allExcept require', function() {
+        var checker;
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ requireMultipleVarDecl: {allExcept: ['require']}});
+        });
+        it('should not report consecutive var decl if there is a require', function() {
+            assert(checker.checkString('var x; var y = require("a"); var z;').isEmpty());
+        });
+        it('should report consecutive var decl if there is a require and 2 consecutive vars', function() {
+            assert(checker.checkString('var x = require("b"); var y; var z;').getErrorCount() === 1);
+        });
+        it('should report consecutive var decl', function() {
+            assert(checker.checkString('var x; var y;').getErrorCount() === 1);
+        });
+        it('should not report multiple var decl', function() {
+            assert(checker.checkString('var x, y;').isEmpty());
+        });
+        it('should not report separated var decl', function() {
+            assert(checker.checkString('var x; x++; var y;').isEmpty());
+        });
+        it('supports var decl not contained by a parent with a `body` property (#916, #1163)', function() {
+            assert(checker.checkString('switch (1) { case 1: var x; }').isEmpty());
+        });
+        it('should report consecutive var decl not contained by a parent with a `body` property', function() {
+            assert(checker.checkString('switch (1) { case 1: var x; var y; }').getErrorCount() === 1);
+        });
+    });
+
     describe('onevar', function() {
         beforeEach(function() {
             checker = new Checker();
