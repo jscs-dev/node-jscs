@@ -1,3 +1,18 @@
+## Version 1.13.1
+
+### Overview
+Small update for fix distribution of the `--esnext` CLI option (#1321)
+
+### Bug fixes
+* CLI: use "esnext" cli option in the configuration module (Oleg Gaidarenko)
+* CLI: ensure options to path.resolve are strings (Jason Karns)
+* disallowMultipleSpaces: fix configuration error message (Marc Knaup)
+
+### Docs
+* Docs: correct example for the "requireCapitalizedComments" rule (XhmikosR)
+* Docs: Update mixup between rules in docstring example (Jérémie Astori)
+* Docs: Fix missing quotes in a docstring example (Jérémie Astori)
+ 
 ## Version 1.13.0
 
 ### Overview
