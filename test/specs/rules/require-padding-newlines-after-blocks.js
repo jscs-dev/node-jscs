@@ -1,5 +1,6 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-padding-newlines-after-blocks', function() {
     var checker;
@@ -48,26 +49,44 @@ describe('rules/require-padding-newlines-after-blocks', function() {
     });
 
     describe('value true', function() {
+        var rules = { requirePaddingNewLinesAfterBlocks: true };
         beforeEach(function() {
-            checker.configure({ requirePaddingNewLinesAfterBlocks: true });
+            checker.configure(rules);
         });
 
-        it('should report missing padding after block', function() {
-            assert(checker.checkString('if(true){}\nvar a = 2;').getErrorCount() === 1);
+        reportAndFix({
+            name: 'missing padding after block',
+            rules: rules,
+            input: 'if(true){}\nvar a = 2;',
+            output: 'if(true){}\n\nvar a = 2;'
         });
 
-        it('should report missing padding after nested block', function() {
-            assert(checker.checkString('if(true){\nif(true) {}\nvar a = 2;}').getErrorCount() === 1);
+        reportAndFix({
+            name: 'after function definitions',
+            rules: rules,
+            input: 'var a = function() {\n};\nvar b = 2;',
+            output: 'var a = function() {\n};\n\nvar b = 2;'
         });
 
-        it('should report missing padding after obj func definition', function() {
-            assert(checker.checkString(
-                'var a = {\nfoo: function() {\n},\nbar: function() {\n}}'
-            ).getErrorCount() === 1);
+        reportAndFix({
+            name: 'missing padding after nested block',
+            rules: rules,
+            input: 'if(true){\nif(true) {}\nvar a = 2;}',
+            output: 'if(true){\nif(true) {}\n\nvar a = 2;}'
         });
 
-        it('should report missing padding after immed func', function() {
-            assert(checker.checkString('(function(){\n})()\nvar a = 2;').getErrorCount() === 1);
+        reportAndFix({
+            name: 'missing padding after obj func definition',
+            rules: rules,
+            input: 'var a = {\nfoo: function() {\n},\nbar: function() {\n}}',
+            output: 'var a = {\nfoo: function() {\n},\n\nbar: function() {\n}}'
+        });
+
+        reportAndFix({
+            name: 'missing padding after immed func',
+            rules: rules,
+            input: '(function(){\n})()\nvar a = 2;',
+            output: '(function(){\n})()\n\nvar a = 2;'
         });
 
         it('should not report end of file', function() {
@@ -134,11 +153,11 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').getErrorCount() === 1);
         });
 
-        it('should not report missing padding when function is last in array', function() {
+        it('should report missing padding when function is last in array', function() {
             assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
         });
 
-        it('should not report missing padding when function is middle in array', function() {
+        it('should report missing padding when function is middle in array', function() {
             assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').getErrorCount() === 1);
         });
     });
