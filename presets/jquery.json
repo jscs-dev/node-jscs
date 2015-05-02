@@ -45,7 +45,8 @@
         "catch"
     ],
     "requireSpacesInsideObjectBrackets": "all",
-    "requireSpacesInsideArrayBrackets": "all",
+    "requireSpacesInsideBrackets": true,
+    "requireSemicolons": true,
     "requireSpacesInConditionalExpression": true,
     "requireSpaceAfterBinaryOperators": true,
     "requireLineFeedAtFileEnd": true,
