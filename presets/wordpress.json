@@ -4,6 +4,7 @@
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "maximumLineLength": null,
     "requireSpaceAfterPrefixUnaryOperators": ["!"],
+    "requireSpacesInsideBrackets": null,
     "requireSpacesInsideParentheses": {
         "all": true,
         "except": [ "{", "}", "[", "]", "function" ]

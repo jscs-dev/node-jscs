@@ -24,7 +24,7 @@
     "requireBlocksOnNewline": 1,
     "disallowEmptyBlocks": true,
     "requireSpacesInsideObjectBrackets": "all",
-    "requireSpacesInsideArrayBrackets": "all",
+    "requireSpacesInsideBrackets": true,
     "requireSpacesInsideParentheses": "all",
     "disallowQuotedKeysInObjects": "allButReserved",
     "disallowDanglingUnderscores": true,
