@@ -12,6 +12,7 @@
         "beforeOpeningRoundBrace": true
     },
     "disallowEmptyBlocks": true,
+    "disallowSpacesInCallExpression": true,
     "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideParentheses": true,
     "disallowQuotedKeysInObjects": true,
@@ -26,7 +27,9 @@
     "disallowTrailingComma": true,
     "disallowYodaConditions": true,
     "disallowKeywords": [ "with" ],
+    "disallowKeywordsOnNewLine": ["else"],
     "disallowMultipleLineBreaks": true,
+    "disallowMultipleLineStrings": true,
     "disallowMultipleVarDecl": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
@@ -61,6 +64,7 @@
         "allExcept": "firstAfterCurly"
     },
     "requirePaddingNewLinesAfterBlocks": true,
+    "requireSemicolons": true,
     "safeContextKeyword": "_this",
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
