@@ -26,7 +26,10 @@
   if (1) console.log('foo');
 
   // requireBlocksOnNewline
-  else {
+  // disallowKeywordsOnNewLine: ["else"]
+  if (1) {
+    console.log('bar');
+  } else {
     console.log('foobar');
     console.log('bar');
 
@@ -58,7 +61,7 @@
         return function() {
           // requireSpaceBetweenArguments
           console.log('bar', 'foo');
-        }
+        };
       },
 
       // requireCamelCaseOrUpperCaseIdentifiers
