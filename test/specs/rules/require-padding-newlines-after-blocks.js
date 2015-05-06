@@ -196,4 +196,22 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('var a = {\na: 3,\nb: function() {\n},\nc: 2\n}').isEmpty());
         });
     });
+
+    describe('changing value', function() {
+        it('should change value (#1343)', function() {
+            var checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({ requirePaddingNewLinesAfterBlocks: true });
+
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
+
+            checker.configure({
+                requirePaddingNewLinesAfterBlocks: {
+                    allExcept: ['inArrayExpressions']
+                }
+            });
+
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+        });
+    });
 });
