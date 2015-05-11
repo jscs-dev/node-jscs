@@ -7,7 +7,7 @@
   "name": "jscs",
   "version": "1.13.1",
   "main": "lib/checker",
-  "homepage": "jscs.info",
+  "homepage": "http://jscs.info",
   "keywords": [
     "code style",
     "formatter",
