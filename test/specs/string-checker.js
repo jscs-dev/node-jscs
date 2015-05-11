@@ -45,6 +45,15 @@ describe('modules/string-checker', function() {
             });
         });
 
+        it('should not check empty string (#1354)', function() {
+            var spy = sinon.spy(StringChecker.prototype, '_checkJsFile');
+
+            assert(checker.checkString('').isEmpty());
+
+            assert(spy.called === false);
+            spy.restore();
+        });
+
         it('should report parse issues as errors', function() {
             var errors = checker.checkString('this is not javascript');
             assert(errors.getErrorCount() === 1);
