@@ -4,10 +4,10 @@
 [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs)
 [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)
 
-**JSCS** — JavaScript Code Style.
+**JSCS** — JavaScript Code Style
 
 **JSCS** is a code style linter for programmatically enforcing your style guide.
-You can configure **JSCS** for your project in detail using **over 90** validation rules,
+You can configure **JSCS** for your project in detail using **over 120** validation rules,
 including presets from popular style guides like jQuery, Airbnb, Google, and more.
 
 #### More about JSCS

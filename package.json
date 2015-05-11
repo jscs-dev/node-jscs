@@ -1,10 +1,13 @@
 {
-  "author": "Marat Dulin <mdevils@yandex.ru>",
+  "author": {
+    "name": "Marat Dulin <mdevils@yandex.ru> and other contributors",
+    "url": "https://github.com/jscs-dev/node-jscs/graphs/contributors"
+  },
   "description": "JavaScript Code Style",
   "name": "jscs",
   "version": "1.13.1",
   "main": "lib/checker",
-  "homepage": "https://github.com/jscs-dev/node-jscs",
+  "homepage": "jscs.info",
   "keywords": [
     "code style",
     "formatter",
@@ -21,15 +24,6 @@
   "bugs": {
     "url": "https://github.com/jscs-dev/node-jscs/issues"
   },
-  "contributors": [
-    "Marat Dulin <mdevils@yandex.ru>",
-    "Konstantin Ikonnikov <ikokostya@gmail.com>",
-    "Igor Agarlev",
-    "Alexey Androsov <doochik@ya.ru>",
-    "Oleg Gaidarenko <markelog@gmail.com>",
-    "Mike Sherov <mike.sherov@gmail.com>",
-    "Joel Kemp <joel@mrjoelkemp.com>"
-  ],
   "maintainers": [
     {
       "name": "Marat Dulin",
