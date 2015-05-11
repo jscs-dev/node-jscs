@@ -35,15 +35,20 @@ function execPresets(presets) {
         unitError: 'Unit tests failure'
     };
 
-    (function(messages, args) {
+    (function test(messages, args) {
+
+        // Execute jscs -x on jscs source code for the given presets
         var child = spawn('node', args, { timeout: Infinity });
 
         process.stdout.write(messages.start + '\n\n');
         process.stdout.write(chalk.magenta(' - ') + messages.fixStart + '\n');
 
+        // For some reason this makes subprocess to be more effective
         child.stdout.on('data', function() {});
 
-        child.on('close', function(code) {
+        // Wait until autofix process is done
+        child.on('close', function executeTests(code) {
+
             // exit code == 2 means there is some unfixable style violations
             if (code !== 0 && code !== 2) {
                 process.stderr.write(chalk.red(' ! ') + messages.fixError + '\n\n');
@@ -52,12 +57,14 @@ function execPresets(presets) {
                 return;
             }
 
+            // Execute jscs tests on modified source code
             var sChild = spawn('mocha', ['--color']);
             var counter = 1;
 
             process.stdout.write(chalk.magenta(' - ') + messages.unitStart + '\n');
 
-            sChild.stdout.on('data', function() {
+            // Show output, basically show that something is going on
+            sChild.stdout.on('data', function log() {
 
                 // Do not be so verbose
                 if (counter % 5 === 0) {
@@ -71,12 +78,15 @@ function execPresets(presets) {
                 counter++;
             });
 
+            // Wait until tests are finished
             sChild.on('close', function(code) {
+
                 // exit code == 2 means there is pending tests
                 if (code !== 0 && code !== 2) {
                     process.stderr.write('\n\n' + chalk.red(' ! ') + messages.unitError + '\n\n');
                     process.exit(code);
 
+                // Show "OK" message and execute next presets
                 } else {
                     process.stdout.write('\n\n' + chalk.magenta(' - ') + messages.unitEnd);
                     process.stdout.write('\n' + chalk.black(new Array(80).join('-')) + '\n\n');
@@ -90,8 +100,10 @@ function execPresets(presets) {
 
 console.log('\n' + chalk.green('> ') + 'Autofix ingeration tests', '\n');
 
+// Listen for all "exit" events so we could put everything back
 process.on('exit', exit);
 process.on('SIGINT', exit);
 process.on('uncaughtException', exit);
 
+// Run autofix process on all available presets
 execPresets(presets);
