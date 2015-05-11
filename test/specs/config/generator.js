@@ -17,7 +17,8 @@ describe('lib/config/generator', function() {
         '\u001b[32mdisallowDanglingUnderscores\u001b[39m (25 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
         '\u001b[32mrequireSpaceAfterKeywords\u001b[39m (17 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
         '\u001b[32mrequireBlocksOnNewline\u001b[39m (2 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
-        '\u001b[32mdisallowSpaceBeforeBinaryOperators\u001b[39m (1 violation in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e'
+        '\u001b[32mdisallowSpaceBeforeBinaryOperators\u001b[39m (1 violation in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e',
+        '\u001b[32mrequireSpacesInAnonymousFunctionExpression\u001b[39m (17 violations in 1 file):\n    Create an (e)xception for this rule, or (f)ix the errors yourself?': 'e'
     };
     // jscs:enable maximumLineLength
 
@@ -113,18 +114,19 @@ describe('lib/config/generator', function() {
         });
     });
 
-    it.skip('generates a .jscsrc file with the user\'s violation choices', function(done) {
+    it.skip('generates a .jscsrc file with the user\'s violation choices', function() {
         var presetChoiceStub = sinon.stub(generator, '_getUserPresetChoice').returns(crockfordPresetChoice);
         var getViolationsStub = sinon.stub(generator, '_getUserViolationChoices')
                                 .returns(Vow.cast(crockfordViolationsAllExceptions));
         var fsStub = sinon.stub(fs, 'writeFileSync');
+
         var assertConfigEquality = function(c1, c2) {
             for (var prop in c1) {
                 assert.ok(c1[prop] === c2[prop]);
             }
         };
 
-        generator.generate(_path).then(function() {
+        return generator.generate(_path).then(function() {
             var configPath = fsStub.getCall(0).args[0];
             var config = JSON.parse(fsStub.getCall(0).args[1]);
             assert.ok(configPath === process.cwd() + '/.jscsrc');
@@ -132,7 +134,6 @@ describe('lib/config/generator', function() {
             presetChoiceStub.restore();
             getViolationsStub.restore();
             fsStub.restore();
-            done();
         });
     });
 });
