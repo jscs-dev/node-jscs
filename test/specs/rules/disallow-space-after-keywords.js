@@ -42,4 +42,14 @@ describe('rules/disallow-space-after-keywords', function() {
 
         assert(checker.checkString('for(var i in a){}').isEmpty());
     });
+
+    it('should not report illegal space after else when using else if #1346', function() {
+        checker.configure({ disallowSpaceAfterKeywords: ['else'] });
+        assert(checker.checkString('if(x){} else if(x){} else{}').isEmpty());
+    });
+
+    it('should not report illegal space when the next token is also a keyword #1346', function() {
+        checker.configure({ disallowSpaceAfterKeywords: ['return'] });
+        assert(checker.checkString('return void(0);').isEmpty());
+    });
 });
