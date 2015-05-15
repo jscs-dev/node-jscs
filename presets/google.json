@@ -60,5 +60,16 @@
     "disallowSpacesInsideParentheses": true,
 
     "disallowMultipleLineBreaks": true,
-    "disallowNewlineBeforeBlockStatements": true
+    "disallowNewlineBeforeBlockStatements": true,
+    
+    "disallowKeywords": ["with"],
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInCallExpression": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "requireSpaceBeforeObjectValues": true,
+    "requireCapitalizedConstructors": true,
+    "requireDotNotation": true,
+    "validateParameterSeparator": ", "
 }
