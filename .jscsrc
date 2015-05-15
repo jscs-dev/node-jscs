@@ -8,7 +8,6 @@
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
 
-    "disallowKeywords": ["with"],
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
 

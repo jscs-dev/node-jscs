@@ -381,9 +381,9 @@ describe('modules/string-checker', function() {
             checker = new StringChecker({verbose: _verbose});
             // register rule that throw
             checker.registerRule({
-                configure : function() {},
+                configure: function() {},
                 getOptionName: function() { return 'thrower'; },
-                check : function() {
+                check: function() {
                     throw Error('Here we are!');
                 }
             });
