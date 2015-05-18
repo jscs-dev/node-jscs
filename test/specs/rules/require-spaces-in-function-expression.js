@@ -48,6 +48,16 @@ describe('rules/require-spaces-in-function-expression', function() {
         it('should not report missing space before round brace in setter expression', function() {
             assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
         });
+
+        it('should not report space before round brace in class method', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('const Component = class { render () { return 1; } };').isEmpty());
+        });
+
+        it('should report missing space before round brace in class method', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('const Component = class { render() { return 1; } };').getErrorCount() === 1);
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
