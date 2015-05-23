@@ -28,15 +28,15 @@ describe('reporters/inline', function() {
     it('should correctly reports 1 error', function() {
         inline([checker.checkString('with (x) {}')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'input: line 1, col 0, Illegal keyword: with');
+        assert.equal(console.log.getCall(0).args[0], 'input:1:0: Illegal keyword: with');
         assert(console.log.calledOnce);
     });
 
     it('should correctly reports 2 errors', function() {
         inline([checker.checkString('with (x) {} with (x) {}')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'input: line 1, col 0, Illegal keyword: with');
-        assert.equal(console.log.getCall(1).args[0], 'input: line 1, col 12, Illegal keyword: with');
+        assert.equal(console.log.getCall(0).args[0], 'input:1:0: Illegal keyword: with');
+        assert.equal(console.log.getCall(1).args[0], 'input:1:12: Illegal keyword: with');
         assert(console.log.calledTwice);
     });
 });

@@ -28,7 +28,7 @@ describe('reporters/inlinesingle', function() {
     it('should correctly reports 1 error', function() {
         inlinesingle([checker.checkString('with (x) {}')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'input: line 1, col 0, Illegal keyword: with');
+        assert.equal(console.log.getCall(0).args[0], 'input:1:0: Illegal keyword: with');
         assert(console.log.calledOnce);
     });
 
@@ -37,7 +37,7 @@ describe('reporters/inlinesingle', function() {
 
         assert.equal(
             console.log.getCall(0).args[0],
-            'input: line 1, col 0, Illegal keyword: with\ninput: line 1, col 12, Illegal keyword: with'
+            'input:1:0: Illegal keyword: with\ninput:1:12: Illegal keyword: with'
         );
         assert(console.log.calledOnce);
     });
