@@ -60,4 +60,46 @@ describe('rules/disallow-comma-before-line-break', function() {
     it('should not report comma placement in single line object declaration', function() {
         assert(checker.checkString('var a = {a:1, c:3};').isEmpty());
     });
+
+    describe('mode option', function() {
+        describe('ignoreFunction value', function() {
+            beforeEach(function() {
+                checker.configure({
+                    disallowCommaBeforeLineBreak: {
+                        mode: 'ignoreFunction'
+                    }
+                });
+            });
+            it('should not report function with ignoreFunction', function() {
+                assert(
+                    checker.checkString(
+                        'var x = {\n' +
+                            'a : 1,\n' +
+                            'foo : function() {},\n' +
+                            'bcd : 2\n' +
+                        '};'
+                    ).isEmpty()
+                );
+            });
+
+            reportAndFix({
+                name: 'illegal comma placement in multiline object declaration',
+                rules: rules,
+                input: 'var a = {a:1,\nc:3};',
+                output: 'var a = {a:1, c:3};'
+            });
+        });
+    });
+
+    describe('lineBreak option', function() {
+        describe('beforeComma value', function() {
+            reportAndFix({
+                name: 'illegal comma placement in multiline object declaration',
+                rules: {disallowCommaBeforeLineBreak: {lineBreak: 'beforeComma'}},
+                errors: 2,
+                input: 'var a = {a:1,\nc:3};',
+                output: 'var a = {a:1\n, c:3};'
+            });
+        });
+    });
 });
