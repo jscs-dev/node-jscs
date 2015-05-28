@@ -261,6 +261,18 @@ Default: `false`
 "verbose": true
 ```
 
+### esprima
+
+Attempts to parse your code with a custom Esprima version.
+
+Type: `String`
+
+#### Example
+
+```js
+"esprima": "esprima-fb" // You should install custom esprima first
+```
+
 ### esprimaOptions
 
 Custom `options` to be passed to `esprima.parse(code, options)`

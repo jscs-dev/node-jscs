@@ -84,6 +84,14 @@ describe('modules/config/node-configuration', function() {
             assert(configuration.getRegisteredRules()[0] instanceof AdditionalRule);
         });
 
+        it('should accept `esprima` to register different esprima', function() {
+            configuration.load({
+                esprima: 'esprima-harmony-jscs'
+            });
+
+            assert.equal(configuration.hasCustomEsprima(), true);
+        });
+
         it('should accept `plugins` to register plugin instance', function() {
             var plugin = function() {};
             var spy = sinon.spy(plugin);
