@@ -56,6 +56,18 @@ describe('rules/require-aligned-object-values', function() {
             assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
         });
 
+        it('should not report if aligned with computed property names #1404', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey]   : "myKeyValue",',
+                      '[otherKey]: "myOtherValue"',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
         it('should report invalid alignment', function() {
             assert(
                 checker.checkString(
@@ -66,6 +78,18 @@ describe('rules/require-aligned-object-values', function() {
                         'bcd : 2\n' +
                     '};'
                 ).getErrorCount() === 1
+            );
+        });
+
+        it('should report if not aligned with computed property names #1404', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey]   : "myKeyValue",',
+                      '[otherKey] : "myOtherValue"',
+                    '};'
+                ].join('\n')).getErrorCount() === 1
             );
         });
     });
