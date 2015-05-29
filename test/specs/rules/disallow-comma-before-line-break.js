@@ -63,12 +63,9 @@ describe('rules/disallow-comma-before-line-break', function() {
 
     describe('mode option', function() {
         describe('ignoreFunction value', function() {
+            var rules = {disallowCommaBeforeLineBreak: {mode: 'ignoreFunction'}};
             beforeEach(function() {
-                checker.configure({
-                    disallowCommaBeforeLineBreak: {
-                        mode: 'ignoreFunction'
-                    }
-                });
+                checker.configure(rules);
             });
             it('should not report function with ignoreFunction', function() {
                 assert(
