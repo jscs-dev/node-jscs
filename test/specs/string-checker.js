@@ -1,4 +1,5 @@
 var StringChecker = require('../../lib/string-checker');
+var Errors = require('../../lib/errors');
 var assert = require('assert');
 var sinon = require('sinon');
 var fs = require('fs');
@@ -200,6 +201,119 @@ describe('modules/string-checker', function() {
                 var result = checker.fixString('x=1+2;');
                 assert(result.errors.isEmpty());
                 assert.equal(result.output, 'x = 1 + 2;');
+            });
+        });
+
+        describe('rules with "fix" field', function() {
+            it('should call "fix" method', function() {
+                var err;
+                var called = false;
+                checker = new StringChecker();
+
+                checker.registerRule({
+                    configure : function() {},
+                    getOptionName: function() { return 'fixRule'; },
+                    check : function(file, errors) {
+                        errors.cast({
+                            line: 1,
+                            column: 2,
+                            additional: 'test'
+                        });
+                    },
+                    fix: function(error) {
+                        called = true;
+                        err = error;
+                        assert.equal(error.additional, 'test');
+                    }
+                });
+                checker.configure({fixRule: true});
+
+                checker.fixString('test');
+                assert(err.fixed);
+                assert(called);
+            });
+
+            it('should not try to call "fix" method if it does not exist', function() {
+                checker = new StringChecker();
+
+                checker.registerRule({
+                    configure : function() {},
+                    getOptionName: function() { return 'fixRule'; },
+                    check : function(file, errors) {
+                        errors.cast({
+                            line: 1,
+                            column: 2,
+                            additinal: 'test'
+                        });
+                    }
+                });
+                checker.configure({fixRule: true});
+
+                try {
+                    checker.fixString('test');
+                    assert(true);
+                } catch (e) {
+                    assert(false);
+                }
+            });
+
+            it('should add error if "fix" call field throws', function() {
+                var spy = sinon.spy(Errors.prototype, 'add');
+
+                checker = new StringChecker();
+
+                checker.registerRule({
+                    configure : function() {},
+                    getOptionName: function() { return 'fixRule'; },
+                    check : function(file, errors) {
+                        errors.cast({
+                            line: 1,
+                            column: 2,
+                            additinal: 'test'
+                        });
+                    },
+                    fix: function() {
+                        throw new Error('test');
+                    }
+                });
+                checker.configure({fixRule: true});
+
+                try {
+                    checker.fixString('test');
+                    assert(true);
+                } catch (e) {
+                    assert(false);
+                }
+
+                assert(spy.called);
+                assert(spy.args[0][0].indexOf('Error running rule') > -1);
+            });
+
+            it('should allow rule to reset error.fixed property', function() {
+                var err;
+                checker = new StringChecker();
+
+                checker.registerRule({
+                    configure : function() {},
+                    getOptionName: function() { return 'fixRule'; },
+                    check : function(file, errors) {
+                        errors.cast({
+                            line: 1,
+                            column: 2,
+                            additinal: 'test'
+                        });
+                    },
+                    fix: function(error) {
+                        err = error;
+
+                        error.fixed = false;
+                    }
+                });
+                checker.configure({fixRule: true});
+
+                checker.fixString('test');
+
+                assert.ok(!err.fixed);
             });
         });
     });
