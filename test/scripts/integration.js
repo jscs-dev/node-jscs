@@ -43,8 +43,15 @@ function execPresets(presets) {
         process.stdout.write(messages.start + '\n\n');
         process.stdout.write(chalk.magenta(' - ') + messages.fixStart + '\n');
 
+        child.stderr.setEncoding('utf8');
+
         // For some reason this makes subprocess to be more effective
         child.stdout.on('data', function() {});
+
+        child.stderr.on('data', function(data) {
+            process.stderr.write(chalk.red(' ! ') + 'Error:\n');
+            process.stderr.write(data);
+        });
 
         // Wait until autofix process is done
         child.on('close', function executeTests(code) {
