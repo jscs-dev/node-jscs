@@ -10,15 +10,23 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
         checker.configure({ esnext: true, disallowParenthesesAroundArrowParam: true });
     });
 
-    it('should not report an arrow function expression without parens', function() {
+    it('should not report without parens', function() {
         assert(checker.checkString('[1, 2].map(x => x * x);').isEmpty());
     });
 
-    it('should report an arrow function expression with parens around a single parameter', function() {
+    it('should report with parens around a single parameter', function() {
         assert(checker.checkString('[1, 2].map((x) => x * x);').getErrorCount() === 1);
     });
 
-    it('should not report an arrow function expression with parens around multiple parameters', function() {
+    it('should not report with parens around multiple parameters', function() {
         assert(checker.checkString('[1, 2].map((x, y) => x * x);').isEmpty());
+    });
+
+    it('should not report with parens around a single parameter with a default', function() {
+        assert(checker.checkString('const a = (x = 1) => x * x;').isEmpty());
+    });
+
+    it('should not report with parens around a multiple parameters with a default', function() {
+        assert(checker.checkString('const a = (x = 1, y) => x * y;').isEmpty());
     });
 });
