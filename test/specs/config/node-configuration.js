@@ -90,7 +90,7 @@ describe('modules/config/node-configuration', function() {
     });
 
     describe('load', function() {
-        it('should load existed preset', function() {
+        it('should load existing preset', function() {
             configuration.registerDefaultRules();
             configuration.registerPreset('test', {
                 disallowMultipleVarDecl: 'exceptUndefined'
