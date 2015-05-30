@@ -297,6 +297,21 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('getConfiguredRule', function() {
+        it('should return configured rule after config load', function() {
+            assert(configuration.getConfiguredRule('ruleName') === null);
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+            configuration.load({ruleName: true});
+            assert(typeof configuration.getConfiguredRule('ruleName') === 'object');
+        });
+    });
+
     describe('isFileExcluded', function() {
         it('should return `false` if no `excludeFiles` are defined', function() {
             assert(!configuration.isFileExcluded('1.js'));
