@@ -43,9 +43,29 @@ describe('modules/checker', function() {
             });
         });
 
-        it('should check file by direct link (#468)', function() {
-            return checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
-                assert(errors.length === 1);
+        describe('with specified file', function() {
+            it('should check file by direct link (#468)', function() {
+                checker.configure({ fileExtensions: [''] });
+
+                return checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
+                    assert(errors.length === 1);
+                });
+            });
+
+            it('should return empty array of errors for excluded file', function() {
+                checker.configure({ excludeFiles: ['./test/**'] });
+
+                return checker.checkPath('./test/data/checker/file.js').then(function(errors) {
+                    assert(errors.length === 0);
+                });
+            });
+
+            it('should return empty array of errors for file with not registered extension', function() {
+                checker.configure({ fileExtensions: [] });
+
+                return checker.checkPath('./test/data/checker/file.js').then(function(errors) {
+                    assert(errors.length === 0);
+                });
             });
         });
     });
