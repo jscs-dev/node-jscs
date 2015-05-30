@@ -1,4 +1,5 @@
 var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 var assert = require('assert');
 
 describe('rules/validate-quote-marks', function() {
@@ -180,5 +181,29 @@ describe('rules/validate-quote-marks', function() {
         it('should not report inconsistent quotes in comments', function() {
             assert(checker.checkString('var x = "x", y = "y"; /*\'y\'*/').isEmpty());
         });
+    });
+
+    reportAndFix({
+        name: 'should fix (simple case)',
+        rules: {
+            validateQuoteMarks: {
+                mark: '"',
+                escape: true
+            }
+        },
+        input: '\'\'',
+        output: '""'
+    });
+
+    reportAndFix({
+        name: 'should fix \'1\'2\'',
+        rules: {
+            validateQuoteMarks: '\''
+        },
+        errors: 1,
+        input: ' "1\'2" ',
+
+        // Check string in the string with same quotes, had to use "\\\"
+        output: ' \'1\\\'2\' '
     });
 });
