@@ -61,9 +61,11 @@
 
     "disallowMultipleLineBreaks": true,
     "disallowNewlineBeforeBlockStatements": true,
-    
     "disallowKeywords": ["with"],
     "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInFunctionDeclaration": {
         "beforeOpeningRoundBrace": true
     },
     "disallowSpacesInCallExpression": true,
