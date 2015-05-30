@@ -128,6 +128,78 @@ describe('modules/errors', function() {
         });
     });
 
+    describe('cast', function() {
+        var errors;
+        beforeEach(function() {
+            errors = checker.checkString('yay');
+        });
+
+        it('should throw an error on invalid line type', function() {
+            assert.throws(function() {
+                errors.cast({
+                    message: 'msg',
+                    line: '0'
+                });
+            });
+        });
+
+        it('should throw an error on invalid line value', function() {
+            assert.throws(function() {
+                errors.cast({
+                    message: 'msg',
+                    line: 0
+                });
+            });
+        });
+
+        it('should throw an error on invalid column type', function() {
+            assert.throws(function() {
+                errors.cast({
+                    message: 'msg',
+                    line: 1,
+                    column: '2'
+                });
+            });
+        });
+
+        it('should throw an error on invalid column value', function() {
+            assert.throws(function() {
+                errors.cast({
+                    message: 'msg',
+                    line: 1,
+                    column: -1
+                });
+            });
+        });
+
+        it('should throw without "additional" argument', function() {
+            assert.throws(function() {
+                errors.cast({
+                    message: 'msg',
+                    line: 1,
+                    column: -1
+                });
+            });
+        });
+
+        it('should correctly set error', function() {
+            errors.setCurrentRule('anyRule');
+            errors.cast({
+                message: 'msg',
+                column: 0,
+                line: 1,
+                additional: 'test'
+            });
+
+            var error = errors.getErrorList()[0];
+
+            assert.equal(error.rule, 'anyRule');
+            assert.equal(error.line, 1);
+            assert.equal(error.column, 0);
+            assert.equal(error.additional, 'test');
+        });
+    });
+
     describe('add with verbose', function() {
         var errors;
         beforeEach(function() {
