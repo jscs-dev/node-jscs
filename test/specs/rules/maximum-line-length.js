@@ -48,7 +48,7 @@ describe('rules/maximum-line-length', function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    allowComments: true
+                    allExcept: ['comments']
                 }
             });
         });
@@ -66,7 +66,7 @@ describe('rules/maximum-line-length', function() {
             checker.configure({
                 maximumLineLength: {
                     value: 15,
-                    allowUrlComments: true
+                    allExcept: ['urlComments']
                 }
             });
         });
@@ -108,7 +108,7 @@ describe('rules/maximum-line-length', function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    allowRegex: true
+                    allExcept: ['regex']
                 }
             });
         });
@@ -126,5 +126,33 @@ describe('rules/maximum-line-length', function() {
             assert(checker.checkString('var a = /regex/;')._file._lines[0].length > 1);
         });
 
+    });
+
+    describe('allExcept["functionSignature"] option', function() {
+        beforeEach(function() {
+            checker.configure({
+                esnext: true,
+                maximumLineLength: {
+                    value: 20,
+                    allExcept: ['functionSignature']
+                }
+            });
+        });
+
+        it('should not report named functions', function() {
+            var code = 'function myCoolFunction(argument) { }';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should not report class methods', function() {
+            var code = 'class MyClass {\n' +
+                    '  myMethodName(withArgs) {\n' +
+                    '  }\n' +
+                    '}';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should report functions stored in variables', function() {
+            var code = 'var fn = function() {};';
+            assert(checker.checkString(code).getErrorCount() === 1);
+        });
     });
 });
