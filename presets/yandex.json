@@ -88,7 +88,7 @@
 
     "maximumLineLength": {
         "value": 120,
-        "allowUrlComments": true
+        "allExcept": ["urlComments"]
     },
     "requireSpaceAfterLineComment": true,
     "requireLineFeedAtFileEnd": true,

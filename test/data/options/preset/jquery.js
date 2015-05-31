@@ -110,6 +110,11 @@ jQuery.extend = jQuery.fn.extend = function() {
   return target;
 };
 
+// maximumLineLength
+// long comment with a URL ................................................................. http://www.google.com
+// regex
+var seventyeightchars = /............................................................................../;
+
 // requireSpacesInFunctionExpression: before curly
 var each = function( obj, callback, args ) {
 
