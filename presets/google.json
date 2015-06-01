@@ -12,7 +12,7 @@
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "maximumLineLength": {
       "value": 80,
-      "allExcept": ["comments", "regex"]
+      "ignore": ["comments", "regex"]
     },
     "validateIndentation": 2,
     "validateQuoteMarks": "'",
