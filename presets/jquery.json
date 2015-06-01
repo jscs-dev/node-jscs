@@ -18,7 +18,7 @@
     "maximumLineLength": {
         "value": 100,
         "tabSize": 4,
-        "ignore": ["urlComments", "regex"]
+        "allExcept": ["urlComments", "regex"]
     },
     "validateQuoteMarks": { "mark": "\"", "escape": true },
 

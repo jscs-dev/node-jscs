@@ -43,12 +43,12 @@ describe('rules/maximum-line-length', function() {
         });
     });
 
-    describe('ignore["comments"] option', function() {
+    describe('allExcept["comments"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    ignore: ['comments']
+                    allExcept: ['comments']
                 }
             });
         });
@@ -73,12 +73,12 @@ describe('rules/maximum-line-length', function() {
         });
     });
 
-    describe('ignore["urlComments"] option', function() {
+    describe('allExcept["urlComments"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 15,
-                    ignore: ['urlComments']
+                    allExcept: ['urlComments']
                 }
             });
         });
@@ -128,12 +128,12 @@ describe('rules/maximum-line-length', function() {
         });
     });
 
-    describe('ignore["regex"] option', function() {
+    describe('allExcept["regex"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    ignore: ['regex']
+                    allExcept: ['regex']
                 }
             });
         });
@@ -164,13 +164,13 @@ describe('rules/maximum-line-length', function() {
         });
     });
 
-    describe('ignore["functionSignature"] option', function() {
+    describe('allExcept["functionSignature"] option', function() {
         beforeEach(function() {
             checker.configure({
                 esnext: true,
                 maximumLineLength: {
                     value: 20,
-                    ignore: ['functionSignature']
+                    allExcept: ['functionSignature']
                 }
             });
         });
