@@ -9,6 +9,14 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw when given an number', function() {
+            assert.throws(function() {
+                checker.configure({ requireSpacesInsideArrayBrackets: 2 });
+            });
+        });
+    });
+
     describe('"all"', function() {
         beforeEach(function() {
             checker.configure({ requireSpacesInsideArrayBrackets: 'all' });
