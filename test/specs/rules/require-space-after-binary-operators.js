@@ -19,6 +19,13 @@ describe('rules/require-space-after-binary-operators', function() {
 
         [[operator], true].forEach(function(value) {
 
+            it('should report sticky operator for ' + sticked + ' with true option',
+                function() {
+                    checker.configure({ requireSpaceAfterBinaryOperators: true });
+                    assert(checker.checkString(sticked).getErrorCount() === 1);
+                }
+            );
+
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });

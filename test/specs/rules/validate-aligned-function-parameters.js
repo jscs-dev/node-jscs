@@ -14,6 +14,14 @@ describe('rules/validate-aligned-function-parameters', function() {
             checker.configure({ validateAlignedFunctionParameters: true });
         });
 
+        it('should not report a function with no parameters', function() {
+            assert(
+                checker.checkString(
+                    'function a() {}'
+                ).isEmpty()
+            );
+        });
+
         it('should not report inline function parameters', function() {
             assert(
                 checker.checkString(
