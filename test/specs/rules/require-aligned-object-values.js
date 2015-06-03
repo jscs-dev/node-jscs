@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-aligned-object-values', function() {
     var checker;
@@ -10,8 +11,9 @@ describe('rules/require-aligned-object-values', function() {
     });
 
     describe('all option', function() {
+        var rules = { requireAlignedObjectValues: 'all' };
         beforeEach(function() {
-            checker.configure({ requireAlignedObjectValues: 'all' });
+            checker.configure(rules);
         });
 
         it('should not report for empty object', function() {
@@ -91,6 +93,62 @@ describe('rules/require-aligned-object-values', function() {
                     '};'
                 ].join('\n')).getErrorCount() === 1
             );
+        });
+
+        describe('alignment check for any number of spaces', function() {
+            reportAndFix({
+                name: 'illegal object values alignment',
+                rules: rules,
+                input: 'var x = {\n' +
+                    'a: 1,\n' +
+                    '\n' +
+                    'foo: function() {},\n' +
+                    'bcd: 2\n' +
+                '};',
+                output: 'var x = {\n' +
+                    'a  : 1,\n' +
+                    '\n' +
+                    'foo: function() {},\n' +
+                    'bcd: 2\n' +
+                '};'
+            });
+            reportAndFix({
+                name: 'illegal object values alignment',
+                rules: rules,
+                input: 'var x = {\n' +
+                    'a      : 1,\n' +
+                    '\n' +
+                    'foo   : function() {},\n' +
+                    'bcd   : 2\n' +
+                '};',
+                output: 'var x = {\n' +
+                    'a     : 1,\n' +
+                    '\n' +
+                    'foo   : function() {},\n' +
+                    'bcd   : 2\n' +
+                '};'
+            });
+        });
+
+        describe('in conjunction with disallowSpaceAfterObjectKeys', function() {
+            reportAndFix({
+                name: 'illegal object values alignment',
+                rules: {
+                    disallowSpaceAfterObjectKeys: {allExcept: ['aligned']},
+                    requireAlignedObjectValues: 'all'
+                },
+                errors: 4,
+                input: 'var x = {\n' +
+                    'a : 1,\n' +
+                    'foo : function() {},\n' +
+                    'bcd : 2\n' +
+                '};',
+                output: 'var x = {\n' +
+                    'a  : 1,\n' +
+                    'foo: function() {},\n' +
+                    'bcd: 2\n' +
+                '};'
+            });
         });
     });
 
