@@ -81,6 +81,39 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
     });
 
+    describe('ignoreAligned option', function() {
+        beforeEach(function() {
+            checker.configure({ disallowSpaceAfterObjectKeys: 'ignoreAligned' });
+        });
+
+        it('should report with an object that takes up a single line', function() {
+            assert(checker.checkString('var x = {a : 1, bcd : 2};').getErrorCount() === 2);
+        });
+
+        it('should report with an aligned multiline object with space after keys', function() {
+            assert(checker.checkString(
+                'var x = {\n' +
+                    'bcd :2,\n' +
+                    'a   : 1,\n' +
+                '};'
+            ).getErrorCount() === 2);
+        });
+
+        it('should not report with an aligned multiline object with no space after keys', function() {
+            assert(checker.checkString(
+                'var x = {\n' +
+                    'bcd:2,\n' +
+                    'a  : 1,\n' +
+                '};'
+            ).isEmpty());
+        });
+    });
+
+    it('should not report es6-methods. #1013', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('var x = { a() { } };').isEmpty());
+    });
+
     it('should not report es5 getters/setters #1037', function() {
         checker.configure({ disallowSpaceAfterObjectKeys: true });
         assert(checker.checkString('var x = { get a() { } };').isEmpty());
