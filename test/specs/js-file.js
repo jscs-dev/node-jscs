@@ -94,6 +94,41 @@ describe('modules/js-file', function() {
             assert.equal(parseError.lineNumber, 2);
             assert.equal(parseError.column, 2);
         });
+
+        it('should ignore lines containing only <include> tag', function() {
+            var file = createJsFile('<include src="file.js">\n' +
+                '  <include src="file.js">\n' +
+                '< include src="file.js" >\n' +
+                '<include\n' +
+                ' src="file.js">\n' +
+                'var a = 5;\n');
+            var comments = file._tree.comments;
+            var gritTags = comments.filter(function(comment) {
+                return comment.type === 'GritTag';
+            });
+
+            assert.equal(4, comments.length);
+            assert.equal(4, gritTags.length);
+        });
+
+        it('should ignore lines containing only <if> tag', function() {
+            var file = createJsFile('<if expr="false">\n' +
+                '  <if expr="false">\n' +
+                '< if expr="false" >\n' +
+                'var a = 5;\n' +
+                '</if>\n' +
+                '<if\n' +
+                ' expr="false">\n' +
+                'var b = 7;\n' +
+                '</ if>');
+            var comments = file._tree.comments;
+            var gritTags = comments.filter(function(comment) {
+                return comment.type === 'GritTag';
+            });
+
+            assert.equal(6, comments.length);
+            assert.equal(6, gritTags.length);
+        });
     });
 
     describe('isEnabledRule', function() {
