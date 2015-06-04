@@ -99,7 +99,7 @@ describe('rules/disallow-space-after-object-keys', function() {
             ).getErrorCount() === 2);
         });
 
-        it('should not report with an aligned multiline object with no space after keys', function() {
+        it('should not report with an aligned multiline object without space after keys', function() {
             assert(checker.checkString(
                 'var x = {\n' +
                     'bcd:2,\n' +
@@ -107,11 +107,6 @@ describe('rules/disallow-space-after-object-keys', function() {
                 '};'
             ).isEmpty());
         });
-    });
-
-    it('should not report es6-methods. #1013', function() {
-        checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { a() { } };').isEmpty());
     });
 
     it('should not report es5 getters/setters #1037', function() {
