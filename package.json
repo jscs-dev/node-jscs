@@ -73,6 +73,8 @@
     "pathval": "~0.1.1",
     "prompt": "~0.2.14",
     "strip-json-comments": "~1.0.2",
+    "to-double-quotes": "^1.0.0",
+    "to-single-quotes": "^1.0.2",
     "vow": "~0.4.8",
     "vow-fs": "~0.3.4",
     "xmlbuilder": "^2.6.1"

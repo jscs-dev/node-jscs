@@ -162,20 +162,6 @@ describe('modules/cli-config', function() {
             assert.equal(reporter.path, path.resolve('./lib/reporters/junit'));
         });
 
-        it('should get junit reporter with part of the path', function() {
-            var reporter = configFile.getReporter('./junit.js');
-
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/junit.js'));
-        });
-
-        it('should get junit reporter with part of the path without extension', function() {
-            var reporter = configFile.getReporter('./junit');
-
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/junit'));
-        });
-
         it('should get reporter with partial path', function() {
             var reporter = configFile.getReporter('./test/data/reporter/test-reporter.js');
 
@@ -201,6 +187,20 @@ describe('modules/cli-config', function() {
             assert.equal(reporter.path, path.resolve('./lib/reporters/text'));
 
             configFile.__set__('supportsColor', old);
+        });
+
+        it('should fake reporter from node', function() {
+            var reporter = configFile.getReporter('path');
+
+            assert.equal(typeof reporter.writer, 'object');
+            assert.equal(reporter.path, 'path');
+        });
+
+        it('should fake reporter from node_modules', function() {
+            var reporter = configFile.getReporter('sinon');
+
+            assert.equal(typeof reporter.writer, 'object');
+            assert.equal(reporter.path, 'sinon');
         });
     });
 });

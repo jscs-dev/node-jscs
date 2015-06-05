@@ -36,7 +36,16 @@ describe('modules/config/configuration', function() {
         });
 
         it('should have no default maximal error count', function() {
-            assert(configuration.getMaxErrors() === null);
+            assert(configuration.getMaxErrors() === Infinity);
+        });
+
+        it('should have no default preset', function() {
+            assert(configuration.getPresetName() === null);
+        });
+
+        it('should have no default custom esprima', function() {
+            assert(configuration.hasCustomEsprima() === false);
+            assert(configuration.getCustomEsprima() === null);
         });
     });
 
@@ -169,6 +178,35 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('esprima', function() {
+        it('should load custom esprima', function() {
+            var fake = { parse: function() {} };
+            configuration.load({
+                esprima: fake
+            });
+
+            assert(configuration.hasCustomEsprima());
+            assert.equal(configuration.getCustomEsprima(), fake);
+        });
+
+        it('should throw if esprima module do not have a "parse" method', function() {
+            var fake = {};
+            assert.throws(configuration.load.bind(configuration, {esprima: fake}));
+
+            assert(configuration.hasCustomEsprima() === false);
+            assert(!configuration.getCustomEsprima());
+        });
+
+        it('should throw if errorFilter is not a function', function() {
+            assert.throws(
+                configuration.load.bind(configuration, {errorFilter: {}}),
+                '`errorFilter` option requires a function or null value'
+            );
+            assert(configuration.hasCustomEsprima() === false);
+            assert(!configuration.getCustomEsprima());
+        });
+    });
+
     describe('getEsprimaOptions', function() {
         function assertBadEsprimaOptions(esprimaOptions) {
             assert.throws(function() {
@@ -259,6 +297,21 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('getConfiguredRule', function() {
+        it('should return configured rule after config load', function() {
+            assert(configuration.getConfiguredRule('ruleName') === null);
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+            configuration.load({ruleName: true});
+            assert(typeof configuration.getConfiguredRule('ruleName') === 'object');
+        });
+    });
+
     describe('isFileExcluded', function() {
         it('should return `false` if no `excludeFiles` are defined', function() {
             assert(!configuration.isFileExcluded('1.js'));
@@ -306,6 +359,16 @@ describe('modules/config/configuration', function() {
             configuration.load({maxErrors: 1});
             assert(configuration.getProcessedConfig().maxErrors === 2);
         });
+
+        it('should override `maxErrors` setting from the preset', function() {
+            configuration.registerPreset('test', {
+                maxErrors: 1
+            });
+
+            configuration.override({maxErrors: 2});
+            configuration.load({preset: 'test'});
+            assert(configuration.getProcessedConfig().maxErrors === 2);
+        });
     });
 
     describe('load', function() {
@@ -340,10 +403,132 @@ describe('modules/config/configuration', function() {
         });
 
         it('should load `preset` options', function() {
-            configuration.registerPreset('preset', {maxErrors: 1});
-            configuration.load({preset: 'preset'});
-            assert(configuration.getProcessedConfig().preset === 'preset');
+            configuration.registerPreset('test', {maxErrors: 1});
+            configuration.load({preset: 'test'});
+            assert(configuration.getProcessedConfig().preset === 'test');
             assert(configuration.getProcessedConfig().maxErrors === 1);
+        });
+
+        it('should load preset from the preset', function() {
+            configuration.registerDefaultRules();
+            configuration.registerPreset('test1', {
+                es3: true,
+                disallowMultipleVarDecl: true
+            });
+            configuration.registerPreset('test2', {
+                maxErrors: 1,
+                preset: 'test1',
+                disallowMultipleVarDecl: 'exceptUndefined'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+            assert(configuration.getProcessedConfig().preset === 'test2');
+            assert(configuration.getProcessedConfig().maxErrors === 1);
+            assert(configuration.getProcessedConfig().es3);
+
+            assert(configuration.getConfiguredRules()[0]._exceptUndefined);
+        });
+
+        it('should load nullify rule from the preset', function() {
+            configuration.registerDefaultRules();
+            configuration.registerPreset('test', {
+                disallowMultipleVarDecl: true
+            });
+            configuration.load({
+                preset: 'test',
+                disallowMultipleVarDecl: null
+            });
+            assert(configuration.getProcessedConfig().preset === 'test');
+            assert.equal(configuration.getConfiguredRules().length, 0);
+        });
+
+        it('should not add duplicative values to list of unsupported rules', function() {
+            configuration.registerPreset('test1', {
+                es3: true,
+                disallowMultipleVarDecl: true
+            });
+            configuration.registerPreset('test2', {
+                maxErrors: 1,
+                preset: 'test1',
+                disallowMultipleVarDecl: 'exceptUndefined'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+            assert.equal(configuration.getUnsupportedRuleNames().length, 1);
+        });
+
+        it('should not try go in infinite loop at circular present references', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerRule(rule);
+
+            configuration.registerPreset('test1', {
+                ruleName: true,
+                preset: 'test3'
+            });
+            configuration.registerPreset('test2', {
+                maxErrors: 1,
+                preset: 'test1'
+            });
+            configuration.registerPreset('test3', {
+                esnext: true,
+                preset: 'test2'
+            });
+
+            configuration.load({
+                preset: 'test3'
+            });
+
+            assert.equal(configuration.getConfiguredRules()[0].getOptionName(), 'ruleName');
+            assert(configuration.getProcessedConfig().esnext);
+            assert.equal(configuration.getProcessedConfig().maxErrors, 1);
+        });
+
+        it('should load preset from the preset with additional rule', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            configuration.registerPreset('test1', {
+                es3: true,
+                ruleName: 'test',
+                additionalRules: [rule]
+            });
+            configuration.registerPreset('test2', {
+                maxErrors: 1,
+                preset: 'test1'
+            });
+
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert(configuration.getProcessedConfig().preset === 'test2');
+            assert(configuration.getProcessedConfig().maxErrors === 1);
+            assert(configuration.getProcessedConfig().es3);
+            assert(configuration.getProcessedConfig().ruleName);
+            assert.equal(configuration.getUnsupportedRuleNames().length, 0);
+        });
+
+        it('should handle preset with custom rule which is not included', function() {
+            configuration.registerPreset('test', {
+                ruleName: 'test'
+            });
+
+            configuration.load({
+                preset: 'test'
+            });
+
+            assert(configuration.getUnsupportedRuleNames()[ 0 ], 'ruleName');
+            assert(!('ruleName' in configuration.getProcessedConfig()));
         });
 
         it('should load `preset` rule settings', function() {
