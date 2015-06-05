@@ -127,6 +127,22 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
     });
 
+    describe('legacy options', function() {
+        it('should accept ignoreSingleLine as an option', function() {
+            checker.configure({disallowSpaceAfterObjectKeys: 'ignoreSingleLine'});
+            assert(checker.checkString('var x = {a : 1, bcd : 2};').isEmpty());
+        });
+
+        it('should accept ignoreMultiLine as an option', function() {
+            checker.configure({disallowSpaceAfterObjectKeys: 'ignoreMultiLine'});
+            assert(checker.checkString(
+                'var x = {\n' +
+                'a : 1,\n' +
+                '};'
+            ).isEmpty());
+        });
+    });
+
     it('should not report es5 getters/setters #1037', function() {
         checker.configure({ disallowSpaceAfterObjectKeys: true });
         assert(checker.checkString('var x = { get a() { } };').isEmpty());
