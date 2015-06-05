@@ -45,67 +45,85 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
     });
 
-    describe('ignoreSingleLine option', function() {
-        beforeEach(function() {
-            checker.configure({ disallowSpaceAfterObjectKeys: 'ignoreSingleLine' });
-        });
+    describe('options as object', function() {
+        describe('allExcept option', function() {
+            describe('with singleline value', function() {
+                beforeEach(function() {
+                    checker.configure({ disallowSpaceAfterObjectKeys: { allExcept: ['singleline'] } });
+                });
 
-        it('should not report with an object that takes up a single line', function() {
-            assert(checker.checkString('var x = {a : 1, bcd : 2};').isEmpty());
-        });
+                it('should not report with an object that takes up a single line', function() {
+                    assert(checker.checkString('var x = {a : 1, bcd : 2};').isEmpty());
+                });
 
-        it('should report with an object that takes up a multi line', function() {
-            assert(checker.checkString(
-                'var x = {\n' +
-                    'a : 1,\n' +
-                '};'
-            ).getErrorCount() === 1);
-        });
-    });
+                it('should report with an object that takes up a multi line', function() {
+                    assert(checker.checkString(
+                            'var x = {\n' +
+                            'a : 1,\n' +
+                            '};'
+                        ).getErrorCount() === 1);
+                });
+            });
 
-    describe('ignoreMultiLine option', function() {
-        beforeEach(function() {
-            checker.configure({ disallowSpaceAfterObjectKeys: 'ignoreMultiLine' });
-        });
+            describe('with multliline value', function() {
+                beforeEach(function() {
+                    checker.configure({ disallowSpaceAfterObjectKeys: { allExcept: ['multiline'] } });
+                });
 
-        it('should report with an object that takes up a single line', function() {
-            assert(checker.checkString('var x = {a : 1, bcd : 2};').getErrorCount() === 2);
-        });
+                it('should report with an object that takes up a single line', function() {
+                    assert(checker.checkString('var x = {a : 1, bcd : 2};').getErrorCount() === 2);
+                });
 
-        it('should not report with an object that takes up a multi line', function() {
-            assert(checker.checkString(
-                'var x = {\n' +
-                    'a : 1,\n' +
-                '};'
-            ).isEmpty());
-        });
-    });
+                it('should not report with an object that takes up a multi line', function() {
+                    assert(checker.checkString(
+                        'var x = {\n' +
+                        'a : 1,\n' +
+                        '};'
+                    ).isEmpty());
+                });
+            });
 
-    describe('ignoreAligned option', function() {
-        beforeEach(function() {
-            checker.configure({ disallowSpaceAfterObjectKeys: 'ignoreAligned' });
-        });
+            describe('with aligned value', function() {
+                beforeEach(function() {
+                    checker.configure({ disallowSpaceAfterObjectKeys: { allExcept: ['aligned'] } });
+                });
 
-        it('should report with an object that takes up a single line', function() {
-            assert(checker.checkString('var x = {a : 1, bcd : 2};').getErrorCount() === 2);
-        });
+                it('should report with an object that takes up a single line', function() {
+                    assert(checker.checkString('var x = {a : 1, bcd : 2};').getErrorCount() === 2);
+                });
 
-        it('should report with an aligned multiline object with space after keys', function() {
-            assert(checker.checkString(
-                'var x = {\n' +
-                    'bcd :2,\n' +
-                    'a   : 1,\n' +
-                '};'
-            ).getErrorCount() === 2);
-        });
+                it('should report with an aligned multiline object with space after keys', function() {
+                    assert(checker.checkString(
+                            'var x = {\n' +
+                            'bcd :2,\n' +
+                            'a   : 1,\n' +
+                            '};'
+                        ).getErrorCount() === 2);
+                });
 
-        it('should not report with an aligned multiline object without space after keys', function() {
-            assert(checker.checkString(
-                'var x = {\n' +
-                    'bcd:2,\n' +
-                    'a  : 1,\n' +
-                '};'
-            ).isEmpty());
+                it('should not report with an aligned multiline object without space after keys', function() {
+                    assert(checker.checkString(
+                        'var x = {\n' +
+                        'bcd:2,\n' +
+                        'a  : 1,\n' +
+                        '};'
+                    ).isEmpty());
+                });
+            });
+
+            it('should not accept multiline and aligned at the same time', function() {
+                var rules = {disallowSpaceAfterObjectKeys: {allExcept: ['multiline', 'aligned']}};
+                assert.throws(function() {
+                    checker.configure(rules);
+                }, assert.AssertionError);
+            });
+
+            it('should not accept multiline and singleline at the same time', function() {
+                var rules = {disallowSpaceAfterObjectKeys: {allExcept: ['singleline', 'multiline']}};
+                assert.throws(function() {
+                    checker.configure(rules);
+                }, assert.AssertionError);
+            });
         });
     });
 

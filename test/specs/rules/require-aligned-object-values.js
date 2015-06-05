@@ -134,7 +134,7 @@ describe('rules/require-aligned-object-values', function() {
             reportAndFix({
                 name: 'illegal object values alignment',
                 rules: {
-                    disallowSpaceAfterObjectKeys: 'ignoreAligned',
+                    disallowSpaceAfterObjectKeys: {allExcept: ['aligned']},
                     requireAlignedObjectValues: 'all'
                 },
                 errors: 4,
