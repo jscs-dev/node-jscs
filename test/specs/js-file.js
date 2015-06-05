@@ -224,6 +224,88 @@ describe('modules/js-file', function() {
             assert(!file.isEnabledRule('validateQuoteMarks', 4));
             assert(file.isEnabledRule('validateQuoteMarks', 7));
         });
+
+        it('should trim whitespace from the rule name', function() {
+            var file = createJsFile([
+                '// jscs: disable validateQuoteMarks',
+                'var x = "1";',
+            ].join('\n'));
+            assert(!file.isEnabledRule('validateQuoteMarks', 2));
+            assert(!file.isEnabledRule('validateQuoteMarks  ', 2));
+            assert(!file.isEnabledRule('    validateQuoteMarks', 2));
+            assert(!file.isEnabledRule('   validateQuoteMarks   ', 2));
+        });
+
+        describe('single line trailing comment', function() {
+            it('should ignore a single line', function() {
+                var file = createJsFile([
+                    'var x = "1";',
+                    'var y = "1"; // jscs: ignore validateQuoteMarks',
+                    'var z = "1";',
+                ].join('\n'));
+                assert(file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(file.isEnabledRule('validateQuoteMarks', 3));
+            });
+
+            it('should work with no space before jscs:ignore', function() {
+                var file = createJsFile([
+                    'var x = "1";',
+                    'var y = "1"; //jscs: ignore validateQuoteMarks',
+                    'var z = "1";',
+                ].join('\n'));
+                assert(file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(file.isEnabledRule('validateQuoteMarks', 3));
+            });
+
+            it('should work without a space before `jscs`', function() {
+                var file = createJsFile([
+                    'var x = "1";',
+                    'var y = "1"; //jscs: ignore validateQuoteMarks',
+                    'var z = "1";',
+                ].join('\n'));
+                assert(file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(file.isEnabledRule('validateQuoteMarks', 3));
+            });
+
+            it('should not re-enable rules', function() {
+                var file = createJsFile([
+                    'var a = "1";',
+                    '// jscs: disable validateQuoteMarks',
+                    'var b = "1"; // jscs: ignore validateQuoteMarks',
+                    'var c = "1";',
+                ].join('\n'));
+                assert(file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(!file.isEnabledRule('validateQuoteMarks', 3));
+                assert(!file.isEnabledRule('validateQuoteMarks', 4));
+            });
+
+            it('should also work with multiple rules', function() {
+                var file = createJsFile([
+                    '// jscs: disable validateQuoteMarks',
+                    'var a = "1"; // jscs: ignore validateQuoteMarks, anotherRule',
+                    'var b = "1";',
+                ].join('\n'));
+                assert(!file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(!file.isEnabledRule('validateQuoteMarks', 3));
+                assert(file.isEnabledRule('anotherRule', 1));
+                assert(!file.isEnabledRule('anotherRule', 2));
+                assert(file.isEnabledRule('anotherRule', 3));
+            });
+
+            it('should be able to ignore all rules', function() {
+                var file = createJsFile([
+                    'var a = "1"; // jscs: ignore',
+                    'var b = "1";',
+                ].join('\n'));
+                assert(!file.isEnabledRule('validateQuoteMarks', 1));
+                assert(file.isEnabledRule('validateQuoteMarks', 2));
+            });
+        });
     });
 
     describe('iterateNodesByType', function() {
