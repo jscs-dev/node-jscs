@@ -162,6 +162,17 @@ describe('modules/js-file', function() {
             assert(!file.isEnabledRule('validateQuoteMarks', 4));
             assert(file.isEnabledRule('validateQuoteMarks', 7));
         });
+
+        it('should ignore a single line with a trailing comment', function() {
+            var file = createJsFile([
+                'var x = "1";',
+                'var y = "1"; // jscs: ignore validateQuoteMarks',
+                'var z = "1";',
+            ].join('\n'));
+            assert(file.isEnabledRule('validateQuoteMarks', 1));
+            assert(!file.isEnabledRule('validateQuoteMarks', 2));
+            assert(file.isEnabledRule('validateQuoteMarks', 3));
+        });
     });
 
     describe('iterateNodesByType', function() {
