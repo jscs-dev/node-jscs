@@ -3,7 +3,6 @@ var chalk = require('chalk');
 var vow = require('vow');
 var vowFs = require('vow-fs');
 
-var Promise = vow.Promise;
 var SOURCES = ['lib', 'test/specs'];
 var MOCHA = 'node_modules/.bin/mocha';
 
@@ -36,8 +35,8 @@ vowFs.listDir('./presets').then(function(presetFilenames) {
         );
     });
 })
-.progress(function() {})
-.done();
+    .progress(function() {})
+    .done();
 
 /**
  * Creates log error handler to output error message and pass error further.
@@ -142,7 +141,6 @@ function runProcess(executable, args, successCodes) {
  * Exit handler. Restores file changes before exit.
  *
  * @param {Error} error
- * @returns {Promise}
  */
 function exit(error) {
     var errorCode = 0;
