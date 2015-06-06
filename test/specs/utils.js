@@ -7,11 +7,12 @@ var path = require('path');
 describe('modules/utils', function() {
 
     function createJsFile(source) {
-        return new JsFile(
-            'example.js',
-            source,
-            esprima.parse(source, {loc: true, range: true, comment: true, tokens: true})
-        );
+        return new JsFile({
+            filename: 'example.js',
+            source: source,
+            esprima: esprima,
+            esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
+        });
     }
 
     describe('isEs3Keyword', function() {

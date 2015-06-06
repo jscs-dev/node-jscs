@@ -274,7 +274,9 @@ describe('modules/string-checker', function() {
     describe('esprima options', function() {
         var code = 'import { foo } from "bar";';
         var customEsprima = {
-            parse: function() {}
+            parse: function() {
+                return {tokens: [], comments: []};
+            }
         };
 
         beforeEach(function() {
