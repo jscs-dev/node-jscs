@@ -4,31 +4,44 @@ var harmonyEsprima = require('esprima-harmony-jscs');
 var JsFile = require('../../lib/js-file');
 var sinon = require('sinon');
 var fs = require('fs');
+var assign = require('lodash.assign');
 
 describe('modules/js-file', function() {
 
     function createJsFile(sources, options) {
-        return new JsFile(
-            'example.js',
-            sources,
-            JsFile.parse(sources, esprima),
-            options || {}
-        );
+        var params = {
+            filename: 'example.js',
+            source: sources,
+            esprima: esprima
+        };
+
+        return new JsFile(assign(params, options));
     }
 
     function createHarmonyJsFile(sources) {
-        return new JsFile(
-            'example.js',
-            sources,
-            JsFile.parse(sources, harmonyEsprima),
-            {es6: true}
-        );
+        return new JsFile({
+            filename: 'example.js',
+            source: sources,
+            esprima: harmonyEsprima,
+            es6: true
+        });
     }
 
     describe('constructor', function() {
 
         it('empty file should have one token EOF', function() {
-            var file = new JsFile('example.js', '', null);
+            var file = new JsFile({filename: 'example.js', source: '', esprima: esprima});
+            assert(Array.isArray(file.getTokens()));
+            assert.equal(file.getTokens().length, 1);
+            assert.equal(file.getTokens()[0].type, 'EOF');
+        });
+
+        it('should accept broken JS file', function() {
+            var file = new JsFile({
+                filename: 'example.js',
+                source: '/1',
+                esprima: esprima
+            });
             assert(Array.isArray(file.getTokens()));
             assert.equal(file.getTokens().length, 1);
             assert.equal(file.getTokens()[0].type, 'EOF');
@@ -66,6 +79,20 @@ describe('modules/js-file', function() {
                     }
                 });
             });
+        });
+
+        it('should handle parse errors', function() {
+            var file = new JsFile({
+                filename: 'input',
+                source: '\n2++;',
+                esprima: esprima,
+                esprimaOptions: {tolerant: false}
+            });
+            assert.equal(file.getParseErrors().length, 1);
+            var parseError = file.getParseErrors()[0];
+            assert.equal(parseError.description, 'Invalid left-hand side in assignment');
+            assert.equal(parseError.lineNumber, 2);
+            assert.equal(parseError.column, 2);
         });
     });
 
@@ -854,15 +881,8 @@ describe('modules/js-file', function() {
     });
 
     describe('getTree', function() {
-        it('should return specified esprima-tree', function() {
-            var sources = 'var x;';
-            var tree = esprima.parse(sources, {loc: true, range: true, comment: true, tokens: true});
-            var file = new JsFile('example.js', sources, tree);
-            assert.equal(file.getTree(), tree);
-        });
-
         it('should return empty token tree for non-existing esprima-tree', function() {
-            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\nWorld', esprima: esprima});
             assert.equal(typeof file.getTree(), 'object');
             assert(file.getTree() !== null);
         });
@@ -1001,7 +1021,11 @@ describe('modules/js-file', function() {
 
     describe('getFilename', function() {
         it('should return given filename', function() {
-            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            var file = new JsFile({
+                filename: 'example.js',
+                source: 'Hello\nWorld',
+                esprima: esprima
+            });
             assert.equal(file.getFilename(), 'example.js');
         });
     });
@@ -1020,49 +1044,49 @@ describe('modules/js-file', function() {
 
     describe('getLineBreaks', function() {
         it('should return \\n', function() {
-            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\nWorld', esprima: esprima});
             assert.deepEqual(file.getLineBreaks(), ['\n']);
         });
 
         it('should return empty array for single line file', function() {
-            var file = new JsFile('example.js', 'Hello', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello', esprima: esprima});
             assert.deepEqual(file.getLineBreaks(), []);
         });
 
         it('should return \\r', function() {
-            var file = new JsFile('example.js', 'Hello\rWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\rWorld', esprima: esprima});
             assert.deepEqual(file.getLineBreaks(), ['\r']);
         });
 
         it('should return \\r\\n', function() {
-            var file = new JsFile('example.js', 'Hello\r\nWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\r\nWorld', esprima: esprima});
             assert.deepEqual(file.getLineBreaks(), ['\r\n']);
         });
     });
 
     describe('getLineBreakStyle', function() {
         it('should return \\n', function() {
-            var file = new JsFile('example.js', 'Hello\nWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\nWorld', esprima: esprima});
             assert.equal(file.getLineBreakStyle(), '\n');
         });
 
         it('should return \\r', function() {
-            var file = new JsFile('example.js', 'Hello\rWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\rWorld', esprima: esprima});
             assert.equal(file.getLineBreakStyle(), '\r');
         });
 
         it('should return \\r\\n', function() {
-            var file = new JsFile('example.js', 'Hello\r\nWorld', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\r\nWorld', esprima: esprima});
             assert.equal(file.getLineBreakStyle(), '\r\n');
         });
 
         it('should return \\n for single line file', function() {
-            var file = new JsFile('example.js', 'Hello', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello', esprima: esprima});
             assert.equal(file.getLineBreakStyle(), '\n');
         });
 
         it('should return first line break for mixed file', function() {
-            var file = new JsFile('example.js', 'Hello\nWorld\r\n!', null);
+            var file = new JsFile({filename: 'example.js', source: 'Hello\nWorld\r\n!', esprima: esprima});
             assert.equal(file.getLineBreakStyle(), file.getLineBreaks()[0]);
         });
     });
@@ -1187,18 +1211,6 @@ describe('modules/js-file', function() {
             assert.equal(spy.getCall(0).args[0].value, '1');
             assert.equal(spy.getCall(1).args[0].type, 'Numeric');
             assert.equal(spy.getCall(1).args[0].value, '2');
-        });
-    });
-
-    describe('parse', function() {
-        it('should accept esprima options', function() {
-            assert.doesNotThrow(function() {
-                JsFile.parse('2++;', esprima, {tolerant: true});
-            });
-
-            assert.throws(function() {
-                JsFile.parse('2++;', esprima, {tolerant: false});
-            });
         });
     });
 });
