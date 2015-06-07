@@ -10,31 +10,32 @@ var MOCHA = 'node_modules/.bin/mocha';
  * Applying every available preset to JSCS sources and tests, then executing tests.
  * So we can make sure nothing breaks during these reformatting actions.
  */
-vowFs.listDir('./presets').then(function(presetFilenames) {
-    var presets = presetFilenames.map(function(presetFilename) {
-        return presetFilename.replace('.json', '');
-    });
-    console.log('\n' + chalk.green('> ') + 'Autofix ingeration tests');
-    return promiseQueue(presets, function(presetName) {
-        console.log('\nPreset "' + chalk.green(presetName) + '"');
-        logStep('Autofix execution');
-        return applyPreset(presetName).then(
-            function() {
-                logStep('Unit tests');
-                console.log('');
-                return runTests().then(
-                    function() {
-                        console.log('');
-                        logStep('Unit test on "' + chalk.green(presetName) + '" preset are finished');
-                    },
-                    logErrorHandler('Unit tests failure'),
-                    passthroughProgress
-                );
-            },
-            logErrorHandler('Autofix failure')
-        );
-    });
-})
+vowFs.listDir('./presets')
+    .then(function(presetFilenames) {
+        var presets = presetFilenames.map(function(presetFilename) {
+            return presetFilename.replace('.json', '');
+        });
+        console.log('\n' + chalk.green('> ') + 'Autofix ingeration tests');
+        return promiseQueue(presets, function(presetName) {
+            console.log('\nPreset "' + chalk.green(presetName) + '"');
+            logStep('Autofix execution');
+            return applyPreset(presetName).then(
+                function() {
+                    logStep('Unit tests');
+                    console.log('');
+                    return runTests().then(
+                        function() {
+                            console.log('');
+                            logStep('Unit test on "' + chalk.green(presetName) + '" preset are finished');
+                        },
+                        logErrorHandler('Unit tests failure'),
+                        passthroughProgress
+                    );
+                },
+                logErrorHandler('Autofix failure')
+            );
+        });
+    })
     .progress(function() {})
     .done();
 
