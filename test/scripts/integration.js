@@ -8,7 +8,7 @@ var MOCHA = 'node_modules/.bin/mocha';
 
 /**
  * Applying every available preset to JSCS sources and tests, then executing tests.
- * It is
+ * So we can make sure nothing breaks during these reformatting actions.
  */
 vowFs.listDir('./presets').then(function(presetFilenames) {
     var presets = presetFilenames.map(function(presetFilename) {
