@@ -7,11 +7,12 @@ var TokenAssert = require('../../lib/token-assert');
 describe('modules/token-assert', function() {
 
     function createJsFile(sources) {
-        return new JsFile(
-            'example.js',
-            sources,
-            esprima.parse(sources, {loc: true, range: true, comment: true, tokens: true})
-        );
+        return new JsFile({
+            filename: 'example.js',
+            source: sources,
+            esprima: esprima,
+            esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
+        });
     }
 
     describe('whitespaceBetween', function() {
