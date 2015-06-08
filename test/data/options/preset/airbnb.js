@@ -19,7 +19,13 @@
   // requireSpacesInConditionalExpression
   var y = x ? x : null;
 
+  // requireTrailingComma
+  var z = [
+    1,
+  ];
+
   // disallowSpacesInsideArrayBrackets
+  // requireTrailingComma - { "ignoreSingleLine": true },
   var z = [1];
 
   // requireSpaceAfterKeywords
@@ -65,7 +71,7 @@
       },
 
       // requireCamelCaseOrUpperCaseIdentifiers
-      mySweetProp: true
+      mySweetProp: true,
     };
 
     return api;

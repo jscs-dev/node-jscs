@@ -427,7 +427,7 @@ describe('modules/string-checker', function() {
          * @param  {String} presetName
          */
         function testPreset(presetName) {
-            it('preset ' + presetName + ' should not report any errors from the sample file', function() {
+            it(presetName + ' should not report any errors from the sample file', function() {
                 var checker = new StringChecker();
 
                 checker.registerDefaultRules();
