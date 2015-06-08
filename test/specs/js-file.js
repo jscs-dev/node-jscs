@@ -163,11 +163,33 @@ describe('modules/js-file', function() {
             assert(file.isEnabledRule('validateQuoteMarks', 7));
         });
 
+        it('should trim whitespace from the rule name', function() {
+            var file = createJsFile([
+                '// jscs: disable validateQuoteMarks',
+                'var x = "1";',
+            ].join('\n'));
+            assert(!file.isEnabledRule('validateQuoteMarks', 2));
+            assert(!file.isEnabledRule('validateQuoteMarks  ', 2));
+            assert(!file.isEnabledRule('    validateQuoteMarks', 2));
+            assert(!file.isEnabledRule('   validateQuoteMarks   ', 2));
+        });
+
         describe('single line trailing comment', function() {
             it('should ignore a single line', function() {
                 var file = createJsFile([
                     'var x = "1";',
                     'var y = "1"; // jscs: ignore validateQuoteMarks',
+                    'var z = "1";',
+                ].join('\n'));
+                assert(file.isEnabledRule('validateQuoteMarks', 1));
+                assert(!file.isEnabledRule('validateQuoteMarks', 2));
+                assert(file.isEnabledRule('validateQuoteMarks', 3));
+            });
+
+            it('should work without a space before `jscs`', function() {
+                var file = createJsFile([
+                    'var x = "1";',
+                    'var y = "1"; //jscs: ignore validateQuoteMarks',
                     'var z = "1";',
                 ].join('\n'));
                 assert(file.isEnabledRule('validateQuoteMarks', 1));
