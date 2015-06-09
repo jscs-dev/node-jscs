@@ -22,6 +22,11 @@
   // disallowSpacesInsideArrayBrackets
   var z = [1];
 
+  // requireTrailingComma
+  var z = [
+    1,
+  ];
+
   // requireSpaceAfterKeywords
   if (1) console.log('foo');
 
@@ -65,7 +70,7 @@
       },
 
       // requireCamelCaseOrUpperCaseIdentifiers
-      mySweetProp: true
+      mySweetProp: true,
     };
 
     return api;
