@@ -15,22 +15,25 @@ describe('rules/disallow-comma-before-line-break', function() {
     reportAndFix({
         name: 'illegal comma placement in multiline var declaration',
         rules: rules,
+        errors: 2,
         input: 'var a,\nb;',
-        output: 'var a, b;'
+        output: 'var a\n, b;'
     });
 
     reportAndFix({
         name: 'illegal comma placement in multiline array declaration',
         rules: rules,
+        errors: 2,
         input: 'var a = [1,\n2];',
-        output: 'var a = [1, 2];'
+        output: 'var a = [1\n, 2];'
     });
 
     reportAndFix({
         name: 'illegal comma placement in multiline object declaration',
         rules: rules,
+        errors: 2,
         input: 'var a = {a:1,\nc:3};',
-        output: 'var a = {a:1, c:3};'
+        output: 'var a = {a:1\n, c:3};'
     });
 
     it('should not report legal comma placement in multiline var declaration', function() {
@@ -63,10 +66,11 @@ describe('rules/disallow-comma-before-line-break', function() {
 
     describe('options as object', function() {
         describe('allExcept as option', function() {
-            describe('with value function', function() {
-                var rules = {disallowCommaBeforeLineBreak: {allExcept: ['function']}};
+            describe('with value `function`', function() {
                 beforeEach(function() {
-                    checker.configure(rules);
+                    checker = new Checker();
+                    checker.registerDefaultRules();
+                    checker.configure({disallowCommaBeforeLineBreak: {allExcept: ['function']}});
                 });
                 it('should not report objects with function values', function() {
                     assert(
@@ -79,23 +83,11 @@ describe('rules/disallow-comma-before-line-break', function() {
                         ).isEmpty()
                     );
                 });
-
-                reportAndFix({
-                    name: 'illegal comma placement in multiline object declaration',
-                    rules: rules,
-                    input: 'var a = {a:1,\nc:3};',
-                    output: 'var a = {a:1, c:3};'
+                it('should report objects without function values', function() {
+                    assert(
+                        checker.checkString('var a = {a:1,\nc:3};').getErrorCount() === 2
+                    );
                 });
-            });
-        });
-
-        describe('lineBreak as option', function() {
-            reportAndFix({
-                name: 'illegal comma placement in multiline object declaration',
-                rules: {disallowCommaBeforeLineBreak: {lineBreak: true}},
-                errors: 2,
-                input: 'var a = {a:1,\nc:3};',
-                output: 'var a = {a:1\n, c:3};'
             });
         });
     });
