@@ -24,7 +24,7 @@ describe('modules/config/node-configuration', function() {
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter.js'),
-                esprima: 'esprima-harmony-jscs',
+                esprima: 'babel-jscs',
                 es3: true,
                 verbose: true,
                 esnext: true
@@ -86,7 +86,7 @@ describe('modules/config/node-configuration', function() {
 
         it('should accept `esprima` to register different esprima', function() {
             configuration.load({
-                esprima: 'esprima-harmony-jscs'
+                esprima: 'babel-jscs'
             });
 
             assert.equal(configuration.hasCustomEsprima(), true);

@@ -239,7 +239,7 @@ describe('modules/string-checker', function() {
             assert(error.message === customDescription);
         });
 
-        it('uses the harmony esprima when true is provided to the constructor', function() {
+        it('uses babel-jscs when true is provided to the constructor', function() {
             checker = new StringChecker({ esnext: true });
             checker.registerDefaultRules();
 
@@ -247,7 +247,7 @@ describe('modules/string-checker', function() {
             assert(errors.isEmpty());
         });
 
-        it('uses the harmony esprima when esnext is set to true in the config', function() {
+        it('uses babel-jscs when esnext is set to true in the config', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();
             checker.configure({ esnext: true });
