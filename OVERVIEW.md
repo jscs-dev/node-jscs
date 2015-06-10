@@ -109,7 +109,7 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
 ### `--esnext` (`-e`)
-Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
+Attempts to parse your code as ES6+ using the babel-jscs package as the parser.Please note that this is currently experimental, and will improve over time.
 
 ### `--esprima` (`-s`)
 Attempts to parse your code with a custom Esprima version.
@@ -236,7 +236,7 @@ Default: Infinity
 
 ### esnext
 
-Attempts to parse your code as ES6 using the harmony version of the esprima parser.
+Attempts to parse your code as ES6+ using the babel-jscs package as the parser.Please note that this is currently experimental, and will improve over time.
 
 Type: `Boolean`
 

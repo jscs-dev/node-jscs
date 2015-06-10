@@ -60,11 +60,11 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "babel-jscs": "^1.0.1",
     "chalk": "~1.0.0",
     "cli-table": "~0.3.1",
     "commander": "~2.8.1",
     "esprima": "^1.2.5",
-    "esprima-harmony-jscs": "1.1.0-bin",
     "estraverse": "^1.9.3",
     "exit": "~0.1.2",
     "glob": "^5.0.1",

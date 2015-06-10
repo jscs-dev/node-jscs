@@ -695,7 +695,7 @@ describe('modules/cli', function() {
         it('should use a custom esprima provided at CLI', function() {
             return assertNoCliErrors(cli({
                 args: ['test/data/cli/esnext.js'],
-                esprima: 'esprima-harmony-jscs',
+                esprima: 'babel-jscs',
                 config: 'test/data/cli/cli.json'
             }));
         });
