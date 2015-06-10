@@ -180,6 +180,24 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
     });
 
+    describe('value allExcept: inNewExpressions', function() {
+        beforeEach(function() {
+            checker.configure({
+                requirePaddingNewLinesAfterBlocks: {
+                    allExcept: ['inNewExpressions']
+                }
+            });
+        });
+
+        it('should not report missing padding when function is last argument', function() {
+            assert(checker.checkString('new Obj(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+        });
+
+        it('should not report missing padding when function is middle argument', function() {
+            assert(checker.checkString('new Obj(\n3,\nfunction() {\n},\n2\n)').isEmpty());
+        });
+    });
+
     describe('value allExcept: inArrayExpressions', function() {
         beforeEach(function() {
             checker.configure({
