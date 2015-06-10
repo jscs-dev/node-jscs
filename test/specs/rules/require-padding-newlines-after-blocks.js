@@ -178,6 +178,14 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         it('should not report missing padding when function is middle argument', function() {
             assert(checker.checkString('func(\n3,\nfunction() {\n},\n2\n)').isEmpty());
         });
+
+        it('should not report missing padding when function is last argument in object instantiation', function() {
+            assert(checker.checkString('new Obj(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+        });
+
+        it('should not report missing padding when function is middle argument in object instantiation', function() {
+            assert(checker.checkString('new Obj(\n3,\nfunction() {\n},\n2\n)').isEmpty());
+        });
     });
 
     describe('value allExcept: inArrayExpressions', function() {
