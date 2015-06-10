@@ -28,6 +28,11 @@
   // requireTrailingComma - { "ignoreSingleLine": true },
   var z = [1];
 
+  // requireTrailingComma
+  var z = [
+    1,
+  ];
+
   // requireSpaceAfterKeywords
   if (1) console.log('foo');
 
