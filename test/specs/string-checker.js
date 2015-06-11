@@ -45,6 +45,15 @@ describe('modules/string-checker', function() {
             });
         });
 
+        it('should not check empty string (#1354)', function() {
+            var spy = sinon.spy(StringChecker.prototype, '_checkJsFile');
+
+            assert(checker.checkString('').isEmpty());
+
+            assert(spy.called === false);
+            spy.restore();
+        });
+
         it('should report parse issues as errors', function() {
             var errors = checker.checkString('this is not javascript');
             assert(errors.getErrorCount() === 1);
@@ -112,6 +121,16 @@ describe('modules/string-checker', function() {
             } catch (e) {
                 assert.equal(e.toString(), 'AssertionError: Preset "not-exist" does not exist');
             }
+        });
+
+        it('should set verbose option', function() {
+            checker.configure({
+                verbose: true,
+                requireSpaceBeforeBinaryOperators: ['=']
+            });
+
+            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
+            assert(errors[0].message.indexOf('requireSpaceBeforeBinaryOperators') > -1);
         });
 
         describe('rules registration', function() {
@@ -255,7 +274,9 @@ describe('modules/string-checker', function() {
     describe('esprima options', function() {
         var code = 'import { foo } from "bar";';
         var customEsprima = {
-            parse: function() {}
+            parse: function() {
+                return {tokens: [], comments: []};
+            }
         };
 
         beforeEach(function() {
@@ -357,6 +378,33 @@ describe('modules/string-checker', function() {
         });
     });
 
+    describe('throwing rules', function() {
+        function _beforeEach(_verbose) {
+            checker = new StringChecker({verbose: _verbose});
+            // register rule that throw
+            checker.registerRule({
+                configure: function() {},
+                getOptionName: function() { return 'thrower'; },
+                check: function() {
+                    throw Error('Here we are!');
+                }
+            });
+            checker.configure({thrower: true});
+        }
+
+        it('should be handled internally with verbose', function() {
+            _beforeEach(true);
+
+            var errs = checker.checkString('var a');
+            assert.equal(errs.getErrorCount(), 1);
+
+            var err = errs.getErrorList()[0];
+            assert.equal(err.rule, 'thrower');
+            assert.ok(err.message.indexOf('Error running rule thrower:') !== -1);
+            assert.ok(err.message.indexOf('Error: Here we are!') !== -1);
+        });
+    });
+
     describe('presets', function() {
         testPreset('airbnb');
         testPreset('crockford');
@@ -379,7 +427,7 @@ describe('modules/string-checker', function() {
          * @param  {String} presetName
          */
         function testPreset(presetName) {
-            it('preset ' + presetName + ' should not report any errors from the sample file', function() {
+            it(presetName + ' should not report any errors from the sample file', function() {
                 var checker = new StringChecker();
 
                 checker.registerDefaultRules();

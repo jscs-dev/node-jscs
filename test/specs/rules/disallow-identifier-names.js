@@ -38,4 +38,11 @@ describe('rules/disallow-identifier-names', function() {
 
         assert(checker.checkString('FOO = 1;').isEmpty());
     });
+
+    it('should not report on object properties (#799)', function() {
+        assert(checker.checkString('toString = 1;').isEmpty());
+        assert(checker.checkString('var valueOf = 1;').isEmpty());
+        assert(checker.checkString('fn(propertyIsEnumerable)').isEmpty());
+        assert(checker.checkString('obj.isPrototypeOf = 1;').isEmpty());
+    });
 });

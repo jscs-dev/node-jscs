@@ -37,4 +37,8 @@ describe('rules/disallow-padding-newlines-before-line-comments', function() {
     it('should not report missing padding with block comment', function() {
         assert(checker.checkString('var a = 2;\n/* comment */').isEmpty());
     });
+
+    it('should not report missing padding after shebang', function() {
+        assert(checker.checkString('#!/usr/bin/env node\n// comment').isEmpty());
+    });
 });

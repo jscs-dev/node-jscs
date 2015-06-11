@@ -47,6 +47,12 @@ describe('rules/require-multiple-var-decl', function() {
         it('should not report separated var decl', function() {
             assert(checker.checkString('var x; x++; var y;').isEmpty());
         });
+        it('supports var decl not contained by a parent with a `body` property (#916, #1163)', function() {
+            assert(checker.checkString('switch (1) { case 1: var x; }').isEmpty());
+        });
+        it('should report consecutive var decl not contained by a parent with a `body` property', function() {
+            assert(checker.checkString('switch (1) { case 1: var x; var y; }').getErrorCount() === 1);
+        });
     });
 
     describe('onevar', function() {

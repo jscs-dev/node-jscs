@@ -51,3 +51,8 @@ var arr = [1, 2, 3];
 var obj = {a: 1, b: 2, c: 3};
 // disallowSpacesInsideParentheses
 console.log('string');
+
+// maximumLineLength
+// should ignore really long comment lines .......................................
+// and regex
+var regex = /somesuperlongregex..................................................../;

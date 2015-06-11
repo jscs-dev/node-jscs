@@ -11,13 +11,6 @@ describe('modules/errors', function() {
         checker.configure({ disallowQuotedKeysInObjects: true });
     });
 
-    it('should provide correct indent for tabbed lines', function() {
-        var errors = checker.checkString('\tvar x = { "a": 1 }');
-        var error = errors.getErrorList()[0];
-
-        assert.ok(!/\t/.test(errors.explainError(error)));
-    });
-
     it('should show the correct rule for an error', function() {
         var errors = checker.checkString('\tvar x = { "a": 1 }');
         var error = errors.getErrorList()[0];
@@ -95,7 +88,7 @@ describe('modules/errors', function() {
 
     describe('add', function() {
         var errors;
-        before(function() {
+        beforeEach(function() {
             errors = checker.checkString('yay');
         });
 
@@ -133,6 +126,79 @@ describe('modules/errors', function() {
             assert.equal(error.line, 1);
             assert.equal(error.column, 0);
         });
+    });
+
+    describe('add with verbose', function() {
+        var errors;
+        beforeEach(function() {
+            checker = new Checker({verbose: true});
+            checker.registerDefaultRules();
+            checker.configure({ disallowQuotedKeysInObjects: true });
+
+            errors = checker.checkString('yay');
+        });
+
+        it('should prepend rule name to error message', function() {
+            errors.setCurrentRule('anyRule');
+            errors.add('msg', 1, 0);
+
+            var error = errors.getErrorList()[0];
+
+            assert.equal(error.message, 'anyRule: msg');
+        });
+
+        it('should dump a stack of Error', function() {
+            errors._verbose = true;
+            errors.add(Error('test'), 1, 0);
+
+            assert.equal(errors.getErrorCount(), 1);
+        });
+    });
+
+    describe('explainError', function() {
+        it('should explain error', function() {
+            var errors = checker.checkString([
+                '/* test */',
+                'var x = { "a": 1 };',
+                'var b;',
+                'function c(){};',
+                'var d = { "b": 2 };',
+            ].join('\n'));
+            var errorList = errors.getErrorList();
+
+            assert.ok(errors.explainError(errorList[0]).indexOf('--------^'));
+            assert.ok(errors.explainError(errorList[1]).indexOf('--------^'));
+        });
+
+        it('should provide correct indent for tabbed lines', function() {
+            var errors = checker.checkString('\tvar x = { "a": 1 }');
+            var error = errors.getErrorList()[0];
+
+            assert.ok(!/\t/.test(errors.explainError(error)));
+        });
+
+        it('should explain colorized', function() {
+            var errors = checker.checkString('var x = { "a": 1 };');
+            var error = errors.getErrorList()[0];
+
+            assert.ok(errors.explainError(error, true).indexOf('\u001b') !== -1);
+        });
+
+        it('should show correct error message for "verbose" option and unsupported rule error',
+           function() {
+                checker = new Checker({ verbose: true });
+
+                checker.registerDefaultRules();
+                checker.configure({ unsupported: true });
+
+                var errors = checker.checkString('var x = { "a": 1 };');
+                var error = errors.getErrorList()[0];
+
+                assert.equal(
+                    errors.explainError(error).indexOf(': Unsupported rule: unsupported'), -1
+                );
+            }
+        );
     });
 
     describe('filter', function() {

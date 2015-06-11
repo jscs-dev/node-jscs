@@ -7,11 +7,12 @@ var TokenAssert = require('../../lib/token-assert');
 describe('modules/token-assert', function() {
 
     function createJsFile(sources) {
-        return new JsFile(
-            'example.js',
-            sources,
-            esprima.parse(sources, {loc: true, range: true, comment: true, tokens: true})
-        );
+        return new JsFile({
+            filename: 'example.js',
+            source: sources,
+            esprima: esprima,
+            esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
+        });
     }
 
     describe('whitespaceBetween', function() {
@@ -504,6 +505,22 @@ describe('modules/token-assert', function() {
                 token: undefined,
                 nextToken: undefined
             });
+        });
+
+        it('should move tokens instead of collapsing lines when asked.', function() {
+            var file = createJsFile('x\n  + y;');
+
+            var tokenAssert = new TokenAssert(file);
+            tokenAssert.on('error', function() {}); // do nothing
+            var tokens = file.getTokens();
+
+            tokenAssert.sameLine({
+                token: tokens[0],
+                nextToken: tokens[1],
+                stickToPreviousToken: true
+            });
+
+            assert.equal('x +\n  y;', file.render());
         });
     });
 

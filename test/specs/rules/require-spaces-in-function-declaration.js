@@ -21,6 +21,10 @@ describe('rules/require-spaces-in-function-declaration', function() {
             assert(checker.checkString('function abc (){}').isEmpty());
         });
 
+        it('should not report space before round brace in export default function', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('export default function (){}').isEmpty());
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
@@ -36,8 +40,9 @@ describe('rules/require-spaces-in-function-declaration', function() {
             assert(checker.checkString('function abc() {}').isEmpty());
         });
 
-        it('should not report missing space before round brace without option', function() {
-            assert(checker.checkString('function abc() {}').isEmpty());
+        it('should not report space before curly brace in export default function', function() {
+            checker.configure({ esnext: true });
+            assert(checker.checkString('export default function() {}').isEmpty());
         });
     });
 });

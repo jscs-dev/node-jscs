@@ -6,8 +6,8 @@ Thanks for wanting to contribute! This document describes some points about the 
 1. [Maintainers](#maintainers)
 1. [Pull Requests](#pull-requests)
  - [Before Submitting a PR](#before-submitting-a-pr)
- - [Why did you close my PR or Issue?](#why-did-you-close-my-pull-request-or-issue)
- - [PR/Issue Closing Criteria](#prissue-closing-criteria)
+ - [Why did you close my PR or Issue?](#why-did-you-close-my-pull-request-or-issue-)
+ - [PR/Issue Closing Criteria](#pr-issue-closing-criteria)
 1. [Filing Bugs](#filing-bugs)
 1. [Proposing Features](#proposing-features)
 1. [Implementing Features](#implementing-features)
@@ -71,6 +71,7 @@ When it comes to bugs, the more details you provide, the easier it is to reprodu
 
 Some helpful datapoints to provide (if you can):
 
+1. Specific rules that that have issues (`jscs --verbose` helps with this)
 1. A failing test would be amazing
 1. Code snippets that make jscs exhibit the issue
 1. The version of jscs that you're using

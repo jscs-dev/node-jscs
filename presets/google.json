@@ -12,8 +12,7 @@
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "maximumLineLength": {
       "value": 80,
-      "allowComments": true,
-      "allowRegex": true
+      "allExcept": ["comments", "regex"]
     },
     "validateIndentation": 2,
     "validateQuoteMarks": "'",
@@ -60,5 +59,18 @@
     "disallowSpacesInsideParentheses": true,
 
     "disallowMultipleLineBreaks": true,
-    "disallowNewlineBeforeBlockStatements": true
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowKeywords": ["with"],
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInFunctionDeclaration": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInCallExpression": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "requireSpaceBeforeObjectValues": true,
+    "requireCapitalizedConstructors": true,
+    "requireDotNotation": true,
+    "validateParameterSeparator": ", "
 }
