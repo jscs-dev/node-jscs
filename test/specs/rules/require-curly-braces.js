@@ -141,17 +141,15 @@ describe('rules/require-curly-braces', function() {
     it('should correctly set pointer (#799)', function() {
         checker.configure({ requireCurlyBraces: ['else'] });
 
-        // jscs:disable
-        var error = checker.checkString(function foo() {
-            if (foo === 1)
-                return 1;
-            else
-                return 3;
-        }.toString()).getErrorList()[ 0 ];
-        // jscs:enable
+        var error = checker.checkString(
+            'if (foo === 1)\n' +
+            '    return 1;\n' +
+            'else \n' +
+            '   return 3;'
+        ).getErrorList()[ 0 ];
 
-        assert(error.line === 4);
-        assert(error.column === 12);
+        assert(error.line === 3);
+        assert(error.column === 0);
     });
 
     it('should not report missing `else` braces for `else if`', function() {

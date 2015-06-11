@@ -1,10 +1,13 @@
 {
-  "author": "Marat Dulin <mdevils@yandex.ru>",
+  "author": {
+    "name": "Marat Dulin <mdevils@yandex.ru> and other contributors",
+    "url": "https://github.com/jscs-dev/node-jscs/graphs/contributors"
+  },
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "1.12.0",
+  "version": "1.13.1",
   "main": "lib/checker",
-  "homepage": "https://github.com/jscs-dev/node-jscs",
+  "homepage": "http://jscs.info",
   "keywords": [
     "code style",
     "formatter",
@@ -21,15 +24,6 @@
   "bugs": {
     "url": "https://github.com/jscs-dev/node-jscs/issues"
   },
-  "contributors": [
-    "Marat Dulin <mdevils@yandex.ru>",
-    "Konstantin Ikonnikov <ikokostya@gmail.com>",
-    "Igor Agarlev",
-    "Alexey Androsov <doochik@ya.ru>",
-    "Oleg Gaidarenko <markelog@gmail.com>",
-    "Mike Sherov <mike.sherov@gmail.com>",
-    "Joel Kemp <joel@mrjoelkemp.com>"
-  ],
   "maintainers": [
     {
       "name": "Marat Dulin",
@@ -68,14 +62,15 @@
   "dependencies": {
     "chalk": "~1.0.0",
     "cli-table": "~0.3.1",
-    "commander": "~2.6.0",
+    "commander": "~2.8.1",
     "esprima": "^1.2.5",
-    "esprima-harmony-jscs": "1.1.0-templates",
+    "esprima-harmony-jscs": "1.1.0-bin",
     "estraverse": "^1.9.3",
     "exit": "~0.1.2",
     "glob": "^5.0.1",
-    "lodash.assign": "~3.0.0",
+    "lodash.assign": "~3.1.0",
     "minimatch": "~2.0.1",
+    "pathval": "~0.1.1",
     "prompt": "~0.2.14",
     "strip-json-comments": "~1.0.2",
     "vow": "~0.4.8",
@@ -86,7 +81,8 @@
     "browserify": "^9.0.3",
     "coveralls": "~2.11.2",
     "has-ansi": "~1.0.1",
-    "jshint": "~2.6.0",
+    "jscs-jsdoc": "~1.0.0",
+    "jshint": "~2.7.0",
     "mocha": "^2.2.0",
     "regenerate": "~1.2.1",
     "rewire": "^2.3.1",
@@ -119,13 +115,15 @@
   "scripts": {
     "lint": "jshint . && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha --color",
+    "autofix-tests": "node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
+    "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm test && npm publish",
     "postpublish": "node publish/postpublish",
-    "travis": "npm run test && unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls"
+    "travis": "npm run test && npm run autofix-tests && npm run coveralls"
   },
   "files": [
     "bin",

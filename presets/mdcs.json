@@ -6,7 +6,9 @@
     },
     "requirePaddingNewlinesInBlocks": true,
     "requireSpacesInsideObjectBrackets": "all",
-    "requireSpacesInsideArrayBrackets": "allButNested",
+    "requireSpacesInsideBrackets": {
+        "allExcept": [ "[", "]" ]
+    },
     "requireSpaceBeforeBlockStatements": true,
     "requireSpacesInForStatement": true,
     "disallowKeywords": [ "with" ],

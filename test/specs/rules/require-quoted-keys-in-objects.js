@@ -20,7 +20,6 @@ describe('rules/require-quoted-keys-in-objects', function() {
         assert(checker.checkString('var x = { 12: 1 }').getErrorCount() === 1);
         assert(checker.checkString('var x = { $: 1 }').getErrorCount() === 1);
         assert(checker.checkString('var x = { 0: 1 }').getErrorCount() === 1);
-        assert(checker.checkString('var x = { 6b2ea258-cf24-44fe-b857-c4e37e105d6f: 1 }').getErrorCount() === 1);
     });
 
     it('should not report if the key is surrounded by quotes', function() {

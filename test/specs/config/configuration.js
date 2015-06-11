@@ -123,6 +123,28 @@ describe('modules/config/configuration', function() {
         });
     });
 
+    describe('verbose', function() {
+        it('should return false when null is specified', function() {
+            configuration.load({verbose: null});
+            assert.equal(configuration.getVerbose(), false);
+        });
+
+        it('should return false when false is specified', function() {
+            configuration.load({verbose: false});
+            assert.equal(configuration.getVerbose(), false);
+        });
+
+        it('should return true when unspecified', function() {
+            configuration.load({});
+            assert.equal(configuration.getVerbose(), false);
+        });
+
+        it('should return true when true is specified', function() {
+            configuration.load({verbose: true});
+            assert.equal(configuration.getVerbose(), true);
+        });
+    });
+
     describe('getRegisteredPresets', function() {
         it('should return registered presets object', function() {
             var preset = {maxErrors: 5};

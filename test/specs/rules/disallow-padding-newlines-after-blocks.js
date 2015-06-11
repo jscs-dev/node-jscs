@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-padding-newlines-after-blocks', function() {
     var checker;
@@ -80,5 +81,13 @@ describe('rules/disallow-padding-newlines-after-blocks', function() {
 
     it('should not report missing padding in function chain', function() {
         assert(checker.checkString('[].map(function() {})\n.filter(function(){})').isEmpty());
+    });
+
+    reportAndFix({
+        name: 'should fix padding after function with semicolon',
+        rules: { disallowPaddingNewLinesAfterBlocks: true },
+        input: 'var a = function() {};\n\nvar b = 2;',
+        output: 'var a = function() {};\nvar b = 2;',
+        errors: 1
     });
 });

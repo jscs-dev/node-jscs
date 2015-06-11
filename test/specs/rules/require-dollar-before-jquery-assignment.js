@@ -22,6 +22,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             assert(checker.checkString('var $x = $();').isEmpty());
         });
 
+        it('should not report basic jquery operator with leading underscore and dollar', function() {
+            assert(checker.checkString('var _$x = $();').isEmpty());
+        });
+
         it('should not report basic assignment', function() {
             assert(checker.checkString('var x = 2;').isEmpty());
         });
@@ -235,6 +239,32 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report multi level object assignment without dollar', function() {
                 assert(checker.checkString('a.b.c = $()').getErrorCount() === 1);
+            });
+        });
+    });
+
+    describe('option value `"ignoreProperties"`', function() {
+        beforeEach(function() {
+            checker.configure({ requireDollarBeforejQueryAssignment: 'ignoreProperties' });
+        });
+
+        it('should report basic jquery operator', function() {
+            assert(checker.checkString('var x = $();').getErrorCount() === 1);
+        });
+
+        it('should not report basic jquery operator with dollar', function() {
+            assert(checker.checkString('var $x = $();').isEmpty());
+        });
+
+        describe('in object definition', function() {
+            it('should not report basic jquery operator', function() {
+                assert(checker.checkString('var x = { foo: $() }').isEmpty());
+            });
+        });
+
+        describe('in object properties', function() {
+            it('should not report basic jquery operator', function() {
+                assert(checker.checkString('this.x = $();').isEmpty());
             });
         });
     });

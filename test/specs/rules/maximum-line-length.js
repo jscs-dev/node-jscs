@@ -43,12 +43,12 @@ describe('rules/maximum-line-length', function() {
         });
     });
 
-    describe('allowComments option', function() {
+    describe('allExcept["comments"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    allowComments: true
+                    allExcept: ['comments']
                 }
             });
         });
@@ -59,14 +59,26 @@ describe('rules/maximum-line-length', function() {
         it('should not report comments but still report long code', function() {
             assert(checker.checkString('// a comment\nvar a = tooLong;').getErrorCount() === 1);
         });
+        it('should still allow the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 4,
+                    allowComments: true
+                }
+            });
+            assert(checker.checkString('// a comment\nvar a = tooLong;').getErrorCount() === 1);
+        });
     });
 
-    describe('allowUrlComments option', function() {
+    describe('allExcept["urlComments"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 15,
-                    allowUrlComments: true
+                    allExcept: ['urlComments']
                 }
             });
         });
@@ -101,14 +113,27 @@ describe('rules/maximum-line-length', function() {
             assert(checker.checkString('// www.example.com/is/not/a/url').getErrorCount() === 1);
             assert(checker.checkString('// example.com/is/not/a/url').getErrorCount() === 1);
         });
+        it('should should still support the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 15,
+                    allowUrlComments: true
+                }
+            });
+            assert(checker.checkString('// <16 chars https://example.com' +
+                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/').isEmpty());
+        });
     });
 
-    describe('allowRegex option', function() {
+    describe('allExcept["regex"] option', function() {
         beforeEach(function() {
             checker.configure({
                 maximumLineLength: {
                     value: 4,
-                    allowRegex: true
+                    allExcept: ['regex']
                 }
             });
         });
@@ -125,6 +150,45 @@ describe('rules/maximum-line-length', function() {
         it('should not be destructive to original data', function() {
             assert(checker.checkString('var a = /regex/;')._file._lines[0].length > 1);
         });
+        it('should still should support the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 4,
+                    allowRegex: true
+                }
+            });
+            assert(checker.checkString('var a = /longregex/;\nvar b = tooLong;').getErrorCount() === 1);
+        });
+    });
 
+    describe('allExcept["functionSignature"] option', function() {
+        beforeEach(function() {
+            checker.configure({
+                esnext: true,
+                maximumLineLength: {
+                    value: 20,
+                    allExcept: ['functionSignature']
+                }
+            });
+        });
+
+        it('should not report named functions', function() {
+            var code = 'function myCoolFunction(argument) { }';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should not report class methods', function() {
+            var code = 'class MyClass {\n' +
+                    '  myMethodName(withArgs) {\n' +
+                    '  }\n' +
+                    '}';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should report functions stored in variables', function() {
+            var code = 'var fn = function() {};';
+            assert(checker.checkString(code).getErrorCount() === 1);
+        });
     });
 });

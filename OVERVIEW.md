@@ -2,6 +2,8 @@
 
 ## Presets
 
+Note: the easiest way to use a preset is with the [preset](#preset) option described below.
+
  * [Airbnb](https://github.com/jscs-dev/node-jscs/blob/master/presets/airbnb.json) — https://github.com/airbnb/javascript
  * [Crockford](https://github.com/jscs-dev/node-jscs/blob/master/presets/crockford.json) — http://javascript.crockford.com/code.html
  * [Google](https://github.com/jscs-dev/node-jscs/blob/master/presets/google.json) — https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
@@ -13,12 +15,21 @@
  * [Wordpress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
+You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null, like so:
+```json
+{
+    "preset": "jquery",
+    "requireCurlyBraces": null
+}
+```
+
 ## Friendly packages
 
  * Atom plugin: https://atom.io/packages/linter-jscs
  * Brackets Extension: https://github.com/globexdesigns/brackets-jscs
  * Grunt task: https://github.com/jscs-dev/grunt-jscs/
  * Gulp task: https://github.com/jscs-dev/gulp-jscs/
+ * Overcommit Git pre-commit hook manager: https://github.com/brigade/overcommit/
  * SublimeText 3 Plugin: https://github.com/SublimeLinter/SublimeLinter-jscs/
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
@@ -51,7 +62,16 @@ cat myfile.js | jscs
 
 ## CLI
 
-### `--auto-configure` (Experimental)
+Some CLI options can be put in your `.jscsrc` as well (such as `esnext`).
+
+### `--fix` (`-x`)
+Will apply fixes to all supported style rules. (Currently whitespace rules, [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend), and [validateIndentation](http://jscs.info/rules.html#validateindentation))
+
+```
+jscs path[ path[...]] --fix
+```
+
+### `--auto-configure`
 Presents a walkthrough that allows you to generate a JSCS configuration by
 choosing a preset and handling violated rules.
 
@@ -61,7 +81,7 @@ jscs --auto-configure path
 
 `path` can be a file or directory to check the presets against
 
-### `--config`
+### `--config` (`-c`)
 Allows to define path to the config file.
 ```
 jscs path[ path[...]] --config=./.config.json
@@ -69,13 +89,15 @@ jscs path[ path[...]] --config=./.config.json
 
 If there is no `--config` option specified, `jscs` it will consequentially search for `jscsConfig` option in `package.json` file then for `.jscsrc` (which is a just JSON with comments) and `.jscs.json` files in the current working directory then in nearest ancestor until it hits the system root.
 
-### `--preset`
+### `--preset` (`-p`)
 If defined will use predefined rules for specific code style.
 ```
 jscs path[ path[...]] --preset=jquery
 ```
 
-### `--reporter`
+In order to add/remove preset rules you will need to create a `.jscsrc` config file.
+
+### `--reporter` (`-r`)
 `jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
 ```
 jscs path[ path[...]] --reporter=console
@@ -86,34 +108,34 @@ But you also can specify your own reporter, since this flag accepts relative or 
 jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
-### `--esnext`
+### `--esnext` (`-e`)
 Attempts to parse your code as ES6 using the harmony version of the esprima parser. Please note that this is currently experimental, and will improve over time.
 
-### `--esprima`
+### `--esprima` (`-s`)
 Attempts to parse your code with a custom Esprima version.
 ```
 jscs path[ path[...]] --esprima=esprima-fb
 ```
 
-### `--error-filter`
+### `--error-filter` (`-f`)
 The path to a module that determines whether or not an error should be reported.
 ```
 jscs path[ path[...]] --error-filter=path/to/my/module.js
 ```
 
-### `--no-colors`
+### `--no-colors` (`-n`)
 Clean output without colors.
 
-### `--max-errors`
+### `--max-errors` (`-m`)
 Set the maximum number of errors to report
 
-### `--help`
+### `--help` (`-h`)
 Outputs usage information.
 
-### `--verbose`
+### `--verbose` (`-v`)
 Prepends the name of the offending rule to all error messages.
 
-### `--version`
+### `--version` (`-V`)
 Outputs version of `jscs`.
 
 ## Options
@@ -148,7 +170,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia"`, `"yandex"`
+Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`
 
 #### Example
 
@@ -156,7 +178,7 @@ Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"wikimedia
 "preset": "jquery"
 ```
 
-If you want specifically disable preset rule assign it to `null`, like so:
+You can specifically disable any preset rule by assigning it to null, like so:
 ```json
 {
     "preset": "jquery",
@@ -226,6 +248,31 @@ Value: `true`
 "esnext": true
 ```
 
+### verbose
+Prepends the name of the offending rule to all error messages.
+
+Type: `Boolean`
+
+Default: `false`
+
+#### Example
+
+```js
+"verbose": true
+```
+
+### esprima
+
+Attempts to parse your code with a custom Esprima version.
+
+Type: `String`
+
+#### Example
+
+```js
+"esprima": "esprima-fb" // You should install custom esprima first
+```
+
 ### esprimaOptions
 
 Custom `options` to be passed to `esprima.parse(code, options)`
@@ -257,9 +304,19 @@ See [how to define an error filter](https://github.com/jscs-dev/node-jscs/wiki/E
 
 ## Error Suppression
 
+### Disabling a Rule
+
+You can specifically disable any rule by ommitting it from your `.jscsrc` config or by assigning it to null, like so:
+```json
+{
+    "preset": "jquery",
+    "requireCurlyBraces": null
+}
+```
+
 ### Inline Comments
 
-You can disable and reenable rules inline with two special comments: `// jscs:disable` and `// jscs:enable`. Spacing in these comments is fairly lenient. All of the following are equivalent:
+You can disable and re-enable rules inline with two special comments: `// jscs:disable` and `// jscs:enable`. Spacing in these comments is fairly lenient. All of the following are equivalent:
 ```js
 /* jscs: enable */
 // jscs: enable
@@ -287,7 +344,7 @@ if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
 if (z) a(); // all errors, including from requireCurlyBraces, on this line will be reported
 ```
 
-You can enable all rules after disabling a specific rule, and that rule becomes reenabled as well.
+You can enable all rules after disabling a specific rule, and that rule becomes re-enabled as well.
 ```js
 // jscs:disable requireCurlyBraces
 if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
@@ -295,7 +352,7 @@ if (x) y(); // all errors from requireCurlyBraces on this line will be ignored
 if (z) a(); // all errors, even from requireCurlyBraces, will be reported
 ```
 
-You can disable multiple rules at once and progressively reenable them.
+You can disable multiple rules at once and progressively re-enable them.
 ```js
 // jscs:disable requireCurlyBraces, requireDotNotation
 if (x['a']) y(); // all errors from requireCurlyBraces OR requireDotNotation on this line will be ignored

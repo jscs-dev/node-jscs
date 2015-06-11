@@ -1,13 +1,13 @@
 {
+    "plugins": ["jscs-jsdoc"],
     "preset": "google",
-    "fileExtensions": [ ".js", "jscs" ],
+    "fileExtensions": [".js", "jscs"],
 
     "requireParenthesesAroundIIFE": true,
     "maximumLineLength": 120,
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
 
-    "disallowKeywords": ["with"],
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
 
@@ -15,5 +15,18 @@
 
     "excludeFiles": [
         "test/data/**"
-    ]
+    ],
+
+    "jsDoc": {
+        "checkAnnotations": "closurecompiler",
+        "checkParamNames": true,
+        "requireParamTypes": true,
+        "checkRedundantParams": true,
+        "checkReturnTypes": true,
+        "checkRedundantReturns": true,
+        "requireReturnTypes": true,
+        "checkTypes": "capitalizedNativeCase",
+        "checkRedundantAccess": true,
+        "requireNewlineAfterDescription": true
+    }
 }
