@@ -204,8 +204,8 @@ describe('modules/string-checker', function() {
             });
         });
 
-        describe('rules with "fix" field', function() {
-            it('should call "fix" method', function() {
+        describe('rules with "_fix" field', function() {
+            it('should call "_fix" method', function() {
                 var err;
                 var called = false;
                 checker = new StringChecker();
@@ -220,7 +220,7 @@ describe('modules/string-checker', function() {
                             additional: 'test'
                         });
                     },
-                    fix: function(error) {
+                    _fix: function(error) {
                         called = true;
                         err = error;
                         assert.equal(error.additional, 'test');
@@ -233,7 +233,7 @@ describe('modules/string-checker', function() {
                 assert(called);
             });
 
-            it('should not try to call "fix" method if it does not exist', function() {
+            it('should not try to call "_fix" method if it does not exist', function() {
                 checker = new StringChecker();
 
                 checker.registerRule({
@@ -257,7 +257,7 @@ describe('modules/string-checker', function() {
                 }
             });
 
-            it('should add error if "fix" call field throws', function() {
+            it('should add error if "_fix" call field throws', function() {
                 var spy = sinon.spy(Errors.prototype, 'add');
 
                 checker = new StringChecker();
@@ -272,7 +272,7 @@ describe('modules/string-checker', function() {
                             additinal: 'test'
                         });
                     },
-                    fix: function() {
+                    _fix: function() {
                         throw new Error('test');
                     }
                 });
@@ -303,7 +303,7 @@ describe('modules/string-checker', function() {
                             additinal: 'test'
                         });
                     },
-                    fix: function(error) {
+                    _fix: function(error) {
                         err = error;
 
                         error.fixed = false;
