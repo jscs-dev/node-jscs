@@ -9,6 +9,6 @@
         "all": true,
         "except": [ "{", "}", "[", "]", "function" ]
     },
-    "requireYodaConditions": true,
+    "requireYodaConditions": ["==", "!=", "===", "!=="],
     "validateQuoteMarks": "'"
 }
