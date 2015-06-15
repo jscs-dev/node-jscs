@@ -4,6 +4,7 @@ Contribution Guide
 Thanks for wanting to contribute! This document describes some points about the contribution process for the JSCS package.
 
 1. [Maintainers](#maintainers)
+1. [How you can help](#how-you-can-help)
 1. [Pull Requests](#pull-requests)
  - [Before Submitting a PR](#before-submitting-a-pr)
  - [Why did you close my PR or Issue?](#why-did-you-close-my-pull-request-or-issue-)
@@ -27,6 +28,18 @@ The maintainers of the project are:
 
 The project is being developed by the community. Maintainers merge pull-requests and fix critical bugs. All other features
 and patches are welcomed to be implemented by community members.
+
+How You Can Help
+----------------
+
+Many of the community requests/issues relate new rule requests, supporting additional style variations via
+extending the supported options of a rule, bug fixes for existing rules, or strenghtening presets by specifying more rules. 
+All of those issues are great starting places for beginners to contribute. 
+
+If you'd like to work on an issue, just leave a comment on the issue saying that you'll work on a PR.
+
+Also check out the [help-wanted](https://github.com/jscs-dev/node-jscs/labels/help-wanted) label for an additional set
+of beginner-friendly tickets.
 
 Pull-requests
 -------------
