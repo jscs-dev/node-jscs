@@ -235,20 +235,14 @@ describe('modules/js-file', function() {
                 assert(file.isEnabledRule('anotherRule', 3));
             });
 
-            it('requires a rule to be specified', function() {
+            it('should be able to ignore all rules', function() {
                 var file = createJsFile([
-                    '// jscs: disable validateQuoteMarks',
-                    'var a = "1"; // jscs: ignore', // invalid
+                    'var a = "1"; // jscs: ignore',
                     'var b = "1";',
                 ].join('\n'));
                 assert(!file.isEnabledRule('validateQuoteMarks', 1));
-                assert(!file.isEnabledRule('validateQuoteMarks', 2));
-                assert(!file.isEnabledRule('validateQuoteMarks', 3));
-                assert(file.isEnabledRule('anotherRule', 1));
-                assert(file.isEnabledRule('anotherRule', 2));
-                assert(file.isEnabledRule('anotherRule', 3));
+                assert(file.isEnabledRule('validateQuoteMarks', 2));
             });
-
         });
     });
 

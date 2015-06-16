@@ -346,7 +346,7 @@ if (z) a(); // all errors, including from requireCurlyBraces, on this line will 
 
 #### Disabling Specific Rules For a Single Line
 
-Rules can be disabled for a single line with `// jscs:ignore ruleName`. For these trailing comments one or more rule names must be given.
+Rules can be disabled for a single line with `// jscs:ignore`.
 ```js
 if (x) y(); // jscs:ignore requireCurlyBraces
 if (z) a();
