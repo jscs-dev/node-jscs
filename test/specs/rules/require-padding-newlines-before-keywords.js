@@ -12,7 +12,9 @@ describe('rules/require-padding-newlines-before-keywords', function() {
     describe('array value', function() {
         beforeEach(function() {
             checker.configure({
-                requirePaddingNewlinesBeforeKeywords: ['if', 'for', 'return', 'switch', 'case', 'break', 'throw']
+                requirePaddingNewlinesBeforeKeywords: [
+                    'if', 'for', 'return', 'switch', 'case', 'break', 'throw', 'while', 'default'
+                ]
             });
         });
 
@@ -50,6 +52,14 @@ describe('rules/require-padding-newlines-before-keywords', function() {
             );
         });
 
+        it('should not report on do while construct', function() {
+            assert(
+                checker.checkString(
+                    'function x() { var a = true; do { a = !a; } while (a); }'
+                ).isEmpty()
+            );
+        });
+
         it('should not report on keyword following an if without curly braces', function() {
             assert(
                 checker.checkString(
@@ -59,7 +69,7 @@ describe('rules/require-padding-newlines-before-keywords', function() {
         });
 
         // Test case for 'for' statement
-        it('should report on matching if statement', function() {
+        it('should report on matching for statement', function() {
             assert(
                 checker.checkString(
                     'function x() { var a = true;' +
@@ -69,12 +79,21 @@ describe('rules/require-padding-newlines-before-keywords', function() {
         });
 
         // Test case for 'switch', 'case' and 'break' statement
-        it('should report on matching if statement', function() {
+        it('should report on matching switch, case, break, default statements', function() {
             assert(
                 checker.checkString(
                     'function x() { var y = true; switch ("Oranges")' + ' { case "Oranges": y = !y; break;' +
                     ' case "Apples": y = !y; break; default: y = !y; } }'
-                ).getErrorCount() === 4
+                ).getErrorCount() === 5
+            );
+        });
+
+        // Test cases for if statements
+        it('should report on matching while statement', function() {
+            assert(
+                checker.checkString(
+                    'function x() { var a = true; while (!a) { a = !a; }; }'
+                ).getErrorCount() === 1
             );
         });
 
