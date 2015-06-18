@@ -31,8 +31,8 @@ describe('modules/config/configuration', function() {
             assert(Object.keys(configuration.getRegisteredPresets()).length === 0);
         });
 
-        it('should have no default excluded file masks', function() {
-            assert(configuration.getExcludedFileMasks().length === 0);
+        it('should have default excluded file masks that excludes node_modules', function() {
+            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
         });
 
         it('should have no default maximal error count', function() {

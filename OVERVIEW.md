@@ -200,6 +200,12 @@ Values: Array of file matching patterns
 "excludeFiles": ["node_modules/**", "src/!(bar|foo)"]
 ```
 
+#### Default
+
+```js
+"excludeFiles": ["node_modules/**"]
+```
+
 ### fileExtensions
 
 Changes the set of file extensions that will be processed.
