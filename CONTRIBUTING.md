@@ -38,7 +38,7 @@ All of those issues are great starting places for beginners to contribute.
 
 If you'd like to work on an issue, just leave a comment on the issue saying that you'll work on a PR.
 
-Also check out the [help-wanted](https://github.com/jscs-dev/node-jscs/labels/help-wanted) label for an additional set
+Also check out the [beginner-friendly](https://github.com/jscs-dev/node-jscs/labels/beginner-friendly) label for an additional set
 of beginner-friendly tickets.
 
 Pull-requests
