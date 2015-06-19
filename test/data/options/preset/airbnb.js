@@ -79,4 +79,291 @@
 
   // requireCapitalizedConstructors
   function Bar() {}
+
+  // https://github.com/airbnb/javascript
+
+  (function() {
+    const foo = 1;
+    let bar = foo;
+
+    bar = 9;
+  })();
+
+  (function() {
+    const foo = [1, 2];
+    const bar = foo;
+
+    bar[0] = 9;
+  })();
+
+  (function() {
+    function getKey(k) {
+      return `a key named ${k}`;
+    }
+
+    const obj = {
+      id: 5,
+      name: 'San Francisco',
+      [getKey('enabled')]: true,
+    };
+  })();
+
+  (function() {
+    const atom = {
+      value: 1,
+
+      addValue(value) {
+        return atom.value + value;
+      },
+    };
+  })();
+
+  (function() {
+    const lukeSkywalker = 'Luke Skywalker';
+
+    const obj = {
+      lukeSkywalker,
+    };
+  })();
+
+  (function() {
+    const anakinSkywalker = 'Anakin Skywalker';
+    const lukeSkywalker = 'Luke Skywalker';
+
+    const obj = {
+      lukeSkywalker,
+      anakinSkywalker,
+      episodeOne: 1,
+      twoJedisWalkIntoACantina: 2,
+      episodeThree: 3,
+      mayTheFourth: 4,
+    };
+  })();
+
+  (function() {
+    const someStack = [];
+    someStack.push('abracadabra');
+  })();
+
+  (function() {
+    const items = [1, 2, 3];
+    const itemsCopy = [...items];
+  })();
+
+  (function() {
+    function getFullName(obj) {
+      const { firstName, lastName } = obj;
+      return `${firstName} ${lastName}`;
+    }
+  })();
+
+  (function() {
+    function getFullName({ firstName, lastName }) {
+      return `${firstName} ${lastName}`;
+    }
+  })();
+
+  (function() {
+    const arr = [1, 2, 3, 4];
+    const [first, second] = arr;
+  })();
+
+  (function() {
+    // good
+    function processInput(input) {
+      // then a miracle occurs
+      return { left, right, top, bottom };
+    }
+
+    // the caller selects only the data they need
+    const { left, right } = processInput(input);
+  })();
+
+  (function() {
+    const errorMessage = 'This is a super long error that was thrown because ' +
+      'of Batman. When you stop to think about how Batman had anything to do ' +
+      'with this, you would get nowhere fast.';
+  })();
+
+  (function() {
+    let test;
+    if (currentUser) {
+      test = () => {
+        console.log('Yup.');
+      };
+    }
+  })();
+
+  (function() {
+    function concatenateAll(...args) {
+      return args.join('');
+    }
+  })();
+
+  (function() {
+    [1, 2, 3].map((x) => {
+      return x * x;
+    });
+  })();
+
+  (function() {
+    // good
+    [1, 2, 3].map(x => x * x);
+
+    // good
+    [1, 2, 3].reduce((total, n) => {
+      return total + n;
+    }, 0);
+  })();
+
+  (function() {
+    class Queue {
+      constructor(contents = []) {
+        this._queue = [...contents];
+      }
+
+      pop() {
+        const value = this._queue[0];
+        this._queue.splice(0, 1);
+        return value;
+      }
+    }
+    class PeekableQueue extends Queue {
+      peek() {
+        return this._queue[0];
+      }
+    }
+  })();
+
+  (function() {
+    class Jedi {
+      jump() {
+        this.jumping = true;
+        return this;
+      }
+
+      setHeight(height) {
+        this.height = height;
+        return this;
+      }
+    }
+
+    const luke = new Jedi();
+
+    luke.jump()
+      .setHeight(20);
+  })();
+
+  (function() {
+    class Jedi {
+      contructor(options = {}) {
+        this.name = options.name || 'no name';
+      }
+
+      getName() {
+        return this.name;
+      }
+
+      toString() {
+        return `Jedi - ${this.getName()}`;
+      }
+    }
+  })();
+
+  (function() {
+    // good
+    let sum = 0;
+    numbers.forEach((num) => sum += num);
+    sum === 15;
+
+    // best (use the functional force)
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    sum === 15;
+  })();
+
+  (function() {
+    const goSportsTeam = true;
+    const items = getItems();
+    let dragonball;
+    let i;
+    let length;
+  })();
+
+  (function() {
+    $('#items')
+      .find('.selected')
+        .highlight()
+        .end()
+      .find('.open')
+        .updateCount();
+  })();
+
+  (function() {
+    const leds = stage.selectAll('.led')
+        .data(data)
+      .enter().append('svg:svg')
+        .classed('led', true)
+        .attr('width', (radius + margin) * 2)
+      .append('svg:g')
+        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+        .call(tron.led);
+  })();
+
+  (function() {
+    const story = [
+      once,
+      upon,
+      aTime,
+    ];
+    const hero = {
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      birthYear: 1815,
+      superPower: 'computers',
+    };
+  })();
+
+  (function() {
+    const totalScore = String(this.reviewScore);
+    const inputValue = '4';
+    const val = Number(inputValue);
+    const val = parseInt(inputValue, 10);
+    /**
+     * parseInt was the reason my code was slow.
+     * Bitshifting the String to coerce it to a
+     * Number made it a lot faster.
+     */
+    const val = inputValue >> 0;
+
+    const age = 0;
+    const hasAge = Boolean(age);
+    const hasAge = !!age;
+  })();
+
+  (function() {
+    const thisIsMyObject = {};
+    function thisIsMyFunction() {}
+
+    class User {
+      constructor(options) {
+        this.name = options.name;
+      }
+    }
+
+    const good = new User({
+      name: 'yup',
+    });
+  })();
+
+  (function() {
+    function foo() {
+      return () => {
+        console.log(this);
+      };
+    }
+  })();
+
+  (function() {
+  })();
+
 })(window);
