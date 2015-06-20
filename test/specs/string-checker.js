@@ -262,12 +262,7 @@ describe('modules/string-checker', function() {
         it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();
-
-            var errors = checker.checkString('import { foo } from "bar";');
-            var error = errors.getErrorList()[0];
-
-            assert(error.rule === 'parseError');
-            assert(error.message !== customDescription);
+            assert(checker.getEsprima() === require('esprima'));
         });
     });
 

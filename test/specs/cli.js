@@ -682,14 +682,15 @@ describe('modules/cli', function() {
         });
 
         it('should use the default esprima if null is provided in the config file', function() {
-            return cli({
+            var returnArgs = cli({
                 args: ['test/data/cli/esnext.js'],
                 config: 'test/data/cli/esprimaNull.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
-                rAfter();
             });
+
+            var esprima = returnArgs.checker.getEsprima();
+            assert(esprima === require('esprima'));
+
+            return assertNoCliErrors(returnArgs);
         });
 
         it('should use a custom esprima provided at CLI', function() {
