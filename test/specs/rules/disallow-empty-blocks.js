@@ -131,6 +131,11 @@ describe('rules/disallow-empty-blocks', function() {
         assert(checker.checkString('() => {}').isEmpty());
     });
 
+    it('should not report empty arrow blocks with arguments', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('(a) => {}').isEmpty());
+    });
+
     describe('allExcept: ["comments"]', function() {
         beforeEach(function() {
             checker = new Checker();
