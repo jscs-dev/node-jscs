@@ -24,6 +24,12 @@ do {
 } while ( i < l );
 
 // "requirePaddingNewlinesInBlocks": true,
+if ( true ) {
+
+	doSomething();
+
+}
+
 //"requireSpaceAfterKeywords": ["if", "else", "return" ],
 //"requireSpacesInFunctionExpression": {
 //    "beforeOpeningCurlyBrace": true
@@ -47,8 +53,19 @@ if ( i < l ) {
 
 }
 
+// "requireSpaceAfterPrefixUnaryOperators": true,
+x = ! false; // space following logical not
+x = ~ y; // space following bitwise not
+x = - 5; // space following unary negation (ditto, unary plus)
+if ( !! x ) {
+
+}
+
+x ++;
+
+// requireSpacesInsideParentheses
 // requireSpaceBetweenArguments
-test(1, 2);
+test( 1, 2 );
 
 //"requireSpaceAfterKeywords": ["for", "switch"]
 //"requireSpaceBeforeBlockStatements": true
@@ -67,7 +84,7 @@ for ( var i = 0; i < l; i ++ ) {
 }
 
 //"requireSpacesInsideObjectBrackets": "all",
-//"requireSpacesInsideArrayBrackets": "allButNested",
+//"requireSpacesInsideBrackets": "allButNested",
 //"disallowSpaceBeforeBinaryOperators": [","]
 var a = { test : { test2 : true },  test3 : { test4 : true } };
 var b = [[ 1, 2 ], [ 3, 4 ], [ 5, 6 ]];
@@ -75,6 +92,6 @@ var b = [[ 1, 2 ], [ 3, 4 ], [ 5, 6 ]];
 //"requireSpaceBeforeBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ]
 //"requireSpaceAfterBinaryOperators": [ "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=" ]
 //"requireSpacesInConditionalExpression": { "afterTest": true, "beforeConsequent": true, "afterConsequent": true, "beforeAlternate": true}
-var c = (( d + e - f / g * h ) == i);
+var c = ( ( d + e - f / g * h ) == i );
 var j = k ? l : m;
 //"requireLineFeedAtFileEnd": true,
