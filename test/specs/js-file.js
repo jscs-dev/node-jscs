@@ -887,6 +887,51 @@ describe('js-file', function() {
         });
     });
 
+    describe('getLastLineToken', function() {
+        it('should return last line token', function() {
+            var file = createJsFile('x = 1;\nif (x) {}\n');
+            var xToken = file.getLastTokenOnLine(1);
+            assert.equal(xToken.type, 'Punctuator');
+            assert.equal(xToken.value, ';');
+            var ifToken = file.getLastTokenOnLine(2);
+            assert.equal(ifToken.type, 'Punctuator');
+            assert.equal(ifToken.value, '}');
+        });
+
+        it('should return undefined if no token was found', function() {
+            var file = createJsFile('\nx = 1;');
+            var noToken = file.getLastTokenOnLine(1);
+            assert.equal(noToken, undefined);
+        });
+
+        it('should return undefined if only comment was found', function() {
+            var file = createJsFile('\t\tx += 1;\n/*123*/\n');
+            var noToken = file.getLastTokenOnLine(2);
+            assert.equal(noToken, undefined);
+        });
+
+        it('should return last line token ignoring comments', function() {
+            var file = createJsFile('x = 1; /* 321 */\n');
+            var xToken = file.getLastTokenOnLine(1);
+            assert.equal(xToken.type, 'Punctuator');
+            assert.equal(xToken.value, ';');
+        });
+
+        it('should return last line token including comments', function() {
+            var file = createJsFile('x = 1; /*123*/\n');
+            var commentToken = file.getLastTokenOnLine(1, {includeComments: true});
+            assert(commentToken.isComment);
+            assert.equal(commentToken.type, 'Block');
+            assert.equal(commentToken.value, '123');
+        });
+
+        it('should return undefined if no token was found including comments', function() {
+            var file = createJsFile('\nx = 1;');
+            var noToken = file.getLastTokenOnLine(1, {includeComments: true});
+            assert.equal(noToken, undefined);
+        });
+    });
+
     describe('iterate', function() {
         it('should iterate all nodes in the document', function() {
             var file = createJsFile('x++;');

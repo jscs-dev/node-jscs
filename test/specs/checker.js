@@ -140,14 +140,14 @@ describe('checker', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if']
+                    requireSpaceAfterKeywords: ['if'],
                 });
 
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
                     assert.equal(errors.getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);'
                     );
                 });
             });
@@ -170,14 +170,14 @@ describe('checker', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if']
+                    requireSpaceAfterKeywords: ['if'],
                 });
 
                 return checker.fixPath(tmpDir).then(function(errorsCollection) {
                     assert.equal(errorsCollection[0].getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);'
                     );
                 });
             });
