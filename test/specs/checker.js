@@ -116,10 +116,14 @@ describe('modules/checker', function() {
         beforeEach(function() {
             fs.mkdirSync(tmpDir);
             fs.writeFileSync(tmpDir + '/spaces.js', fs.readFileSync(sourceDir + '/spaces.js', 'utf8'));
+            fs.writeFileSync(tmpDir + '/commas.js', fs.readFileSync(sourceDir + '/commas.js', 'utf8'));
+            fs.writeFileSync(tmpDir + '/trailing-whitespaces.js', fs.readFileSync(sourceDir + '/trailing-whitespaces.js', 'utf8'));
         });
 
         afterEach(function() {
             fs.unlinkSync(tmpDir + '/spaces.js');
+            fs.unlinkSync(tmpDir + '/commas.js');
+            fs.unlinkSync(tmpDir + '/trailing-whitespaces.js');
             fs.rmdirSync(tmpDir);
         });
 
@@ -136,18 +140,46 @@ describe('modules/checker', function() {
                 });
             });
 
-            it('should fix specified file', function() {
+            it('should fix spaces in specified file', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if']
+                    requireSpaceAfterKeywords: ['if'],
                 });
 
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
                     assert.equal(errors.getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);'
+                    );
+                });
+            });
+
+            it('should fix trailing commas in specified file', function(){
+                checker.configure({
+                    requireTrailingComma: true,
+                });
+
+                return checker.fixFile(tmpDir + '/commas.js').then(function(errors) {
+                    assert.equal(errors.getErrorCount(), 0);
+                    assert.equal(
+                        fs.readFileSync(tmpDir + '/commas.js', 'utf8'),
+                        'var t = {\n\ta: 1,\n\tb: 2,\n};\nif(t);'
+                    );
+                });
+            });
+
+            it('should fix trailing whitespaces in specified file', function(){
+                checker.configure({
+                    disallowTrailingWhitespace: true,
+                });
+
+                return checker.fixFile(tmpDir + '/trailing-whitespaces.js').then(function(errors) {
+                    assert.equal(errors.getErrorCount(), 0);
+                    assert.equal(
+                        fs.readFileSync(tmpDir + '/trailing-whitespaces.js', 'utf8'),
+                        'var t = {\n\ta: {\n\t\tx: 1,\n\t\ty: 1,\n\t},\n\tb: 2,\n};\n\nif(t);'
                     );
                 });
             });
@@ -166,18 +198,46 @@ describe('modules/checker', function() {
                 });
             });
 
-            it('should fix specified file', function() {
+            it('should fix spaces in specified file', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if']
+                    requireSpaceAfterKeywords: ['if'],
                 });
 
                 return checker.fixPath(tmpDir).then(function(errorsCollection) {
                     assert.equal(errorsCollection[0].getErrorCount(), 0);
                     assert.equal(
                         fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);\n'
+                        'var y = 2;\nvar x = y + 1;\nif (x);'
+                    );
+                });
+            });
+
+            it('should fix trailing commas in specified file', function(){
+                checker.configure({
+                    requireTrailingComma: true,
+                });
+
+                return checker.fixPath(tmpDir).then(function(errorsCollection) {
+                    assert.equal(errorsCollection[0].getErrorCount(), 0);
+                    assert.equal(
+                        fs.readFileSync(tmpDir + '/commas.js', 'utf8'),
+                        'var t = {\n\ta: 1,\n\tb: 2,\n};\nif(t);'
+                    );
+                });
+            });
+            
+            it('should fix trailing whitespaces in specified file', function(){
+                checker.configure({
+                    disallowTrailingWhitespace: true,
+                });
+
+                return checker.fixPath(tmpDir).then(function(errorsCollection) {
+                    assert.equal(errorsCollection[0].getErrorCount(), 0);
+                    assert.equal(
+                        fs.readFileSync(tmpDir + '/trailing-whitespaces.js', 'utf8'),
+                        'var t = {\n\ta: {\n\t\tx: 1,\n\t\ty: 1,\n\t},\n\tb: 2,\n};\n\nif(t);'
                     );
                 });
             });
