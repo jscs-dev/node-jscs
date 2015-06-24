@@ -1,12 +1,46 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-trailing-whitespace', function() {
+    var rules = { disallowTrailingWhitespace: true };
     var checker;
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+    });
+
+    reportAndFix({
+        name: 'illegal whitespace at the end of line',
+        rules: rules,
+        errors: 1,
+        input: 'var a; \nvar b;',
+        output: 'var a;\nvar b;'
+    });
+
+    reportAndFix({
+        name: 'illegal whitespace at empty line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n\t\nvar b;',
+        output: 'var a;\n\nvar b;'
+    });
+
+    reportAndFix({
+        name: 'illegal whitespace at first empty line',
+        rules: rules,
+        errors: 1,
+        input: '\t\nvar a;',
+        output: '\nvar a;'
+    });
+
+    reportAndFix({
+        name: 'illegal whitespace in objects (preserve indentation)',
+        rules: rules,
+        errors: 3,
+        input: 'var t = { \n\ta: {\n\t\tx: 1, \n\t\ty: 1,\n\t}, \n\tb: 2,\n};',
+        output: 'var t = {\n\ta: {\n\t\tx: 1,\n\t\ty: 1,\n\t},\n\tb: 2,\n};'
     });
 
     describe('option value true', function() {
@@ -36,6 +70,10 @@ describe('rules/disallow-trailing-whitespace', function() {
 
         it('should not report when there is no trailing whitespace', function() {
             assert(checker.checkString('var x;').isEmpty());
+        });
+
+        it('should not report whitespaces in comments', function() {
+            assert(checker.checkString('/*\n * \n */').isEmpty());
         });
     });
 

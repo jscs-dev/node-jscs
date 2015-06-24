@@ -1,12 +1,22 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-trailing-comma', function() {
+    var rules = { requireTrailingComma: true };
     var checker;
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+    });
+
+    reportAndFix({
+        name: 'missing comma in object literal',
+        rules: rules,
+        errors: 1,
+        input: 'var t = {\n\ta: 1,\n\tb: 2\n};',
+        output: 'var t = {\n\ta: 1,\n\tb: 2,\n};'
     });
 
     describe('option value true', function() {
