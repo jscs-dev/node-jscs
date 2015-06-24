@@ -47,6 +47,28 @@ describe('rules/require-space-after-object-keys', function() {
         it('should not report es6-methods with a space. #1013', function() {
             assert(checker.checkString('var x = { a () { } };').isEmpty());
         });
+
+        it('should report if no space after computed property names #1406', function() {
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey]: "myKeyValue"',
+                    '};'
+                ].join('\n')).getErrorCount() === 1
+            );
+        });
+
+        it('should not report if space after computed property names #1406', function() {
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey] : "myKeyValue",',
+                      '[otherKey] : "myOtherValue"',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
     });
 
 });

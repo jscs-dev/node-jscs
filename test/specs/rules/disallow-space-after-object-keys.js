@@ -39,6 +39,29 @@ describe('rules/disallow-space-after-object-keys', function() {
             assert(checker.checkString('var x = {a, b};').isEmpty());
         });
 
+        it('should not report if no space after computed property names #1406', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey]: "myKeyValue",',
+                      '[otherKey]: "myOtherValue"',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
+        it('should report if space after computed property names #1406', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var myObject = {',
+                      '[myKey] : "myKeyValue"',
+                    '};'
+                ].join('\n')).getErrorCount() === 1
+            );
+        });
+
         it('should report mixed shorthand and normal object propertis', function() {
             checker.configure({ esnext: true });
             assert.equal(checker.checkString('var x = { a : 1, b };').getErrorCount(), 1);
