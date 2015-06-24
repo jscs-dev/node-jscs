@@ -43,6 +43,22 @@ describe('rules/disallow-trailing-whitespace', function() {
         output: 'var t = {\n\ta: {\n\t\tx: 1,\n\t\ty: 1,\n\t},\n\tb: 2,\n};'
     });
 
+    reportAndFix({
+        name: 'illegal whitespace in comment block',
+        rules: rules,
+        errors: 1,
+        input: '/*\n * \n */',
+        output: '/*\n *\n */'
+    });
+
+    reportAndFix({
+        name: 'illegal whitespace in comment line',
+        rules: rules,
+        errors: 1,
+        input: '// line 1 \n// line 2\n',
+        output: '// line 1\n// line 2\n'
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowTrailingWhitespace: true });
@@ -70,10 +86,6 @@ describe('rules/disallow-trailing-whitespace', function() {
 
         it('should not report when there is no trailing whitespace', function() {
             assert(checker.checkString('var x;').isEmpty());
-        });
-
-        it('should not report whitespaces in comments', function() {
-            assert(checker.checkString('/*\n * \n */').isEmpty());
         });
     });
 
