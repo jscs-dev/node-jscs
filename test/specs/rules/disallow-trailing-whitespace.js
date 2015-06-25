@@ -59,6 +59,22 @@ describe('rules/disallow-trailing-whitespace', function() {
         output: '// line 1\n// line 2\n'
     });
 
+    reportAndFix({
+        name: 'should fix trailing space in block comments',
+        rules: rules,
+        errors: 1,
+        input: '/*\nbla\n\t\n*/',
+        output: '/*\nbla\n\n*/'
+    });
+
+    reportAndFix({
+        name: 'should ignore empty lines in block comments',
+        rules: { disallowTrailingWhitespace: 'ignoreEmptyLines' },
+        errors: 1,
+        input: '/* \nbla\n\t\n*/',
+        output: '/*\nbla\n\t\n*/'
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowTrailingWhitespace: true });
