@@ -218,7 +218,17 @@ describe('rules/maximum-line-length', function() {
         });
         it('should report require used as a variable', function() {
             var code = 'var require = "foobar"';
-            assert(checker.checkString(code).getErrorCount() === 1);
+            assert.equal(checker.checkString(code).getErrorCount(), 1);
+        });
+        it('should report require if the exception is disabled', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: 15
+            });
+
+            var code = 'var foo = require("foo");';
+            assert.equal(checker.checkString(code).getErrorCount(), 1);
         });
     });
 });
