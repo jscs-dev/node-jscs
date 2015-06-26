@@ -10,11 +10,14 @@ describe('rules/require-padding-newlines-in-blocks', function() {
 
     var scenarios = [
         { option: true, statement: 'abc();' },
-        { option: 1, statement: 'abc();abc();' }
+        { option: 1, statement: 'abc();abc();' },
+        { option: { 'open': true, 'close': true }, statement: 'abc();' },
+        { option: { 'open': false, 'close': true }, statement: 'abc();' },
+        { option: { 'open': true, 'close': false }, statement: 'abc();' }
     ];
 
     describe('invalid options', function() {
-        it('should report configuration error if not boolean or integer', function() {
+        it('should report configuration error if not boolean, integer or object', function() {
             assert.throws(function() {
                 checker.configure({ requirePaddingNewlinesInBlocks: 'string' });
             });
@@ -24,6 +27,38 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             it('should report configuration error if false', function() {
                 assert.throws(function() {
                     checker.configure({ requirePaddingNewlinesInBlocks: false });
+                });
+            });
+        });
+
+        describe('option is object', function() {
+            it('should report configuration error if options.open is not found', function() {
+                assert.throws(function() {
+                    checker.configure({ requirePaddingNewlinesInBlocks: { 'close': true } });
+                });
+            });
+
+            it('should report configuration error if options.open is not a boolean', function() {
+                assert.throws(function() {
+                    checker.configure({ requirePaddingNewlinesInBlocks: { 'open': 'true', 'close': true } });
+                });
+            });
+
+            it('should report configuration error if options.close is not found', function() {
+                assert.throws(function() {
+                    checker.configure({ requirePaddingNewlinesInBlocks: { 'open': true } });
+                });
+            });
+
+            it('should report configuration error if options.close is not a boolean', function() {
+                assert.throws(function() {
+                    checker.configure({ requirePaddingNewlinesInBlocks: { 'open': true, 'close': 'true' } });
+                });
+            });
+
+            it('should report configuration error if both options.open and options.close are false', function() {
+                assert.throws(function() {
+                    checker.configure({ requirePaddingNewlinesInBlocks: { open: false, close: false} });
                 });
             });
         });
@@ -42,36 +77,49 @@ describe('rules/require-padding-newlines-in-blocks', function() {
                     checker.configure({ requirePaddingNewlinesInBlocks: scenario.option });
                 });
 
-                it('should report error for no linebreak and no padding newline', function() {
+                var errorCount = 1;
+                if (typeof scenario.option === 'object') {
+                    if (scenario.option.open === false) {
+                        errorCount = 0;
+                    }
+                }
+
+                it('should report ' + errorCount + ' error for no linebreak and no padding newline', function() {
                     assert(checker.
-                        checkString('if (true) {' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {' + scenario.statement + '\n\n}').getErrorCount() === errorCount);
                 });
 
-                it('should report error for linebreak but no padding newline', function() {
+                it('should report ' + errorCount + ' error for linebreak but no padding newline', function() {
                     assert(checker.
-                        checkString('if (true) {\n' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {\n' + scenario.statement + '\n\n}').getErrorCount() === errorCount);
                 });
 
-                it('should report error for with no linebreak and no padding newline before single line comments',
-                    function() {
+                it('should report ' + errorCount + ' error for with no linebreak and no padding newline before ' +
+                    'single line comments', function() {
                     assert(checker.
-                        checkString('if (true) {//bla\n' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {//bla\n' + scenario.statement + '\n\n}').
+                            getErrorCount() === errorCount);
                 });
 
-                it('should report error for linebreak but no padding newline before single line comments', function() {
+                it('should report ' + errorCount + ' error for linebreak but no padding newline before single line ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {\n//bla\n' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {\n//bla\n' + scenario.statement + '\n\n}').
+                            getErrorCount() === errorCount);
                 });
 
-                it('should report error for no linebreak and no padding newline before mulitiline comments',
-                    function() {
+                it('should report ' + errorCount + ' error for no linebreak and no padding newline before mulitiline ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {/**/\n' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {/**/\n' + scenario.statement + '\n\n}').
+                            getErrorCount() === errorCount);
                 });
 
-                it('should report error for linebreak but no padding newline before mulitiline comments', function() {
+                it('should report ' + errorCount + ' error for linebreak but no padding newline before mulitiline ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {\n/**/\n' + scenario.statement + '\n\n}').getErrorCount() === 1);
+                        checkString('if (true) {\n/**/\n' + scenario.statement + '\n\n}').
+                            getErrorCount() === errorCount);
                 });
             });
 
@@ -80,35 +128,41 @@ describe('rules/require-padding-newlines-in-blocks', function() {
                     checker.configure({ requirePaddingNewlinesInBlocks: scenario.option });
                 });
 
-                it('should report error for no linebreak and no padding newline', function() {
+                var errorCount = 1;
+                if (typeof scenario.option === 'object') {
+                    if (scenario.option.close === false) {
+                        errorCount = 0;
+                    }
+                }
+
+                it('should report ' + errorCount + ' error for no linebreak and no padding newline', function() {
                     assert(checker
-                        .checkString('if (true) {\n\n' + scenario.statement + '}').getErrorCount() === 1);
+                        .checkString('if (true) {\n\n' + scenario.statement + '}').getErrorCount() === errorCount);
                 });
 
-                it('should report error for with linebreak but no padding newline', function() {
+                it('should report ' + errorCount + ' error for with linebreak but no padding newline', function() {
                     assert(checker
-                        .checkString('if (true) {\n\n' + scenario.statement + '\n}').getErrorCount() === 1);
+                        .checkString('if (true) {\n\n' + scenario.statement + '\n}').getErrorCount() === errorCount);
                 });
 
-                it('should report error for no linebreak and no padding newline after single line comments',
-                    function() {
-                    assert(checker
-                        .checkString('if (true) {\n\n' + scenario.statement + '\n//bla}').getErrorCount() === 1);
-                });
-
-                it('should report error for linebreak but no padding newline after single line comments', function() {
+                it('should report ' + errorCount + ' error for linebreak but no padding newline after single line ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {\n\n' + scenario.statement + '\n//bla\n}').getErrorCount() === 1);
+                        checkString('if (true) {\n\n' + scenario.statement + '\n//bla\n}').
+                            getErrorCount() === errorCount);
                 });
 
-                it('should report error for no linebreak and no padding newline after mulitiline comments', function() {
+                it('should report ' + errorCount + ' error for no linebreak and no padding newline after mulitiline ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {\n\n' + scenario.statement + '\n/**/}').getErrorCount() === 1);
+                        checkString('if (true) {\n\n' + scenario.statement + '\n/**/}').getErrorCount() === errorCount);
                 });
 
-                it('should report error for linebreak but no padding newline after mulitiline comments', function() {
+                it('should report ' + errorCount + ' error for linebreak but no padding newline after mulitiline ' +
+                    'comments', function() {
                     assert(checker.
-                        checkString('if (true) {\n\n' + scenario.statement + '\n/**/\n}').getErrorCount() === 1);
+                        checkString('if (true) {\n\n' + scenario.statement + '\n/**/\n}').
+                            getErrorCount() === errorCount);
                 });
             });
 
@@ -117,14 +171,25 @@ describe('rules/require-padding-newlines-in-blocks', function() {
                     checker.configure({ requirePaddingNewlinesInBlocks: scenario.option });
                 });
 
-                it('should report 2 errors for no linebreak and no padding newline', function() {
+                var errorCount = 2;
+                if (typeof scenario.option === 'object') {
+                    if (scenario.option.open === false) {
+                        errorCount -= 1;
+                    }
+
+                    if (scenario.option.close === false) {
+                        errorCount -= 1;
+                    }
+                }
+
+                it('should report ' + errorCount + ' error(s) for no linebreak and no padding newline', function() {
                     assert(checker
-                        .checkString('if (true) {' + scenario.statement + '}').getErrorCount() === 2);
+                        .checkString('if (true) {' + scenario.statement + '}').getErrorCount() === errorCount);
                 });
 
-                it('should report 2 errors for linebreak but no padding newline', function() {
+                it('should report ' + errorCount + ' error(s) for linebreak but no padding newline', function() {
                     assert(checker
-                        .checkString('if (true) {\n' + scenario.statement + '\n}').getErrorCount() === 2);
+                        .checkString('if (true) {\n' + scenario.statement + '\n}').getErrorCount() === errorCount);
                 });
             });
 
@@ -174,10 +239,22 @@ describe('rules/require-padding-newlines-in-blocks', function() {
                 });
 
                 it('should fix missing padding newlines', function() {
-                    assert.equal(
-                        checker.fixString('if (true) {abc();abc();}').output,
-                        'if (true) {\n\nabc();abc();\n\n}'
-                    );
+                    if (typeof scenario.option === 'object' && scenario.option.open === false) {
+                        assert.equal(
+                            checker.fixString('if (true) {' + scenario.statement + '}').output,
+                            'if (true) {' + scenario.statement + '\n\n}'
+                        );
+                    } else if (typeof scenario.option === 'object' && scenario.option.close === false) {
+                        assert.equal(
+                            checker.fixString('if (true) {' + scenario.statement + '}').output,
+                            'if (true) {\n\n' + scenario.statement + '}'
+                        );
+                    } else {
+                        assert.equal(
+                            checker.fixString('if (true) {' + scenario.statement + '}').output,
+                            'if (true) {\n\n' + scenario.statement + '\n\n}'
+                        );
+                    }
                 });
             });
         });
