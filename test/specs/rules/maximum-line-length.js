@@ -191,4 +191,34 @@ describe('rules/maximum-line-length', function() {
             assert(checker.checkString(code).getErrorCount() === 1);
         });
     });
+
+    describe('allExcept["require"] option', function() {
+        beforeEach(function() {
+            checker.configure({
+                maximumLineLength: {
+                    value: 15,
+                    allExcept: ['require']
+                }
+            });
+        });
+
+        it('should not report require invocation', function() {
+            var code = 'var foo = require("foo");' +
+                       'var bar = require("bar");';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should not report single-var require invocation', function() {
+            var code = 'var foo = require("foo")\n' +
+                       '  , bar = require("bar");';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should not report require line shorter than minimum', function() {
+            var code = 'require("a");';
+            assert(checker.checkString(code).isEmpty());
+        });
+        it('should report require used as a variable', function() {
+            var code = 'var require = "foobar"';
+            assert(checker.checkString(code).getErrorCount() === 1);
+        });
+    });
 });
