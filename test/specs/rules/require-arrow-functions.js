@@ -34,8 +34,8 @@ describe('rules/require-arrow-functions', function() {
         ].join('\n')).getErrorCount() === 1);
     });
 
-    it('should report use of function expression in a ReturnStatement', function() {
-        assert(checker.checkString('function a() { return function() {} }').getErrorCount() === 1);
+    it('should not report use of function expression in a ReturnStatement', function() {
+        assert(checker.checkString('function a() { return function() {} }').isEmpty());
     });
 
     it('should not report use of object property function expression #1413', function() {
