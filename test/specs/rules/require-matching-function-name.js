@@ -1,4 +1,4 @@
-var Checker = require('../../lib/checker');
+var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
 describe('rules/require-matching-function-name', function() {
