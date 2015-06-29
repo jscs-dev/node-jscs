@@ -28,8 +28,8 @@ describe('rules/require-aligned-object-values', function() {
             assert(
                 checker.checkString(
                     'var x = {\n' +
-                        'a   : 1,\n' +
-                        'bcd : 2\n' +
+                        'a:   1,\n' +
+                        'bcd: 2\n' +
                     '};'
                 ).isEmpty()
             );
@@ -74,22 +74,22 @@ describe('rules/require-aligned-object-values', function() {
             assert(
                 checker.checkString(
                     'var x = {\n' +
-                        'a : 1,\n' +
+                        'a: 1,\n' +
                         '\n' +
-                        'foo : function() {},\n' +
-                        'bcd : 2\n' +
+                        'foo: function() {},\n' +
+                        'bcd: 2\n' +
                     '};'
                 ).getErrorCount() === 1
             );
         });
 
-        it('should report if not aligned with computed property names #1404', function() {
+        it('should report if not aligned with computed property values', function() {
             checker.configure({ esnext: true });
             assert(
                 checker.checkString([
                     'var myObject = {',
-                      '[myKey]   : "myKeyValue",',
-                      '[otherKey] : "myOtherValue"',
+                      '[myKey]:   "myKeyValue",',
+                      '[otherKey]: "myOtherValue"',
                     '};'
                 ].join('\n')).getErrorCount() === 1
             );
@@ -106,7 +106,7 @@ describe('rules/require-aligned-object-values', function() {
                     'bcd: 2\n' +
                 '};',
                 output: 'var x = {\n' +
-                    'a  : 1,\n' +
+                    'a:   1,\n' +
                     '\n' +
                     'foo: function() {},\n' +
                     'bcd: 2\n' +
@@ -122,10 +122,10 @@ describe('rules/require-aligned-object-values', function() {
                     'bcd   : 2\n' +
                 '};',
                 output: 'var x = {\n' +
-                    'a     : 1,\n' +
+                    'a:   1,\n' +
                     '\n' +
-                    'foo   : function() {},\n' +
-                    'bcd   : 2\n' +
+                    'foo: function() {},\n' +
+                    'bcd: 2\n' +
                 '};'
             });
         });
@@ -144,7 +144,7 @@ describe('rules/require-aligned-object-values', function() {
                     'bcd : 2\n' +
                 '};',
                 output: 'var x = {\n' +
-                    'a  : 1,\n' +
+                    'a:   1,\n' +
                     'foo: function() {},\n' +
                     'bcd: 2\n' +
                 '};'
@@ -199,13 +199,13 @@ describe('rules/require-aligned-object-values', function() {
             assert(
                 checker.checkString(
                     'var x = {\n' +
-                        'a : 1,\n' +
+                        'a: 1,\n' +
                         '\n' +
-                        'nested : {\n' +
-                            'sdf : \'sdf\',\n' +
-                            'e : 1\n' +
+                        'nested: {\n' +
+                            'sdf: \'sdf\',\n' +
+                            'e: 1\n' +
                         '},\n' +
-                        'bcd : 2\n' +
+                        'bcd: 2\n' +
                     '};'
                 ).getErrorCount() === 1
             );
@@ -229,13 +229,13 @@ describe('rules/require-aligned-object-values', function() {
             assert(
                 checker.checkString(
                     'var x = {\n' +
-                        'a : 1,\n' +
+                        'a: 1,\n' +
                         '\n' +
-                        'nested : {\n' +
-                            'sdf : \'sdf\',\n' +
-                            'e : 1\n' +
+                        'nested: {\n' +
+                            'sdf: \'sdf\',\n' +
+                            'e: 1\n' +
                         '},\n' +
-                        'bcd : 2\n' +
+                        'bcd: 2\n' +
                     '};'
                 ).getErrorCount() === 1
             );
