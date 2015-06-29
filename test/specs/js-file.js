@@ -1,6 +1,6 @@
 var assert = require('assert');
 var esprima = require('esprima');
-var harmonyEsprima = require('esprima-harmony-jscs');
+var babelJscs = require('babel-jscs');
 var JsFile = require('../../lib/js-file');
 var sinon = require('sinon');
 var fs = require('fs');
@@ -18,11 +18,11 @@ describe('modules/js-file', function() {
         return new JsFile(assign(params, options));
     }
 
-    function createHarmonyJsFile(sources) {
+    function createBabelJsFile(sources) {
         return new JsFile({
             filename: 'example.js',
             source: sources,
-            esprima: harmonyEsprima,
+            esprima: babelJscs,
             es6: true
         });
     }
@@ -311,7 +311,7 @@ describe('modules/js-file', function() {
     describe('iterateNodesByType', function() {
         it('should handle ES6 export keyword', function() {
             var spy = sinon.spy();
-            createHarmonyJsFile('export function foo() { var a = "b"; };')
+            createBabelJsFile('export function foo() { var a = "b"; };')
                 .iterateNodesByType('VariableDeclaration', spy);
             assert(spy.calledOnce);
         });
@@ -348,13 +348,13 @@ describe('modules/js-file', function() {
 
         it('should not have duplicate tokens in es6 export default statements', function() {
             var spy = sinon.spy();
-            createHarmonyJsFile('export default function() {}').iterateTokenByValue('(', spy);
+            createBabelJsFile('export default function() {}').iterateTokenByValue('(', spy);
             assert(spy.calledOnce);
         });
 
         it('should not have duplicate tokens in es6 export default statements', function() {
             var spy = sinon.spy();
-            createHarmonyJsFile('export default function init() {\n' +
+            createBabelJsFile('export default function init() {\n' +
             '  window.addEventListener(\'fb-flo-reload\', function(ev) {\n' +
             '  });\n' +
             '}').iterateTokenByValue('(', spy);
@@ -1153,7 +1153,7 @@ describe('modules/js-file', function() {
         fs.readdirSync(absDirPath).forEach(function(filename) {
             it('file ' + relativeDirPath + '/' + filename + ' should be rendered correctly', function() {
                 var source = fs.readFileSync(absDirPath + '/' + filename, 'utf8');
-                var file = createHarmonyJsFile(source);
+                var file = createBabelJsFile(source);
                 assert.equal(file.render(), source);
             });
         });
