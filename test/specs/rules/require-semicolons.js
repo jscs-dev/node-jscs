@@ -220,6 +220,49 @@ describe('rules/require-semicolons', function() {
         ]);
     });
 
+    describe('import declaration', function() {
+        valid([
+            'import foo from "module";',
+            'import foo from "module"\n;'
+        ]);
+
+        invalid([
+            'import foo from "module"',
+            'import foo from "module"//;',
+            'import foo from "module"\n//;'
+        ]);
+    });
+
+    describe('export declaration', function() {
+        valid([
+            'export default foo;',
+            'export default foo\n;',
+            'export default function foo(){};',
+            'export default function foo(){}\n;',
+            'export { foo };',
+            'export { foo }\n;', //
+            'export function foo(){};',
+            'export function foo(){}\n;',
+            'export { foo as default };',
+            'export { foo as default }\n;'
+        ]);
+
+        invalid([
+            'export default foo',
+            'export default foo//;',
+            'export default foo\n//;',
+            'export function foo(){}',
+            'export function foo(){}//;',
+            'export function foo(){}\n//;',
+            'export { foo }',
+            'export { foo }//;',
+            'export { foo }\n//;',
+            'export { foo as default }',
+            'export { foo as default }//;',
+            'export { foo as default }\n//;'
+        ]);
+    });
+
     describe('warning position', function() {
         checkPosition([
             {
