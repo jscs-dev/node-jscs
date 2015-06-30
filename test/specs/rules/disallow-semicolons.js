@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-semicolons', function() {
+describe.skip('rules/disallow-semicolons', function() {
     var checker;
 
     beforeEach(function() {
@@ -16,7 +16,7 @@ describe('rules/disallow-semicolons', function() {
             'var b = 2;',
             'function c() {}',
             'd();'
-        ].join('\n')).getErrorCount(), 3);
+        ].join('\n')).getValidationErrorCount(), 3);
     });
 
     it('should allow semicolons inline', function() {
@@ -38,6 +38,6 @@ describe('rules/disallow-semicolons', function() {
         var input = 'var a = 1;\nvar b = 1;';
         var result = checker.fixString(input);
         assert.equal(result.output, input);
-        assert.equal(result.errors.getErrorCount(), 2);
+        assert.equal(result.errors.getValidationErrorCount(), 2);
     });
 });

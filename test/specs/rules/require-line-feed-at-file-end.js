@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/require-line-feed-at-file-end', function() {
+describe.skip('rules/require-line-feed-at-file-end', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
@@ -9,21 +9,23 @@ describe('rules/require-line-feed-at-file-end', function() {
     });
     it('should report no line feed at file end', function() {
         checker.configure({ requireLineFeedAtFileEnd: true });
-        assert(checker.checkString('var x;').getErrorCount() === 1);
+        expect(checker.checkString('var x;'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report no line feed at file end if end with comment', function() {
         checker.configure({ requireLineFeedAtFileEnd: true });
-        assert(checker.checkString('var x;\n//foo').getErrorCount() === 1);
+        expect(checker.checkString('var x;\n//foo'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should not report existing line feed at file end', function() {
         checker.configure({ requireLineFeedAtFileEnd: true });
-        assert(checker.checkString('var x;\n').isEmpty());
+        expect(checker.checkString('var x;\n')).to.have.no.errors();
     });
 
     it('should not report existing line feed at file end with preceeding comment', function() {
         checker.configure({ requireLineFeedAtFileEnd: true });
-        assert(checker.checkString('var x;\n//foo\n').isEmpty());
+        expect(checker.checkString('var x;\n//foo\n')).to.have.no.errors();
     });
 });

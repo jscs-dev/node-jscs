@@ -1,100 +1,105 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-spaces-in-function', function() {
+describe.skip('rules/disallow-spaces-in-function', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
 
-    describe('beforeOpeningRoundBrace', function() {
+    describe.skip('beforeOpeningRoundBrace', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInFunction: { beforeOpeningRoundBrace: true } });
         });
 
         it('should not report missing space before round brace in Function', function() {
-            assert(checker.checkString('var x = function(){}').isEmpty());
+            expect(checker.checkString('var x = function(){}')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace in named Function', function() {
-            assert(checker.checkString('var x = function a(){}').isEmpty());
+            expect(checker.checkString('var x = function a(){}')).to.have.no.errors();
         });
 
         it('should report space before round brace in Function', function() {
-            assert(checker.checkString('var x = function (){}').getErrorCount() === 1);
+            expect(checker.checkString('var x = function (){}'))
+            .to.have.one.error.from('ruleName');
         });
 
         it('should report space before round brace in named Function', function() {
-            assert(checker.checkString('var x = function a (){}').getErrorCount() === 1);
+            expect(checker.checkString('var x = function a (){}'))
+            .to.have.one.error.from('ruleName');
         });
 
         it('should not report missing space before round brace in FunctionDeclaration', function() {
-            assert(checker.checkString('function abc(){}').isEmpty());
+            expect(checker.checkString('function abc(){}')).to.have.no.errors();
         });
 
         it('should report space before round brace in FunctionDeclaration', function() {
-            assert(checker.checkString('function abc (){}').getErrorCount() === 1);
+            expect(checker.checkString('function abc (){}'))
+            .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in getter', function() {
-            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+            expect(checker.checkString('var x = { get y () {} }')).to.have.no.errors();
         });
 
         it('should not report space before round brace in setter', function() {
-            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v) {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace in getter', function() {
-            assert(checker.checkString('var x = { get y() {} }').isEmpty());
+            expect(checker.checkString('var x = { get y() {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace in setter', function() {
-            assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y(v) {} }')).to.have.no.errors();
         });
 
         it('should report space before round brace in class method', function() {
             checker.configure({ esnext: true });
-            assert(checker.checkString('const Component = class { render () { return 1; } };').getErrorCount() === 1);
+            expect(checker.checkString('const Component = class { render () { return 1; } };'))
+            .to.have.one.error.from('ruleName');
         });
 
         it('should not report missing space before round brace in class method', function() {
             checker.configure({ esnext: true });
-            assert(checker.checkString('const Component = class { render() { return 1; } };').isEmpty());
+            expect(checker.checkString('const Component = class { render() { return 1; } };')).to.have.no.errors();
         });
     });
 
-    describe('beforeOpeningCurlyBrace', function() {
+    describe.skip('beforeOpeningCurlyBrace', function() {
         beforeEach(function() {
             checker.configure({ disallowSpacesInFunction: { beforeOpeningCurlyBrace: true } });
         });
 
         it('should not report missing space before curly brace in Function', function() {
-            assert(checker.checkString('var x = function(){}').isEmpty());
+            expect(checker.checkString('var x = function(){}')).to.have.no.errors();
         });
 
         it('should report space before curly brace in Function', function() {
-            assert(checker.checkString('var x = function() {}').getErrorCount() === 1);
+            expect(checker.checkString('var x = function() {}'))
+            .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before curly brace in getter', function() {
-            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+            expect(checker.checkString('var x = { get y () {} }')).to.have.no.errors();
         });
 
         it('should not report space before curly brace in of setter', function() {
-            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v) {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before curly brace in getter', function() {
-            assert(checker.checkString('var x = { get y (){} }').isEmpty());
+            expect(checker.checkString('var x = { get y (){} }')).to.have.no.errors();
         });
 
         it('should not report missing space before curly brace in setter', function() {
-            assert(checker.checkString('var x = { set y (v){} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v){} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace without option', function() {
-            assert(checker.checkString('var x = function (){}').isEmpty());
+            expect(checker.checkString('var x = function (){}')).to.have.no.errors();
         });
     });
 });

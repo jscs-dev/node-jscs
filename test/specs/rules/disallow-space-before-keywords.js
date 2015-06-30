@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-space-before-keywords', function() {
+describe.skip('rules/disallow-space-before-keywords', function() {
     var checker;
 
     beforeEach(function() {
@@ -15,7 +15,8 @@ describe('rules/disallow-space-before-keywords', function() {
         var errors = checker.checkString('if (true) {\n} else { x++; }');
         var error = errors.getErrorList()[0];
 
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Illegal space before "else" keyword') === 0);
     });
 
@@ -33,22 +34,22 @@ describe('rules/disallow-space-before-keywords', function() {
 
     it('should not trigger error for comments', function() {
         checker.configure({ disallowSpaceBeforeKeywords: ['else'] });
-        assert(checker.checkString('if (true) {\n} /**/else { x++; }').isEmpty());
+        expect(checker.checkString('if (true) {\n} /**/else { x++; }')).to.have.no.errors();
     });
 
     it('should not report if tokens placed on different lines', function() {
         checker.configure({ disallowSpaceBeforeKeywords: true });
-        assert(checker.checkString('x\nif (true) false').isEmpty());
+        expect(checker.checkString('x\nif (true) false')).to.have.no.errors();
     });
 
     it('should not report if there are no braces', function() {
         checker.configure({ disallowSpaceBeforeKeywords: true });
-        assert(checker.checkString('if (true) x++;  else x--;').isEmpty());
+        expect(checker.checkString('if (true) x++;  else x--;')).to.have.no.errors();
     });
 
     it('should not report if preceding token is another keyword', function() {
         checker.configure({ disallowSpaceBeforeKeywords: true });
-        assert(checker.checkString('function test() {return void(0);}').isEmpty());
+        expect(checker.checkString('function test() {return void(0);}')).to.have.no.errors();
     });
 
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
@@ -56,22 +57,26 @@ describe('rules/disallow-space-before-keywords', function() {
 
         var errors = checker.checkString('if (true) {\n} else { x++; }');
         var error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Illegal space before "else" keyword') === 0);
 
         errors = checker.checkString('/**/ if (true) {\n} else { x++; }');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Illegal space before "else" keyword') === 0);
 
         errors = checker.checkString('do {\nx++;\n} while (x < 5)');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Illegal space before "while" keyword') === 0);
 
         errors = checker.checkString('try {\nx++;\n} catch (e) {}');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Illegal space before "catch" keyword') === 0);
     });
 });

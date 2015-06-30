@@ -4,7 +4,7 @@ var esprima = require('esprima');
 var JsFile = require('../../lib/js-file');
 var TokenAssert = require('../../lib/token-assert');
 
-describe('modules/token-assert', function() {
+describe.skip('modules/token-assert', function() {
 
     function createJsFile(sources) {
         return new JsFile({
@@ -15,7 +15,7 @@ describe('modules/token-assert', function() {
         });
     }
 
-    describe('whitespaceBetween', function() {
+    describe.skip('whitespaceBetween', function() {
         it('should trigger error on missing whitespace between tokens', function() {
             var file = createJsFile('x=y;');
 
@@ -71,7 +71,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('spacesBetween', function() {
+    describe.skip('spacesBetween', function() {
         it('should do nothing if either token or nextToken is not specified', function() {
             var file = createJsFile('x   =   y;');
 
@@ -94,7 +94,7 @@ describe('modules/token-assert', function() {
             assert(onError.notCalled);
         });
 
-        describe('exactly', function() {
+        describe.skip('exactly', function() {
             it('should trigger error on invalid space count between tokens', function() {
                 var file = createJsFile('x   =   y;');
 
@@ -191,7 +191,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('atMost', function() {
+        describe.skip('atMost', function() {
             it('should trigger error on invalid space count between tokens', function() {
                 var file = createJsFile('x   =   y;');
 
@@ -347,7 +347,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('noWhitespaceBetween', function() {
+    describe.skip('noWhitespaceBetween', function() {
         it('should trigger error on existing whitespace between tokens', function() {
             var file = createJsFile('x = y;');
 
@@ -441,7 +441,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('sameLine', function() {
+    describe.skip('sameLine', function() {
         it('should trigger error on unexpected newline between tokens', function() {
             var file = createJsFile('x\n=y;');
 
@@ -524,7 +524,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('differentLine', function() {
+    describe.skip('differentLine', function() {
         it('should trigger error on missing newline between tokens', function() {
             var file = createJsFile('x=y;');
 
@@ -623,8 +623,8 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('linesBetween', function() {
-        describe('error messages', function() {
+    describe.skip('linesBetween', function() {
+        describe.skip('error messages', function() {
             beforeEach(function() {
                 var file = createJsFile('x=y;');
 
@@ -704,7 +704,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('exactly', function() {
+        describe.skip('exactly', function() {
             it('should trigger error on too few newlines', function() {
                 var file = createJsFile('x\n=y;');
 
@@ -865,7 +865,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('atLeast', function() {
+        describe.skip('atLeast', function() {
             it('should trigger on too few lines', function() {
                 var file = createJsFile('x\n\n=y;');
 
@@ -1000,7 +1000,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('atMost', function() {
+        describe.skip('atMost', function() {
             it('should not trigger on too few lines', function() {
                 var file = createJsFile('x\n\n=y;');
 
@@ -1103,7 +1103,7 @@ describe('modules/token-assert', function() {
             });
         });
 
-        describe('between', function() {
+        describe.skip('between', function() {
             it('should not trigger if within range', function() {
                 var file = createJsFile('x\n\n\n=y;');
 
@@ -1160,7 +1160,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('tokenBefore', function() {
+    describe.skip('tokenBefore', function() {
         it('should trigger error on missing token itself before', function() {
             var file = createJsFile('x=y;');
 
@@ -1269,7 +1269,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('noTokenBefore', function() {
+    describe.skip('noTokenBefore', function() {
         it('should not trigger error on document start before', function() {
             var file = createJsFile('x=y;');
 
@@ -1368,7 +1368,7 @@ describe('modules/token-assert', function() {
         });
     });
 
-    describe('indentation', function() {
+    describe.skip('indentation', function() {
         it('should not trigger on correct indentation', function() {
             var file = createJsFile('x=y;');
 

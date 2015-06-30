@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/require-space-before-keywords', function() {
+describe.skip('rules/require-space-before-keywords', function() {
     var checker;
 
     beforeEach(function() {
@@ -15,7 +15,8 @@ describe('rules/require-space-before-keywords', function() {
         var errors = checker.checkString('if (true) {\n}else { x++; }');
         var error = errors.getErrorList()[0];
 
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
     });
 
@@ -43,17 +44,17 @@ describe('rules/require-space-before-keywords', function() {
 
     it('should not trigger error for comments', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['else'] });
-        assert(checker.checkString('if (true) {\n} /**/ else { x++; }').isEmpty());
+        expect(checker.checkString('if (true) {\n} /**/ else { x++; }')).to.have.no.errors();
     });
 
     it('should not trigger error for different lines', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['else'] });
-        assert(checker.checkString('if (true) {\n} /**/ \nelse { x++; }').isEmpty());
+        expect(checker.checkString('if (true) {\n} /**/ \nelse { x++; }')).to.have.no.errors();
     });
 
     it('should not report if there are no braces', function() {
         checker.configure({ requireSpaceBeforeKeywords: true });
-        assert(checker.checkString('if (true) x++;else x--;').isEmpty());
+        expect(checker.checkString('if (true) x++;else x--;')).to.have.no.errors();
     });
 
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
@@ -61,22 +62,26 @@ describe('rules/require-space-before-keywords', function() {
 
         var errors = checker.checkString('if (true) {\n}else { x++; }');
         var error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
 
         errors = checker.checkString('/**/if (true) {\n}else { x++; }');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
 
         errors = checker.checkString('do {\nx++;\n}while (x < 5)');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Missing space before "while" keyword') === 0);
 
         errors = checker.checkString('try {\nx++;\n}catch (e) {}');
         error = errors.getErrorList()[0];
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error).indexOf('Missing space before "catch" keyword') === 0);
     });
 });

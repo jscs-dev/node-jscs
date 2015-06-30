@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-parentheses-around-arrow-param', function() {
+describe.skip('rules/disallow-parentheses-around-arrow-param', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,22 +11,23 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
     });
 
     it('should not report without parens', function() {
-        assert(checker.checkString('[1, 2].map(x => x * x);').isEmpty());
+        expect(checker.checkString('[1, 2].map(x => x * x);')).to.have.no.errors();
     });
 
     it('should report with parens around a single parameter', function() {
-        assert(checker.checkString('[1, 2].map((x) => x * x);').getErrorCount() === 1);
+        expect(checker.checkString('[1, 2].map((x) => x * x);'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should not report with parens around multiple parameters', function() {
-        assert(checker.checkString('[1, 2].map((x, y) => x * x);').isEmpty());
+        expect(checker.checkString('[1, 2].map((x, y) => x * x);')).to.have.no.errors();
     });
 
     it('should not report with parens around a single parameter with a default', function() {
-        assert(checker.checkString('const a = (x = 1) => x * x;').isEmpty());
+        expect(checker.checkString('const a = (x = 1) => x * x;')).to.have.no.errors();
     });
 
     it('should not report with parens around a multiple parameters with a default', function() {
-        assert(checker.checkString('const a = (x = 1, y) => x * y;').isEmpty());
+        expect(checker.checkString('const a = (x = 1, y) => x * y;')).to.have.no.errors();
     });
 });

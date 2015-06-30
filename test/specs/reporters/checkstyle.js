@@ -6,7 +6,7 @@ var parser = require('xml2js').parseString;
 var Checker = require('../../../lib/checker');
 var checkstyle = require('../../../lib/reporters/checkstyle');
 
-describe('reporters/checkstyle', function() {
+describe.skip('reporters/checkstyle', function() {
     it('should correctly report error results', function(done) {
         var checker = new Checker();
 

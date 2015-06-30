@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-trailing-comma', function() {
+describe.skip('rules/disallow-trailing-comma', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,17 +11,21 @@ describe('rules/disallow-trailing-comma', function() {
     });
 
     it('should report trailing comma in object literal', function() {
-        assert(checker.checkString('var x = {a: "a", b: "b"}').getErrorCount() === 0);
-        assert(checker.checkString('var x = {a: "a", b: "b"\n}').getErrorCount() === 0);
-        assert(checker.checkString('var x = {a: "a", b: "b",}').getErrorCount() === 1);
-        assert(checker.checkString('var x = {a: "a", b: "b",\n}').getErrorCount() === 1);
+        assert(checker.checkString('var x = {a: "a", b: "b"}').getValidationErrorCount() === 0);
+        assert(checker.checkString('var x = {a: "a", b: "b"\n}').getValidationErrorCount() === 0);
+        expect(checker.checkString('var x = {a: "a", b: "b",}'))
+            .to.have.one.error.from('ruleName');
+        expect(checker.checkString('var x = {a: "a", b: "b",\n}'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report trailing comma in array', function() {
-        assert(checker.checkString('var x = [1, 2]').getErrorCount() === 0);
-        assert(checker.checkString('var x = [1, 2\n]').getErrorCount() === 0);
-        assert(checker.checkString('var x = [1, 2,]').getErrorCount() === 1);
-        assert(checker.checkString('var x = [1, 2,\n]').getErrorCount() === 1);
+        assert(checker.checkString('var x = [1, 2]').getValidationErrorCount() === 0);
+        assert(checker.checkString('var x = [1, 2\n]').getValidationErrorCount() === 0);
+        expect(checker.checkString('var x = [1, 2,]'))
+            .to.have.one.error.from('ruleName');
+        expect(checker.checkString('var x = [1, 2,\n]'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report right location for trailing comma in object (#1018)', function() {

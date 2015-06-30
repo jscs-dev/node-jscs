@@ -6,7 +6,7 @@ var parser = require('xml2js').parseString;
 var Checker = require('../../../lib/checker');
 var junit = require('../../../lib/reporters/junit');
 
-describe('reporters/junit', function() {
+describe.skip('reporters/junit', function() {
     var checker = new Checker();
 
     checker.registerDefaultRules();

@@ -4,7 +4,7 @@ var sinon = require('sinon');
 var Checker = require('../../../lib/checker');
 var text = require('../../../lib/reporters/text');
 
-describe('reporters/text', function() {
+describe.skip('reporters/text', function() {
     var checker;
 
     beforeEach(function() {

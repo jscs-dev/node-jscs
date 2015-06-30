@@ -63,6 +63,7 @@
     "chalk": "~1.0.0",
     "cli-table": "~0.3.1",
     "commander": "~2.8.1",
+    "cst": "0.0.4",
     "esprima": "^1.2.5",
     "esprima-harmony-jscs": "1.1.0-bin",
     "estraverse": "^1.9.3",
@@ -81,6 +82,7 @@
   },
   "devDependencies": {
     "browserify": "^9.0.3",
+    "chai": "^3.0.0",
     "coveralls": "~2.11.2",
     "has-ansi": "~1.0.1",
     "jscs-jsdoc": "~1.0.0",

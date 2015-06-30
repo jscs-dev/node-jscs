@@ -7,7 +7,7 @@ var Vow = require('vow');
 var Checker = require('../../../lib/checker');
 var ConfigGenerator = require('../../../lib/config/generator');
 
-describe('lib/config/generator', function() {
+describe.skip('lib/config/generator', function() {
     var _path = path.resolve(__dirname, '../../../lib/config/generator.js');
     var crockfordPresetChoice = { '\u001b[32mPlease choose a preset number:\u001b[39m': '2' };
 

@@ -1,3 +1,4 @@
+test/chai-extensions.js
 test/specs/**/*.js
 -R dot
 -u bdd
