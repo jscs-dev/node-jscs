@@ -86,6 +86,100 @@ describe('utils', function() {
         });
     });
 
+    describe('categorizeOpenParen', function() {
+        var sharedFile = createJsFile(
+            '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
+        );
+        var openParens = [];
+        sharedFile.iterateTokenByValue('(', function(token) {
+            openParens.push({
+                type: utils.categorizeOpenParen(token, sharedFile),
+                offset: token.range[0],
+                self: token,
+                prev: sharedFile.getPrevToken(token)
+            });
+        });
+
+        it('should limit input to open parentheses', function() {
+            var nonParen = sharedFile.getPrevToken(sharedFile.getLastToken());
+            assert.throws(function() {
+                    utils.categorizeOpenParen(nonParen, sharedFile);
+                },
+                /token must be/
+            );
+        });
+
+        it('should recognize statement-required parenthesis', function() {
+            openParens.forEach(function(openParen) {
+                if ((openParen.prev || {}).value === 'if') {
+                    assert.equal(openParen.type, 'Statement',
+                        'source offset ' + openParen.offset);
+                } else {
+                    assert.notEqual(openParen.type, 'Statement',
+                        'source offset ' + openParen.offset);
+                }
+            });
+
+            // Check *all* parentheses-required (quasi-)statements
+            var file = createJsFile(
+                'try{ if(1) do while(2) for(;;3) for(p in 4) with(5) switch(6){} while(7) }' +
+                'catch(x){}'
+            );
+            file.iterateTokenByValue('(', function(token) {
+                assert.equal(
+                    utils.categorizeOpenParen(token, file),
+                    'Statement',
+                    'after ' + file.getPrevToken(token).value
+                );
+            });
+        });
+
+        it('should recognize function-definition parentheses', function() {
+            openParens.forEach(function(openParen) {
+                var prev = openParen.prev || {};
+                var isFunction = prev.value === 'function' ||
+                    prev.value === 'f' && sharedFile.getPrevToken(prev).value === 'function';
+                if (isFunction) {
+                    assert.equal(openParen.type, 'Function',
+                        'source offset ' + openParen.offset);
+                } else {
+                    assert.notEqual(openParen.type, 'Function',
+                        'source offset ' + openParen.offset);
+                }
+            });
+        });
+
+        it('should recognize function-call parentheses', function() {
+            openParens.forEach(function(openParen) {
+                var prev = openParen.prev || {};
+                var isCall = (prev.value === 'f' || prev.value === ')') &&
+                    sharedFile.getPrevToken(prev).value !== 'function';
+                if (isCall) {
+                    assert.equal(openParen.type, 'CallExpression',
+                        'source offset ' + openParen.offset);
+                } else {
+                    assert.notEqual(openParen.type, 'CallExpression',
+                        'source offset ' + openParen.offset);
+                }
+            });
+        });
+
+        it('should recognize all remaining cases as expressions', function() {
+            openParens.forEach(function(openParen) {
+                var prev = openParen.prev || { type: 'Punctuator' };
+                var isExpression = prev.value === 'return' || prev.value === 'throw' ||
+                    prev.type === 'Punctuator' && prev.value !== ')';
+                if (isExpression) {
+                    assert.equal(openParen.type, 'ParenthesizedExpression',
+                        'source offset ' + openParen.offset);
+                } else {
+                    assert.notEqual(openParen.type, 'ParenthesizedExpression',
+                        'source offset ' + openParen.offset);
+                }
+            });
+        });
+    });
+
     describe('trimUnderscores', function() {
         it('should trim trailing underscores', function() {
             assert.equal(utils.trimUnderscores('__snake_cased'), 'snake_cased');
