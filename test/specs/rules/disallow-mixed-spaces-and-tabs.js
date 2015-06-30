@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-mixed-spaces-and-tabs', function() {
+describe('rules/disallow-mixed-spaces-and-tabs', function() {
     var checker;
     var multilineNotDocBlock = '\n\t/*\n\t * comment\n\t */';
     var docblock = '\n\t/**\n\t * comment\n\t */';
@@ -12,54 +12,54 @@ describe.skip('rules/disallow-mixed-spaces-and-tabs', function() {
         checker.registerDefaultRules();
     });
 
-    describe.skip('option value true', function() {
+    describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowMixedSpacesAndTabs: true });
         });
 
         it('should report spaces before tabs', function() {
             expect(checker.checkString('    \tvar x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces', function() {
             expect(checker.checkString('\t     var x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs before spaces', function() {
             expect(checker.checkString('    \t    var x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs', function() {
             expect(checker.checkString('\t     \tvar x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs after content', function() {
             expect(checker.checkString('var x;    \t'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces after content', function() {
             expect(checker.checkString('var x;\t     '))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs before space after content', function() {
             expect(checker.checkString('var x;    \t    '))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs after content', function() {
             expect(checker.checkString('var x;\t     \t'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs with spaces with multiline comment in between', function() {
             expect(checker.checkString('\t/**/ \tvar x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before single space to align non-docblock multiline', function() {
@@ -91,14 +91,14 @@ describe.skip('rules/disallow-mixed-spaces-and-tabs', function() {
         });
     });
 
-    describe.skip('option value "smart"', function() {
+    describe('option value "smart"', function() {
         beforeEach(function() {
             checker.configure({ disallowMixedSpacesAndTabs: 'smart' });
         });
 
         it('should report spaces before tabs', function() {
             expect(checker.checkString('    \tvar x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should not report tabs before spaces', function() {
@@ -107,17 +107,17 @@ describe.skip('rules/disallow-mixed-spaces-and-tabs', function() {
 
         it('should report spaces before tabs before spaces', function() {
             expect(checker.checkString('    \t    var x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs', function() {
             expect(checker.checkString('\t     \tvar x;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs after content', function() {
             expect(checker.checkString('var x;    \t'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces after content', function() {
@@ -126,12 +126,12 @@ describe.skip('rules/disallow-mixed-spaces-and-tabs', function() {
 
         it('should report spaces before tabs before space after content', function() {
             expect(checker.checkString('var x;    \t    '))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs after content', function() {
             expect(checker.checkString('var x;\t     \t'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should not report tabs before single space to align docblock', function() {
