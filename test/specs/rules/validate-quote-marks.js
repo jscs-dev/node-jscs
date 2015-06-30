@@ -1,8 +1,10 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var assertHelpers = require('../../lib/assertHelpers');
 
 describe('rules/validate-quote-marks', function() {
     var checker;
+    var rules;
 
     beforeEach(function() {
         checker = new Checker();
@@ -24,12 +26,17 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value \' ', function() {
+        rules = { validateQuoteMarks: '\'' };
+
         beforeEach(function() {
-            checker.configure({ validateQuoteMarks: '\'' });
+            checker.configure(rules);
         });
 
-        it('should report double quotes in strings', function() {
-            assert(checker.checkString('var x = "x";').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'double quotes in strings',
+            rules: rules,
+            input: 'var x = "x";',
+            output: 'var x = \'x\';'
         });
 
         it('should not report single quotes in strings', function() {
@@ -46,17 +53,22 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value \' and escape ', function() {
+        rules = {
+            validateQuoteMarks: {
+                mark: '\'',
+                escape: true
+            }
+        };
+
         beforeEach(function() {
-            checker.configure({
-                validateQuoteMarks: {
-                    mark: '\'',
-                    escape: true
-                }
-            });
+            checker.configure(rules);
         });
 
-        it('should report double quotes in strings', function() {
-            assert(checker.checkString('var x = "x";').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'double quotes in strings',
+            rules: rules,
+            input: 'var x = "x";',
+            output: 'var x = \'x\';'
         });
 
         it('should not report double quotes to avoid escaping', function() {
@@ -77,12 +89,17 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value " ', function() {
+        rules = { validateQuoteMarks: '"' };
+
         beforeEach(function() {
-            checker.configure({ validateQuoteMarks: '"' });
+            checker.configure(rules);
         });
 
-        it('should report single quotes in strings', function() {
-            assert(checker.checkString('var x = \'x\';').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'single quotes in strings',
+            rules: rules,
+            input: 'var x = \'x\';',
+            output: 'var x = "x";'
         });
 
         it('should not report double quotes in strings', function() {
@@ -99,17 +116,22 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value " and escape ', function() {
+        rules = {
+            validateQuoteMarks: {
+                mark: '"',
+                escape: true
+            }
+        };
+
         beforeEach(function() {
-            checker.configure({
-                validateQuoteMarks: {
-                    mark: '"',
-                    escape: true
-                }
-            });
+            checker.configure(rules);
         });
 
-        it('should report single quotes in strings', function() {
-            assert(checker.checkString('var x = \'x\';').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'single quotes in strings',
+            rules: rules,
+            input: 'var x = \'x\';',
+            output: 'var x = "x";'
         });
 
         it('should not report single quotes to avoid escaping', function() {
@@ -130,12 +152,17 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value true ', function() {
+        rules = { validateQuoteMarks: true };
+
         beforeEach(function() {
-            checker.configure({ validateQuoteMarks: true });
+            checker.configure(rules);
         });
 
-        it('should report inconsistent quotes in strings', function() {
-            assert(checker.checkString('var x = \'x\', y = "y";').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'inconsistent quotes in strings',
+            rules: rules,
+            input: 'var x = \'x\', y = "y";',
+            output: 'var x = \'x\', y = \'y\';'
         });
 
         it('should not report consistent single quotes in strings', function() {
@@ -152,17 +179,22 @@ describe('rules/validate-quote-marks', function() {
     });
 
     describe('option value true and escape', function() {
+        rules = {
+            validateQuoteMarks: {
+                mark: true,
+                escape: true
+            }
+        };
+
         beforeEach(function() {
-            checker.configure({
-                validateQuoteMarks: {
-                    mark: true,
-                    escape: true
-                }
-            });
+            checker.configure(rules);
         });
 
-        it('should report inconsistent quotes in strings', function() {
-            assert(checker.checkString('var x = \'x\', y = "y";').getErrorCount() === 1);
+        assertHelpers.reportAndFix({
+            name: 'inconsistent quotes in strings',
+            rules: rules,
+            input: 'var x = \'x\', y = "y";',
+            output: 'var x = \'x\', y = \'y\';'
         });
 
         it('should not report inconsistent quotes to avoid escaping', function() {
