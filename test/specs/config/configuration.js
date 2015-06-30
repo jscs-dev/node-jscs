@@ -2,14 +2,14 @@ var assert = require('assert');
 var sinon = require('sinon');
 var Configuration = require('../../../lib/config/configuration');
 
-describe('modules/config/configuration', function() {
+describe.skip('modules/config/configuration', function() {
 
     var configuration;
     beforeEach(function() {
         configuration = new Configuration();
     });
 
-    describe('constructor', function() {
+    describe.skip('constructor', function() {
         it('should set default base path', function() {
             assert(configuration.getBasePath() === '.');
         });
@@ -49,7 +49,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('registerRule', function() {
+    describe.skip('registerRule', function() {
         it('should add rule to registered rule list', function() {
             var rule = {
                 getOptionName: function() {
@@ -90,7 +90,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getRegisteredRules', function() {
+    describe.skip('getRegisteredRules', function() {
         it('should return registered rule list', function() {
             var rule1 = {
                 getOptionName: function() {
@@ -110,7 +110,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('isES3Enabled', function() {
+    describe.skip('isES3Enabled', function() {
         it('should return false when null is specified', function() {
             configuration.load({es3: null});
             assert.equal(configuration.isES3Enabled(), false);
@@ -132,7 +132,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('verbose', function() {
+    describe.skip('verbose', function() {
         it('should return false when null is specified', function() {
             configuration.load({verbose: null});
             assert.equal(configuration.getVerbose(), false);
@@ -154,7 +154,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getRegisteredPresets', function() {
+    describe.skip('getRegisteredPresets', function() {
         it('should return registered presets object', function() {
             var preset = {maxErrors: 5};
             assert(Object.keys(configuration.getRegisteredPresets()).length === 0);
@@ -164,21 +164,21 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getUnsupportedRuleNames', function() {
+    describe.skip('getUnsupportedRuleNames', function() {
         it('should return a list of the names of unsupported rules found', function() {
             configuration.load({foobar: 5});
             assert(configuration.getUnsupportedRuleNames().length === 1);
         });
     });
 
-    describe('getErrorFilter', function() {
+    describe.skip('getErrorFilter', function() {
         it('should return the supplied error filter', function() {
             configuration.load({errorFilter: function() {}});
             assert(typeof configuration.getErrorFilter() === 'function');
         });
     });
 
-    describe('esprima', function() {
+    describe.skip('esprima', function() {
         it('should load custom esprima', function() {
             var fake = { parse: function() {} };
             configuration.load({
@@ -207,7 +207,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getEsprimaOptions', function() {
+    describe.skip('getEsprimaOptions', function() {
         function assertBadEsprimaOptions(esprimaOptions) {
             assert.throws(function() {
                 configuration.load({esprimaOptions: esprimaOptions});
@@ -242,7 +242,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('hasPreset', function() {
+    describe.skip('hasPreset', function() {
         it('should return true if preset presents in collection', function() {
             var preset = {maxErrors: 5};
             assert(!configuration.hasPreset('company'));
@@ -251,7 +251,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('registerDefaultRules', function() {
+    describe.skip('registerDefaultRules', function() {
         it('should register built-in rules', function() {
             configuration.registerDefaultRules();
             var optionNames = configuration.getRegisteredRules().map(function(rule) {
@@ -264,7 +264,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('registerDefaultPresets', function() {
+    describe.skip('registerDefaultPresets', function() {
         it('should register built-in presets', function() {
             assert(!configuration.hasPreset('jquery'));
             configuration.registerDefaultPresets();
@@ -281,7 +281,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getConfiguredRules', function() {
+    describe.skip('getConfiguredRules', function() {
         it('should return configured rules after config load', function() {
             assert(configuration.getConfiguredRules().length === 0);
             var rule = {
@@ -297,7 +297,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('getConfiguredRule', function() {
+    describe.skip('getConfiguredRule', function() {
         it('should return configured rule after config load', function() {
             assert(configuration.getConfiguredRule('ruleName') === null);
             var rule = {
@@ -312,7 +312,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('isFileExcluded', function() {
+    describe.skip('isFileExcluded', function() {
         it('should return `false` if no `excludeFiles` are defined', function() {
             assert(!configuration.isFileExcluded('1.js'));
             assert(!configuration.isFileExcluded(''));
@@ -334,7 +334,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('usePlugin', function() {
+    describe.skip('usePlugin', function() {
         it('should run plugin with configuration specified', function() {
             var plugin = function() {};
             var spy = sinon.spy(plugin);
@@ -345,7 +345,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('override', function() {
+    describe.skip('override', function() {
         it('should override `preset` setting', function() {
             configuration.registerPreset('1', {});
             configuration.registerPreset('2', {});
@@ -371,7 +371,7 @@ describe('modules/config/configuration', function() {
         });
     });
 
-    describe('load', function() {
+    describe.skip('load', function() {
         it('should configure rules', function() {
             var rule = {
                 getOptionName: function() {

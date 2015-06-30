@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/require-space-before-object-values', function() {
+describe.skip('rules/require-space-before-object-values', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,22 +11,22 @@ describe('rules/require-space-before-object-values', function() {
     });
 
     it('should report with no space after keys colons', function() {
-        assert.equal(checker.checkString('var x = { a:1, b: 2 };').getErrorCount(), 1, 'one error is found');
-        assert.equal(checker.checkString('var x = { abc :1, b:2 };').getErrorCount(), 2, 'two errors are found');
+        assert.equal(checker.checkString('var x = { a:1, b: 2 };').getValidationErrorCount(), 1, 'one error is found');
+        assert.equal(checker.checkString('var x = { abc :1, b:2 };').getValidationErrorCount(), 2, 'two errors are found');
     });
 
     it('should not report with parenthesised property value', function() {
-        assert(checker.checkString('var data = { key: (x > 2) };').isEmpty());
-        assert(checker.checkString('var video = { isFullHD: ((width > 1920) && (height > 1080)) };').isEmpty());
-        assert(checker.checkString('var data = { key:    (    (   ( ( 2 ))))};').isEmpty());
+        expect(checker.checkString('var data = { key: (x > 2) };')).to.have.no.errors();
+        expect(checker.checkString('var video = { isFullHD: ((width > 1920) && (height > 1080)) };')).to.have.no.errors();
+        expect(checker.checkString('var data = { key:    (    (   ( ( 2 ))))};')).to.have.no.errors();
     });
 
     it('should not report with array initializer as property value', function() {
-        assert(checker.checkString('var jsFiles = { src: ["*.js"] }').isEmpty());
+        expect(checker.checkString('var jsFiles = { src: ["*.js"] }')).to.have.no.errors();
     });
 
     it('should not report with nested objects', function() {
-        assert(checker.checkString('var foo = { bar: { baz: 127 } };').isEmpty());
+        expect(checker.checkString('var foo = { bar: { baz: 127 } };')).to.have.no.errors();
     });
 
     it('should not report with end of line after keys colons', function() {
@@ -39,27 +39,27 @@ describe('rules/require-space-before-object-values', function() {
     });
 
     it('should not report with space after keys colons', function() {
-        assert(checker.checkString('var x = { a: 1, bcd: 2 };').isEmpty());
+        expect(checker.checkString('var x = { a: 1, bcd: 2 };')).to.have.no.errors();
     });
 
     it('should not report shorthand object properties', function() {
         checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { a, b };').isEmpty());
-        assert(checker.checkString('var x = {a, b};').isEmpty());
+        expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
+        expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
     });
 
     it('should report mixed shorthand and normal object propertis', function() {
         checker.configure({ esnext: true });
-        assert.equal(checker.checkString('var x = { a:1, b };').getErrorCount(), 1);
+        assert.equal(checker.checkString('var x = { a:1, b };').getValidationErrorCount(), 1);
     });
 
     it('should not report es6-methods. #1013', function() {
         checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { a() { } };').isEmpty());
+        expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
     });
 
     it('should not report es5 getters/setters #1037', function() {
-        assert(checker.checkString('var x = { get a() { } };').isEmpty());
-        assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
+        expect(checker.checkString('var x = { get a() { } };')).to.have.no.errors();
+        expect(checker.checkString('var x = { set a(val) { } };')).to.have.no.errors();
     });
 });

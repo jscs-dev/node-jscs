@@ -1,8 +1,8 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var operators = require('../../../lib/utils').binaryOperators;
 
-describe('rules/require-space-after-binary-operators', function() {
+describe.skip('rules/require-space-after-binary-operators', function() {
     var checker;
 
     beforeEach(function() {
@@ -22,35 +22,38 @@ describe('rules/require-space-after-binary-operators', function() {
             it('should report sticky operator for ' + sticked + ' with true option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: true });
-                    assert(checker.checkString(sticked).getErrorCount() === 1);
+                    expect(checker.checkString(sticked))
+            .to.have.one.error.from('ruleName');
                 }
             );
 
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
-                    assert(checker.checkString(sticked).getErrorCount() === 1);
+                    expect(checker.checkString(sticked))
+            .to.have.one.error.from('ruleName');
                 }
             );
 
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
-                    assert(checker.checkString(notSticked).isEmpty());
+                    expect(checker.checkString(notSticked)).to.have.no.errors();
                 }
             );
 
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
-                    assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
+                    expect(checker.checkString(stickedWithParenthesis))
+            .to.have.one.error.from('ruleName');
                 }
             );
 
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
-                    assert(checker.checkString(notStickedWithParenthesis).isEmpty());
+                    expect(checker.checkString(notStickedWithParenthesis)).to.have.no.errors();
                 }
             );
 
@@ -66,47 +69,49 @@ describe('rules/require-space-after-binary-operators', function() {
 
     it('should not report sticky operator for ({ test:2 })', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [':'] });
-        assert(checker.checkString('({ test:2 })').isEmpty());
+        expect(checker.checkString('({ test:2 })')).to.have.no.errors();
     });
 
     it('should not report sticky operator ":" in ternary', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [':'] });
-        assert(checker.checkString('test?1:2').isEmpty());
+        expect(checker.checkString('test?1:2')).to.have.no.errors();
     });
 
     it('should not report sticky operator "?" in ternary', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['?'] });
-        assert(checker.checkString('test?1:2').isEmpty());
+        expect(checker.checkString('test?1:2')).to.have.no.errors();
     });
 
     it('should not report assignment operator for "a=b" without option', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [','] });
-        assert(checker.checkString('a=b').isEmpty());
+        expect(checker.checkString('a=b')).to.have.no.errors();
     });
 
     it('should report comma operator (as separator) in function argument', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [','] });
-        assert(checker.checkString('function test(a,b){}').getErrorCount() === 1);
+        expect(checker.checkString('function test(a,b){}'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report for assignment expression', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
-        assert(checker.checkString('var x=1').getErrorCount() === 1);
+        expect(checker.checkString('var x=1'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report for assignment expressions', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
-        assert(checker.checkString('var x=1, t=2').getErrorCount() === 2);
+        assert(checker.checkString('var x=1, t=2').getValidationErrorCount() === 2);
     });
 
     it('should not report for assignment expressions without "=" sign', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
-        assert(checker.checkString('var x,z;').isEmpty());
+        expect(checker.checkString('var x,z;')).to.have.no.errors();
     });
 
     it('should not report for assignment expressions if "=" is not specified', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: [','] });
-        assert(checker.checkString('var x=1;').isEmpty());
+        expect(checker.checkString('var x=1;')).to.have.no.errors();
     });
 
     it('should report correct error message (#907)', function() {
@@ -115,7 +120,8 @@ describe('rules/require-space-after-binary-operators', function() {
         var errors = checker.checkString('var x =1;');
         var error = errors.getErrorList()[0];
 
-        assert(errors.getErrorCount() === 1);
+        expect(errors)
+            .to.have.one.error.from('ruleName');
         assert(errors.explainError(error)
             .indexOf('Operator = should not stick to following expression at input') === 0);
     });

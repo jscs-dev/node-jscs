@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-multiple-line-strings', function() {
+describe.skip('rules/disallow-multiple-line-strings', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,21 +11,22 @@ describe('rules/disallow-multiple-line-strings', function() {
     });
 
     it('should report multiple line strings', function() {
-        assert(checker.checkString('x = " \\\n oops";').getErrorCount() === 1);
+        expect(checker.checkString('x = " \\\n oops";'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should not fix multiple line strings', function() {
         var input = 'x = " \\\n oops";';
         var result = checker.fixString(input);
         assert.equal(result.output, input);
-        assert.equal(result.errors.getErrorCount(), 1);
+        assert.equal(result.errors.getValidationErrorCount(), 1);
     });
 
     it('should not report concatenated strings on multiple lines', function() {
-        assert(checker.checkString('x = " " + \n " ok";').isEmpty());
+        expect(checker.checkString('x = " " + \n " ok";')).to.have.no.errors();
     });
 
     it('should not report single line strings', function() {
-        assert(checker.checkString('x = "ok"').isEmpty());
+        expect(checker.checkString('x = "ok"')).to.have.no.errors();
     });
 });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-curly-braces', function() {
     var checker;
@@ -11,78 +11,84 @@ describe('rules/disallow-curly-braces', function() {
 
     it('should not report missing `if` braces', function() {
         checker.configure({ disallowCurlyBraces: ['if'] });
-        assert(checker.checkString('if (x) x++;').isEmpty());
+        expect(checker.checkString('if (x) x++;')).to.have.no.errors();
     });
 
     it('should report `if` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['if'] });
-        assert(checker.checkString('if (x) { x++; }').getErrorCount() === 1);
+        expect(checker.checkString('if (x) { x++; }'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report missing `else` braces', function() {
         checker.configure({ disallowCurlyBraces: ['else'] });
-        assert(checker.checkString('if (x) x++; else x--;').isEmpty());
+        expect(checker.checkString('if (x) x++; else x--;')).to.have.no.errors();
     });
 
     it('should report `else` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['else'] });
-        assert(checker.checkString('if (x) x++; else { x--; }').getErrorCount() === 1);
+        expect(checker.checkString('if (x) x++; else { x--; }'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report missing `while` braces', function() {
         checker.configure({ disallowCurlyBraces: ['while'] });
-        assert(checker.checkString('while (x) x++;').isEmpty());
+        expect(checker.checkString('while (x) x++;')).to.have.no.errors();
     });
 
     it('should report `while` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['while'] });
-        assert(checker.checkString('while (x) { x++; }').getErrorCount() === 1);
+        expect(checker.checkString('while (x) { x++; }'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report missing `for` braces', function() {
         checker.configure({ disallowCurlyBraces: ['for'] });
-        assert(checker.checkString('for (;;) x++;').isEmpty());
+        expect(checker.checkString('for (;;) x++;')).to.have.no.errors();
     });
 
     it('should report `for` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['for'] });
-        assert(checker.checkString('for (;;) { x++; }').getErrorCount() === 1);
+        expect(checker.checkString('for (;;) { x++; }'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report missing `for in` braces', function() {
         checker.configure({ disallowCurlyBraces: ['for'] });
-        assert(checker.checkString('for (i in z) x++;').isEmpty());
+        expect(checker.checkString('for (i in z) x++;')).to.have.no.errors();
     });
 
     it('should report `for in` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['for'] });
-        assert(checker.checkString('for (i in z) { x++; }').getErrorCount() === 1);
+        expect(checker.checkString('for (i in z) { x++; }'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report missing `do` braces', function() {
         checker.configure({ disallowCurlyBraces: ['do'] });
-        assert(checker.checkString('do x++; while (x);').isEmpty());
+        expect(checker.checkString('do x++; while (x);')).to.have.no.errors();
     });
 
     it('should report `do` with braces', function() {
         checker.configure({ disallowCurlyBraces: ['do'] });
-        assert(checker.checkString('do { x++; } while (x);').getErrorCount() === 1);
+        expect(checker.checkString('do { x++; } while (x);'))
+            .to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should ignore method name if it\'s a reserved word (#180)', function() {
         checker.configure({ disallowCurlyBraces: ['catch'] });
-        assert(checker.checkString('promise.catch()').isEmpty());
+        expect(checker.checkString('promise.catch()')).to.have.no.errors();
     });
 
     it('should report on all optionally curly braced keywords if a value of true is supplied', function() {
         checker.configure({ disallowCurlyBraces: true });
 
-        assert(!checker.checkString('if (x) {x++;}').isEmpty());
-        assert(!checker.checkString('if (x) x++; else {x--;}').isEmpty());
-        assert(!checker.checkString('for (x = 0; x < 10; x++) {x++;}').isEmpty());
-        assert(!checker.checkString('while (x) {x++;}').isEmpty());
-        assert(!checker.checkString('do {x++;} while(x < 5);').isEmpty());
-        assert(!checker.checkString('with(x) {console.log(toString());}').isEmpty());
+        expect(checker.checkString('if (x) {x++;}')).to.have.errors.from('disallowCurlyBraces');
+        expect(checker.checkString('if (x) x++; else {x--;}')).to.have.errors.from('disallowCurlyBraces');
+        expect(checker.checkString('for (x = 0; x < 10; x++) {x++;}')).to.have.errors.from('disallowCurlyBraces');
+        expect(checker.checkString('while (x) {x++;}')).to.have.errors.from('disallowCurlyBraces');
+        expect(checker.checkString('do {x++;} while(x < 5);')).to.have.errors.from('disallowCurlyBraces');
+        expect(checker.checkString('with(x) {console.log(toString());}')).to.have.errors.from('disallowCurlyBraces');
     });
 
     it('should correctly set pointer (#799)', function() {
@@ -90,58 +96,49 @@ describe('rules/disallow-curly-braces', function() {
 
         var error = checker.checkString(
             'if (foo === 1)\n' +
-            '    return 1;\n' +
+            '    a();\n' +
             'else {\n' +
-            '   return 3;\n' +
+            '    b();\n' +
             '}'
-        ).getErrorList()[ 0 ];
+        ).getErrorList()[0];
 
-        assert(error.line === 3);
-        assert(error.column === 0);
+        expect(error.element.type).to.equal('Identifier');
+        expect(error.element.value).to.equal('b');
     });
 
     it('should report for a block with 1 statement', function() {
         checker.configure({ disallowCurlyBraces: true });
 
-        assert(checker.checkString([
-        'if (x) {',
-            'a();',
-        '}'
-        ].join('\n')).getErrorCount() === 1);
+        expect(checker.checkString('if (x) { a(); }')).to.have.one.error.from('disallowCurlyBraces');
     });
 
     it('should not report for a block with 2 statements', function() {
         checker.configure({ disallowCurlyBraces: true });
 
-        assert(checker.checkString([
-        'if (x) {',
-            'a();',
-            'b();',
-        '}'
-        ].join('\n')).isEmpty());
+        expect(checker.checkString('if (x) { a(); b(); }')).to.have.no.errors();
     });
 
     it('should not report for a block with 3 statements', function() {
         checker.configure({ disallowCurlyBraces: true });
 
-        assert(checker.checkString([
+        expect(checker.checkString([
         'if (x) {',
             'a();',
             'b();',
             'c();',
         '}'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should report for a block with 3 lines that is a single statement', function() {
         checker.configure({ disallowCurlyBraces: true });
 
-        assert(checker.checkString([
+        expect(checker.checkString([
         'if (a) {',
             'a = [',
                 '\'b\'',
             '];',
         '}'
-        ].join('\n')).getErrorCount() === 1);
+        ].join('\n'))).to.have.one.error.from('disallowCurlyBraces');
     });
 });
