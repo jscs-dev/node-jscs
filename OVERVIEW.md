@@ -331,7 +331,7 @@ You can use them to disable rules in several ways.
 
 #### Disabling All Rules
 
-Simply using `// jscs:disable` or `// jscs:enable` will disable all rules.
+The placement of the special comments will disable or enable the checking of all rules against the code that appears after the comments
 ```js
 var a = b;
 // jscs:disable
@@ -375,6 +375,15 @@ if (z['a']) a(); // all errors from requireDotNotation, but not requireCurlyBrac
 // jscs:enable requireDotNotation
 if (z['a']) a(); // all errors will be reported
 ```
+### Disabling rule checks on the entire file
+
+All rule checks on the entire file can be disabled by placing the special comment below on the top of the file
+```js
+// jscs:disable
+```
+As the comments are applicable only to the file they are placed in there is no requirement to put the special comment `// jscs:enable` at the end of the file. 
+
+The same concept is applicable to disable only specific rules in the file. So instead of `// jscs:disable`, you can put `// jscs:disable requireCurlyBraces` to disable a single rule or `// jscs:disable requireCurlyBraces, requireDotNotation` to disable multiple rules
 
 ## Versioning & Semver
 
