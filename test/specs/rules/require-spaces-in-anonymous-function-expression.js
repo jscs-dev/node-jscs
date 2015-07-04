@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-spaces-in-anonymous-function-expression', function() {
     var checker;
@@ -9,8 +10,13 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
     });
 
     describe('beforeOpeningRoundBrace', function() {
+        var rules = {
+            requireSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
+            esnext: true
+        };
+
         beforeEach(function() {
-            checker.configure({ requireSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true } });
+            checker.configure(rules);
         });
 
         it('should report missing space before round brace in FunctionExpression', function() {
@@ -19,6 +25,10 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
 
         it('should not report space before round brace in FunctionExpression', function() {
             assert(checker.checkString('var x = function (){}').isEmpty());
+        });
+
+        it('should not report named FunctionExpression', function() {
+            assert(checker.checkString('var x = function test() {}').isEmpty());
         });
 
         it('should not report space before round brace in getter expression', function() {
@@ -46,11 +56,32 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
             checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').isEmpty());
         });
+
+        reportAndFix({
+            name: 'missing space before round brace in FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function(){}',
+            output: 'var x = function (){}'
+        });
+
+        reportAndFix({
+            name: 'missing space before round brace in method shorthand',
+            rules: rules,
+            errors: 1,
+            input: 'var x = { y(){} }',
+            output: 'var x = { y (){} }'
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
+        var rules = {
+            requireSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true },
+            esnext: true
+        };
+
         beforeEach(function() {
-            checker.configure({ requireSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            checker.configure(rules);
         });
 
         it('should report missing space before curly brace in FunctionExpression', function() {
@@ -89,6 +120,22 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
         it('should not report space before curly brace in method shorthand', function() {
             checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').isEmpty());
+        });
+
+        reportAndFix({
+            name: 'missing space before curly brace in FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function(){}',
+            output: 'var x = function() {}'
+        });
+
+        reportAndFix({
+            name: 'missing space before curly brace in method shorthand',
+            rules: rules,
+            errors: 1,
+            input: 'var x = { y(){} }',
+            output: 'var x = { y() {} }'
         });
     });
 });

@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
     var checker;
@@ -9,8 +10,13 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
     });
 
     describe('beforeOpeningRoundBrace', function() {
+        var rules = {
+            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
+            esnext: true
+        };
+
         beforeEach(function() {
-            checker.configure({ disallowSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true } });
+            checker.configure(rules);
         });
 
         it('should not report missing space before round brace in FunctionExpression', function() {
@@ -54,11 +60,32 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').getErrorCount() === 1);
         });
+
+        reportAndFix({
+            name: 'illegal space before round brace in FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function (){}',
+            output: 'var x = function(){}'
+        });
+
+        reportAndFix({
+            name: 'illegal space before round brace in method shorthand',
+            rules: rules,
+            errors: 1,
+            input: 'var x = { y (){} }',
+            output: 'var x = { y(){} }'
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
+        var rules = {
+            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true },
+            esnext: true
+        };
+
         beforeEach(function() {
-            checker.configure({ disallowSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true } });
+            checker.configure(rules);
         });
 
         it('should not report missing space before curly brace in FunctionExpression', function() {
@@ -101,6 +128,22 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
         it('should report space before curly brace in method shorthand', function() {
             checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').getErrorCount() === 1);
+        });
+
+        reportAndFix({
+            name: 'illegal space before curly brace in FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function() {}',
+            output: 'var x = function(){}'
+        });
+
+        reportAndFix({
+            name: 'illegal space before curly brace in method shorthand',
+            rules: rules,
+            errors: 1,
+            input: 'var x = { y() {} }',
+            output: 'var x = { y(){} }'
         });
     });
 });
