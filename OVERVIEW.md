@@ -283,7 +283,7 @@ Set the maximum number of errors to report
 
 Type: `Number`
 
-Default: Infinity
+Default: 50
 
 #### Example
 

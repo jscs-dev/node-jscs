@@ -3,7 +3,7 @@ var esprima = require('esprima');
 var sinon = require('sinon');
 var iterate = require('../../lib/tree-iterator').iterate;
 
-describe('modules/tree-iterator', function() {
+describe('tree-iterator', function() {
 
     it('should pass parent and parentCollection', function() {
         var spy = sinon.spy();

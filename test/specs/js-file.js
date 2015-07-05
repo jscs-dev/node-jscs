@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var fs = require('fs');
 var assign = require('lodash.assign');
 
-describe('modules/js-file', function() {
+describe('js-file', function() {
 
     function createJsFile(sources, options) {
         var params = {

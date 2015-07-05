@@ -1,7 +1,7 @@
 var Checker = require('../../lib/checker');
 var assert = require('assert');
 
-describe('modules/errors', function() {
+describe('errors', function() {
     var checker;
 
     beforeEach(function() {

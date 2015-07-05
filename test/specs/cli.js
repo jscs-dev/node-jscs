@@ -14,7 +14,7 @@ var startingDir = process.cwd();
 
 var Vow = require('vow');
 
-describe('modules/cli', function() {
+describe('cli', function() {
     var oldTTY;
 
     before(function() {
@@ -567,10 +567,12 @@ describe('modules/cli', function() {
     describe('maxErrors option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
+            sinon.spy(console, 'error');
         });
 
         afterEach(function() {
             console.log.restore();
+            console.error.restore();
         });
 
         it('should limit the number of errors reported to the provided amount', function() {
@@ -585,14 +587,15 @@ describe('modules/cli', function() {
             });
         });
 
-        it('should not limit the number of errors reported if non numeric value provided', function() {
+        it('should throw a error when value is incorrect', function() {
             return cli({
                 maxErrors: '1a',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('2 code style errors found.') !== -1);
+                assert(console.error.getCall(0).args[0]
+                    .indexOf('`maxErrors` option requires positive number or null value') !== -1);
                 rAfter();
             });
         });

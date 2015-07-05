@@ -57,7 +57,7 @@ describe('rules/validate-indentation', function() {
 
     it('should validate 2 spaces indentation properly', function() {
         var fixture = readData('validate-indentation/check.js');
-        checker.configure({ validateIndentation: 2 });
+        checker.configure({ validateIndentation: 2, maxErrors: Infinity });
         checkErrors(fixture, [
             5,
             6,
