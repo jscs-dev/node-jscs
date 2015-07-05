@@ -5,7 +5,7 @@ var rewire = require('rewire');
 
 var configFile = rewire('../../lib/cli-config');
 
-describe('modules/cli-config', function() {
+describe('cli-config', function() {
     describe('load method', function() {
         it('should load a config from a package.json file', function() {
             var config = configFile.load('package.json', './test/data/configs/package');

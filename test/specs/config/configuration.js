@@ -2,7 +2,7 @@ var assert = require('assert');
 var sinon = require('sinon');
 var Configuration = require('../../../lib/config/configuration');
 
-describe('modules/config/configuration', function() {
+describe('config/configuration', function() {
 
     var configuration;
     beforeEach(function() {
@@ -35,8 +35,8 @@ describe('modules/config/configuration', function() {
             assert(configuration.getExcludedFileMasks().length === 0);
         });
 
-        it('should have no default maximal error count', function() {
-            assert(configuration.getMaxErrors() === Infinity);
+        it('should have 50 default error count', function() {
+            assert(configuration.getMaxErrors() === 50);
         });
 
         it('should have no default preset', function() {

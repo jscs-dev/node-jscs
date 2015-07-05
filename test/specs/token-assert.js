@@ -4,7 +4,7 @@ var esprima = require('esprima');
 var JsFile = require('../../lib/js-file');
 var TokenAssert = require('../../lib/token-assert');
 
-describe('modules/token-assert', function() {
+describe('token-assert', function() {
 
     function createJsFile(sources) {
         return new JsFile({

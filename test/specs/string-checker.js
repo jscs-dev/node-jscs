@@ -4,7 +4,7 @@ var assert = require('assert');
 var sinon = require('sinon');
 var fs = require('fs');
 
-describe('modules/string-checker', function() {
+describe('string-checker', function() {
     var checker;
     beforeEach(function() {
         checker = new StringChecker();
@@ -86,11 +86,11 @@ describe('modules/string-checker', function() {
                 assert(errors2.length === 0);
             });
 
-            it('should not be used when not a number', function() {
+            it('should not be used when it is nullified', function() {
                 var errors;
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: ['='],
-                    maxErrors: NaN
+                    maxErrors: null
                 });
 
                 errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();

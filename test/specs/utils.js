@@ -4,7 +4,7 @@ var JsFile = require('../../lib/js-file');
 var esprima = require('esprima');
 var path = require('path');
 
-describe('modules/utils', function() {
+describe('utils', function() {
 
     function createJsFile(source) {
         return new JsFile({
