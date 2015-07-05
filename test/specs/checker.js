@@ -3,7 +3,7 @@ var sinon = require('sinon');
 var Checker = require('../../lib/checker');
 var fs = require('fs');
 
-describe('modules/checker', function() {
+describe('checker', function() {
     var checker;
 
     beforeEach(function() {
