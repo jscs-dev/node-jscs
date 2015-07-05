@@ -3,7 +3,7 @@ var assert = require('assert');
 
 describe('rules/disallow-yoda-conditions', function() {
     var checker;
-    var operators = ['==', '===', '!=', '!==', '>', '<', '>=', '<='];
+    var operators = ['==', '===', '!=', '!=='];
 
     beforeEach(function() {
         checker = new Checker();
