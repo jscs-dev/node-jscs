@@ -40,38 +40,38 @@ the terms above.
 
 jQuery.extend = jQuery.fn.extend = function() {
 
-  // requireMultipleVarDecl: "onyvar"
-  // requirePaddingNewLinesBeforeLineComments
+  // Rule: requireMultipleVarDecl: "onyvar"
+  // Rule: requirePaddingNewLinesBeforeLineComments
   var options, name, src, copy, copyIsArray, clone,
     target = arguments[ 0 ] || {},
     i = 1,
     length = arguments.length,
     deep = false;
 
-  // validateQuoteMarks: ""
+  // Rule: validateQuoteMarks: ""
   if ( typeof target === "boolean" ) {
 
-    // requireSpacesInAnonymousFunctionExpression: before curly
-    // disallowSpacesInAnonymousFunctionExpression: before opening round brace
+    // Rule: requireSpacesInAnonymousFunctionExpression: before curly
+    // Rule: disallowSpacesInAnonymousFunctionExpression: before opening round brace
     $( "#foo" ).click( function() {
     } );
   }
 
-  // disallowMultipleLineBreaks
+  // Rule: disallowMultipleLineBreaks
   // Handle case when target is a string or something (possible in deep copy)
   if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
 
-    // Modified for requireCurlyBraces
+    // Modified for Rule: requireCurlyBraces
     try {
 
-      // requireSpacesInsideObjectBrackets
+      // Rule: requireSpacesInsideObjectBrackets
       target = { foo: "bar" };
     } catch ( e ) {
       throw e;
     }
   }
 
-  // requireParenthesesAroundIIFE
+  // Rule: requireParenthesesAroundIIFE
   ( function() {
 
   } )();
@@ -85,22 +85,22 @@ jQuery.extend = jQuery.fn.extend = function() {
       // Prevent never-ending loop
       if ( target === copy ) {
 
-        // disallowSpaceAfterPrefixUnaryOperators
+        // Rule: disallowSpaceAfterPrefixUnaryOperators
         ++i;
 
-        // disallowSpaceBeforePostfixUnaryOperators
+        // Rule: disallowSpaceBeforePostfixUnaryOperators
         i++;
         continue;
       }
 
-      // requireOperatorBeforeLineBreak
+      // Rule: requireOperatorBeforeLineBreak
       if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
           ( copyIsArray = jQuery.isArray( copy ) ) ) ) {
 
       // Don't bring in undefined values
       } else if ( copy !== undefined ) {
 
-        // requireSpacesInsideArrayBrackets
+        // Rule: requireSpacesInsideArrayBrackets
         target[ name ] = copy;
       }
     }
@@ -110,43 +110,43 @@ jQuery.extend = jQuery.fn.extend = function() {
   return target;
 };
 
-// maximumLineLength
-// long comment with a URL ................................................................. http://www.google.com
-// regex
+// Rule: maximumLineLength
+// Long comment with a URL ................................................................. http://www.google.com
+// Regex
 var seventyeightchars = /............................................................................../;
 
-// requireSpacesInFunctionExpression: before curly
+// Rule: requireSpacesInFunctionExpression: before curly
 var each = function( obj, callback, args ) {
 
-  // commaBeforeLineBreak
+  // Rule: commaBeforeLineBreak
   var value,
     i = 0,
 
-    // requireDotNotation
+    // Rule: requireDotNotation
     length = obj.length,
 
-    // requireCamelCaseOrUpperCaseIdentifiers
+    // Rule: requireCamelCaseOrUpperCaseIdentifiers
     isArray = isArraylike( obj );
 
   if ( args ) {
     if ( isArray ) {
       for ( ; i < length; i++ ) {
 
-        // requireSpaceBetweenArguments
+        // Rule: requireSpaceBetweenArguments
         value = callback.apply( obj[ i ], args );
 
-        // requireSpaceAfterBinaryOperators
+        // Rule: requireSpaceAfterBinaryOperators
         if ( value === false ) {
           break;
         }
       }
 
-    // disallowKeywordsOnNewLine
+    // Rule: disallowKeywordsOnNewLine
     } else {
       for ( i in obj ) {
         value = callback.apply( obj[ i ], args );
 
-        // requireSpacesInConditionalExpression
+        // Rule: requireSpacesInConditionalExpression
         if ( value === false ) {
           break;
         }
@@ -155,13 +155,13 @@ var each = function( obj, callback, args ) {
   }
 };
 
-// requireSpacesInNamedFunctionExpression: before curly
-// disallowSpacesInNamedFunctionExpression: before opening round brace
+// Rule: requireSpacesInNamedFunctionExpression: before curly
+// Rule: disallowSpacesInNamedFunctionExpression: before opening round brace
 function isArraylike( obj ) {
   var length = obj.length,
     type = jQuery.type( obj );
 
-  // requireSpaceAfterKeywords
+  // Rule: requireSpaceAfterKeywords
   if ( type === "function" || jQuery.isWindow( obj ) ) {
     return false;
   }

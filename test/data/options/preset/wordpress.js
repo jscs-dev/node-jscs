@@ -282,7 +282,7 @@ if ( true === myCondition ) {
 function a() {
 	var i, max;
 
-	// getItemCount() gets called once
+	// Method getItemCount() gets called once
 	for ( i = 0, max = getItemCount(); i < max; i++ ) {
 
 		// Do stuff
