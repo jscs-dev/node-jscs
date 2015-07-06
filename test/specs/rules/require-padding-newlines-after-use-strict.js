@@ -1,8 +1,8 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe('rules/require-padding-newlines-after-use-strict', function() {
+describe.skip('rules/require-padding-newlines-after-use-strict', function() {
     var rules = { requirePaddingNewLinesAfterUseStrict: true };
     var checker;
 
@@ -13,7 +13,7 @@ describe('rules/require-padding-newlines-after-use-strict', function() {
     });
 
     it('should not report if use strict is not present', function() {
-        assert(checker.checkString('var a = 2;').isEmpty());
+        expect(checker.checkString('var a = 2;')).to.have.no.errors();
     });
 
     reportAndFix({
@@ -24,23 +24,24 @@ describe('rules/require-padding-newlines-after-use-strict', function() {
     });
 
     it('should report when followed by comment without blank line', function() {
-        assert(checker.checkString('"use strict";\n// comment\nvar a = 2;').getErrorCount() === 1);
+        expect(checker.checkString('"use strict";\n// comment\nvar a = 2;'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should not report when followed by comment with blank line', function() {
-        assert(checker.checkString('"use strict";\n\n// comment\nvar a = 2;').isEmpty());
+        expect(checker.checkString('"use strict";\n\n// comment\nvar a = 2;')).to.have.no.errors();
     });
 
     it('should not report with blank line', function() {
-        assert(checker.checkString('"use strict";\n\nvar a = 2;').isEmpty());
+        expect(checker.checkString('"use strict";\n\nvar a = 2;')).to.have.no.errors();
     });
 
     it('should not report with extra blank lines', function() {
-        assert(checker.checkString('"use strict";\n\n\nvar a = 2;').isEmpty());
+        expect(checker.checkString('"use strict";\n\n\nvar a = 2;')).to.have.no.errors();
     });
 
     it('should not report other statements', function() {
-        assert(checker.checkString('"use stricts";\nvar a = 2;').isEmpty());
-        assert(checker.checkString('2 + 2;\nvar a = 2;').isEmpty());
+        expect(checker.checkString('"use stricts";\nvar a = 2;')).to.have.no.errors();
+        expect(checker.checkString('2 + 2;\nvar a = 2;')).to.have.no.errors();
     });
 });

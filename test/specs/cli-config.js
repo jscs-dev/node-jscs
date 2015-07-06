@@ -5,8 +5,8 @@ var rewire = require('rewire');
 
 var configFile = rewire('../../lib/cli-config');
 
-describe('modules/cli-config', function() {
-    describe('load method', function() {
+describe.skip('modules/cli-config', function() {
+    describe.skip('load method', function() {
         it('should load a config from a package.json file', function() {
             var config = configFile.load('package.json', './test/data/configs/package');
 
@@ -133,7 +133,7 @@ describe('modules/cli-config', function() {
         });
     });
 
-    describe('getReporter method', function() {
+    describe.skip('getReporter method', function() {
         it('should get console reporter if called without arguments', function() {
             var reporter = configFile.getReporter();
 

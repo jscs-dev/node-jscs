@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-right-sticked-operators', function() {
+describe.skip('rules/disallow-right-sticked-operators', function() {
     var checker;
     beforeEach(function() {
         checker = new Checker();
