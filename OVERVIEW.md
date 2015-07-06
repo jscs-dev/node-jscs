@@ -12,7 +12,7 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [MDCS](https://github.com/jscs-dev/node-jscs/blob/master/presets/mdcs.json) — [https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style™](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2)
  * [node-style-guide](https://github.com/jscs-dev/node-jscs/blob/master/presets/node-style-guide.json) - https://github.com/felixge/node-style-guide
  * [Wikimedia](https://github.com/jscs-dev/node-jscs/blob/master/presets/wikimedia.json) — https://www.mediawiki.org/wiki/Manual:Coding_conventions/JavaScript
- * [Wordpress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
+ * [WordPress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
 You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null, like so:
@@ -58,6 +58,47 @@ You can also pipe input into jscs:
 
 ```
 cat myfile.js | jscs
+```
+
+## Programmatic Usage
+
+`jscs` can be used directly from your application code:
+
+```js
+var Checker = require("jscs");
+var checker = new Checker();
+```
+
+You can configure the checker instance to use specific options, or a preset:
+
+```js
+// Configure the checker with an options object
+checker.configure({
+    "requireCurlyBraces": [
+        "if",
+        "else",
+        "for"
+    ]
+});
+
+// Use the jQuery preset
+checker.configure({
+    preset: "jquery"
+});
+
+// Use the Google preset, but override or remove some options
+checker.configure({
+    preset: "google",
+    disallowMultipleLineBreaks: null,
+    validateIndentation: "\t"
+});
+```
+
+To check a string of code, pass it to the `checkString` method:
+
+```js
+var results = checker.checkString(stringOfCode);
+var errors = results.getErrorList();
 ```
 
 ## CLI
