@@ -65,7 +65,7 @@
     "cli-table": "~0.3.1",
     "commander": "~2.8.1",
     "esprima": "~2.4.0",
-    "estraverse": "^1.9.3",
+    "estraverse": "^2.0.0",
     "exit": "~0.1.2",
     "glob": "^5.0.1",
     "lodash.assign": "~3.2.0",
