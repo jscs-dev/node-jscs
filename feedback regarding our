@@ -1,0 +1,41 @@
+<title>Bitbucket » Bitbucket</title>
+<atom:link href="http://blog.bitbucket.org/feed/" rel="self" type="application/rss+xml"/>
+<link>http://blog.bitbucket.org</link>
+<description>
+Unlimited Git and Mercurial DVCS Code Hosting, FREE by Atlassian
+</description>
+<lastBuildDate>Wed, 24 Jun 2015 14:13:36 +0000</lastBuildDate>
+<language>en-US</language>
+<sy:updatePeriod>hourly</sy:updatePeriod>
+<sy:updateFrequency>1</sy:updateFrequency>
+<generator>http://wordpress.org/?v=4.2.2</generator>
+<item>
+<title>The new Bitbucket webhooks</title>
+<link>
+http://blog.bitbucket.org/2015/06/24/the-new-bitbucket-webhooks/
+</link>
+<comments>
+http://blog.bitbucket.org/2015/06/24/the-new-bitbucket-webhooks/#comments
+</comments>
+<pubDate>Wed, 24 Jun 2015 14:00:54 +0000</pubDate>
+<dc:creator>
+<![CDATA[ Dennis Kromhout van der Meer ]]>
+</dc:creator>
+<category>
+<![CDATA[ bitbucket ]]>
+</category>
+<category>
+<![CDATA[ new stuff ]]>
+</category>
+<guid isPermaLink="false">http://blog.bitbucket.org/?p=2499</guid>
+<description>
+<![CDATA[
+Bitbucket webhooks are used by teams every day to test, analyze, deploy, and distribute great software to millions of people. As Bitbucket webhooks are one of our most popular integration points, we&#8217;ve had the opportunity to gather lots of feedback regarding our webhook payloads, usage, and integrations. We&#8217;ve listened to the community (check out public issues #7775, #5938, #4467, #6545 + more) and collaborated with CI vendors to make crucial improvements to this process. We&#8217;re proud to announce the new Bitbucket webhooks. The new webhooks can be accessed in your repository administration settings as shown in the image above. The webhooks provide a host of improvements over the previous, and soon-to-be deprecated &#8220;POST and Pull Request POST&#8221; hooks, which have now been renamed to &#8220;Services&#8221;. Let&#8217;s look at some of the improvements and attributes of the new webhooks. Fuller, more descriptive payload Bitbucket webhooks now send more comprehensive information in the payload. For example, a repo:push event now includes detailed payload information about each and every reference that was updated: Please visit our payload documentation for more examples of changes and improvements. Better controls We&#8217;ve added fine-grained control over the events you want to receive hooks for, such as repository, issue, and pull request events: Improved troubleshooting You can now troubleshoot malfunctioning webhooks more easily by reviewing the recent requests, including status codes and response times: Connect-ed The new Bitbucket webhooks have been written from the ground up as a Connect add-on using our Atlassian Connect for Bitbucket platform, leveraging the same APIs for building powerful add-ons for extending Bitbucket. Onward! This is just the beginning. We&#8217;ve got more features on the way, such as viewing request details (headers, event payloads, etc.), retrying requests, advanced queuing, and much more. If you&#8217;re currently integrating with the old webhooks (renamed to &#8220;Services&#8221;), these will be deprecated soon. Please visit our payload documentation for the new payload descriptions. Take the new Bitbucket webhooks for a spin &#8211; you can configure them in your repository settings. Are you inspired to build new, exciting integrations?  Clone our webhook-listener demo project to quickly get started with Bitbucket webhooks.
+]]>
+</description>
+<content:encoded>
+<![CDATA[
+<p>Bitbucket webhooks are used by teams every day to test, analyze, deploy, and distribute great software to millions of people.</p> <p>As Bitbucket <span class="inline-comment-marker" data-ref="251d41bf-1620-4b37-b247-879e5beff7fe">webhooks</span> are one of our most popular integration points, w
+]]>
+<![CDATA[
+e&#8217;ve had the opportunity to gather lots of feedback regarding our webhook payloads, usage, and integrations.</p> <p>We&#8217;ve listened to the community (check out public issues <a class="external-link" href="https://bitbucket.org/site/master/issue/7775/post-service-does-not-provide-useful" rel="nofollow">#7775</a>, <a class="external-link" href="https://bitbucket.org/site/master/issue/5938/include-branch-and-tag-information-for" rel="nofollow">#5938</a>, <a class="external-link" href="https://bitbucket.org/site/master/issue/4667/add-ability-to-test-services-bb-5436" rel="nofollow">#4467</a>, <a class="external-link" href="https://bitbucket.org/site/master/issue/6545/pull-request-web-hooks-bb-7736" rel="nofollow">#6545</a> + more) <span class="inline-comment-marker" data-ref="f9afbde2-d7d3-4b5b-86c6-8d23777c85e8">and collaborated with CI</span> vendors to make crucial improvements to-..
