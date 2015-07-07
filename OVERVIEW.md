@@ -67,6 +67,7 @@ cat myfile.js | jscs
 ```js
 var Checker = require("jscs");
 var checker = new Checker();
+checker.registerDefaultRules();
 ```
 
 You can configure the checker instance to use specific options, or a preset:
