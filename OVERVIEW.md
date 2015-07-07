@@ -102,6 +102,15 @@ var results = checker.checkString(stringOfCode);
 var errors = results.getErrorList();
 ```
 
+The results object can be used to render a descriptive explanation of each error:
+
+```js
+results.getErrorList().forEach(function(error) {
+    var colorizeOutput = true;
+    console.log(results.explainError(error, colorizeOutput) + "\n");
+});
+```
+
 ## CLI
 
 Some CLI options can be put in your `.jscsrc` as well (such as `esnext`).
