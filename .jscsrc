@@ -1,5 +1,5 @@
 {
-    "plugins": ["jscs-jsdoc"],
+    "plugins": ["jsdoc"],
     "preset": "google",
     "fileExtensions": [".js", "jscs"],
 

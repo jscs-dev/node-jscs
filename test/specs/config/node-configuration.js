@@ -46,10 +46,17 @@ describe('modules/config/node-configuration', function() {
             );
         });
 
-        it('should load node module', function() {
+        it('should load without "jscs" prefix node module', function() {
             assert.equal(
                 typeof configuration.loadExternal('path'),
                 'object'
+            );
+        });
+
+        it('should load with "jscs" prefix node module', function() {
+            assert.equal(
+                typeof configuration.loadExternal('jsdoc'),
+                'function'
             );
         });
     });
