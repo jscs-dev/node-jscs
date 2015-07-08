@@ -1,4 +1,4 @@
-## Version 1.13.1
+## Version [1.13.1](https://github.com/jscs-dev/node-jscs/compare/v1.12.0...v1.13.1)
 
 ### Overview
 Small update for fix distribution of the `--esnext` CLI option (#1321)
@@ -13,7 +13,7 @@ Small update for fix distribution of the `--esnext` CLI option (#1321)
 * Docs: Update mixup between rules in docstring example (Jérémie Astori)
 * Docs: Fix missing quotes in a docstring example (Jérémie Astori)
  
-## Version 1.13.0
+## Version [1.13.0](https://github.com/jscs-dev/node-jscs/compare/v1.12.0...v1.13.0)
 
 ### Overview
 
@@ -89,7 +89,7 @@ We would like specifically thanks @TheSavior and @hzoo for their hard work on th
 * Docs: fix disallowMultipleSpaces invalid example (Henry Zhu)
 * Docs: fix various docs typos (Eli White)
 
-## Version 1.12.0
+## Version [1.12.0](https://github.com/jscs-dev/node-jscs/compare/v1.11.0...v1.12.0)
 
 ### Overview
 Ladies and Gentlemen... Elvis is in the building - auto-fixing is finally here! We were working really hard to make this powerful new feature, and to make it right. We're hoping it will truly help make your code look good.
@@ -195,7 +195,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 * Docs: added Goodvidio to the list of adopters (Adonis K)
 * Fix types and descriptions in documentation (Shmavon Gazanchyan)
 
-## Version 1.11.3
+## Version [1.11.3](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.3)
 
 ### Bug Fixes
 * JsFile: ensure getLinesWithCommentsRemoved does not alter future getComments calls. (Mike Sherov)
@@ -203,7 +203,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 ### Misc.
 * modules/utils normalizePath: fixed test for windows env (Alexej Yaroshevich)
 
-## Version 1.11.2
+## Version [1.11.2](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.2)
 
 ### Bug Fixes
 * validateIndentation: ignore empty module bodies (Mike Sherov)
@@ -216,7 +216,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 ### Misc.
 * Add @zxqfox to the list of maintainers (mdevils)
 
-## Version 1.11.1
+## Version [1.11.1](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.1)
 
 ### New Rules / Rule Values
 * disallowSpaceAfterObjectKeys: implement ignoreSingleLine and ignoreMultiLine options (Henry Zhu)
@@ -235,7 +235,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 * Updating rules to use File Traversal APIs. (Eli White)
 * Docs: Add website rebuild instructions to maintenance (Mike Sherov)
 
-## Version 1.11.0
+## Version [1.11.0](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.0)
 
 ### Preset Updates
 * Preset: add "requireSpaceBetweenArguments" rule to all presets (Oleg Gaidarenko)
@@ -297,7 +297,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 * Update regenerate to ~1.2.1 (Chris Rebert)
 * Add description to commander CLI help (Chris Rebert)
 
-## Version 1.10.0
+## Version [1.10.0](https://github.com/jscs-dev/node-jscs/compare/v1.9.0...v1.10.0)
 * Preset: correct wikimedia preset test (Oleg Gaidarenko)
 * Preset: correct jquery preset test (Oleg Gaidarenko)
 * Preset: add disallowKeywordsOnNewLine rule to google preset (Oleg Gaidarenko)
@@ -361,7 +361,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 * Misc: correct file flags - chmod -x (Oleg Gaidarenko)
 * Build: update dependencies (Oleg Gaidarenko)
 
-## Version 1.9.0
+## Version [1.9.0](https://github.com/jscs-dev/node-jscs/compare/v1.8.0...v1.9.0)
 * Preset: update wikimedia preset (Timo Tijhof)
 * Preset: update crockford preset (Jackson Ray Hamilton)
 
@@ -388,11 +388,11 @@ We're very grateful to everyone who helped out with this release, especially to 
 * Docs: Typo fix (Alexander Sofin)
 * Docs: fix urls to yandex codestyle (Andrey Morozov)
 
-## Version 1.8.1
+## Version [1.8.1](https://github.com/jscs-dev/node-jscs/compare/v1.7.0...v1.8.1)
  * Assertions: always allow new lines in whitespaceBetween (Henry Zhu)
  * Tests: reorganization, full coverage for JsFile (mdevils)
 
-## Version 1.8.0
+## Version [1.8.0](https://github.com/jscs-dev/node-jscs/compare/v1.7.0...v1.8.0)
  * Preset: Grunt (Joel Kemp)
  * Preset: remove "disallowMultipleLineBreaks" rule from crockford preset (Oleg Gaidarenko)
 
@@ -431,19 +431,19 @@ We're very grateful to everyone who helped out with this release, especially to 
  * Docs: Clarify "config" option (MaximAL)
  * Docs: Add Plugins section (Alexej Yaroshevich)
 
-## Version 1.7.3
+## Version [1.7.3](https://github.com/jscs-dev/node-jscs/compare/v1.6.0...v1.7.3)
  * Parsing: Use the harmony parser via the esnext flag in the config (Joel Kemp)
  * validateIndentation: handle breakless case statements (Mike Sherov)
 
-## Version 1.7.2
+## Version [1.7.2](https://github.com/jscs-dev/node-jscs/compare/v1.6.0...v1.7.2)
  * validateIndentation: fix return in switch failure (Mike Sherov)
  * Cast StringChecker maxErrors property to Number the first time (Florian Fesseler)
  * Fix format of --esnext and --max-errors in README (Joe Lencioni)
 
-## Version 1.7.1
+## Version [1.7.1](https://github.com/jscs-dev/node-jscs/compare/v1.6.0...v1.7.1)
  * validateIndentation: fix empty multiline function body regression (Mike Sherov)
 
-## Version 1.7.0
+## Version [1.7.0](https://github.com/jscs-dev/node-jscs/compare/v1.6.0...v1.7.0)
  * validateJSDoc: Deprecate rule (Joel Kemp)
  * Updated google preset (Richard Poole)
  * Add "requireSpaceBeforeBlockStatements" rule into the jquery preset (Oleg Gaidarenko)
@@ -474,7 +474,7 @@ We're very grateful to everyone who helped out with this release, especially to 
  * Docs: add a table of contents to README (Henry Zhu)
  * Docs: Make version numbers real markdown headers (Alexander Artemenko)
 
-## Version 1.6.2
+## Version [1.6.2](https://github.com/jscs-dev/node-jscs/compare/v1.5.0...v1.6.2)
  * Fix disallowMultipleLineBreaks with shebang line (Nicolas Gallagher)
  * Improve validateParameterSeparator rule (David Chambers)
  * Add rule for parameter separation validation (James Allardice)
@@ -482,13 +482,13 @@ We're very grateful to everyone who helped out with this release, especially to 
  * Docs: add intellij plugin to friendly packages (idok)
  * Support predefined values for another three rules (Joel Kemp)
 
-## Version 1.6.1
+## Version [1.6.1](https://github.com/jscs-dev/node-jscs/compare/v1.5.0...v1.6.1)
  * Airbnb preset (Joel Kemp)
  * Improve crockford preset (Vivien TINTILLIER)
  * Avoid node.js 0.10.x exit code bug for MS Windows (Taku Watabe)
  * Docs: Update packages and extensions sections with new URLs. (Mike Sherov)
 
-## Version 1.6.0
+## Version [1.6.0](https://github.com/jscs-dev/node-jscs/compare/v1.5.0...v1.6.0)
  * Errors: ability to suppress errors via inline comments. (Mike Sherov)
  * Fix Anonymous Functions in google preset (Ayoub Kaanich)
  * Enhance google's preset (Joel Kemp)
