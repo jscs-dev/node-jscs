@@ -237,23 +237,20 @@ describe('rules/require-semicolons', function() {
         valid([
             'export default foo;',
             'export default foo\n;',
-            'export default function foo(){};',
-            'export default function foo(){}\n;',
             'export { foo };',
-            'export { foo }\n;', //
-            'export function foo(){};',
-            'export function foo(){}\n;',
+            'export { foo }\n;',
             'export { foo as default };',
-            'export { foo as default }\n;'
+            'export { foo as default }\n;',
+            'export function foo(){};',
+            'export default function foo(){}',
+            'export class MyClass {}',
+            'export default class MyClass {}'
         ]);
 
         invalid([
             'export default foo',
             'export default foo//;',
             'export default foo\n//;',
-            'export function foo(){}',
-            'export function foo(){}//;',
-            'export function foo(){}\n//;',
             'export { foo }',
             'export { foo }//;',
             'export { foo }\n//;',
