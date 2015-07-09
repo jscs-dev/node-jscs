@@ -72,8 +72,7 @@ describe('rules/require-semicolons', function() {
         invalid([
             'var a',
             'var a\n,b \n',
-            'var a\n,b\n = 1//;',
-            'var a\n,b\n = 1\n//;',
+            'var a\n,b\n = 1',
             'for (var a in b) var c',
             'for (var a of b) var c',
             'for (var a in b) { var c };',
@@ -122,8 +121,7 @@ describe('rules/require-semicolons', function() {
         invalid([
             'const a = 1',
             'const a = 1\n,b = 2 \n',
-            'const a = 1\n,b\n = 1//;',
-            'const a = 1\n,b\n = 1\n//;'
+            'const a = 1\n,b\n = 1'
         ]);
     });
 
@@ -139,9 +137,7 @@ describe('rules/require-semicolons', function() {
 
         invalid([
             'a',
-            'a\n',
-            'a\n = 1//;',
-            'a\n = 1\n//;'
+            'a\n'
         ]);
     });
 
@@ -214,22 +210,21 @@ describe('rules/require-semicolons', function() {
         ]);
 
         invalid([
-            'do {} while (expr)',
-            'do {} while (expr)//;',
-            'do {} while (expr)\n//;'
+            'do {} while (expr)'
         ]);
     });
 
     describe('import declaration', function() {
         valid([
             'import foo from "module";',
-            'import foo from "module"\n;'
+            'import foo from "module"\n;',
+            'import "module";',
+            'import "module"\n;'
         ]);
 
         invalid([
             'import foo from "module"',
-            'import foo from "module"//;',
-            'import foo from "module"\n//;'
+            'import "module"'
         ]);
     });
 
@@ -241,7 +236,7 @@ describe('rules/require-semicolons', function() {
             'export { foo }\n;',
             'export { foo as default };',
             'export { foo as default }\n;',
-            'export function foo(){};',
+            'export function foo(){}',
             'export default function foo(){}',
             'export class MyClass {}',
             'export default class MyClass {}'
@@ -249,14 +244,8 @@ describe('rules/require-semicolons', function() {
 
         invalid([
             'export default foo',
-            'export default foo//;',
-            'export default foo\n//;',
             'export { foo }',
-            'export { foo }//;',
-            'export { foo }\n//;',
-            'export { foo as default }',
-            'export { foo as default }//;',
-            'export { foo as default }\n//;'
+            'export { foo as default }'
         ]);
     });
 
