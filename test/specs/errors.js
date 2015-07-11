@@ -203,9 +203,12 @@ describe('errors', function() {
     describe('add with verbose', function() {
         var errors;
         beforeEach(function() {
-            checker = new Checker({verbose: true});
+            checker = new Checker();
             checker.registerDefaultRules();
-            checker.configure({ disallowQuotedKeysInObjects: true });
+            checker.configure({
+                disallowQuotedKeysInObjects: true,
+                verbose: true
+            });
 
             errors = checker.checkString('yay');
         });
