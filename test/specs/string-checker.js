@@ -334,7 +334,7 @@ describe('string-checker', function() {
         it('uses a custom esprima when provided to the constructor', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();
-            checker.configure({ esprima: customEsprima })
+            checker.configure({ esprima: customEsprima });
 
             var errors = checker.checkString('import { foo } from "bar";');
             var error = errors.getErrorList()[0];
@@ -346,7 +346,7 @@ describe('string-checker', function() {
         it('uses a custom esprima when both esprima and esnext are provided to the constructor', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();
-            checker.configure({ esprima: customEsprima, esnext: true })
+            checker.configure({ esprima: customEsprima, esnext: true });
 
             var errors = checker.checkString('import { foo } from "bar";');
             var error = errors.getErrorList()[0];
