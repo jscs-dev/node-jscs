@@ -66,6 +66,44 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
         it('should not report with no spaces, with "all" value', function() {
             assert(checker.checkString('var x = {a: 1};').isEmpty());
         });
+
+        it('should report illegal spaces for destructive assignment', function() {
+            assert(checker.checkString('let { x } = {x: 1};').getErrorCount() === 2);
+        });
+
+        describe.skip('import (#1524)', function() {
+            beforeEach(function() {
+                checker.configure({ disallowSpacesInsideObjectBrackets: true, esnext: true });
+            });
+
+            it('should not report with absent brackets', function() {
+                assert(checker.checkString('import myModule from "test";').isEmpty());
+                assert(checker.checkString('import "test";').isEmpty());
+            });
+
+            it('should report for import statements', function() {
+                assert(
+                    checker.checkString('import { myMember } from "test";').getErrorCount() === 2
+                );
+
+                assert(
+                    checker.checkString('import { myMember } from "test";').getErrorCount() === 2
+                );
+
+                assert(
+                    checker.checkString('import { foo, bar } from "test";').getErrorCount() === 2
+                );
+
+                assert(
+                    checker.checkString('import MyModule, { foo, bar } ' +
+                        ' from "test";').getErrorCount() === 2
+                );
+
+                assert(
+                    checker.checkString('import { a as b } from "test";').getErrorCount() === 2
+                );
+            });
+        });
     });
 
     describe('"nested"', function() {
