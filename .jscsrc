@@ -1,5 +1,4 @@
 {
-    "plugins": ["jsdoc"],
     "preset": "google",
     "fileExtensions": [".js", "jscs"],
 
@@ -13,10 +12,6 @@
 
     "safeContextKeyword": "_this",
 
-    "excludeFiles": [
-        "test/data/**"
-    ],
-
     "jsDoc": {
         "checkAnnotations": "closurecompiler",
         "checkParamNames": true,
@@ -28,5 +23,9 @@
         "checkTypes": "capitalizedNativeCase",
         "checkRedundantAccess": true,
         "requireNewlineAfterDescription": true
-    }
+    },
+
+    "excludeFiles": [
+        "test/data/**"
+    ]
 }
