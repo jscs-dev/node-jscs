@@ -1,4 +1,4 @@
-## Version [1.13.1](https://github.com/jscs-dev/node-jscs/compare/v1.12.0...v1.13.1)
+## Version [1.13.1](https://github.com/jscs-dev/node-jscs/compare/v1.13.0...v1.13.1)
 
 ### Overview
 Small update for fix distribution of the `--esnext` CLI option (#1321)
