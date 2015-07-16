@@ -3,9 +3,9 @@
 // When an object declaration is too long to fit on one line, there must be one property per line.
 // Property names only need to be quoted if they are reserved words or contain special characters:
 map = {
-	ready: 9,
-	when: 4,
-	'you are': 15
+    ready: 9,
+    when: 4,
+    'you are': 15
 };
 
 // Acceptable for small objects
@@ -33,64 +33,66 @@ firstArrayElement = arr[0];
 // No space on either side of the argument
 foo(function() {
 
-	// Do stuff
+    // Do stuff
 });
 
 foo({
-	a: 'alpha',
-	b: 'beta'
+    a: 'alpha',
+    b: 'beta'
 });
 
 foo([
-	'alpha',
-	'beta'
+    'alpha',
+    'beta'
 ]);
 
 // Function with a callback, object, or array as the first argument:
 // No space before the first argument
 foo(function() {
 
-	// Do stuff
+    // Do stuff
 }, options );
 
 // Function with a callback, object, or array as the last argument:
 // No space after after the last argument
 foo( data, function() {
 
-	// Do stuff
+    // Do stuff
 });
 
 // Examples of Good Spacing
-var i;
+function example() {
+    var i;
 
-if ( condition ) {
-	doSomething( 'with a string' );
-} else if ( otherCondition ) {
-	otherThing({
-		key: value,
-		otherKey: otherValue
-	});
-} else {
-	somethingElse( true );
+    if ( condition ) {
+        doSomething( 'with a string' );
+    } else if ( otherCondition ) {
+        otherThing({
+            key: value,
+            otherKey: otherValue
+        });
+    } else {
+        somethingElse( true );
+    }
 }
 
 // Unlike jQuery, WordPress prefers a space after the ! negation operator.
 // This is also done to conform to our PHP standards.
 while ( ! condition ) {
-	iterating++;
+    iterating++;
 }
 
 for ( i = 0; 100 > i; i++ ) {
-	object[ array[ i ] ] = someFn( i );
-	$( '.container' ).val( array[ i ] );
+    object[ array[ i ] ] = someFn( i );
+    $( '.container' ).val( array[ i ] );
 }
 
 try {
 
-	// Expressions
+    // Expressions
 } catch ( e ) {
 
-	// Expressions
+    // Expressions
 }
 
 // Semicolons
@@ -102,12 +104,12 @@ try {
 // the contents of that function should be indented by one tab:
 (function( $ ) {
 
-	// Expressions indented
+    // Expressions indented
 
-	function doSomething() {
+    function doSomething() {
 
-		// Expressions indented
-	}
+        // Expressions indented
+    }
 })( jQuery );
 
 // Blocks and Curly Braces
@@ -116,20 +118,20 @@ try {
 // The closing brace should be on the line directly following the last statement of the block.
 if ( myFunction() ) {
 
-	// Expressions
+    // Expressions
 } else if ( ( a && b ) || c ) {
 
-	// Expressions
+    // Expressions
 } else {
 
-	// Expressions
+    // Expressions
 }
 
 // Multi-line Statements
 // When a statement is too long to fit on one line, line breaks must occur after an operator.
 // Good
 html = '<p>The sum of ' + a + ' and ' + b + ' plus ' + c +
-		' is ' + ( a + b + c );
+        ' is ' + ( a + b + c );
 
 // Lines should be broken into logical groups if it improves readability,
 // such as splitting each expression of a ternary operator onto its own line,
@@ -139,14 +141,14 @@ baz = ( true === conditionalStatement() ) ? 'thing 1' : 'thing 2';
 
 // Better
 baz = firstCondition( foo ) && secondCondition( bar ) ?
-	qux( foo, bar ) :
-	foo;
+    qux( foo, bar ) :
+    foo;
 
 // When a conditional is too long to fit on one line,
 // successive lines must be indented one extra level to distinguish them from the body.
 if ( firstCondition() && secondCondition() &&
-		thirdCondition() ) {
-	doStuff();
+        thirdCondition() ) {
+    doStuff();
 }
 
 // Chained Method Calls
@@ -154,11 +156,11 @@ if ( firstCondition() && secondCondition() &&
 // with the first call on a separate line from the object the methods are called on.
 // If the method changes the context, an extra level of indentation must be used
 elements
-	.addClass( 'foo' )
-	.children()
-		.html( 'hello' )
-	.end()
-	.appendTo( 'body' );
+    .addClass( 'foo' )
+    .children()
+        .html( 'hello' )
+    .end()
+    .appendTo( 'body' );
 
 // Assignments and Globals
 // Declaring Variables With var
@@ -167,10 +169,10 @@ elements
 // while declarations can be grouped on a single line. Any additional lines should be indented with an additional tab.
 // Good
 function a() {
-	var k, m, length,
+    var k, m, length,
 
-		// Indent subsequent lines by one tab
-		value = 'WordPress';
+        // Indent subsequent lines by one tab
+        value = 'WordPress';
 }
 
 // Naming Conventions
@@ -194,7 +196,7 @@ over the span of multiple lines.
 // Inline comments are allowed as an exception when used to annotate special arguments in formal parameter lists:
 function foo( types, selector, data, fn, /* INTERNAL */ one ) {
 
-	// Do stuff
+    // Do stuff
 }
 
 // Equality
@@ -203,7 +205,7 @@ function foo( types, selector, data, fn, /* INTERNAL */ one ) {
 // Check for both undefined and null values, for some important reason.
 if ( null == undefOrNull ) {
 
-	// Expressions
+    // Expressions
 }
 
 // Strings
@@ -220,36 +222,36 @@ if ( null == undefOrNull ) {
 // Indent case statements one tab within the switch.
 switch ( event.keyCode ) {
 
-	// ENTER and SPACE both trigger x()
-	case $.ui.keyCode.ENTER:
-	case $.ui.keyCode.SPACE:
-		x();
-		break;
-	case $.ui.keyCode.ESCAPE:
-		y();
-		break;
-	default:
-		z();
+    // ENTER and SPACE both trigger x()
+    case $.ui.keyCode.ENTER:
+    case $.ui.keyCode.SPACE:
+        x();
+        break;
+    case $.ui.keyCode.ESCAPE:
+        y();
+        break;
+    default:
+        z();
 }
 
 // It is not recommended to return a value from within a switch statement:
 // use the case blocks to set values, then return those values at the end.
 function getKeyCode( keyCode ) {
-	var result;
+    var result;
 
-	switch ( event.keyCode ) {
-		case $.ui.keyCode.ENTER:
-		case $.ui.keyCode.SPACE:
-			result = 'commit';
-			break;
-		case $.ui.keyCode.ESCAPE:
-			result = 'exit';
-			break;
-		default:
-			result = 'default';
-	}
+    switch ( event.keyCode ) {
+        case $.ui.keyCode.ENTER:
+        case $.ui.keyCode.SPACE:
+            result = 'commit';
+            break;
+        case $.ui.keyCode.ESCAPE:
+            result = 'exit';
+            break;
+        default:
+            result = 'default';
+    }
 
-	return result;
+    return result;
 }
 
 // Creating arrays in JavaScript should be done using the shorthand [] constructor rather than the new Array() notation.
@@ -272,7 +274,7 @@ prop = object['key-with-hyphens'];
 // and the constant or literal put on the left.
 if ( true === myCondition ) {
 
-	// Do stuff
+    // Do stuff
 }
 
 // Iteration
@@ -280,11 +282,11 @@ if ( true === myCondition ) {
 // it is recommended to store the loop’s max value as a variable rather than re-computing the maximum every time:
 // Good & Efficient
 function a() {
-	var i, max;
+    var i, max;
 
-	// Method getItemCount() gets called once
-	for ( i = 0, max = getItemCount(); i < max; i++ ) {
+    // Method getItemCount() gets called once
+    for ( i = 0, max = getItemCount(); i < max; i++ ) {
 
-		// Do stuff
-	}
+        // Do stuff
+    }
 }
