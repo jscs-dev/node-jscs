@@ -63,5 +63,9 @@ describe('rules/disallow-implicit-type-conversion', function() {
         it('should not report operations other than +', function() {
             assert(checker.checkString('var x = \'\' * y;').isEmpty());
         });
+
+        it('should not report concatination with two literals (#1538)', function() {
+            assert(checker.checkString('"" + "string";').isEmpty());
+        });
     });
 });
