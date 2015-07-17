@@ -47,6 +47,11 @@ describe('rules/require-var-decl-first', function() {
                     testDeclStatements(checker, 'var a;', 0);
                 });
 
+                it('should not return errors for single var declaration at top of program scope after prologue',
+                    function() {
+                    testDeclStatements(checker, '"use strict";var a;', 0);
+                });
+
                 it('should not return errors for single var declaration after single comment at top of program scope',
                     function() {
                     testDeclStatements(checker, '/*block comment*/var a;', 0);
@@ -55,6 +60,11 @@ describe('rules/require-var-decl-first', function() {
                 it('should not return errors for single var declaration at top of function declaration scope',
                     function() {
                     testDeclStatements(checker, 'function a(){var b;}', 0);
+                });
+
+                it('should not return errors for single var declaration at top of function declaration scope ' +
+                    'after prologue', function() {
+                    testDeclStatements(checker, 'function a(){"use strict";var b;}', 0);
                 });
 
                 it('should not return errors for single var declaration at top of function declaration scope ' +
@@ -75,6 +85,11 @@ describe('rules/require-var-decl-first', function() {
                 it('should not return errors for single var declaration at top of function expression scope',
                     function() {
                     testDeclStatements(checker, 'var a=function(){var b;}', 0);
+                });
+
+                it('should not return errors for single var declaration at top of function expression scope ' +
+                    'after prologue', function() {
+                    testDeclStatements(checker, 'var a=function(){"use strict";var b;}', 0);
                 });
 
                 it('should not return errors for multiple declarators in a var declaration at top of program scope',
@@ -135,6 +150,11 @@ describe('rules/require-var-decl-first', function() {
                     testDeclStatements(checker, ' var a;', 0);
                 });
 
+                it('should not return errors for single var declaration at top of program scope after prologue',
+                    function() {
+                    testDeclStatements(checker, '"use strict"; var a;', 0);
+                });
+
                 it('should not return errors for single var declaration after single comment at top of ' +
                     'program scope', function() {
                     testDeclStatements(checker, '/*block comment*/ var a;', 0);
@@ -143,6 +163,11 @@ describe('rules/require-var-decl-first', function() {
                 it('should not return errors for single var declaration at top of function declaration scope',
                     function() {
                     testDeclStatements(checker, 'function a() { var b; }', 0);
+                });
+
+                it('should not return errors for single var declaration at top of function declaration scope ' +
+                    'after prologue', function() {
+                    testDeclStatements(checker, 'function a() { "use strict"; var b; }', 0);
                 });
 
                 it('should not return errors for single var declaration at top of function declaration scope ' +
@@ -166,6 +191,11 @@ describe('rules/require-var-decl-first', function() {
                     testDeclStatements(checker, '\nvar a;', 0);
                 });
 
+                it('should not return errors for single var declaration at top of program scope after prologue',
+                    function() {
+                    testDeclStatements(checker, '"use strict";\nvar a;', 0);
+                });
+
                 it('should not return errors for single const var declaration at top of program scope', function() {
                     testDeclStatements(checker, '\nconst a = 1;', 0);
                 });
@@ -178,6 +208,11 @@ describe('rules/require-var-decl-first', function() {
                 it('should not return errors for single var declaration at top of function declaration scope',
                     function() {
                     testDeclStatements(checker, 'function a() {\nvar b;\n}', 0);
+                });
+
+                it('should not return errors for single var declaration at top of function declaration scope ' +
+                    'after prologue', function() {
+                    testDeclStatements(checker, 'function a() {\n"use strict";\nvar b;\n}', 0);
                 });
 
                 it('should not return errors for single var declaration at top of function declaration scope ' +
