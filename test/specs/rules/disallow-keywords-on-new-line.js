@@ -130,6 +130,68 @@ describe('rules/disallow-keywords-on-new-line', function() {
         );
     });
 
+    describe('legal block comments before key word (#1421)', function() {
+        it('should not report legal keyword placement for a "if else"',
+            function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['else'] });
+            assert(
+                checker.checkString(
+                    'if (x) {\n' +
+                        'x++;\n' +
+                    '}\n' +
+                    '/* comments */\n' +
+                    'else {\n' +
+                        'x--;\n' +
+                    '}'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report legal keyword for a "do while"', function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+            assert(
+                checker.checkString(
+                    'do {\n' +
+                        'x++;\n' +
+                    '}\n' +
+                    '/* comments */\n' +
+                    'while(x > 0)'
+                ).isEmpty()
+            );
+        });
+    });
+
+    describe('legal line comments before key word (#1421)', function() {
+        it('should not report legal keyword placement for a "if else"',
+            function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['else'] });
+            assert(
+                checker.checkString(
+                    'if (x) {\n' +
+                        'x++;\n' +
+                    '}\n' +
+                    '// comments\n' +
+                    'else {\n' +
+                        'x--;\n' +
+                    '}'
+                ).isEmpty()
+            );
+        });
+
+        it('should not report legal keyword for a "do while"', function() {
+            checker.configure({ disallowKeywordsOnNewLine: ['while'] });
+            assert(
+                checker.checkString(
+                    'do {\n' +
+                        'x++;\n' +
+                    '}\n' +
+                    '// comments\n' +
+                    'while(x > 0)'
+                ).isEmpty()
+            );
+        });
+    });
+
     describe('fix', function() {
         it('should not fix special case for "else" statement without braces (#905)', function() {
             checker.configure({ disallowKeywordsOnNewLine: ['else'] });
