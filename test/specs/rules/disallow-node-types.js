@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-node-types', function() {
+describe('rules/disallow-node-types', function() {
     var checker;
 
     beforeEach(function() {
@@ -16,25 +16,27 @@ describe.skip('rules/disallow-node-types', function() {
 
     it('should report on use of LabeledStatement', function() {
         expect(checker.checkString('var f = () => { a: 1 };'))
-            .to.have.one.error.from('ruleName');
-        assert(checker.checkString([
-            'loop1:',
-            'for (i = 0; i < 10; i++) {',
-                'if (i === 3) {',
-                    'break loop1;',
-                '}',
-            '}'
-        ].join('\n')).getValidationErrorCount() === 1);
+            .to.have.one.error.from('disallowNodeTypes');
+        expect(
+            checker.checkString([
+                'loop1:',
+                'for (i = 0; i < 10; i++) {',
+                    'if (i === 3) {',
+                        'break loop1;',
+                    '}',
+                '}'
+            ].join('\n'))
+        ).to.have.one.error.from('disallowNodeTypes');
     });
 
     it('should report on use of DebuggerStatement', function() {
         expect(checker.checkString('debugger;'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowNodeTypes');
     });
 
     it('should report on use of DoWhileStatement', function() {
         expect(checker.checkString('do keep(); while (true)'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowNodeTypes');
     });
 
     it('should report on use of another statement', function() {
