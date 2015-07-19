@@ -72,6 +72,7 @@
     "jscs-jsdoc": "1.1.0",
     "lodash.assign": "~3.2.0",
     "minimatch": "~2.0.1",
+    "natural-compare": "~1.2.2",
     "pathval": "~0.1.1",
     "prompt": "~0.2.14",
     "reserved-words": "^0.1.1",
