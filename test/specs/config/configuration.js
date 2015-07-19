@@ -126,9 +126,9 @@ describe('config/configuration', function() {
             assert.equal(configuration.isES3Enabled(), true);
         });
 
-        it('should return true when unspecified', function() {
+        it('should return false when unspecified', function() {
             configuration.load({});
-            assert.equal(configuration.isES3Enabled(), true);
+            assert.equal(configuration.isES3Enabled(), false);
         });
     });
 
