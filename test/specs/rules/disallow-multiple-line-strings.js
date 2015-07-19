@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-multiple-line-strings', function() {
+describe('rules/disallow-multiple-line-strings', function() {
     var checker;
 
     beforeEach(function() {
@@ -12,14 +12,14 @@ describe.skip('rules/disallow-multiple-line-strings', function() {
 
     it('should report multiple line strings', function() {
         expect(checker.checkString('x = " \\\n oops";'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleLineStrings');
     });
 
     it('should not fix multiple line strings', function() {
         var input = 'x = " \\\n oops";';
         var result = checker.fixString(input);
-        assert.equal(result.output, input);
-        assert.equal(result.errors.getValidationErrorCount(), 1);
+        expect(result.output).to.equal(input);
+        expect(result.errors).to.have.one.error();
     });
 
     it('should not report concatenated strings on multiple lines', function() {

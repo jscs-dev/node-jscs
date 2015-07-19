@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-multiple-spaces', function() {
+describe('rules/disallow-multiple-spaces', function() {
     var checker;
 
     beforeEach(function() {
@@ -9,7 +9,7 @@ describe.skip('rules/disallow-multiple-spaces', function() {
         checker.registerDefaultRules();
     });
 
-    describe.skip('option value true', function() {
+    describe('option value true', function() {
         beforeEach(function() {
             checker.configure({
                 disallowMultipleSpaces: true
@@ -18,22 +18,22 @@ describe.skip('rules/disallow-multiple-spaces', function() {
 
         it('should report multiple spaces', function() {
             expect(checker.checkString('var x  = "oops";'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('function x  () {}'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('function x()  {}'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('1  + 2'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('1 +  2'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between comments', function() {
             expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('var x = "oops";  // Multiple spaces before comment'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should not report single spaces between comments', function() {
@@ -68,7 +68,7 @@ describe.skip('rules/disallow-multiple-spaces', function() {
         });
     });
 
-    describe.skip('option value allowEOLComments', function() {
+    describe('option value allowEOLComments', function() {
         beforeEach(function() {
             checker.configure({
                 disallowMultipleSpaces: {
@@ -79,12 +79,12 @@ describe.skip('rules/disallow-multiple-spaces', function() {
 
         it('should report multiple spaces', function() {
             expect(checker.checkString('var x  = "oops";'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between inline comments', function() {
             expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should not report multiple spaces between EOL comments', function() {
@@ -105,7 +105,7 @@ describe.skip('rules/disallow-multiple-spaces', function() {
         });
     });
 
-    describe.skip('option value bad value', function() {
+    describe('option value bad value', function() {
         it('raises an assertion error', function() {
             try {
                 checker.configure({
