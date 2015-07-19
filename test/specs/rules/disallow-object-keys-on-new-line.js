@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe.skip('rules/disallow-object-keys-on-new-line', function() {
+describe.only('rules/disallow-object-keys-on-new-line', function() {
     var rules = { disallowObjectKeysOnNewLine: true };
     var checker;
 
