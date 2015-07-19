@@ -2,7 +2,7 @@ var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe.skip('rules/disallow-newline-before-block-statements', function() {
+describe('rules/disallow-newline-before-block-statements', function() {
     var checker;
 
     beforeEach(function() {
@@ -10,7 +10,7 @@ describe.skip('rules/disallow-newline-before-block-statements', function() {
         checker.registerDefaultRules();
     });
 
-    describe.skip('option value true', function() {
+    describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowNewlineBeforeBlockStatements: true });
         });
@@ -46,14 +46,14 @@ describe.skip('rules/disallow-newline-before-block-statements', function() {
         });
 
         it('should not report disallowed newline for object definitions', function() {
-            assert(checker.checkString('function test(){var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}')
-                .isEmpty());
+            expect(checker.checkString('function test(){var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}'))
+                .to.have.no.errors();
         });
 
         it('should not report disallowed newline', function() {
-            assert(checker.checkString(
-                'function test(){\nif(true){\nreturn {\nval:1\n}\n}\nvar obj = \n{a:1,\nb:2,\nc:3\n};\n}')
-                .isEmpty());
+            expect(checker.checkString(
+                'function test(){\nif(true){\nreturn {\nval:1\n}\n}\nvar obj = \n{a:1,\nb:2,\nc:3\n};\n}'
+            )).to.have.no.errors();
         });
 
         it('should not throw error if opening parentheses is first symbol in the file', function() {
