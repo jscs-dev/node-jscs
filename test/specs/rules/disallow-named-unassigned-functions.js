@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-named-unassigned-functions', function() {
+describe('rules/disallow-named-unassigned-functions', function() {
     var checker;
 
     beforeEach(function() {
@@ -9,7 +9,7 @@ describe.skip('rules/disallow-named-unassigned-functions', function() {
         checker.registerDefaultRules();
     });
 
-    describe.skip('option value true', function() {
+    describe('option value true', function() {
         beforeEach(function() {
             checker.configure({
                 disallowNamedUnassignedFunctions: true
@@ -22,7 +22,7 @@ describe.skip('rules/disallow-named-unassigned-functions', function() {
 
         it('should report on named unassigned function expressions', function() {
             expect(checker.checkString('$("hi").click(function named(){});'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('disallowNamedUnassignedFunctions');
         });
 
         it('should not report on named function declarations', function() {
