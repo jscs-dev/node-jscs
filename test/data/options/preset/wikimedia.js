@@ -16,9 +16,8 @@
 	 * @class
 	 *
 	 * @constructor
-	 * @param {string} id
+	 * @param {String} id
 	 * @param {Object} options
-	 * @return {jQuery.Promise}
 	 */
 	APP.Example = function ( id, options ) {
 		var name, inline, bar;

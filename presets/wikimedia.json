@@ -69,5 +69,18 @@
     "disallowNewlineBeforeBlockStatements": true,
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
-    "validateIndentation": "\t"
+    "validateIndentation": "\t",
+
+    "jsDoc": {
+        "checkAnnotations": "jsduck5",
+        "checkParamNames": true,
+        "requireParamTypes": true,
+        "checkRedundantParams": true,
+        "checkReturnTypes": true,
+        "checkRedundantReturns": true,
+        "requireReturnTypes": true,
+        "checkTypes": "capitalizedNativeCase",
+        "checkRedundantAccess": true,
+        "requireNewlineAfterDescription": true
+    }
 }
