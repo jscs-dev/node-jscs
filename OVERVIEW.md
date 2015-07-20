@@ -308,6 +308,20 @@ Value: `true`
 "esnext": true
 ```
 
+### es3
+
+Use ES3 reserved words.
+
+Type: `Boolean`
+
+Value: `true`
+
+#### Example
+
+```js
+"es3": true
+```
+
 ### verbose
 Prepends the name of the offending rule to all error messages.
 
