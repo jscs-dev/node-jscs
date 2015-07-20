@@ -639,7 +639,7 @@ describe('token-assert', function() {
                 assert.throws((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
-                        nextToken: this.tokens[1],
+                        nextToken: this.tokens[1]
                     });
                 }).bind(this),
                 /You must specify at least one option/);

@@ -6,6 +6,7 @@
     "maximumLineLength": 120,
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
+    "disallowTrailingComma": true,
 
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],

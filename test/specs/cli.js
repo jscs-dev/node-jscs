@@ -60,7 +60,7 @@ describe('cli', function() {
         sinon.spy(console, 'error');
 
         var result = cli({
-            config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json'),
+            config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json')
         });
 
         return result.promise.fail(function() {

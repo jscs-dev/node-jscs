@@ -228,7 +228,7 @@ describe('js-file', function() {
         it('should trim whitespace from the rule name', function() {
             var file = createJsFile([
                 '// jscs: disable validateQuoteMarks',
-                'var x = "1";',
+                'var x = "1";'
             ].join('\n'));
             assert(!file.isEnabledRule('validateQuoteMarks', 2));
             assert(!file.isEnabledRule('validateQuoteMarks  ', 2));
@@ -241,7 +241,7 @@ describe('js-file', function() {
                 var file = createJsFile([
                     'var x = "1";',
                     'var y = "1"; // jscs: ignore validateQuoteMarks',
-                    'var z = "1";',
+                    'var z = "1";'
                 ].join('\n'));
                 assert(file.isEnabledRule('validateQuoteMarks', 1));
                 assert(!file.isEnabledRule('validateQuoteMarks', 2));
@@ -252,7 +252,7 @@ describe('js-file', function() {
                 var file = createJsFile([
                     'var x = "1";',
                     'var y = "1"; //jscs: ignore validateQuoteMarks',
-                    'var z = "1";',
+                    'var z = "1";'
                 ].join('\n'));
                 assert(file.isEnabledRule('validateQuoteMarks', 1));
                 assert(!file.isEnabledRule('validateQuoteMarks', 2));
@@ -263,7 +263,7 @@ describe('js-file', function() {
                 var file = createJsFile([
                     'var x = "1";',
                     'var y = "1"; //jscs: ignore validateQuoteMarks',
-                    'var z = "1";',
+                    'var z = "1";'
                 ].join('\n'));
                 assert(file.isEnabledRule('validateQuoteMarks', 1));
                 assert(!file.isEnabledRule('validateQuoteMarks', 2));
@@ -275,7 +275,7 @@ describe('js-file', function() {
                     'var a = "1";',
                     '// jscs: disable validateQuoteMarks',
                     'var b = "1"; // jscs: ignore validateQuoteMarks',
-                    'var c = "1";',
+                    'var c = "1";'
                 ].join('\n'));
                 assert(file.isEnabledRule('validateQuoteMarks', 1));
                 assert(!file.isEnabledRule('validateQuoteMarks', 2));
@@ -287,7 +287,7 @@ describe('js-file', function() {
                 var file = createJsFile([
                     '// jscs: disable validateQuoteMarks',
                     'var a = "1"; // jscs: ignore validateQuoteMarks, anotherRule',
-                    'var b = "1";',
+                    'var b = "1";'
                 ].join('\n'));
                 assert(!file.isEnabledRule('validateQuoteMarks', 1));
                 assert(!file.isEnabledRule('validateQuoteMarks', 2));
@@ -300,7 +300,7 @@ describe('js-file', function() {
             it('should be able to ignore all rules', function() {
                 var file = createJsFile([
                     'var a = "1"; // jscs: ignore',
-                    'var b = "1";',
+                    'var b = "1";'
                 ].join('\n'));
                 assert(!file.isEnabledRule('validateQuoteMarks', 1));
                 assert(file.isEnabledRule('validateQuoteMarks', 2));

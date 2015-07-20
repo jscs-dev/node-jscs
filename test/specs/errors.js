@@ -237,7 +237,7 @@ describe('errors', function() {
                 'var x = { "a": 1 };',
                 'var b;',
                 'function c(){};',
-                'var d = { "b": 2 };',
+                'var d = { "b": 2 };'
             ].join('\n'));
             var errorList = errors.getErrorList();
 

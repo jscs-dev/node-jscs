@@ -140,7 +140,7 @@ describe('checker', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if'],
+                    requireSpaceAfterKeywords: ['if']
                 });
 
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
@@ -170,7 +170,7 @@ describe('checker', function() {
                 checker.configure({
                     requireSpaceBeforeBinaryOperators: true,
                     requireSpaceAfterBinaryOperators: true,
-                    requireSpaceAfterKeywords: ['if'],
+                    requireSpaceAfterKeywords: ['if']
                 });
 
                 return checker.fixPath(tmpDir).then(function(errorsCollection) {
