@@ -1,13 +1,31 @@
 var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 var assert = require('assert');
 
 describe('rules/disallow-trailing-comma', function() {
     var checker;
+    var rules = { disallowTrailingComma: true };
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallowTrailingComma: true });
+        checker.configure(rules);
+    });
+
+    reportAndFix({
+        name: 'comma in object literal',
+        rules: rules,
+        errors: 1,
+        input: '({b: 2,})',
+        output: '({b: 2})'
+    });
+
+    reportAndFix({
+        name: 'comma in object literal with couple properties',
+        rules: rules,
+        errors: 1,
+        input:  '({a: 1, b: 2,})',
+        output: '({a: 1, b: 2})'
     });
 
     it('should report trailing comma in object literal', function() {

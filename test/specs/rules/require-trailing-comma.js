@@ -19,6 +19,22 @@ describe('rules/require-trailing-comma', function() {
         output: 'var t = {\n\ta: 1,\n\tb: 2,\n};'
     });
 
+    reportAndFix({
+        name: 'missing comma in object literal without newline char',
+        rules: rules,
+        errors: 1,
+        input: 'var t = {\n\ta: 1,\n\tb: 2};',
+        output: 'var t = {\n\ta: 1,\n\tb: 2,};'
+    });
+
+    reportAndFix({
+        name: 'missing comma in object literal with additional space',
+        rules: rules,
+        errors: 1,
+        input: 'var t = {\n\ta: 1,\n\tb: 2 };',
+        output: 'var t = {\n\ta: 1,\n\tb: 2, };'
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ requireTrailingComma: true });
