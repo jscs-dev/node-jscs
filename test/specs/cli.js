@@ -575,6 +575,16 @@ describe('cli', function() {
             console.error.restore();
         });
 
+        it('should set maxErrors to Infinity with "fix" option', function() {
+            var checker = cli({
+                maxErrors: '1',
+                args: ['test/data/cli/error.js'],
+                fix: true
+            }).checker;
+
+            assert.equal(checker._configuration.getMaxErrors(), Infinity);
+        });
+
         it('should limit the number of errors reported to the provided amount', function() {
             return cli({
                 maxErrors: '1',

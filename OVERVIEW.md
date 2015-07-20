@@ -281,7 +281,8 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 ### maxErrors
 
-Set the maximum number of errors to report
+Set the maximum number of errors to report.
+Ignored if `--fix` flag is provided.
 
 Type: `Number`
 
