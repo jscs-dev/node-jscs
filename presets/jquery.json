@@ -12,7 +12,9 @@
     "requireParenthesesAroundIIFE": true,
     "requireCommaBeforeLineBreak": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "requireDotNotation": "except_snake_case",
+    "requireDotNotation": {
+        "allExcept": ["snake_case"]
+    },
     "requireSpacesInForStatement": true,
     "requireSpaceBetweenArguments": true,
     "maximumLineLength": {
