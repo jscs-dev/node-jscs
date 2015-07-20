@@ -1,5 +1,8 @@
 {
     "preset": "jquery",
+    "requireDotNotation": {
+        "allExcept": ["snake_case", "keywords"]
+    },
     "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "maximumLineLength": null,
