@@ -28,5 +28,6 @@
         "beforeConsequent": true,
         "afterConsequent": true,
         "beforeAlternate": true
-    }
+    },
+    "disallowTrailingWhitespace": true
 }
