@@ -121,6 +121,7 @@
     "autofix-tests": "node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
+    "check-my-coverage": "npm run coverage-html && open coverage.html",
     "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
