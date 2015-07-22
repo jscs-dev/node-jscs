@@ -60,6 +60,8 @@ You can also pipe input into jscs:
 cat myfile.js | jscs
 ```
 
+If you don't have a `.jscsrc` file or if you don't specify [`--preset`](`http://jscs.info/overview.html#-preset-p`) flag, then [`airbnb`](https://github.com/airbnb/javascript) style will be used.
+
 ## Programmatic Usage
 
 `jscs` can be used directly from your application code:
@@ -149,7 +151,7 @@ jscs path[ path[...]] --preset=jquery
 In order to add/remove preset rules you will need to create a `.jscsrc` config file.
 
 ### `--reporter` (`-r`)
-`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit` and `text`.
+`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit`, `text` and `unix`.
 ```
 jscs path[ path[...]] --reporter=console
 ```
