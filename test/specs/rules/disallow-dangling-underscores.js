@@ -16,7 +16,23 @@ describe('rules/disallow-dangling-underscores', function() {
             });
         });
     });
+    describe('option value false', function() {
+        beforeEach(function() {
+            checker.configure({ disallowDanglingUnderscores: false });
+        });
 
+        it('should ignore leading underscores', function() {
+            assert(checker.checkString('var _x = "x";').isEmpty());
+        });
+        it('should ignore trailing underscores in member expressions', function() {
+            assert(checker.checkString('var x = this._privateField;').isEmpty());
+            assert(checker.checkString('var x = instance._protectedField;').isEmpty());
+        });
+
+        it('should ignore trailing underscores', function() {
+            assert(checker.checkString('var x_ = "x";').isEmpty());
+        });
+    });
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowDanglingUnderscores: true });
