@@ -149,7 +149,7 @@ jscs path[ path[...]] --preset=jquery
 In order to add/remove preset rules you will need to create a `.jscsrc` config file.
 
 ### `--reporter` (`-r`)
-`jscs` itself provides six reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit`, `text` and `unix`.
+`jscs` itself provides eight reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit`, `text`, `unix` and `json`.
 ```
 jscs path[ path[...]] --reporter=console
 ```
