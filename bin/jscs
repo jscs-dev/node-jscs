@@ -26,7 +26,7 @@ program
     .option('-m, --max-errors <number>', 'maximum number of errors to report')
     .option('-f, --error-filter <path>', 'a module to filter errors')
     .option('-r, --reporter <reporter>',
-        'error reporter, console - default, text, checkstyle, junit, inline, unix, summary')
+        'error reporter, console - default, text, checkstyle, junit, inline, unix, summary, json')
     .option('', 'Also accepts relative or absolute path to custom reporter')
     .option('', 'For instance:')
     .option('', '\t  ../some-dir/my-reporter.js\t(relative path with extension)')
