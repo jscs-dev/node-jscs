@@ -178,6 +178,18 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         it('should not report missing padding when function is middle argument', function() {
             assert(checker.checkString('func(\n3,\nfunction() {\n},\n2\n)').isEmpty());
         });
+
+        it('should not report for IIFE', function() {
+            assert(checker.checkString('(function() {})\n(1,2,3)').isEmpty());
+        });
+
+        it('should report missing padding when function is last in array', function() {
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
+        });
+
+        it('should report missing padding when function is middle in array', function() {
+            assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').getErrorCount() === 1);
+        });
     });
 
     describe('value allExcept: inNewExpressions', function() {
