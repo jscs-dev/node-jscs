@@ -1,4 +1,4 @@
-// requireMultipleVarDecl
+// requireMultipleVariableDeclarations
 // requireCommaBeforeLineBreak
 
 var currentEntry, // currently selected table entry

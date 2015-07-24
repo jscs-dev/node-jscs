@@ -3,7 +3,7 @@
     "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "maximumLineLength": null,
-    "requireVarDeclFirst": true,
+    "requireVariableDeclarationsFirst": true,
     "requireSpaceAfterPrefixUnaryOperators": ["!"],
     "requireSpacesInsideBrackets": null,
     "requireSpacesInsideParentheses": {

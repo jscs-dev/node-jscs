@@ -413,12 +413,12 @@ describe('config/configuration', function() {
             configuration.registerDefaultRules();
             configuration.registerPreset('test1', {
                 es3: true,
-                disallowMultipleVarDecl: true
+                disallowMultipleVariableDeclarations: true
             });
             configuration.registerPreset('test2', {
                 maxErrors: 1,
                 preset: 'test1',
-                disallowMultipleVarDecl: 'exceptUndefined'
+                disallowMultipleVariableDeclarations: 'exceptUndefined'
             });
             configuration.load({
                 preset: 'test2'
@@ -433,11 +433,11 @@ describe('config/configuration', function() {
         it('should load nullify rule from the preset', function() {
             configuration.registerDefaultRules();
             configuration.registerPreset('test', {
-                disallowMultipleVarDecl: true
+                disallowMultipleVariableDeclarations: true
             });
             configuration.load({
                 preset: 'test',
-                disallowMultipleVarDecl: null
+                disallowMultipleVariableDeclarations: null
             });
             assert(configuration.getProcessedConfig().preset === 'test');
             assert.equal(configuration.getConfiguredRules().length, 0);
@@ -446,12 +446,12 @@ describe('config/configuration', function() {
         it('should not add duplicative values to list of unsupported rules', function() {
             configuration.registerPreset('test1', {
                 es3: true,
-                disallowMultipleVarDecl: true
+                disallowMultipleVariableDeclarations: true
             });
             configuration.registerPreset('test2', {
                 maxErrors: 1,
                 preset: 'test1',
-                disallowMultipleVarDecl: 'exceptUndefined'
+                disallowMultipleVariableDeclarations: 'exceptUndefined'
             });
             configuration.load({
                 preset: 'test2'

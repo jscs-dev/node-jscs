@@ -100,7 +100,7 @@ describe('modules/config/node-configuration', function() {
         it('should load existing preset', function() {
             configuration.registerDefaultRules();
             configuration.registerPreset('test', {
-                disallowMultipleVarDecl: 'exceptUndefined'
+                disallowMultipleVariableDeclarations: 'exceptUndefined'
             });
             configuration.load({preset: 'test'});
 

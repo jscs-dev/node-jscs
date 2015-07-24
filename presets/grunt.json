@@ -3,5 +3,5 @@
   "maximumLineLength": 120,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
   "validateQuoteMarks": { "mark": "'", "escape": true },
-  "disallowMultipleVarDecl": "exceptUndefined"
+  "disallowMultipleVariableDeclarations": "exceptUndefined"
 }
