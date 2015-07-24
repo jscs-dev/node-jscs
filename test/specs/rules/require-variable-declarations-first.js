@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-var-decl-first', function() {
+describe('rules/require-variable-declarations-first', function() {
     describe('boolean', function() {
         var checker;
         beforeEach(function() {
@@ -12,13 +12,13 @@ describe('rules/require-var-decl-first', function() {
         describe('configure', function() {
             it('should not report an error for value "true"', function() {
                 assert.doesNotThrow(function() {
-                    checker.configure({ requireVarDeclFirst: true });
+                    checker.configure({ requireVariableDeclarationsFirst: true });
                 });
             });
 
             it('should report an error for value "false"', function() {
                 assert.throws(function() {
-                    checker.configure({ requireVarDeclFirst: false });
+                    checker.configure({ requireVariableDeclarationsFirst: false });
                 });
             });
         });
@@ -30,7 +30,7 @@ describe('rules/require-var-decl-first', function() {
                 var errors;
                 var count;
 
-                checker.configure({ requireVarDeclFirst: true });
+                checker.configure({ requireVariableDeclarationsFirst: true });
                 results = checker.checkString(statement);
                 resultCount = results.getErrorCount();
                 errors = results.getErrorList();

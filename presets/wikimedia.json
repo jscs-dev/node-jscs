@@ -21,7 +21,7 @@
     },
     "disallowSpacesInCallExpression": true,
     "requireMultipleVariableDeclarations": "onevar",
-    "requireVarDeclFirst": true,
+    "requireVariableDeclarationsFirst": true,
     "requireBlocksOnNewline": 1,
     "disallowEmptyBlocks": true,
     "requireSpacesInsideObjectBrackets": "all",
