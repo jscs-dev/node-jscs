@@ -4,7 +4,7 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
-describe('rules/require-multiple-var-decl', function() {
+describe('rules/require-multiple-variable-declarations', function() {
     var checker;
 
     describe('boolean', function() {
@@ -12,7 +12,7 @@ describe('rules/require-multiple-var-decl', function() {
         beforeEach(function() {
             checker = new Checker();
             checker.registerDefaultRules();
-            checker.configure({ requireMultipleVarDecl: true });
+            checker.configure({ requireMultipleVariableDeclarations: true });
         });
         it('should not report const and var decls as one entity (#462)', function() {
             assert(checker.checkString('const a = 1; var b = 2;').isEmpty());
@@ -39,7 +39,7 @@ describe('rules/require-multiple-var-decl', function() {
         beforeEach(function() {
             checker = new Checker();
             checker.registerDefaultRules();
-            checker.configure({ requireMultipleVarDecl: {allExcept: ['require']}});
+            checker.configure({ requireMultipleVariableDeclarations: {allExcept: ['require']}});
         });
         it('should not report consecutive var decl if there is a require', function() {
             assert(checker.checkString('var x; var y = require("a"); var z;').isEmpty());
@@ -68,7 +68,7 @@ describe('rules/require-multiple-var-decl', function() {
         beforeEach(function() {
             checker = new Checker();
             checker.registerDefaultRules();
-            checker.configure({ requireMultipleVarDecl: 'onevar' });
+            checker.configure({ requireMultipleVariableDeclarations: 'onevar' });
         });
 
         it('should not report const and var decls as one entity (#462)', function() {

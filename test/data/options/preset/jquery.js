@@ -40,7 +40,7 @@ the terms above.
 
 jQuery.extend = jQuery.fn.extend = function() {
 
-  // Rule: requireMultipleVarDecl: "onyvar"
+  // Rule: requireMultipleVariableDeclarations: "onevar"
   // Rule: requirePaddingNewLinesBeforeLineComments
   var options, name, src, copy, copyIsArray, clone,
     target = arguments[ 0 ] || {},

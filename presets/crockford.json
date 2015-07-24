@@ -32,7 +32,7 @@
         "beforeOpeningRoundBrace": true
     },
     "requireSpaceBetweenArguments": true,
-    "requireMultipleVarDecl": "onevar",
+    "requireMultipleVariableDeclarations": "onevar",
     "requireVarDeclFirst": true,
     "requireBlocksOnNewline": true,
     "disallowEmptyBlocks": true,
