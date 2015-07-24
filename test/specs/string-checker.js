@@ -147,7 +147,7 @@ describe('string-checker', function() {
             it('should not report rules in config which match registered rules', function() {
                 var error;
                 try {
-                    checker.configure({ disallowMultipleLineBreaks: true, disallowMultipleVarDecl: true });
+                    checker.configure({ disallowMultipleLineBreaks: true, disallowMultipleVariableDeclarations: true });
                 } catch (e) {
                     error = e;
                 }

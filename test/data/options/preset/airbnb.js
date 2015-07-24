@@ -11,7 +11,7 @@
     console.log('foo');
   } while (true);
 
-  // "disallowMultipleVarDecl": true
+  // "disallowMultipleVariableDeclarations": true
   // requireCommaBeforeLineBreak
   // requirePaddingNewLinesAfterBlocks
   var x = 1;

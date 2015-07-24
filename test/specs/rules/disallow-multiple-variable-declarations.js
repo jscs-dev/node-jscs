@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
-describe('rules/disallow-multiple-var-decl', function() {
+describe('rules/disallow-multiple-variable-declarations', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,7 +11,7 @@ describe('rules/disallow-multiple-var-decl', function() {
 
     describe('true', function() {
         beforeEach(function() {
-            checker.configure({ disallowMultipleVarDecl: true });
+            checker.configure({ disallowMultipleVariableDeclarations: true });
         });
 
         it('should report multiple var decl', function() {
@@ -45,14 +45,14 @@ describe('rules/disallow-multiple-var-decl', function() {
 
     describe('strict', function() {
         it('should report multiple var decl in a for statement if given the "strict" value (#46)', function() {
-            checker.configure({ disallowMultipleVarDecl: 'strict' });
+            checker.configure({ disallowMultipleVariableDeclarations: 'strict' });
             assert(!checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
         });
     });
 
     describe('exceptUndefined', function() {
         beforeEach(function() {
-            checker.configure({ disallowMultipleVarDecl: 'exceptUndefined' });
+            checker.configure({ disallowMultipleVariableDeclarations: 'exceptUndefined' });
         });
 
         it('should not report multiple var decl', function() {
@@ -82,7 +82,7 @@ describe('rules/disallow-multiple-var-decl', function() {
 
     describe('exceptRequire', function() {
         beforeEach(function() {
-            checker.configure({ disallowMultipleVarDecl: { allExcept: ['require'] } });
+            checker.configure({ disallowMultipleVariableDeclarations: { allExcept: ['require'] } });
         });
         it('should not report multiple var decls with require', function() {
             assert(checker.checkString('var first = require("first"), second = require("second");').isEmpty());
@@ -100,12 +100,12 @@ describe('rules/disallow-multiple-var-decl', function() {
 
     describe('options as object', function() {
         it('should accept undefined as allExcept value', function() {
-            checker.configure({ disallowMultipleVarDecl: { allExcept: ['undefined'] } });
+            checker.configure({ disallowMultipleVariableDeclarations: { allExcept: ['undefined'] } });
 
             assert(checker.checkString('var x, y;').isEmpty());
         });
         it('should accept require and undefined as allExcept value', function() {
-            checker.configure({ disallowMultipleVarDecl: { allExcept: ['undefined', 'require'] } });
+            checker.configure({ disallowMultipleVariableDeclarations: { allExcept: ['undefined', 'require'] } });
 
             assert(checker.checkString('var a = require("a"), b = require("b"), x, y, z;').isEmpty());
             assert.equal(
@@ -114,12 +114,14 @@ describe('rules/disallow-multiple-var-decl', function() {
             );
         });
         it('should accept strict as option', function() {
-            checker.configure({ disallowMultipleVarDecl: { strict: true } });
+            checker.configure({ disallowMultipleVariableDeclarations: { strict: true } });
 
             assert(!checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
         });
         it('should accept all options at the same time', function() {
-            checker.configure({ disallowMultipleVarDecl: { strict: true, allExcept: ['undefined', 'require'] } });
+            checker.configure({
+                disallowMultipleVariableDeclarations: { strict: true, allExcept: ['undefined', 'require'] }
+            });
 
             assert(!checker.checkString(
                 'var a = require("a"), b = require("b"), x, y;' +

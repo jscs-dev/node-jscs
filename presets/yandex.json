@@ -32,7 +32,7 @@
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
 
-    "disallowMultipleVarDecl": true,
+    "disallowMultipleVariableDeclarations": true,
 
     "disallowSpacesInsideParentheses": true,
     "disallowEmptyBlocks": true,

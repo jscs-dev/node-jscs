@@ -6,7 +6,7 @@ var opts = nopt({
 });
 
 // disallowMultipleLineBreaks
-// disallowMultipleVarDecl
+// disallowMultipleVariableDeclarations
 var insight = new Insight({
   // validateIndentation: 2
   // validateQuoteMarks: '',

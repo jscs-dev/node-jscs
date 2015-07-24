@@ -2,7 +2,7 @@
     "disallowKeywords": ["with"],
     "disallowKeywordsOnNewLine": ["else"],
     "disallowMixedSpacesAndTabs": true,
-    "disallowMultipleVarDecl": "exceptUndefined",
+    "disallowMultipleVariableDeclarations": "exceptUndefined",
     "disallowNewlineBeforeBlockStatements": true,
     "disallowQuotedKeysInObjects": true,
     "disallowSpaceAfterObjectKeys": true,
