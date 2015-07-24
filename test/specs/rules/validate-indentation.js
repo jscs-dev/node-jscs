@@ -173,6 +173,28 @@ describe('rules/validate-indentation', function() {
         });
     });
 
+    describe('allExcept["comments"] option', function() {
+        it('should not validate indentation in comments when allExcept = ["comments"]', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    allExcept: ['comments']
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n//\tComment\n}').isEmpty());
+        });
+        it('should validate indentation in comments when allExcept = ["comments"] is not defined', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t'
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n//\tComment\n}').getErrorCount() === 1);
+        });
+    });
+
     describe('module pattern indentation', function() {
         beforeEach(function() {
             checker.configure({ validateIndentation: 4 });
