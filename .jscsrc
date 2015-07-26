@@ -1,6 +1,7 @@
 {
     "preset": "google",
     "fileExtensions": [".js", "jscs"],
+    "plugins": ["jscs-jsdoc"],
 
     "requireParenthesesAroundIIFE": true,
     "maximumLineLength": 120,
