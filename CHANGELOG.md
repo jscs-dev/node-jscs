@@ -1,3 +1,280 @@
+## Version [2.0.0](https://github.com/jscs-dev/node-jscs/compare/v1.13.1...v2.0.0)
+
+### Overview
+
+Gosh! We haven’t released a new version in more than two months! What have we done all this time?
+Well, we were working hard on the next big step - 2.0!
+
+And we’re finally ready to show it to you. We’ve improved JSCS all over the place!
+
+### `esnext`
+It was a big pain to check ES6/JSX code with JSCS, since you had to install special extensions or different parsers. Well, no more of that! Thanks to all the hard work of the @hzoo, now you can just write `"esnext": true` in your config or execute JSCS from the CLI with the `--esnext` flag.  
+Now all that new fancy code will be examined without any hassle, as [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841), [function bind (::)](https://github.com/zenparsing/es-function-bind) operator, and all valid babel code can be checked by JSCS.
+
+We also added seven ES6-only rules; see below for more information.
+
+### Autofixing
+We really want to support autofixing for as many rules as possible. But as it turns out, we are at forefront of this problem; it’s really hard to change the code without affecting unrelated instructions.
+
+What we need is a [Concrete Syntax Tree](https://en.wikipedia.org/wiki/Parse_tree), instead of the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) + tokens structures that we use now. Unfortunately, there is no CST standard for JavaScript at the moment – this is why we decided to step up and come up with our vision of a CST - https://github.com/mdevils/cst. Currently, we are working with the [estree](https://github.com/estree/estree/issues/41) team on this proposal – hoping the development of this crucial part of JavaScript parsing will move faster.
+
+Meanwhile, using some workarounds and hacks, we managed to support autofixing for 4 more rules:
+
+* [requireTrailingComma](http://jscs.info/rule/requireTrailingComma.html)
+* [disallowTrailingComma](http://jscs.info/rule/disallowTrailingComma.html)
+* [disallowTrallingWhitespace](https://jscs.info/rule/disallowTrallingWhitespace.html)
+* [validateQuoteMarks](https://jscs.info/rule/validateQuoteMarks.html)
+
+### New rules
+There are 30 new rules, including 16 rules for JSDoc [validation](http://jscs.info/rule/jsDoc.html), and 7 ES6-only rules:
+
+* [requireSpaceBeforeComma](http://jscs.info/rule/requireSpaceBeforeComma.html)
+Require spaces before commas
+* [disallowSpaceBeforeComma](http://jscs.info/rule/disallowSpaceBeforeComma.html)
+Disallow spaces before commas
+* [requireVarDeclFirst](http://jscs.info/rule/requireVarDeclFirst.html)
+Requires `var` declaration to be on the top of an enclosing scope
+* [requireSpaceBeforeSemicolon](http://jscs.info/rule/requireSpaceBeforeSemicolon.html)
+Requires spaces before semicolons.
+* [disallowSpaceBeforeSemicolon](http://jscs.info/rule/disallowSpaceBeforeSemicolon.html)
+Disallows spaces before semicolons.
+* [requireMatchingFunctionName](http://jscs.info/rule/requireMatchingFunctionName.html)
+Requires function names to match member and property names.
+* [disallowNodeTypes](http://jscs.info/rule/disallowNodeTypes.html)
+Disallow use of certain [node types](https://github.com/jquery/esprima/blob/758196a1c5dd20c3ead6300283a1112428bc7045/esprima.js#L108-L169) (from Esprima/ESTree).
+* [requireObjectKeysOnNewLine](http://jscs.info/rule/ObjectKeysOnNewLine.html)
+Requires placing object keys on new line
+* [disallowObjectKeysOnNewLine](http://jscs.info/rule/disallowObjectKeysOnNewLine.html)
+Disallows placing object keys on new line
+
+#### New ES6-only rules
+* [disallowParenthesesAroundArrowParam](http://jscs.info/rule/disallowParenthesesAroundArrowParam.html)
+Disallows parentheses around arrow function expressions with a single parameter.
+* [requireArrowFunctions](http://jscs.info/rule/requireArrowFunctions.html)
+Requires that arrow functions are used instead of anonymous function expressions in callbacks.
+* [requireNumericLiterals](http://jscs.info/rule/requireNumericLiterals.html)
+Requires use of binary, hexadecimal, and octal literals instead of `parseInt`.
+* [requireParenthesesAroundArrowParam](http://jscs.info/rule/requireParenthesesAroundArrowParam.html)
+Requires parentheses around arrow function expressions with a single parameter.
+* [requireShorthandArrowFunctions](http://jscs.info/rule/requireShorthandArrowFunctions.html)
+Require arrow functions to use an expression body when returning a single statement
+* [requireSpread](http://jscs.info/rule/requireSpread.html)
+Disallows using `.apply` in favor of the spread operator
+* [requireTemplateStrings](http://jscs.info/rule/requireTemplateStrings.html)
+Requires the use of template strings instead of string concatenation.
+
+There are also a lot of new rule values (see the ["Changelog"](#changelog) section) which makes a lot of rules more flexible.
+
+We also added new rules and values to some presets. If you feel that we’ve missed something, don't be quiet! Send us a PR and we will surely add the needed rules to your favorite preset. 
+
+### Simplified inclusion of plugins, presets, and custom rules
+Since every possible JSCS extension can now be loaded without defining its full path, it is enough to just specify the needed dependency to your project so it can be found by JSCS.
+
+```js
+{
+  "plugins": ["./your-local-package"], // Same with `additionalRules` and `preset` options
+  "plugins": ["jscs-your-npm-package"],
+  "plugins": ["your-npm-package"], // can omit “jscs-” prefix if you want
+}
+```
+
+### Other
+Support for disabling rules on a single line [inline](http://jscs.info/overview.html#disabling-specific-rules-for-a-single-line).
+```js
+if (x) y(); // jscs:ignore requireCurlyBraces
+if (z) a(); // will show the error with `requireCurlyBraces`
+```
+Two new reporters - `summary` (could be very helpful to acquire full overview of all possible errors in your project) and `unix`. You could enable them by providing [`--reporter=<reporter name>`](http://jscs.info/overview.html#-reporter-r) flag.
+
+`node_modules` path is included by default to [`excludeFiles`](http://jscs.info/overview.html#excludefiles)
+
+For every possible error, like missing or corrupted config, JSCS now provides [different](https://github.com/jscs-dev/node-jscs/wiki/Exit-codes) exit-codes. We believe it might be useful for piping, editors plugins, etc.
+
+JSCS (like any good unix program) now obeys the [rule of silence](http://www.linfo.org/rule_of_silence.html).
+
+And of course, a lot of bug-fixes, improved ES6 support of existing rules, docs, infrastructure changes, etc.
+
+Although this is major version, we didn't remove deprecated rule values or changed config format, we expecting to do this in the 3.0 version while switching to CST and fully refactor JSCS code-base.
+
+### Changelog
+
+Backward incompatible changes
+* Utils: remove comma from list of binary operators (Oleg Gaidarenko)
+* Checker: remove deprecated constructor options (Oleg Gaidarenko)
+* Obey the Rule of Silence (Feross Aboukhadijeh)
+* Configuration: add ability to load external presets (Oleg Gaidarenko)
+* Configuration: small corrections to JSDoc of "node-configuration" module (Oleg Gaidarenko)
+* Configuration: small refactoring of the configuration module (Oleg Gaidarenko)
+* Configuration: allow "getReporter" method to require node modules (Oleg Gaidarenko)
+* Configuration: initial pass on the polymorphic require (Oleg Gaidarenko)
+* Checker: more API changes for 2.0 (Oleg Gaidarenko)
+* CLI: Differentiate exit codes (Oleg Gaidarenko)
+* Misc: set default value of maxErrors option to 50 (Oleg Gaidarenko)
+* yodaConditions: remove comparison operators from default set (Oleg Gaidarenko)
+* Misc: remove all deprecated rules/tests (Henry Zhu)
+* API: allow external entities to be defined without "jscs" prefix (Oleg Gaidarenko)
+* Configuration: exclude `node_modules/` by default (Louis Pilfold)
+* CLI: set "maxErrors" to Infinity with enabled "fix" option (Oleg Gaidarenko)
+* Misc: change default dialect to es5 and make appropriate changes (Alexej Yaroshevich)
+
+Autofix
+* Autofix: remove merge artefact (Oleg Gaidarenko)
+* Autofix: support disallowTrailingComma rule (Oleg Gaidarenko)
+* Autofix: support trailing whitespaces and missing commas (Andrzej Wamicz)
+* validateQuoteMarks: try out "fix" field (Oleg Gaidarenko)
+
+Preset
+* Preset: requireSemicolons = true for google preset (BigBlueHat)
+* Preset: add jsDoc rules to relevant presets (Oleg Gaidarenko)
+* Preset: add disallowTrailingWhitespace to MDCS (Joshua Koo)
+* Preset: add requireVarDeclFirst rule to the relevant presets (Oleg Gaidarenko)
+* Preset: update Wordpress preset (Ivo Julca)
+* Preset: add requireCapitalizedComments to jquery and wordpress presets (Oleg Gaidarenko)
+* Preset: update mdcs (Joshua Koo)
+* Preset: require trailing comma in airbnb preset (Christophe Hurpeau)
+* Preset: add missing rules to google preset (Christophe Hurpeau)
+* Preset: update airbnb preset (Craig Jennings)
+* Preset: update jquery and dependant presets (Oleg Gaidarenko)
+* Preset: require spaces in anonymous FE for crockford style (Oleg Gaidarenko)
+* Preset: fix requireDotNotation rule value according to es3 changes (Alexej Yaroshevich)
+* Preset: remove jsdoc rules from yandex preset (Oleg Gaidarenko)
+
+New rules
+* New rules: add SpaceBeforeComma rules (shashanka)
+* New Rule: requireVarDeclFirst (oredi)
+* New Rule: add JSDoc rules (Oleg Gaidarenko)
+* New Rule: (disallow|require)SpaceBeforeSemicolon (Richard Munroe)
+* New Rule: requireMatchingFunctionName (Pavel Strashkin)
+* New Rule: requireTemplateStrings (Henry Zhu)
+* New Rule: (require|disallow)ParenthesesAroundArrowParam (Henry Zhu)
+* New Rule: requireSpread (Henry Zhu)
+* New Rule: requireShorthandArrowFunctions (Henry Zhu)
+* New Rule: requireArrowFunctions (Henry Zhu)
+* New Rule: disallowNodeTypes (Henry Zhu)
+* New Rule: requireNumericLiterals (Henry Zhu)
+* New Rule: (disallow|require)ObjectKeysOnNewLine (Eli White)
+
+New rule values
+* requireYodaConditions: support an array of operators (Ivo Julca)
+* disallowYodaConditions: support an array of operators (Ivo Julca)
+* (require|disallow)AnonymousFunctionExpression: account for shorthand methods (Henry Zhu)
+* disallowMultipleVarDecl: add exception for require statements (Stefano Sala)
+* disallowSpaceAfterObjectKeys: added ignoreAligned option (Andrey Ermakov)
+* maximumLineLength: allow function delcarations to exceed limit (Clay Reimann)
+* requirePaddingNewLinesAfterBlocks: add "inNewExpressions" to exceptions (Mato Ilic)
+* disallowCommaBeforeLineBreak: added allExcept function (Andrey Ermakov)
+* requirePaddingNewlinesInBlocks: Add object option to configuration (oredi)
+* maximumLineLength: Add exception for long require expressions (Philip Hayes)
+* NewlineBeforeBlockStatement: allow settings per block statement type (Dave Hilton)
+* validateIndentation: add option to ignore comments (Danny Shternberg)
+
+Enhancements for ES6 support
+* requireSemicolons: Add support for import and export declarations (Roman Dvornov)
+* Esprima: Upgrade to 2.4.0 (Joel Kemp)
+* requireArrowFunctions: don't check AssignmentExpression or Property (Henry Zhu)
+* SpacesInFunctionDeclaration: check export default function (Henry Zhu)
+* AlignedObjectValues: support computed property names (Henry Zhu)
+* (disallow|require)SpaceAfterObjectKeys: check object method shorthand (Henry Zhu)
+* (require|disallow)SpaceAfterObjectKeys: support computed properties (Henry Zhu)
+* SpacesInsideObjectBrackets: Add Check for destructive assignments (Oleg Gaidarenko)
+* Misc: use babel-jscs for the esnext option (Henry Zhu)
+* requireSemicolons: Don't warn on class and function exports (Roman Dvornov)
+
+Inline control
+* Errors: Ability to suppress a single line (Louis Pilfold)
+* StringChecker: Remove grit processing includes (Tony Ganch)
+
+New reporters
+* Reporters: add new machine readable unix-style reporter (Andreas Tolfsen)
+* Reporters: add new summary reporter (oredi)
+
+Bug fixes
+* Revert "New Rule: (disallow|require)SpaceBeforeSemicolon" (Oleg Gaidarenko)
+* requireMultipleVarDecl: add exception for require statements (Stefano Sala)
+* requirePaddingNewlinesAfterBlocks: initialize exceptions in configure (Eli White)
+* disallowSpaceAfterKeywords: fix "else if" case (Henry Zhu)
+* String-checker: do not check empty strings (Oleg Gaidarenko)
+* requirePaddingNewLinesAfterBlocks: fixing blocks that end with semicolons (Eli White)
+* disallowPaddingNewLinesAfterBlocks: fix blocks which end with semicolon (Oleg Gaidarenko)
+* disallowSpaceAfterObjectKeys: support for legacy options (Andrey Ermakov)
+* requireAlignedObjectValues: do not assert exact amount of spaces before colons (Andrey Ermakov)
+* disallowImplicitTypeConversion: Don't report concat for same string literals (Oleg Gaidarenko)
+* disallowSpacesInCallExpression: Extend rule to validate NewExpression (Inian Parameshwaran)
+* Iterator: correct "TryStatement" path (Oleg Gaidarenko)
+* requirePaddingNewLinesAfterBlocks: consider IIFE case (Oleg Gaidarenko)
+* disallowKeywordsOnNewLine: Allow comments before keywords (oredi)
+
+Docs
+* Docs: last minutes updates for 2.0 (Oleg Gaidarenko)
+* Docs: update rules sum (Oleg Gaidarenko)
+* Docs: add es3 option to OVERVIEW.md (Oleg Gaidarenko)
+* Docs: reflect some of the 2.0 changes (Oleg Gaidarenko)
+* Docs: clarify space brackets rules description (Oleg Gaidarenko)
+* Docs: Remove needless semicolon (yong woo jeon)
+* Docs: fix diff range link for 1.13.1 version (Alexej Yaroshevich)
+* Docs: add link to commits between minor releases in CHANGELOG (Henry Zhu)
+* Docs: Document how to programmatically invoke jscs (K. Adam White)
+* Docs: Add and improve docs for inline comments (oredi)
+* Docs: add message about demo not working, fix link to team (Henry Zhu)
+* Docs: Change label to beginner-friendly (oredi)
+* Docs: Mention which tickets are beginner-friendly (Joel Kemp)
+* Docs: add "allowEOLComments" option info for disallowMultipleSpaces rule (bigmonkeyboy)
+* Docs: correct syntax error for disallowFunctionDeclarations rule (Christophe Hurpeau)
+* Misc: Docs: add docs and test for "esprima" config option (Oleg Gaidarenko)
+* Docs: correct `true` value description (Adrian Heine né Lang)
+* Docs: add quotes to the "wordpress" preset (raimon)
+* Docs: align gitter badge with others (Oleg Gaidarenko)
+* Docs: Add gitter room to readme (Joel Kemp)
+* Docs: fix table of contents anchor links in contributing.md (Henry Zhu)
+* Docs: add protocol to homepage address (Oleg Gaidarenko)
+* Docs: update outdated info & fix small issue in jscs config (Oleg Gaidarenko)
+* Docs: correct validateAlignedFunctionParameters values (Adrian Heine né Lang)
+* Docs: various corrections for the rules page (Oleg Gaidarenko)
+* disallowPaddingNewlinesInObjects: Clarify documentation (Ángel Sanz)
+* requireSpacesInAnonymousFunctionExpression: fix syntax error in docs (Christophe Hurpeau)
+
+Misc
+* Misc: add disallowTrailingComma rule to jscs config (Oleg Gaidarenko)
+* Tests: correct preset examples (Oleg Gaidarenko)
+* Misc: use babel-jscs 2.0.0, move jscs-jsdoc to dependencies (Henry Zhu)
+* Misc: remove merge artefact (Oleg Gaidarenko)
+* String-checker: make "fix" field private (Oleg Gaidarenko)
+* Configuration: improve JSDoc notes (Oleg Gaidarenko)
+* String-checker: use "fix" field in rule declaration if it exist (Oleg Gaidarenko)
+* Errors: add "cast" method (Oleg Gaidarenko)
+* Configuration: add "getConfiguredRule" method (Oleg Gaidarenko)
+* Configuration: simplify and modulize configuration module (Oleg Gaidarenko)
+* Tests: do not define anything if test should not run (Oleg Gaidarenko)
+* Iterator: update to latest estraverse and don't monkeypatch (Oleg Gaidarenko)
+* Misc: Add node .12 and io.js to the travis (Oleg Gaidarenko)
+* Misc: add support for babel-jscs (Henry Zhu)
+* Misc: bump estraverse to 2.x (Oleg Gaidarenko)
+* requireArrowFunctions: only error for callbacks (Henry Zhu)
+* Tests: Move require-matching-function-name to spec folder (Joel Kemp)
+* requirePaddingNewlinesInBlocks: Refactor unit tests (oredi)
+* requirePaddingNewlinesBeforeKeywords: Modify special scenarios (oredi)
+* Tests: ES2015 Airbnb Preset (Christophe Hurpeau)
+* requireTemplateStrings: refactor, check if either node is a string (Henry Zhu)
+* Deps: Update JSHint and Lodash.assign (paladox)
+* Improve JsFile constructor for better encapsulation (Marat Dulin)
+* Refactor integration tests (Marat Dulin)
+* Misc: remove extraneous file (Henry Zhu)
+* Misc: increase coverage of remaining rules (Henry Zhu)
+* disallowParenthesesAroundArrowParam: make exception when using a default parameter (Henry Zhu)
+* requireTemplateStrings: improve logic (Oleg Gaidarenko)
+* Misc: update dependencies (Henry Zhu)
+* Misc: support class methods for various function rules (Henry Zhu)
+* Misc: fix test filename for disallowSpaceBeforeObjectValues (Henry Zhu)
+* Misc: add intergration tests for "autofix" feature (Oleg Gaidarenko)
+* Tests: correct couple assertions (Oleg Gaidarenko)
+* Misc: fix jsdoc types with non-standard Promise-star declaration (Alexej Yaroshevich)
+* Lint: Add jscs-jsdoc plugin (Alexej Yaroshevich)
+* Misc: update dependencies & temporary remove coverage badge (Oleg Gaidarenko) 
+* Misc: code style fixes (Alexej Yaroshevich)
+* Misc: introduce reservedWords instead of utils.isES3 (Alexej Yaroshevich)
+* Intergration: correct integration tests for big amount of results (Oleg Gaidarenko)
+* validateIndentation: deprecate includeEmptyLines in favour of allExcept (Oleg Gaidarenko)
+
 ## Version [1.13.1](https://github.com/jscs-dev/node-jscs/compare/v1.13.0...v1.13.1)
 
 ### Overview
