@@ -26,7 +26,7 @@ Meanwhile, using some workarounds and hacks, we managed to support autofixing fo
 * [validateQuoteMarks](https://jscs.info/rule/validateQuoteMarks.html)
 
 ### New rules
-There are 30 new rules, including 16 rules for JSDoc [validation](http://jscs.info/rule/jsDoc.html), and 7 ES6-only rules:
+There are 31 new rules, including 16 rules for JSDoc [validation](http://jscs.info/rule/jsDoc.html), and 7 ES6-only rules:
 
 * [requireSpaceBeforeComma](http://jscs.info/rule/requireSpaceBeforeComma.html)
 Require spaces before commas
@@ -34,8 +34,6 @@ Require spaces before commas
 Disallow spaces before commas
 * [requireVarDeclFirst](http://jscs.info/rule/requireVarDeclFirst.html)
 Requires `var` declaration to be on the top of an enclosing scope
-* [requireSpaceBeforeSemicolon](http://jscs.info/rule/requireSpaceBeforeSemicolon.html)
-Requires spaces before semicolons.
 * [disallowSpaceBeforeSemicolon](http://jscs.info/rule/disallowSpaceBeforeSemicolon.html)
 Disallows spaces before semicolons.
 * [requireMatchingFunctionName](http://jscs.info/rule/requireMatchingFunctionName.html)
@@ -79,18 +77,19 @@ Since every possible JSCS extension can now be loaded without defining its full 
 ```
 
 ### Other
-Support for disabling rules on a single line [inline](http://jscs.info/overview.html#disabling-specific-rules-for-a-single-line).
+* Support for disabling rules on a [single line](http://jscs.info/overview.html#disabling-specific-rules-for-a-single-line) -
 ```js
 if (x) y(); // jscs:ignore requireCurlyBraces
 if (z) a(); // will show the error with `requireCurlyBraces`
 ```
-Two new reporters - `summary` (could be very helpful to acquire full overview of all possible errors in your project) and `unix`. You could enable them by providing [`--reporter=<reporter name>`](http://jscs.info/overview.html#-reporter-r) flag.
 
-`node_modules` path is included by default to [`excludeFiles`](http://jscs.info/overview.html#excludefiles)
+* Two new reporters - `summary` (could be very helpful to acquire full overview of all possible errors in your project) and `unix`. You could enable them by providing [`--reporter=<reporter name>`](http://jscs.info/overview.html#-reporter-r) flag.
 
-For every possible error, like missing or corrupted config, JSCS now provides [different](https://github.com/jscs-dev/node-jscs/wiki/Exit-codes) exit-codes. We believe it might be useful for piping, editors plugins, etc.
+* `node_modules` path is included by default to [`excludeFiles`](http://jscs.info/overview.html#excludefiles)
 
-JSCS (like any good unix program) now obeys the [rule of silence](http://www.linfo.org/rule_of_silence.html).
+* For every possible error, like missing or corrupted config, JSCS now provides [different](https://github.com/jscs-dev/node-jscs/wiki/Exit-codes) exit-codes. We believe it might be useful for piping, editors plugins, etc.
+
+* JSCS (like any good unix program) now obeys the [rule of silence](http://www.linfo.org/rule_of_silence.html).
 
 And of course, a lot of bug-fixes, improved ES6 support of existing rules, docs, infrastructure changes, etc.
 
