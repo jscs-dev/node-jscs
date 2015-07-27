@@ -173,6 +173,31 @@ describe('rules/validate-indentation', function() {
         });
     });
 
+    describe('allExcept["emptyLines"] option', function() {
+        it('should validate indentation on an empty line when includeEmptyLines is true', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    allExcept: ['emptyLines']
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').getErrorCount() === 1);
+            assert(checker.checkString('if (a){\n\t\n}').isEmpty());
+        });
+
+        it('should not validate indentation on an empty line when includeEmptyLines is false', function() {
+            checker.configure({
+                validateIndentation: {
+                    value: '\t',
+                    includeEmptyLines: false
+                }
+            });
+
+            assert(checker.checkString('if (a){\n\tb=c;\n\n}').isEmpty());
+        });
+    });
+
     describe('allExcept["comments"] option', function() {
         it('should not validate indentation in comments when allExcept = ["comments"]', function() {
             checker.configure({
