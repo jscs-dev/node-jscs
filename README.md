@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs)
-[![Windows CI](https://ci.appveyor.com/api/projects/status/github/jscs-dev/node-jscs?svg=true)](https://ci.appveyor.com/project/jscs-dev/node-jscs/branch/master)
+<!-- [![Windows CI](https://ci.appveyor.com/api/projects/status/github/jscs-dev/node-jscs?svg=true)](https://ci.appveyor.com/project/jscs-dev/node-jscs/branch/master) -->
 <!-- [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg?style=flat)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master) -->
 [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs)
 [![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs#info=devDependencies)

@@ -60,8 +60,6 @@ You can also pipe input into jscs:
 cat myfile.js | jscs
 ```
 
-If you don't have a `.jscsrc` file or if you don't specify [`--preset`](`http://jscs.info/overview.html#-preset-p`) flag, then [`airbnb`](https://github.com/airbnb/javascript) style will be used.
-
 ## Programmatic Usage
 
 `jscs` can be used directly from your application code:
