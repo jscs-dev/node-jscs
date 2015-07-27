@@ -75,7 +75,12 @@ function logStep(step) {
  * @returns {Promise}
  */
 function applyPreset(presetName) {
-    return runProcess('node', ['./bin/jscs', '-x', '-p', presetName].concat(SOURCES), [0, 2]);
+    return runProcess(
+        'node',
+        ['./bin/jscs', '-x', '-m', '50', '-p', presetName].concat(SOURCES),
+        [0, 2],
+        false
+    );
 }
 
 /**
@@ -112,10 +117,12 @@ function promiseQueue(data, promiseCreator) {
  * @param {String} executable
  * @param {String[]} args
  * @param {Number[]} [successCodes]
+ * @param {Boolean} [proxyData = true] - proxy string from 'data' event?
  * @returns {Promise}
  */
-function runProcess(executable, args, successCodes) {
+function runProcess(executable, args, successCodes, proxyData) {
     successCodes = successCodes || [0];
+    proxyData = proxyData === undefined ? true : proxyData;
 
     var defer = vow.defer();
     var subProcess = spawn(executable, args, {
@@ -124,9 +131,16 @@ function runProcess(executable, args, successCodes) {
     });
     var stderr = '';
     subProcess.stderr.on('data', function(data) { stderr += data; });
+
     subProcess.stdout.on('data', function(data) {
-        defer.notify(String(data));
+        if (proxyData) {
+
+            // Can't use defer.notify, since to much of data trips Vow
+            // defer.notify(String(data));
+            passthroughProgress(String(data));
+        }
     });
+
     subProcess.on('close', function(code) {
         if (successCodes.indexOf(code) === -1) {
             defer.reject(new Error('Command failed: ' + executable + ' ' + args.join(' ') + '\n' + stderr));
