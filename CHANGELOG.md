@@ -22,8 +22,8 @@ Meanwhile, using some workarounds and hacks, we managed to support autofixing fo
 
 * [requireTrailingComma](http://jscs.info/rule/requireTrailingComma.html)
 * [disallowTrailingComma](http://jscs.info/rule/disallowTrailingComma.html)
-* [disallowTrallingWhitespace](https://jscs.info/rule/disallowTrallingWhitespace.html)
-* [validateQuoteMarks](https://jscs.info/rule/validateQuoteMarks.html)
+* [disallowTrallingWhitespace](http://jscs.info/rule/disallowTrailingWhitespace.html)
+* [validateQuoteMarks](http://jscs.info/rule/validateQuoteMarks.html)
 
 ### New rules
 There are 31 new rules, including 16 rules for JSDoc [validation](http://jscs.info/rule/jsDoc.html), and 7 ES6-only rules:
