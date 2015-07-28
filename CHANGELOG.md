@@ -22,8 +22,8 @@ Meanwhile, using some workarounds and hacks, we managed to support autofixing fo
 
 * [requireTrailingComma](http://jscs.info/rule/requireTrailingComma.html)
 * [disallowTrailingComma](http://jscs.info/rule/disallowTrailingComma.html)
-* [disallowTrallingWhitespace](https://jscs.info/rule/disallowTrallingWhitespace.html)
-* [validateQuoteMarks](https://jscs.info/rule/validateQuoteMarks.html)
+* [disallowTrallingWhitespace](http://jscs.info/rule/disallowTrailingWhitespace.html)
+* [validateQuoteMarks](http://jscs.info/rule/validateQuoteMarks.html)
 
 ### New rules
 There are 31 new rules, including 16 rules for JSDoc [validation](http://jscs.info/rule/jsDoc.html), and 7 ES6-only rules:
@@ -40,7 +40,7 @@ Disallows spaces before semicolons.
 Requires function names to match member and property names.
 * [disallowNodeTypes](http://jscs.info/rule/disallowNodeTypes.html)
 Disallow use of certain [node types](https://github.com/jquery/esprima/blob/758196a1c5dd20c3ead6300283a1112428bc7045/esprima.js#L108-L169) (from Esprima/ESTree).
-* [requireObjectKeysOnNewLine](http://jscs.info/rule/ObjectKeysOnNewLine.html)
+* [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine.html)
 Requires placing object keys on new line
 * [disallowObjectKeysOnNewLine](http://jscs.info/rule/disallowObjectKeysOnNewLine.html)
 Disallows placing object keys on new line
