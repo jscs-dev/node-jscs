@@ -5,11 +5,13 @@ var fs = require('fs');
 var Vow = require('vow');
 
 var Checker = require('../../../lib/checker');
+var Configuration = require('../../../lib/config/configuration');
 var ConfigGenerator = require('../../../lib/config/generator');
+var crockfordClone = require('../../data/configs/generator/crockfordClone');
 
 describe('lib/config/generator', function() {
     var _path = path.resolve(__dirname, '../../../lib/config/generator.js');
-    var crockfordPresetChoice = { '\u001b[32mPlease choose a preset number:\u001b[39m': '2' };
+    var crockfordPresetChoice;
 
     // jscs:disable maximumLineLength
     var crockfordViolationsAllExceptions = {
@@ -23,22 +25,32 @@ describe('lib/config/generator', function() {
     // jscs:enable maximumLineLength
 
     var expectedConfig = {
-        preset: 'crockford',
+        preset: 'crockfordClone',
         requireMultipleVarDecl: null,
         disallowDanglingUnderscores: null,
         requireSpaceAfterKeywords: null,
         requireBlocksOnNewline: null,
         disallowSpaceBeforeBinaryOperators: null
     };
+
     var generator;
+    var oldRegisterPreset;
 
     beforeEach(function() {
         sinon.stub(console, 'log');
         generator = new ConfigGenerator();
+
+        // Allows the generator's internal checker to see the cloned preset
+        oldRegisterPreset = Configuration.prototype.registerDefaultPresets;
+        Configuration.prototype.registerDefaultPresets = function() {
+            oldRegisterPreset.call(this);
+            this.registerPreset('crockfordClone', crockfordClone);
+        };
     });
 
     afterEach(function() {
         rAfter();
+        Configuration.prototype.registerDefaultPresets = oldRegisterPreset;
     });
 
     function rAfter() {
@@ -50,6 +62,10 @@ describe('lib/config/generator', function() {
     function getChecker() {
         var checker = new Checker();
         checker.registerDefaultRules();
+
+        var lastPresetOrdinal = Object.keys(checker.getConfiguration().getRegisteredPresets()).length;
+        crockfordPresetChoice = { '\u001b[32mPlease choose a preset number:\u001b[39m':  lastPresetOrdinal };
+
         return checker;
     }
 
@@ -72,7 +88,6 @@ describe('lib/config/generator', function() {
     it('displays a count of errors for every preset', function(done) {
         var stub = sinon.stub(generator, '_getUserPresetChoice').throws();
         var presetNames = Object.keys(getChecker().getConfiguration().getRegisteredPresets());
-
         generator.generate(_path)
         .then(null, function() {
             var output = console.log.getCall(1).args[0];
