@@ -40,7 +40,7 @@ Disallows spaces before semicolons.
 Requires function names to match member and property names.
 * [disallowNodeTypes](http://jscs.info/rule/disallowNodeTypes.html)
 Disallow use of certain [node types](https://github.com/jquery/esprima/blob/758196a1c5dd20c3ead6300283a1112428bc7045/esprima.js#L108-L169) (from Esprima/ESTree).
-* [requireObjectKeysOnNewLine](http://jscs.info/rule/ObjectKeysOnNewLine.html)
+* [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine.html)
 Requires placing object keys on new line
 * [disallowObjectKeysOnNewLine](http://jscs.info/rule/disallowObjectKeysOnNewLine.html)
 Disallows placing object keys on new line
