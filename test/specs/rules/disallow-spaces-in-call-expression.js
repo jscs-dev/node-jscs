@@ -48,7 +48,8 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = new foo.bar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = new foo. bar ();').getErrorCount() === 1);
         assert(checker.checkString('var x = new (foor .bar) ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = new (function(){}) ();').getErrorCount() === 1);
+        assert(checker.checkString('new (SomeClass.extend) ()').getErrorCount() === 1);
+        assert(checker.checkString('new (SomeClass.extend ()) ').getErrorCount() === 1);
         assert(checker.checkString('var x = new (function(){new foobar ();}) ();').getErrorCount() === 2);
         assert(checker.checkString('new (function(){new foobar ();}) ();').getErrorCount() === 2);
         assert(checker.checkString('var x = new function (){} ();').getErrorCount() === 1);
@@ -63,5 +64,9 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = new (function(){new foobar ;}) ;').isEmpty());
         assert(checker.checkString('new (function(){new foobar ;}) ;').isEmpty());
         assert(checker.checkString('var x = new function (){} ;').isEmpty());
+    });
+
+    it('should not report NewExpression with fitting parentheses (#1590)', function() {
+        assert(checker.checkString('new (SomeClass.extend()); function test () {}').isEmpty());
     });
 });
