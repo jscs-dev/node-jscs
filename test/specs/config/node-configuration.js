@@ -127,6 +127,26 @@ describe('modules/config/node-configuration', function() {
             assert.equal(configuration.getPresetName(), 'jquery');
         });
 
+        it('should load external preset with .jscsrc extension', function() {
+            configuration.registerDefaultRules();
+
+            configuration.load({
+                preset: path.resolve(__dirname + '/../../data/configs/jscsrc/external.jscsrc')
+            });
+
+            var exist = false;
+            configuration.getRegisteredRules().forEach(function(rule) {
+                if (exist) {
+                    return;
+                }
+
+                exist = rule.getOptionName() === 'disallowKeywords';
+            });
+
+            assert(exist);
+            assert.equal(configuration.getPresetName(), 'external');
+        });
+
         it('should try to load preset from node', function() {
             configuration.registerDefaultRules();
             configuration.load({
