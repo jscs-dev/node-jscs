@@ -221,12 +221,19 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`
+Values: You can choose one of the default presets: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`.
+
+Or you can load from it local path or as node module
 
 #### Example
 
 ```js
 "preset": "jquery"
+"preset": "./path-to-your-preset"
+
+// If your preset called "jscs-your-preset-node_modules-path"
+// You can either define full name or omit "jscs-" prefix -
+"preset": "your-preset-node_modules-path"
 ```
 
 You can specifically disable any preset rule by assigning it to null, like so:
