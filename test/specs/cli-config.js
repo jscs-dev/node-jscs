@@ -133,6 +133,14 @@ describe('cli-config', function() {
         });
     });
 
+    describe('getContent method', function() {
+        it('should get content from node module', function() {
+            var config = configFile.getContent('path');
+
+            assert.equal(typeof config, 'object');
+        });
+    });
+
     describe('getReporter method', function() {
         it('should get console reporter if called without arguments', function() {
             var reporter = configFile.getReporter();
