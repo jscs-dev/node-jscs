@@ -19,6 +19,7 @@ describe('rules/disallow-spaces-in-call-expression', function() {
         assert(checker.checkString('var x = (function (){foobar();})();').isEmpty());
         assert(checker.checkString('(function(){ foobar(); })();').isEmpty());
         assert(checker.checkString('var x = function (){}();').isEmpty());
+        assert(checker.checkString('var x = foobar\n\n\n\n();').isEmpty());
     });
 
     it('should not report missing space before round brace in NewExpression', function() {
@@ -68,5 +69,10 @@ describe('rules/disallow-spaces-in-call-expression', function() {
 
     it('should not report NewExpression with fitting parentheses (#1590)', function() {
         assert(checker.checkString('new (SomeClass.extend()); function test () {}').isEmpty());
+    });
+
+    it('should not report on round braces that do not belong to a NewExpression #(1594)', function() {
+        checker.configure({ disallowSpacesInCallExpression: true, esnext: true });
+        assert(checker.checkString('const newObj = new data.constructor;\n\nif (dataIsMap) {\n\n}').isEmpty());
     });
 });
