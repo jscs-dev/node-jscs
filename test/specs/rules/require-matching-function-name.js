@@ -21,15 +21,35 @@ describe('rules/require-matching-function-name', function() {
         // For both cases we should track identifier back, check whether
         // it's a function and if so, compare the names
 
+        it('should NOT throw when assigning anonymous function to a var', function() {
+            assertNoErrors('var myFunction; myFunction = function(name) {};');
+        });
+
+        it('should NOT throw when assigning named function to a var', function() {
+            assertErrorForMemberNameMismatch('var myFunction; myFunction = function anotherFunction(name) {};');
+        });
+
         it('should report function name mismatch when assigning to member', function() {
             assertErrorForMemberNameMismatch('var test = {}; test.foo = function bar() {};');
+        });
+
+        it('should report function name mismatch when assigning to member deeply', function() {
+            assertErrorForMemberNameMismatch('var test = {baz:{}}; test.baz.foo = function bar() {};');
+        });
+
+        it('should NOT report function with name match when assigning to member deeply', function() {
+            assertNoErrors('var test = {baz:{}}; test.baz.foo = function foo() {};');
         });
 
         it('should report function name mismatch when assigning to member via ["..."]', function() {
             assertErrorForMemberNameMismatch('var test = {}; test["foo"] = function bar() {};');
         });
 
-        it('should NOT report function name mismatch when assigning anonymous to member', function() {
+        it('should NOT report function with name match when assigning to member via ["..."]', function() {
+            assertNoErrors('var test = {}; test["foo"] = function foo() {};');
+        });
+
+        it('should NOT report function name match when assigning anonymous to member', function() {
             assertNoErrors('var test = {}; test.foo = function() {};');
         });
 
@@ -45,8 +65,24 @@ describe('rules/require-matching-function-name', function() {
             assertNoErrors('var test = {foo: function() {}};');
         });
 
+        it('should NOT report function name mismatch when assigning anonymous to property', function() {
+            assertNoErrors('var test = {foo: function() {}};');
+        });
+
         it('should NOT report function name mismatch when property name is reserved word', function() {
             assertNoErrors('var test = {delete: function $delete() {}};');
+        });
+
+        it('should NOT report function name mismatch when property name is dynamic', function() {
+            assertNoErrors('var test = {["x" + 2]: function bar(){}};');
+        });
+
+        it('should NOT report function assignation to an expression', function() {
+            assertNoErrors('var test = {}; test["x" + 2] = function bar(){};');
+        });
+
+        it('should NOT report function name match on ES6 destructuring', function() {
+            assertNoErrors('let [ bar ] = [ function bar(){} ];');
         });
 
         function assertErrorForMemberNameMismatch(js) {
