@@ -389,6 +389,22 @@ describe('cli', function() {
             });
         });
 
+        it('should throw error if reporter does not exist', function() {
+            sinon.spy(console, 'error');
+
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                reporter: 'not-exists.js'
+            });
+
+            return result.promise.always(function(exitCode) {
+                assert.equal(exitCode, 6);
+                assert.equal(console.error.getCall(0).args[0], 'Reporter "%s" does not exist.');
+                assert.equal(console.error.getCall(0).args[1], 'not-exists.js');
+                console.error.restore();
+            });
+        });
+
         it('should set reporter through relative path', function() {
             process.chdir('test');
 
