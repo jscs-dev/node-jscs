@@ -52,13 +52,15 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
         });
 
         it('should not report missing space before round brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y() {} }').isEmpty());
         });
 
         it('should report space before round brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').getErrorCount() === 1);
+        });
+
+        it('should not report special "constructor" method #1607', function() {
+            assert(checker.checkString('class test { constructor() {} }').isEmpty());
         });
 
         reportAndFix({

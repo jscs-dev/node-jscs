@@ -48,12 +48,10 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
         });
 
         it('should report missing space before round brace in method shorthand #1470', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y() {} }').getErrorCount() === 1);
         });
 
         it('should not report space before round brace in method shorthand #1470', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').isEmpty());
         });
 
@@ -113,13 +111,15 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
         });
 
         it('should report missing space before curly brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y(){} }').getErrorCount() === 1);
         });
 
         it('should not report space before curly brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             assert(checker.checkString('var x = { y () {} }').isEmpty());
+        });
+
+        it('should not report special "constructor" method #1607', function() {
+            assert(checker.checkString('class test { constructor () {} }').isEmpty());
         });
 
         reportAndFix({
