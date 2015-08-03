@@ -149,12 +149,12 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('[].map(function() {})\n.filter(function(){})').isEmpty());
         });
 
-        it('should report missing padding when function is last arguments', function() {
-            assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').getErrorCount() === 1);
+        it('should not report missing padding when function is last arguments', function() {
+            assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
         });
 
-        it('should report missing padding when function is last in array', function() {
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
+        it('should not report missing padding when function is last in array', function() {
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
         });
 
         it('should report missing padding when function is middle in array', function() {
@@ -183,8 +183,8 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('(function() {})\n(1,2,3)').isEmpty());
         });
 
-        it('should report missing padding when function is last in array', function() {
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
+        it('should not report missing padding when function is last in array', function() {
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
         });
 
         it('should report missing padding when function is middle in array', function() {
@@ -252,7 +252,7 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             checker.registerDefaultRules();
             checker.configure({ requirePaddingNewLinesAfterBlocks: true });
 
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').getErrorCount() === 1);
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]').getErrorCount() === 1);
 
             checker.configure({
                 requirePaddingNewLinesAfterBlocks: {
@@ -260,7 +260,7 @@ describe('rules/require-padding-newlines-after-blocks', function() {
                 }
             });
 
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+            assert(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]').isEmpty());
         });
     });
 });

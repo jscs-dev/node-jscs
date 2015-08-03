@@ -309,6 +309,37 @@
         .call(tron.led);
   })();
 
+  // https://github.com/airbnb/javascript#18.6
+  (function() {
+    if (foo) {
+      return bar;
+    }
+
+    return baz;
+  })();
+
+  (function() {
+    const obj = {
+      foo() {
+      },
+
+      bar() {
+      },
+    };
+  })();
+
+  (function() {
+    const arr = [
+      function foo() {
+      },
+
+      function bar() {
+      },
+    ];
+
+    return arr;
+  })();
+
   (function() {
     const story = [
       once,
