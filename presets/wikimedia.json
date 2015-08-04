@@ -79,7 +79,7 @@
         "checkReturnTypes": true,
         "checkRedundantReturns": true,
         "requireReturnTypes": true,
-        "checkTypes": "capitalizedNativeCase",
+        "checkTypes": "strictNativeCase",
         "checkRedundantAccess": true,
         "requireNewlineAfterDescription": true
     }

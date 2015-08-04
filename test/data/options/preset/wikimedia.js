@@ -16,7 +16,7 @@
 	 * @class
 	 *
 	 * @constructor
-	 * @param {String} id
+	 * @param {string} id
 	 * @param {Object} options
 	 */
 	APP.Example = function ( id, options ) {
@@ -97,6 +97,9 @@
 		return ret;
 	};
 
+	/**
+	 * @param {boolean|number} code
+	 */
 	APP.fall = function ( code ) {
 		switch ( code ) {
 			case 200:
