@@ -95,6 +95,20 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
 
+        it('should not report on an import plus aligned computed property names (#1587)', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'import React, {PropTypes} from \'react\';\n',
+                    'import {ImmutableComponentPure} from \'common/ImmutableComponent.js\'',
+                    'let myObject = {',
+                      '[myKey]     : "myKeyValue",',
+                      '[$main.pod] : "myOtherValue"',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
         describe('alignment check for any number of spaces', function() {
             reportAndFix({
                 name: 'illegal object values alignment',
