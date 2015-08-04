@@ -439,5 +439,62 @@ describe('rules/validate-indentation', function() {
                 ).getErrorCount() === 3
             );
         });
+
+        it('should report no errors when offset case statements are used', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '  case "1":\n' +
+                        '    a();\n' +
+                        '    break;\n' +
+                        '  case "2":\n' +
+                        '    break;\n' +
+                        '  default:\n' +
+                        '    break;\n' +
+                        '}'
+                ).getErrorCount() === 0
+            );
+        });
+
+        it('should report errors for indent when offset case statements are used', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '  case "1":\n' +
+                        '      a();\n' + // whole indent
+                        '    break;\n' +
+                        '  case "2":\n' +
+                        '    break;\n' +
+                        '  default:\n' +
+                        '    break;\n' +
+                        '}'
+                ).getErrorCount() === 1
+            );
+        });
+
+        it('should report errors when no offset case statements are used after previous use', function() {
+            assert(
+                checker.checkString(
+                    'switch(value){\n' +
+                        '  case "1":\n' +
+                        '    a();\n' +
+                        '    break;\n' +
+                        '  case "2":\n' +
+                        '    break;\n' +
+                        '  default:\n' +
+                        '    break;\n' +
+                        '}\n' +
+                        'switch(value){\n' +
+                        '    case "1":\n' +
+                        '        a();\n' +
+                        '        break;\n' +
+                        '    case "2":\n' +
+                        '        break;\n' +
+                        '    default:\n' +
+                        '        break;\n' +
+                        '}\n'
+                ).getErrorCount() === 7
+            );
+        });
     });
 });
