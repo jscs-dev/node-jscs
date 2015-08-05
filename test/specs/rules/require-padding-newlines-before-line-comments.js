@@ -66,6 +66,10 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
             assert(checker.checkString('// comment\nvar a = 2;').isEmpty());
         });
 
+        it('should not report missing padding if newline is 1st line and the comment is 2nd line #1527', function() {
+            assert(checker.checkString('\n// comment\nvar a = 2;').isEmpty());
+        });
+
         it('should not report padding before line comment', function() {
             assert(checker.checkString('var a = 2;\n\n// comment').isEmpty());
         });
