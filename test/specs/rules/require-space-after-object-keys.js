@@ -40,6 +40,20 @@ describe('rules/require-space-after-object-keys', function() {
             checker.configure({ esnext: true });
         });
 
+        it('should allow object literal spreading with spread at end', function() {
+            assert(checker.checkString(
+                'var b = {};\n' +
+                'var x = {a : 1, ...b};'
+            ).isEmpty());
+        });
+
+        it('should allow object literal spreading with spread at beginning', function() {
+            assert(checker.checkString(
+                'var b = {};\n' +
+                'var x = {...b, a : 1};'
+            ).isEmpty());
+        });
+
         it('should report es6-methods without a space. #1013', function() {
             assert(checker.checkString('var x = { a() { } };').getErrorCount() === 1);
         });
