@@ -47,7 +47,7 @@ describe('rules/disallow-space-before-object-values', function() {
         assert(checker.checkString('var x = {a, b};').isEmpty());
     });
 
-    it('should report mixed shorthand and normal object propertis', function() {
+    it('should report mixed shorthand and normal object properties', function() {
         checker.configure({ esnext: true });
         assert.equal(checker.checkString('var x = { a : 1, b };').getErrorCount(), 1);
     });
