@@ -38,6 +38,22 @@ describe('rules/require-space-before-object-values', function() {
         ).isEmpty());
     });
 
+    it('should allow object literal spreading with spread at end', function() {
+        checker.configure({ esnext: true, requireSpaceBeforeObjectValues: true });
+        assert(checker.checkString(
+            'var b = {};\n' +
+            'var x = {a: 1, ...b};'
+        ).isEmpty());
+    });
+
+    it('should allow object literal spreading with spread at beginning', function() {
+        checker.configure({ esnext: true, requireSpaceBeforeObjectValues: true });
+        assert(checker.checkString(
+            'var b = {};\n' +
+            'var x = {...b, a: 1};'
+        ).isEmpty());
+    });
+
     it('should not report with space after keys colons', function() {
         assert(checker.checkString('var x = { a: 1, bcd: 2 };').isEmpty());
     });
