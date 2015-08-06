@@ -14,5 +14,8 @@
         "except": [ "{", "}", "[", "]", "function" ]
     },
     "requireYodaConditions": ["==", "!=", "===", "!=="],
-    "validateQuoteMarks": "'"
+    "validateQuoteMarks": "'",
+    "requireCapitalizedComments": {
+        "allExcept": ["global", "exported", "jshint", "eslint", "jslint"]
+    }
 }
