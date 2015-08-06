@@ -1,3 +1,6 @@
+/* global foo */
+/* exported map */
+
 // Objects
 // Object declarations can be made on a single line if they are short (remember the line length guidelines).
 // When an object declaration is too long to fit on one line, there must be one property per line.
