@@ -33,8 +33,8 @@ How You Can Help
 ----------------
 
 Many of the community requests/issues relate new rule requests, supporting additional style variations via
-extending the supported options of a rule, bug fixes for existing rules, or strenghtening presets by specifying more rules. 
-All of those issues are great starting places for beginners to contribute. 
+extending the supported options of a rule, bug fixes for existing rules, or strengthening presets by specifying more rules.
+All of those issues are great starting places for beginners to contribute.
 
 If you'd like to work on an issue, just leave a comment on the issue saying that you'll work on a PR.
 
@@ -145,7 +145,7 @@ Setting up your environment
 1. Fork the node-jscs repository
 1. Clone your fork to your local machine
 1. Run `npm install` in your local fork
-1. Consider setting up the appropriate [JSCS editor package](https://github.com/jscs-dev/node-jscs#friendly-packages)
+1. Consider setting up the appropriate [JSCS package](http://jscs.info/overview.html#friendly-packages) for your text editor
  - We use JSCS to check the JSCS codebase
 1. Create a new branch for your fix: `git checkout -b my-fix-branch master`
 1. Implement your bug fix or feature request
