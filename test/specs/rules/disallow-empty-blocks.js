@@ -125,4 +125,9 @@ describe('rules/disallow-empty-blocks', function() {
     it('should not report empty block for function expressions', function() {
         assert(checker.checkString('var a = function(){};').isEmpty());
     });
+
+    it('should not report empty arrow blocks', function() {
+        checker.configure({ esnext: true });
+        assert(checker.checkString('() => {}').isEmpty());
+    });
 });
