@@ -125,4 +125,33 @@ describe('rules/disallow-empty-blocks', function() {
     it('should not report empty block for function expressions', function() {
         assert(checker.checkString('var a = function(){};').isEmpty());
     });
+
+    describe('allExcept: ["comments"]', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({disallowEmptyBlocks: {allExcept: ['comments']}});
+        });
+        it('should not report empty blocks with comments', function() {
+            assert(
+                checker.checkString(
+                  'if (true) { /* comment */ }'
+                ).isEmpty()
+            );
+            assert(
+                checker.checkString(
+                  'if (true) { \n' +
+                  ' // another comment \n' +
+                  '}'
+                ).isEmpty()
+            );
+            assert(
+                checker.checkString(
+                  'if (true) { \n' +
+                  ' // another comment \n' +
+                  '} else {}'
+                ).getErrorCount() === 1
+            );
+        });
+    });
 });
