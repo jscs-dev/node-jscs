@@ -114,6 +114,14 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             assert(checker.checkString('var $x = $(\'.foo\');').isEmpty());
         });
 
+        it('should not report on object destructuring', function() {
+            assert(checker.checkString('const {beep, boop} = meep;\nvar $s = $("#id")').isEmpty());
+        });
+
+        it('should report with assignment on right hand side of object destructuring', function() {
+            assert(checker.checkString('var {foo} = {foo: $(".foo")}').getErrorCount() === 1);
+        });
+
         describe('in object definition', function() {
             it('should not report basic object creation with string key assignment', function() {
                 assert(checker.checkString('!{"a": true}').isEmpty());
