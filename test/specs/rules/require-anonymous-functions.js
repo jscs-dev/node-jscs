@@ -30,4 +30,18 @@ describe('rules/require-anonymous-function', function() {
         assert(checker.checkString('$("hi").click(function named(){});').getErrorCount() === 1);
         assert(checker.checkString('var x = function named(){};').getErrorCount() === 1);
     });
+
+    describe('allExcept: ["declarations"]', function() {
+        beforeEach(function() {
+            checker.configure({ requireAnonymousFunctions: { allExcept: ['declarations'] } });
+        });
+
+        it('should not report on named function declarations', function() {
+            assert(checker.checkString('function foo(){}').isEmpty());
+        });
+
+        it('should report on named function expressions', function() {
+            assert(checker.checkString('var foo = function bar(){};').getErrorCount() === 1);
+        });
+    });
 });
