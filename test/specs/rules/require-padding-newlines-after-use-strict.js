@@ -43,4 +43,29 @@ describe('rules/require-padding-newlines-after-use-strict', function() {
         assert(checker.checkString('"use stricts";\nvar a = 2;').isEmpty());
         assert(checker.checkString('2 + 2;\nvar a = 2;').isEmpty());
     });
+
+    describe('allExcept: ["require"]', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({requirePaddingNewLinesAfterUseStrict: {allExcept: ['require']}});
+        });
+        it('should not report require statements occurring after \'use strict\'', function() {
+            assert(
+                checker.checkString(
+                  '"use strict"\nvar a = require("b");'
+                ).isEmpty()
+            );
+            assert(
+                checker.checkString(
+                  '"use strict"\nvar a = 3;'
+                ).getErrorCount() === 1
+            );
+            assert(
+                checker.checkString(
+                  '"use strict"\nvar a = 3;var x = require("y")'
+                ).getErrorCount() === 1
+            );
+        });
+    });
 });
