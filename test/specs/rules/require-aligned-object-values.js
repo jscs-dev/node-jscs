@@ -109,6 +109,19 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
 
+        it('should not report es7 object spread. Ref #1624', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString(
+                    'var x = {\n' +
+                        'bcd : 2,\n' +
+                        '...a,\n' +
+                        'efg : 2\n' +
+                    '};'
+                ).isEmpty()
+            );
+        });
+
         describe('alignment check for any number of spaces', function() {
             reportAndFix({
                 name: 'illegal object values alignment',
