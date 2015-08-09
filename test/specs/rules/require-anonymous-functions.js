@@ -31,9 +31,9 @@ describe('rules/require-anonymous-function', function() {
         assert(checker.checkString('var x = function named(){};').getErrorCount() === 1);
     });
 
-    describe('exceptfunctionDeclarations', function() {
+    describe('allExcept: ["declarations"]', function() {
         beforeEach(function() {
-            checker.configure({ requireAnonymousFunctions: { allExcept: ['functionDeclarations'] } });
+            checker.configure({ requireAnonymousFunctions: { allExcept: ['declarations'] } });
         });
 
         it('should not report on named function declarations', function() {
