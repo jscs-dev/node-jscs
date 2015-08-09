@@ -85,6 +85,8 @@
   },
   "devDependencies": {
     "browserify": "^11.0.0",
+    "conventional-changelog": "^0.3.0",
+    "conventional-github-releaser": "^0.3.0",
     "coveralls": "~2.11.2",
     "has-ansi": "~1.0.1",
     "jshint": "~2.8.0",
@@ -125,7 +127,8 @@
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
     "browserify": "browserify --standalone JscsStringChecker lib/string-checker.js -o jscs-browser.js",
-    "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
+    "changelog": "conventional-changelog -p jscs -i CHANGELOG.md -w",
+    "github-release": "conventional-github-releaser -p jscs",
     "release": "node publish/prepublish && npm test && npm publish",
     "postpublish": "node publish/postpublish",
     "travis": "npm run test && npm run autofix-tests && npm run coveralls"
