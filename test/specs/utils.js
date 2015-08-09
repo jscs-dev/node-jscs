@@ -2,15 +2,16 @@ var utils = require('../../lib/utils');
 var assert = require('assert');
 var JsFile = require('../../lib/js-file');
 var esprima = require('esprima');
+var babelJscs = require('babel-jscs');
 var path = require('path');
 
 describe('utils', function() {
 
-    function createJsFile(source) {
+    function createJsFile(source, customEsprima) {
         return new JsFile({
             filename: 'example.js',
             source: source,
-            esprima: esprima,
+            esprima: customEsprima || esprima,
             esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
         });
     }
@@ -152,6 +153,14 @@ describe('utils', function() {
                 assert.ok(err);
                 done();
             });
+        });
+    });
+
+    describe('getBabelType', function() {
+        it('returns private property `_babelType`', function() {
+            var file = createJsFile('var a = { ...a };', babelJscs);
+            var property = file.getNodesByType('ObjectExpression')[0].properties[0];
+            assert.equal(utils.getBabelType(property), 'SpreadProperty');
         });
     });
 });
