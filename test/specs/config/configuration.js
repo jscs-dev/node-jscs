@@ -14,11 +14,6 @@ describe('config/configuration', function() {
             assert(configuration.getBasePath() === '.');
         });
 
-        it('should set default file extensions', function() {
-            assert(configuration.getFileExtensions().length === 1);
-            assert(configuration.getFileExtensions()[0] === '.js');
-        });
-
         it('should have no default registered rules', function() {
             assert(configuration.getRegisteredRules().length === 0);
         });
@@ -29,10 +24,6 @@ describe('config/configuration', function() {
 
         it('should have no default presets', function() {
             assert(Object.keys(configuration.getRegisteredPresets()).length === 0);
-        });
-
-        it('should have default excluded file masks that excludes node_modules', function() {
-            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
         });
 
         it('should have 50 default error count', function() {
@@ -459,6 +450,90 @@ describe('config/configuration', function() {
             assert.equal(configuration.getUnsupportedRuleNames().length, 1);
         });
 
+        it('should set `excludeFiles` setting from presets', function() {
+            configuration.registerPreset('test1', {
+                excludeFiles: ['first']
+            });
+            configuration.registerPreset('test2', {
+                excludeFiles: ['second'],
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.equal(configuration.getExcludedFileMasks()[0], 'second');
+            assert.equal(configuration.getExcludedFileMasks()[1], 'first');
+        });
+
+        it('should set `excludeFiles` setting from preset', function() {
+            configuration.registerPreset('test1', {
+                excludeFiles: ['first']
+            });
+            configuration.registerPreset('test2', {
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.equal(configuration.getExcludedFileMasks()[0], 'first');
+        });
+
+        it('should set default `excludeFiles` if presets do not define their own', function() {
+            configuration.registerPreset('test1', {});
+            configuration.registerPreset('test2', {
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
+        });
+
+        it('should set `fileExtensions` setting from presets', function() {
+            configuration.registerPreset('test1', {
+                fileExtensions: ['first']
+            });
+            configuration.registerPreset('test2', {
+                fileExtensions: ['second'],
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.equal(configuration.getFileExtensions()[0], 'second');
+            assert.equal(configuration.getFileExtensions()[1], 'first');
+        });
+
+        it('should set `fileExtensions` setting from preset', function() {
+            configuration.registerPreset('test1', {
+                fileExtensions: ['first']
+            });
+            configuration.registerPreset('test2', {
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.equal(configuration.getFileExtensions()[0], 'first');
+        });
+
+        it('should set default `fileExtensions` if presets do not define their own', function() {
+            configuration.registerPreset('test1', {});
+            configuration.registerPreset('test2', {
+                preset: 'test1'
+            });
+            configuration.load({
+                preset: 'test2'
+            });
+
+            assert.equal(configuration.getFileExtensions()[0], '.js');
+        });
+
         it('should not try go in infinite loop at circular present references', function() {
             var rule = {
                 getOptionName: function() {
@@ -625,6 +700,17 @@ describe('config/configuration', function() {
             assert(spy.called);
             assert(spy.callCount === 1);
             assert(spy.getCall(0).args[0] === configuration);
+        });
+
+        it('should set default excludeFiles option', function() {
+            configuration.load({});
+            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
+        });
+
+        it('should set default file extensions', function() {
+            configuration.load({});
+            assert(configuration.getFileExtensions().length === 1);
+            assert(configuration.getFileExtensions()[0] === '.js');
         });
     });
 });
