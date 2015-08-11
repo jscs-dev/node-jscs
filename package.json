@@ -109,6 +109,8 @@
       "lib/**/*.js",
       "-t",
       "test/specs/**/*.js",
+      "-e",
+      "lib/cli-config.js",
       "-S",
       "relative",
       "-O",
