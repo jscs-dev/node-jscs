@@ -3,13 +3,8 @@ Maintainer Guide
 
 Maintainers are the core developers of the project.
 Their main role is to review, merge or reject pull-requests and fix critical bugs.
-Some maintainers can have areas of responsibility:
 
- * @mdevils: general architecture, common rules.
- * @markelog: CLI, integration, common rules.
- * @mikesherov: ex-jshint rules, common rules.
- * @mrjoelkemp: bug fixes, common rules.
- * @zxqfox: bug fixes, common rules.
+See current list of maintainers on (jscs.info)[http://jscs.info#maintainers].
 
 Maintaining validation rules
 ----------------------------
