@@ -1,3 +1,84 @@
+## Version [2.1.0](https://github.com/jscs-dev/node-jscs/compare/v2.0.0...v2.1.0)
+
+### Overview
+In this release, we added three more rules: two of them are ES6-only, they "protect" you
+from the downside of arrow functions (see [1](http://jscs.info/rule/disallowArrowFunctions.html) and [2](http://jscs.info/rule/disallowShorthandArrowFunctions.html) for an explanation of why you might want to enable them) and another universal one if you [like](http://jscs.info/rule/disallowShorthandArrowFunctions.html) to keep your object neat and tidy.
+
+Airbnb, jQuery, and Wordpress presets are now using some of the new rules we added in the previous release. Whereas, the wikimedia preset is now less strict for [JSDoc](http://jscs.info/rule/jsDoc.html) comments.
+
+This release also includes a JSON reporter, lots of bug fixes and enhancements, and a couple new rule values for your linting pleasure.
+
+### Presets
+* Preset: define exclusions for wordpress preset (Weston Ruter)
+* Preset: add couple new rules to airbnb preset (Christophe Hurpeau)
+* Preset: Set jsDoc.checkTypes to "strictNativeCase" for Wikimedia (Timo Tijhof)
+* Preset: add "disallowSpaceBeforeComma" rule to jquery preset (Oleg Gaidarenko)
+
+### New rules
+* New Rule: disallowShorthandArrowFunctions (Jackson Ray Hamilton)
+* New Rule: disallowArrowFunctions (Jackson Ray Hamilton)
+* New Rule: validateOrderInObjectKeys (Rui Marinho)
+
+### New rule values
+* disallowEmptyBlocks: allow blocks with comments (Michael Robinson)
+* requirePaddingNewlinesAfterUseStrict: allow immediate "require" (Michael Robinson)
+* requireAnonymousFunctions: Add exception for function declarations (Kai Cataldo)
+* requireBlocksOnNewline: Add object option to handle comments (oredi)
+* requireTemplateString: string and template string concatentation support (Michelle Bu)
+
+### Enhancements
+* Configuration: allow load configs with ".jscsrc" extension (Oleg Gaidarenko)
+* Reporters: add new JSON reporter (Roman Blanco)
+* Configuration: extend and improve default value of array options (Oleg Gaidarenko)
+* SpaceBeforeObject(Keys|Values): support spread in object literals (Ronn Ross)
+* SpacesInAnonymousFunctionExpression: consider ES6 "constructor" method (Oleg Gaidarenko)
+* validateIndentation: reduce RegExp create count (optimization) (Roman Dvornov)
+* validateAlignedFunctionParameters: small simplification (Oleg Gaidarenko)
+* disallowEmptyBlocks: should not report empty arrow blocks (Jake Zatecky)
+* validateAlignedFunctionParameters: account for arrow functions (Jake Zatecky)
+* requirePaddingNewlinesAfterBlocks: ignore parentheses of last item (Christophe Hurpeau)
+
+### Bugs
+* requireMatchingFunctionName: fix critical bug and add tests (Alexej Yaroshevich)
+* disallowSpacesInCallExpression: report only on a node's round brace (Joel Kemp)
+* disallowSpacesInCallExpression: consider fitting parentheses case (Oleg Gaidarenko)
+* CLI: correct reporter error (Roman Dvornov)
+* SpacesIn*: fix for shorthand methods/class methods, update tests (Henry Zhu)
+* requireAlignedObjectValues: fix computed keys with MemberExpressions (Henry Zhu)
+* requireParenthesesAroundArrowParam: account for a single rest parameter (Henry Zhu)
+* requirePaddingNewLinesBeforeLineComments: fix for newlines above comment (Henry Zhu)
+
+### Docs
+* Docs: Fix a typo in requireVarDeclFirst (Chayoung You)
+* Docs: point to jscs.info for the list of maintainers (Oleg Gaidarenko)
+* Docs: improve preset documentation (Oleg Gaidarenko)
+* Docs: Fix typos in requireCapitalizedComments (Chayoung You)
+* Docs: Fix a typo in maximumNumberOfLines (Chayoung You)
+* Docs: Add justifications for arrow function rules (Jackson Ray Hamilton)
+* Docs: correct docs for the" disallowNodeTypes" rule (Dmitry Semigradsky)
+* Docs: Fixed typo, update link for clarity/correct URL (Kai Cataldo)
+* Docs: Fixed typo in disallowSpaceAfterObjectKeys (Brian Ng)
+* Docs: use correct links to new rules (Pavel Zubkou)
+* Docs: bring back coveralls badge (Oleg Gaidarenko)
+* Docs: Error 404 on the requireObjectKeysOnNewLine link (Roman Nuritdinov)
+* Docs: Link to built-in JSCS plugin for JetBrains IDEs (Simen Bekkhus)
+* Docs: improve and correct the changelog (Oleg Gaidarenko)
+* Docs: small example improvement for "disallowSpaceBeforeComma" rule (Oleg Gaidarenko)
+
+### Misc
+* requireLineFeedAtFileEnd: Test to ensure IIFE case still reports (Joel Kemp)
+* Misc: add Henry to list of maintainers (Oleg Gaidarenko)
+* Misc: make jshint happy (Oleg Gaidarenko)
+* Misc: exclude only problematic module from coverage (Oleg Gaidarenko)
+* Misc: once again hide coverage status (Oleg Gaidarenko)
+* Misc: correct merge artefact (Oleg Gaidarenko)
+* Misc: support spread in object literals (Henry Zhu)
+* Misc: update Esprima to 2.5.0 (Henry Zhu)
+* Misc: cache `node_modules` dir in travis CI (Oleg Gaidarenko)
+* AutoConfigure: Tests now depend on a preset clone (Joel Kemp)
+* Revert "Changelog: use conventional-change..." (Oleg Gaidarenko)
+* Changelog: use conventional-changelog and conventional-github-releaser (Steve Mao)
+
 ## Version [2.0.0](https://github.com/jscs-dev/node-jscs/compare/v1.13.1...v2.0.0)
 
 ### Overview
