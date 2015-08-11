@@ -28,6 +28,7 @@
     "disallowTrailingWhitespace": true,
     "disallowMultipleLineStrings": true,
     "disallowTrailingComma": true,
+    "disallowSpaceBeforeComma": true,
 
     "requireSpaceBeforeBlockStatements": true,
     "requireSpacesInFunctionExpression": {
