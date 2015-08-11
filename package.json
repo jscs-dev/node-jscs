@@ -28,32 +28,32 @@
     {
       "name": "Marat Dulin",
       "email": "mdevils@yandex.ru",
-      "github-username": "mdevils",
-      "role": "General architecture, common rules"
+      "github-username": "mdevils"
     },
     {
       "name": "Oleg Gaidarenko",
       "email": "markelog@gmail.com",
-      "github-username": "markelog",
-      "role": "CLI, integration, common rules"
+      "github-username": "markelog"
     },
     {
       "name": "Mike Sherov",
       "email": "mike.sherov@gmail.com",
-      "github-username": "mikesherov",
-      "role": "Ex-jshint rules, common rules"
+      "github-username": "mikesherov"
     },
     {
       "name": "Joel Kemp",
       "email": "joel@mrjoelkemp.com",
-      "github-username": "mrjoelkemp",
-      "role": "Bug fixes, common rules"
+      "github-username": "mrjoelkemp"
     },
     {
       "name": "Alexej Yaroshevich",
       "email": "zxqfox@gmail.com",
-      "github-username": "zxqfox",
-      "role": "Bug fixes, common rules"
+      "github-username": "zxqfox"
+    },
+    {
+      "name": "Henry Zhu",
+      "email": "hi@henryzoo.com",
+      "github-username": "hzoo"
     }
   ],
   "engines": {
