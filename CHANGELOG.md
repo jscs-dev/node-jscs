@@ -2,11 +2,11 @@
 
 ### Overview
 In this release, we added three more rules: two of them are ES6-only, they "protect" you
-from the downside of arrow functions (see [1](http://jscs.info/rule/disallowArrowFunctions.html) and [2](http://jscs.info/rule/disallowShorthandArrowFunctions.html) for an explanation of why you might want to enable them) and another universal one if you [like](http://jscs.info/rule/disallowShorthandArrowFunctions.html) to keep your object neat and tidy.
+from the downside of arrow functions (see [1](http://jscs.info/rule/disallowArrowFunctions.html) and [2](http://jscs.info/rule/disallowShorthandArrowFunctions.html) for an explanation of why you might want to enable them) and another universal one if you [like](http://jscs.info/rule/validateOrderInObjectKeys.html) to keep your object neat and tidy.
 
 Airbnb, jQuery, and Wordpress presets are now using some of the new rules we added in the previous release. Whereas, the wikimedia preset is now less strict for [JSDoc](http://jscs.info/rule/jsDoc.html) comments.
 
-This release also includes a JSON reporter, lots of bug fixes and enhancements, and a couple new rule values for your linting pleasure.
+This release also includes a JSON reporter, lots of bug fixes and enhancements, plus couple new rule values for your linting pleasure.
 
 ### Presets
 * Preset: define exclusions for wordpress preset (Weston Ruter)
