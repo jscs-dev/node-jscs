@@ -29,4 +29,12 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
     it('should not report with parens around a multiple parameters with a default', function() {
         assert(checker.checkString('const a = (x = 1, y) => x * y;').isEmpty());
     });
+
+    it('should not report with use of destructuring #1672', function() {
+        assert(checker.checkString('let func = ({hoge}) => hoge').isEmpty());
+    });
+
+    it('should not report with multiple parameters and destructuring', function() {
+        assert(checker.checkString('let func = (foo, {hoge}) => hoge').isEmpty());
+    });
 });
