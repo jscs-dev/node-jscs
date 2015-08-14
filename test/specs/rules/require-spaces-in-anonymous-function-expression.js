@@ -9,6 +9,30 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid options', function() {
+        it('should throw if allExcept empty array', function() {
+            assert.throws(function() {
+                checker.configure({ requireSpacesInAnonymousFunctionExpression: { allExcept: [] } });
+            });
+        });
+
+        it('should throw if not allExcept array or true', function() {
+            assert.throws(function() {
+                checker.configure({ requireSpacesInAnonymousFunctionExpression: { allExcept: {} } });
+            });
+
+            assert.throws(function() {
+                checker.configure({ requireSpacesInAnonymousFunctionExpression: { allExcept: false } });
+            });
+        });
+
+        it('should throw if allExcept unrecognized', function() {
+            assert.throws(function() {
+                checker.configure({ requireSpacesInAnonymousFunctionExpression: { allExcept: ['foo'] } });
+            });
+        });
+    });
+
     describe('beforeOpeningRoundBrace', function() {
         var rules = {
             requireSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
@@ -136,6 +160,31 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
             errors: 1,
             input: 'var x = { y(){} }',
             output: 'var x = { y() {} }'
+        });
+    });
+
+    describe('exception for shorthand methods', function() {
+        function configureChecker(allExcept) {
+            // Coverage hack: allExcept can be configured two different ways.
+            var rules = {
+                requireSpacesInAnonymousFunctionExpression: {
+                    beforeOpeningRoundBrace: true,
+                    beforeOpeningCurlyBrace: true,
+                    allExcept: allExcept
+                },
+                esnext: true
+            };
+            checker.configure(rules);
+        }
+
+        it('should not report missing space before round brace', function() {
+            configureChecker(['shorthand']);
+            assert(checker.checkString('var x = { y() {} }').isEmpty());
+        });
+
+        it('should not report missing space before curly brace', function() {
+            configureChecker(true);
+            assert(checker.checkString('var x = { y (){} }').isEmpty());
         });
     });
 });
