@@ -259,4 +259,209 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             });
         });
     });
+
+    describe('allExcept: ["conditionals"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: { allExcept: ['conditionals'] } });
+        });
+
+        it('should not report missing extra padding newline after opening brace of if statement', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after closing brace of if statement', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of else statement', function() {
+            assert(checker.checkString('if (true) {} else {\nabc();\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after closing brace of else statement', function() {
+            assert(checker.checkString('if (true) {} else {\n\nabc();\n}').isEmpty());
+        });
+
+        it('should report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nnreturn bar;\n\n}').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n}').getErrorCount() === 1);
+        });
+    });
+
+    describe('allExcept: ["functions"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: { allExcept: ['functions'] } });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should report missing extra padding newline after opening brace of conditional', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n};').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline before closing brace of conditional', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n};').getErrorCount() === 1);
+        });
+
+    });
+
+    describe('open: true, close: false, allExcept: ["functions"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: true,
+              close: false,
+              allExcept: ['functions'] }
+            });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should report missing extra padding newline after opening brace of conditional', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n};').getErrorCount() === 1);
+        });
+
+        it('should not report missing extra padding newline before closing brace of conditional', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n};').isEmpty());
+        });
+    });
+
+    describe('open: false, close: true, allExcept: ["functions"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: false,
+              close: true,
+              allExcept: ['functions'] }
+            });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of conditional', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n};').isEmpty());
+        });
+
+        it('should report missing extra padding newline before closing brace of conditional', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n};').getErrorCount() === 1);
+        });
+    });
+
+    describe('open: true, close: false, allExcept: ["conditionals"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: true,
+              close: false,
+              allExcept: ['conditionals'] }
+            });
+        });
+
+        it('should report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nreturn bar;\n\n}').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').getErrorCount() === 1);
+        });
+
+        it('should not report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of conditional', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of conditional', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n};').isEmpty());
+        });
+    });
+
+    describe('open: false, close: true, allExcept: ["conditionals"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: false,
+              close: true,
+              allExcept: ['conditionals'] }
+            });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\nreturn bar;\n\n}').isEmpty());
+        });
+
+        it('should report missing extra padding newline before closing brace of function declaration', function() {
+            assert(checker.checkString('function foo() {\n\nreturn bar;\n};').getErrorCount() === 1);
+        });
+
+        it('should report missing extra padding newline before closing brace of function expression', function() {
+            assert(checker.checkString('var foo = function() {\n\nreturn bar;\n};').getErrorCount() === 1);
+        });
+
+        it('should not report missing extra padding newline after opening brace of conditional', function() {
+            assert(checker.checkString('if (true) {\nabc();\n\n};').isEmpty());
+        });
+
+        it('should not report missing extra padding newline before closing brace of conditional', function() {
+            assert(checker.checkString('if (true) {\n\nabc();\n};').isEmpty());
+        });
+    });
 });
