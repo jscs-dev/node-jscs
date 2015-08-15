@@ -178,7 +178,7 @@ jscs path[ path[...]] --error-filter=path/to/my/module.js
 Clean output without colors.
 
 ### `--max-errors` (`-m`)
-Set the maximum number of errors to report
+Set the maximum number of errors to report (pass "null" to disable this).
 
 ### `--help` (`-h`)
 Outputs usage information.
