@@ -637,6 +637,32 @@ describe('cli', function() {
             });
         });
 
+        it.skip('should allow `-1` value to report all errors', function() {
+            return cli({
+                maxErrors: -1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors-0.json'
+
+            }).promise.always(function(status) {
+                assert(status.valueOf());
+
+                rAfter();
+            });
+        });
+
+        it('should allow `null` value to report all errors', function() {
+            return cli({
+                maxErrors: null,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors-0.json'
+            })
+            .promise.always(function(status) {
+                assert.equal(status.valueOf(), 2);
+
+                rAfter();
+            });
+        });
+
         it('should throw a error when value is incorrect', function() {
             return cli({
                 maxErrors: '1a',
@@ -645,7 +671,7 @@ describe('cli', function() {
             })
             .promise.always(function() {
                 assert(console.error.getCall(0).args[0]
-                    .indexOf('`maxErrors` option requires positive number or null value') !== -1);
+                    .indexOf('`maxErrors` option requires -1, null value or positive number') !== -1);
                 rAfter();
             });
         });
