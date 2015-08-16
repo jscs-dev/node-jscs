@@ -67,4 +67,12 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
 
         assert(checker.checkString('var x = { "null": 1, undefined: "foo" }').isEmpty());
     });
+
+    it('should report non-reserved quoted keys when "allButReserved" mode is used. #1669', function() {
+        checker = new Checker();
+        checker.registerDefaultRules();
+        checker.configure({ disallowQuotedKeysInObjects: 'allButReserved' });
+
+        assert(checker.checkString('var x = { "noReservedKeyword": 2 }').getErrorCount() === 1);
+    });
 });
