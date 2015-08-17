@@ -45,6 +45,15 @@ describe('rules/validate-indentation', function() {
         assert(checker.checkString('switch(true){case b:break;}').isEmpty());
     });
 
+    it('should not error with an empty switch statement #1393', function() {
+        checker.configure({ validateIndentation: '\t' });
+        assert.equal(
+            checker.checkString(
+                'switch(a) {\n\n' +
+                '}'
+            ).getErrorCount(), 0);
+    });
+
     it('should validate tab indentation properly', function() {
         checker.configure({ validateIndentation: '\t' });
         checkErrors('if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}', [3, 4]);
