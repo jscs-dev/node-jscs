@@ -87,16 +87,20 @@ describe('utils', function() {
     });
 
     describe('categorizeOpenParen', function() {
-        var sharedFile = createJsFile(
-            '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
-        );
+        var sharedFile;
         var openParens = [];
-        sharedFile.iterateTokenByValue('(', function(token) {
-            openParens.push({
-                type: utils.categorizeOpenParen(token, sharedFile),
-                offset: token.range[0],
-                self: token,
-                prev: sharedFile.getPrevToken(token)
+
+        before(function() {
+            sharedFile = createJsFile(
+                '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
+            );
+            sharedFile.iterateTokenByValue('(', function(token) {
+                openParens.push({
+                    type: utils.categorizeOpenParen(token, sharedFile),
+                    offset: token.range[0],
+                    self: token,
+                    prev: sharedFile.getPrevToken(token)
+                });
             });
         });
 
@@ -181,16 +185,20 @@ describe('utils', function() {
     });
 
     describe('categorizeCloseParen', function() {
-        var sharedFile = createJsFile(
-            '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))+0); throw(f()+(0)); })))'
-        );
+        var sharedFile;
         var closeParens = [];
-        sharedFile.iterateTokenByValue(')', function(token) {
-            closeParens.push({
-                type: utils.categorizeCloseParen(token, sharedFile),
-                offset: token.range[0],
-                self: token,
-                next: sharedFile.getNextToken(token)
+
+        before(function() {
+            sharedFile = createJsFile(
+                '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))+0); throw(f()+(0)); })))'
+            );
+            sharedFile.iterateTokenByValue(')', function(token) {
+                closeParens.push({
+                    type: utils.categorizeCloseParen(token, sharedFile),
+                    offset: token.range[0],
+                    self: token,
+                    next: sharedFile.getNextToken(token)
+                });
             });
         });
 
