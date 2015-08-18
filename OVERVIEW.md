@@ -255,14 +255,13 @@ Values: Array of file matching patterns
 #### Example
 
 ```js
-"excludeFiles": ["node_modules/**", "src/!(bar|foo)"]
+// Use `"!foo"` to specifically include a file/folder
+"excludeFiles": ["folder_to_exclude/**", "src/!(bar|foo)"]
 ```
 
 #### Default
 
-```js
-"excludeFiles": ["node_modules/**"]
-```
+`node_modules` folder is excluded by default
 
 ### fileExtensions
 
@@ -280,9 +279,7 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 #### Default
 
-```js
-"fileExtensions": [".js"]
-```
+`.js` files are processed by default
 
 ### maxErrors
 
@@ -454,7 +451,7 @@ All rule checks on the entire file can be disabled by placing the special commen
 ```js
 // jscs:disable
 ```
-As the comments are applicable only to the file they are placed in there is no requirement to put the special comment `// jscs:enable` at the end of the file. 
+As the comments are applicable only to the file they are placed in there is no requirement to put the special comment `// jscs:enable` at the end of the file.
 
 The same concept is applicable to disable only specific rules in the file. So instead of `// jscs:disable`, you can put `// jscs:disable requireCurlyBraces` to disable a single rule or `// jscs:disable requireCurlyBraces, requireDotNotation` to disable multiple rules
 
