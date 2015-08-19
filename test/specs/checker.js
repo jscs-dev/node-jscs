@@ -193,7 +193,7 @@ describe('checker', function() {
         it('should accept a path to a filter function to filter out errors', function() {
             checker.configure({
                 disallowQuotedKeysInObjects: true,
-                errorFilter: __dirname + '/../data/error-filter.js'
+                errorFilter: __dirname + '/../data/error-filter/index.js'
             });
 
             var errors = checker.checkString('var x = { "a": 1 }');

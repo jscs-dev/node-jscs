@@ -139,6 +139,12 @@ describe('cli-config', function() {
 
             assert.equal(typeof config, 'object');
         });
+
+        it('should get content from "node_modules"', function() {
+            var config = configFile.getContent('test', path.resolve('./test/data/configs/modules'));
+
+            assert.ok(config.test);
+        });
     });
 
     describe('getReporter method', function() {

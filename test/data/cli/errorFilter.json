@@ -1,4 +1,4 @@
 {
-  "errorFilter": "../error-filter.js",
+  "errorFilter": "../error-filter/index.js",
   "disallowKeywords": ["with"]
 }
