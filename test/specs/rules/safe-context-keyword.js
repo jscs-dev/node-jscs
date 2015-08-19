@@ -105,4 +105,19 @@ describe('rules/safe-context-keyword', function() {
             });
         });
     });
+
+    describe('esnext', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                safeContextKeyword: 'that',
+                esnext: true
+            });
+        });
+
+        it('should ignore destructuring assignment', function() {
+            assert(checker.checkString('const { smth } = this;').isEmpty());
+        });
+    });
 });
