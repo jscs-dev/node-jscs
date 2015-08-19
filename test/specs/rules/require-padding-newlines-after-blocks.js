@@ -263,4 +263,19 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             assert(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]').isEmpty());
         });
     });
+
+    describe('esnext', function() {
+        beforeEach(function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                requirePaddingNewLinesAfterBlocks: true,
+                esnext: true
+            });
+        });
+
+        it('should not report arrow chain (#1700)', function() {
+            assert(checker.checkString('a(res => {\n})\n.b();').isEmpty());
+        });
+    });
 });
