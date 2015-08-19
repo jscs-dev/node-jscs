@@ -668,7 +668,7 @@ describe('cli', function() {
 
         it('should accept a path to a filter module', function() {
             return assertNoCliErrors(cli({
-                errorFilter: __dirname + '/../data/error-filter.js',
+                errorFilter: __dirname + '/../data/error-filter/index.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             }));
@@ -676,7 +676,7 @@ describe('cli', function() {
 
         it('should accept a relative path to a filter module', function() {
             return assertNoCliErrors(cli({
-                errorFilter: '../error-filter.js',
+                errorFilter: '../error-filter/index.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             }));
@@ -758,7 +758,7 @@ describe('cli', function() {
 
             var result = cli({
                 args: [],
-                autoConfigure: __dirname + '/data/error-filter.js'
+                autoConfigure: __dirname + '/data/error-filter/index.js'
             });
 
             return result.promise.then(function(status) {
@@ -773,7 +773,7 @@ describe('cli', function() {
 
             var result = cli({
                 args: [],
-                autoConfigure: __dirname + '/data/error-filter.js'
+                autoConfigure: __dirname + '/data/error-filter/index.js'
             });
 
             return result.promise.then(null, function(status) {
@@ -781,6 +781,31 @@ describe('cli', function() {
                 assert.ok(process.stderr.write.getCall(0).args[0].indexOf(message));
                 rAfter();
             });
+        });
+    });
+
+    describe('local with global load', function() {
+        function delCache() {
+            delete require.cache[path.resolve(__dirname, '../../lib/cli.js')];
+        }
+
+        beforeEach(delCache);
+        afterEach(delCache);
+
+        it('should load "global" version of jscs', function() {
+            var p = path.resolve(__dirname, '../../lib/cli.js');
+
+            assert(!require(p).test);
+        });
+
+        it('should load local version of "jscs"', function() {
+            sinon.stub(process, 'cwd', function() {
+                return path.resolve(__dirname, '../data/cli/modules');
+            });
+
+            assert(require('../../lib/cli.js').test);
+
+            process.cwd.restore();
         });
     });
 });

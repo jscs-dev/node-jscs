@@ -481,7 +481,7 @@ describe('string-checker', function() {
         it('should accept a path to a filter function to filter out errors', function() {
             checker.configure({
                 disallowQuotedKeysInObjects: true,
-                errorFilter: require(__dirname + '/../data/error-filter.js')
+                errorFilter: require(__dirname + '/../data/error-filter/index.js')
             });
 
             var errors = checker.checkString('var x = { "a": 1 }');
