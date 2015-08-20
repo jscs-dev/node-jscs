@@ -53,6 +53,7 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
 
         it('should report when a comment is after opening parentheses', function() {
             assert(checker.checkString('(/* comment */ el )').getErrorCount() === 1);
+            assert(checker.checkString('(// comment\n el )').getErrorCount() === 1);
         });
 
         it('should report when a comment is before closes round parentheses', function() {
@@ -61,6 +62,7 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
 
         it('should allow a comment with space', function() {
             assert(checker.checkString('( /* comment */ el /* comment */ )').isEmpty());
+            assert(checker.checkString('( // comment\n el /* comment */ )').isEmpty());
         });
 
         it('should report nested parentheses', function() {
@@ -104,6 +106,46 @@ describe('rules/require-spaces-inside-parenthesized-expression', function() {
             assert(checker.checkString('(1)').getErrorCount() === 2);
             assert(checker.checkString('(function() {}, {})').getErrorCount() === 1);
             assert(checker.checkString('( function() {}, {})').isEmpty());
+        });
+
+        it('should consider comments', function() {
+            checker.configure({
+                requireSpacesInsideParenthesizedExpression: {
+                    allExcept: ['//', '/*', '*/']
+                }
+            });
+
+            assert(checker.checkString('(foo)').getErrorCount() === 2);
+            assert(checker.checkString('(/**/ foo /**/)').isEmpty());
+            assert(checker.checkString('(//\n foo //\n)').isEmpty());
+            assert(checker.checkString('(/*comment*/ foo /*comment*/)').isEmpty());
+            assert(checker.checkString('(//comment\n foo //comment\n)').isEmpty());
+        });
+
+        it('should differentiate comments', function() {
+            checker.configure({
+                requireSpacesInsideParenthesizedExpression: {
+                    allExcept: ['/*', '*/']
+                }
+            });
+
+            assert(checker.checkString('(foo)').getErrorCount() === 2);
+            assert(checker.checkString('(/**/ foo /**/)').isEmpty());
+            assert(checker.checkString('(//\n foo //\n)').getErrorCount() === 1);
+            assert(checker.checkString('(/*comment*/ foo /*comment*/)').isEmpty());
+            assert(checker.checkString('(//comment\n foo //comment\n)').getErrorCount() === 1);
+        });
+
+        it('should not look inside comments', function() {
+            checker.configure({
+                requireSpacesInsideParenthesizedExpression: {
+                    allExcept: ['[', ']']
+                }
+            });
+
+            assert(checker.checkString('([ foo ])').isEmpty());
+            assert(checker.checkString('(/*[*/ foo /*]*/)').getErrorCount() === 2);
+            assert(checker.checkString('(//[\n foo )').getErrorCount() === 1);
         });
     });
 
