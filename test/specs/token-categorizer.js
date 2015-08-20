@@ -20,7 +20,8 @@ describe('token-categorizer', function() {
 
         before(function() {
             sharedFile = createJsFile(
-                '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
+                '(((function(){ function f(){} ' +
+                'if(new f(0)) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
             );
             sharedFile.iterateTokenByValue('(', function(token) {
                 openParens.push({
@@ -118,7 +119,8 @@ describe('token-categorizer', function() {
 
         before(function() {
             sharedFile = createJsFile(
-                '(((function(){ function f(){} if(0) return((f)(0, (1), ((2)))+0); throw(f()+(0)); })))'
+                '(((function(){ function f(){} ' +
+                'if(new f(0)+0) return((f)(0, (1), ((2)))+0); throw(f()+(0)); })))'
             );
             sharedFile.iterateTokenByValue(')', function(token) {
                 closeParens.push({
@@ -204,6 +206,15 @@ describe('token-categorizer', function() {
                     TokenCategorizer.categorizeCloseParen(token, file),
                     'CallExpression',
                     'function call'
+                );
+            });
+
+            file = createJsFile('new Ctor()');
+            file.iterateTokenByValue(')', function(token) {
+                assert.equal(
+                    TokenCategorizer.categorizeCloseParen(token, file),
+                    'CallExpression',
+                    'constructor call'
                 );
             });
 
