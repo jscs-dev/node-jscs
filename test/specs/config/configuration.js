@@ -569,7 +569,7 @@ describe('config/configuration', function() {
                 preset: 'test2'
             });
 
-            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
+            assert.deepEqual(configuration.getExcludedFileMasks(), ['.git/**', 'node_modules/**']);
         });
 
         it('should set `fileExtensions` setting from presets', function() {
@@ -790,7 +790,7 @@ describe('config/configuration', function() {
 
         it('should set default excludeFiles option', function() {
             configuration.load({});
-            assert.deepEqual(configuration.getExcludedFileMasks(), ['node_modules/**']);
+            assert.deepEqual(configuration.getExcludedFileMasks(), ['.git/**', 'node_modules/**']);
         });
 
         it('should set default file extensions', function() {

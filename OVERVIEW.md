@@ -152,7 +152,7 @@ In order to add/remove preset rules you will need to create a `.jscsrc` config f
 ### `--extract`
 With this option you can set glob pattern for files which embeded JavaScript should be checked.
 ```
-jscs path[ path[...]] --extract *.html 
+jscs path[ path[...]] --extract *.html
 ```
 
 You can set several patterns if necessary.
@@ -275,7 +275,7 @@ Values: Array of file matching patterns
 
 #### Default
 
-`node_modules` folder is excluded by default
+The `.git` and `node_modules` folders are excluded by default.
 
 ### fileExtensions
 
