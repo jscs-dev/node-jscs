@@ -60,8 +60,38 @@ Adding new presets
 ------------------
 
 1. Make sure they follow the rules listed in CONTRIBUTING.md
-1. Discuss the preset on the mailing list: jscs-dev@googlegroups.com
+1. Discuss the preset on the [mailing list](jscs-dev@googlegroups.com) or [gitter room](https://gitter.im/jscs-dev/node-jscs)
 1. Once discussed and agreed upon, land the PR!
+
+Merging a PR
+------------
+
+We never hit the Merge pull request button on github. This avoids merge commits which makes history muddy.
+We generate changelogs from the history, so the less noise – the better.
+
+We never change history on master.
+If you make a mistake and push up a silly commit to upstream's master, then you issue a revert commit, you do not remove the commit from the history and force push up.
+
+Example Merging Workflow
+----------------
+
+1. Checkout the PR locally `hub checkout the_pull_request_url` (download [hub](https://github.com/github/hub))
+2. Make sure that the PR is up to date with master `git pull --rebase upstream master`
+  - This is assuming you have a remote upstream pointing to git@github.com:jscs-dev/node-jscs.git
+3. Make sure the PR is still passing all tests at this point: `npm test`
+4. Fix up the commit message (according to the [suggested format](https://github.com/jscs-dev/node-jscs/blob/master/CONTRIBUTING.md#commit-message-format))
+ - Make sure any issue numbers are listed if it's a bug fix: `Fixes #123`
+ - Make sure the commit closes the PR number: `Closes gh-124`
+ - Make sure any referenced issues are listed: `Ref #111`
+ - If they have a single commit, then `git commit --amend` to `reword` that commit according to the above rules.
+ - If they have multiple commits, then `git rebase -i the_SHA_before_their_first_commit` and `fixup` all commits except the top most. `reword` the top-most commit according to the above rules.
+5. Save the commit changes and exit the editor of that tab of the editor
+6. The rebase should be carried out without a problem
+ - If you run into problems, `git rebase --abort` and ask another maintainer for help, or fix the merge conflicts yourself.
+7. `git checkout master && git pull upstream master && git merge -`
+ - This should result in a *fast-forward* merge. If you have a recursive merge, then you did something wrong.
+8. For sanity sake, feel free to run the test suite again post-merge: `npm test`
+9. Once it's all passing, `git push upstream master` to push that commit to the master branch of the main jscs repo.
 
 Publishing a new version
 ---------------------------
