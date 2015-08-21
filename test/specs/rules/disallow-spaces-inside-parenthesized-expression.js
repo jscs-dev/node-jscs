@@ -56,7 +56,7 @@ describe('rules/disallow-spaces-inside-parenthesized-expression', function() {
             assert(checker.checkString('( // comment\nel)').getErrorCount() === 1);
         });
 
-        it('should report when a comment is before closes round parentheses', function() {
+        it('should report when a comment is before closing parentheses', function() {
             assert(checker.checkString('(i/* comment */ )').getErrorCount() === 1);
         });
 
