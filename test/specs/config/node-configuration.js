@@ -32,7 +32,11 @@ describe('modules/config/node-configuration', function() {
 
         it('should load relative path', function() {
             assert.equal(
-                typeof configuration.loadExternal('./test/data/plugin/plugin'),
+                typeof configuration.loadExternal(
+                    '../../data/plugin/plugin',
+                    'plugin',
+                    __filename
+                ),
                 'function'
             );
         });
@@ -40,7 +44,8 @@ describe('modules/config/node-configuration', function() {
         it('should load absolute path', function() {
             assert.equal(
                 typeof configuration.loadExternal(
-                    path.resolve('./test/data/plugin/plugin')
+                    path.resolve('./test/data/plugin/plugin'),
+                    'plugin'
                 ),
                 'function'
             );
@@ -53,15 +58,8 @@ describe('modules/config/node-configuration', function() {
             );
         });
 
-        it('should load with "jscs" prefix node module', function() {
-            assert.equal(
-                typeof configuration.loadExternal('jsdoc'),
-                'function'
-            );
-        });
-
         it('should load preset with "jscs-config" prefix', function() {
-            var way = path.resolve('./test/data/plugin/modules');
+            var way = path.resolve('./test/data/configs/modules');
             var stub = sinon.stub(process, 'cwd');
 
             stub.returns(way);
@@ -73,15 +71,29 @@ describe('modules/config/node-configuration', function() {
         });
 
         it('should load preset with "jscs-preset" prefix', function() {
-            var way = path.resolve('./test/data/plugin/modules');
+            var way = path.resolve('./test/data/configs/modules');
             var stub = sinon.stub(process, 'cwd');
 
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('second-test', 'preset').test);
+            assert(configuration.loadExternal('s-test', 'preset').test);
 
             stub.restore();
+        });
+
+        it('should load preset with "jscs-config" prefix without cwd', function() {
+            var config = path.resolve('./test/data/configs/modules/config.json');
+
+            var configuration = new NodeConfiguration();
+            assert(configuration.loadExternal('first-test', 'preset', config).test);
+        });
+
+        it('should load preset with "jscs-preset" prefix without cwd', function() {
+            var config = path.resolve('./test/data/configs/modules/config.json');
+
+            var configuration = new NodeConfiguration();
+            assert(configuration.loadExternal('s-test', 'preset', config).test);
         });
 
         it('should load error filter with prefix', function() {
@@ -227,6 +239,141 @@ describe('modules/config/node-configuration', function() {
             assert(configuration.getUnsupportedRuleNames().indexOf('spy') > -1);
         });
 
+        it('should load preset from preset', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-t-test/index.json')
+            });
+
+            assert.equal(configuration.getPresetName(), 'index');
+
+            assert(
+                configuration.getUnsupportedRuleNames().indexOf('one') !== -1,
+                'should load rule from first preset'
+            );
+
+            assert(
+                configuration.getUnsupportedRuleNames().indexOf('second') !== -1,
+                'should load rule from second preset'
+            );
+        });
+
+        it('should load preset json module', function() {
+            configuration.load({
+                preset: 'module/module',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+        });
+
+        it('should load preset json module with different prefix', function() {
+            configuration.load({
+                preset: 'mod/module',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+        });
+
+        it('should load preset js module', function() {
+            configuration.load({
+                preset: 'module/js-module',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+        });
+
+        it('should load preset js module with different prefix', function() {
+            configuration.load({
+                preset: 'mod/js-module',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+        });
+
+        it('should load preset module with extension', function() {
+            configuration.load({
+                preset: 'module/module.json',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+        });
+
+        it('should load preset', function() {
+            configuration.load({
+                preset: 'module',
+                configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
+            });
+
+            assert.equal(configuration.getUnsupportedRuleNames()[0], 'test');
+        });
+
+        it('should load "node_modules" preset from preset', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-preset-nm/index.json')
+            });
+
+            assert(
+                configuration.getUnsupportedRuleNames().indexOf('test') !== -1,
+                'should load rule from first preset'
+            );
+        });
+
+        it('should not rewrite rule from original preset', function() {
+            configuration.registerRule({
+                getOptionName: function() {
+                    return 'one';
+                },
+                configure: function(config) {
+                    this.value = config;
+                }
+            });
+
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-t-test/index.json')
+            });
+
+            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'one');
+            assert.equal(configuration.getRegisteredRules()[0].value, true);
+        });
+
+        it('should load preset with custom esprima', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-esprima/index.json')
+            });
+
+            assert(typeof configuration.getCustomEsprima().parse === 'function');
+        });
+
+        it('should load preset with custom rule', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-rule/index.json')
+            });
+
+            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'test');
+            assert.equal(configuration.getRegisteredRules()[0].config, true);
+        });
+
+        it('should load preset with plugin', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-plugin/index.json')
+            });
+
+            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'test');
+            assert.equal(configuration.getRegisteredRules()[0].config, true);
+        });
+
+        it('should load preset with errorFilter', function() {
+            configuration.load({
+                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-filter/index.json')
+            });
+
+            assert(typeof configuration.getErrorFilter() === 'function');
+        });
+
         it('should throw if preset is missing', function() {
             configuration.registerDefaultRules();
             assert.throws(
@@ -273,6 +420,7 @@ describe('modules/config/node-configuration', function() {
                 additionalRules: ['./rules/*.js'],
                 configPath: path.resolve(__dirname + '/../../data/config.json')
             });
+
             assert(configuration.getRegisteredRules().length === 1);
             assert(configuration.getRegisteredRules()[0] instanceof AdditionalRule);
         });
