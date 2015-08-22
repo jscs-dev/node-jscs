@@ -693,6 +693,12 @@ describe('config/configuration', function() {
             assert(configuration.getBasePath() === 'app');
         });
 
+        it('should not rewrite `basePath`', function() {
+            configuration.load({configPath: 'first/1.js'});
+            configuration.load({configPath: 'second/1.js'});
+            assert(configuration.getBasePath() === 'first');
+        });
+
         it('should accept `plugins`', function() {
             var plugin = function() {};
             var spy = sinon.spy(plugin);

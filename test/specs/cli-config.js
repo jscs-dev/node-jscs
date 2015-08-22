@@ -141,8 +141,13 @@ describe('cli-config', function() {
         });
 
         it('should get content from "node_modules"', function() {
+            var dir = path.resolve('./test/data/configs/modules');
             var config = configFile.getContent('test', path.resolve('./test/data/configs/modules'));
 
+            assert.equal(
+                config.configPath,
+                path.join(dir, 'node_modules/test/index.json')
+            );
             assert.ok(config.test);
         });
     });
