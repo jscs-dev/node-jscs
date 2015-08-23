@@ -178,7 +178,7 @@ jscs path[ path[...]] --error-filter=path/to/my/module.js
 Clean output without colors.
 
 ### `--max-errors` (`-m`)
-Set the maximum number of errors to report (pass "null" to disable this).
+Set the maximum number of errors to report (pass -1 to report all errors).
 
 ### `--help` (`-h`)
 Outputs usage information.
@@ -285,18 +285,22 @@ Values: A single file extension or an Array of file extensions, beginning with a
 ```
 
 ### maxErrors
-
-Set the maximum number of errors to report.
+Set the maximum number of errors to report (pass -1 or null to report all errors).
 Ignored if `--fix` flag is provided.
 
-Type: `Number`
+Type: `Number|null`
 
 Default: 50
 
 #### Example
 
 ```js
+// Report only the first 10 errors
 "maxErrors": 10
+
+// Report all errors
+"maxErrors": -1
+"maxErrors": null
 ```
 
 ### esnext
@@ -454,7 +458,7 @@ All rule checks on the entire file can be disabled by placing the special commen
 ```js
 // jscs:disable
 ```
-As the comments are applicable only to the file they are placed in there is no requirement to put the special comment `// jscs:enable` at the end of the file. 
+As the comments are applicable only to the file they are placed in there is no requirement to put the special comment `// jscs:enable` at the end of the file.
 
 The same concept is applicable to disable only specific rules in the file. So instead of `// jscs:disable`, you can put `// jscs:disable requireCurlyBraces` to disable a single rule or `// jscs:disable requireCurlyBraces, requireDotNotation` to disable multiple rules
 

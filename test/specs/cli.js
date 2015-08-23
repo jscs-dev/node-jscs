@@ -621,7 +621,7 @@ describe('cli', function() {
             })
             .promise.always(function() {
                 assert(console.error.getCall(0).args[0]
-                    .indexOf('`maxErrors` option requires positive number or null value') !== -1);
+                    .indexOf('`maxErrors` option requires -1, null value or positive number') !== -1);
                 rAfter();
             });
         });
