@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var cli = require('../lib/cli');
+var cli = require('../lib/get-cli');
 
 /**
  * Command line implementation for JSCS.
