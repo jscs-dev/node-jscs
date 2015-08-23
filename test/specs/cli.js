@@ -626,7 +626,7 @@ describe('cli', function() {
                 var noLimit = console.error.getCall(0).args[0].indexOf(
                     'Increase `maxErrors` configuration option'
                 ) === -1;
-                
+
                 assert(noError && noLimit);
                 rAfter();
             });
@@ -645,7 +645,7 @@ describe('cli', function() {
                 var noLimit = console.error.getCall(0).args[0].indexOf(
                     'Increase `maxErrors` configuration option'
                 ) === -1;
-                
+
                 assert(noError && noLimit);
                 rAfter();
             });
