@@ -613,6 +613,44 @@ describe('cli', function() {
             });
         });
 
+        it('should allow -1 value to report all errors', function() {
+            return cli({
+                maxErrors: '-1',
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                var noError = console.error.getCall(0).args[0].indexOf(
+                    '`maxErrors` option requires -1, null value or positive number'
+                ) === -1;
+                var noLimit = console.error.getCall(0).args[0].indexOf(
+                    'Increase `maxErrors` configuration option'
+                ) === -1;
+                
+                assert(noError && noLimit);
+                rAfter();
+            });
+        });
+
+        it('should allow null value to report all errors', function() {
+            return cli({
+                maxErrors: null,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            })
+            .promise.always(function() {
+                var noError = console.error.getCall(0).args[0].indexOf(
+                    '`maxErrors` option requires -1, null value or positive number'
+                ) === -1;
+                var noLimit = console.error.getCall(0).args[0].indexOf(
+                    'Increase `maxErrors` configuration option'
+                ) === -1;
+                
+                assert(noError && noLimit);
+                rAfter();
+            });
+        });
+
         it('should throw a error when value is incorrect', function() {
             return cli({
                 maxErrors: '1a',
