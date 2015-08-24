@@ -620,10 +620,10 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                var noError = console.error.getCall(0).args[0].indexOf(
+                var noError = console.log.getCall(0).args[0].indexOf(
                     '`maxErrors` option requires -1, null value or positive number'
                 ) === -1;
-                var noLimit = console.error.getCall(0).args[0].indexOf(
+                var noLimit = console.log.getCall(0).args[0].indexOf(
                     'Increase `maxErrors` configuration option'
                 ) === -1;
 
@@ -639,10 +639,10 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                var noError = console.error.getCall(0).args[0].indexOf(
+                var noError = console.log.getCall(0).args[0].indexOf(
                     '`maxErrors` option requires -1, null value or positive number'
                 ) === -1;
-                var noLimit = console.error.getCall(0).args[0].indexOf(
+                var noLimit = console.log.getCall(0).args[0].indexOf(
                     'Increase `maxErrors` configuration option'
                 ) === -1;
 
