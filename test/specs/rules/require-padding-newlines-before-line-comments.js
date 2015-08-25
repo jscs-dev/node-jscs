@@ -10,12 +10,6 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
     });
 
     describe('invalid options', function() {
-        it('should throw if false', function() {
-            assert.throws(function() {
-                checker.configure({ requirePaddingNewLinesBeforeLineComments: false });
-            });
-        });
-
         it('should throw if array', function() {
             assert.throws(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: [] });

@@ -15,12 +15,6 @@ describe('rules/require-var-decl-first', function() {
                     checker.configure({ requireVarDeclFirst: true });
                 });
             });
-
-            it('should report an error for value "false"', function() {
-                assert.throws(function() {
-                    checker.configure({ requireVarDeclFirst: false });
-                });
-            });
         });
 
         describe('rule checks', function() {
