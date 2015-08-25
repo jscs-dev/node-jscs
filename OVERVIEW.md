@@ -261,7 +261,7 @@ Values: Array of file matching patterns
 #### Default
 
 ```js
-"excludeFiles": ["node_modules/**"]
+"excludeFiles": [".*/**", "node_modules/**"]
 ```
 
 ### fileExtensions
