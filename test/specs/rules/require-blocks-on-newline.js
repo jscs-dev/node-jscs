@@ -38,12 +38,6 @@ describe('rules/require-blocks-on-newline', function() {
             }
         );
 
-        it('should report an error for value "false"', function() {
-            assert.throws(function() {
-                checker.configure({ requireBlocksOnNewline: false });
-            });
-        });
-
         it('should report an error for value "-1"', function() {
             assert.throws(function() {
                 checker.configure({ requireBlocksOnNewline: -1 });

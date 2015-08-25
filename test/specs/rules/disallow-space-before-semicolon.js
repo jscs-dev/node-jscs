@@ -9,12 +9,6 @@ describe('rules/disallow-space-before-semicolon', function() {
         checker.registerDefaultRules();
     });
 
-    it('should not accept a false value as an option', function() {
-        assert.throws(function() {
-            checker.configure({ disallowSpaceBeforeSemicolon: false });
-        });
-    });
-
     it('does not allow spaces before semicolons', function() {
         checker.configure({ disallowSpaceBeforeSemicolon: true });
 

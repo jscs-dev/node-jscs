@@ -23,14 +23,6 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             });
         });
 
-        describe('option is boolean', function() {
-            it('should report configuration error if false', function() {
-                assert.throws(function() {
-                    checker.configure({ requirePaddingNewlinesInBlocks: false });
-                });
-            });
-        });
-
         describe('option is object', function() {
             it('should report configuration error if options.open is not found', function() {
                 assert.throws(function() {

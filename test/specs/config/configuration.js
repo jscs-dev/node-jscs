@@ -393,6 +393,20 @@ describe('config/configuration', function() {
             assert(configureSpy.callCount === 0);
         });
 
+        it('should not configure rule on false', function() {
+            var rule = {
+                getOptionName: function() {
+                    return 'ruleName';
+                },
+                configure: function() {}
+            };
+            var configureSpy = sinon.spy(rule, 'configure');
+            configuration.registerRule(rule);
+            configuration.load({ruleName: false});
+            assert(!configuration.getProcessedConfig().hasOwnProperty('ruleName'));
+            assert(configureSpy.callCount === 0);
+        });
+
         it('should load `preset` options', function() {
             configuration.registerPreset('test', {maxErrors: 1});
             configuration.load({preset: 'test'});

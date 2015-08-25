@@ -11,12 +11,6 @@ describe('rules/require-padding-newlines-after-blocks', function() {
     });
 
     describe('invalid options', function() {
-        it('should throw if false', function() {
-            assert.throws(function() {
-                checker.configure({ requirePaddingNewLinesAfterBlocks: false });
-            });
-        });
-
         it('should throw if empty object', function() {
             assert.throws(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: {} });

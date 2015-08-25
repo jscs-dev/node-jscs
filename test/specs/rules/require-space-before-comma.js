@@ -9,12 +9,6 @@ describe('rules/require-space-before-comma', function() {
         checker.registerDefaultRules();
     });
 
-    it('should not accept a false value as an option', function() {
-        assert.throws(function() {
-            checker.configure({ requireSpaceBeforeComma: false });
-        });
-    });
-
     it('requires spaces before commas', function() {
         checker.configure({ requireSpaceBeforeComma: true });
 
