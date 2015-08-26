@@ -4,14 +4,14 @@
 
 This release consists mostly of bug-fixes. Check them out – there are a lot of them!
 
-##### Fix regarding global jscs installs and plugins
+#### Fix regarding global jscs installs and plugins
 
 One of the biggest issues fixed: a **global** jscs install can finally load **local** extensions (à la gulp style) like error-filters, plugins, additional rules, and presets. 
 
 This will fix issues with using a custom preset with something like [SublimeLinter](https://packagecontrol.io/packages/SublimeLinter-jscs) which uses the global jscs install.
 
-- To make a custom preset, you just need to publish a npm package with a jscs config file
-- We recommend the package/repo name starts with `jscs-preset-` or with `jscs-config-` to help with searching for presets on npm and defining it in your config
+- To make a custom preset, you need to publish a npm package with a jscs config file
+- We recommend the package name starts with `jscs-preset-` or with `jscs-config-` to help with searching for presets on npm and defining it in your config
 - This would allow you to specify your preset more succinctly: `”preset”: “awesome”` instead of `”preset”: “jscs-preset-awesome”`
 - You can also share multiple presets in one package with `”preset”: “awesome/super-awesome”`, provided that you have `super-awesome.{json, js}` in your package root directory
 - Create a `jscs.json` file to store your jscs config 
@@ -35,7 +35,7 @@ This will fix issues with using a custom preset with something like [SublimeLint
 
 We will add more comprehensive documentation for this feature a bit later, so stay tuned.
 
-##### Disable a rule with `false` or `null`
+#### Disable a rule with `false` or `null`
 
 You can use `false` (instead of only `null`) to disable a rule (such as in a preset). This was a point of confusion for newer users. To disable a rule you can do:
 
