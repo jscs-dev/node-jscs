@@ -52,11 +52,24 @@ describe('rules/require-capitalized-comments', function() {
             ].join('\n')).isEmpty());
         });
 
-        it('should not report on comments that disable or enable JSCS rules', function() {
+        it('should not report on comments that disable or enable JSCS, ESLint, JSHint and Istanbul rules', function() {
             assert(checker.checkString('//jscs:enable').isEmpty());
             assert(checker.checkString('// jscs:disable').isEmpty());
             assert(checker.checkString('/*jscs:enable rule*/').isEmpty());
             assert(checker.checkString('/* jscs:disable rule*/').isEmpty());
+
+            assert(checker.checkString('/* eslint eqeqeq:0, curly: 2*/').isEmpty());
+            assert(checker.checkString('/* eslint-env node, mocha */').isEmpty());
+            assert(checker.checkString('/* global var1, var2*/').isEmpty());
+            assert(checker.checkString('/* eslint-disable */').isEmpty());
+            assert(checker.checkString('/* eslint-enable */').isEmpty());
+            assert(checker.checkString('// eslint-disable-line').isEmpty());
+
+            assert(checker.checkString('/* jshint strict: true */').isEmpty());
+            assert(checker.checkString('/* globals MY_LIB: false */').isEmpty());
+            assert(checker.checkString('/* exported EXPORTED_LIB */').isEmpty());
+
+            assert(checker.checkString('/* istanbul ignore next */').isEmpty());
         });
 
         it('should not report on multiple uppercase lines in a "textblock"', function() {
