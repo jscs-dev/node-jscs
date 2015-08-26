@@ -1,3 +1,88 @@
+## Version [2.1.1](https://github.com/jscs-dev/node-jscs/compare/v2.1.0...v2.1.1)
+
+### Overview
+
+This release consists mostly of bug-fixes. Check them out – there are a lot of them!
+
+##### Fix regarding global jscs installs and plugins
+
+One of the biggest issues fixed: a **global** jscs install can finally load **local** extensions (à la gulp style) like error-filters, plugins, additional rules, and presets. 
+
+This will fix issues with using a custom preset with something like [SublimeLinter](https://packagecontrol.io/packages/SublimeLinter-jscs) which uses the global jscs install.
+
+- To make a custom preset, you just need to publish a npm package with a jscs config file
+- We recommend the package/repo name starts with `jscs-preset-` or with `jscs-config-` to help with searching for presets on npm and defining it in your config
+- This would allow you to specify your preset more succinctly: `”preset”: “awesome”` instead of `”preset”: “jscs-preset-awesome”`
+- You can also share multiple presets in one package with `”preset”: “awesome/super-awesome”`, provided that you have `super-awesome.{json, js}` in your package root directory
+- Create a `jscs.json` file to store your jscs config 
+- In your `package.json`, set the `main` field to `jscs.json`
+
+```js
+// example package.json in `jscs-config-awesome`
+{
+  “name”: “jscs-config-awesome”,
+  “version”: “1.0.0”,
+  “main”: “jscs.json”
+}
+
+// example .jscsrc using a custom preset
+// assuming the preset package name is `jscs-config-awesome`
+{
+  “preset”: “awesome”,
+  “disallowEmptyBlocks”: false // example of disabling a preset rule with false
+}
+```
+
+We will add more comprehensive documentation for this feature a bit later, so stay tuned.
+
+##### Disable a rule with `false` or `null`
+
+You can use `false` (instead of only `null`) to disable a rule (such as in a preset). This was a point of confusion for newer users. To disable a rule you can do:
+
+```js
+{
+  “preset”: “airbnb”,
+  “disallowEmptyBlocks”: null // disabling a rule with null
+  “disallowSpacesInCallExpression”: false // disabling a rule with false
+}
+```
+
+We also managed to squeeze two new rules ([requireSpacesInsideParenthesizedExpression](http://jscs.info/rule/requireSpacesInsideParenthesizedExpression.html) and [disallowSpacesInsideParenthesizedExpression](http://jscs.info/rule/disallowSpacesInsideParenthesizedExpression.html)), increase performance, and improve ES6 support!
+
+### New Rules
+* New Rule: SpacesInsideParenthesizedExpression (Richard Gibson)
+
+### Enhancements
+* Configuration: disable any rule if its value equals to "false” (Oleg Gaidarenko)
+
+### Bug Fixes
+* requireDollarBeforejQueryAssignment: Ignore destructuring assignment (Simen Bekkhus)
+* validateIdentation: fix on empty switch blocks (Henry Zhu)
+* disallowQuotedKeysInObjects: fix allowing quoted non-reserved keys (Alexej Yaroshevich)
+* disallowParenthesesAroundArrowParam: allow destructuring of param (Henry Zhu)
+* requireTrailingComma: correct error message (monk-time)
+* requirePaddingNewLinesAfterBlocks: do not report arrow fn chaining (Oleg Gaidarenko)
+* safeContextKeyword: miss destructuring assignment (Oleg Gaidarenko)
+* disallowNodeTypes: correct configure error (Alexander Zeilmann)
+* requireDollarBeforejQueryAssignment: Ignore destructuring assignment (Simen Bekkhus)
+* paddingNewlinesInBlocks: add exceptions and open/close options (Kai Cataldo)
+* requireSpacesInAnonymousFunctionExpression: add allExcept option (Ken Sheedlo)
+* curlyBraces: support `for..of` statements (regseb)
+
+### Misc
+* Configuration: allow load of external entities from external preset (Oleg Gaidarenko)
+* CLI:Configuration: load local jscs modules if present (Oleg Gaidarenko)
+* JsFile: Improve getNodeByRange performance (Richard Gibson)
+* disallowQuotedKeysInObjects: rework tests and deprecate allButReserved value (Alexej Yaroshevich)
+
+### Docs
+* Docs: update examples on how to disable (Oleg Gaidarenko)
+* Docs: improve documentation for various rules (oredi)
+* Docs: fix typos in examples for disallowSpaceAfterObjectKeys (Yoni Medoff)
+* Docs: improve documentation for various rules (oredi)
+* Docs: small changelog corrections (Oleg Gaidarenko)
+* Docs: make it clearer node_modules is excluded, and ! can be used to include (Henry Zhu)
+
 ## Version [2.1.0](https://github.com/jscs-dev/node-jscs/compare/v2.0.0...v2.1.0)
 
 ### Overview
