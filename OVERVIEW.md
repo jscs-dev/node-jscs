@@ -15,11 +15,11 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [WordPress](https://github.com/jscs-dev/node-jscs/blob/master/presets/wordpress.json) — https://make.wordpress.org/core/handbook/coding-standards/javascript/
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
-You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null, like so:
+You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null or false, like so:
 ```json
 {
     "preset": "jquery",
-    "requireCurlyBraces": null
+    "requireCurlyBraces": null // or false
 }
 ```
 
@@ -90,7 +90,7 @@ checker.configure({
 // Use the Google preset, but override or remove some options
 checker.configure({
     preset: "google",
-    disallowMultipleLineBreaks: null,
+    disallowMultipleLineBreaks: null, // or false
     validateIndentation: "\t"
 });
 ```
@@ -236,11 +236,11 @@ Or you can load from it local path or as node module
 "preset": "your-preset-node_modules-path"
 ```
 
-You can specifically disable any preset rule by assigning it to null, like so:
+You can specifically disable any preset rule by assigning it to null or false, like so:
 ```json
 {
     "preset": "jquery",
-    "requireCurlyBraces": null
+    "requireCurlyBraces": null // or false
 }
 ```
 
