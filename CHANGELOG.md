@@ -2,7 +2,9 @@
 
 ### Overview
 
-This release consists mostly of bug-fixes. Check them out – there are a lot of them!
+This release consists mostly of bug-fixes. Check them out – there are a lot of them! 
+
+We also managed to squeeze two new rules - [requireSpacesInsideParenthesizedExpression](http://jscs.info/rule/requireSpacesInsideParenthesizedExpression.html) and [disallowSpacesInsideParenthesizedExpression](http://jscs.info/rule/disallowSpacesInsideParenthesizedExpression.html), increase performance, and improve ES6 support.
 
 #### Fix regarding global jscs installs and plugins
 
@@ -46,8 +48,6 @@ You can use `false` (instead of only `null`) to disable a rule (such as in a pre
   “disallowSpacesInCallExpression”: false // disabling a rule with false
 }
 ```
-
-We also managed to squeeze two new rules ([requireSpacesInsideParenthesizedExpression](http://jscs.info/rule/requireSpacesInsideParenthesizedExpression.html) and [disallowSpacesInsideParenthesizedExpression](http://jscs.info/rule/disallowSpacesInsideParenthesizedExpression.html)), increase performance, and improve ES6 support!
 
 ### New Rules
 * New Rule: SpacesInsideParenthesizedExpression (Richard Gibson)
