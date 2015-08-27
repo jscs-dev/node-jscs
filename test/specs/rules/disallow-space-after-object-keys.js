@@ -16,18 +16,20 @@ describe.skip('rules/disallow-space-after-object-keys', function() {
 
         it('should report with space(s) after keys', function() {
             expect(checker.checkString('var x = { a : 1, b: 2 };'))
-            .to.have.one.error.from('ruleName');
-            assert(checker.checkString('var x = { abc : 1, b  : 2 };').getValidationErrorCount() === 2);
+                .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = { abc : 1, b  : 2 };')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report with end of line after keys', function() {
-            assert(checker.checkString(
+            expect(
+                checker.checkString(
                 'var x = {' +
                 '   a\n' +
                 '      :\n' +
                 '   2\n' +
                 '}'
-            ).getValidationErrorCount() === 1);
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should not report without space after keys', function() {
@@ -42,7 +44,7 @@ describe.skip('rules/disallow-space-after-object-keys', function() {
 
         it('should report mixed shorthand and normal object propertis', function() {
             checker.configure({ esnext: true });
-            assert.equal(checker.checkString('var x = { a : 1, b };').getValidationErrorCount(), 1);
+            expect(checker.checkString('var x = { a : 1, b };')).to.have.one.validation.error();
         });
     });
 
@@ -56,11 +58,13 @@ describe.skip('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report with an object that takes up a multi line', function() {
-            assert(checker.checkString(
+            expect(
+                checker.checkString(
                 'var x = {\n' +
                     'a : 1,\n' +
                 '};'
-            ).getValidationErrorCount() === 1);
+                )
+            ).to.have.one.validation.error();
         });
     });
 
@@ -70,15 +74,17 @@ describe.skip('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report with an object that takes up a single line', function() {
-            assert(checker.checkString('var x = {a : 1, bcd : 2};').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = {a : 1, bcd : 2};')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with an object that takes up a multi line', function() {
-            assert(checker.checkString(
+            expect(
+                checker.checkString(
                 'var x = {\n' +
                     'a : 1,\n' +
                 '};'
-            ).isEmpty());
+                )
+            ).to.have.no.errors();
         });
     });
 
@@ -99,7 +105,7 @@ describe.skip('rules/disallow-space-after-object-keys', function() {
 
         it('should report es6-methods with a space. #1013', function() {
             expect(checker.checkString('var x = { a () { } };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
     });

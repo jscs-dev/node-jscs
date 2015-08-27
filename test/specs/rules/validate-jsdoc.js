@@ -11,20 +11,20 @@ describe.skip('rules/validate-jsdoc', function() {
 
     it('should not report normal comments directly above functions', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '// a comment\n' +
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report normal comments a few lines above functions', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '// a comment\n' +
@@ -32,13 +32,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should report invalid jsdoc if no options provided', function() {
         checker.configure({ validateJSDoc: {} });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -47,13 +47,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should report invalid jsdoc', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -62,13 +62,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should report error in jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -77,13 +77,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should report error in jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -93,13 +93,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -108,13 +108,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -124,13 +124,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report redundant jsdoc-param for function if not configured', function() {
         checker.configure({ validateJSDoc: { checkParamNames: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -139,13 +139,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName() {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should report redundant jsdoc-param for function', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -154,13 +154,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName() {\n' +
                     '\n' +
                 '}'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should report redundant jsdoc-param for method', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -170,13 +170,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -185,13 +185,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { checkRedundantParams: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -201,13 +201,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should report missing jsdoc-param type for function', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -216,13 +216,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should report missing jsdoc-param type for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -232,13 +232,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).getValidationErrorCount() === 1
-        );
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should not report valid jsdoc for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -247,13 +247,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc option property name for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                 '/**\n' +
@@ -263,13 +263,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 'function funcName(xxx) {\n' +
                     '\n' +
                 '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc for function', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                 '    /**\n' +
@@ -279,13 +279,13 @@ describe.skip('rules/validate-jsdoc', function() {
                 '        \n' +
                 '    }\n' +
                 '};'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc with object type for method', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'var x = 1;\n' +
                     '/**\n' +
@@ -294,13 +294,13 @@ describe.skip('rules/validate-jsdoc', function() {
                     'function funcName(xxx) {\n' +
                     '\n' +
                     '}'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report valid jsdoc with object type for function', function() {
         checker.configure({ validateJSDoc: { requireParamTypes: true } });
-        assert(
+        expect(
             checker.checkString(
                 'Cls.prototype = {\n' +
                     '    /**\n' +
@@ -310,7 +310,7 @@ describe.skip('rules/validate-jsdoc', function() {
                     '        \n' +
                     '    }\n' +
                     '};'
-            ).isEmpty()
-        );
+            )
+        ).to.have.no.errors();
     });
 });

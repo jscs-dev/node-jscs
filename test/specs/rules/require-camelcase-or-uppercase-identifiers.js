@@ -16,12 +16,12 @@ describe.skip('rules/require-camelcase-or-uppercase-identifiers', function() {
 
         it('should report inner all-lowercase underscores', function() {
             expect(checker.checkString('var x_y = "x";'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report inner some-lowercase underscores', function() {
             expect(checker.checkString('var X_y = "x";'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report inner all-uppercase underscores', function() {
@@ -50,22 +50,22 @@ describe.skip('rules/require-camelcase-or-uppercase-identifiers', function() {
 
         it('should report object keys', function() {
             expect(checker.checkString('var extend = { snake_case: a };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report object properties', function() {
             expect(checker.checkString('var extend = a.snake_case;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report identifiers that are the last token', function() {
             expect(checker.checkString('var a = snake_case'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report identifiers that are the first token', function() {
             expect(checker.checkString('snake_case = a;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 

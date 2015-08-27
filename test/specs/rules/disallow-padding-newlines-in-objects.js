@@ -18,7 +18,7 @@ describe.skip('rules/disallow-padding-newlines-in-objects', function() {
             .to.have.one.error.from('ruleName');
     });
     it('should report existing newline in both cases', function() {
-        assert(checker.checkString('var x = {\na: 1\n};').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = { a: {\nb: 1\n} };')).to.have.validation.error.count.which.equals(2);
     });
     it('should not report with no newlines', function() {
         expect(checker.checkString('var x = {a: 1};')).to.have.no.errors();
@@ -28,6 +28,6 @@ describe.skip('rules/disallow-padding-newlines-in-objects', function() {
         expect(checker.checkString('var x = {};')).to.have.no.errors();
     });
     it('should report for nested object', function() {
-        assert(checker.checkString('var x = { a: {\nb: 1\n} };').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = { a: {\nb: 1\n} };')).to.have.validation.error.count.which.equals(2);
     });
 });

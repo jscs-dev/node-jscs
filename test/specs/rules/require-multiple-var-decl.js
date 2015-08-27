@@ -19,7 +19,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
         });
         it('should report consecutive var decl', function() {
             expect(checker.checkString('var x; var y;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should not report multiple var decl', function() {
             expect(checker.checkString('var x, y;')).to.have.no.errors();
@@ -32,7 +32,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
         });
         it('should report consecutive var decl not contained by a parent with a `body` property', function() {
             expect(checker.checkString('switch (1) { case 1: var x; var y; }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -48,14 +48,14 @@ describe.skip('rules/require-multiple-var-decl', function() {
         });
         it('should report consecutive var decl', function() {
             expect(checker.checkString('var x; var y;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should not report multiple var decl', function() {
             expect(checker.checkString('var x, y;')).to.have.no.errors();
         });
         it('should report separated var decl', function() {
             expect(checker.checkString('var x; x++; var y;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should report multiple vars in function', function() {
             function test() {
@@ -78,7 +78,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
                 }
             }
             expect(checker.checkString(test.toString()))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should report multiple const and vars in function', function() {
             /* jshint esnext: true */
@@ -91,7 +91,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
                     var secondVar = 2;
                 }
             }
-            assert(checker.checkString(test.toString()).getValidationErrorCount() === 2);
+            expect(checker.checkString(test.toString())).to.have.error.count.which.equals(2);
         });
         it('should not confuse two separate functions', function() {
             function testFunc() {
@@ -108,7 +108,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
             }
 
             expect(checker.checkString(testFunc.toString()))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should not report multiple vars in nested functions', function() {
             function testFunc() {
@@ -139,7 +139,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
             }
 
             expect(checker.checkString(testFunc.toString()))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should report multiple vars for complicated example of nested functions', function() {
             function testFunc() {
@@ -164,13 +164,13 @@ describe.skip('rules/require-multiple-var-decl', function() {
                 }
             }
 
-            assert(checker.checkString(testFunc.toString()).getValidationErrorCount() === 3);
+            expect(checker.checkString(testFunc.toString())).to.have.error.count.which.equals(3);
         });
         it('should report multiple vars for function expression', function() {
             var testFunc = '!function() { var first = true; if (true) { var second = true; }};';
 
             expect(checker.checkString(testFunc))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
         it('should report multiple vars for nested functions declarations and expressions', function() {
             function testFunc() {
@@ -197,7 +197,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
                 }
             }
 
-            assert(checker.checkString(testFunc.toString()).getValidationErrorCount() === 2);
+            expect(checker.checkString(testFunc.toString())).to.have.error.count.which.equals(2);
         });
         it('should report multiple vars even if function in the way', function() {
             function testFunc() {
@@ -209,7 +209,7 @@ describe.skip('rules/require-multiple-var-decl', function() {
             }
 
             expect(checker.checkString(testFunc.toString()))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 });

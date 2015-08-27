@@ -44,7 +44,7 @@ describe.skip('rules/disallow-spaces-in-anonymous-function-expression', function
 
             expect(errors)
             .to.have.one.error.from('ruleName');
-            assert(error.column === 16);
+            expect(error.column).to.equal(16);
         });
     });
 

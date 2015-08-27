@@ -18,7 +18,7 @@ describe.skip('rules/require-named-unassigned-functions', function() {
 
         it('should report on unnamed unassigned function expressions', function() {
             expect(checker.checkString('$("hi").click(function(){});'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report on named unassigned function expressions', function() {
@@ -50,7 +50,7 @@ describe.skip('rules/require-named-unassigned-functions', function() {
 
         it('should report on unnamed unassigned function expressions', function() {
             expect(checker.checkString('$("hi").click(function(){});'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report on named unassigned function expressions', function() {
@@ -84,9 +84,9 @@ describe.skip('rules/require-named-unassigned-functions', function() {
 
         it('doesn\'t explode on literals/constructors', function() {
             expect(checker.checkString('[0].forEach(function () {});'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('(new Item()).forEach(function () {});'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -101,7 +101,7 @@ describe.skip('rules/require-named-unassigned-functions', function() {
             } catch (err) {
                 return;
             }
-            assert.fail('`checker.configure` should have raised an error for an invalid type');
+            throw new Error('`checker.configure` should have raised an error for an invalid type');
         });
     });
 });

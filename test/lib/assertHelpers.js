@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var assert = require('assert');
 var Checker = require('../../lib/checker');
 
 var AssertHelpers = {

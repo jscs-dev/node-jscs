@@ -11,23 +11,14 @@ describe.skip('rules/disallow-space-before-object-values', function() {
     });
 
     it('should report with space after keys colons', function() {
-        assert.equal(checker.checkString('var x = { a:1, b: 2 };').getValidationErrorCount(), 1, 'one error is found');
-        assert.equal(checker.checkString('var x = { abc : 1, b: 2 };').getValidationErrorCount(), 2, 'two errors are found');
-        assert.equal(
-            checker.checkString('var x = { abc:(true), z: (function() { return _z > 0; }) };').getValidationErrorCount(),
-            1,
-            'one error is found'
-        );
-        assert.equal(
-            checker.checkString('var x = { abc : (true), b: ("1")};').getValidationErrorCount(),
-            2,
-            'two errors are found'
-        );
-        assert.equal(
-            checker.checkString('var x = { a: ((1 > 2) && 3)};').getValidationErrorCount(),
-            1,
-            'one error is found'
-        );
+        expect(checker.checkString('var x = { a:1, b: 2 };')).to.have.one.validation.error();
+        expect(checker.checkString('var x = { abc : 1, b: 2 };'))
+            .to.have.validation.error.count.which.equals(2);
+        expect(checker.checkString('var x = { abc:(true), z: (function() { return _z > 0; }) };'))
+            .to.have.one.validation.error();
+        expect(checker.checkString('var x = { abc : (true), b: ("1")};'))
+            .to.have.validation.error.count.which.equals(2);
+        expect(checker.checkString('var x = { a: ((1 > 2) && 3)};')).to.have.one.validation.error();
     });
 
     it('should not report with no space after keys colons and parenthesised expression in property value', function() {
@@ -49,7 +40,7 @@ describe.skip('rules/disallow-space-before-object-values', function() {
 
     it('should report mixed shorthand and normal object propertis', function() {
         checker.configure({ esnext: true });
-        assert.equal(checker.checkString('var x = { a : 1, b };').getValidationErrorCount(), 1);
+        expect(checker.checkString('var x = { a : 1, b };')).to.have.one.validation.error();
     });
 
     it('should not report es6-methods. #1013', function() {

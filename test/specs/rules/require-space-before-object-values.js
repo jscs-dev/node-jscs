@@ -11,8 +11,8 @@ describe.skip('rules/require-space-before-object-values', function() {
     });
 
     it('should report with no space after keys colons', function() {
-        assert.equal(checker.checkString('var x = { a:1, b: 2 };').getValidationErrorCount(), 1, 'one error is found');
-        assert.equal(checker.checkString('var x = { abc :1, b:2 };').getValidationErrorCount(), 2, 'two errors are found');
+        expect(checker.checkString('var x = { a:1, b: 2 };')).to.have.one.validation.error();
+        expect(checker.checkString('var x = { abc :1, b:2 };')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report with parenthesised property value', function() {
@@ -30,12 +30,14 @@ describe.skip('rules/require-space-before-object-values', function() {
     });
 
     it('should not report with end of line after keys colons', function() {
-        assert(checker.checkString(
+        expect(
+            checker.checkString(
             'var x = {\n' +
             '   a:\n' +
             '   2\n' +
             '}'
-        ).isEmpty());
+            )
+        ).to.have.no.errors();
     });
 
     it('should not report with space after keys colons', function() {
@@ -50,7 +52,7 @@ describe.skip('rules/require-space-before-object-values', function() {
 
     it('should report mixed shorthand and normal object propertis', function() {
         checker.configure({ esnext: true });
-        assert.equal(checker.checkString('var x = { a:1, b };').getValidationErrorCount(), 1);
+        expect(checker.checkString('var x = { a:1, b };')).to.have.one.validation.error();
     });
 
     it('should not report es6-methods. #1013', function() {

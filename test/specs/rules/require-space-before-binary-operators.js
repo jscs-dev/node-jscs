@@ -25,7 +25,7 @@ describe.skip('rules/require-space-before-binary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
                     expect(checker.checkString(sticked))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -40,7 +40,7 @@ describe.skip('rules/require-space-before-binary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
                     expect(checker.checkString(stickedWithParenthesis))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -54,9 +54,9 @@ describe.skip('rules/require-space-before-binary-operators', function() {
             it('should highlight the end of the ' + operator + ' operator', function() {
                 checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
                 var error = checker.checkString(sticked).getErrorList()[0];
-                assert(error.line === 1);
-                assert(error.column === 14);
-                assert(error.message === ('Operator ' + operator + ' should not stick to preceding expression'));
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(14);
+                expect(error.message).to.equal('Operator ' + operator + ' should not stick to preceding expression');
             });
         });
     });
@@ -95,7 +95,7 @@ describe.skip('rules/require-space-before-binary-operators', function() {
 
     it('should report for assignment expressions', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
-        assert(checker.checkString('var x=1, t=2').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x=1, t=2')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report for assignment expressions without "=" sign', function() {

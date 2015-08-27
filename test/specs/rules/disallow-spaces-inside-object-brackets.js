@@ -10,9 +10,9 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
 
     describe.skip('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowSpacesInsideObjectBrackets: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -23,20 +23,20 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
 
         it('should report illegal space after opening brace, with true value', function() {
             expect(checker.checkString('var x = { a: 1};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report illegal space before closing brace, with true value', function() {
             expect(checker.checkString('var x = {a: 1 };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report illegal space in both cases, with true value', function() {
-            assert(checker.checkString('var x = { a: 1 };').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = { a: 1 };')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report illegal space for nested braces too, with true value', function() {
-            assert(checker.checkString('var x = { test: { a: 1 } };').getValidationErrorCount() === 4);
+            expect(checker.checkString('var x = { test: { a: 1 } };')).to.have.validation.error.count.which.equals(4);
         });
 
         it('should not report with no spaces, with true value', function() {
@@ -51,7 +51,7 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
 
         it('should report illegal space after opening brace, with "all" value', function() {
             expect(checker.checkString('var x = { a: 1};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report illegal space before closing brace, with "all" value', function() {
@@ -60,11 +60,11 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
         });
 
         it('should report illegal space in both cases, with "all" value', function() {
-            assert(checker.checkString('var x = { a: 1 };').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = { a: 1 };')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report illegal space for nested braces too, with "all" value', function() {
-            assert(checker.checkString('var x = { test: { a: 1 } };').getValidationErrorCount() === 4);
+            expect(checker.checkString('var x = { test: { a: 1 } };')).to.have.validation.error.count.which.equals(4);
         });
 
         it('should not report with no spaces, with "all" value', function() {
@@ -88,11 +88,11 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
         });
 
         it('should report illegal space in both cases for nested object', function() {
-            assert(checker.checkString('var x = {1: { 1 : 2 }};').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = {1: { 1 : 2 }};')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report illegal space in both cases for multiple nested object', function() {
-            assert(checker.checkString('var x = {1: { 1 : 2 }, 2: { 3 : 4 }};').getValidationErrorCount() === 4);
+            expect(checker.checkString('var x = {1: { 1 : 2 }, 2: { 3 : 4 }};')).to.have.validation.error.count.which.equals(4);
         });
 
         it('should not report illegal space in both cases for nested object', function() {
@@ -155,7 +155,7 @@ describe.skip('rules/disallow-spaces-inside-object-brackets', function() {
             });
 
             expect(checker.checkString('var x = {a: {b: 2} };')).to.have.no.errors();
-            assert(checker.checkString('var x = { a: { b: 1} };').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = { a: { b: 1} };')).to.have.validation.error.count.which.equals(2);
         });
     });
 });

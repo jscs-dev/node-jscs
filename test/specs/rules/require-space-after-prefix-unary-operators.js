@@ -51,7 +51,7 @@ describe.skip('rules/require-space-after-prefix-unary-operators', function() {
 
     it('should report sticky operator if operand in parentheses', function() {
         checker.configure({ requireSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
-        assert(checker.checkString('var x = ~(0); ++(((x))); -( x ); !(++( x ));').getValidationErrorCount() === 5);
+        expect(checker.checkString('var x = ~(0); ++(((x))); -( x ); !(++( x ));')).to.have.validation.error.count.which.equals(5);
     });
 
     it('should not report consecutive operators (#405)', function() {

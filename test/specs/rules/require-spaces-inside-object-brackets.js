@@ -10,9 +10,9 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
 
     describe.skip('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requireSpacesInsideObjectBrackets: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -23,16 +23,16 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
 
         it('should report missing space after opening brace', function() {
             expect(checker.checkString('var x = {a: 1 };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space before closing brace', function() {
             expect(checker.checkString('var x = { a: 1};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = {a: 1};').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = {a: 1};')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with spaces', function() {
@@ -45,7 +45,7 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
 
         it('should report for nested object', function() {
             expect(checker.checkString('var x = { a: { b: 1 }};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report anything for empty object', function() {
@@ -54,17 +54,17 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
 
         it('should report for function value', function() {
             expect(checker.checkString('var x = { a: function() {}};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report for array literal', function() {
             expect(checker.checkString('var x = { a: []};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report for parentheses', function() {
             expect(checker.checkString('var x = { a: (1)};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -75,16 +75,16 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
 
         it('should report missing space after opening brace', function() {
             expect(checker.checkString('var x = {a: 1 };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space before closing brace', function() {
             expect(checker.checkString('var x = { a: 1};'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = {a: 1};').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x = {a: 1};')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with spaces', function() {
@@ -115,7 +115,7 @@ describe.skip('rules/require-spaces-inside-object-brackets', function() {
             });
 
             it('should report missing spaces', function() {
-                assert(checker.checkString('var x = {a: 1};').getValidationErrorCount() === 2);
+                expect(checker.checkString('var x = {a: 1};')).to.have.validation.error.count.which.equals(2);
             });
             it('should not report for function', function() {
                 expect(checker.checkString('var x = { a: function() {}};')).to.have.no.errors();

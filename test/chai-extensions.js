@@ -1,5 +1,4 @@
 var chai = require('chai');
-var utils = chai.utils;
 
 chai.use(function(chai, utils) {
     /**

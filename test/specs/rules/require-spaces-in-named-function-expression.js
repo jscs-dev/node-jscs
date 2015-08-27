@@ -15,7 +15,7 @@ describe.skip('rules/require-spaces-in-named-function-expression', function() {
 
         it('should report missing space before round brace in named FunctionExpression', function() {
             expect(checker.checkString('var x = function a(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in named FunctionExpression', function() {
@@ -46,7 +46,7 @@ describe.skip('rules/require-spaces-in-named-function-expression', function() {
 
         it('should report missing space before curly brace in named FunctionExpression', function() {
             expect(checker.checkString('var x = function a(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before curly brace in named FunctionExpression', function() {

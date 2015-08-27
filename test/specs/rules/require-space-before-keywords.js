@@ -17,29 +17,39 @@ describe.skip('rules/require-space-before-keywords', function() {
 
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
+        expect(errors.explainError(error)).to.contain('Missing space before "else" keyword');
     });
 
     it('should not report space before keyword', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['else'] });
 
-        assert(checker.checkString(
+        expect(
+
+            checker.checkString(
             'if (x) {\n' +
                 'x++;\n' +
             '} else {\n' +
                 'x--;\n' +
             '}'
-        ).isEmpty());
+
+            )
+
+        ).to.have.no.errors();
     });
 
     it('should not report space before non-coddled keywords', function() {
         checker.configure({ requireSpaceBeforeKeywords: ['while'] });
 
-        assert(checker.checkString(
+        expect(
+
+            checker.checkString(
             'while (x < 5) {\n' +
                 'x++;\n' +
             '}'
-        ).isEmpty());
+
+            )
+
+        ).to.have.no.errors();
     });
 
     it('should not trigger error for comments', function() {
@@ -64,24 +74,24 @@ describe.skip('rules/require-space-before-keywords', function() {
         var error = errors.getErrorList()[0];
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
+        expect(errors.explainError(error)).to.contain('Missing space before "else" keyword');
 
         errors = checker.checkString('/**/if (true) {\n}else { x++; }');
         error = errors.getErrorList()[0];
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error).indexOf('Missing space before "else" keyword') === 0);
+        expect(errors.explainError(error)).to.contain('Missing space before "else" keyword');
 
         errors = checker.checkString('do {\nx++;\n}while (x < 5)');
         error = errors.getErrorList()[0];
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error).indexOf('Missing space before "while" keyword') === 0);
+        expect(errors.explainError(error)).to.contain('Missing space before "while" keyword');
 
         errors = checker.checkString('try {\nx++;\n}catch (e) {}');
         error = errors.getErrorList()[0];
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error).indexOf('Missing space before "catch" keyword') === 0);
+        expect(errors.explainError(error)).to.contain('Missing space before "catch" keyword');
     });
 });

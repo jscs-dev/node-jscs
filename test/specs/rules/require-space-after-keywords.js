@@ -55,7 +55,7 @@ describe.skip('rules/require-space-after-keywords', function() {
 
     it('should not trigger error for spaced return inside function (#357)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
-        assert(checker.checkString('function foo() {\r\n\treturn\r\n}').getValidationErrorCount() === 0);
+        expect(checker.checkString('function foo() {\r\n\treturn\r\n}')).to.have.no.validation.errors();
     });
 
     it('should trigger error if there is more than one space (#396)', function() {
@@ -78,19 +78,19 @@ describe.skip('rules/require-space-after-keywords', function() {
     it('should report on all spaced keywords if a value of true is supplied', function() {
         checker.configure({ requireSpaceAfterKeywords: true });
 
-        expect(!checker.checkString('do{}')).to.have.no.errors();
-        expect(!checker.checkString('for(){}')).to.have.no.errors();
-        expect(!checker.checkString('if(x) {}')).to.have.no.errors();
-        expect(!checker.checkString('if (){}else{}')).to.have.no.errors();
-        expect(!checker.checkString('switch(){ case 4: break;}')).to.have.no.errors();
-        expect(!checker.checkString('switch (){ case\'4\': break;}')).to.have.no.errors();
-        expect(!checker.checkString('try{}')).to.have.no.errors();
-        expect(!checker.checkString('try {} catch(e){}')).to.have.no.errors();
-        expect(!checker.checkString('try {} catch (e){} finally{}')).to.have.no.errors();
-        expect(!checker.checkString('void(0)')).to.have.no.errors();
-        expect(!checker.checkString('while(x) {}')).to.have.no.errors();
-        expect(!checker.checkString('with(){}')).to.have.no.errors();
-        expect(!checker.checkString('var foo = function(){};')).to.have.no.errors();
-        expect(!checker.checkString('typeof\'4\'')).to.have.no.errors();
+        expect(checker.checkString('do{}')).to.have.errors();
+        expect(checker.checkString('for(){}')).to.have.errors();
+        expect(checker.checkString('if(x) {}')).to.have.errors();
+        expect(checker.checkString('if (){}else{}')).to.have.errors();
+        expect(checker.checkString('switch(){ case 4: break;}')).to.have.errors();
+        expect(checker.checkString('switch (){ case\'4\': break;}')).to.have.errors();
+        expect(checker.checkString('try{}')).to.have.errors();
+        expect(checker.checkString('try {} catch(e){}')).to.have.errors();
+        expect(checker.checkString('try {} catch (e){} finally{}')).to.have.errors();
+        expect(checker.checkString('void(0)')).to.have.errors();
+        expect(checker.checkString('while(x) {}')).to.have.errors();
+        expect(checker.checkString('with(){}')).to.have.errors();
+        expect(checker.checkString('var foo = function(){};')).to.have.errors();
+        expect(checker.checkString('typeof\'4\'')).to.have.errors();
     });
 });

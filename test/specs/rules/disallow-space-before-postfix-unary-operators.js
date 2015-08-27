@@ -52,7 +52,7 @@ describe.skip('rules/disallow-space-before-postfix-unary-operators', function() 
 
     it('should report separated operator', function() {
         checker.configure({ disallowSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; x ++; x --;').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = 2; x ++; x --;')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report prefix operators', function() {

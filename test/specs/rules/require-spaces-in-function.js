@@ -15,12 +15,12 @@ describe.skip('rules/require-spaces-in-function', function() {
 
         it('should report missing space before round brace in Function', function() {
             expect(checker.checkString('var x = function(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space before round brace in named Function', function() {
             expect(checker.checkString('var x = function a(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in Function', function() {
@@ -33,7 +33,7 @@ describe.skip('rules/require-spaces-in-function', function() {
 
         it('should report missing space before round brace in FunctionDeclaration', function() {
             expect(checker.checkString('function abc(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in FunctionDeclaration', function() {
@@ -64,7 +64,7 @@ describe.skip('rules/require-spaces-in-function', function() {
         it('should report missing space before round brace in class method', function() {
             checker.configure({ esnext: true });
             expect(checker.checkString('const Component = class { render() { return 1; } };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -75,7 +75,7 @@ describe.skip('rules/require-spaces-in-function', function() {
 
         it('should report missing space before curly brace in Function', function() {
             expect(checker.checkString('var x = function(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before curly brace in Function', function() {

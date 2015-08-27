@@ -12,15 +12,15 @@ describe.skip('rules/validate-quote-marks', function() {
 
     describe.skip('invalid options', function() {
         it('should throw if config.escape is not set', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ validateQuoteMarks: {} });
-            });
+            }).to.throw();
         });
 
         it('should throw if config.mark is not set', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ validateQuoteMarks: { escape: true } });
-            });
+            }).to.throw();
         });
     });
 
@@ -30,8 +30,7 @@ describe.skip('rules/validate-quote-marks', function() {
         });
 
         it('should report double quotes in strings', function() {
-            expect(checker.checkString('var x = "x";'))
-            .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = "x";')).to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report single quotes in strings', function() {
@@ -58,8 +57,7 @@ describe.skip('rules/validate-quote-marks', function() {
         });
 
         it('should report double quotes in strings', function() {
-            expect(checker.checkString('var x = "x";'))
-            .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = "x";')).to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report double quotes to avoid escaping', function() {
@@ -85,8 +83,7 @@ describe.skip('rules/validate-quote-marks', function() {
         });
 
         it('should report single quotes in strings', function() {
-            expect(checker.checkString('var x = \'x\';'))
-            .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = \'x\';')).to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report double quotes in strings', function() {
@@ -114,7 +111,7 @@ describe.skip('rules/validate-quote-marks', function() {
 
         it('should report single quotes in strings', function() {
             expect(checker.checkString('var x = \'x\';'))
-            .to.have.one.error.from('ruleName');
+            .to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report single quotes to avoid escaping', function() {
@@ -140,8 +137,7 @@ describe.skip('rules/validate-quote-marks', function() {
         });
 
         it('should report inconsistent quotes in strings', function() {
-            expect(checker.checkString('var x = \'x\', y = "y";'))
-            .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = \'x\', y = "y";')).to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report consistent single quotes in strings', function() {
@@ -168,8 +164,7 @@ describe.skip('rules/validate-quote-marks', function() {
         });
 
         it('should report inconsistent quotes in strings', function() {
-            expect(checker.checkString('var x = \'x\', y = "y";'))
-            .to.have.one.error.from('ruleName');
+            expect(checker.checkString('var x = \'x\', y = "y";')).to.have.one.error.from('validateQuoteMarks');
         });
 
         it('should not report inconsistent quotes to avoid escaping', function() {

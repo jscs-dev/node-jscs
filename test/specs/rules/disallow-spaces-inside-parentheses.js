@@ -11,21 +11,21 @@ describe.skip('rules/disallow-spaces-inside-parentheses', function() {
 
     describe.skip('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowSpacesInsideParentheses: 2 });
-            });
+            }).to.throw();
         });
 
         it('should throw when only is not specified in an object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowSpacesInsideParentheses: {} });
-            });
+            }).to.throw();
         });
 
         it('should throw when all is specified but not true', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowSpacesInsideParentheses: { all: ['invalid'] } });
-            });
+            }).to.throw();
         });
     });
 
@@ -36,27 +36,27 @@ describe.skip('rules/disallow-spaces-inside-parentheses', function() {
 
         it('should report illegal space after opening round bracket', function() {
             expect(checker.checkString('( 1 + 2) * 3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('if ( 1 + 2)\n    3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('function my( a, b) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report illegal space before closing round bracket', function() {
             expect(checker.checkString('(1 + 2 ) * 3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('if (1 + 2 )\n    3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('function my(a, b ) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report illegal space in both cases', function() {
-            assert(checker.checkString('( 1 + 2 ) * 3').getValidationErrorCount() === 2);
-            assert(checker.checkString('if ( 1 + 2 )\n    3').getValidationErrorCount() === 2);
-            assert(checker.checkString('function my( ) {  }').getValidationErrorCount() === 2);
-            assert(checker.checkString('function my( a, b ) {  }').getValidationErrorCount() === 2);
+            expect(checker.checkString('( 1 + 2 ) * 3')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('if ( 1 + 2 )\n    3')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('function my( ) {  }')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('function my( a, b ) {  }')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with no spaces', function() {
@@ -83,11 +83,11 @@ describe.skip('rules/disallow-spaces-inside-parentheses', function() {
 
         it('should report illegal space after opening round bracket', function() {
             expect(checker.checkString('( 1 + 2) * 3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('if ( 1 + 2)\n    3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('function my( a, b) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -125,81 +125,81 @@ describe.skip('rules/disallow-spaces-inside-parentheses', function() {
             describe.skip('function', function() {
                 it('should report for funarg as sole argument', function() {
                     expect(checker.checkString('foo(function() {})')).to.have.no.errors();
-                    assert(checker.checkString('foo( function() {} )').getValidationErrorCount() === 2);
+                    expect(checker.checkString('foo( function() {} )')).to.have.validation.error.count.which.equals(2);
                 });
 
                 it('should report for funarg as first argument', function() {
                     expect(checker.checkString('foo(function() {}, test)')).to.have.no.errors();
                     expect(checker.checkString('foo( function() {}, test)'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( function() {}, test )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
 
                 it('should report for funarg as second argument', function() {
                     expect(checker.checkString('foo(test, function() {})')).to.have.no.errors();
                     expect(checker.checkString('foo(test, function() {} )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( test, function() {} )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
 
             describe.skip('{}', function() {
                 it('should report if object is the sole argument', function() {
                     expect(checker.checkString('foo({})')).to.have.no.errors();
-                    assert(checker.checkString('foo( {} )').getValidationErrorCount() === 2);
+                    expect(checker.checkString('foo( {} )')).to.have.validation.error.count.which.equals(2);
                 });
 
                 it('should report for if object is first argument', function() {
                     expect(checker.checkString('foo( test, {})')).to.have.no.errors();
                     expect(checker.checkString('foo(test, {} )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( test, {} )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
 
                 it('should report for if object is second argument', function() {
                     expect(checker.checkString('foo({}, test)')).to.have.no.errors();
                     expect(checker.checkString('foo( {}, test)'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( {}, test )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
                 it('should report if there two object arguments', function() {
                     expect(checker.checkString('foo({}, {})')).to.have.no.errors();
                     expect(checker.checkString('foo( {}, {})'))
-            .to.have.one.error.from('ruleName');
-                    assert(checker.checkString('foo( {}, {} )').getValidationErrorCount() === 2);
+                        .to.have.one.error.from('ruleName');
+                    expect(checker.checkString('foo( {}, {} )')).to.have.validation.error.count.which.equals(2);
                 });
             });
 
             describe.skip('[]', function() {
                 it('should report if array is the sole argument', function() {
                     expect(checker.checkString('foo([])')).to.have.no.errors();
-                    assert(checker.checkString('foo( [] )').getValidationErrorCount() === 2);
+                    expect(checker.checkString('foo( [] )')).to.have.validation.error.count.which.equals(2);
                 });
 
                 it('should report for if array is first argument', function() {
                     expect(checker.checkString('foo( test, [])')).to.have.no.errors();
                     expect(checker.checkString('foo(test, [] )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( test, [] )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
 
                 it('should report for if array is second argument', function() {
                     expect(checker.checkString('foo([], test)')).to.have.no.errors();
                     expect(checker.checkString('foo( [], test)'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                     expect(checker.checkString('foo( [], test )'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
                 it('should report if there two array arguments', function() {
                     expect(checker.checkString('foo([], [])')).to.have.no.errors();
                     expect(checker.checkString('foo( [], [])'))
-            .to.have.one.error.from('ruleName');
-                    assert(checker.checkString('foo( [], [] )').getValidationErrorCount() === 2);
+                        .to.have.one.error.from('ruleName');
+                    expect(checker.checkString('foo( [], [] )')).to.have.validation.error.count.which.equals(2);
                 });
 
                 it('should report entity that look like array case', function() {

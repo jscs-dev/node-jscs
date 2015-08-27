@@ -16,7 +16,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
         it('should report basic jquery operator', function() {
             expect(checker.checkString('var x = $();'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report basic jquery operator with dollar', function() {
@@ -44,7 +44,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
         });
 
         it('should report assignment on nextline without semicolon', function() {
-            assert(checker.checkString('var a = $(".foo")\nvar b = $()').getValidationErrorCount() === 2);
+            expect(checker.checkString('var a = $(".foo")\nvar b = $()')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report assignment against dollar prefixed function', function() {
@@ -73,7 +73,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
         it('should report jquery operator with html', function() {
             expect(checker.checkString('var x = $("<p>foo</p>");'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report jquery operator with html with dollar', function() {
@@ -82,7 +82,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
         it('should report jquery operator with selector', function() {
             expect(checker.checkString('var x = $(".foo");'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report jquery operator with selector with dollar', function() {
@@ -128,7 +128,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report basic jquery operator', function() {
                 expect(checker.checkString('var x = { foo: $() }'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report basic jquery operator with dollar', function() {
@@ -145,7 +145,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report jquery operator with selector', function() {
                 expect(checker.checkString('var x = { foo: $(".foo") }'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report jquery operator with selector with dollar', function() {
@@ -166,14 +166,14 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report jquery operator with dollar and single quotes around selector', function() {
                 expect(checker.checkString('var x = { foo: $(\'.foo\') }'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
         });
 
         describe.skip('in object properties', function() {
             it('should report basic jquery operator', function() {
                 expect(checker.checkString('this.x = $();'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report basic jquery operator with dollar', function() {
@@ -182,7 +182,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report jquery operator with html', function() {
                 expect(checker.checkString('this.x = $("<p>foo</p>");'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report jquery operator with html with dollar', function() {
@@ -191,7 +191,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report jquery operator with selector', function() {
                 expect(checker.checkString('this.x = $(".foo");'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report jquery operator with selector with dollar', function() {
@@ -248,7 +248,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
             it('should report multi level object assignment without dollar', function() {
                 expect(checker.checkString('a.b.c = $()'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
         });
     });
@@ -260,7 +260,7 @@ describe.skip('rules/require-dollar-before-jquery-assignment', function() {
 
         it('should report basic jquery operator', function() {
             expect(checker.checkString('var x = $();'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report basic jquery operator with dollar', function() {

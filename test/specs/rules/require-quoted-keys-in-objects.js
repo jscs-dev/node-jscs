@@ -58,7 +58,7 @@ describe.skip('rules/require-quoted-keys-in-objects', function() {
     });
 
     it('should check all keys in object', function() {
-        assert(checker.checkString('var x = { a: 1, "b": 2, c: 3 }').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = { a: 1, "b": 2, c: 3 }')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should correctly identify the error', function() {
@@ -67,9 +67,9 @@ describe.skip('rules/require-quoted-keys-in-objects', function() {
             .to.have.one.error.from('ruleName');
 
         var error = errors.getErrorList()[0];
-        assert(error.message === 'Object key without surrounding quotes');
-        assert(error.line === 1);
-        assert(error.column === 10);
+        expect(error.message).to.equal('Object key without surrounding quotes');
+        expect(error.line).to.equal(1);
+        expect(error.column).to.equal(10);
     });
 
     it('should not report shorthand object properties', function() {

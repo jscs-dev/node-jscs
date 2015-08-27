@@ -15,12 +15,12 @@ describe.skip('rules/require-spaces-in-function-expression', function() {
 
         it('should report missing space before round brace in FunctionExpression', function() {
             expect(checker.checkString('var x = function(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing space before round brace in named FunctionExpression', function() {
             expect(checker.checkString('var x = function a(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in FunctionExpression', function() {

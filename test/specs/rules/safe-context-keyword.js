@@ -32,7 +32,7 @@ describe.skip('rules/safe-context-keyword', function() {
             });
 
             it('should not report "var foo;"', function() {
-                assert(checker.checkString('var foo;').getValidationErrorCount() === 0);
+                expect(checker.checkString('var foo;')).to.have.no.validation.errors();
             });
         });
 
@@ -47,7 +47,7 @@ describe.skip('rules/safe-context-keyword', function() {
             });
 
             it('should not report propery assignment "foo.bar = this"', function() {
-                assert(checker.checkString('foo.bar = this').getValidationErrorCount() === 0);
+                expect(checker.checkString('foo.bar = this')).to.have.no.validation.errors();
             });
         });
 
@@ -81,7 +81,7 @@ describe.skip('rules/safe-context-keyword', function() {
             });
 
             it('should not report "var foo;"', function() {
-                assert(checker.checkString('var foo;').getValidationErrorCount() === 0);
+                expect(checker.checkString('var foo;')).to.have.no.validation.errors();
             });
         });
 
@@ -91,11 +91,11 @@ describe.skip('rules/safe-context-keyword', function() {
             });
 
             it('should report "notthat = this, notself = this;"', function() {
-                assert(checker.checkString('notthat = this; notself = this;').getValidationErrorCount() === 2);
+                expect(checker.checkString('notthat = this; notself = this;')).to.have.validation.error.count.which.equals(2);
             });
 
             it('should not report propery assignment "foo.bar = this; bar.foo = this"', function() {
-                assert(checker.checkString('foo.bar = this; bar.foo = this').getValidationErrorCount() === 0);
+                expect(checker.checkString('foo.bar = this; bar.foo = this')).to.have.no.validation.errors();
             });
         });
 
@@ -105,7 +105,7 @@ describe.skip('rules/safe-context-keyword', function() {
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('var a = 1, notthat = this, notself = this;').getValidationErrorCount() === 2);
+                expect(checker.checkString('var a = 1, notthat = this, notself = this;')).to.have.validation.error.count.which.equals(2);
             });
         });
     });

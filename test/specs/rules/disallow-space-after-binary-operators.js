@@ -29,7 +29,7 @@ describe.skip('rules/disallow-space-after-binary-operators', function() {
                 function() {
                     checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     expect(checker.checkString(notSticked))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -44,7 +44,7 @@ describe.skip('rules/disallow-space-after-binary-operators', function() {
                 function() {
                     checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     expect(checker.checkString(notStickedWithParenthesis))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
         });
@@ -84,7 +84,7 @@ describe.skip('rules/disallow-space-after-binary-operators', function() {
 
     it('should report for assignment expressions', function() {
         checker.configure({ disallowSpaceAfterBinaryOperators: ['='] });
-        assert(checker.checkString('var x = 1, t = 2').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = 1, t = 2')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report for assignment expressions if "=" is not specified', function() {
@@ -110,7 +110,6 @@ describe.skip('rules/disallow-space-after-binary-operators', function() {
 
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error)
-            .indexOf('Operator = should stick to following expression at input') === 0);
+        expect(errors.explainError(error)).to.contain('Operator = should stick to following expression at input');
     });
 });

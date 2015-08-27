@@ -20,23 +20,23 @@ describe.skip('rules/require-capitalized-comments', function() {
 
         it('should report on a lowercase start of a comment', function() {
             expect(checker.checkString('//invalid'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('// invalid'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('/** invalid */'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('/* invalid */'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('/**\n * invalid\n*/'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('//\n// invalid\n//'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('/*\ninvalid\n*/'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('//\xFCber'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('//\u03C0'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report an uppercase start of a comment', function() {
@@ -55,10 +55,10 @@ describe.skip('rules/require-capitalized-comments', function() {
             expect(checker.checkString('/**123*/')).to.have.no.errors();
             expect(checker.checkString('/**\n @todo: foobar\n */')).to.have.no.errors();
             expect(checker.checkString('/** 123*/')).to.have.no.errors();
-            assert(checker.checkString([
+            expect(checker.checkString([
                 '// \xDCber',
                 '// diese Funktion'
-            ].join('\n')).isEmpty());
+            ].join('\n'))).to.have.no.errors();
         });
 
         it('should not report on comments that disable or enable JSCS rules', function() {
@@ -120,23 +120,27 @@ describe.skip('rules/require-capitalized-comments', function() {
         });
 
         it('should handle "textblocks" correctly', function() {
-            assert(checker.checkString([
-                '// This is a comment',
-                '// that is part of a textblock',
-                'console.log(0)',
-                '// and this is another comment'
-            ].join('\n')).getValidationErrorCount() === 1);
+            expect(
+                checker.checkString([
+                    '// This is a comment',
+                    '// that is part of a textblock',
+                    'console.log(0)',
+                    '// and this is another comment'
+                ].join('\n'))
+            ).to.have.one.validation.error();
 
-            assert(checker.checkString([
-                '/*',
-                ' * This is a comment',
-                ' * that is part of a textblock',
-                ' */',
-                '/*',
-                ' * and this is a another comment',
-                ' * that is part of a textblock',
-                ' */'
-            ].join('\n')).getValidationErrorCount() === 1);
+            expect(
+                checker.checkString([
+                    '/*',
+                    ' * This is a comment',
+                    ' * that is part of a textblock',
+                    ' */',
+                    '/*',
+                    ' * and this is a another comment',
+                    ' * that is part of a textblock',
+                    ' */'
+                ].join('\n'))
+            ).to.have.one.validation.error();
         });
 
     });

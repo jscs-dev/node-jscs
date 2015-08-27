@@ -13,7 +13,7 @@ describe.skip('rules/require-space-after-object-keys', function() {
     it('should report missing space after keys', function() {
         expect(checker.checkString('var x = { a : 1, b: 2 };'))
             .to.have.one.error.from('ruleName');
-        assert(checker.checkString('var x = { abc: 1, b: 2 };').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = { abc: 1, b: 2 };')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report space after keys', function() {
@@ -28,7 +28,7 @@ describe.skip('rules/require-space-after-object-keys', function() {
 
     it('should report mixed shorthand and normal object properties', function() {
         checker.configure({ esnext: true });
-        assert.equal(checker.checkString('var x = { a:1, b };').getValidationErrorCount(), 1);
+        expect(checker.checkString('var x = { a:1, b };')).to.have.one.validation.error();
     });
 
     it('should not report es5 getters/setters #1037', function() {
@@ -43,7 +43,7 @@ describe.skip('rules/require-space-after-object-keys', function() {
 
         it('should report es6-methods without a space. #1013', function() {
             expect(checker.checkString('var x = { a() { } };'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report es6-methods with a space. #1013', function() {

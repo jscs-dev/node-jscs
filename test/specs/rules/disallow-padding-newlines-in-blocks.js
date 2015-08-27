@@ -24,7 +24,7 @@ describe.skip('rules/disallow-padding-newlines-in-blocks', function() {
             .to.have.one.error.from('ruleName');
     });
     it('should report extra padding newlines in both cases', function() {
-        assert(checker.checkString('if (true) {\n\nabc();\n\n}').getValidationErrorCount() === 2);
+        expect(checker.checkString('if (true) {\n\nabc();\n\n}')).to.have.validation.error.count.which.equals(2);
     });
     it('should not report with no spaces', function() {
         expect(checker.checkString('if (true) {\nabc();\n}')).to.have.no.errors();
@@ -53,7 +53,7 @@ describe.skip('rules/disallow-padding-newlines-in-blocks', function() {
             .to.have.one.error.from('ruleName');
     });
     it('should report extra padding newlines in both cases with comments', function() {
-        assert(checker.checkString('if (true) {\n\n//comment\n\n/* comments */\n\n}').getValidationErrorCount() === 2);
+        expect(checker.checkString('if (true) {\n\n//comment\n\n/* comments */\n\n}')).to.have.validation.error.count.which.equals(2);
     });
     it('should not report leading nor trailing comments', function() {
         expect(checker.checkString('if (true) {\n//comment\n\n/* comments */\n}')).to.have.no.errors();

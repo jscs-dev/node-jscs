@@ -15,49 +15,49 @@ describe.skip('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a function with no parameters', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a() {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report inline function parameters', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(b, c) {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report inline function parameters on a new line', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(\n' +
                         '  b, c\n' +
                     ') {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should report unaligned multi-line function parameters', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         'c\n' +
                     ') {}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should not report aligned multi-line function parameters', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(b,\n' +
                     '           c) {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
     });
 
@@ -71,22 +71,22 @@ describe.skip('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a missing line break after the opening brace', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         '  c) {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should report a missing line break after the opening brace', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(b,\n' +
                     '           c) {}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
     });
 
@@ -100,23 +100,23 @@ describe.skip('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a missing line break before the closing brace', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         '  c\n' +
                     ') {}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should report a missing line break before the closing brace', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'function a(b,\n' +
                     '           c)\n' + ' {}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
     });
 });

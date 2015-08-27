@@ -27,7 +27,7 @@ describe.skip('rules/disallow-yoda-conditions', function() {
 
                 it('should report normal condition', function() {
                     expect(checker.checkString(notYodaCondition))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
         });
@@ -39,83 +39,83 @@ describe.skip('rules/disallow-yoda-conditions', function() {
         });
 
         it('should report normal condition for numeric', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x == 1) {\n' +
                         'x++;\n' +
                     '}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should report normal condition for boolean', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x == true) {\n' +
                         'x++;\n' +
                     '}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should report normal condition for string', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x == \'\') {\n' +
                         'x++;\n' +
                     '}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should report normal condition for null', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x == null) {\n' +
                         'x++;\n' +
                     '}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should report normal condition for undefined', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x == undefined) {\n' +
                         'x++;\n' +
                     '}'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should not report yoda condition', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (1 == x) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report right hand side expressions', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (1 == (x % 2)) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report non-comparison binary expressions', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'if (x % 2) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
     });
 });

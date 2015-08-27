@@ -15,7 +15,7 @@ describe.skip('rules/disallow-spaces-in-for-statement', function() {
         });
 
         it('should report spaces in for statement in both cases', function() {
-            assert(checker.checkString('for(i=0; i<l; i++){}').getValidationErrorCount() === 2);
+            expect(checker.checkString('for(i=0; i<l; i++){}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report spaces in for statement before test statement', function() {

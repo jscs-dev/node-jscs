@@ -16,7 +16,7 @@ describe.skip('rules/require-padding-newlines-before-export', function() {
 
         it('should report missing padding before export', function() {
             expect(checker.checkString('var a = 2;\nmodule.exports = a;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report missing padding if first line', function() {

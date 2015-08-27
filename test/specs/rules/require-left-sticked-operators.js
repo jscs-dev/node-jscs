@@ -10,15 +10,18 @@ describe.skip('rules/require-left-sticked-operators', function() {
     });
     it('should output correct deprecation notice', function() {
         var errors = checker.checkString('var a = b + c; var a = b + c;').getErrorList();
-        assert(errors.length === 1);
+        expect(errors.length).to.equal(1);
 
         var error = errors[0];
-        assert(error.line === 1 && error.column === 0);
-        assert(error.message === 'The requireLeftStickedOperators rule is no longer supported.' +
+        expect(error.line).to.equal(1);
+        expect(error.column).to.equal(0);
+        expect(error.message).to.equal(
+            'The requireLeftStickedOperators rule is no longer supported.' +
             '\nPlease use the following rules instead:' +
             '\n' +
             '\ndisallowSpaceBeforeBinaryOperators' +
             '\ndisallowSpaceBeforePostfixUnaryOperators' +
-            '\ndisallowSpacesInConditionalExpression');
+            '\ndisallowSpacesInConditionalExpression'
+        );
     });
 });

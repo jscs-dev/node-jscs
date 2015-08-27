@@ -11,30 +11,30 @@ describe.skip('rules/disallow-space-between-arguments', function() {
     });
 
     it('should report unexpected space for a(b, c)', function() {
-        assert.strictEqual(checker.checkString('a(b, c);').getValidationErrorCount(), 1);
+        expect(checker.checkString('a(b, c);')).to.have.one.error();
     });
 
     it('should report 2 unexpected spaces for a(b, c, d)', function() {
-        assert.strictEqual(checker.checkString('a(b, c, d);').getValidationErrorCount(), 2);
+        expect(checker.checkString('a(b, c, d);')).to.have.error.count.which.equals(2);
     });
 
     it('should not report any errors for a(b,c)', function() {
-        assert.strictEqual(checker.checkString('a(b,c);').getValidationErrorCount(), 0);
+        expect(checker.checkString('a(b,c);')).to.have.no.errors();
     });
 
     it('should not report any errors for a(b)', function() {
-        assert.strictEqual(checker.checkString('a(b);').getValidationErrorCount(), 0);
+        expect(checker.checkString('a(b);')).to.have.no.errors();
     });
 
     it('should not report for a(foo(),b)', function() {
-        assert.strictEqual(checker.checkString('a(foo(),b);').getValidationErrorCount(), 0);
+        expect(checker.checkString('a(foo(),b);')).to.have.no.errors();
     });
 
     it('should not report for a(foo(1,2),b)', function() {
-        assert.strictEqual(checker.checkString('a(foo(1,2),b);').getValidationErrorCount(), 0);
+        expect(checker.checkString('a(foo(1,2),b);')).to.have.no.errors();
     });
 
     it('should report for a(foo(1, 2), b)', function() {
-        assert.strictEqual(checker.checkString('a(foo(1, 2), b);').getValidationErrorCount(), 2);
+        expect(checker.checkString('a(foo(1, 2), b);')).to.have.error.count.which.equals(2);
     });
 });

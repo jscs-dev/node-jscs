@@ -30,7 +30,7 @@ describe.skip('rules/disallow-trailing-whitespace', function() {
         });
 
         it('should report once for each line', function() {
-            assert(checker.checkString('var x;\t\nvar y;\t').getValidationErrorCount() === 2);
+            expect(checker.checkString('var x;\t\nvar y;\t')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report multiline strings with trailing whitespace', function() {

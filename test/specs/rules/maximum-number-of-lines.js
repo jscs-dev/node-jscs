@@ -16,7 +16,7 @@ describe.skip('rules/maximum-number-of-lines', function() {
 
         it('should report a number of lines longer than the maximum', function() {
             expect(checker.checkString('var xyz;\nvar xyz;\nvar xyz;'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('maximumNumberOfLines');
         });
 
         it('should not report a number of lines equal to the maximum', function() {

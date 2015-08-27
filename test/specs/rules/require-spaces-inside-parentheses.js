@@ -15,26 +15,26 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
 
         it('should report required space after opening round parentheses', function() {
             expect(checker.checkString('(1 + 2 ) * 3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('if (1 + 2 )\n    3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('function my(a, b ) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report required space before closing round parentheses', function() {
             expect(checker.checkString('( 1 + 2) * 3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('if ( 1 + 2)\n    3'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('function my( a, b) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report required space in both cases', function() {
-            assert(checker.checkString('(1 + 2) * 3').getValidationErrorCount() === 2);
-            assert(checker.checkString('if (1 + 2)\n    3').getValidationErrorCount() === 2);
-            assert(checker.checkString('function my(a, b) {  }').getValidationErrorCount() === 2);
+            expect(checker.checkString('(1 + 2) * 3')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('if (1 + 2)\n    3')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('function my(a, b) {  }')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should allow empty round parentheses with no space', function() {
@@ -58,7 +58,7 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
 
         it('should report when a comment is before closes round parentheses', function() {
             expect(checker.checkString('function x( i/* comment */) {  }'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should allow a comment with space', function() {
@@ -66,7 +66,7 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
         });
 
         it('should report nested parentheses when configured', function() {
-            assert(checker.checkString('(( 1, 2 ))').getValidationErrorCount() === 2);
+            expect(checker.checkString('(( 1, 2 ))')).to.have.validation.error.count.which.equals(2);
         });
     });
 
@@ -80,15 +80,15 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
         });
 
         it('should allow nested parentheses with comma operator', function() {
-            assert(checker.checkString('( (1), 2 )').getValidationErrorCount() === 2);
-            assert(checker.checkString('alert( (1), 2 )').getValidationErrorCount() === 2);
-            assert(checker.checkString('if ( (1), 2 ) {}').getValidationErrorCount() === 2);
+            expect(checker.checkString('( (1), 2 )')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('alert( (1), 2 )')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('if ( (1), 2 ) {}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should allow nested parentheses with "&&" operator', function() {
-            assert(checker.checkString('( (1) && 2 )').getValidationErrorCount() === 2);
-            assert(checker.checkString('alert( (1) && 2 )').getValidationErrorCount() === 2);
-            assert(checker.checkString('if ( (1) && 2 ) {}').getValidationErrorCount() === 2);
+            expect(checker.checkString('( (1) && 2 )')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('alert( (1) && 2 )')).to.have.validation.error.count.which.equals(2);
+            expect(checker.checkString('if ( (1) && 2 ) {}')).to.have.validation.error.count.which.equals(2);
         });
     });
 
@@ -127,7 +127,7 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
                 it('should report for funarg as second argument', function() {
                     expect(checker.checkString('foo( test, function() {})')).to.have.no.errors();
                     expect(checker.checkString('foo(test, function() {})'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
 
@@ -143,13 +143,13 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
                 it('should not report if object as first argument', function() {
                     expect(checker.checkString('foo({}, test )')).to.have.no.errors();
                     expect(checker.checkString('foo({}, test)'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
 
                 it('should report for object as second argument', function() {
                     expect(checker.checkString('foo( test, {})')).to.have.no.errors();
                     expect(checker.checkString('foo(test, {})'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
 
@@ -177,28 +177,28 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
                 it('should report entity that look like array case', function() {
                     expect(checker.checkString('foo( test[i] )')).to.have.no.errors();
                     expect(checker.checkString('foo( test[i])'))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
 
             describe.skip('cycles:"for", "for..of", "while", "do..while"', function() {
                 it('should report spacing problem for "for"', function() {
-                    assert(checker.checkString('for(var i = 0; i < l; i++) {}').getValidationErrorCount() === 2);
+                    expect(checker.checkString('for(var i = 0; i < l; i++) {}')).to.have.validation.error.count.which.equals(2);
                     expect(checker.checkString('for( var i = 0; i < l; i++ ) {}')).to.have.no.errors();
                 });
 
                 it('should report spacing problem for "for..of"', function() {
-                    assert(checker.checkString('for(var i in a) {};').getValidationErrorCount() === 2);
+                    expect(checker.checkString('for(var i in a) {};')).to.have.validation.error.count.which.equals(2);
                     expect(checker.checkString('for( var i in a ) {}')).to.have.no.errors();
                 });
 
                 it('should report spacing problem for "while"', function() {
-                    assert(checker.checkString('while(condition) {}').getValidationErrorCount() === 2);
+                    expect(checker.checkString('while(condition) {}')).to.have.validation.error.count.which.equals(2);
                     expect(checker.checkString('while( condition ) {}')).to.have.no.errors();
                 });
 
                 it('should report spacing problem for "do..while"', function() {
-                    assert(checker.checkString('do{} while(condition);').getValidationErrorCount() === 2);
+                    expect(checker.checkString('do{} while(condition);')).to.have.validation.error.count.which.equals(2);
                     expect(checker.checkString('do{} while( condition );')).to.have.no.errors();
                 });
             });
@@ -206,11 +206,9 @@ describe.skip('rules/require-spaces-inside-parentheses', function() {
 
         describe.skip('bool', function() {
             it('should not configure', function() {
-                assert.throws(function() {
-                        checker.configure({ requireSpacesInsideParentheses: true });
-                    },
-                    assert.AssertionError
-                );
+                expect(function() {
+                    checker.configure({ requireSpacesInsideParentheses: true });
+                }).to.throw('AssertionError');
             });
         });
     });

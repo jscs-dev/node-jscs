@@ -170,7 +170,7 @@ describe.skip('rules/disallow-spaces-in-conditional-expression', function() {
         });
 
         it('should report all spaces in Conditional Expression', function() {
-            assert(checker.checkString('var x = a ? b : c;').getValidationErrorCount() === 4);
+            expect(checker.checkString('var x = a ? b : c;')).to.have.validation.error.count.which.equals(4);
         });
 
         it('should not report no spaces in recursive Conditional Expression', function() {
@@ -178,7 +178,7 @@ describe.skip('rules/disallow-spaces-in-conditional-expression', function() {
         });
 
         it('should report all spaces in recursive Conditional Expression', function() {
-            assert(checker.checkString('var x = t1 ? c1t2 ? c2 : a2 : a1t3 ? c3 : a3;').getValidationErrorCount() === 12);
+            expect(checker.checkString('var x = t1 ? c1t2 ? c2 : a2 : a1t3 ? c3 : a3;')).to.have.validation.error.count.which.equals(12);
         });
     });
 });

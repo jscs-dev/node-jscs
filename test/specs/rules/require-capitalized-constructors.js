@@ -7,7 +7,7 @@ describe.skip('rules/require-capitalized-constructors', function() {
     function baseCases() {
         it('should report uncapitalized construction', function() {
             expect(checker.checkString('var x = new y();'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report capitalized construction', function() {

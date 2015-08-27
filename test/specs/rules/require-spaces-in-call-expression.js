@@ -23,8 +23,10 @@ describe.skip('rules/require-spaces-in-call-expression', function() {
             .to.have.one.error.from('ruleName');
         expect(checker.checkString('var x = function (){}();'))
             .to.have.one.error.from('ruleName');
-        assert(checker.checkString('var x = (function (){foobar();})();').getValidationErrorCount() === 2);
-        assert(checker.checkString('(function(){ foobar(); })();').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = (function (){foobar();})();'))
+            .to.have.validation.error.count.which.equals(2);
+        expect(checker.checkString('(function(){ foobar(); })();'))
+            .to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report space before round brace in CallExpression', function() {

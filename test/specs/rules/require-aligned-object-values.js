@@ -23,27 +23,27 @@ describe.skip('rules/require-aligned-object-values', function() {
         });
 
         it('should not report if aligned', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a   : 1,\n' +
                         'bcd : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report shorthand properties', function() {
             checker.configure({ esnext: true });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'bcd : 2,\n' +
                         'a,\n' +
                         'efg : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report es6-methods. #1013', function() {
@@ -58,18 +58,18 @@ describe.skip('rules/require-aligned-object-values', function() {
 
         it('should not report if aligned with computed property names #1404', function() {
             checker.configure({ esnext: true });
-            assert(
+            expect(
                 checker.checkString([
                     'var myObject = {',
                       '[myKey]   : "myKeyValue",',
                       '[otherKey]: "myOtherValue"',
                     '};'
-                ].join('\n')).isEmpty()
-            );
+                ].join('\n'))
+            ).to.have.no.errors();
         });
 
         it('should report invalid alignment', function() {
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
@@ -77,68 +77,68 @@ describe.skip('rules/require-aligned-object-values', function() {
                         'foo : function() {},\n' +
                         'bcd : 2\n' +
                     '};'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should report if not aligned with computed property names #1404', function() {
             checker.configure({ esnext: true });
-            assert(
+            expect(
                 checker.checkString([
                     'var myObject = {',
                       '[myKey]   : "myKeyValue",',
                       '[otherKey] : "myOtherValue"',
                     '};'
-                ].join('\n')).getValidationErrorCount() === 1
-            );
+                ].join('\n'))
+            ).to.have.one.validation.error();
         });
     });
 
     describe.skip('ignoreFunction option', function() {
         it('should not report function with skipWithFunction', function() {
             checker.configure({ requireAlignedObjectValues: 'skipWithFunction' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
                         'foo : function() {},\n' +
                         'bcd : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should not report function with ignoreFunction', function() {
             checker.configure({ requireAlignedObjectValues: 'ignoreFunction' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
                         'foo : function() {},\n' +
                         'bcd : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
     });
 
     describe.skip('ignoreLineBreak option', function() {
         it('should not report with line break between properties', function() {
             checker.configure({ requireAlignedObjectValues: 'skipWithLineBreak' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
                         '\n' +
                         'bcd : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should report invalid alignment in nested object', function() {
             checker.configure({ requireAlignedObjectValues: 'skipWithLineBreak' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
@@ -149,26 +149,26 @@ describe.skip('rules/require-aligned-object-values', function() {
                         '},\n' +
                         'bcd : 2\n' +
                     '};'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
 
         it('should not report with line break between properties', function() {
             checker.configure({ requireAlignedObjectValues: 'ignoreLineBreak' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
                         '\n' +
                         'bcd : 2\n' +
                     '};'
-                ).isEmpty()
-            );
+                )
+            ).to.have.no.errors();
         });
 
         it('should report invalid alignment in nested object', function() {
             checker.configure({ requireAlignedObjectValues: 'ignoreLineBreak' });
-            assert(
+            expect(
                 checker.checkString(
                     'var x = {\n' +
                         'a : 1,\n' +
@@ -179,8 +179,8 @@ describe.skip('rules/require-aligned-object-values', function() {
                         '},\n' +
                         'bcd : 2\n' +
                     '};'
-                ).getValidationErrorCount() === 1
-            );
+                )
+            ).to.have.one.validation.error();
         });
     });
 });

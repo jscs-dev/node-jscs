@@ -15,7 +15,7 @@ describe.skip('rules/require-spaces-in-function-declaration', function() {
 
         it('should report missing space before round brace in FunctionDeclaration', function() {
             expect(checker.checkString('function abc(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before round brace in FunctionDeclaration', function() {
@@ -35,7 +35,7 @@ describe.skip('rules/require-spaces-in-function-declaration', function() {
 
         it('should report missing space before curly brace in FunctionDeclaration', function() {
             expect(checker.checkString('function abc(){}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report space before curly brace in FunctionDeclaration', function() {

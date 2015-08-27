@@ -139,15 +139,15 @@ describe.skip('rules/require-curly-braces', function() {
     it('should report on all optionally curly braced keywords if a value of true is supplied', function() {
         checker.configure({ requireCurlyBraces: true });
 
-        expect(!checker.checkString('if (x) x++;')).to.have.no.errors();
-        expect(!checker.checkString('if (x) {x++} else x--;')).to.have.no.errors();
-        expect(!checker.checkString('for (x = 0; x < 10; x++) x++;')).to.have.no.errors();
-        expect(!checker.checkString('while (x) x++;')).to.have.no.errors();
-        expect(!checker.checkString('do x++; while(x < 5);')).to.have.no.errors();
-        expect(!checker.checkString('try {x++;} catch(e) throw e;')).to.have.no.errors();
-        expect(!checker.checkString('switch(\'4\'){ case \'4\': break; }')).to.have.no.errors();
-        expect(!checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }')).to.have.no.errors();
-        expect(!checker.checkString('with(x) console.log(toString());')).to.have.no.errors();
+        expect(checker.checkString('if (x) x++;')).to.have.errors();
+        expect(checker.checkString('if (x) {x++} else x--;')).to.have.errors();
+        expect(checker.checkString('for (x = 0; x < 10; x++) x++;')).to.have.errors();
+        expect(checker.checkString('while (x) x++;')).to.have.errors();
+        expect(checker.checkString('do x++; while(x < 5);')).to.have.errors();
+        expect(checker.checkString('try {x++;} catch(e) throw e;')).to.have.errors();
+        expect(checker.checkString('switch(\'4\'){ case \'4\': break; }')).to.have.errors();
+        expect(checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }')).to.have.errors();
+        expect(checker.checkString('with(x) console.log(toString());')).to.have.errors();
     });
 
     it('should correctly set pointer (#799)', function() {
@@ -160,8 +160,8 @@ describe.skip('rules/require-curly-braces', function() {
             '   return 3;'
         ).getErrorList()[ 0 ];
 
-        assert(error.line === 3);
-        assert(error.column === 0);
+        expect(error.line).to.equal(3);
+        expect(error.column).to.equal(0);
     });
 
     it('should not report missing `else` braces for `else if`', function() {

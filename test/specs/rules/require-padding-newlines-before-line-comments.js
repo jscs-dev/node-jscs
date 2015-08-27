@@ -11,33 +11,33 @@ describe.skip('rules/require-padding-newlines-before-line-comments', function() 
 
     describe.skip('invalid options', function() {
         it('should throw if false', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: false });
-            });
+            }).to.throw();
         });
 
         it('should throw if array', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: [] });
-            });
+            }).to.throw();
         });
 
         it('should throw if empty object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: {} });
-            });
+            }).to.throw();
         });
 
         it('should throw if not allExcept object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: { allBut: false} });
-            });
+            }).to.throw();
         });
 
         it('should throw if not allExcept firstAfterCurly', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesBeforeLineComments: { allExcept: 'badOptionName'} });
-            });
+            }).to.throw();
         });
     });
 
@@ -48,12 +48,12 @@ describe.skip('rules/require-padding-newlines-before-line-comments', function() 
 
         it('should report missing padding before line comment', function() {
             expect(checker.checkString('var a = 2;\n// comment'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report line comment after block comment', function() {
             expect(checker.checkString('var a = 2;\n/* comment */\n// comment'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report multiple line comments', function() {
@@ -62,7 +62,7 @@ describe.skip('rules/require-padding-newlines-before-line-comments', function() 
 
         it('should report one error if multiple comments dont have line space', function() {
             expect(checker.checkString('var a = 2;\n// comment\n// comment'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report missing padding if comment is first line', function() {
@@ -87,7 +87,7 @@ describe.skip('rules/require-padding-newlines-before-line-comments', function() 
 
         it('should report error if first line after a curly', function() {
             expect(checker.checkString('if (true) {\n// comment\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not consider code and comment on the same line (#1194)', function() {

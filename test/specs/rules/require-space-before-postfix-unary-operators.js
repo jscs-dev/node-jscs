@@ -21,7 +21,7 @@ describe.skip('rules/require-space-before-postfix-unary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
                     expect(checker.checkString(sticked))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -36,7 +36,7 @@ describe.skip('rules/require-space-before-postfix-unary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
                     expect(checker.checkString(stickedWithParenthesis))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -51,12 +51,12 @@ describe.skip('rules/require-space-before-postfix-unary-operators', function() {
 
     it('should report sticky operator', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; x++; x--;').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = 2; x++; x--;')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should report sticky operator if operand in parentheses', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; ( x )++; (((x)))--;').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = 2; ( x )++; (((x)))--;')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report separated operator', function() {

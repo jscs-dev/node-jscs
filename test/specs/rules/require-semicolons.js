@@ -20,7 +20,7 @@ describe.skip('rules/require-semicolons', function() {
             tests.forEach(function(test) {
                 it(test.replace(/\n/g, '\\n'), function() {
                     expect(checker.checkString(test))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 });
             });
         });
@@ -36,11 +36,11 @@ describe.skip('rules/require-semicolons', function() {
                     var result = checker.checkString(code);
                     var errors = result.getErrorList();
 
-                    assert(errors.length === positions.length);
+                    expect(errors.length).to.equal(positions.length);
 
                     for (var i = 0; i < errors.length; i++) {
-                        assert(errors[i].line === positions[i][0]);
-                        assert(errors[i].column === positions[i][1]);
+                        expect(errors[i].line).to.equal(positions[i][0]);
+                        expect(errors[i].column).to.equal(positions[i][1]);
                     }
                 });
             });

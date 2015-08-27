@@ -23,18 +23,18 @@ describe.skip('rules/disallow-space-after-keywords', function() {
     it('should report on all spaced keywords if a value true is supplied', function() {
         checker.configure({ disallowSpaceAfterKeywords: true });
 
-        expect(!checker.checkString('do {} while (false)')).to.have.no.errors();
-        expect(!checker.checkString('for (;;){}')).to.have.no.errors();
-        expect(!checker.checkString('if (x) {}')).to.have.no.errors();
-        expect(!checker.checkString('if (true){} else{}')).to.have.no.errors();
-        expect(!checker.checkString('switch (false){ case 4: break;}')).to.have.no.errors();
-        expect(!checker.checkString('switch(true){ case \'4\': break;}')).to.have.no.errors();
-        expect(!checker.checkString('try {} catch(e) {}')).to.have.no.errors();
-        expect(!checker.checkString('void (0)')).to.have.no.errors();
-        expect(!checker.checkString('while (x) {}')).to.have.no.errors();
-        expect(!checker.checkString('with ({}){}')).to.have.no.errors();
-        expect(!checker.checkString('function foo(){}')).to.have.no.errors();
-        expect(!checker.checkString('typeof \'4\'')).to.have.no.errors();
+        expect(checker.checkString('do {} while (false)')).to.have.errors();
+        expect(checker.checkString('for (;;){}')).to.have.errors();
+        expect(checker.checkString('if (x) {}')).to.have.errors();
+        expect(checker.checkString('if (true){} else{}')).to.have.errors();
+        expect(checker.checkString('switch (false){ case 4: break;}')).to.have.errors();
+        expect(checker.checkString('switch(true){ case \'4\': break;}')).to.have.errors();
+        expect(checker.checkString('try {} catch(e) {}')).to.have.errors();
+        expect(checker.checkString('void (0)')).to.have.errors();
+        expect(checker.checkString('while (x) {}')).to.have.errors();
+        expect(checker.checkString('with ({}){}')).to.have.errors();
+        expect(checker.checkString('function foo(){}')).to.have.errors();
+        expect(checker.checkString('typeof \'4\'')).to.have.errors();
     });
 
     it('should not report on `var` and `in` keywords', function() {

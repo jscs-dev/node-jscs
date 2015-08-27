@@ -15,30 +15,30 @@ describe.skip('rules/require-padding-newlines-in-blocks', function() {
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {abc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {\nabc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline before closing brace', function() {
             expect(checker.checkString('if (true) {\n\nabc();}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline before closing brace', function() {
             expect(checker.checkString('if (true) {\n\nabc();\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newlines in both cases', function() {
-            assert(checker.checkString('if (true) {abc();}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {abc();}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report missing padding newlines in both cases', function() {
-            assert(checker.checkString('if (true) {\nabc();\n}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {\nabc();\n}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with no spaces', function() {
@@ -63,24 +63,22 @@ describe.skip('rules/require-padding-newlines-in-blocks', function() {
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {//bla\n\nabc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {\n/**/\nabc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline between oneline comment and closing brace', function() {
             expect(checker.checkString('if (true) {\n\nabc();\n\n//\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should fix missing padding newlines', function() {
-            assert.equal(
-                checker.fixString('if (true) {abc();abc();}').output,
-                'if (true) {\n\nabc();abc();\n\n}'
-            );
+            expect(checker.fixString('if (true) {abc();abc();}').output)
+                .to.equal('if (true) {\n\nabc();abc();\n\n}');
         });
     });
 
@@ -91,30 +89,30 @@ describe.skip('rules/require-padding-newlines-in-blocks', function() {
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {abc();abc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline after opening brace', function() {
             expect(checker.checkString('if (true) {\nabc();abc();\n\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline before closing brace', function() {
             expect(checker.checkString('if (true) {\n\nabc();abc();}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newline before closing brace', function() {
             expect(checker.checkString('if (true) {\n\nabc();abc();\n}'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report missing padding newlines in both cases', function() {
-            assert(checker.checkString('if (true) {abc();abc();}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {abc();abc();}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should report missing padding newlines in both cases', function() {
-            assert(checker.checkString('if (true) {\nabc();abc();\n}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {\nabc();abc();\n}')).to.have.validation.error.count.which.equals(2);
         });
 
         it('should not report with no spaces', function() {

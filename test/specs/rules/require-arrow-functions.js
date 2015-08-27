@@ -11,27 +11,27 @@ describe.skip('rules/require-arrow-functions', function() {
     });
 
     it('should report use of anonymous function expression in VariableDeclaration', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var anon = function(n) {',
                 'return n + 1;',
             '});'
-        ].join('\n')).getValidationErrorCount() === 1);
+        ].join('\n'))).to.have.one.validation.error();
     });
 
     it('should report use of named function expression in VariableDeclaration', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var a = function named(n) {',
                 'return n + 1;',
             '});'
-        ].join('\n')).getValidationErrorCount() === 1);
+        ].join('\n'))).to.have.one.validation.error();
     });
 
     it('should report use of function expression as callback', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'a.map(function(n) {',
                 'return n + 1;',
             '});'
-        ].join('\n')).getValidationErrorCount() === 1);
+        ].join('\n'))).to.have.one.validation.error();
     });
 
     it('should report use of function expression in a ReturnStatement', function() {
@@ -40,15 +40,15 @@ describe.skip('rules/require-arrow-functions', function() {
     });
 
     it('should not report use of object property function expression #1413', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var foo = {};',
             'foo.bar = function() {};'
-        ].join('\n')).isEmpty());
-        assert(checker.checkString([
+        ].join('\n'))).to.have.no.errors();
+        expect(checker.checkString([
             'var foo = {',
               'bar: function() {}',
             '};'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should not report function expression in a AssignmentExpression', function() {
@@ -69,19 +69,19 @@ describe.skip('rules/require-arrow-functions', function() {
     });
 
     it('should not report a shorthand object method', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var foo = {',
               'bar() {}',
             '};'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should not report a class method', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'class Foo {',
               'bar() {}',
             '};'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should not report use of arrow function', function() {
@@ -89,10 +89,10 @@ describe.skip('rules/require-arrow-functions', function() {
     });
 
     it('should not report use of multi line arrow function', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'a.map(n => {',
                 'return n + 1;',
             '});'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 });

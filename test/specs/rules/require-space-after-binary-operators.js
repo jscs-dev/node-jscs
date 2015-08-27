@@ -23,7 +23,7 @@ describe.skip('rules/require-space-after-binary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: true });
                     expect(checker.checkString(sticked))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -31,7 +31,7 @@ describe.skip('rules/require-space-after-binary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
                     expect(checker.checkString(sticked))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -46,7 +46,7 @@ describe.skip('rules/require-space-after-binary-operators', function() {
                 function() {
                     checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
                     expect(checker.checkString(stickedWithParenthesis))
-            .to.have.one.error.from('ruleName');
+                        .to.have.one.error.from('ruleName');
                 }
             );
 
@@ -60,9 +60,9 @@ describe.skip('rules/require-space-after-binary-operators', function() {
             it('should highlight the end of the ' + operator + ' operator', function() {
                 checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
                 var error = checker.checkString(sticked).getErrorList()[0];
-                assert(error.line === 1);
-                assert(error.column === (14 + operator.length));
-                assert(error.message === ('Operator ' + operator + ' should not stick to following expression'));
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(14 + operator.length);
+                expect(error.message).to.equal('Operator ' + operator + ' should not stick to following expression');
             });
         });
     });
@@ -101,7 +101,7 @@ describe.skip('rules/require-space-after-binary-operators', function() {
 
     it('should report for assignment expressions', function() {
         checker.configure({ requireSpaceAfterBinaryOperators: ['='] });
-        assert(checker.checkString('var x=1, t=2').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x=1, t=2')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report for assignment expressions without "=" sign', function() {
@@ -122,7 +122,7 @@ describe.skip('rules/require-space-after-binary-operators', function() {
 
         expect(errors)
             .to.have.one.error.from('ruleName');
-        assert(errors.explainError(error)
-            .indexOf('Operator = should not stick to following expression at input') === 0);
+        expect(errors.explainError(error))
+            .to.contain('Operator = should not stick to following expression at input');
     });
 });

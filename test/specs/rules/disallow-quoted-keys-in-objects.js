@@ -57,7 +57,7 @@ describe.skip('rules/disallow-quoted-keys-in-objects', function() {
     });
 
     it('should check all keys in object', function() {
-        assert(checker.checkString('var x = { "a": 1, b: 2, "3": 3 }').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = { "a": 1, b: 2, "3": 3 }')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report if reserved words when "allButReserved" mode is used', function() {

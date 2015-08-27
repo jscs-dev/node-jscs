@@ -84,7 +84,7 @@ describe.skip('rules/disallow-space-before-binary-operators', function() {
 
     it('should report for assignment expressions', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: ['='] });
-        assert(checker.checkString('var x = 1, t = 2').getValidationErrorCount() === 2);
+        expect(checker.checkString('var x = 1, t = 2')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report for assignment expressions if "=" is not specified', function() {

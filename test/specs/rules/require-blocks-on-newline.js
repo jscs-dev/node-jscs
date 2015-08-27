@@ -22,7 +22,7 @@ describe.skip('rules/require-blocks-on-newline', function() {
             .to.have.one.error.from('ruleName');
         });
         it('should report missing newlines in both cases', function() {
-            assert(checker.checkString('if (true) {abc();}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {abc();}')).to.have.validation.error.count.which.equals(2);
         });
         it('should not report with no spaces', function() {
             expect(checker.checkString('if (true) {\nabc();\n}')).to.have.no.errors();
@@ -46,7 +46,7 @@ describe.skip('rules/require-blocks-on-newline', function() {
             .to.have.one.error.from('ruleName');
         });
         it('should report missing newlines in both cases', function() {
-            assert(checker.checkString('if (true) {abc();abc();}').getValidationErrorCount() === 2);
+            expect(checker.checkString('if (true) {abc();abc();}')).to.have.validation.error.count.which.equals(2);
         });
         it('should not report with no spaces', function() {
             expect(checker.checkString('if (true) {\nabc();abc();\n}')).to.have.no.errors();

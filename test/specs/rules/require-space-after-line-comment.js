@@ -15,7 +15,7 @@ describe.skip('rules/require-space-after-line-comment', function() {
 
         it('should report missing space after line comment', function() {
             expect(checker.checkString('if (true) {abc();} //This is a comment'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report comment with space', function() {
@@ -32,12 +32,12 @@ describe.skip('rules/require-space-after-line-comment', function() {
 
         it('should report triple slashed comments', function() {
             expect(checker.checkString('if (true) {abc();} /// something'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should report sharped line comments', function() {
             expect(checker.checkString('if (true) {abc();} //# something'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 
@@ -48,18 +48,21 @@ describe.skip('rules/require-space-after-line-comment', function() {
         });
 
         it('should not report microsoft documentation triple slashed comments', function() {
-            assert(checker.checkString('function area() {\n  /// <summary>summary</summary>\n  return res;\n}')
-                .isEmpty());
+            expect(checker.checkString('function area() {\n  /// <summary>summary</summary>\n  return res;\n}'))
+                .to.have.no.validation.errors();
         });
 
         it('should not report multiline msjsdoc with triple slashed comments', function() {
-            assert(checker.checkString('function area() {\n' +
-                '  /// <summary>\n' +
-                '  ///   summary\n' +
-                '  /// </summary>\n' +
-                '  return res;\n' +
-                '}')
-                .isEmpty());
+            expect(
+                checker.checkString(
+                    'function area() {\n' +
+                    '  /// <summary>\n' +
+                    '  ///   summary\n' +
+                    '  /// </summary>\n' +
+                    '  return res;\n' +
+                    '}'
+                )
+            ).to.have.no.errors();
         });
     });
 
@@ -69,22 +72,26 @@ describe.skip('rules/require-space-after-line-comment', function() {
         });
 
         it('should not report sharped comment', function() {
-            assert(checker.checkString('function area() {\n  //# require something.js\n}')
-                .isEmpty());
+            expect(
+                checker.checkString('function area() {\n  //# require something.js\n}')
+            ).to.have.no.errors();
         });
 
         it('should not report (xsharp) line comment', function() {
-            assert(checker.checkString('function area() {\n  //(xsharp) special comment\n}')
-                .isEmpty());
+            expect(checker.checkString('function area() {\n  //(xsharp) special comment\n}'))
+                .to.have.no.errors();
         });
 
         it('should not report line comment with custom substrings', function() {
-            assert(checker.checkString('function area() {\n' +
-                '  //(xsharp) sourceURL=filename.js\n' +
-                '  //-- require something-else.js\n' +
-                '  return res;\n' +
-                '}')
-                .isEmpty());
+            expect(
+                checker.checkString(
+                    'function area() {\n' +
+                    '  //(xsharp) sourceURL=filename.js\n' +
+                    '  //-- require something-else.js\n' +
+                    '  return res;\n' +
+                    '}'
+                )
+            ).to.have.no.errors();
         });
     });
 });

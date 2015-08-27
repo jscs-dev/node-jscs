@@ -18,22 +18,22 @@ describe('rules/disallow-multiple-spaces', function() {
 
         it('should report multiple spaces', function() {
             expect(checker.checkString('var x  = "oops";'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('function x  () {}'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('function x()  {}'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('1  + 2'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('1 +  2'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between comments', function() {
             expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
             expect(checker.checkString('var x = "oops";  // Multiple spaces before comment'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should not report single spaces between comments', function() {
@@ -79,12 +79,12 @@ describe('rules/disallow-multiple-spaces', function() {
 
         it('should report multiple spaces', function() {
             expect(checker.checkString('var x  = "oops";'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between inline comments', function() {
             expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
-            .to.have.one.error.from('disallowMultipleSpaces');
+                .to.have.one.error.from('disallowMultipleSpaces');
         });
 
         it('should not report multiple spaces between EOL comments', function() {
@@ -114,7 +114,7 @@ describe('rules/disallow-multiple-spaces', function() {
             } catch (err) {
                 return;
             }
-            assert.fail('`checker.configure` should have raised an error for an invalid value');
+            throw new Error('`checker.configure` should have raised an error for an invalid value');
         });
     });
 });

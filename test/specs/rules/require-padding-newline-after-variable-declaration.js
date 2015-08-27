@@ -14,9 +14,7 @@ describe.skip('rules/require-padding-newline-after-variable-declaration', functi
         expect(checker.checkString('var a = 1;\n\nconsole.log(a);')).to.have.no.errors();
         expect(checker.checkString('function a() { var a = 1;\n\nconsole.log(a); }')).to.have.no.errors();
         expect(checker.checkString('var b = 2;\n\nfunction a() { var a = 1;\n\nconsole.log(a); }')).to.have.no.errors();
-        assert(checker.checkString(
-            'var b = 2;\n\nfunction a() { var a = 1;\n\nconsole.log(a); } var c = 3;'
-        ).isEmpty());
+        expect(checker.checkString('var b = 2;\n\nfunction a() { var a = 1;\n\nconsole.log(a); } var c = 3;')).to.have.no.validation.errors();
     });
 
     it('should not report for consecutive var declarations', function() {
@@ -44,7 +42,7 @@ describe.skip('rules/require-padding-newline-after-variable-declaration', functi
             .to.have.one.error.from('ruleName');
         expect(checker.checkString('function a() { var x; console.log(x); }'))
             .to.have.one.error.from('ruleName');
-        assert(checker.checkString('var y; function a() { var x; console.log(x); }').getValidationErrorCount() === 2);
+        expect(checker.checkString('var y; function a() { var x; console.log(x); }')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should report if no extra newline is present after const declaration', function() {
@@ -52,7 +50,7 @@ describe.skip('rules/require-padding-newline-after-variable-declaration', functi
             .to.have.one.error.from('ruleName');
         expect(checker.checkString('function a() { const x = 2; console.log(x); }'))
             .to.have.one.error.from('ruleName');
-        assert(checker.checkString('const y = 1; function a() { const x = 3; console.log(x); }').getValidationErrorCount() === 2);
+        expect(checker.checkString('const y = 1; function a() { const x = 3; console.log(x); }')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should report if no extra newline is present after let declaration', function() {
@@ -60,7 +58,7 @@ describe.skip('rules/require-padding-newline-after-variable-declaration', functi
             .to.have.one.error.from('ruleName');
         expect(checker.checkString('function a() { let x; console.log(x); }'))
             .to.have.one.error.from('ruleName');
-        assert(checker.checkString('let y; function a() { let x; console.log(x); }').getValidationErrorCount() === 2);
+        expect(checker.checkString('let y; function a() { let x; console.log(x); }')).to.have.validation.error.count.which.equals(2);
     });
 
     it('should not report when variables are defined in the init part of a for loop', function() {
@@ -80,31 +78,37 @@ describe.skip('rules/require-padding-newline-after-variable-declaration', functi
     });
 
     it('should report if no extra newline is present after var declaration in the body of a for loop', function() {
-        assert(checker.checkString(
+        expect(
+            checker.checkString(
             'for (var i = 0, length = myArray.length; i < length; i++) {' +
                 'var x = 1;' +
                 'console.log(x);' +
             '}'
-        ).getValidationErrorCount() === 1);
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should report if no extra newline is present after let declaration in the body of a for loop', function() {
-        assert(checker.checkString(
+        expect(
+            checker.checkString(
             'for (let i = 0, length = myArray.length; i < length; i++) {' +
                 'let x = 1;' +
                 'console.log(x);' +
             '}'
-        ).getValidationErrorCount() === 1);
+            )
+        ).to.have.one.validation.error();
     });
 
     it('should not trip off on the semicolons (#1244)', function() {
-        assert(checker.checkString(
+        expect(
+            checker.checkString(
             'var View = Backbone.View.extend({' +
                 'initialize: function () {' +
                     'this.listenTo(this.doge, "woof", this.onWoof);' +
                     'this.listenTo(this.doge, "bark", this.onBark);' +
                 '}' +
             '});'
-        ).isEmpty());
+            )
+        ).to.have.no.errors();
     });
 });

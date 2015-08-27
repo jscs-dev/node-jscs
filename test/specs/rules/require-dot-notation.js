@@ -15,7 +15,7 @@ describe.skip('rules/require-dot-notation', function() {
         });
 
         it('should report literal subscription', function() {
-            assert.equal(checker.checkString('var x = a[\'b\']').getValidationErrorCount(), 1);
+            expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error();
         });
 
         it('should not report literal subscription for reserved words', function() {
@@ -70,8 +70,8 @@ describe.skip('rules/require-dot-notation', function() {
         });
 
         it('should not report literal subscription for es3 keywords or future reserved words', function() {
-            assert.equal(checker.checkString('var x = a[\'while\']').getValidationErrorCount(), 1);
-            assert.equal(checker.checkString('var x = a[\'abstract\']').getValidationErrorCount(), 1);
+            expect(checker.checkString('var x = a[\'while\']')).to.have.one.validation.error();
+            expect(checker.checkString('var x = a[\'abstract\']')).to.have.one.validation.error();
         });
     });
 
@@ -82,9 +82,9 @@ describe.skip('rules/require-dot-notation', function() {
 
         it('should report literal subscription', function() {
             expect(checker.checkString('var x = a[\'b\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('var x = a[\'camelA\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
 
         it('should not report snake case identifier', function() {
@@ -105,13 +105,13 @@ describe.skip('rules/require-dot-notation', function() {
 
         it('should report camel case identifier with trailing underscores', function() {
             expect(checker.checkString('var x = a[\'_camelA\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('var x = a[\'__camelA\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('var x = a[\'camelA_\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
             expect(checker.checkString('var x = a[\'camelA__\']'))
-            .to.have.one.error.from('ruleName');
+                .to.have.one.error.from('ruleName');
         });
     });
 });

@@ -16,7 +16,7 @@ describe.skip('rules/require-operator-before-line-break', function() {
             it('should report newline before ' + operator + ' with ' + value + ' value', function() {
                 checker.configure({ requireOperatorBeforeLineBreak: value });
                 expect(checker.checkString('var x = y \n' + operator + ' String'))
-            .to.have.one.error.from('ruleName');
+                    .to.have.one.error.from('ruleName');
             });
 
             it('should not report newline after ' + operator + ' with ' + value + ' value', function() {
@@ -75,22 +75,22 @@ describe.skip('rules/require-operator-before-line-break', function() {
         checker.configure({ requireOperatorBeforeLineBreak: true });
         var input = 'var x = y // comment \n? a : b';
         var result = checker.fixString(input);
-        assert.equal(1, result.errors.getValidationErrorCount());
-        assert.equal(result.output, input);
+        expect(result.errors).to.have.one.validation.error();
+        expect(result.output).to.equal(input);
     });
     it('should not autofix inline comment on first line', function() {
         checker.configure({ requireOperatorBeforeLineBreak: true });
         var input = 'var x = y /* comment */\n? a : b';
         var result = checker.fixString(input);
-        assert.equal(1, result.errors.getValidationErrorCount());
-        assert.equal(result.output, input);
+        expect(result.errors).to.have.one.validation.error();
+        expect(result.output).to.equal(input);
     });
     it('should not autofix inline comment on second line', function() {
         checker.configure({ requireOperatorBeforeLineBreak: true });
         var input = 'var x = y\n /* comment */ ? a : b';
         var result = checker.fixString(input);
-        assert.equal(1, result.errors.getValidationErrorCount());
-        assert.equal(result.output, input);
+        expect(result.errors).to.have.one.validation.error();
+        expect(result.output).to.equal(input);
     });
 
     reportAndFix({
