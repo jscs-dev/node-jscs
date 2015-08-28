@@ -601,6 +601,16 @@ describe('cli', function() {
             assert.equal(checker._configuration.getMaxErrors(), Infinity);
         });
 
+        it('should set maxErrors to Infinity with "autoConfigure" option', function() {
+            var checker = cli({
+                maxErrors: '1',
+                args: ['test/data/cli/error.js'],
+                autoConfigure: __dirname + '/data/error-filter/index.js'
+            }).checker;
+
+            assert.equal(checker._configuration.getMaxErrors(), Infinity);
+        });
+
         it('should limit the number of errors reported to the provided amount', function() {
             return cli({
                 maxErrors: '1',
