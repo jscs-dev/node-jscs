@@ -25,10 +25,24 @@ describe('cli-config', function() {
             assert.equal(typeof config, 'object');
         });
 
-        it('should load a config from a .jscsrc file', function() {
+        it('should load a config from a .jscs.yaml file', function() {
+            var config = configFile.load('.jscs.yaml', './test/data/configs/yaml');
+
+            assert.equal(typeof config, 'object');
+            assert.equal(config.type, 'yaml');
+        });
+
+        it('should load a JSON config from a .jscsrc file', function() {
             var config = configFile.load('.jscsrc', './test/data/configs/jscsrc');
 
             assert.equal(typeof config, 'object');
+        });
+
+        it('should load a YAML config from a .jscsrc file', function() {
+            var config = configFile.load('.jscsrc', './test/data/configs/yaml');
+
+            assert.equal(typeof config, 'object');
+            assert.equal(config.type, 'yaml');
         });
 
         it('should load a config from upper .jscsrc file', function() {
