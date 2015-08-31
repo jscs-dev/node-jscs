@@ -117,7 +117,7 @@
     ]
   },
   "scripts": {
-    "lint": "jshint . && node bin/jscs lib test bin publish",
+    "lint": "jshint . # && node bin/jscs lib test bin publish",
     "test": "npm run lint && mocha --color",
     "autofix-tests": "node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
