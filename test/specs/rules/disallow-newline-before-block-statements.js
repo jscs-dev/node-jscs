@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-newline-before-block-statements', function() {
@@ -38,26 +38,26 @@ describe('rules/disallow-newline-before-block-statements', function() {
         });
 
         it('should not report disallowed newline before opening brace', function() {
-            assert(checker.checkString('function test() {abc();}').isEmpty());
+            expect(checker.checkString('function test() {abc();}')).to.have.no.errors();
         });
 
         it('should not report disallowed newline before opening brace when there are white-spaces between', function() {
-            assert(checker.checkString('function test()      /* COOOMMMENTTT*/ {abc();}').isEmpty());
+            expect(checker.checkString('function test()      /* COOOMMMENTTT*/ {abc();}')).to.have.no.errors();
         });
 
         it('should not report disallowed newline for object definitions', function() {
-            assert(checker.checkString('function test(){var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}')
-                .isEmpty());
+            expect(checker.checkString('function test(){var obj = \n{a:1,\nb:2,\nc:3\n};\n\n return {\nval:1\n};\n}'))
+                .to.have.no.errors();
         });
 
         it('should not report disallowed newline', function() {
-            assert(checker.checkString(
-                'function test(){\nif(true){\nreturn {\nval:1\n}\n}\nvar obj = \n{a:1,\nb:2,\nc:3\n};\n}')
-                .isEmpty());
+            expect(checker.checkString(
+                'function test(){\nif(true){\nreturn {\nval:1\n}\n}\nvar obj = \n{a:1,\nb:2,\nc:3\n};\n}'
+            )).to.have.no.errors();
         });
 
         it('should not throw error if opening parentheses is first symbol in the file', function() {
-            assert(checker.checkString('{ test: 1 }').isEmpty());
+            expect(checker.checkString('{ test: 1 }')).to.have.no.errors();
         });
     });
 });

@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/disallow-semicolons', function() {
+describe.skip('rules/disallow-semicolons', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,33 +11,33 @@ describe('rules/disallow-semicolons', function() {
     });
 
     it('should not allow semicolons at end of line', function() {
-        assert.equal(checker.checkString([
+        expect(checker.checkString([
             'var a = 1;',
             'var b = 2;',
             'function c() {}',
             'd();'
-        ].join('\n')).getErrorCount(), 3);
+        ].join('\n'))).to.have.error.count.which.equals(3);
     });
 
     it('should allow semicolons inline', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'for (var i = 0; i < l; i++) {',
             'go()',
             '}'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should allow semicolons at start of line', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var foo = function () {}',
             ';[1, 2].forEach(foo)'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
     });
 
     it('should not autofix semicolons', function() {
         var input = 'var a = 1;\nvar b = 1;';
         var result = checker.fixString(input);
-        assert.equal(result.output, input);
-        assert.equal(result.errors.getErrorCount(), 2);
+        expect(result.output).to.equal(input);
+        expect(result.errors.getValidationErrorCount()).to.equal(2);
     });
 });

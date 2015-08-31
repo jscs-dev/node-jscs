@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
-describe('rules/require-template-strings', function() {
+describe.skip('rules/require-template-strings', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,54 +11,58 @@ describe('rules/require-template-strings', function() {
     });
 
     it('should report the use of string concatenation with a identifier on the left', function() {
-        assert(checker.checkString('a + "a"').getErrorCount() === 1);
+        expect(checker.checkString('a + "a"'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should report the use of string concatenation with a identifier on the right', function() {
-        assert(checker.checkString('"a" + a').getErrorCount() === 1);
+        expect(checker.checkString('"a" + a'))
+            .to.have.one.error.from('ruleName');
     });
 
     it('should not report the use of string concatenation with a identifier on the left and right', function() {
-        assert(checker.checkString('a + a').isEmpty());
+        expect(checker.checkString('a + a')).to.have.no.errors();
     });
 
     it('should not report the use of string concatenation with two literals', function() {
-        assert(checker.checkString('"a" + "a"').isEmpty());
+        expect(checker.checkString('"a" + "a"')).to.have.no.errors();
     });
 
     it('should not report the use of template strings', function() {
-        assert(checker.checkString('`How are you, ${name}?`').isEmpty());
+        expect(checker.checkString('`How are you, ${name}?`')).to.have.no.errors();
     });
 
     it('should report the use of string concatenation with right handed binary expression',
         function() {
-            assert(checker.checkString('"test" + (a + b)').getErrorCount() === 1);
+            expect(checker.checkString('"test" + (a + b)'))
+            .to.have.one.error.from('ruleName');
         }
     );
 
     it('should report the use of string concatenation with left handed binary expression',
         function() {
-            assert(checker.checkString('(a + b) + "test"').getErrorCount() === 1);
+            expect(checker.checkString('(a + b) + "test"'))
+            .to.have.one.error.from('ruleName');
         }
     );
 
     it('should not report for number literals', function() {
-        assert(checker.checkString('1 + a').isEmpty());
-        assert(checker.checkString('a + 1').isEmpty());
+        expect(checker.checkString('1 + a')).to.have.no.errors();
+        expect(checker.checkString('a + 1')).to.have.no.errors();
     });
 
     it('should not report for null literal', function() {
-        assert(checker.checkString('null + a').isEmpty());
-        assert(checker.checkString('a + null').isEmpty());
+        expect(checker.checkString('null + a')).to.have.no.errors();
+        expect(checker.checkString('a + null')).to.have.no.errors();
     });
 
     it('should not report for true literal', function() {
-        assert(checker.checkString('true + a').isEmpty());
-        assert(checker.checkString('a + false').isEmpty());
+        expect(checker.checkString('true + a')).to.have.no.errors();
+        expect(checker.checkString('a + false')).to.have.no.errors();
     });
 
     it('should not report for binary expression that isn\'t +', function() {
-        assert(checker.checkString('1 * 2').isEmpty());
-        assert(checker.checkString('a === b').isEmpty());
+        expect(checker.checkString('1 * 2')).to.have.no.errors();
+        expect(checker.checkString('a === b')).to.have.no.errors();
     });
 });
