@@ -35,6 +35,22 @@ describe('rules/require-spaces-in-function-expression', function() {
             assert(checker.checkString('var x = function a (){}').isEmpty());
         });
 
+        it('should report missing space before round brace in FunctionExpression', function() {
+            assert(checker.checkString('var x = async function(){}').getErrorCount() === 1);
+        });
+
+        it('should report missing space before round brace in named FunctionExpression', function() {
+            assert(checker.checkString('var x = async function a(){}').getErrorCount() === 1);
+        });
+
+        it('should not report space before round brace in FunctionExpression', function() {
+            assert(checker.checkString('var x = async function (){}').isEmpty());
+        });
+
+        it('should not report space before round brace in named FunctionExpression', function() {
+            assert(checker.checkString('var x = async function a (){}').isEmpty());
+        });
+
         it('should not report missing space before round brace in FunctionDeclaration', function() {
             assert(checker.checkString('function abc(){}').isEmpty());
         });
