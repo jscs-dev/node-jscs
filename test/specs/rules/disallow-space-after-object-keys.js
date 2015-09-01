@@ -51,6 +51,18 @@ describe('rules/disallow-space-after-object-keys', function() {
             );
         });
 
+        it('should not report if no space after computed property names #1742', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var a = {',
+                      '[block + \'--default\']: this.props.navStyle === \'default\',',
+                      '[1 + 1 + 3]: 1',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
         it('should report if space after computed property names #1406', function() {
             checker.configure({ esnext: true });
             assert(
@@ -59,6 +71,18 @@ describe('rules/disallow-space-after-object-keys', function() {
                       '[myKey] : "myKeyValue"',
                     '};'
                 ].join('\n')).getErrorCount() === 1
+            );
+        });
+
+        it('should report if space after computed property names #1742', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var a = {',
+                      '[block + \'--default\'] : this.props.navStyle === \'default\',',
+                      '[1 + 1 + 3] : 1',
+                    '};'
+                ].join('\n')).getErrorCount() === 2
             );
         });
 
