@@ -22,6 +22,7 @@
         "tabSize": 4,
         "allExcept": ["urlComments", "regex"]
     },
+    "validateIndentation": "\t",
     "validateQuoteMarks": { "mark": "\"", "escape": true },
 
     "disallowMixedSpacesAndTabs": "smart",
