@@ -67,7 +67,6 @@
         "beforeOpeningCurlyBrace": true
     },
     "requirePaddingNewLinesBeforeLineComments": true,
-    "requireCapitalizedComments": true,
     "validateLineBreaks": "LF",
 
     "disallowKeywords": [ "with" ],
