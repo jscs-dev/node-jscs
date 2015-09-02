@@ -37,4 +37,8 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
     it('should not report with multiple parameters and destructuring', function() {
         assert(checker.checkString('let func = (foo, {hoge}) => hoge').isEmpty());
     });
+
+    it('should not error with no params #1747', function() {
+        assert(checker.checkString('() => {};').isEmpty());
+    });
 });
