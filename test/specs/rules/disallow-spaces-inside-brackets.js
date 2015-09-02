@@ -46,6 +46,14 @@ describe('rules/disallow-spaces-inside-brackets', function() {
             it('should not report with no spaces', function() {
                 assert(checker.checkString('var x = [1, 2];').isEmpty());
             });
+
+            it('should not report block comment before last bracket (#1749)', function() {
+                assert(checker.checkString('[1/**/];').isEmpty());
+            });
+
+            it('should not report block comment after first bracket (#1749)', function() {
+                assert(checker.checkString('[/**/1];').isEmpty());
+            });
         });
 
         describe('when braces on different lines', function() {
