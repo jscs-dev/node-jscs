@@ -113,6 +113,10 @@ describe('rules/validate-comment-position', function() {
             assert.strictEqual(checker.checkString('1 + 1; /* falls through */').getErrorCount(), 0);
         });
 
+        it('should report on comments beginning with words made up of partial keywords', function() {
+            assert.strictEqual(checker.checkString('1 + 1; // globalization is a word').getErrorCount(), 1);
+        });
+
         it('should report on comments that mention keywords, but are not valid pragmas', function() {
             assert.strictEqual(checker.checkString('1 + 1; // mentioning falls through').getErrorCount(), 1);
         });
