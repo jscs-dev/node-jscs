@@ -163,4 +163,42 @@ describe('utils', function() {
             assert.equal(utils.getBabelType(property), 'SpreadProperty');
         });
     });
+
+    describe('isPragma', function() {
+        it('returns true when string contains valid pragma (no additionalExceptions supplied)', function() {
+            var isExcepted = utils.isPragma();
+            assert.ok(isExcepted(' jslint eqeqeq'));
+            assert.ok(isExcepted('jslint eqeqeq'));
+            assert.ok(isExcepted(' eslint eqeqeq'));
+            assert.ok(isExcepted('eslint-enable'));
+            assert.ok(isExcepted('jscs:ignore'));
+        });
+
+        it('returns false when string doesn\'t contain valid pragma (no additionalExceptions supplied)', function() {
+            var isExcepted = utils.isPragma();
+            assert.ok(!isExcepted('not valid'));
+            assert.ok(!isExcepted('not global'));
+            assert.ok(!isExcepted('globalized thing'));
+            assert.ok(!isExcepted(' globalized thing '));
+            assert.ok(!isExcepted('jscs:awesome'));
+        });
+
+        it('returns true when string contains valid pragma (additionalExceptions supplied)', function() {
+            var isExcepted = utils.isPragma(['pragma', 'linter']);
+            assert.ok(isExcepted(' jslint eqeqeq'));
+            assert.ok(isExcepted(' pragma eqeqeq'));
+            assert.ok(isExcepted(' linter eqeqeq'));
+            assert.ok(isExcepted('linter rule'));
+            assert.ok(isExcepted('pragma rule'));
+        });
+
+        it('returns false when string doesn\'t contain valid pragma (additionalExceptions supplied)', function() {
+            var isExcepted = utils.isPragma(['pragma', 'linter']);
+            assert.ok(!isExcepted('not valid'));
+            assert.ok(!isExcepted('not pragma'));
+            assert.ok(!isExcepted('pragmatic string'));
+            assert.ok(!isExcepted('linted code'));
+            assert.ok(!isExcepted('splinter '));
+        });
+    });
 });
