@@ -7,8 +7,8 @@ Thanks for wanting to contribute! This document describes some points about the 
 1. [How you can help](#how-you-can-help)
 1. [Pull Requests](#pull-requests)
  - [Before Submitting a PR](#before-submitting-a-pr)
- - [Why did you close my PR or Issue?](#why-did-you-close-my-pull-request-or-issue-)
- - [PR/Issue Closing Criteria](#pr-issue-closing-criteria)
+ - [Why did you close my PR or Issue?](#why-did-you-close-my-pull-request-or-issue)
+ - [PR/Issue Closing Criteria](#prissue-closing-criteria)
 1. [Filing Bugs](#filing-bugs)
 1. [Proposing Features](#proposing-features)
 1. [Implementing Features](#implementing-features)
@@ -50,9 +50,9 @@ It will be reviewed by a maintainer and accepted, or commented for rework, or de
 ##### Before submitting a PR
 
 1. Please review our suggested [commit message format](#commit-message-format).
-1. Make sure you have tests for your modifications (we use [Mocha](http://visionmedia.github.io/mocha/) and [Assert](http://nodejs.org/api/assert.html))
- - Tests for rules are located in `test/rules`
- - Tests for presets are located in `test/options/preset`
+1. Make sure you have tests for your modifications (we use [Mocha](https://mochajs.org/) and [Assert](http://nodejs.org/api/assert.html))
+ - Tests for rules are located in `test/specs/rules`
+ - Code to validate default presets are located in `test/data/options/preset`
 1. Run `npm test` locally to catch any JSHint and JSCS errors.
 
 ##### Why did you close my pull request or issue?
@@ -116,7 +116,8 @@ Implementing Features
 --------
 
 It's likely that you'll have to implement feature requests or enhancements on your own. To do that, you'll need
-to be comfortable with JavaScript, Promises, Node.js, and familiar with [Esprima's abstract syntax tree format](http://esprima.org/demo/parse.html#).
+to be comfortable with JavaScript, Promises, Node.js, and familiar with Javascript abstract syntax trees (specifically Esprima and Bablyon).
+Check out [AST Explorer](http://astexplorer.net/).
 
 To understand how JSCS works, the best place to start is in the `lib/` directory: starting with `lib/cli.js`
 (to see the processing flow when `jscs` is invoked in the terminal) then going to `lib/checker.js` and `lib/string-checker.js`
@@ -145,7 +146,7 @@ Setting up your environment
 1. Fork the node-jscs repository
 1. Clone your fork to your local machine
 1. Run `npm install` in your local fork
-1. Consider setting up the appropriate [JSCS package](http://jscs.info/overview.html#friendly-packages) for your text editor
+1. Consider setting up the appropriate [JSCS package](http://jscs.info/overview#friendly-packages) for your text editor
  - We use JSCS to check the JSCS codebase
 1. Create a new branch for your fix: `git checkout -b my-fix-branch master`
 1. Implement your bug fix or feature request
