@@ -140,6 +140,40 @@ describe('js-file', function() {
                 assert.equal(0, comments.length);
                 assert.equal(0, gritTags.length);
             });
+
+            it('should ignore lines containing only <include> case-insensitive tag', function() {
+                var file = createJsFile('<includE src="file.js">\n' +
+                    '  <includE src="file.js">\n' +
+                    '< includE src="file.js" >\n' +
+                    '<includE\n' +
+                    ' src="file.js">');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(4, comments.length);
+                assert.equal(4, gritTags.length);
+            });
+
+            it('should ignore lines containing only <if> case-insensitive tag', function() {
+                var file = createJsFile('<if expr="false">\n' +
+                    '  <iF expr="false">\n' +
+                    '< if expr="false" >\n' +
+                    'var a = 5;\n' +
+                    '</if>\n' +
+                    '<iF\n' +
+                    ' expr="false">\n' +
+                    'var b = 7;\n' +
+                    '</ If>');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(6, comments.length);
+                assert.equal(6, gritTags.length);
+            });
         });
     });
 
