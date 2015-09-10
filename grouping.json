@@ -134,6 +134,7 @@
     "disallowParenthesesAroundArrowParam",
     "requireParenthesesAroundArrowParam",
     "requireArrowFunctions",
+    "requireNumericLiterals",
     "requireSpread",
     "requireTemplateStrings"
   ],
@@ -147,7 +148,6 @@
     "disallowNodeTypes",
     "disallowNotOperatorsInConditionals",
     "requireDollarBeforejQueryAssignment",
-    "requireNumericLiterals",
     "safeContextKeyword"
   ]
 }
