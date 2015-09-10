@@ -50,4 +50,12 @@ describe('rules/disallow-space-before-semicolon', function() {
 
         assert(checker.checkString('for ( ; nodeIndex < nodesCount; ++nodeIndex ) {}').isEmpty());
     });
+
+    it('should not trigger error if semicolon is first token', function() {
+        checker.configure({
+            disallowSpaceBeforeSemicolon: true
+        });
+
+        assert(checker.checkString(';').isEmpty());
+    });
 });
