@@ -1,5 +1,7 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
+
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
+var Checker = require('../../../lib/checker');
 
 describe('rules/require-capitalized-comments', function() {
     var checker;
@@ -285,6 +287,17 @@ describe('rules/require-capitalized-comments', function() {
                 '// http://google.com\n' +
                 '// a'
             );
+        });
+    });
+
+    describe.only('autofixing', function() {
+        reportAndFix({
+            name: 'simple case',
+            rules: {
+                requireCapitalizedComments: true
+            },
+            input: '//invalid',
+            output: '//Invalid'
         });
     });
 });
