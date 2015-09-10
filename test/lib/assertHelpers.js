@@ -35,11 +35,11 @@ var AssertHelpers = {
                 checker.configure(options.rules);
             });
 
-            it('should report', function() {
+            it('report', function() {
                 assert(checker.checkString(options.input).getErrorCount() === options.errors);
             });
 
-            it('should fix', function() {
+            it('fix', function() {
                 var result = checker.fixString(options.input);
                 assert(result.errors.isEmpty());
                 assert.equal(result.output, options.output);
