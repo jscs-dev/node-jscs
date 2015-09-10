@@ -290,7 +290,7 @@ describe('rules/require-capitalized-comments', function() {
         });
     });
 
-    describe.only('autofixing', function() {
+    describe('autofixing', function() {
         reportAndFix({
             name: 'simple case',
             rules: {
