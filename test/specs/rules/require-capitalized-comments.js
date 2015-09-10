@@ -1,7 +1,9 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
 
-describe.only('rules/require-capitalized-comments', function() {
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
+var Checker = require('../../../lib/checker');
+
+describe('rules/require-capitalized-comments', function() {
     var checker;
 
     function assertEmpty(str) {
@@ -172,9 +174,9 @@ describe.only('rules/require-capitalized-comments', function() {
         });
     });
 
-    describe('allExcept: ["istanbul", "zombiecheckjs"]', function() {
+    describe('allExcept: ["zombiecheckjs:"]', function() {
         beforeEach(function() {
-            checker.configure({ requireCapitalizedComments: { allExcept: ['istanbul', 'zombiecheckjs'] } });
+            checker.configure({ requireCapitalizedComments: { allExcept: ['zombiecheckjs:'] } });
         });
 
         it('should report for anything else', function() {
@@ -314,6 +316,17 @@ describe.only('rules/require-capitalized-comments', function() {
                 },
                 assert.AssertionError
             );
+        });
+    });
+
+    describe('fix', function() {
+        reportAndFix({
+            name: 'simple case',
+            rules: {
+                requireCapitalizedComments: true
+            },
+            input: '//invalid',
+            output: '//Invalid'
         });
     });
 });
