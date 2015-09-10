@@ -172,6 +172,76 @@ describe.only('rules/require-capitalized-comments', function() {
         });
     });
 
+    describe('allExcept: ["istanbul", "zombiecheckjs"]', function() {
+        beforeEach(function() {
+            checker.configure({ requireCapitalizedComments: { allExcept: ['istanbul', 'zombiecheckjs'] } });
+        });
+
+        it('should report for anything else', function() {
+            assertOne('/* my comment: this is cool */');
+        });
+
+        it('should report for other comment directives', function() {
+            assertOne('/* jshint: -W071 */');
+        });
+
+        it('should not report for custom exceptions', function() {
+            assertEmpty('/* istanbul ignore next */');
+
+            assertEmpty('/* zombiecheckjs: ensurebrains */');
+        });
+
+        it('should not ignore comments if in the middle of a code', function() {
+            assertOne('function test( /* option */ ) {}');
+        });
+    });
+
+    describe('ignoreIfInTheMiddle: true', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCapitalizedComments: {
+                    ignoreIfInTheMiddle: true
+                }
+            });
+        });
+
+        it('should ignore comment in the middle of code', function() {
+            assertEmpty('function test( /* option */ ) {}');
+        });
+
+        it('should ignore multiline comment in the middle of code', function() {
+            assertEmpty('function test( /* \n option */ ) {}');
+        });
+
+        it('should not ignore multiple comments if only in the middle of a code', function() {
+            assertOne('/* option */ function test( /* option */ ) {}');
+        });
+
+        it('should not ignore multiple comments if only in the middle of a code', function() {
+            assertOne('/* option */ function test( /* option */ ) {}');
+        });
+    });
+
+    describe('incorrect configuration', function() {
+        it('empty object', function() {
+            assert.throws(function() {
+                checker.configure({
+                    requireCapitalizedComments: {}
+                });
+            }, assert.AssertionError);
+        });
+
+        it('ignoreIfInTheMiddle: false', function() {
+            assert.throws(function() {
+                checker.configure({
+                    requireCapitalizedComments: {
+                        ignoreIfInTheMiddle: false
+                    }
+                });
+            }, assert.AssertionError);
+        });
+    });
+
     describe('ignore non-chars', function() {
         beforeEach(function() {
             checker.configure({ requireCapitalizedComments: { allExcept: ['zombiecheckjs:'] } });
