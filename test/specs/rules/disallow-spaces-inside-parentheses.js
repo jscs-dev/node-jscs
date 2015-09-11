@@ -104,6 +104,40 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
     });
 
     describe('"only" option', function() {
+        describe('quotes', function() {
+            it('should handle double quotes', function() {
+                checker.configure({
+                    disallowSpacesInsideParentheses: {
+                        only: ['"']
+                    }
+                });
+
+                assert(checker.checkString('foo( "bar" )').getErrorCount() === 2);
+                assert(checker.checkString('( "1 + 2 ) * 3').getErrorCount() === 1);
+                assert(checker.checkString('if ( "1 + 2 )\n    3').getErrorCount() === 1);
+            });
+
+            it('should handle single quotes', function() {
+                checker.configure({
+                    disallowSpacesInsideParentheses: {
+                        only: ['\'']
+                    }
+                });
+                assert(checker.checkString('foo( \'bar\' )').getErrorCount() === 2);
+                assert(checker.checkString('( \'1 + 2 ) * 3').getErrorCount() === 1);
+                assert(checker.checkString('if ( \'1 + 2 )\n    3').getErrorCount() === 1);
+            });
+
+            it('should report single but not double quotes', function() {
+                checker.configure({
+                    disallowSpacesInsideParentheses: {
+                        only: ['\'']
+                    }
+                });
+                assert(checker.checkString('foo( "bar" );foo( \'bar\' )').getErrorCount() === 2);
+            });
+        });
+
         describe('"{", "}", "[", "]", "function"', function() {
             beforeEach(function() {
                 checker.configure({
