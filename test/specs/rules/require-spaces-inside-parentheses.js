@@ -95,6 +95,42 @@ describe('rules/require-spaces-inside-parentheses', function() {
             assert(checker.checkString('for (var i = 0; i < 100; i++) {}').isEmpty());
         });
 
+        describe('quotes', function() {
+            it('should handle double quotes', function() {
+                checker.configure({
+                    requireSpacesInsideParentheses: {
+                        all: true,
+                        except: ['"']
+                    }
+                });
+                assert(checker.checkString('foo("bar")').isEmpty());
+                assert(checker.checkString('(\'1 + 2) * 3').getErrorCount() === 1);
+                assert(checker.checkString('if (\'1 + 2)\n    3').getErrorCount() === 1);
+            });
+
+            it('should handle single quotes', function() {
+                checker.configure({
+                    requireSpacesInsideParentheses: {
+                        all: true,
+                        except: ['\'']
+                    }
+                });
+                assert(checker.checkString('foo(\'bar\')').isEmpty());
+                assert(checker.checkString('(\'1 + 2) * 3').getErrorCount() === 1);
+                assert(checker.checkString('if (\'1 + 2)\n    3').getErrorCount() === 1);
+            });
+
+            it('should report single but not double quotes', function() {
+                checker.configure({
+                    requireSpacesInsideParentheses: {
+                        all: true,
+                        except: ['\'']
+                    }
+                });
+                assert(checker.checkString('foo("bar");foo(\'bar\')').getErrorCount() === 2);
+            });
+        });
+
         describe('"{", "}", "[", "]", "function"', function() {
             beforeEach(function() {
                 checker.configure({
