@@ -147,20 +147,18 @@ describe('rules/require-capitalized-comments', function() {
 
     describe('option value allExcept', function() {
         beforeEach(function() {
-            checker.configure({ requireCapitalizedComments: { allExcept: ['istanbul', 'zombiecheckjs'] } });
+            checker.configure({ requireCapitalizedComments: { allExcept: ['zombiecheckjs:'] } });
         });
 
         it('should report for anything else', function() {
             assert(checker.checkString('/* my comment: this is cool */').getErrorCount() === 1);
         });
 
-        it('should report for other comment directives', function() {
-            assert(checker.checkString('/* jshint: -W071 */').getErrorCount() === 1);
+        it('should not report for one of the built-in directives', function() {
+            assertEmpty('/* jshint -W071 */');
         });
 
         it('should not report for custom exceptions', function() {
-            assertEmpty('/* istanbul ignore next */');
-
             assertEmpty('/* zombiecheckjs: ensurebrains */');
         });
     });
