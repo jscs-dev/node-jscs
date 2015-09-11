@@ -331,6 +331,20 @@ describe('cli', function() {
             return assertNoCliErrors(result);
         });
 
+        it('should accept empty input: `cat myEmptyFile.js | jscs -x`', function() {
+            var result = cli({
+                args: [],
+                fix: true
+            }).promise;
+
+            process.stdin.emit('data', '1');
+            process.stdin.emit('end');
+
+            return result.then(function() {
+                assert.equal(process.stdout.write.getCall(0).args[0], '1\n');
+            });
+        });
+
         it('should not fail with additional args supplied: `cat myEmptyFile.js | jscs -n`', function() {
             var result = cli({
                 args: [],
@@ -633,7 +647,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                assert(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
                 rAfter();
             });
         });
@@ -651,7 +665,7 @@ describe('cli', function() {
             process.stdin.emit('end');
 
             return result.promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                assert(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
                 rAfter();
             });
         });

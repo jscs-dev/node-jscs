@@ -31,7 +31,7 @@ describe('checker', function() {
     describe('checkDirectory', function() {
         it('should check sub dirs', function() {
             return checker.checkDirectory('./test/data/checker').then(function(errors) {
-                assert(errors.length === 2);
+                assert(errors.length === 3);
             });
         });
     });
@@ -39,13 +39,29 @@ describe('checker', function() {
     describe('checkPath', function() {
         it('should check sub dirs', function() {
             return checker.checkPath('./test/data/checker').then(function(errors) {
-                assert(errors.length === 2);
+                assert(errors.length === 3);
             });
         });
 
         it('should check file by direct link (#468)', function() {
             return checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
+                assert.equal(errors.length, 1);
+                assert.equal(typeof errors[0].getErrorList, 'function');
+                assert.equal(errors[0].getErrorList().length, 1);
+            });
+        });
+
+        it('should throw for non-existent path', function() {
+            return checker.checkPath('./non-existent').catch(function(e) {
+                assert.equal(e.message, 'Path ./non-existent was not found.');
+            });
+        });
+
+        it('should return empty results', function() {
+            return checker.checkPath('./test/data/checker/empty.js').then(function(errors) {
                 assert(errors.length === 1);
+                assert.equal(typeof errors[0].getErrorList, 'function');
+                assert.equal(errors[0].getErrorList().length, 0);
             });
         });
     });
