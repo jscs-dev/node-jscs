@@ -84,6 +84,19 @@ describe('rules/require-spaces-inside-parentheses', function() {
         });
     });
 
+    describe('`ignoreParenthesizedExpression` option', function() {
+        it('should not report parenthesized expression', function() {
+            checker.configure({
+                requireSpacesInsideParentheses: {
+                    all: true,
+                    ignoreParenthesizedExpression: true
+                }
+            });
+
+            assert(checker.checkString('if ( !("foo" in obj) ) {}').isEmpty());
+        });
+    });
+
     describe('exceptions', function() {
         it('should not require spaces for "for" keyword', function() {
             checker.configure({
