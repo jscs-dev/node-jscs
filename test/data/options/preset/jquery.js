@@ -40,74 +40,74 @@ the terms above.
 
 jQuery.extend = jQuery.fn.extend = function() {
 
-  // Rule: requireMultipleVarDecl: "onyvar"
-  // Rule: requirePaddingNewLinesBeforeLineComments
-  var options, name, src, copy, copyIsArray, clone,
-    target = arguments[ 0 ] || {},
-    i = 1,
-    length = arguments.length,
-    deep = false;
+	// Rule: requireMultipleVarDecl: "onyvar"
+	// Rule: requirePaddingNewLinesBeforeLineComments
+	var options, name, src, copy, copyIsArray, clone,
+		target = arguments[ 0 ] || {},
+		i = 1,
+		length = arguments.length,
+		deep = false;
 
-  // Rule: validateQuoteMarks: ""
-  if ( typeof target === "boolean" ) {
+	// Rule: validateQuoteMarks: ""
+	if ( typeof target === "boolean" ) {
 
-    // Rule: requireSpacesInAnonymousFunctionExpression: before curly
-    // Rule: disallowSpacesInAnonymousFunctionExpression: before opening round brace
-    $( "#foo" ).click( function() {
-    } );
-  }
+		// Rule: requireSpacesInAnonymousFunctionExpression: before curly
+		// Rule: disallowSpacesInAnonymousFunctionExpression: before opening round brace
+		$( "#foo" ).click( function() {
+	} );
+	}
 
-  // Rule: disallowMultipleLineBreaks
-  // Handle case when target is a string or something (possible in deep copy)
-  if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
+	// Rule: disallowMultipleLineBreaks
+	// Handle case when target is a string or something (possible in deep copy)
+	if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
 
-    // Modified for Rule: requireCurlyBraces
-    try {
+		// Modified for Rule: requireCurlyBraces
+		try {
 
-      // Rule: requireSpacesInsideObjectBrackets
-      target = { foo: "bar" };
-    } catch ( e ) {
-      throw e;
-    }
-  }
+			// Rule: requireSpacesInsideObjectBrackets
+			target = { foo: "bar" };
+		} catch ( e ) {
+			throw e;
+		}
+	}
 
-  // Rule: requireParenthesesAroundIIFE
-  ( function() {
+	// Rule: requireParenthesesAroundIIFE
+	( function() {
 
-  } )();
+	} )();
 
-  // Only deal with non-null/undefined values
-  if ( ( options = arguments[ i ] ) != null ) {
+	// Only deal with non-null/undefined values
+	if ( ( options = arguments[ i ] ) != null ) {
 
-    // Extend the base object
-    for ( name in options ) {
+		// Extend the base object
+		for ( name in options ) {
 
-      // Prevent never-ending loop
-      if ( target === copy ) {
+			// Prevent never-ending loop
+			if ( target === copy ) {
 
-        // Rule: disallowSpaceAfterPrefixUnaryOperators
-        ++i;
+				// Rule: disallowSpaceAfterPrefixUnaryOperators
+				++i;
 
-        // Rule: disallowSpaceBeforePostfixUnaryOperators
-        i++;
-        continue;
-      }
+				// Rule: disallowSpaceBeforePostfixUnaryOperators
+				i++;
+				continue;
+			}
 
-      // Rule: requireOperatorBeforeLineBreak
-      if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
-          ( copyIsArray = jQuery.isArray( copy ) ) ) ) {
+			// Rule: requireOperatorBeforeLineBreak
+			if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
+				( copyIsArray = jQuery.isArray( copy ) ) ) ) {
 
-      // Don't bring in undefined values
-      } else if ( copy !== undefined ) {
+			// Don't bring in undefined values
+			} else if ( copy !== undefined ) {
 
-        // Rule: requireSpacesInsideArrayBrackets
-        target[ name ] = copy;
-      }
-    }
-  }
+				// Rule: requireSpacesInsideArrayBrackets
+				target[ name ] = copy;
+			}
+		}
+	}
 
-  // Return the modified object
-  return target;
+	// Return the modified object
+	return target;
 };
 
 // Rule: maximumLineLength
@@ -118,58 +118,58 @@ var seventyeightchars = /.......................................................
 // Rule: requireSpacesInFunctionExpression: before curly
 var each = function( obj, callback, args ) {
 
-  // Rule: commaBeforeLineBreak
-  var value,
-    i = 0,
+	// Rule: commaBeforeLineBreak
+	var value,
+		i = 0,
 
-    // Rule: requireDotNotation
-    length = obj.length,
+		// Rule: requireDotNotation
+		length = obj.length,
 
-    // Rule: requireCamelCaseOrUpperCaseIdentifiers
-    isArray = isArraylike( obj );
+		// Rule: requireCamelCaseOrUpperCaseIdentifiers
+		isArray = isArraylike( obj );
 
-  if ( args ) {
-    if ( isArray ) {
-      for ( ; i < length; i++ ) {
+	if ( args ) {
+		if ( isArray ) {
+			for ( ; i < length; i++ ) {
 
-        // Rule: requireSpaceBetweenArguments
-        value = callback.apply( obj[ i ], args );
+				// Rule: requireSpaceBetweenArguments
+				value = callback.apply( obj[ i ], args );
 
-        // Rule: requireSpaceAfterBinaryOperators
-        if ( value === false ) {
-          break;
-        }
-      }
+				// Rule: requireSpaceAfterBinaryOperators
+				if ( value === false ) {
+					break;
+				}
+			}
 
-    // Rule: disallowKeywordsOnNewLine
-    } else {
-      for ( i in obj ) {
-        value = callback.apply( obj[ i ], args );
+			// Rule: disallowKeywordsOnNewLine
+		} else {
+			for ( i in obj ) {
+				value = callback.apply( obj[ i ], args );
 
-        // Rule: requireSpacesInConditionalExpression
-        if ( value === false ) {
-          break;
-        }
-      }
-    }
-  }
+				// Rule: requireSpacesInConditionalExpression
+				if ( value === false ) {
+					break;
+				}
+			}
+		}
+	}
 };
 
 // Rule: requireSpacesInNamedFunctionExpression: before curly
 // Rule: disallowSpacesInNamedFunctionExpression: before opening round brace
 function isArraylike( obj ) {
-  var length = obj.length,
-    type = jQuery.type( obj );
+	var length = obj.length,
+		type = jQuery.type( obj );
 
-  // Rule: requireSpaceAfterKeywords
-  if ( type === "function" || jQuery.isWindow( obj ) ) {
-    return false;
-  }
+	// Rule: requireSpaceAfterKeywords
+	if ( type === "function" || jQuery.isWindow( obj ) ) {
+		return false;
+	}
 
-  if ( obj.nodeType === 1 && length ) {
-    return true;
-  }
+	if ( obj.nodeType === 1 && length ) {
+		return true;
+	}
 
-  return type === "array" || length === 0 ||
-    typeof length === "number" && length > 0 && ( length - 1 ) in obj;
+	return type === "array" || length === 0 ||
+		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
 }

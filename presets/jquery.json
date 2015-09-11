@@ -23,6 +23,7 @@
         "allExcept": ["urlComments", "regex"]
     },
     "validateQuoteMarks": { "mark": "\"", "escape": true },
+    "validateIndentation": "\t",
 
     "disallowMixedSpacesAndTabs": "smart",
     "disallowTrailingWhitespace": true,
@@ -81,6 +82,7 @@
     "disallowSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
+    "disallowSpacesInCallExpression": true,
     "disallowSpaceAfterObjectKeys": true,
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowSpaceBeforePostfixUnaryOperators": true,

@@ -3,7 +3,7 @@ var path = require('path');
 
 var sinon = require('sinon');
 
-describe('lib/get-cli', function() {
+describe('get-cli', function() {
     describe('local with global load', function() {
         function delCache() {
             delete require.cache[path.resolve(__dirname, '../../lib/get-cli.js')];

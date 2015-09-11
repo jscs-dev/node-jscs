@@ -95,39 +95,85 @@ describe('js-file', function() {
             assert.equal(parseError.column, 2);
         });
 
-        it('should ignore lines containing only <include> tag', function() {
-            var file = createJsFile('<include src="file.js">\n' +
-                '  <include src="file.js">\n' +
-                '< include src="file.js" >\n' +
-                '<include\n' +
-                ' src="file.js">\n' +
-                'var a = 5;\n');
-            var comments = file._tree.comments;
-            var gritTags = comments.filter(function(comment) {
-                return comment.type === 'GritTag';
+        describe('grit instructions', function() {
+            it('should ignore lines containing only <include> tag', function() {
+                var file = createJsFile('<include src="file.js">\n' +
+                    '  <include src="file.js">\n' +
+                    '< include src="file.js" >\n' +
+                    '<include\n' +
+                    ' src="file.js">');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(4, comments.length);
+                assert.equal(4, gritTags.length);
             });
 
-            assert.equal(4, comments.length);
-            assert.equal(4, gritTags.length);
-        });
+            it('should ignore lines containing only <if> tag', function() {
+                var file = createJsFile('<if expr="false">\n' +
+                    '  <if expr="false">\n' +
+                    '< if expr="false" >\n' +
+                    'var a = 5;\n' +
+                    '</if>\n' +
+                    '<if\n' +
+                    ' expr="false">\n' +
+                    'var b = 7;\n' +
+                    '</ if>');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
 
-        it('should ignore lines containing only <if> tag', function() {
-            var file = createJsFile('<if expr="false">\n' +
-                '  <if expr="false">\n' +
-                '< if expr="false" >\n' +
-                'var a = 5;\n' +
-                '</if>\n' +
-                '<if\n' +
-                ' expr="false">\n' +
-                'var b = 7;\n' +
-                '</ if>');
-            var comments = file._tree.comments;
-            var gritTags = comments.filter(function(comment) {
-                return comment.type === 'GritTag';
+                assert.equal(6, comments.length);
+                assert.equal(6, gritTags.length);
             });
 
-            assert.equal(6, comments.length);
-            assert.equal(6, gritTags.length);
+            it('should not interpret html tags as grit instructions', function() {
+                var file = createJsFile('<iframe src="file.js">');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(0, comments.length);
+                assert.equal(0, gritTags.length);
+            });
+
+            it('should ignore lines containing only <include> case-insensitive tag', function() {
+                var file = createJsFile('<includE src="file.js">\n' +
+                    '  <includE src="file.js">\n' +
+                    '< includE src="file.js" >\n' +
+                    '<includE\n' +
+                    ' src="file.js">');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(4, comments.length);
+                assert.equal(4, gritTags.length);
+            });
+
+            it('should ignore lines containing only <if> case-insensitive tag', function() {
+                var file = createJsFile('<if expr="false">\n' +
+                    '  <iF expr="false">\n' +
+                    '< if expr="false" >\n' +
+                    'var a = 5;\n' +
+                    '</if>\n' +
+                    '<iF\n' +
+                    ' expr="false">\n' +
+                    'var b = 7;\n' +
+                    '</ If>');
+                var comments = file._tree.comments;
+                var gritTags = comments.filter(function(comment) {
+                    return comment.type === 'GritTag';
+                });
+
+                assert.equal(6, comments.length);
+                assert.equal(6, gritTags.length);
+            });
         });
     });
 

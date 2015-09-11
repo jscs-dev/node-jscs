@@ -83,6 +83,30 @@ describe('rules/require-space-after-object-keys', function() {
             );
         });
 
+        it('should report if no space after computed property names #1742', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var a = {',
+                      '[block + \'--default\']: this.props.navStyle === \'default\',',
+                      '[1 + 1 + 3]: 1',
+                    '};'
+                ].join('\n')).getErrorCount() === 2
+            );
+        });
+
+        it('should not report if space after computed property names #1742', function() {
+            checker.configure({ esnext: true });
+            assert(
+                checker.checkString([
+                    'var a = {',
+                      '[block + \'--default\'] : this.props.navStyle === \'default\',',
+                      '[1 + 1 + 3] : 1',
+                    '};'
+                ].join('\n')).isEmpty()
+            );
+        });
+
     });
 
 });

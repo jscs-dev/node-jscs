@@ -1,4 +1,5 @@
 {
+    "es3": true,
     "requireCurlyBraces": [
         "if",
         "else",

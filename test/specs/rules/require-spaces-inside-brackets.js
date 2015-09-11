@@ -49,6 +49,14 @@ describe('rules/require-spaces-inside-brackets', function() {
         it('should report anything for empty array', function() {
             assert(checker.checkString('[];').isEmpty());
         });
+
+        it('should not report block comment before last bracket (#1749)', function() {
+            assert(checker.checkString('[ 1/**/ ];').isEmpty());
+        });
+
+        it('should not report block comment after first bracket (#1749)', function() {
+            assert(checker.checkString('[ /**/1 ];').isEmpty());
+        });
     });
 
     describe('exceptions', function() {
