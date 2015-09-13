@@ -24,7 +24,7 @@ var AssertHelpers = {
             assert.equal(typeof(options.errors), 'number');
         }
 
-        options.errors = options.errors || 1;
+        options.errors = options.errors === undefined ? 1 : options.errors;
 
         describe(options.name, function() {
             var checker;

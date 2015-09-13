@@ -1,13 +1,16 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
+
+var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-semicolons', function() {
     var checker;
+    var config = { disallowSemicolons: true };
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallowSemicolons: true });
+        checker.configure(config);
     });
 
     it('should not allow semicolons at end of line', function() {
@@ -17,6 +20,30 @@ describe('rules/disallow-semicolons', function() {
             'function c() {}',
             'd();'
         ].join('\n')).getErrorCount(), 3);
+
+        reportAndFix({
+            name: 'var a = 1;',
+            rules: config,
+            errors: 1,
+            input: 'var a = 1;',
+            output: 'var a = 1',
+        });
+
+        reportAndFix({
+            name: 'function c() {}',
+            rules: config,
+            errors: 0,
+            input: 'function c() {}',
+            output: 'function c() {}',
+        });
+
+        reportAndFix({
+            name: 'd();',
+            rules: config,
+            errors: 1,
+            input: 'd();',
+            output: 'd()',
+        });
     });
 
     it('should allow semicolons inline', function() {
@@ -25,6 +52,14 @@ describe('rules/disallow-semicolons', function() {
             'go()',
             '}'
         ].join('\n')).isEmpty());
+
+        reportAndFix({
+            name: 'for (var i = 0; i < l; i++) {}',
+            rules: config,
+            errors: 0,
+            input: 'for (var i = 0; i < l; i++) {}',
+            output: 'for (var i = 0; i < l; i++) {}',
+        });
     });
 
     it('should allow semicolons at start of line', function() {
@@ -32,12 +67,21 @@ describe('rules/disallow-semicolons', function() {
             'var foo = function () {}',
             ';[1, 2].forEach(foo)'
         ].join('\n')).isEmpty());
+
+        reportAndFix({
+            name: ';[1, 2].forEach(foo)',
+            rules: config,
+            errors: 0,
+            input: ';[1, 2].forEach(foo)',
+            output: ';[1, 2].forEach(foo)',
+        });
     });
 
-    it('should not autofix semicolons', function() {
-        var input = 'var a = 1;\nvar b = 1;';
-        var result = checker.fixString(input);
-        assert.equal(result.output, input);
-        assert.equal(result.errors.getErrorCount(), 2);
+    reportAndFix({
+        name: 'var a = 1;\nvar b = 1;',
+        rules: config,
+        errors: 2,
+        input: 'var a = 1;\nvar b = 1;',
+        output: 'var a = 1\nvar b = 1',
     });
 });
