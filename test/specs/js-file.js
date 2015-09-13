@@ -531,16 +531,16 @@ describe('js-file', function() {
             assert.equal(switchToken.value, 'switch');
 
             var nextToken = file.findNextToken(switchToken, 'Keyword', 'if');
-            assert.equal(nextToken, undefined);
+            assert.equal(nextToken, null);
 
             nextToken = file.findNextToken(switchToken, 'Numeric');
-            assert.equal(nextToken, undefined);
+            assert.equal(nextToken, null);
 
             nextToken = file.findNextToken(switchToken, 'Boolean');
-            assert.equal(nextToken, undefined);
+            assert.equal(nextToken, null);
 
             nextToken = file.findNextToken(switchToken, 'Null');
-            assert.equal(nextToken, undefined);
+            assert.equal(nextToken, null);
         });
     });
 
@@ -621,16 +621,16 @@ describe('js-file', function() {
             assert.equal(lastToken.value, '}');
 
             var previousToken = file.findPrevToken(lastToken, 'Keyword', 'if');
-            assert.equal(previousToken, undefined);
+            assert.equal(previousToken, null);
 
             previousToken = file.findPrevToken(lastToken, 'Numeric');
-            assert.equal(previousToken, undefined);
+            assert.equal(previousToken, null);
 
             previousToken = file.findPrevToken(lastToken, 'Boolean');
-            assert.equal(previousToken, undefined);
+            assert.equal(previousToken, null);
 
             previousToken = file.findPrevToken(lastToken, 'Null');
-            assert.equal(previousToken, undefined);
+            assert.equal(previousToken, null);
         });
 
         it('should find prev token', function() {
@@ -651,7 +651,7 @@ describe('js-file', function() {
     });
 
     describe('findNextOperatorToken', function() {
-        it('should should return next punctuator', function() {
+        it('should return next punctuator', function() {
             var file = createJsFile('x = y;');
             var token = file.findNextOperatorToken(file.getTokens()[0], '=');
             assert.equal(token.type, 'Punctuator');
@@ -659,7 +659,7 @@ describe('js-file', function() {
             assert.equal(token.range[0], 2);
         });
 
-        it('should should return next operator-keyword', function() {
+        it('should return next operator-keyword', function() {
             var file = createJsFile('x instanceof y;');
             var token = file.findNextOperatorToken(file.getTokens()[0], 'instanceof');
             assert.equal(token.type, 'Keyword');
@@ -667,15 +667,15 @@ describe('js-file', function() {
             assert.equal(token.range[0], 2);
         });
 
-        it('should should return undefined for non-found token', function() {
+        it('should return null for non-found token', function() {
             var file = createJsFile('x = y;');
             var token = file.findNextOperatorToken(file.getTokens()[0], '-');
-            assert(token === undefined);
+            assert(token === null);
         });
     });
 
     describe('findPrevOperatorToken', function() {
-        it('should should return next punctuator', function() {
+        it('should return next punctuator', function() {
             var file = createJsFile('x = y;');
             var token = file.findPrevOperatorToken(file.getTokens()[2], '=');
             assert.equal(token.type, 'Punctuator');
@@ -683,7 +683,7 @@ describe('js-file', function() {
             assert.equal(token.range[0], 2);
         });
 
-        it('should should return next operator-keyword', function() {
+        it('should return next operator-keyword', function() {
             var file = createJsFile('x instanceof y;');
             var token = file.findPrevOperatorToken(file.getTokens()[2], 'instanceof');
             assert.equal(token.type, 'Keyword');
@@ -691,10 +691,10 @@ describe('js-file', function() {
             assert.equal(token.range[0], 2);
         });
 
-        it('should should return undefined for non-found token', function() {
+        it('should return null for non-found token', function() {
             var file = createJsFile('x = y;');
             var token = file.findPrevOperatorToken(file.getTokens()[2], '-');
-            assert(token === undefined);
+            assert(token === null);
         });
     });
 
@@ -711,11 +711,11 @@ describe('js-file', function() {
             assert.equal(incToken.value, 'x');
         });
 
-        it('should return undefined if token was not found', function() {
+        it('should return null if token was not found', function() {
             var file = createJsFile('if (true) { x++; }');
 
             var token = file.getTokenByRangeStart(1);
-            assert(token === undefined);
+            assert(token === null);
         });
     });
 
@@ -732,11 +732,11 @@ describe('js-file', function() {
             assert.equal(incToken.value, 'x');
         });
 
-        it('should return undefined if token was not found', function() {
+        it('should return null if token was not found', function() {
             var file = createJsFile('if (true) { x++; }');
 
             var token = file.getTokenByRangeEnd(3);
-            assert(token === undefined);
+            assert(token === null);
         });
     });
 
@@ -900,16 +900,16 @@ describe('js-file', function() {
             assert.equal(yToken.value, 'y');
         });
 
-        it('should return undefined if no token was found', function() {
+        it('should return null if no token was found', function() {
             var file = createJsFile('\t\tx += 1;\n\n');
             var yToken = file.getFirstTokenOnLine(2);
-            assert.equal(yToken, undefined);
+            assert.equal(yToken, null);
         });
 
-        it('should return undefined if only comment was found', function() {
+        it('should return null if only comment was found', function() {
             var file = createJsFile('\t\tx += 1;\n/*123*/\n');
             var yToken = file.getFirstTokenOnLine(2);
-            assert.equal(yToken, undefined);
+            assert.equal(yToken, null);
         });
 
         it('should return first line token ignoring comments', function() {
@@ -934,10 +934,10 @@ describe('js-file', function() {
             assert.equal(commentToken2.value, '321');
         });
 
-        it('should return undefined if no token was found including comments', function() {
+        it('should return null if no token was found including comments', function() {
             var file = createJsFile('\t\tx += 1;\n\n');
             var yToken = file.getFirstTokenOnLine(2, {includeComments: true});
-            assert.equal(yToken, undefined);
+            assert.equal(yToken, null);
         });
     });
 
@@ -952,16 +952,16 @@ describe('js-file', function() {
             assert.equal(ifToken.value, '}');
         });
 
-        it('should return undefined if no token was found', function() {
+        it('should return null if no token was found', function() {
             var file = createJsFile('\nx = 1;');
             var noToken = file.getLastTokenOnLine(1);
-            assert.equal(noToken, undefined);
+            assert.equal(noToken, null);
         });
 
-        it('should return undefined if only comment was found', function() {
+        it('should return null if only comment was found', function() {
             var file = createJsFile('\t\tx += 1;\n/*123*/\n');
             var noToken = file.getLastTokenOnLine(2);
-            assert.equal(noToken, undefined);
+            assert.equal(noToken, null);
         });
 
         it('should return last line token ignoring comments', function() {
@@ -979,10 +979,10 @@ describe('js-file', function() {
             assert.equal(commentToken.value, '123');
         });
 
-        it('should return undefined if no token was found including comments', function() {
+        it('should return null if no token was found including comments', function() {
             var file = createJsFile('\nx = 1;');
             var noToken = file.getLastTokenOnLine(1, {includeComments: true});
-            assert.equal(noToken, undefined);
+            assert.equal(noToken, null);
         });
     });
 
@@ -1186,6 +1186,33 @@ describe('js-file', function() {
         });
     });
 
+    describe('getScope', function() {
+        it('should lazy initialize', function() {
+            var sources = ['var x = 1;', 'var y = 2;'];
+            var file = createJsFile(sources.join('\n'));
+            assert.equal(file._scope, null);
+
+            assert.equal(typeof file.getScope(), 'object');
+            assert.notEqual(typeof file._scope, null);
+        });
+    });
+
+    describe('removeToken', function() {
+        it('should remove token', function() {
+            var source = 'y = 2;';
+            var file = createJsFile(source);
+
+            var tokens = file.getTokens();
+
+            // Remove EOF
+            file.removeToken(tokens[tokens.length - 1]);
+
+            // Remove ";"
+            file.removeToken(tokens[tokens.length - 1]);
+            assert.equal(file.render(), 'y = 2');
+        });
+    });
+
     describe('getLinesWithCommentsRemoved', function() {
         it('should strip line comments', function() {
             var source = 'a++; //comment\n//comment';
@@ -1313,9 +1340,9 @@ describe('js-file', function() {
             var xToken = file.getTokens()[0];
             assert.equal(xToken.type, 'Identifier');
             assert.equal(xToken.value, 'x');
-            var nextToken = file.getNextToken(xToken);
-            assert.equal(nextToken.type, 'Punctuator');
-            assert.equal(nextToken.value, '++');
+            var next = file.getNextToken(xToken);
+            assert.equal(next.type, 'Punctuator');
+            assert.equal(next.value, '++');
         });
 
         it('should return EOF token', function() {
@@ -1323,38 +1350,45 @@ describe('js-file', function() {
             var xToken = file.getTokens()[0];
             assert.equal(xToken.type, 'Identifier');
             assert.equal(xToken.value, 'x');
-            var nextToken = file.getNextToken(xToken);
-            assert.equal(nextToken.type, 'EOF');
-            assert.equal(nextToken.value, '');
+            var next = file.getNextToken(xToken);
+            assert.equal(next.type, 'EOF');
+            assert.equal(next.value, '');
         });
 
-        it('should return undefined for out-of-range token', function() {
+        it('should return null for out-of-range token', function() {
             var file = createJsFile('x');
             var xToken = file.getTokens()[0];
-            var nextToken = file.getNextToken(file.getNextToken(xToken));
-            assert.equal(nextToken, undefined);
+            var next = file.getNextToken(file.getNextToken(xToken));
+            assert.equal(next, null);
         });
 
         it('should ignore comments', function() {
             var file = createJsFile('x /*123*/');
             var xToken = file.getTokens()[0];
-            var nextToken = file.getNextToken(xToken, {includeComments: false});
-            assert.equal(nextToken.type, 'EOF');
-            assert.equal(nextToken.value, '');
+            var next = file.getNextToken(xToken, {includeComments: false});
+            assert.equal(next.type, 'EOF');
+            assert.equal(next.value, '');
         });
 
         it('should return next comment', function() {
             var file = createJsFile('x /*123*/');
             var xToken = file.getTokens()[0];
-            var nextToken = file.getNextToken(xToken, {includeComments: true});
-            assert.equal(nextToken.type, 'Block');
+            var next = file.getNextToken(xToken, {includeComments: true});
+            assert.equal(next.type, 'Block');
         });
 
         it('should return EOF next to comment', function() {
             var file = createJsFile('x /*123*/');
             var xToken = file.getComments()[0];
-            var nextToken = file.getNextToken(xToken, {includeComments: true});
-            assert.equal(nextToken.type, 'EOF');
+            var next = file.getNextToken(xToken, {includeComments: true});
+            assert.equal(next.type, 'EOF');
+        });
+
+        it('should return null if there is where to go', function() {
+            var file = createJsFile('x');
+            var xToken = file.getTokens()[1];
+            var next = file.getNextToken(xToken);
+            assert.equal(next, null);
         });
     });
 
@@ -1364,39 +1398,46 @@ describe('js-file', function() {
             var xToken = file.getTokens()[1];
             assert.equal(xToken.type, 'Identifier');
             assert.equal(xToken.value, 'x');
-            var nextToken = file.getPrevToken(xToken);
-            assert.equal(nextToken.type, 'Punctuator');
-            assert.equal(nextToken.value, '++');
+            var prev = file.getPrevToken(xToken);
+            assert.equal(prev.type, 'Punctuator');
+            assert.equal(prev.value, '++');
         });
 
-        it('should return undefined for out-of-range token', function() {
+        it('should return null for out-of-range token', function() {
             var file = createJsFile('x');
             var xToken = file.getTokens()[0];
             assert.equal(xToken.type, 'Identifier');
             assert.equal(xToken.value, 'x');
-            var nextToken = file.getPrevToken(xToken);
-            assert.equal(nextToken, undefined);
+            var prev = file.getPrevToken(xToken);
+            assert.equal(prev, null);
         });
 
         it('should ignore comments', function() {
             var file = createJsFile('/*123*/ x');
             var xToken = file.getTokens()[1];
-            var nextToken = file.getPrevToken(xToken, {includeComments: false});
-            assert.equal(nextToken, undefined);
+            var prev = file.getPrevToken(xToken, {includeComments: false});
+            assert.equal(prev, null);
         });
 
         it('should return previous comment', function() {
             var file = createJsFile('/*123*/ x');
             var xToken = file.getTokens()[1];
-            var nextToken = file.getPrevToken(xToken, {includeComments: true});
-            assert.equal(nextToken.type, 'Block');
+            var prev = file.getPrevToken(xToken, {includeComments: true});
+            assert.equal(prev.type, 'Block');
         });
 
-        it('should return undefined next to comment', function() {
+        it('should return null prev to comment', function() {
             var file = createJsFile('/*123*/ x');
             var xToken = file.getComments()[0];
-            var nextToken = file.getPrevToken(xToken, {includeComments: true});
-            assert.equal(nextToken, undefined);
+            var prev = file.getPrevToken(xToken, {includeComments: true});
+            assert.equal(prev, null);
+        });
+
+        it('should return null if there is where to go', function() {
+            var file = createJsFile('x');
+            var xToken = file.getTokens()[0];
+            var prev = file.getPrevToken(xToken);
+            assert.equal(prev, null);
         });
     });
 
