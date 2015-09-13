@@ -84,4 +84,32 @@ describe('rules/disallow-semicolons', function() {
         input: 'var a = 1;\nvar b = 1;',
         output: 'var a = 1\nvar b = 1',
     });
+
+    describe('ignore needed semicolons', function() {
+        it('`for`', function() {
+            assert(
+                checker.checkString('for (var j = 0,\nlength = arr.length;\nj < l; j++) {}').isEmpty()
+            );
+        });
+
+        it('`[`', function() {
+            assert(
+                checker.checkString('"a"\n[0]').isEmpty()
+            );
+        });
+
+        it('`(`', function() {
+            assert(
+                checker.checkString('a;\n(1,2)').isEmpty()
+            );
+        });
+    });
+
+    reportAndFix({
+        name: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}',
+        rules: config,
+        errors: 0,
+        input: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}',
+        output: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}',
+    });
 });
