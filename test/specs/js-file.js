@@ -4,7 +4,7 @@ var babelJscs = require('babel-jscs');
 var JsFile = require('../../lib/js-file');
 var sinon = require('sinon');
 var fs = require('fs');
-var assign = require('lodash.assign');
+var assign = require('lodash').assign;
 
 describe('js-file', function() {
 
