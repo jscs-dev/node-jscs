@@ -33,6 +33,10 @@ describe('rules/require-matching-function-name', function() {
             assertErrorForMemberNameMismatch('var test = {}; test.foo = function bar() {};');
         });
 
+        it('should not report function name mismatch in object', function() {
+            assert(checker.checkString('var object = {foo: function foo() {}}').isEmpty())
+        });
+
         it('should report function name mismatch when assigning to member deeply', function() {
             assertErrorForMemberNameMismatch('var test = {baz:{}}; test.baz.foo = function bar() {};');
         });

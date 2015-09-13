@@ -38,5 +38,9 @@ describe('rules/disallow-padding-newlines-before-export', function() {
             assert(checker.checkString('var a = 2;\n\nfoo.exports = a;').isEmpty());
             assert(checker.checkString('var a = 2;\n\nmodule.foo = a;').isEmpty());
         });
+
+        it('should not report if it is not a property assignment', function() {
+            assert(checker.checkString('var a = 2;\n\nfoo = a;').isEmpty());
+        });
     });
 });

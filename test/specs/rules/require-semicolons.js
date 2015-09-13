@@ -52,6 +52,16 @@ describe('rules/require-semicolons', function() {
         checker.configure({ esnext: true, requireSemicolons: true });
     });
 
+    describe('debugger', function() {
+        valid([
+            'debugger;'
+        ]);
+
+        invalid([
+            'debugger'
+        ]);
+    });
+
     describe('var declaration', function() {
         valid([
             'var a;',

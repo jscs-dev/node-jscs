@@ -68,8 +68,6 @@ describe('rules/disallow-comma-before-line-break', function() {
         describe('allExcept as option', function() {
             describe('with value `function`', function() {
                 beforeEach(function() {
-                    checker = new Checker();
-                    checker.registerDefaultRules();
                     checker.configure({disallowCommaBeforeLineBreak: {allExcept: ['function']}});
                 });
                 it('should not report objects with function values', function() {
@@ -89,6 +87,16 @@ describe('rules/disallow-comma-before-line-break', function() {
                     );
                 });
             });
+        });
+    });
+
+    describe('incorrect configuration', function() {
+        it('should not accept objects without at least one valid key', function() {
+            assert.throws(function() {
+                    checker.configure({ disallowCommaBeforeLineBreak: {} });
+                },
+                assert.AssertionError
+            );
         });
     });
 });

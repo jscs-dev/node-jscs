@@ -37,4 +37,8 @@ describe('rules/require-numeric-literals', function() {
         assert(checker.checkString('a(1);').isEmpty());
         assert(checker.checkString('a(1, 2);').isEmpty());
     });
+
+    it('should not report for non-identifier call', function() {
+        assert(checker.checkString('a[parseInt](1,2);').isEmpty());
+    });
 });

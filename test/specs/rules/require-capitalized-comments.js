@@ -162,4 +162,14 @@ describe('rules/require-capitalized-comments', function() {
             assertEmpty('/* zombiecheckjs: ensurebrains */');
         });
     });
+
+    describe('incorrect configuration', function() {
+        it('should not accept objects without at least one valid key', function() {
+            assert.throws(function() {
+                    checker.configure({ requireCapitalizedComments: {} });
+                },
+                assert.AssertionError
+            );
+        });
+    });
 });

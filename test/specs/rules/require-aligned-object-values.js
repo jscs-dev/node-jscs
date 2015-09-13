@@ -268,4 +268,14 @@ describe('rules/require-aligned-object-values', function() {
             );
         });
     });
+
+    describe('incorrect configuration', function() {
+        it('should not accept objects without correct key', function() {
+            assert.throws(function() {
+                    checker.configure({ requireAlignedObjectValues: 'skipsWithFunction' });
+                },
+                assert.AssertionError
+            );
+        });
+    });
 });
