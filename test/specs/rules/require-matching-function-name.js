@@ -34,7 +34,7 @@ describe('rules/require-matching-function-name', function() {
         });
 
         it('should not report function name mismatch in object', function() {
-            assert(checker.checkString('var object = {foo: function foo() {}}').isEmpty())
+            assert(checker.checkString('var object = {foo: function foo() {}}').isEmpty());
         });
 
         it('should report function name mismatch when assigning to member deeply', function() {

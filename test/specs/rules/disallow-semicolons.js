@@ -26,7 +26,7 @@ describe('rules/disallow-semicolons', function() {
             rules: config,
             errors: 1,
             input: 'var a = 1;',
-            output: 'var a = 1',
+            output: 'var a = 1'
         });
 
         reportAndFix({
@@ -34,7 +34,7 @@ describe('rules/disallow-semicolons', function() {
             rules: config,
             errors: 0,
             input: 'function c() {}',
-            output: 'function c() {}',
+            output: 'function c() {}'
         });
 
         reportAndFix({
@@ -42,7 +42,7 @@ describe('rules/disallow-semicolons', function() {
             rules: config,
             errors: 1,
             input: 'd();',
-            output: 'd()',
+            output: 'd()'
         });
     });
 
@@ -58,7 +58,7 @@ describe('rules/disallow-semicolons', function() {
             rules: config,
             errors: 0,
             input: 'for (var i = 0; i < l; i++) {}',
-            output: 'for (var i = 0; i < l; i++) {}',
+            output: 'for (var i = 0; i < l; i++) {}'
         });
     });
 
@@ -73,7 +73,7 @@ describe('rules/disallow-semicolons', function() {
             rules: config,
             errors: 0,
             input: ';[1, 2].forEach(foo)',
-            output: ';[1, 2].forEach(foo)',
+            output: ';[1, 2].forEach(foo)'
         });
     });
 
@@ -82,7 +82,7 @@ describe('rules/disallow-semicolons', function() {
         rules: config,
         errors: 2,
         input: 'var a = 1;\nvar b = 1;',
-        output: 'var a = 1\nvar b = 1',
+        output: 'var a = 1\nvar b = 1'
     });
 
     describe('ignore needed semicolons', function() {
@@ -110,6 +110,6 @@ describe('rules/disallow-semicolons', function() {
         rules: config,
         errors: 0,
         input: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}',
-        output: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}',
+        output: 'for (var j = 0,\nlength = arr.length;\nj < l; j++) {}'
     });
 });

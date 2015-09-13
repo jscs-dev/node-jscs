@@ -27,6 +27,7 @@
     },
 
     "excludeFiles": [
-        "test/data/**"
+        "test/data/**",
+        "patterns/*"
     ]
 }
