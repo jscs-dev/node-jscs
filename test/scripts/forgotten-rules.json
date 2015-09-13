@@ -1,3 +1,4 @@
 {
-    "disallowSemicolons": true
+    "disallowSemicolons": true,
+    "disallowUnusedParams": true
 }
