@@ -2,6 +2,7 @@
     "preset": "google",
     "fileExtensions": [".js", "jscs"],
 
+    "requireSemicolons": true,
     "requireParenthesesAroundIIFE": true,
     "maximumLineLength": 120,
     "validateLineBreaks": "LF",
