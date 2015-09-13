@@ -70,7 +70,7 @@
     "exit": "~0.1.2",
     "glob": "^5.0.1",
     "jscs-jsdoc": "1.1.0",
-    "lodash.assign": "~3.2.0",
+    "lodash": "~3.10.0",
     "minimatch": "~2.0.1",
     "natural-compare": "~1.2.2",
     "pathval": "~0.1.1",
