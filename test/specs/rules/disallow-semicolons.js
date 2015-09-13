@@ -13,6 +13,18 @@ describe('rules/disallow-semicolons', function() {
         checker.configure(config);
     });
 
+    it('should correctly handle latest token', function() {
+        assert.equal(checker.checkString(';').getErrorCount(), 1);
+    });
+
+    it('should correctly handle latest node without error', function() {
+        assert(checker.checkString('test').isEmpty());
+    });
+
+    it('should tow latest nodes without error', function() {
+        assert(checker.checkString('test; a').isEmpty());
+    });
+
     it('should not allow semicolons at end of line', function() {
         assert.equal(checker.checkString([
             'var a = 1;',
