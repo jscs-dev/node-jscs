@@ -8,6 +8,7 @@
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
     "disallowTrailingComma": true,
+    "disallowUnusedParams": true,
 
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
