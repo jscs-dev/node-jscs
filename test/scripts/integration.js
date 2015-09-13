@@ -15,10 +15,17 @@ vowFs.listDir('./presets')
         var presets = presetFilenames.map(function(presetFilename) {
             return presetFilename.replace('.json', '');
         });
+
+        // List of rules that are not used in any of the default presets
+        presets.unshift('./test/scripts/forgotten-rules.json');
+
         console.log('\n' + chalk.green('> ') + 'Autofix ingeration tests');
+
         return promiseQueue(presets, function(presetName) {
             console.log('\nPreset "' + chalk.green(presetName) + '"');
+
             logStep('Autofix execution');
+
             return applyPreset(presetName).then(
                 function() {
                     logStep('Unit tests');
