@@ -411,7 +411,7 @@ describe('js-file', function() {
     describe('getNodeByRange', function() {
         it('should throw for incorrect argument', function() {
             assert.throws(function() {
-                    createJsFile('function foo(a,b) {}').getNodeByRange({})
+                    createJsFile('function foo(a,b) {}').getNodeByRange({});
                 },
                 assert.AssertionError
             );
