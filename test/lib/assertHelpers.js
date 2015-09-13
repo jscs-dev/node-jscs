@@ -26,7 +26,7 @@ var AssertHelpers = {
 
         options.errors = options.errors === undefined ? 1 : options.errors;
 
-        describe(options.name, function() {
+        function check() {
             var checker;
 
             beforeEach(function() {
@@ -44,7 +44,14 @@ var AssertHelpers = {
                 assert(result.errors.isEmpty());
                 assert.equal(result.output, options.output);
             });
-        });
+        }
+
+        if (options.only) {
+            describe.only(options.name, check);
+
+        } else {
+            describe(options.name, check);
+        }
     }
 };
 
