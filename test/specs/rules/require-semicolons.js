@@ -1,8 +1,12 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
+
+var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-semicolons', function() {
     var checker;
+
+    var config = { esnext: true, requireSemicolons: true };
 
     // helpers
     function valid(tests) {
@@ -18,7 +22,9 @@ describe('rules/require-semicolons', function() {
     function invalid(tests) {
         describe('invalid', function() {
             tests.forEach(function(test) {
-                it(test.replace(/\n/g, '\\n'), function() {
+                var name = test.replace(/\n/g, '\\n');
+
+                it(name, function() {
                     assert(checker.checkString(test).getErrorCount() === 1);
                 });
             });
@@ -49,7 +55,7 @@ describe('rules/require-semicolons', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ esnext: true, requireSemicolons: true });
+        checker.configure(config);
     });
 
     describe('debugger', function() {
@@ -60,6 +66,14 @@ describe('rules/require-semicolons', function() {
         invalid([
             'debugger'
         ]);
+
+        reportAndFix({
+            name: 'debugger',
+            rules: config,
+            errors: 1,
+            input: 'debugger',
+            output: 'debugger;'
+        });
     });
 
     describe('var declaration', function() {
@@ -68,8 +82,8 @@ describe('rules/require-semicolons', function() {
             'var a\n,b;',
             'var a\n,b\n = 1;',
             'var a\n,b\n = 1 ;',
-            'var a\n,b \n;',
-            'var a\n,b\n = 1\n;',
+            'var a\n,b; \n',
+            'var a\n,b\n = 1;\n',
             'for (var a in b){}',
             'for (var a in b){ var c; }',
             'for (var a of b){}',
@@ -89,6 +103,46 @@ describe('rules/require-semicolons', function() {
             'for (var a of b) { var c };',
             'for (var a;;) var a'
         ]);
+
+        reportAndFix({
+            name: 'var a',
+            rules: config,
+            errors: 1,
+            input: 'var a',
+            output: 'var a;'
+        });
+
+        reportAndFix({
+            name: 'var a<newline>,b <newline>',
+            rules: config,
+            errors: 1,
+            input: 'var a\n,b \n',
+            output: 'var a\n,b; \n'
+        });
+
+        reportAndFix({
+            name: 'var a<newline>,b<newline> = 1',
+            rules: config,
+            errors: 1,
+            input: 'var a\n,b\n = 1',
+            output: 'var a\n,b\n = 1;'
+        });
+
+        reportAndFix({
+            name: 'for (var a in b) { var c };',
+            rules: config,
+            errors: 1,
+            input: 'for (var a in b) { var c };',
+            output: 'for (var a in b) { var c; };'
+        });
+
+        reportAndFix({
+            name: 'for (var a;;) var a',
+            rules: config,
+            errors: 1,
+            input: 'for (var a;;) var a',
+            output: 'for (var a;;) var a;'
+        });
     });
 
     describe('let declaration', function() {
@@ -116,6 +170,14 @@ describe('rules/require-semicolons', function() {
             'for (let a in b) { let c };',
             'for (let a of b) { let c };'
         ]);
+
+        reportAndFix({
+            name: 'for (let a in b) { let c }',
+            rules: config,
+            errors: 1,
+            input: 'for (let a in b) { let c }',
+            output: 'for (let a in b) { let c; }'
+        });
     });
 
     describe('const declaration', function() {
@@ -133,6 +195,14 @@ describe('rules/require-semicolons', function() {
             'const a = 1\n,b = 2 \n',
             'const a = 1\n,b\n = 1'
         ]);
+
+        reportAndFix({
+            name: 'const a = 1<newline>,b<newline> = 1',
+            rules: config,
+            errors: 1,
+            input: 'const a = 1\n,b\n = 1',
+            output: 'const a = 1\n,b\n = 1;'
+        });
     });
 
     describe('expression statement', function() {
@@ -149,6 +219,14 @@ describe('rules/require-semicolons', function() {
             'a',
             'a\n'
         ]);
+
+        reportAndFix({
+            name: 'expression statement',
+            rules: config,
+            errors: 1,
+            input: 'a',
+            output: 'a;'
+        });
     });
 
     describe('return statement', function() {
@@ -169,6 +247,14 @@ describe('rules/require-semicolons', function() {
             'function foo(){ return a\n,b }',
             'function foo(){ return a\n,b//;\n }'
         ]);
+
+        reportAndFix({
+            name: 'function foo(){ return a<newline>,b }',
+            rules: config,
+            errors: 1,
+            input: 'function foo(){ return a\n,b }',
+            output: 'function foo(){ return a\n,b; }'
+        });
     });
 
     describe('throw statement', function() {
@@ -184,6 +270,14 @@ describe('rules/require-semicolons', function() {
             'throw new Error("Error")',
             'for (var a in b) throw new Error(1)'
         ]);
+
+        reportAndFix({
+            name: 'for (var a in b) throw new Error(1)',
+            rules: config,
+            errors: 1,
+            input: 'for (var a in b) throw new Error(1)',
+            output: 'for (var a in b) throw new Error(1);'
+        });
     });
 
     describe('break statement', function() {
@@ -199,6 +293,14 @@ describe('rules/require-semicolons', function() {
             'for (;;) { break };',
             'switch (a) { case "x": break }'
         ]);
+
+        reportAndFix({
+            name: 'switch (a) { case "x": break }',
+            rules: config,
+            errors: 1,
+            input: 'switch (a) { case "x": break }',
+            output: 'switch (a) { case "x": break; }'
+        });
     });
 
     describe('continue statement', function() {
@@ -211,6 +313,14 @@ describe('rules/require-semicolons', function() {
             'for (;;) continue',
             'for (;;) { continue };'
         ]);
+
+        reportAndFix({
+            name: 'for (;;) { continue };',
+            rules: config,
+            errors: 1,
+            input: 'for (;;) { continue };',
+            output: 'for (;;) { continue; };'
+        });
     });
 
     describe('do-while statement', function() {
@@ -222,6 +332,14 @@ describe('rules/require-semicolons', function() {
         invalid([
             'do {} while (expr)'
         ]);
+
+        reportAndFix({
+            name: 'do {} while (expr)',
+            rules: config,
+            errors: 1,
+            input: 'do {} while (expr)',
+            output: 'do {} while (expr);'
+        });
     });
 
     describe('import declaration', function() {
@@ -236,6 +354,14 @@ describe('rules/require-semicolons', function() {
             'import foo from "module"',
             'import "module"'
         ]);
+
+        reportAndFix({
+            name: 'import foo from "module"',
+            rules: config,
+            errors: 1,
+            input: 'import foo from "module"',
+            output: 'import foo from "module";'
+        });
     });
 
     describe('export declaration', function() {
@@ -257,6 +383,22 @@ describe('rules/require-semicolons', function() {
             'export { foo }',
             'export { foo as default }'
         ]);
+
+        reportAndFix({
+            name: 'export default foo',
+            rules: config,
+            errors: 1,
+            input: 'export default foo',
+            output: 'export default foo;'
+        });
+    });
+
+    reportAndFix({
+        name: 'expression call with comments',
+        rules: config,
+        errors: 1,
+        input: 'call()\n // comment',
+        output: 'call();\n // comment'
     });
 
     describe('warning position', function() {

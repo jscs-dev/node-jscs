@@ -4,7 +4,7 @@ var babelJscs = require('babel-jscs');
 var JsFile = require('../../lib/js-file');
 var sinon = require('sinon');
 var fs = require('fs');
-var assign = require('lodash.assign');
+var assign = require('lodash').assign;
 
 describe('js-file', function() {
 
@@ -409,6 +409,14 @@ describe('js-file', function() {
     });
 
     describe('getNodeByRange', function() {
+        it('should throw for incorrect argument', function() {
+            assert.throws(function() {
+                    createJsFile('function foo(a,b) {}').getNodeByRange({});
+                },
+                assert.AssertionError
+            );
+        });
+
         it('should get node by range for function declaration', function() {
             assert.equal(createJsFile('function foo(a,b) {}').getNodeByRange(16).type, 'FunctionDeclaration');
         });
