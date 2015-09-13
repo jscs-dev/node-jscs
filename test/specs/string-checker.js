@@ -220,7 +220,7 @@ describe('string-checker', function() {
                             additional: 'test'
                         });
                     },
-                    _fix: function(error) {
+                    _fix: function(file, error) {
                         called = true;
                         err = error;
                         assert.equal(error.additional, 'test');

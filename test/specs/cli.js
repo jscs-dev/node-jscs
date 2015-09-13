@@ -341,7 +341,7 @@ describe('cli', function() {
             process.stdin.emit('end');
 
             return result.then(function() {
-                assert.equal(process.stdout.write.getCall(0).args[0], '1\n');
+                assert.equal(process.stdout.write.getCall(0).args[0], '1;\n');
             });
         });
 
