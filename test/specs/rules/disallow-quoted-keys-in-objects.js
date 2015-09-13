@@ -1,8 +1,12 @@
-var Checker = require('../../../lib/checker');
 var assert = require('assert');
+
+var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-quoted-keys-in-objects', function() {
     var checker;
+
+    var config = { disallowQuotedKeysInObjects: true };
 
     beforeEach(function() {
         checker = new Checker();
@@ -11,7 +15,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
 
     describe('with true', function() {
         beforeEach(function() {
-            checker.configure({ disallowQuotedKeysInObjects: true });
+            checker.configure(config);
         });
 
         it('should report if key is valid without quotes', function() {
@@ -73,6 +77,16 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
 
         it('should report non-reserved quoted keys. #1669', function() {
             assert(checker.checkString('var x = { "noReservedKeyword": 2 }').getErrorCount() === 1);
+        });
+    });
+
+    describe('fix', function() {
+        reportAndFix({
+            name: 'var x = { "a": 1 }',
+            rules: config,
+            errors: 1,
+            input: 'var x = { "a": 1 }',
+            output: 'var x = { a: 1 }'
         });
     });
 });
