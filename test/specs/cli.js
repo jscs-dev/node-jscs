@@ -620,7 +620,7 @@ describe('cli', function() {
                 maxErrors: '1',
                 args: ['test/data/cli/error.js'],
                 autoConfigure: __dirname + '/data/error-filter/index.js'
-            })
+            });
 
             return result.promise.always(function() {
                 assert.equal(result.checker._configuration.getMaxErrors(), Infinity);
