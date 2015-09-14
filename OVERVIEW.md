@@ -178,7 +178,7 @@ jscs path[ path[...]] --error-filter=path/to/my/module.js
 Clean output without colors.
 
 ### `--max-errors` (`-m`)
-Set the maximum number of errors to report
+Set the maximum number of errors to report (pass -1 to report all errors).
 
 ### `--help` (`-h`)
 Outputs usage information.
@@ -282,18 +282,22 @@ Values: A single file extension or an Array of file extensions, beginning with a
 `.js` files are processed by default
 
 ### maxErrors
-
-Set the maximum number of errors to report.
+Set the maximum number of errors to report (pass -1 or null to report all errors).
 Ignored if `--fix` flag is provided.
 
-Type: `Number`
+Type: `Number|null`
 
 Default: 50
 
 #### Example
 
 ```js
+// Report only the first 10 errors
 "maxErrors": 10
+
+// Report all errors
+"maxErrors": -1
+"maxErrors": null
 ```
 
 ### esnext
