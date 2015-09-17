@@ -158,6 +158,16 @@ describe('rules/disallow-space-after-object-keys', function() {
                 });
             });
 
+            describe('with method value', function() {
+                beforeEach(function() {
+                    checker.configure({ disallowSpaceAfterObjectKeys: { allExcept: ['method'] } });
+                });
+
+                it('should report with a function that is written in method notation', function() {
+                    assert(checker.checkString('var x = {fn () {return 42;}};').isEmpty());
+                });
+            });
+
             it('should not accept multiline and aligned at the same time', function() {
                 var rules = {disallowSpaceAfterObjectKeys: {allExcept: ['multiline', 'aligned']}};
                 assert.throws(function() {
