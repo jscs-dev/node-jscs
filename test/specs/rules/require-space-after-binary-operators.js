@@ -28,34 +28,34 @@ describe('rules/require-space-after-binary-operators', function() {
 
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceAfterBinaryOperators: [operator], esnext: true });
                     assert(checker.checkString(sticked).getErrorCount() === 1);
                 }
             );
 
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceAfterBinaryOperators: [operator], esnext: true });
                     assert(checker.checkString(notSticked).isEmpty());
                 }
             );
 
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceAfterBinaryOperators: [operator], esnext: true });
                     assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
                 }
             );
 
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
+                    checker.configure({ requireSpaceAfterBinaryOperators: [operator], esnext: true });
                     assert(checker.checkString(notStickedWithParenthesis).isEmpty());
                 }
             );
 
             it('should highlight the end of the ' + operator + ' operator', function() {
-                checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
+                checker.configure({ requireSpaceAfterBinaryOperators: [operator], esnext: true });
                 var error = checker.checkString(sticked).getErrorList()[0];
                 assert(error.line === 1);
                 assert(error.column === (14 + operator.length));
