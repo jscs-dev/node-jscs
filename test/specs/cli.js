@@ -83,24 +83,19 @@ describe('cli', function() {
         });
     });
 
-    it('should return error if default config was not found', function() {
+    it('should set airbnb preset if there is no config (#986)', function() {
         sinon.spy(console, 'error');
         sinon.stub(configFile, 'load', function() {
             return undefined;
         });
 
-        var result = cli({
-            args: []
-        });
-        var text = 'No configuration found. Add a .jscsrc file to your' +
-            ' project root or use the -c option.';
+        var checker = cli({
+            args: ['test/data/cli/error.js']
+        }).checker;
 
-        return result.promise.always(function() {
-            assert.equal(console.error.getCall(0).args[0], text);
-
-            configFile.load.restore();
-            console.error.restore();
-        });
+        assert.equal(checker._configuration.getPresetName(), 'airbnb');
+        configFile.load.restore();
+        console.error.restore();
     });
 
     it('should call checker if config does not exist but "preset" option is defined', function() {
