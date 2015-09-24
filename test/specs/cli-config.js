@@ -105,6 +105,15 @@ describe('cli-config', function() {
             }
         });
 
+        it('should load json config with BOM', function() {
+            try {
+                configFile.load('./test/data/configs/json/withBOM.json');
+                assert(true);
+            } catch (e) {
+                assert(false);
+            }
+        });
+
         it('should load config from home path: HOME', function() {
             var oldHome = process.env.HOME;
             var oldHOMEPATH = process.env.HOMEPATH;
