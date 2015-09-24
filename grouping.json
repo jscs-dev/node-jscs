@@ -19,16 +19,17 @@
     "disallowMixedSpacesAndTabs",
     "disallowTrailingWhitespace",
     "requireLineFeedAtFileEnd",
-    "disallowTrailingComma",
-    "requireTrailingComma",
     "validateLineBreaks",
     "validateIndentation",
+    "disallowSpaceBeforeComma",
+    "disallowSpaceBeforeSemicolon",
     "disallowPaddingNewLinesAfterBlocks",
     "disallowPaddingNewLinesAfterUseStrict",
     "disallowPaddingNewLinesBeforeExport",
     "requirePaddingNewLinesAfterBlocks",
     "requirePaddingNewLinesAfterUseStrict",
-    "requirePaddingNewLinesBeforeExport"
+    "requirePaddingNewLinesBeforeExport",
+    "disallowTabs"
   ],
   "Semicolons, Commas, and Underscores": [
     "validateParameterSeparator",
@@ -37,9 +38,12 @@
     "requireSpaceBeforeComma",
     "disallowDanglingUnderscores",
     "requireCommaBeforeLineBreak",
-    "disallowCommaBeforeLineBreak"
+    "disallowCommaBeforeLineBreak",
+    "disallowTrailingComma",
+    "requireTrailingComma"
   ],
   "Function Declarations & Invocations": [
+    "validateAlignedFunctionParameters",
     "disallowNamedUnassignedFunctions",
     "requireSpacesInFunctionExpression",
     "disallowSpacesInFunctionExpression",
@@ -58,7 +62,9 @@
     "disallowAnonymousFunctions",
     "requireAnonymousFunctions",
     "requireFunctionDeclarations",
-    "disallowFunctionDeclarations"
+    "disallowFunctionDeclarations",
+    "requireSpacesInsideParenthesizedExpression",
+    "disallowSpacesInsideParenthesizedExpression"
   ],
   "Keywords": [
     "disallowPaddingNewlinesBeforeKeywords",
@@ -68,6 +74,7 @@
     "disallowKeywords"
   ],
   "Variables & Naming": [
+    "requireVarDeclFirst",
     "disallowMultipleVarDecl",
     "requireMultipleVarDecl",
     "requireLineBreakAfterVariableAssignment",
@@ -84,16 +91,19 @@
     "disallowPaddingNewLinesInObjects",
     "disallowQuotedKeysInObjects",
     "requireDotNotation",
+    "requireQuotedKeysInObjects",
     "disallowSpaceAfterObjectKeys",
     "requireSpaceBeforeObjectValues",
     "requireSpaceAfterObjectKeys",
     "disallowSpaceBeforeObjectValues",
     "disallowObjectKeysOnNewLine",
     "requireObjectKeysOnNewLine",
-    "requireAlignedObjectValues"
+    "requireAlignedObjectValues",
+    "validateOrderInObjectKeys"
   ],
-  "Curly Braces & Brackets": [
+  "Curly Braces, Brackets, & Arrays": [
     "requireCurlyBraces",
+    "disallowCurlyBraces",
     "requireSpacesInsideObjectBrackets",
     "disallowSpacesInsideArrayBrackets",
     "disallowSpacesInsideParentheses",
@@ -103,7 +113,8 @@
     "disallowSpacesInForStatement",
     "disallowSpacesInsideBrackets",
     "requireSpacesInForStatement",
-    "requireSpacesInsideBrackets"
+    "requireSpacesInsideBrackets",
+    "validateNewlineAfterArrayElements"
   ],
   "Unary & Binary operators": [
     "disallowOperatorBeforeLineBreak",
@@ -124,16 +135,20 @@
     "disallowCapitalizedComments",
     "disallowKeywordsInComments",
     "disallowPaddingNewLinesBeforeLineComments",
-    "requirePaddingNewLinesBeforeLineComments"
+    "requirePaddingNewLinesBeforeLineComments",
+    "validateCommentPosition"
   ],
   "Maximums": [
     "maximumLineLength",
     "maximumNumberOfLines"
   ],
   "ES2015/ES6": [
+    "disallowArrowFunctions",
+    "disallowShorthandArrowFunctions",
     "disallowParenthesesAroundArrowParam",
     "requireParenthesesAroundArrowParam",
     "requireArrowFunctions",
+    "requireShorthandArrowFunctions",
     "requireNumericLiterals",
     "requireSpread",
     "requireTemplateStrings"
@@ -143,11 +158,13 @@
     "disallowImplicitTypeConversion",
     "disallowMultipleLineStrings",
     "validateQuoteMarks",
+    "disallowUnusedParams",
     "disallowYodaConditions",
     "requireYodaConditions",
     "disallowNodeTypes",
     "disallowNotOperatorsInConditionals",
     "requireDollarBeforejQueryAssignment",
-    "safeContextKeyword"
+    "safeContextKeyword",
+    "jsDoc"
   ]
 }
