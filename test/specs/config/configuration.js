@@ -326,6 +326,71 @@ describe('config/configuration', function() {
         });
     });
 
+    describe('extract', function() {
+        it('should be check html files by default', function() {
+            configuration.load({});
+            assert.deepEqual(configuration.getExtractFileMasks(), ['**/*.+(htm|html|xhtml)']);
+        });
+
+        it('should set array of masks', function() {
+            configuration.load({
+                extract: ['foo', 'bar']
+            });
+            assert.deepEqual(configuration.getExtractFileMasks(), ['foo', 'bar']);
+        });
+
+        it('should set `never`', function() {
+            configuration.load({
+                extract: false
+            });
+            assert.deepEqual(configuration.getExtractFileMasks(), []);
+        });
+
+        it('should throw an exception when set wrong string value', function() {
+            assert.throws(function() {
+                configuration.load({
+                    extract: 'foo'
+                });
+            });
+        });
+    });
+
+    describe('shouldExtractFile', function() {
+        it('should be check *.htm, *.html, *.xhtml by default', function() {
+            configuration.load({});
+            assert(configuration.shouldExtractFile('file.htm'));
+            assert(configuration.shouldExtractFile('file.html'));
+            assert(configuration.shouldExtractFile('file.xhtml'));
+            assert(configuration.shouldExtractFile('foo/file.htm'));
+            assert(configuration.shouldExtractFile('foo/file.html'));
+            assert(configuration.shouldExtractFile('foo/file.xhtml'));
+            assert(!configuration.shouldExtractFile('file.txt'));
+            assert(!configuration.shouldExtractFile('file.ht'));
+            assert(!configuration.shouldExtractFile('file.html.tmp'));
+            assert(!configuration.shouldExtractFile('smth.html/file.txt'));
+        });
+
+        it('should set array of masks', function() {
+            configuration.load({
+                extract: ['foo', 'bar']
+            });
+            assert(configuration.shouldExtractFile('foo'));
+            assert(configuration.shouldExtractFile('bar'));
+            assert(!configuration.shouldExtractFile('baz/foo'));
+            assert(!configuration.shouldExtractFile('foo/bar'));
+        });
+
+        it('should set `never`', function() {
+            configuration.load({
+                extract: false
+            });
+            assert(!configuration.shouldExtractFile('file.html'));
+            assert(!configuration.shouldExtractFile('foo/file.html'));
+            assert(!configuration.shouldExtractFile('file.html.tmp'));
+            assert(!configuration.shouldExtractFile('smth.html/file.txt'));
+        });
+    });
+
     describe('usePlugin', function() {
         it('should run plugin with configuration specified', function() {
             var plugin = function() {};

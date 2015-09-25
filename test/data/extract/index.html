@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Test file</title>
+  <script type="ignore/me">
+    with (x) { y++; }
+  </script>
+  <script type="text/javascript" alt="should be ignored as empty">
+  </script>
+  <script>/* edge cases */</script>
+  <script>  
+  /* edge cases */</script>
+  <script src="some/script.js">
+    // should be ignored too
+    with (x) { y++; }
+  </script>
+  <script>
+    with (x) { y++; }
+  </script>
+</head>
+<body>
+  <script type="text/javascript">
+		with (x) { y++; }
+  </script>
+  <script>
+    // mixed offset #1
+		// tabs
+  </script>
+  <script>
+    // mixed offset #2
+	  // one tabs
+  </script>
+  <script>
+		// mixed offset #3
+    // tabs
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+should be ignored usually
+<script>
+  with (x) {}
+</script>

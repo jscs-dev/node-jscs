@@ -64,6 +64,14 @@ describe('checker', function() {
                 assert.equal(errors[0].getErrorList().length, 0);
             });
         });
+
+        it('should throw an exception when path doesn\'t exists', function() {
+            return checker.checkPath('./test/non-exists').then(function() {
+                assert(false);
+            }, function() {
+                assert(true);
+            });
+        });
     });
 
     describe('checkStdin', function() {
@@ -93,6 +101,92 @@ describe('checker', function() {
 
             process.stdin.emit('data', 'foo');
             process.stdin.emit('end');
+        });
+    });
+
+    describe('extract', function() {
+        it('should extract from *.htm, *.html and *.xhtml by default', function() {
+            return checker.checkPath('./test/data/extract').then(function(errors) {
+                assert.equal(errors.length, 3);
+                assert.equal(errors[0].getErrorList().length, 2);
+                assert.equal(errors[1].getErrorList().length, 2);
+                assert.equal(errors[2].getErrorList().length, 0);
+            });
+        });
+
+        it('should not extract js when set to false', function() {
+            checker.configure({
+                extract: false
+            });
+
+            return checker.checkPath('./test/data/extract').then(function(errors) {
+                assert.equal(errors.length, 0);
+            });
+        });
+
+        it('should try extract js from any file', function() {
+            checker.configure({
+                extract: ['**']
+            });
+
+            return checker.checkPath('./test/data/extract').then(function(errors) {
+                assert.equal(errors.length, 4);
+                assert.equal(errors[0].getErrorList().length, 2);
+                assert.equal(errors[1].getErrorList().length, 2);
+                assert.equal(errors[2].getErrorList().length, 1);
+                assert.equal(errors[3].getErrorList().length, 0);
+            });
+        });
+
+        it('extractFile should return empty error list if no errors', function() {
+            var checker = new Checker();
+
+            // no check rules no any errors
+            checker.configure({
+                extract: ['**']
+            });
+
+            return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
+                assert.equal(errors.getErrorList().length, 0);
+            });
+        });
+
+        it('extractFile should return null if file doesn\'t check', function() {
+            checker.configure({
+                extract: false
+            });
+
+            return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
+                assert.equal(errors, null);
+            });
+        });
+
+        describe('should take in account excludeFiles', function() {
+            it('on checkPath', function() {
+                checker.configure({
+                    extract: ['**'],
+                    excludeFiles: [
+                        './test/**'
+                    ]
+                });
+
+                return checker.checkPath('./test/data/extract').then(function(errors) {
+                    assert.equal(errors.length, 0);
+                });
+            });
+
+            it('on extractFile', function() {
+                checker.configure({
+                    extract: ['**'],
+                    excludeFiles: [
+                        './test/**'
+                    ]
+                });
+
+                return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
+                    assert.equal(errors, null);
+                });
+            });
         });
     });
 
