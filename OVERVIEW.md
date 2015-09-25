@@ -149,6 +149,19 @@ jscs path[ path[...]] --preset=jquery
 
 In order to add/remove preset rules you will need to create a `.jscsrc` config file.
 
+### `--extract`
+With this option you can set glob pattern for files which embeded JavaScript should be checked.
+```
+jscs path[ path[...]] --extract *.html 
+```
+
+You can set several patterns if necessary.
+```
+jscs path[ path[...]] --extract *.html --extract *.htm
+```
+
+Currently, only the `html` format is supported (JavaScript inside `<script>` will be checked) and extracted code cannot be auto fixed.
+
 ### `--reporter` (`-r`)
 `jscs` itself provides eight reporters: `checkstyle`, `console`, `inline`, `inlinesingle`, `junit`, `text`, `unix` and `json`.
 ```
@@ -281,6 +294,26 @@ Values: A single file extension or an Array of file extensions, beginning with a
 #### Default
 
 `.js` files are processed by default
+
+### extract
+
+Set list of glob patterns for files which embeded JavaScript should be checked.
+
+Type: `Array` or `false`
+
+Values: Array of file matching patterns
+
+JavaScript extracting from files that doesn't match to [fileExtensions](#fileExtensions) or [excludeFiles](#excludefiles), but match to patterns in this list. Currenly, only `html` format is supported.
+
+#### Example
+
+```js
+"extract": ["*.htm", "*.html"]
+```
+
+#### Default
+
+Default value is `["**/*.+(htm|html|xhtml)"]`. So JavaScript is extracted from files with `.htm`, `.html` or `.xhtml` extension.
 
 ### maxErrors
 Set the maximum number of errors to report (pass -1 or null to report all errors).

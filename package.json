@@ -86,7 +86,8 @@
     "to-single-quotes": "^1.0.2",
     "vow": "~0.4.8",
     "vow-fs": "~0.3.4",
-    "xmlbuilder": "^2.6.1"
+    "xmlbuilder": "^2.6.1",
+    "htmlparser2": "3.8.3"
   },
   "devDependencies": {
     "browserify": "^11.0.0",
