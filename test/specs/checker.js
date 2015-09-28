@@ -1,7 +1,9 @@
-var assert = require('assert');
-var sinon = require('sinon');
-var Checker = require('../../lib/checker');
 var fs = require('fs');
+var assert = require('assert');
+
+var sinon = require('sinon');
+
+var Checker = require('../../lib/checker');
 
 describe('checker', function() {
     var checker;
@@ -32,6 +34,19 @@ describe('checker', function() {
         it('should check sub dirs', function() {
             return checker.checkDirectory('./test/data/checker').then(function(errors) {
                 assert(errors.length === 3);
+            });
+        });
+
+        it('should return empty array for excluded dir', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                disallowKeywords: ['with'],
+                excludeFiles: ['./test/**']
+            });
+            return checker.checkDirectory('./test/data/checker').then(function(errors) {
+                assert(Array.isArray(errors));
+                assert.equal(errors.length, 0);
             });
         });
     });
@@ -70,6 +85,19 @@ describe('checker', function() {
                 assert(false);
             }, function() {
                 assert(true);
+            });
+        });
+
+        it('should return empty array for excluded files', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                disallowKeywords: ['with'],
+                excludeFiles: ['./test/**']
+            });
+            return checker.checkPath('./test/data/checker/file.js').then(function(errors) {
+                assert(Array.isArray(errors));
+                assert.equal(errors.length, 0);
             });
         });
     });
