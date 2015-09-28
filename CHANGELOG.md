@@ -1,14 +1,230 @@
+## [Version 2.2.0](https://github.com/jscs-dev/node-jscs/compare/v2.1.1...v2.2.0) (09-24-2015):
+
+Again, it's been way too long since the last version; we're going to be releasing more often in the future!
+
+In this release, we have a nicer [homepage](http://jscs.info/), 5 new rules, 4 more autofixable rules, many new rule options/bug fixes, and a [jscs-jsdoc@1.2.0](https://github.com/jscs-dev/jscs-jsdoc/blob/master/CHANGELOG.md#v120---2015-09-22) update.
+
+We also added support for using YAML in config files, checking JS style in HTML files, and are **trying out some non-stylistic rules** (like [`disallowUnusedParams`](http://jscs.info/rule/disallowUnusedParams))!
+
+Be on the look out for https://github.com/cst/cst (just finished ES6 support this weekend) if you haven't already.
+
+### Autofixing: Support for 4 more rules!
+
+Thanks to [@markelog](https://github.com/markelog), we also have autofix support for the following rules:
+
+- [`disallowSemicolons`](http://jscs.info/rule/disallowSemicolons)
+- [`requireSemicolons`](http://jscs.info/rulerequireSemicolons)
+- [`disallowQuotedKeysInObjects`](http://jscs.info/rule/disallowQuotedKeysInObjects)
+- [`requireCapitalizedComments`](http://jscs.info/rule/requireCapitalizedComments)
+
+> We will also be labeling which rules don't support autofixing (only a few).
+
+### Configuration: YAML support, and linting JS in HTML files
+
+We weren't even thinking about different config formats, but [@ronkorving](https://github.com/ronkorving) stepped in and added support for using YAML as a config format!
+
+So now you can use a `.jscsrc / jscs.json` (JSON) file or a `.jscs.yaml` (YAML) file.
+
+[@lahmatiy](https://github.com/lahmatiy) has landed support for linting javascript in HTML files with the [extract](http://jscs.info/overview#extract) option! Thanks so much for sticking with us for that PR.
+
+Example usage:
+```
+jscs ./hello.html --extract *.html
+```
+
+### New Rules
+
+#### [`disallowMultiLineTernary`](http://jscs.info/rule/disallowMultiLineTernary) (Brian Dixon)
+
+```js
+// Valid for "disallowMultiLineTernary": true
+var foo = (a === b) ? 1 : 2;
+```
+
+#### [`requireMultiLineTernary`](http://jscs.info/rule/requireMultiLineTernary) (Brian Dixon)
+
+```js
+// Valid for "requireMultiLineTernary": true
+var foo = (a === b)
+  ? 1
+  : 2;
+```
+
+#### [`disallowTabs`](http://jscs.info/rule/disallowTabs) (Mike Ottum)
+
+It disallows tab characters everywhere!
+
+#### [`disallowUnusedParams`](http://jscs.info/rule/disallowUnusedParams) (Oleg Gaidarenko)
+
+Another cool rule [@markelog](https://github.com/markelog) added is actually a non-stylistic rule with autofixing support! It checks to make sure you use the parameters in function declarations and function expressions!
+
+
+```js
+// Invalid since test is unused
+function x(test) {
+}
+var x = function(test) {
+}
+```
+
+#### [`validateCommentPosition`](http://jscs.info/rule/validateCommentPosition) (Brian Dixon)
+
+Comments that start with keywords like `eslint, jscs, jshint` are ignored by default.
+
+```js
+/* Valid for "validateCommentPosition": { position: `above`, allExcept: [`pragma`] } */
+// This is a valid comment
+1 + 1; // pragma (this comment is fine)
+
+/* Valid for "validateCommentPosition": { position: `beside` } */
+1 + 1; // This is a valid comment
+```
+
+Just as a reminder, you can disable certain AST node types with the [`disallowNodeTypes`](http://jscs.info/rule/disallowNodeTypes.html) rule which takes in an array of node types.
+
+For example: if you want to disable arrow functions for some reason, you could do
+
+`"disallowNodeTypes": ['ArrowFunctionExpression']`.
+
+### Presets: Idiomatic.js and other updates
+
+We finally added support for [Idiomatic.js](https://github.com/rwaldron/idiomatic.js)! There are a few more rules we still need to add, so leave a comment in the [issue](https://github.com/jscs-dev/node-jscs/issues/1065) or create a new one.
+
+* `Google`: remove `capitalizedNativeCase` option in the JSDoc `checkTypes` rule (Sam Thorogood)
+* `Idiomatic`: add initial preset (Henry Zhu)
+* `jQuery`: add `disallowSpacesInCallExpression` rule to (Oleg Gaidarenko)
+* `jQuery`: use `ignoreIfInTheMiddle` value for `requireCapitalizedComments` rule (Oleg Gaidarenko)
+* `jQuery`: add `validateIndentation` rule (Oleg Gaidarenko)
+* `Wikimedia`: enable `es3` (James Forrester)
+
+### Rule Options/Changes
+
+* `requireSpacesInsideParentheses`: `ignoreParenthesizedExpression` option (Oleg Gaidarenko)
+* `disallowSpaceAfterObjectKeys`: add `method` exception option (Alexander Zeilmann)
+* `disallowSpaceBeforeSemicolon`: add `allExcept` option (Oleg Gaidarenko)
+* `requireCapitalizedComments`: add `ignoreIfInTheMiddle` option (Oleg Gaidarenko)
+* `disallowSpacesInsideParentheses`: add quotes option (Oleg Gaidarenko)
+* `requireSpacesInsideParentheses`: add quotes option (Oleg Gaidarenko)
+* `requireCapitalizedComments`: add default exceptions (alawatthe)
+* `requireArrowFunctions`: create an error on function bind (Henry Zhu)
+* Misc: Bucket all rules into groups, test case to ensure new rules have a group (indexzero)
+
+### Bug Fixes
+
+We fixed a bug with exit codes not matching the [wiki](https://github.com/jscs-dev/node-jscs/wiki/Exit-codes) (Oleg Gaidarenko).
+
+* `disallowParenthesesAroundArrowParam`: fix check for params (Henry Zhu)
+* `spacesInsideBrackets`: account for block comments (Oleg Gaidarenko)
+* `disallowSemicolons`: ignore needed exceptions (Oleg Gaidarenko)
+* `spacesInFunctionExpression`: account for async functions (MikeMac)
+* `disallowSpaceBeforeSemicolon`: do not trigger error if it's first token (Oleg Gaidarenko)
+* `requireCapitalizedComments`: consider edge cases (Oleg Gaidarenko)
+* `requireSemicolons`: handle phantom cases (Oleg Gaidarenko)
+* `spaceAfterObjectKeys`: fix for computed properties with more than one token (Henry Zhu)
+* Exclude `.git` folder by default (Vladimir Starkov)
+
+### JSDoc updates
+* New Rule: [`checkParamExistence`](http://jscs.info/rule/jsDoc#checkparamexistence)
+* New Rule: [`requireReturnDescription`](http://jscs.info/rule/jsDoc#requirereturndescription)
+* [`enforceExistence`](http://jscs.info/rule/jsDoc#enforceexistence) add `paramless-procedures` exception
+
+### What's JSCS?
+
+The homepage now showcases what JSCS actually does. We were missing a :cat: picture as well so ...
+
+![cat](http://i.imgur.com/sIIoLDI.png)
+
+> If you have any feedback on the site, leave a comment at our [website repo](https://github.com/jscs-dev/jscs-dev.github.io).
+
+### ༼ つ ◕_◕ ༽つ  GIVE CST!
+
+We've also been busy working on https://github.com/cst/cst.
+
+![cst](https://raw.githubusercontent.com/cst/cst/master/docs/cst-example.png)
+
+CST stands for `Concrete Syntax Tree`, as opposed to AST which stands for `Abstract Syntax Tree`. CST uses a regular AST but adds support for information that you normally don't care about but is vital for a style checker, e.g. spaces, newlines, comments, semicolons, etc. Using a CST will allow us to support more complex autofixing such as adding curly braces while retaining other formatting or much larger transformations.
+
+We just finished supporting all of ES6 this past weekend. [ES6+](https://github.com/cst/cst/issues/39) and [JSX](https://github.com/cst/cst/issues/3) support is also in progress! We'll be integrating CST into JSCS in the [3.0 branch](https://github.com/jscs-dev/node-jscs/tree/3.0), so look out for that soon (CST uses babel as its AST parser).
+
+If you're interested, there was a lot of discussion on CSTs at the [ESTree](https://github.com/estree/estree/issues/41) repo.
+
+---
+
+Hopefully we can get more community help for JSCS! (check out [CONTRIBUTING.md](https://github.com/jscs-dev/node-jscs/blob/master/CONTRIBUTING.md#how-you-can-help) if you're interested)
+
+We have a [`beginner-friendly`](https://github.com/jscs-dev/node-jscs/labels/beginner-friendly) tag for people to get started on issues.
+
+### Small personal sidenote
+
+Thanks to everyone who has been submitting issues/PRs!
+
+It's been almost a year since I (@hzoo) really started contributing to open source. It's still crazy to me that my first pull request was just adding the [table of contents](https://github.com/jscs-dev/node-jscs/pull/677). I was so excited to contribute that day!
+
+Little did I know I would slowly do more and more - typo fixes, docs changes, bugfixes, rules, and then eventually become part of the team! I've become a better communicator and become more confident to give and take constructive feedback. I'm currently still figuring out how to review PRs, label issues, do changelogs (like right now), release, etc.
+
+So much has happened after starting that one simple contribution! Even though I know a lot more about ASTs, javascript/node, and programming style, it all adds up to much more than that technical knowledge.
+
+Contributing here helped me make PRs to a lot of other projects (in my case babel, eslint, and others). I understand more that it doesn't take a special person to start helping out. I really hope to encourage others to join our awesome open source community at large!
+
+[@hzoo](https://github.com/hzoo)
+
+### Other Awesome Changes!
+
+* CLI: correct `describe` description (Roman Dvornov)
+* ClI: move `handleMaxErrors` helper to the more appropriate place (Oleg Gaidarenko)
+* CLI: set `maxErrors` to `Infinity` for autoconfigure (Henry Zhu)
+* disallowSemicolons: simplify `disallowSemicolons` rule (Oleg Gaidarenko)
+* Docs: another portion of changelog fixes (Oleg Gaidarenko)
+* Docs: Correct documentation for `requireCapitalizedComments` (Alexander Zeilmann)
+* Docs: `disallowParenthesesAroundArrowParam` (Samuel Lindblom)
+* Docs: fix markdown for `disallowMultipleSpaces` (Marián Rusnák)
+* Docs: fix markdown in `requireBlocksOnNewline` (Marián Rusnák)
+* Docs: fix markdown in `requireCapitalizedComments` (Marián Rusnák)
+* Docs: fixup broken links (Henry Zhu)
+* Docs: improve documentation for various rules (oredi)
+* Docs: improve documentation for various rules (oredi)
+* Docs: remove unnecessary paragraph, use js syntax highlighting (Dennis Wissel)
+* Docs: small changelog corrections (Oleg Gaidarenko)
+* Docs: small correction for the `disallowEmptyBlocks` rule (Oleg Gaidarenko)
+* js-file: add `getScope` method (Oleg Gaidarenko)
+* js-file: add `removeToken` method (Oleg Gaidarenko)
+* js-file: all return values should be consistent (Oleg Gaidarenko)
+* js-file: check argument of the `file#getNodeRange` (Oleg Gaidarenko)
+* js-file: do not interpret html as grit instructions (Oleg Gaidarenko)
+* js-file: make grit regexp case-insensitive (Oleg Gaidarenko)
+* Misc: add `only` property to `reportAndFix` assert helper (Oleg Gaidarenko)
+* Misc: make jslint happy (Oleg Gaidarenko)
+* Misc: make lint happy (Oleg Gaidarenko)
+* Misc: use node "4" instead of node "4.0" in travis (Henry Zhu)
+* Misc: correct code style violations (Oleg Gaidarenko)
+* Misc: add node 4.0 to travis (Henry Zhu)
+* Misc: autofix tests for rules that are not supported by default presets (Oleg Gaidarenko)
+* Misc: change default mocha reporter (Oleg Gaidarenko)
+* Misc: disable duplicative jshint check for semicolons (Oleg Gaidarenko)
+* Misc: do not show console.error at the test run (Oleg Gaidarenko)
+* Misc: increase coverage and use console.error for maxError output (Oleg Gaidarenko)
+* Misc: increase rules coverage (Oleg Gaidarenko)
+* Misc: use full lodash package (Oleg Gaidarenko)
+* Misc: add `requireSemicolons` rule to our jscsrc (Oleg Gaidarenko)
+* `requireCapitalizedComments`: remove merge artefacts (Oleg Gaidarenko)
+* `*Semicolons`: increase coverage (Oleg Gaidarenko)
+* String-checker: pass `file` instance to `_fix` method (Oleg Gaidarenko)
+* Strip `BOM` from config files (Jonathan Wilsson)
+* Support `null` and `-1` values for `maxErrors` option (Daniel Anechitoaie)
+* Tests: improve `reportAndFix` assertion helper (Oleg Gaidarenko)
+* Utils: add `isPragma` method (Brian Dixon)
+
 ## Version [2.1.1](https://github.com/jscs-dev/node-jscs/compare/v2.1.0...v2.1.1)
 
 ### Overview
 
-This release consists mostly of bug-fixes. Check them out – there are a lot of them! 
+This release consists mostly of bug-fixes. Check them out – there are a lot of them!
 
 We also managed to squeeze two new rules - [requireSpacesInsideParenthesizedExpression](http://jscs.info/rule/requireSpacesInsideParenthesizedExpression.html) and [disallowSpacesInsideParenthesizedExpression](http://jscs.info/rule/disallowSpacesInsideParenthesizedExpression.html), increase performance, and improve ES6 support.
 
 #### Fix regarding global jscs installs and plugins
 
-One of the biggest issues fixed: a **global** jscs install can finally load **local** extensions (à la gulp style) like error-filters, plugins, additional rules, and presets. 
+One of the biggest issues fixed: a **global** jscs install can finally load **local** extensions (à la gulp style) like error-filters, plugins, additional rules, and presets.
 
 This will fix issues with using a custom preset with something like [SublimeLinter](https://packagecontrol.io/packages/SublimeLinter-jscs) which uses the global jscs install.
 
@@ -16,7 +232,7 @@ This will fix issues with using a custom preset with something like [SublimeLint
 - We recommend the package name starts with `jscs-preset-` or with `jscs-config-` to help with searching for presets on npm and defining it in your config
 - This would allow you to specify your preset more succinctly: `”preset”: “awesome”` instead of `”preset”: “jscs-preset-awesome”`
 - You can also share multiple presets in one package with `”preset”: “awesome/super-awesome”`, provided that you have `super-awesome.{json, js}` in your package root directory
-- Create a `jscs.json` file to store your jscs config 
+- Create a `jscs.json` file to store your jscs config
 - In your `package.json`, set the `main` field to `jscs.json`
 
 ```js
@@ -174,7 +390,7 @@ Well, we were working hard on the next big step - 2.0!
 And we’re finally ready to show it to you. We’ve improved JSCS all over the place!
 
 ### `esnext`
-It was a big pain to check ES6/JSX code with JSCS, since you had to install special extensions or different parsers. Well, no more of that! Thanks to all the hard work of the @hzoo, now you can just write `"esnext": true` in your config or execute JSCS from the CLI with the `--esnext` flag.  
+It was a big pain to check ES6/JSX code with JSCS, since you had to install special extensions or different parsers. Well, no more of that! Thanks to all the hard work of the @hzoo, now you can just write `"esnext": true` in your config or execute JSCS from the CLI with the `--esnext` flag.
 Now all that new fancy code will be examined without any hassle, as [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841), [function bind (::)](https://github.com/zenparsing/es-function-bind) operator, and all valid babel code can be checked by JSCS.
 
 We also added seven ES6-only rules; see below for more information.
@@ -229,7 +445,7 @@ Requires the use of template strings instead of string concatenation.
 
 There are also a lot of new rule values (see the ["Changelog"](#changelog) section) which makes a lot of rules more flexible.
 
-We also added new rules and values to some presets. If you feel that we’ve missed something, don't be quiet! Send us a PR and we will surely add the needed rules to your favorite preset. 
+We also added new rules and values to some presets. If you feel that we’ve missed something, don't be quiet! Send us a PR and we will surely add the needed rules to your favorite preset.
 
 ### Simplified inclusion of plugins, presets, and custom rules
 Since every possible JSCS extension can now be loaded without defining its full path, it is enough to just specify the needed dependency to your project so it can be found by JSCS.
@@ -434,7 +650,7 @@ Misc
 * Tests: correct couple assertions (Oleg Gaidarenko)
 * Misc: fix jsdoc types with non-standard Promise-star declaration (Alexej Yaroshevich)
 * Lint: Add jscs-jsdoc plugin (Alexej Yaroshevich)
-* Misc: update dependencies & temporary remove coverage badge (Oleg Gaidarenko) 
+* Misc: update dependencies & temporary remove coverage badge (Oleg Gaidarenko)
 * Misc: code style fixes (Alexej Yaroshevich)
 * Misc: introduce reservedWords instead of utils.isES3 (Alexej Yaroshevich)
 * Intergration: correct integration tests for big amount of results (Oleg Gaidarenko)
@@ -454,7 +670,7 @@ Small update for fix distribution of the `--esnext` CLI option (#1321)
 * Docs: correct example for the "requireCapitalizedComments" rule (XhmikosR)
 * Docs: Update mixup between rules in docstring example (Jérémie Astori)
 * Docs: Fix missing quotes in a docstring example (Jérémie Astori)
- 
+
 ## Version [1.13.0](https://github.com/jscs-dev/node-jscs/compare/v1.12.0...v1.13.0)
 
 ### Overview
@@ -536,7 +752,7 @@ We would like specifically thanks @TheSavior and @hzoo for their hard work on th
 ### Overview
 Ladies and Gentlemen... Elvis is in the building - auto-fixing is finally here! We were working really hard to make this powerful new feature, and to make it right. We're hoping it will truly help make your code look good.
 
-Auto-fixing supports the [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend) and all rules related to spacing, including [validateIndentation](http://jscs.info/rules.html#validateindentation) which is the most complicated rule we have (big thanks to @mikesherov for making that happen). 
+Auto-fixing supports the [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend) and all rules related to spacing, including [validateIndentation](http://jscs.info/rules.html#validateindentation) which is the most complicated rule we have (big thanks to @mikesherov for making that happen).
 
 Although this chunk of rules covers most of the popular use-cases, we're determine to add more rules to this list, please help us out and report any bugs or consider contributing with some code - http://jscs.info/contributing.html. We're really friendly to every new contributor.
 
