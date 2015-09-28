@@ -71,7 +71,7 @@
     "exit": "~0.1.2",
     "glob": "^5.0.1",
     "js-yaml": "~3.4.0",
-    "jscs-jsdoc": "1.1.0",
+    "jscs-jsdoc": "1.2.0",
     "lodash": "~3.10.0",
     "jsonlint": "~1.6.2",
     "minimatch": "~2.0.1",
