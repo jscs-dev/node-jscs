@@ -511,7 +511,7 @@ describe('string-checker', function() {
             assert.equal(errs.getErrorCount(), 1);
 
             var err = errs.getErrorList()[0];
-            assert.equal(err.rule, 'thrower');
+            assert.equal(err.rule, 'internalError');
             assert.ok(err.message.indexOf('Error running rule thrower:') !== -1);
             assert.ok(err.message.indexOf('Error: Here we are!') !== -1);
         });
