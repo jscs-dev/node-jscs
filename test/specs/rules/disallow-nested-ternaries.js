@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-nested-ternaries', function() {
     var checker;
@@ -16,25 +16,25 @@ describe('rules/disallow-nested-ternaries', function() {
         });
 
         it('should allow single ternary on a single line', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b) ? 1 : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b) ? 1 : 2;')).to.have.no.errors();
         });
 
         it('should allow single ternary on multiple lines', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b)\n ? 1\n : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b)\n ? 1\n : 2;')).to.have.no.errors();
         });
 
         it('should not allow multi-line nested ternary', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
                 '        : 2\n' +
                 '    : 3;'
-            ).getErrorCount(), 1);
+            )).to.have.one.validation.error.from('disallowNestedTernaries');
         });
 
         it('should not allow multi-line nested ternaries', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -42,11 +42,11 @@ describe('rules/disallow-nested-ternaries', function() {
                 '    : (c === d)\n' +
                 '        ? 3\n' +
                 '        : 4;'
-            ).getErrorCount(), 2);
+            )).to.have.error.count.equal(2);
         });
 
         it('should not allow many leveled multi-line nested ternaries', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -58,23 +58,23 @@ describe('rules/disallow-nested-ternaries', function() {
                 '                : 4\n' +
                 '            : 4\n' +
                 '        : 4;'
-            ).getErrorCount(), 4);
+            )).to.have.error.count.equal(4);
         });
 
         it('should report errors for nesting single line ternaries in multi-line ternary', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? 4 : 5;'
-            ).getErrorCount(), 2);
+            )).to.have.error.count.equal(2);
         });
 
         it('should report errors for nesting multiple single line ternaries in multi-line ternary', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? (d === e) ? 3 : 4 : 5;'
-            ).getErrorCount(), 3);
+            )).to.have.error.count.equal(3);
         });
 
     });
@@ -86,25 +86,25 @@ describe('rules/disallow-nested-ternaries', function() {
         });
 
         it('should allow single ternary on a single line', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b) ? 1 : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b) ? 1 : 2;')).to.have.no.errors();
         });
 
         it('should allow single ternary on multiple lines', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b)\n ? 1\n : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b)\n ? 1\n : 2;')).to.have.no.errors();
         });
 
         it('should allow multi-line nested ternary (single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
                 '        : 2\n' +
                 '    : 3;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should allow multi-line nested ternaries (single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -112,11 +112,11 @@ describe('rules/disallow-nested-ternaries', function() {
                 '    : (c === d)\n' +
                 '        ? 3\n' +
                 '        : 4;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should not allow many leveled multi-line nested ternaries (after single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -128,23 +128,23 @@ describe('rules/disallow-nested-ternaries', function() {
                 '                : 4\n' +
                 '            : 4\n' +
                 '        : 4;'
-            ).getErrorCount(), 2);
+            )).to.have.error.count.equal(2);
         });
 
         it('should allow nesting single line ternaries in multi-line ternary (single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? 4 : 5;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should not allow nesting single line ternaries (after single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? (d === e) ? 3 : 4 : 5;'
-            ).getErrorCount(), 1);
+            )).to.have.one.validation.error.from('disallowNestedTernaries');
         });
 
     });
@@ -156,25 +156,25 @@ describe('rules/disallow-nested-ternaries', function() {
         });
 
         it('should allow single ternary on a single line', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b) ? 1 : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b) ? 1 : 2;')).to.have.no.errors();
         });
 
         it('should allow single ternary on multiple lines', function() {
-            assert.strictEqual(checker.checkString('var foo = (a === b)\n ? 1\n : 2;').getErrorCount(), 0);
+            expect(checker.checkString('var foo = (a === b)\n ? 1\n : 2;')).to.have.no.errors();
         });
 
         it('should allow multi-line nested ternary (single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
                 '        : 2\n' +
                 '    : 3;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should allow multi-line nested ternaries (single level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -182,11 +182,11 @@ describe('rules/disallow-nested-ternaries', function() {
                 '    : (c === d)\n' +
                 '        ? 3\n' +
                 '        : 4;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should not allow many leveled multi-line nested ternaries (after second level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y)\n' +
                 '        ? 1\n' +
@@ -198,31 +198,31 @@ describe('rules/disallow-nested-ternaries', function() {
                 '                : 4\n' +
                 '            : 4\n' +
                 '        : 4;'
-            ).getErrorCount(), 1);
+            )).to.have.one.validation.error.from('disallowNestedTernaries');
         });
 
         it('should allow nesting single line ternaries (second level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? (d === e) ? 3 : 4 : 5;'
-            ).getErrorCount(), 0);
+            )).to.have.no.errors();
         });
 
         it('should not allow nesting single line ternaries (after second level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? 1 : 2\n' +
                 '    : (c === d) ? (d === e) ? (e === f) ? 3 : 4 : 5 : 6;'
-            ).getErrorCount(), 1);
+            )).to.have.one.validation.error.from('disallowNestedTernaries');
         });
 
         it('should not allow nesting single line ternaries (after second level of nesting)', function() {
-            assert.strictEqual(checker.checkString(
+            expect(checker.checkString(
                 'var foo = (a === b)\n' +
                 '    ? (x > y) ? (i === j) ? (j === h) ? 1 : 2 : 3 : 4\n' +
                 '    : (c === d) ? (d === e) ? (e === f) ? 5 : 6 : 7 : 8;'
-            ).getErrorCount(), 2);
+            )).to.have.error.count.equal(2);
         });
 
     });

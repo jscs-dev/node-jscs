@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-arrow-functions', function() {
     var checker;
@@ -11,14 +11,14 @@ describe('rules/disallow-arrow-functions', function() {
     });
 
     it('should report use of arrow function', function() {
-        assert.strictEqual(checker.checkString('a.map(n => n + 1);').getErrorCount(), 1);
+        expect(checker.checkString('a.map(n => n + 1);')).to.have.one.validation.error.from('disallowArrowFunctions');
     });
 
     it('should report use of multi line arrow function', function() {
-        assert.strictEqual(checker.checkString([
+        expect(checker.checkString([
             'a.map(n => {',
                 'return n + 1;',
             '});'
-        ].join('\n')).getErrorCount(), 1);
+        ].join('\n'))).to.have.one.validation.error.from('disallowArrowFunctions');
     });
 });

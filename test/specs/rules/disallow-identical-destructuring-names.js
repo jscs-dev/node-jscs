@@ -1,11 +1,11 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-identical-destructuring-names', function() {
     var checker;
 
     function assertNum(str, num) {
-        assert(checker.checkString(str).getErrorCount() === num);
+        expect(checker.checkString(str)).to.have.error.count.equal(num);
     }
 
     function assertEmpty(str) {

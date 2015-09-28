@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-yoda-conditions', function() {
     var checker;
@@ -22,11 +22,12 @@ describe('rules/disallow-yoda-conditions', function() {
                 });
 
                 it('should not report yoda condition for yodaCondition', function() {
-                    assert(checker.checkString(yodaCondition).isEmpty());
+                    expect(checker.checkString(yodaCondition)).to.have.no.errors();
                 });
 
                 it('should report normal condition', function() {
-                    assert(checker.checkString(notYodaCondition).getErrorCount() === 1);
+                    expect(checker.checkString(notYodaCondition))
+                      .to.have.one.validation.error.from('requireYodaConditions');
                 });
             });
         });
@@ -38,83 +39,67 @@ describe('rules/disallow-yoda-conditions', function() {
         });
 
         it('should report normal condition for numeric', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x == 1) {\n' +
                         'x++;\n' +
                     '}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requireYodaConditions');
         });
 
         it('should report normal condition for boolean', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x == true) {\n' +
                         'x++;\n' +
                     '}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requireYodaConditions');
         });
 
         it('should report normal condition for string', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x == \'\') {\n' +
                         'x++;\n' +
                     '}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requireYodaConditions');
         });
 
         it('should report normal condition for null', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x == null) {\n' +
                         'x++;\n' +
                     '}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requireYodaConditions');
         });
 
         it('should report normal condition for undefined', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x == undefined) {\n' +
                         'x++;\n' +
                     '}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requireYodaConditions');
         });
 
         it('should not report yoda condition', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (1 == x) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report right hand side expressions', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (1 == (x % 2)) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report non-comparison binary expressions', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x % 2) {\n' +
                         'x++;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
     });
 });

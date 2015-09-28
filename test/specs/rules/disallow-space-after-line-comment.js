@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-space-after-line-comment', function() {
     var checker;
@@ -14,19 +14,20 @@ describe('rules/disallow-space-after-line-comment', function() {
         });
 
         it('should report space after line comment', function() {
-            assert(checker.checkString('if (true) {abc();} // This is a comment').getErrorCount() === 1);
+            expect(checker.checkString('if (true) {abc();} // This is a comment'))
+              .to.have.one.validation.error.from('disallowSpaceAfterLineComment');
         });
         it('should not report comment without space', function() {
-            assert(checker.checkString('if (true) {abc();} //This is a good comment').isEmpty());
+            expect(checker.checkString('if (true) {abc();} //This is a good comment')).to.have.no.errors();
         });
         it('should not report block comments with a space', function() {
-            assert(checker.checkString('if (true) {abc();} /* A comment*/').isEmpty());
+            expect(checker.checkString('if (true) {abc();} /* A comment*/')).to.have.no.errors();
         });
         it('should not report block comments without a space', function() {
-            assert(checker.checkString('if (true) {abc();} /*A comment*/').isEmpty());
+            expect(checker.checkString('if (true) {abc();} /*A comment*/')).to.have.no.errors();
         });
         it('should not report a line comment with no characters after it', function() {
-            assert(checker.checkString('if (true) {abc();} //').isEmpty());
+            expect(checker.checkString('if (true) {abc();} //')).to.have.no.errors();
         });
     });
 });

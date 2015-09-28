@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-function-declarations', function() {
     var checker;
@@ -14,34 +14,38 @@ describe('rules/require-function-declarations', function() {
     });
 
     it('should report on anonymous function expression declarations', function() {
-        assert(checker.checkString('var anon = function() {};').getErrorCount() === 1);
+        expect(checker.checkString('var anon = function() {};'))
+          .to.have.one.validation.error.from('requireFunctionDeclarations');
     });
 
     it('should report on named function expression declarations', function() {
-        assert(checker.checkString('var named = function named() {};').getErrorCount() === 1);
+        expect(checker.checkString('var named = function named() {};'))
+          .to.have.one.validation.error.from('requireFunctionDeclarations');
     });
 
     it('should report on anonymous function expression assignments', function() {
-        assert(checker.checkString('var anon; anon = function() {};').getErrorCount() === 1);
+        expect(checker.checkString('var anon; anon = function() {};'))
+          .to.have.one.validation.error.from('requireFunctionDeclarations');
     });
 
     it('should report on named function expression assignments', function() {
-        assert(checker.checkString('var named; named = function named() {};').getErrorCount() === 1);
+        expect(checker.checkString('var named; named = function named() {};'))
+          .to.have.one.validation.error.from('requireFunctionDeclarations');
     });
 
     it('should ignore member expression assignments', function() {
-        assert(checker.checkString('obj.a = function() {};').isEmpty());
+        expect(checker.checkString('obj.a = function() {};')).to.have.no.errors();
     });
 
     it('should ignore IIFEs', function() {
-        assert(checker.checkString('(function() { void 0; })();').isEmpty());
+        expect(checker.checkString('(function() { void 0; })();')).to.have.no.errors();
     });
 
     it('should ignore function expressions in object literals', function() {
-        assert(checker.checkString('var foo = {bar: function() {}};').isEmpty());
+        expect(checker.checkString('var foo = {bar: function() {}};')).to.have.no.errors();
     });
 
     it('should ignore function expressions in function calls', function() {
-        assert(checker.checkString('onclick(function() {})').isEmpty());
+        expect(checker.checkString('onclick(function() {})')).to.have.no.errors();
     });
 });

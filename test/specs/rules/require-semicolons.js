@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
@@ -13,7 +13,7 @@ describe('rules/require-semicolons', function() {
         describe('valid', function() {
             tests.forEach(function(test) {
                 it(test.replace(/\n/g, '\\n'), function() {
-                    assert(checker.checkString(test).isEmpty());
+                    expect(checker.checkString(test)).to.have.no.errors();
                 });
             });
         });
@@ -25,7 +25,7 @@ describe('rules/require-semicolons', function() {
                 var name = test.replace(/\n/g, '\\n');
 
                 it(name, function() {
-                    assert(checker.checkString(test).getErrorCount() === 1);
+                    expect(checker.checkString(test)).to.have.one.validation.error.from('requireSemicolons');
                 });
             });
         });
@@ -41,11 +41,11 @@ describe('rules/require-semicolons', function() {
                     var result = checker.checkString(code);
                     var errors = result.getErrorList();
 
-                    assert(errors.length === positions.length);
+                    expect(errors.length).to.equal(positions.length);
 
                     for (var i = 0; i < errors.length; i++) {
-                        assert(errors[i].line === positions[i][0]);
-                        assert(errors[i].column === positions[i][1]);
+                        expect(errors[i].line).to.equal(positions[i][0]);
+                        expect(errors[i].column).to.equal(positions[i][1]);
                     }
                 });
             });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-parentheses-around-arrow-param', function() {
     var checker;
@@ -11,42 +11,43 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
     });
 
     it('should not report without parens', function() {
-        assert(checker.checkString('[1, 2].map(x => x * x);').isEmpty());
+        expect(checker.checkString('[1, 2].map(x => x * x);')).to.have.no.errors();
     });
 
     it('should report with parens around a single parameter', function() {
-        assert(checker.checkString('[1, 2].map((x) => x * x);').getErrorCount() === 1);
+        expect(checker.checkString('[1, 2].map((x) => x * x);'))
+          .to.have.one.validation.error.from('disallowParenthesesAroundArrowParam');
     });
 
     it('should not report with parens around multiple parameters', function() {
-        assert(checker.checkString('[1, 2].map((x, y) => x * x);').isEmpty());
+        expect(checker.checkString('[1, 2].map((x, y) => x * x);')).to.have.no.errors();
     });
 
     it('should not report with parens around a single parameter with a default', function() {
-        assert(checker.checkString('const a = (x = 1) => x * x;').isEmpty());
+        expect(checker.checkString('const a = (x = 1) => x * x;')).to.have.no.errors();
     });
 
     it('should not report with parens around a multiple parameters with a default', function() {
-        assert(checker.checkString('const a = (x = 1, y) => x * y;').isEmpty());
+        expect(checker.checkString('const a = (x = 1, y) => x * y;')).to.have.no.errors();
     });
 
     it('should not report with use of destructuring #1672', function() {
-        assert(checker.checkString('let func = ({hoge}) => hoge').isEmpty());
+        expect(checker.checkString('let func = ({hoge}) => hoge')).to.have.no.errors();
     });
 
     it('should not report with multiple parameters and destructuring', function() {
-        assert(checker.checkString('let func = (foo, {hoge}) => hoge').isEmpty());
+        expect(checker.checkString('let func = (foo, {hoge}) => hoge')).to.have.no.errors();
     });
 
     it('should not error with no params #1747', function() {
-        assert(checker.checkString('() => {};').isEmpty());
+        expect(checker.checkString('() => {};')).to.have.no.errors();
     });
 
     it('should not report an arrow function expression with a single rest param #1616, #1831', function() {
-        assert(checker.checkString('[1, 2].map((...x) => x);').isEmpty());
+        expect(checker.checkString('[1, 2].map((...x) => x);')).to.have.no.errors();
     });
 
     it('should not report an arrow function expression with a single array param #1831', function() {
-        assert(checker.checkString('[1, 2].map(([x]) => x);').isEmpty());
+        expect(checker.checkString('[1, 2].map(([x]) => x);')).to.have.no.errors();
     });
 });

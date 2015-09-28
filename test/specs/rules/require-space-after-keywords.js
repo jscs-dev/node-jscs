@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-space-after-keywords', function() {
     var checker;
@@ -11,80 +11,83 @@ describe('rules/require-space-after-keywords', function() {
 
     it('should report missing space after keyword', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if(x) { x++; }').getErrorCount() === 1);
+        expect(checker.checkString('if(x) { x++; }')).to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should not report space after keyword', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if (x) { x++; }').isEmpty());
+        expect(checker.checkString('if (x) { x++; }')).to.have.no.errors();
     });
 
     it('should not report semicolon after keyword', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
-        assert(checker.checkString('var x = function () { return; }').isEmpty());
+        expect(checker.checkString('var x = function () { return; }')).to.have.no.errors();
     });
 
     it('should ignore reserved word if it\'s an object key (#83)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['for'] });
-        assert(checker.checkString('({for: "bar"})').isEmpty());
+        expect(checker.checkString('({for: "bar"})')).to.have.no.errors();
     });
 
     it('should ignore method name if it\'s a reserved word (#180)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['catch'] });
-        assert(checker.checkString('promise.catch()').isEmpty());
+        expect(checker.checkString('promise.catch()')).to.have.no.errors();
     });
 
     it('should trigger error for the funarg (#277)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['function'] });
-        assert(checker.checkString('test.each( stuff, function() {} )').getErrorCount() === 1);
+        expect(checker.checkString('test.each( stuff, function() {} )'))
+          .to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should trigger error for the funarg with two spaces (#277)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['function'] });
-        assert(checker.checkString('test.each( function  () {})').getErrorCount() === 1);
+        expect(checker.checkString('test.each( function  () {})'))
+          .to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should trigger error for keywords inside function (#332)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('function f() { if(true) {"something";} }').getErrorCount() === 1);
+        expect(checker.checkString('function f() { if(true) {"something";} }'))
+          .to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should not trigger error for spaced return inside function (#357)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['return'] });
-        assert(checker.checkString('function foo() {\r\n\treturn\r\n}').getErrorCount() === 0);
+        expect(checker.checkString('function foo() {\r\n\treturn\r\n}')).to.have.no.errors();
     });
 
     it('should trigger error if there is more than one space (#396)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if  (x) {}').getErrorCount() === 1);
+        expect(checker.checkString('if  (x) {}')).to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should not trigger error for comments (#397)', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if /**/ (x) {}').isEmpty());
+        expect(checker.checkString('if /**/ (x) {}')).to.have.no.errors();
     });
 
     it('should trigger different error for comments with more than one space', function() {
         checker.configure({ requireSpaceAfterKeywords: ['if'] });
-        assert(checker.checkString('if  /**/(x) {}').getErrorCount() === 1);
+        expect(checker.checkString('if  /**/(x) {}')).to.have.one.validation.error.from('requireSpaceAfterKeywords');
     });
 
     it('should report on all spaced keywords if a value of true is supplied', function() {
         checker.configure({ requireSpaceAfterKeywords: true });
 
-        assert(!checker.checkString('do{}').isEmpty());
-        assert(!checker.checkString('for(){}').isEmpty());
-        assert(!checker.checkString('if(x) {}').isEmpty());
-        assert(!checker.checkString('if (){}else{}').isEmpty());
-        assert(!checker.checkString('switch(){ case 4: break;}').isEmpty());
-        assert(!checker.checkString('switch (){ case\'4\': break;}').isEmpty());
-        assert(!checker.checkString('try{}').isEmpty());
-        assert(!checker.checkString('try {} catch(e){}').isEmpty());
-        assert(!checker.checkString('try {} catch (e){} finally{}').isEmpty());
-        assert(!checker.checkString('void(0)').isEmpty());
-        assert(!checker.checkString('while(x) {}').isEmpty());
-        assert(!checker.checkString('with(){}').isEmpty());
-        assert(!checker.checkString('var foo = function(){};').isEmpty());
-        assert(!checker.checkString('typeof\'4\'').isEmpty());
+        expect(checker.checkString('do{}')).to.have.errors();
+        expect(checker.checkString('for(){}')).to.have.errors();
+        expect(checker.checkString('if(x) {}')).to.have.errors();
+        expect(checker.checkString('if (){}else{}')).to.have.errors();
+        expect(checker.checkString('switch(){ case 4: break;}')).to.have.errors();
+        expect(checker.checkString('switch (){ case\'4\': break;}')).to.have.errors();
+        expect(checker.checkString('try{}')).to.have.errors();
+        expect(checker.checkString('try {} catch(e){}')).to.have.errors();
+        expect(checker.checkString('try {} catch (e){} finally{}')).to.have.errors();
+        expect(checker.checkString('void(0)')).to.have.errors();
+        expect(checker.checkString('while(x) {}')).to.have.errors();
+        expect(checker.checkString('with(){}')).to.have.errors();
+        expect(checker.checkString('var foo = function(){};')).to.have.errors();
+        expect(checker.checkString('typeof\'4\'')).to.have.errors();
     });
 });

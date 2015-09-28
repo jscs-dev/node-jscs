@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var fs = require('fs');
 var path = require('path');
 var groups = require('../../grouping');
@@ -20,7 +20,7 @@ describe.skip('rule grouping', function() {
             return Rule.prototype.getOptionName.call();
         }).forEach(function(option) {
             it(option, function() {
-                assert(lookup[option], 'Add missing group for: ' + option + ' in grouping.json');
+                expect(!!lookup[option]).to.equal(true);
             });
         });
     });

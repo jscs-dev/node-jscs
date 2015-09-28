@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var Checker = require('../../../lib/checker');
@@ -21,8 +21,8 @@ describe('reporters/summary', function() {
 
     it('should correctly reports no errors', function() {
         summaryReporter([checker.checkString('a++;')]);
-        assert.equal(console.log.getCall(0).args[0], 'No code style errors found.');
-        assert(console.log.calledOnce);
+        expect(console.log.getCall(0).args[0]).to.equal('No code style errors found.');
+        expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly report 1 error', function() {
@@ -31,10 +31,10 @@ describe('reporters/summary', function() {
         var expectedByRuleTotal = /All.*1.*1/;
 
         summaryReporter([checker.checkString('with (x) {}')]);
-        assert(expectedByFile.test(console.log.getCall(0).args[0]));
-        assert(expectedByRule.test(console.log.getCall(1).args[0]));
-        assert(expectedByRuleTotal.test(console.log.getCall(1).args[0]));
-        assert.equal(console.log.callCount, 2);
+        expect(!!expectedByFile.test(console.log.getCall(0).args[0])).to.equal(true);
+        expect(!!expectedByRule.test(console.log.getCall(1).args[0])).to.equal(true);
+        expect(!!expectedByRuleTotal.test(console.log.getCall(1).args[0])).to.equal(true);
+        expect(console.log).to.have.callCount(2);
     });
 
     it('should correctly report 2 errors', function() {
@@ -43,9 +43,9 @@ describe('reporters/summary', function() {
         var expectedByRuleTotal = /All.*2.*1/;
 
         summaryReporter([checker.checkString('with(x){} with(x){} ')]);
-        assert(expectedByFile.test(console.log.getCall(0).args[0]));
-        assert(expectedByRule.test(console.log.getCall(1).args[0]));
-        assert(expectedByRuleTotal.test(console.log.getCall(1).args[0]));
-        assert.equal(console.log.callCount, 2);
+        expect(!!expectedByFile.test(console.log.getCall(0).args[0])).to.equal(true);
+        expect(!!expectedByRule.test(console.log.getCall(1).args[0])).to.equal(true);
+        expect(!!expectedByRuleTotal.test(console.log.getCall(1).args[0])).to.equal(true);
+        expect(console.log).to.have.callCount(2);
     });
 });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-mixed-spaces-and-tabs', function() {
     var checker;
@@ -18,67 +18,74 @@ describe('rules/disallow-mixed-spaces-and-tabs', function() {
         });
 
         it('should report spaces before tabs', function() {
-            assert(checker.checkString('    \tvar x;').getErrorCount() === 1);
+            expect(checker.checkString('    \tvar x;')).to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces', function() {
-            assert(checker.checkString('\t     var x;').getErrorCount() === 1);
+            expect(checker.checkString('\t     var x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs before spaces', function() {
-            assert(checker.checkString('    \t    var x;').getErrorCount() === 1);
+            expect(checker.checkString('    \t    var x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs', function() {
-            assert(checker.checkString('\t     \tvar x;').getErrorCount() === 1);
+            expect(checker.checkString('\t     \tvar x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs after content', function() {
-            assert(checker.checkString('var x;    \t').getErrorCount() === 1);
+            expect(checker.checkString('var x;    \t')).to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces after content', function() {
-            assert(checker.checkString('var x;\t     ').getErrorCount() === 1);
+            expect(checker.checkString('var x;\t     '))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs before space after content', function() {
-            assert(checker.checkString('var x;    \t    ').getErrorCount() === 1);
+            expect(checker.checkString('var x;    \t    '))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs after content', function() {
-            assert(checker.checkString('var x;\t     \t').getErrorCount() === 1);
+            expect(checker.checkString('var x;\t     \t'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs with spaces with multiline comment in between', function() {
-            assert(checker.checkString('\t/**/ \tvar x;').getErrorCount() === 1);
+            expect(checker.checkString('\t/**/ \tvar x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before single space to align non-docblock multiline', function() {
-            assert(checker.checkString('var x;' + multilineNotDocBlock).isEmpty());
+            expect(checker.checkString('var x;' + multilineNotDocBlock)).to.have.no.errors();
         });
 
         it('should not report tabs before single space to align docblock', function() {
-            assert(checker.checkString('var x;' + docblock).isEmpty());
+            expect(checker.checkString('var x;' + docblock)).to.have.no.errors();
         });
 
         it('should not report tabs after spaces after star in a docblock', function() {
-            assert(checker.checkString('var x;' + docblockWithMixed).isEmpty());
+            expect(checker.checkString('var x;' + docblockWithMixed)).to.have.no.errors();
         });
 
         it('should not report commented out code', function() {
-            assert(checker.checkString('//\t    var x;').isEmpty());
+            expect(checker.checkString('//\t    var x;')).to.have.no.errors();
         });
 
         it('should not report tabs only', function() {
-            assert(checker.checkString('\t\tvar x;').isEmpty());
+            expect(checker.checkString('\t\tvar x;')).to.have.no.errors();
         });
 
         it('should not report tabs only with multiline comment in between', function() {
-            assert(checker.checkString('\t/**/\tvar x;').isEmpty());
+            expect(checker.checkString('\t/**/\tvar x;')).to.have.no.errors();
         });
 
         it('should not report spaces only', function() {
-            assert(checker.checkString('    var x;').isEmpty());
+            expect(checker.checkString('    var x;')).to.have.no.errors();
         });
     });
 
@@ -88,55 +95,59 @@ describe('rules/disallow-mixed-spaces-and-tabs', function() {
         });
 
         it('should report spaces before tabs', function() {
-            assert(checker.checkString('    \tvar x;').getErrorCount() === 1);
+            expect(checker.checkString('    \tvar x;')).to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should not report tabs before spaces', function() {
-            assert(checker.checkString('\t     var x;').isEmpty());
+            expect(checker.checkString('\t     var x;')).to.have.no.errors();
         });
 
         it('should report spaces before tabs before spaces', function() {
-            assert(checker.checkString('    \t    var x;').getErrorCount() === 1);
+            expect(checker.checkString('    \t    var x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs', function() {
-            assert(checker.checkString('\t     \tvar x;').getErrorCount() === 1);
+            expect(checker.checkString('\t     \tvar x;'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report spaces before tabs after content', function() {
-            assert(checker.checkString('var x;    \t').getErrorCount() === 1);
+            expect(checker.checkString('var x;    \t')).to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces after content', function() {
-            assert(checker.checkString('var x;\t     ').isEmpty());
+            expect(checker.checkString('var x;\t     ')).to.have.no.errors();
         });
 
         it('should report spaces before tabs before space after content', function() {
-            assert(checker.checkString('var x;    \t    ').getErrorCount() === 1);
+            expect(checker.checkString('var x;    \t    '))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should report tabs before spaces before tabs after content', function() {
-            assert(checker.checkString('var x;\t     \t').getErrorCount() === 1);
+            expect(checker.checkString('var x;\t     \t'))
+              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
         it('should not report tabs before single space to align docblock', function() {
-            assert(checker.checkString('var x;' + docblock).isEmpty());
+            expect(checker.checkString('var x;' + docblock)).to.have.no.errors();
         });
 
         it('should not report tabs after spaces after star in a docblock', function() {
-            assert(checker.checkString('var x;' + docblockWithMixed).isEmpty());
+            expect(checker.checkString('var x;' + docblockWithMixed)).to.have.no.errors();
         });
 
         it('should not report commented out code', function() {
-            assert(checker.checkString('//\t    var x;').isEmpty());
+            expect(checker.checkString('//\t    var x;')).to.have.no.errors();
         });
 
         it('should not report tabs only', function() {
-            assert(checker.checkString('\t\tvar x;').isEmpty());
+            expect(checker.checkString('\t\tvar x;')).to.have.no.errors();
         });
 
         it('should not report spaces only', function() {
-            assert(checker.checkString('    var x;').isEmpty());
+            expect(checker.checkString('    var x;')).to.have.no.errors();
         });
     });
 });

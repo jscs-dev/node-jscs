@@ -70,10 +70,11 @@
     "estraverse": "^4.1.0",
     "exit": "~0.1.2",
     "glob": "^5.0.1",
+    "htmlparser2": "3.8.3",
     "js-yaml": "~3.4.0",
     "jscs-jsdoc": "1.2.0",
-    "lodash": "~3.10.0",
     "jsonlint": "~1.6.2",
+    "lodash": "~3.10.0",
     "minimatch": "~2.0.1",
     "natural-compare": "~1.2.2",
     "pathval": "~0.1.1",
@@ -86,11 +87,11 @@
     "to-single-quotes": "^1.0.2",
     "vow": "~0.4.8",
     "vow-fs": "~0.3.4",
-    "xmlbuilder": "^2.6.1",
-    "htmlparser2": "3.8.3"
+    "xmlbuilder": "^2.6.1"
   },
   "devDependencies": {
     "browserify": "^11.0.0",
+    "chai": "^3.3.0",
     "coveralls": "~2.11.2",
     "has-ansi": "~1.0.1",
     "jshint": "~2.8.0",
@@ -98,6 +99,7 @@
     "regenerate": "~1.2.1",
     "rewire": "^2.3.1",
     "sinon": "^1.13.0",
+    "sinon-chai": "^2.8.0",
     "unicode-7.0.0": "~0.1.5",
     "unit-coverage": "^3.4.0",
     "xml2js": "~0.4.4"

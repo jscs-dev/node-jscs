@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-anonymous-function', function() {
     var checker;
@@ -14,21 +14,24 @@ describe('rules/require-anonymous-function', function() {
     });
 
     it('should not report on anonymous function declarations', function() {
-        assert(checker.checkString('$("hi").click(function(){});').isEmpty());
+        expect(checker.checkString('$("hi").click(function(){});')).to.have.no.errors();
     });
 
     it('should not report on anonymous function expressions', function() {
-        assert(checker.checkString('var x = function(){};').isEmpty());
-        assert(checker.checkString('var foo = {bar: function() {}};').isEmpty());
+        expect(checker.checkString('var x = function(){};')).to.have.no.errors();
+        expect(checker.checkString('var foo = {bar: function() {}};')).to.have.no.errors();
     });
 
     it('should report on named function declarations', function() {
-        assert(checker.checkString('function named(){}').getErrorCount() === 1);
+        expect(checker.checkString('function named(){}'))
+          .to.have.one.validation.error.from('requireAnonymousFunctions');
     });
 
     it('should report on named function expressions', function() {
-        assert(checker.checkString('$("hi").click(function named(){});').getErrorCount() === 1);
-        assert(checker.checkString('var x = function named(){};').getErrorCount() === 1);
+        expect(checker.checkString('$("hi").click(function named(){});'))
+          .to.have.one.validation.error.from('requireAnonymousFunctions');
+        expect(checker.checkString('var x = function named(){};'))
+          .to.have.one.validation.error.from('requireAnonymousFunctions');
     });
 
     describe('allExcept: ["declarations"]', function() {
@@ -37,11 +40,12 @@ describe('rules/require-anonymous-function', function() {
         });
 
         it('should not report on named function declarations', function() {
-            assert(checker.checkString('function foo(){}').isEmpty());
+            expect(checker.checkString('function foo(){}')).to.have.no.errors();
         });
 
         it('should report on named function expressions', function() {
-            assert(checker.checkString('var foo = function bar(){};').getErrorCount() === 1);
+            expect(checker.checkString('var foo = function bar(){};'))
+              .to.have.one.validation.error.from('requireAnonymousFunctions');
         });
     });
 });

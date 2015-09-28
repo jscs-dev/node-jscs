@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-named-unassigned-functions', function() {
     var checker;
@@ -17,24 +17,25 @@ describe('rules/disallow-named-unassigned-functions', function() {
         });
 
         it('should not report on unnamed unassigned function expressions', function() {
-            assert(checker.checkString('$("hi").click(function(){});').isEmpty());
+            expect(checker.checkString('$("hi").click(function(){});')).to.have.no.errors();
         });
 
         it('should report on named unassigned function expressions', function() {
-            assert(checker.checkString('$("hi").click(function named(){});').getErrorCount() === 1);
+            expect(checker.checkString('$("hi").click(function named(){});'))
+              .to.have.one.validation.error.from('disallowNamedUnassignedFunctions');
         });
 
         it('should not report on named function declarations', function() {
-            assert(checker.checkString('function named(){};').isEmpty());
+            expect(checker.checkString('function named(){};')).to.have.no.errors();
         });
 
         it('should not report on assigned function expressions', function() {
-            assert(checker.checkString('var x = function(){};').isEmpty());
-            assert(checker.checkString('var foo = {bar: function() {}};').isEmpty());
-            assert(checker.checkString('foo.bar = function() {};').isEmpty());
-            assert(checker.checkString('var x = function named(){};').isEmpty());
-            assert(checker.checkString('var foo = {bar: function named() {}};').isEmpty());
-            assert(checker.checkString('foo.bar = function named() {};').isEmpty());
+            expect(checker.checkString('var x = function(){};')).to.have.no.errors();
+            expect(checker.checkString('var foo = {bar: function() {}};')).to.have.no.errors();
+            expect(checker.checkString('foo.bar = function() {};')).to.have.no.errors();
+            expect(checker.checkString('var x = function named(){};')).to.have.no.errors();
+            expect(checker.checkString('var foo = {bar: function named() {}};')).to.have.no.errors();
+            expect(checker.checkString('foo.bar = function named() {};')).to.have.no.errors();
         });
     });
 });

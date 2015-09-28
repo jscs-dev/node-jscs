@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/maximum-line-length', function() {
     var checker;
@@ -15,15 +15,15 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should report lines longer than the maximum', function() {
-            assert(checker.checkString('var xyz;').getErrorCount() === 1);
+            expect(checker.checkString('var xyz;')).to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should not report lines equal to the maximum', function() {
-            assert(checker.checkString('var xy;').isEmpty());
+            expect(checker.checkString('var xy;')).to.have.no.errors();
         });
 
         it('should not report lines shorter than the maximum', function() {
-            assert(checker.checkString('var x;').isEmpty());
+            expect(checker.checkString('var x;')).to.have.no.errors();
         });
     });
 
@@ -38,11 +38,11 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should not report lines shorter than the maximum', function() {
-            assert(checker.checkString('\t\t\t\t').isEmpty());
+            expect(checker.checkString('\t\t\t\t')).to.have.no.errors();
         });
 
         it('should report lines longer than the maximum', function() {
-            assert(checker.checkString('\t\t\t\t1').getErrorCount() === 1);
+            expect(checker.checkString('\t\t\t\t1')).to.have.one.validation.error.from('maximumLineLength');
         });
     });
 
@@ -57,11 +57,12 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should not report comments', function() {
-            assert(checker.checkString('// a comment\n/* a multiline\n long comment*/').isEmpty());
+            expect(checker.checkString('// a comment\n/* a multiline\n long comment*/')).to.have.no.errors();
         });
 
         it('should not report comments but still report long code', function() {
-            assert(checker.checkString('// a comment\nvar a = tooLong;').getErrorCount() === 1);
+            expect(checker.checkString('// a comment\nvar a = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should still allow the old setting', function() {
@@ -74,7 +75,8 @@ describe('rules/maximum-line-length', function() {
                     allowComments: true
                 }
             });
-            assert(checker.checkString('// a comment\nvar a = tooLong;').getErrorCount() === 1);
+            expect(checker.checkString('// a comment\nvar a = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
     });
 
@@ -89,41 +91,45 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should report comments', function() {
-            assert(checker.checkString('// 16 characters' +
-                '\n/* 16 characters\n 16 characters*/').getErrorCount() === 3);
+            expect(checker.checkString('// 16 characters' +
+                '\n/* 16 characters\n 16 characters*/')).to.have.error.count.equal(3);
         });
 
         it('should not report url comments if line is long because of it', function() {
-            assert(checker.checkString('// <16 chars https://example.com' +
-                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/').isEmpty());
+            expect(checker.checkString('// <16 chars https://example.com' +
+                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/')).to.have.no.errors();
         });
 
         it('should report url comments if line is long even without it', function() {
-            assert(checker.checkString('// 16 characters https://example.com').getErrorCount() === 1);
+            expect(checker.checkString('// 16 characters https://example.com'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should not report comments but still report long code', function() {
-            assert(checker.checkString('// a comment\nvar a = tooLong;').getErrorCount() === 1);
+            expect(checker.checkString('// a comment\nvar a = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should recognize http', function() {
-            assert(checker.checkString('// http://example.com/is/a/url').isEmpty());
-            assert(checker.checkString('// http://example.com/is/a/url <16 chars').isEmpty());
+            expect(checker.checkString('// http://example.com/is/a/url')).to.have.no.errors();
+            expect(checker.checkString('// http://example.com/is/a/url <16 chars')).to.have.no.errors();
         });
 
         it('should recognize https', function() {
-            assert(checker.checkString('// https://example.com/is/a/url').isEmpty());
-            assert(checker.checkString('// https://example.com/is/a/url <16 chars').isEmpty());
+            expect(checker.checkString('// https://example.com/is/a/url')).to.have.no.errors();
+            expect(checker.checkString('// https://example.com/is/a/url <16 chars')).to.have.no.errors();
         });
 
         it('should recognize ftp', function() {
-            assert(checker.checkString('// ftp://example.com/is/a/url').isEmpty());
-            assert(checker.checkString('// ftp://example.com/is/a/url <16 chars').isEmpty());
+            expect(checker.checkString('// ftp://example.com/is/a/url')).to.have.no.errors();
+            expect(checker.checkString('// ftp://example.com/is/a/url <16 chars')).to.have.no.errors();
         });
 
         it('should ignore things that arent quite urls', function() {
-            assert(checker.checkString('// www.example.com/is/not/a/url').getErrorCount() === 1);
-            assert(checker.checkString('// example.com/is/not/a/url').getErrorCount() === 1);
+            expect(checker.checkString('// www.example.com/is/not/a/url'))
+              .to.have.one.validation.error.from('maximumLineLength');
+            expect(checker.checkString('// example.com/is/not/a/url'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should should still support the old setting', function() {
@@ -136,8 +142,8 @@ describe('rules/maximum-line-length', function() {
                     allowUrlComments: true
                 }
             });
-            assert(checker.checkString('// <16 chars https://example.com' +
-                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/').isEmpty());
+            expect(checker.checkString('// <16 chars https://example.com' +
+                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/')).to.have.no.errors();
         });
     });
 
@@ -152,19 +158,21 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should not report regex literals', function() {
-            assert(checker.checkString('var a = /longregex/').isEmpty());
+            expect(checker.checkString('var a = /longregex/')).to.have.no.errors();
         });
 
         it('should not report regex literals but still report long code', function() {
-            assert(checker.checkString('var a = /longregex/;\nvar b = tooLong;').getErrorCount() === 1);
+            expect(checker.checkString('var a = /longregex/;\nvar b = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should not report regexes literals but still report regex constructors', function() {
-            assert(checker.checkString('var a = /l/;\nvar b = l;\nvar a = new Regex("/l/");').getErrorCount() === 2);
+            expect(checker.checkString('var a = /l/;\nvar b = l;\nvar a = new Regex("/l/");'))
+              .to.have.error.count.equal(2);
         });
 
         it('should not be destructive to original data', function() {
-            assert(checker.checkString('var a = /regex/;')._file._lines[0].length > 1);
+            expect(checker.checkString('var a = /regex/;')._file._lines[0].length).to.be.above(1);
         });
 
         it('should still should support the old setting', function() {
@@ -177,7 +185,8 @@ describe('rules/maximum-line-length', function() {
                     allowRegex: true
                 }
             });
-            assert(checker.checkString('var a = /longregex/;\nvar b = tooLong;').getErrorCount() === 1);
+            expect(checker.checkString('var a = /longregex/;\nvar b = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
     });
 
@@ -194,7 +203,7 @@ describe('rules/maximum-line-length', function() {
 
         it('should not report named functions', function() {
             var code = 'function myCoolFunction(argument) { }';
-            assert(checker.checkString(code).isEmpty());
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should not report class methods', function() {
@@ -202,12 +211,12 @@ describe('rules/maximum-line-length', function() {
                     '  myMethodName(withArgs) {\n' +
                     '  }\n' +
                     '}';
-            assert(checker.checkString(code).isEmpty());
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should report functions stored in variables', function() {
             var code = 'var fn = function() {};';
-            assert(checker.checkString(code).getErrorCount() === 1);
+            expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
     });
 
@@ -224,23 +233,23 @@ describe('rules/maximum-line-length', function() {
         it('should not report require invocation', function() {
             var code = 'var foo = require("foo");' +
                        'var bar = require("bar");';
-            assert(checker.checkString(code).isEmpty());
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should not report single-var require invocation', function() {
             var code = 'var foo = require("foo")\n' +
                        '  , bar = require("bar");';
-            assert(checker.checkString(code).isEmpty());
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should not report require line shorter than minimum', function() {
             var code = 'require("a");';
-            assert(checker.checkString(code).isEmpty());
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should report require used as a variable', function() {
             var code = 'var require = "foobar"';
-            assert.equal(checker.checkString(code).getErrorCount(), 1);
+            expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
 
         it('should report require if the exception is disabled', function() {
@@ -251,7 +260,7 @@ describe('rules/maximum-line-length', function() {
             });
 
             var code = 'var foo = require("foo");';
-            assert.equal(checker.checkString(code).getErrorCount(), 1);
+            expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
     });
 });

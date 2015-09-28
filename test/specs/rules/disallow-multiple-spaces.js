@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-multiple-spaces', function() {
     var checker;
@@ -17,47 +17,50 @@ describe('rules/disallow-multiple-spaces', function() {
         });
 
         it('should report multiple spaces', function() {
-            assert(checker.checkString('var x  = "oops";').getErrorCount() === 1);
-            assert(checker.checkString('function x  () {}').getErrorCount() === 1);
-            assert(checker.checkString('function x()  {}').getErrorCount() === 1);
-            assert(checker.checkString('1  + 2').getErrorCount() === 1);
-            assert(checker.checkString('1 +  2').getErrorCount() === 1);
+            expect(checker.checkString('var x  = "oops";')).to.have.one.validation.error.from('disallowMultipleSpaces');
+            expect(checker.checkString('function x  () {}'))
+              .to.have.one.validation.error.from('disallowMultipleSpaces');
+            expect(checker.checkString('function x()  {}')).to.have.one.validation.error.from('disallowMultipleSpaces');
+            expect(checker.checkString('1  + 2')).to.have.one.validation.error.from('disallowMultipleSpaces');
+            expect(checker.checkString('1 +  2')).to.have.one.validation.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between comments', function() {
-            assert(checker.checkString('var X = {  /** @type {String} */ name: "some" };').getErrorCount() === 1);
-            assert(checker.checkString('var x = "oops";  // Multiple spaces before comment').getErrorCount() === 1);
+            expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
+              .to.have.one.validation.error.from('disallowMultipleSpaces');
+            expect(checker.checkString('var x = "oops";  // Multiple spaces before comment'))
+              .to.have.one.validation.error.from('disallowMultipleSpaces');
         });
 
         it('should not report single spaces between comments', function() {
-            assert(checker.checkString('var X = { /** @type {String} */ name: "some" };').isEmpty());
-            assert(checker.checkString('var x = "oops"; // Multiple spaces before comment').isEmpty());
+            expect(checker.checkString('var X = { /** @type {String} */ name: "some" };')).to.have.no.errors();
+            expect(checker.checkString('var x = "oops"; // Multiple spaces before comment')).to.have.no.errors();
         });
 
         it('should not report single spaces', function() {
-            assert(checker.checkString('var x = "oops";').isEmpty());
-            assert(checker.checkString('function x() {}').isEmpty());
-            assert(checker.checkString('function x () {}').isEmpty());
-            assert(checker.checkString('1 + 2').isEmpty());
+            expect(checker.checkString('var x = "oops";')).to.have.no.errors();
+            expect(checker.checkString('function x() {}')).to.have.no.errors();
+            expect(checker.checkString('function x () {}')).to.have.no.errors();
+            expect(checker.checkString('1 + 2')).to.have.no.errors();
         });
 
         it('should not report no spaces', function() {
-            assert(checker.checkString('var x="oops";').isEmpty());
-            assert(checker.checkString('function x(){}').isEmpty());
-            assert(checker.checkString('1+2').isEmpty());
+            expect(checker.checkString('var x="oops";')).to.have.no.errors();
+            expect(checker.checkString('function x(){}')).to.have.no.errors();
+            expect(checker.checkString('1+2')).to.have.no.errors();
         });
 
         it('should not report multiple spaces in strings/regular expressions', function() {
-            assert(checker.checkString('"hello  world";').isEmpty());
-            assert(checker.checkString('/hello  world/').isEmpty());
+            expect(checker.checkString('"hello  world";')).to.have.no.errors();
+            expect(checker.checkString('/hello  world/')).to.have.no.errors();
         });
 
         it('should not report multiple lines', function() {
-            assert(checker.checkString('var x = "oops";\nvar y = "hello";').isEmpty());
+            expect(checker.checkString('var x = "oops";\nvar y = "hello";')).to.have.no.errors();
         });
 
         it('should not report indentation', function() {
-            assert(checker.checkString('    var x = "oops";').isEmpty());
+            expect(checker.checkString('    var x = "oops";')).to.have.no.errors();
         });
     });
 
@@ -71,28 +74,29 @@ describe('rules/disallow-multiple-spaces', function() {
         });
 
         it('should report multiple spaces', function() {
-            assert(checker.checkString('var x  = "oops";').getErrorCount() === 1);
+            expect(checker.checkString('var x  = "oops";')).to.have.one.validation.error.from('disallowMultipleSpaces');
         });
 
         it('should report multiple spaces between inline comments', function() {
-            assert(checker.checkString('var X = {  /** @type {String} */ name: "some" };').getErrorCount() === 1);
+            expect(checker.checkString('var X = {  /** @type {String} */ name: "some" };'))
+              .to.have.one.validation.error.from('disallowMultipleSpaces');
         });
 
         it('should not report multiple spaces between EOL comments', function() {
-            assert(checker.checkString('var x = "oops";  // Multiple spaces before comment').isEmpty());
+            expect(checker.checkString('var x = "oops";  // Multiple spaces before comment')).to.have.no.errors();
         });
 
         it('should not report single spaces between comments', function() {
-            assert(checker.checkString('var X = { /** @type {String} */ name: "some" };').isEmpty());
-            assert(checker.checkString('var x = "oops"; // Multiple spaces before comment').isEmpty());
+            expect(checker.checkString('var X = { /** @type {String} */ name: "some" };')).to.have.no.errors();
+            expect(checker.checkString('var x = "oops"; // Multiple spaces before comment')).to.have.no.errors();
         });
 
         it('should not report single spaces', function() {
-            assert(checker.checkString('var x = "oops";').isEmpty());
+            expect(checker.checkString('var x = "oops";')).to.have.no.errors();
         });
 
         it('should not report no spaces', function() {
-            assert(checker.checkString('1+2').isEmpty());
+            expect(checker.checkString('1+2')).to.have.no.errors();
         });
     });
 
@@ -105,7 +109,7 @@ describe('rules/disallow-multiple-spaces', function() {
             } catch (err) {
                 return;
             }
-            assert.fail('`checker.configure` should have raised an error for an invalid value');
+            throw new Error('`checker.configure` should have raised an error for an invalid value');
         });
     });
 });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var operators = require('../../../lib/utils').unaryOperators;
 
 describe('rules/disallow-space-after-prefix-unary-operators', function() {
@@ -21,28 +21,30 @@ describe('rules/disallow-space-after-prefix-unary-operators', function() {
             it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceAfterPrefixUnaryOperators: value });
-                    assert(checker.checkString(sticked).isEmpty());
+                    expect(checker.checkString(sticked)).to.have.no.errors();
                 }
             );
 
             it('should report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceAfterPrefixUnaryOperators: value });
-                    assert(checker.checkString(notSticked).getErrorCount() === 1);
+                    expect(checker.checkString(notSticked))
+                      .to.have.one.validation.error.from('disallowSpaceAfterPrefixUnaryOperators');
                 }
             );
 
             it('should not report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceAfterPrefixUnaryOperators: value });
-                    assert(checker.checkString(stickedWithParenthesis).isEmpty());
+                    expect(checker.checkString(stickedWithParenthesis)).to.have.no.errors();
                 }
             );
 
             it('should report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ disallowSpaceAfterPrefixUnaryOperators: value });
-                    assert(checker.checkString(notStickedWithParenthesis).getErrorCount() === 1);
+                    expect(checker.checkString(notStickedWithParenthesis))
+                      .to.have.one.validation.error.from('disallowSpaceAfterPrefixUnaryOperators');
                 }
             );
         });
@@ -50,21 +52,21 @@ describe('rules/disallow-space-after-prefix-unary-operators', function() {
 
     it('should report separated operator', function() {
         checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
-        assert(checker.checkString('var x = ~ 0; ++ x; - x; ! ++ x;').getErrorCount() === 5);
+        expect(checker.checkString('var x = ~ 0; ++ x; - x; ! ++ x;')).to.have.error.count.equal(5);
     });
 
     it('should not report postfix operators', function() {
         checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; x++;').isEmpty());
+        expect(checker.checkString('var x = 2; x++;')).to.have.no.errors();
     });
 
     it('should not report sticky operator', function() {
         checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
-        assert(checker.checkString('var x = ~0; ++x; -x; !++x;').isEmpty());
+        expect(checker.checkString('var x = ~0; ++x; -x; !++x;')).to.have.no.errors();
     });
 
     it('should not report sticky operator if operand in parentheses', function() {
         checker.configure({ disallowSpaceAfterPrefixUnaryOperators: ['-', '~', '!', '++'] });
-        assert(checker.checkString('var x = ~(0); ++( x ); -(((x))); !( ++((x)) );').isEmpty());
+        expect(checker.checkString('var x = ~(0); ++( x ); -(((x))); !( ++((x)) );')).to.have.no.errors();
     });
 });

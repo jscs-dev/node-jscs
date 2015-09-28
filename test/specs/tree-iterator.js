@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var esprima = require('esprima');
 var sinon = require('sinon');
 var iterate = require('../../lib/tree-iterator').iterate;
@@ -8,28 +8,28 @@ describe('tree-iterator', function() {
     it('should pass parent and parentCollection', function() {
         var spy = sinon.spy();
         iterate(esprima.parse('1;', {loc: true, range: true, comment: true, tokens: true}), spy);
-        assert.equal(spy.callCount, 3);
-        assert.equal(spy.getCall(0).args[0].type, 'Program');
-        assert.equal(spy.getCall(0).args[1], null);
-        assert.equal(spy.getCall(1).args[0].type, 'ExpressionStatement');
-        assert.equal(spy.getCall(2).args[0].type, 'Literal');
+        expect(spy).to.have.callCount(3);
+        expect(spy.getCall(0).args[0].type).to.equal('Program');
+        expect(spy.getCall(0).args[1]).to.equal(null);
+        expect(spy.getCall(1).args[0].type).to.equal('ExpressionStatement');
+        expect(spy.getCall(2).args[0].type).to.equal('Literal');
     });
 
     it('should not fail for empty object', function() {
         var spy = sinon.spy();
         iterate({}, spy);
-        assert.equal(spy.callCount, 0);
+        expect(spy).to.have.callCount(0);
     });
 
     it('should not fail for JSX/XJS nodes', function() {
         var spy = sinon.spy();
-        assert.doesNotThrow(function() {
+        expect(function() {
             iterate(require('../data/tree-iterator/jsx-ast'), spy);
-        });
-        assert.doesNotThrow(function() {
+        }).to.not.throw();
+        expect(function() {
             iterate(require('../data/tree-iterator/xjs-ast'), spy);
-        });
-        assert.equal(spy.callCount, 84);
+        }).to.not.throw();
+        expect(spy).to.have.callCount(84);
     });
 
     it('should exit thread on false result', function() {
@@ -37,8 +37,8 @@ describe('tree-iterator', function() {
             return false;
         });
         iterate(esprima.parse('1;', {loc: true, range: true, comment: true, tokens: true}), spy);
-        assert.equal(spy.callCount, 1);
-        assert.equal(spy.getCall(0).args[0].type, 'Program');
+        expect(spy).to.have.callCount(1);
+        expect(spy.getCall(0).args[0].type).to.equal('Program');
     });
 
 });

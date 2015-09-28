@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var parser = require('xml2js').parseString;
@@ -17,19 +17,19 @@ describe('reporters/junit', function() {
                 if (!err) {
                     var testsuite = result.testsuite;
 
-                    assert(!!testsuite);
-                    assert(testsuite.$.name === 'JSCS');
-                    assert(testsuite.$.tests === '1');
-                    assert(testsuite.$.failures === '1');
+                    expect(!!testsuite).to.equal(true);
+                    expect(testsuite.$.name).to.equal('JSCS');
+                    expect(testsuite.$.tests).to.equal('1');
+                    expect(testsuite.$.failures).to.equal('1');
 
                     var testcase = testsuite.testcase[0];
-                    assert(!!testcase);
-                    assert(testcase.$.name === 'input');
-                    assert(testcase.$.failures === '1');
+                    expect(!!testcase).to.equal(true);
+                    expect(testcase.$.name).to.equal('input');
+                    expect(testcase.$.failures).to.equal('1');
 
-                    assert(testcase.failure[0].length);
+                    expect(testcase.failure[0].length).to.be.at.least(1);
                 } else {
-                    assert(false, err);
+                    throw err;
                 }
 
                 console.log.restore();

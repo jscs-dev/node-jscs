@@ -1,5 +1,5 @@
 var TokenCategorizer = require('../../lib/token-categorizer');
-var assert = require('assert');
+var expect = require('chai').expect;
 var JsFile = require('../../lib/js-file');
 var esprima = require('esprima');
 
@@ -35,21 +35,17 @@ describe('token-categorizer', function() {
 
         it('should limit input to open parentheses', function() {
             var nonParen = sharedFile.getPrevToken(sharedFile.getLastToken());
-            assert.throws(function() {
+            expect(function() {
                     TokenCategorizer.categorizeOpenParen(nonParen, sharedFile);
-                },
-                /token must be/
-            );
+                }).to.throw(/token must be/);
         });
 
         it('should recognize statement-required parenthesis', function() {
             openParens.forEach(function(openParen) {
                 if ((openParen.prev || {}).value === 'if') {
-                    assert.equal(openParen.type, 'Statement',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.equal('Statement', 'source offset ' + openParen.offset);
                 } else {
-                    assert.notEqual(openParen.type, 'Statement',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.not.equal('Statement', 'source offset ' + openParen.offset);
                 }
             });
 
@@ -59,11 +55,8 @@ describe('token-categorizer', function() {
                 'catch(x){}'
             );
             file.iterateTokenByValue('(', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeOpenParen(token, file),
-                    'Statement',
-                    'after ' + file.getPrevToken(token).value
-                );
+                expect(TokenCategorizer.categorizeOpenParen(token, file))
+                  .to.equal('Statement', 'after ' + file.getPrevToken(token).value);
             });
         });
 
@@ -73,11 +66,9 @@ describe('token-categorizer', function() {
                 var isFunction = prev.value === 'function' ||
                     prev.value === 'f' && sharedFile.getPrevToken(prev).value === 'function';
                 if (isFunction) {
-                    assert.equal(openParen.type, 'Function',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.equal('Function', 'source offset ' + openParen.offset);
                 } else {
-                    assert.notEqual(openParen.type, 'Function',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.not.equal('Function', 'source offset ' + openParen.offset);
                 }
             });
         });
@@ -88,11 +79,9 @@ describe('token-categorizer', function() {
                 var isCall = (prev.value === 'f' || prev.value === ')') &&
                     sharedFile.getPrevToken(prev).value !== 'function';
                 if (isCall) {
-                    assert.equal(openParen.type, 'CallExpression',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.equal('CallExpression', 'source offset ' + openParen.offset);
                 } else {
-                    assert.notEqual(openParen.type, 'CallExpression',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.not.equal('CallExpression', 'source offset ' + openParen.offset);
                 }
             });
         });
@@ -103,11 +92,9 @@ describe('token-categorizer', function() {
                 var isExpression = prev.value === 'return' || prev.value === 'throw' ||
                     prev.type === 'Punctuator' && prev.value !== ')';
                 if (isExpression) {
-                    assert.equal(openParen.type, 'ParenthesizedExpression',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.equal('ParenthesizedExpression', 'source offset ' + openParen.offset);
                 } else {
-                    assert.notEqual(openParen.type, 'ParenthesizedExpression',
-                        'source offset ' + openParen.offset);
+                    expect(openParen.type).to.not.equal('ParenthesizedExpression', 'source offset ' + openParen.offset);
                 }
             });
         });
@@ -134,21 +121,17 @@ describe('token-categorizer', function() {
 
         it('should limit input to close parentheses', function() {
             var nonParen = sharedFile.getFirstToken();
-            assert.throws(function() {
+            expect(function() {
                     TokenCategorizer.categorizeCloseParen(nonParen, sharedFile);
-                },
-                /token must be/
-            );
+                }).to.throw(/token must be/);
         });
 
         it('should recognize statement-required parenthesis', function() {
             closeParens.forEach(function(closeParen) {
                 if (closeParen.next.value === 'return') {
-                    assert.equal(closeParen.type, 'Statement',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.equal('Statement', 'source offset ' + closeParen.offset);
                 } else {
-                    assert.notEqual(closeParen.type, 'Statement',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.not.equal('Statement', 'source offset ' + closeParen.offset);
                 }
             });
 
@@ -158,22 +141,17 @@ describe('token-categorizer', function() {
                 'catch(x){}'
             );
             file.iterateTokenByValue(')', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeCloseParen(token, file),
-                    'Statement',
-                    'flavor #' + file.getPrevToken(token).value
-                );
+                expect(TokenCategorizer.categorizeCloseParen(token, file))
+                  .to.equal('Statement', 'flavor #' + file.getPrevToken(token).value);
             });
         });
 
         it('should recognize function-definition parentheses', function() {
             closeParens.forEach(function(closeParen) {
                 if (closeParen.next.value === '{') {
-                    assert.equal(closeParen.type, 'Function',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.equal('Function', 'source offset ' + closeParen.offset);
                 } else {
-                    assert.notEqual(closeParen.type, 'Function',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.not.equal('Function', 'source offset ' + closeParen.offset);
                 }
             });
         });
@@ -181,11 +159,9 @@ describe('token-categorizer', function() {
         it('should recognize function-call parentheses', function() {
             closeParens.forEach(function(closeParen) {
                 if (closeParen.next.value === '+') {
-                    assert.equal(closeParen.type, 'CallExpression',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.equal('CallExpression', 'source offset ' + closeParen.offset);
                 } else {
-                    assert.notEqual(closeParen.type, 'CallExpression',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.not.equal('CallExpression', 'source offset ' + closeParen.offset);
                 }
             });
         });
@@ -193,38 +169,24 @@ describe('token-categorizer', function() {
         it('should correctly handle parentheses preceding EOF', function() {
             var file = createJsFile('do {} while(true)');
             file.iterateTokenByValue(')', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeCloseParen(token, file),
-                    'Statement',
-                    'do..while'
-                );
+                expect(TokenCategorizer.categorizeCloseParen(token, file)).to.equal('Statement', 'do..while');
             });
 
             file = createJsFile('fn()');
             file.iterateTokenByValue(')', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeCloseParen(token, file),
-                    'CallExpression',
-                    'function call'
-                );
+                expect(TokenCategorizer.categorizeCloseParen(token, file)).to.equal('CallExpression', 'function call');
             });
 
             file = createJsFile('new Ctor()');
             file.iterateTokenByValue(')', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeCloseParen(token, file),
-                    'CallExpression',
-                    'constructor call'
-                );
+                expect(TokenCategorizer.categorizeCloseParen(token, file))
+                  .to.equal('CallExpression', 'constructor call');
             });
 
             file = createJsFile('(0)');
             file.iterateTokenByValue(')', function(token) {
-                assert.equal(
-                    TokenCategorizer.categorizeCloseParen(token, file),
-                    'ParenthesizedExpression',
-                    'expression'
-                );
+                expect(TokenCategorizer.categorizeCloseParen(token, file))
+                  .to.equal('ParenthesizedExpression', 'expression');
             });
         });
 
@@ -232,11 +194,10 @@ describe('token-categorizer', function() {
             closeParens.forEach(function(closeParen) {
                 var next = closeParen.next.value;
                 if (/^[(,;)]?$/.test(next)) {
-                    assert.equal(closeParen.type, 'ParenthesizedExpression',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type).to.equal('ParenthesizedExpression', 'source offset ' + closeParen.offset);
                 } else {
-                    assert.notEqual(closeParen.type, 'ParenthesizedExpression',
-                        'source offset ' + closeParen.offset);
+                    expect(closeParen.type)
+                      .to.not.equal('ParenthesizedExpression', 'source offset ' + closeParen.offset);
                 }
             });
         });

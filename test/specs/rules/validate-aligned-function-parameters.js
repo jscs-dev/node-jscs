@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/validate-aligned-function-parameters', function() {
     var checker;
@@ -15,85 +15,65 @@ describe('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a function with no parameters', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a() {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '() => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report inline function parameters', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(b, c) {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(b, c) => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report inline function parameters on a new line', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(\n' +
                         '  b, c\n' +
                     ') {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(\n' +
                         '  b, c\n' +
                     ') => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should report unaligned multi-line function parameters', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         'c\n' +
                     ') {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(\n' +
                         '  b,\n' +
                         'c\n' +
                     ') => {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
         });
 
         it('should not report aligned multi-line function parameters', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(b,\n' +
                     '           c) {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(b,\n' +
                     ' c) => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
     });
 
@@ -108,37 +88,29 @@ describe('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a missing line break after the opening brace', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         '  c) {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(\n' +
                         '  b,\n' +
                         '  c) => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should report a missing line break after the opening brace', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(b,\n' +
                     '           c) {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(b,\n' +
                     ' c) => {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
         });
     });
 
@@ -153,39 +125,31 @@ describe('rules/validate-aligned-function-parameters', function() {
         });
 
         it('should not report a missing line break before the closing brace', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(\n' +
                         '  b,\n' +
                         '  c\n' +
                     ') {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(\n' +
                         '  b,\n' +
                         '  c\n' +
                     ') => {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should report a missing line break before the closing brace', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function a(b,\n' +
                     '           c)\n' + ' {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
 
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '(b,\n' +
                     ' c) =>\n' + ' {}'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('validateAlignedFunctionParameters');
         });
     });
 });

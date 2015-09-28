@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-var-decl-first', function() {
     describe('boolean', function() {
@@ -11,9 +11,9 @@ describe('rules/require-var-decl-first', function() {
 
         describe('configure', function() {
             it('should not report an error for value "true"', function() {
-                assert.doesNotThrow(function() {
+                expect(function() {
                     checker.configure({ requireVarDeclFirst: true });
-                });
+                }).to.not.throw();
             });
         });
 
@@ -29,10 +29,10 @@ describe('rules/require-var-decl-first', function() {
                 resultCount = results.getErrorCount();
                 errors = results.getErrorList();
 
-                assert.equal(resultCount, expectedErrorCount);
+                expect(resultCount).to.equal(expectedErrorCount);
                 for (count = 0; count < resultCount; count++) {
-                    assert.equal(errors[count].message,
-                        'Variable declarations must be the first statements of a function scope.');
+                    expect(errors[count].message)
+                      .to.equal('Variable declarations must be the first statements of a function scope.');
                 }
             };
 

@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var Checker = require('../../../lib/checker');
@@ -20,21 +20,21 @@ describe('reporters/json', function() {
 
     it('should correctly reports no errors', function() {
         json([checker.checkString('a++;')]);
-        assert(!console.log.called);
+        expect(console.log).to.have.callCount(0);
     });
 
     it('should correctly reports 1 error', function() {
         json([checker.checkString('with (x) {}')]);
         var resultStr = '{"input":[{"line":1,"column":1,"message":"Illegal keyword: with"}]}';
-        assert.equal(console.log.getCall(0).args[0], resultStr);
-        assert(console.log.calledOnce);
+        expect(console.log.getCall(0).args[0]).to.equal(resultStr);
+        expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly reports 2 errors', function() {
         json([checker.checkString('with (x) {} with (x) {}')]);
         var resultStr = '{"input":[{"line":1,"column":1,"message":"Illegal keyword: with"},' +
                     '{"line":1,"column":13,"message":"Illegal keyword: with"}]}';
-        assert.equal(console.log.getCall(0).args[0], resultStr);
-        assert(console.log.calledOnce);
+        expect(console.log.getCall(0).args[0]).to.equal(resultStr);
+        expect(console.log).to.have.callCount(1);
     });
 });

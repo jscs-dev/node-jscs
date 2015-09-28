@@ -1,5 +1,5 @@
 var utils = require('../../lib/utils');
-var assert = require('assert');
+var expect = require('chai').expect;
 var JsFile = require('../../lib/js-file');
 var esprima = require('esprima');
 var path = require('path');
@@ -17,31 +17,31 @@ describe('utils', function() {
 
     describe('isValidIdentifierName', function() {
         it('should return true for valid indentifier names', function() {
-            assert(utils.isValidIdentifierName('validName1'));
-            assert(utils.isValidIdentifierName('validName'));
-            assert(utils.isValidIdentifierName('valid_Name'));
-            assert(utils.isValidIdentifierName('valid_Name_1'));
-            assert(utils.isValidIdentifierName('$'));
+            expect(!!utils.isValidIdentifierName('validName1')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('validName')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('valid_Name')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('valid_Name_1')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('$')).to.equal(true);
         });
 
         it('should return false for invalid indentifier names', function() {
-            assert(!utils.isValidIdentifierName('1invalidName'));
-            assert(!utils.isValidIdentifierName('invalid-name'));
+            expect(!utils.isValidIdentifierName('1invalidName')).to.equal(true);
+            expect(!utils.isValidIdentifierName('invalid-name')).to.equal(true);
         });
     });
 
     describe('isSnakeCased', function() {
         it('should return true for snake cased', function() {
-            assert(utils.isSnakeCased('valid_Name'));
-            assert(utils.isSnakeCased('valid_Name_1'));
+            expect(!!utils.isSnakeCased('valid_Name')).to.equal(true);
+            expect(!!utils.isSnakeCased('valid_Name_1')).to.equal(true);
         });
 
         it('should return false for camel cased and others', function() {
-            assert(!utils.isSnakeCased('invalidName1'));
-            assert(!utils.isSnakeCased('invalidName'));
-            assert(!utils.isSnakeCased('1invalidName'));
-            assert(!utils.isSnakeCased('invalid-name'));
-            assert(!utils.isSnakeCased('$'));
+            expect(!utils.isSnakeCased('invalidName1')).to.equal(true);
+            expect(!utils.isSnakeCased('invalidName')).to.equal(true);
+            expect(!utils.isSnakeCased('1invalidName')).to.equal(true);
+            expect(!utils.isSnakeCased('invalid-name')).to.equal(true);
+            expect(!utils.isSnakeCased('$')).to.equal(true);
         });
     });
 
@@ -51,7 +51,7 @@ describe('utils', function() {
             var callExpression = file.getNodesByType('CallExpression')[0];
             var functionExpression = file.getNodesByType('FunctionExpression')[0];
 
-            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+            expect(utils.getFunctionNodeFromIIFE(callExpression)).to.equal(functionExpression);
         });
 
         it('should return the function from call()\'ed IIFE', function() {
@@ -59,7 +59,7 @@ describe('utils', function() {
             var callExpression = file.getNodesByType('CallExpression')[0];
             var functionExpression = file.getNodesByType('FunctionExpression')[0];
 
-            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+            expect(utils.getFunctionNodeFromIIFE(callExpression)).to.equal(functionExpression);
         });
 
         it('should return the function from apply()\'ed IIFE', function() {
@@ -67,48 +67,48 @@ describe('utils', function() {
             var callExpression = file.getNodesByType('CallExpression')[0];
             var functionExpression = file.getNodesByType('FunctionExpression')[0];
 
-            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), functionExpression);
+            expect(utils.getFunctionNodeFromIIFE(callExpression)).to.equal(functionExpression);
         });
 
         it('should return undefined for non callExpressions', function() {
             var file = createJsFile('var a = 1;');
             var notCallExpression = file.getNodesByType('VariableDeclaration')[0];
 
-            assert.equal(utils.getFunctionNodeFromIIFE(notCallExpression), undefined);
+            expect(utils.getFunctionNodeFromIIFE(notCallExpression)).to.equal(null);
         });
 
         it('should return undefined for normal function calls', function() {
             var file = createJsFile('call();');
             var callExpression = file.getNodesByType('CallExpression')[0];
 
-            assert.equal(utils.getFunctionNodeFromIIFE(callExpression), undefined);
+            expect(utils.getFunctionNodeFromIIFE(callExpression)).to.equal(null);
         });
     });
 
     describe('trimUnderscores', function() {
         it('should trim trailing underscores', function() {
-            assert.equal(utils.trimUnderscores('__snake_cased'), 'snake_cased');
-            assert.equal(utils.trimUnderscores('snake_cased__'), 'snake_cased');
-            assert.equal(utils.trimUnderscores('__snake_cased__'), 'snake_cased');
-            assert.equal(utils.trimUnderscores('__camelCased'), 'camelCased');
-            assert.equal(utils.trimUnderscores('camelCased__'), 'camelCased');
-            assert.equal(utils.trimUnderscores('__camelCased__'), 'camelCased');
+            expect(utils.trimUnderscores('__snake_cased')).to.equal('snake_cased');
+            expect(utils.trimUnderscores('snake_cased__')).to.equal('snake_cased');
+            expect(utils.trimUnderscores('__snake_cased__')).to.equal('snake_cased');
+            expect(utils.trimUnderscores('__camelCased')).to.equal('camelCased');
+            expect(utils.trimUnderscores('camelCased__')).to.equal('camelCased');
+            expect(utils.trimUnderscores('__camelCased__')).to.equal('camelCased');
         });
 
         it('should not trim underscores for underscores only', function() {
-            assert.equal(utils.trimUnderscores('_'), '_');
-            assert.equal(utils.trimUnderscores('__'), '__');
+            expect(utils.trimUnderscores('_')).to.equal('_');
+            expect(utils.trimUnderscores('__')).to.equal('__');
         });
     });
 
     describe('isRelativePath', function() {
         it('returns true if the path is relative', function() {
-            assert.ok(utils.isRelativePath('../'));
-            assert.ok(utils.isRelativePath('./'));
+            expect(!!utils.isRelativePath('../')).to.equal(true);
+            expect(!!utils.isRelativePath('./')).to.equal(true);
         });
 
         it('returns false if the path is not relative', function() {
-            assert.ok(!utils.isRelativePath('path/to'));
+            expect(!utils.isRelativePath('path/to')).to.equal(true);
         });
     });
 
@@ -116,11 +116,11 @@ describe('utils', function() {
         var base = __dirname + '/bar/baz';
 
         it('returns the original path if it is not relative', function() {
-            assert.ok(utils.normalizePath('foo', base) === 'foo');
+            expect(utils.normalizePath('foo', base)).to.equal('foo');
         });
 
         it('returns the relative path resolved against the base path', function() {
-            assert.equal(utils.normalizePath('../foo', base), path.resolve(path.dirname(base), 'foo'));
+            expect(utils.normalizePath('../foo', base)).to.equal(path.resolve(path.dirname(base), 'foo'));
         });
     });
 
@@ -134,14 +134,14 @@ describe('utils', function() {
 
         it('returns a function that yields a promise', function() {
             var wrapped = utils.promisify(resolveFn);
-            assert.ok(typeof wrapped(1).then === 'function');
+            expect(wrapped(1).then).to.be.a('function');
         });
 
         it('resolves the promise when the node-style callback has no error', function(done) {
             var wrapped = utils.promisify(resolveFn);
 
             wrapped(1).then(function(data) {
-                assert.ok(data === 1);
+                expect(data).to.equal(1);
                 done();
             });
         });
@@ -149,7 +149,7 @@ describe('utils', function() {
         it('rejects the promise when the node-style callback has an error', function(done) {
             var wrapped = utils.promisify(rejectFn);
             wrapped(1).then(null, function(err) {
-                assert.ok(err);
+                expect(!!err).to.equal(true);
                 done();
             });
         });
@@ -158,38 +158,38 @@ describe('utils', function() {
     describe('isPragma', function() {
         it('returns true when string contains valid pragma (no additionalExceptions supplied)', function() {
             var isExcepted = utils.isPragma();
-            assert.ok(isExcepted(' jslint eqeqeq'));
-            assert.ok(isExcepted('jslint eqeqeq'));
-            assert.ok(isExcepted(' eslint eqeqeq'));
-            assert.ok(isExcepted('eslint-enable'));
-            assert.ok(isExcepted('jscs:ignore'));
+            expect(!!isExcepted(' jslint eqeqeq')).to.equal(true);
+            expect(!!isExcepted('jslint eqeqeq')).to.equal(true);
+            expect(!!isExcepted(' eslint eqeqeq')).to.equal(true);
+            expect(!!isExcepted('eslint-enable')).to.equal(true);
+            expect(!!isExcepted('jscs:ignore')).to.equal(true);
         });
 
         it('returns false when string doesn\'t contain valid pragma (no additionalExceptions supplied)', function() {
             var isExcepted = utils.isPragma();
-            assert.ok(!isExcepted('not valid'));
-            assert.ok(!isExcepted('not global'));
-            assert.ok(!isExcepted('globalized thing'));
-            assert.ok(!isExcepted(' globalized thing '));
-            assert.ok(!isExcepted('jscs:awesome'));
+            expect(!isExcepted('not valid')).to.equal(true);
+            expect(!isExcepted('not global')).to.equal(true);
+            expect(!isExcepted('globalized thing')).to.equal(true);
+            expect(!isExcepted(' globalized thing ')).to.equal(true);
+            expect(!isExcepted('jscs:awesome')).to.equal(true);
         });
 
         it('returns true when string contains valid pragma (additionalExceptions supplied)', function() {
             var isExcepted = utils.isPragma(['pragma', 'linter']);
-            assert.ok(isExcepted(' jslint eqeqeq'));
-            assert.ok(isExcepted(' pragma eqeqeq'));
-            assert.ok(isExcepted(' linter eqeqeq'));
-            assert.ok(isExcepted('linter rule'));
-            assert.ok(isExcepted('pragma rule'));
+            expect(!!isExcepted(' jslint eqeqeq')).to.equal(true);
+            expect(!!isExcepted(' pragma eqeqeq')).to.equal(true);
+            expect(!!isExcepted(' linter eqeqeq')).to.equal(true);
+            expect(!!isExcepted('linter rule')).to.equal(true);
+            expect(!!isExcepted('pragma rule')).to.equal(true);
         });
 
         it('returns false when string doesn\'t contain valid pragma (additionalExceptions supplied)', function() {
             var isExcepted = utils.isPragma(['pragma', 'linter']);
-            assert.ok(!isExcepted('not valid'));
-            assert.ok(!isExcepted('not pragma'));
-            assert.ok(!isExcepted('pragmatic string'));
-            assert.ok(!isExcepted('linted code'));
-            assert.ok(!isExcepted('splinter '));
+            expect(!isExcepted('not valid')).to.equal(true);
+            expect(!isExcepted('not pragma')).to.equal(true);
+            expect(!isExcepted('pragmatic string')).to.equal(true);
+            expect(!isExcepted('linted code')).to.equal(true);
+            expect(!isExcepted('splinter ')).to.equal(true);
         });
     });
 });

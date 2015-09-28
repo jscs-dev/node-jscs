@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-spaces-in-for-statement', function() {
     var checker;
@@ -15,31 +15,36 @@ describe('rules/disallow-spaces-in-for-statement', function() {
         });
 
         it('should report spaces in for statement in both cases', function() {
-            assert(checker.checkString('for(i=0; i<l; i++){}').getErrorCount() === 2);
+            expect(checker.checkString('for(i=0; i<l; i++){}')).to.have.error.count.equal(2);
         });
 
         it('should report spaces in for statement before test statement', function() {
-            assert(checker.checkString('for(i=0; i<l;i++){}').getErrorCount() === 1);
+            expect(checker.checkString('for(i=0; i<l;i++){}'))
+              .to.have.one.validation.error.from('disallowSpacesInForStatement');
         });
 
         it('should report spaces in for statement behind test statement', function() {
-            assert(checker.checkString('for(i=0;i<l; i++){}').getErrorCount() === 1);
+            expect(checker.checkString('for(i=0;i<l; i++){}'))
+              .to.have.one.validation.error.from('disallowSpacesInForStatement');
         });
 
         it('should not report with spaces', function() {
-            assert(checker.checkString('for(i=0;i<l;i++){}').isEmpty());
+            expect(checker.checkString('for(i=0;i<l;i++){}')).to.have.no.errors();
         });
 
         it('should report even without init', function() {
-            assert(checker.checkString('for(;i<l; i++){}').getErrorCount() === 1);
+            expect(checker.checkString('for(;i<l; i++){}'))
+              .to.have.one.validation.error.from('disallowSpacesInForStatement');
         });
 
         it('should report even without test', function() {
-            assert(checker.checkString('for(i=0;; i++){}').getErrorCount() === 1);
+            expect(checker.checkString('for(i=0;; i++){}'))
+              .to.have.one.validation.error.from('disallowSpacesInForStatement');
         });
 
         it('should report even without update', function() {
-            assert(checker.checkString('for(i=0; i++<l;){}').getErrorCount() === 1);
+            expect(checker.checkString('for(i=0; i++<l;){}'))
+              .to.have.one.validation.error.from('disallowSpacesInForStatement');
         });
     });
 });

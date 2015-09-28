@@ -1,15 +1,15 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-arrow-functions', function() {
     var checker;
 
     function assertEmpty(str) {
-        assert(checker.checkString(str).isEmpty());
+        expect(checker.checkString(str)).to.have.no.errors();
     }
 
     function assertOne(str) {
-        assert(checker.checkString(str));
+        expect(!!checker.checkString(str)).to.equal(true);
     }
 
     beforeEach(function() {

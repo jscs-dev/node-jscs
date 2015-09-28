@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-keywords-on-new-line', function() {
@@ -60,65 +60,56 @@ describe('rules/disallow-keywords-on-new-line', function() {
         });
 
         it('should report', function() {
-            assert(checker.checkString(input).getErrorCount() === 1);
+            expect(checker.checkString(input)).to.have.one.validation.error.from('disallowKeywordsOnNewLine');
         });
 
         it('should fix', function() {
             var result = checker.fixString(input);
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, output);
+            expect(result.errors).to.have.no.errors();
+            expect(result.output).to.equal(output);
         });
     });
 
     it('should not report legal keyword placement', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'if (x) {\n' +
                     'x++;\n' +
                 '} else {\n' +
                     'x--;\n' +
                 '}'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 
     it('should not report special case for "else" statement without braces (#905)', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'if (block) block[v]["(type)"] = "var";\n' +
                 'else funct[v] = "var";'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 
     it('should not report legal keyword placement for "do while" (#885)', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['while'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'do {\n' +
                     'x++;\n' +
                 '}while(x > 0)'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 
     it('should not report special case for "do while" multiple line statement without braces (#885)', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['while'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'do\n' +
                     ';\n' +
                 'while(i > 0)'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 
     it('should not report legal keyword placement for "while" statement (#885)', function() {
         checker.configure({ disallowKeywordsOnNewLine: ['while'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'var i = 0;\n' +
                 'if (i) {\n' +
                     'i++;\n' +
@@ -126,16 +117,14 @@ describe('rules/disallow-keywords-on-new-line', function() {
                 'while(i > 0) {\n' +
                     ';\n' +
                 '}'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 
     describe('legal block comments before key word (#1421)', function() {
         it('should not report legal keyword placement for a "if else"',
             function() {
             checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x) {\n' +
                         'x++;\n' +
                     '}\n' +
@@ -143,21 +132,18 @@ describe('rules/disallow-keywords-on-new-line', function() {
                     'else {\n' +
                         'x--;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report legal keyword for a "do while"', function() {
             checker.configure({ disallowKeywordsOnNewLine: ['while'] });
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'do {\n' +
                         'x++;\n' +
                     '}\n' +
                     '/* comments */\n' +
                     'while(x > 0)'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
     });
 
@@ -165,8 +151,7 @@ describe('rules/disallow-keywords-on-new-line', function() {
         it('should not report legal keyword placement for a "if else"',
             function() {
             checker.configure({ disallowKeywordsOnNewLine: ['else'] });
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (x) {\n' +
                         'x++;\n' +
                     '}\n' +
@@ -174,21 +159,18 @@ describe('rules/disallow-keywords-on-new-line', function() {
                     'else {\n' +
                         'x--;\n' +
                     '}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report legal keyword for a "do while"', function() {
             checker.configure({ disallowKeywordsOnNewLine: ['while'] });
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'do {\n' +
                         'x++;\n' +
                     '}\n' +
                     '// comments\n' +
                     'while(x > 0)'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
     });
 
@@ -200,8 +182,8 @@ describe('rules/disallow-keywords-on-new-line', function() {
                 'else funct[v] = "var";';
 
             var result = checker.fixString(input);
-            assert(result.errors.isEmpty());
-            assert.equal(result.output, input);
+            expect(result.errors).to.have.no.errors();
+            expect(result.output).to.equal(input);
         });
     });
 });

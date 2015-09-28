@@ -1,5 +1,5 @@
 var fs = require('fs');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var sinon = require('sinon');
 
@@ -25,7 +25,7 @@ describe('checker', function() {
                 excludeFiles: ['./test/**']
             });
             return checker.checkFile('./test/data/checker/file.js').then(function(errors) {
-                assert(errors === null);
+                expect(errors).to.equal(null);
             });
         });
     });
@@ -33,7 +33,7 @@ describe('checker', function() {
     describe('checkDirectory', function() {
         it('should check sub dirs', function() {
             return checker.checkDirectory('./test/data/checker').then(function(errors) {
-                assert(errors.length === 3);
+                expect(errors.length).to.equal(3);
             });
         });
 
@@ -45,8 +45,8 @@ describe('checker', function() {
                 excludeFiles: ['./test/**']
             });
             return checker.checkDirectory('./test/data/checker').then(function(errors) {
-                assert(Array.isArray(errors));
-                assert.equal(errors.length, 0);
+                expect(!!Array.isArray(errors)).to.equal(true);
+                expect(errors.length).to.equal(0);
             });
         });
     });
@@ -54,37 +54,35 @@ describe('checker', function() {
     describe('checkPath', function() {
         it('should check sub dirs', function() {
             return checker.checkPath('./test/data/checker').then(function(errors) {
-                assert(errors.length === 3);
+                expect(errors.length).to.equal(3);
             });
         });
 
         it('should check file by direct link (#468)', function() {
             return checker.checkPath('./test/data/checker/without-extension').then(function(errors) {
-                assert.equal(errors.length, 1);
-                assert.equal(typeof errors[0].getErrorList, 'function');
-                assert.equal(errors[0].getErrorList().length, 1);
+                expect(errors.length).to.equal(1);
+                expect(errors[0].getErrorList).to.be.a('function');
+                expect(errors[0].getErrorList().length).to.equal(1);
             });
         });
 
         it('should throw for non-existent path', function() {
             return checker.checkPath('./non-existent').catch(function(e) {
-                assert.equal(e.message, 'Path ./non-existent was not found.');
+                expect(e.message).to.equal('Path ./non-existent was not found.');
             });
         });
 
         it('should return empty results', function() {
             return checker.checkPath('./test/data/checker/empty.js').then(function(errors) {
-                assert(errors.length === 1);
-                assert.equal(typeof errors[0].getErrorList, 'function');
-                assert.equal(errors[0].getErrorList().length, 0);
+                expect(errors.length).to.equal(1);
+                expect(errors[0].getErrorList).to.be.a('function');
+                expect(errors[0].getErrorList().length).to.equal(0);
             });
         });
 
         it('should throw an exception when path doesn\'t exists', function() {
             return checker.checkPath('./test/non-exists').then(function() {
-                assert(false);
-            }, function() {
-                assert(true);
+                throw new Error();
             });
         });
 
@@ -96,8 +94,8 @@ describe('checker', function() {
                 excludeFiles: ['./test/**']
             });
             return checker.checkPath('./test/data/checker/file.js').then(function(errors) {
-                assert(Array.isArray(errors));
-                assert.equal(errors.length, 0);
+                expect(!!Array.isArray(errors)).to.equal(true);
+                expect(errors.length).to.equal(0);
             });
         });
     });
@@ -108,7 +106,7 @@ describe('checker', function() {
 
             checker.checkStdin();
 
-            assert(spy.called);
+            expect(spy).to.have.not.callCount(0);
 
             spy.restore();
         });
@@ -116,14 +114,14 @@ describe('checker', function() {
         it('returns a promise', function() {
             var spy = sinon.spy(process.stdin, 'on');
 
-            assert(typeof checker.checkStdin().then === 'function');
+            expect(checker.checkStdin().then).to.be.a('function');
 
             spy.restore();
         });
 
         it('resolves with the errors from processing stdin', function(done) {
             checker.checkStdin().then(function(errors) {
-                assert(typeof errors !== 'undefined');
+                expect(errors).to.be.not.a('undefined');
                 done();
             });
 
@@ -135,10 +133,10 @@ describe('checker', function() {
     describe('extract', function() {
         it('should extract from *.htm, *.html and *.xhtml by default', function() {
             return checker.checkPath('./test/data/extract').then(function(errors) {
-                assert.equal(errors.length, 3);
-                assert.equal(errors[0].getErrorList().length, 2);
-                assert.equal(errors[1].getErrorList().length, 2);
-                assert.equal(errors[2].getErrorList().length, 0);
+                expect(errors.length).to.equal(3);
+                expect(errors[0].getErrorList().length).to.equal(2);
+                expect(errors[1].getErrorList().length).to.equal(2);
+                expect(errors[2].getErrorList().length).to.equal(0);
             });
         });
 
@@ -148,7 +146,7 @@ describe('checker', function() {
             });
 
             return checker.checkPath('./test/data/extract').then(function(errors) {
-                assert.equal(errors.length, 0);
+                expect(errors.length).to.equal(0);
             });
         });
 
@@ -158,11 +156,11 @@ describe('checker', function() {
             });
 
             return checker.checkPath('./test/data/extract').then(function(errors) {
-                assert.equal(errors.length, 4);
-                assert.equal(errors[0].getErrorList().length, 2);
-                assert.equal(errors[1].getErrorList().length, 2);
-                assert.equal(errors[2].getErrorList().length, 1);
-                assert.equal(errors[3].getErrorList().length, 0);
+                expect(errors.length).to.equal(4);
+                expect(errors[0].getErrorList().length).to.equal(2);
+                expect(errors[1].getErrorList().length).to.equal(2);
+                expect(errors[2].getErrorList().length).to.equal(1);
+                expect(errors[3].getErrorList().length).to.equal(0);
             });
         });
 
@@ -175,7 +173,7 @@ describe('checker', function() {
             });
 
             return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
-                assert.equal(errors.getErrorList().length, 0);
+                expect(errors.getErrorList().length).to.equal(0);
             });
         });
 
@@ -185,7 +183,7 @@ describe('checker', function() {
             });
 
             return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
-                assert.equal(errors, null);
+                expect(errors).to.equal(null);
             });
         });
 
@@ -199,7 +197,7 @@ describe('checker', function() {
                 });
 
                 return checker.checkPath('./test/data/extract').then(function(errors) {
-                    assert.equal(errors.length, 0);
+                    expect(errors.length).to.equal(0);
                 });
             });
 
@@ -212,7 +210,7 @@ describe('checker', function() {
                 });
 
                 return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
-                    assert.equal(errors, null);
+                    expect(errors).to.equal(null);
                 });
             });
         });
@@ -222,7 +220,7 @@ describe('checker', function() {
         it('should fix stdin input', function(done) {
             checker.configure({requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true});
             checker.fixStdin().then(function(result) {
-                assert.equal(result.output, 'x = y + 2;\nx -= 2;\n');
+                expect(result.output).to.equal('x = y + 2;\nx -= 2;\n');
                 done();
             });
             process.stdin.emit('data', 'x=y+2;\n');
@@ -232,13 +230,13 @@ describe('checker', function() {
 
         it('returns a promise', function() {
             var spy = sinon.spy(process.stdin, 'on');
-            assert(typeof checker.fixStdin().then === 'function');
+            expect(checker.fixStdin().then).to.be.a('function');
             spy.restore();
         });
 
         it('resolves with the errors from processing stdin', function(done) {
             checker.fixStdin().then(function(errors) {
-                assert(typeof errors !== 'undefined');
+                expect(errors).to.be.not.a('undefined');
                 done();
             });
 
@@ -270,7 +268,7 @@ describe('checker', function() {
                     excludeFiles: ['**']
                 });
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
-                    assert(errors === null);
+                    expect(errors).to.equal(null);
                 });
             });
 
@@ -282,11 +280,9 @@ describe('checker', function() {
                 });
 
                 return checker.fixFile(tmpDir + '/spaces.js').then(function(errors) {
-                    assert.equal(errors.getErrorCount(), 0);
-                    assert.equal(
-                        fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);'
-                    );
+                    expect(errors).to.have.no.errors();
+                    expect(fs.readFileSync(tmpDir + '/spaces.js', 'utf8'))
+                      .to.equal('var y = 2;\nvar x = y + 1;\nif (x);');
                 });
             });
         });
@@ -300,7 +296,7 @@ describe('checker', function() {
                     excludeFiles: ['**']
                 });
                 return checker.fixPath(tmpDir).then(function(errors) {
-                    assert.equal(errors.length, 0);
+                    expect(errors.length).to.equal(0);
                 });
             });
 
@@ -312,11 +308,9 @@ describe('checker', function() {
                 });
 
                 return checker.fixPath(tmpDir).then(function(errorsCollection) {
-                    assert.equal(errorsCollection[0].getErrorCount(), 0);
-                    assert.equal(
-                        fs.readFileSync(tmpDir + '/spaces.js', 'utf8'),
-                        'var y = 2;\nvar x = y + 1;\nif (x);'
-                    );
+                    expect(errorsCollection[0]).to.have.no.errors();
+                    expect(fs.readFileSync(tmpDir + '/spaces.js', 'utf8'))
+                      .to.equal('var y = 2;\nvar x = y + 1;\nif (x);');
                 });
             });
         });
@@ -336,7 +330,7 @@ describe('checker', function() {
 
             var errors = checker.checkString('var x = { "a": 1 }');
 
-            assert.ok(errors.isEmpty());
+            expect(errors).to.have.no.errors();
         });
     });
 });

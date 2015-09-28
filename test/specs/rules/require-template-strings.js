@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-template-strings', function() {
     var checker;
@@ -11,74 +11,82 @@ describe('rules/require-template-strings', function() {
 
     function errorChecks(string) {
         it('should report the use of string concatenation with a identifier on the left', function() {
-            assert(checker.checkString('a + ' + string).getErrorCount() === 1);
+            expect(checker.checkString('a + ' + string)).to.have.one.validation.error.from('requireTemplateStrings');
         });
 
         it('should report the use of string concatenation with a identifier on the right', function() {
-            assert(checker.checkString(string + ' + a').getErrorCount() === 1);
+            expect(checker.checkString(string + ' + a')).to.have.one.validation.error.from('requireTemplateStrings');
         });
 
         it('should report the use of string concatenation with right handed binary expression',
             function() {
-                assert(checker.checkString('"test" + (a + b)').getErrorCount() === 1);
+                expect(checker.checkString('"test" + (a + b)'))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
             }
         );
 
         it('should report the use of string concatenation with left handed binary expression',
             function() {
-                assert(checker.checkString('(a + b) + "test"').getErrorCount() === 1);
+                expect(checker.checkString('(a + b) + "test"'))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
             }
         );
 
         it('should report for the use of string concatenation with a CallExpression',
             function() {
-                assert(checker.checkString('a() + ' + string).getErrorCount() === 1);
-                assert(checker.checkString(string + ' + a()').getErrorCount() === 1);
+                expect(checker.checkString('a() + ' + string))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
+                expect(checker.checkString(string + ' + a()'))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
             }
         );
 
         it('should report for the use of string concatenation with a MemberExpression',
             function() {
-                assert(checker.checkString('a.b + ' + string).getErrorCount() === 1);
-                assert(checker.checkString(string + ' + a.b').getErrorCount() === 1);
+                expect(checker.checkString('a.b + ' + string))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
+                expect(checker.checkString(string + ' + a.b'))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
             }
         );
 
         it('should report for the use of string concatenation with a TaggedTemplateExpression',
             function() {
-                assert(checker.checkString('a`a` + ' + string).getErrorCount() === 1);
-                assert(checker.checkString(string + ' + a`a`').getErrorCount() === 1);
+                expect(checker.checkString('a`a` + ' + string))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
+                expect(checker.checkString(string + ' + a`a`'))
+                  .to.have.one.validation.error.from('requireTemplateStrings');
             }
         );
     }
 
     function validChecks() {
         it('should not report the use of string concatenation with a identifier on the left and right', function() {
-            assert(checker.checkString('a + a').isEmpty());
+            expect(checker.checkString('a + a')).to.have.no.errors();
         });
 
         it('should not report the use of template strings', function() {
-            assert(checker.checkString('`How are you, ${name}?`').isEmpty());
+            expect(checker.checkString('`How are you, ${name}?`')).to.have.no.errors();
         });
 
         it('should not report for number literals', function() {
-            assert(checker.checkString('1 + a').isEmpty());
-            assert(checker.checkString('a + 1').isEmpty());
+            expect(checker.checkString('1 + a')).to.have.no.errors();
+            expect(checker.checkString('a + 1')).to.have.no.errors();
         });
 
         it('should not report for null literal', function() {
-            assert(checker.checkString('null + a').isEmpty());
-            assert(checker.checkString('a + null').isEmpty());
+            expect(checker.checkString('null + a')).to.have.no.errors();
+            expect(checker.checkString('a + null')).to.have.no.errors();
         });
 
         it('should not report for true literal', function() {
-            assert(checker.checkString('true + a').isEmpty());
-            assert(checker.checkString('a + false').isEmpty());
+            expect(checker.checkString('true + a')).to.have.no.errors();
+            expect(checker.checkString('a + false')).to.have.no.errors();
         });
 
         it('should not report for binary expression that isn\'t +', function() {
-            assert(checker.checkString('1 * 2').isEmpty());
-            assert(checker.checkString('a === b').isEmpty());
+            expect(checker.checkString('1 * 2')).to.have.no.errors();
+            expect(checker.checkString('a === b')).to.have.no.errors();
         });
     }
 
@@ -95,8 +103,10 @@ describe('rules/require-template-strings', function() {
 
             it('should report for the use of string concatenation with a TemplateLiteral',
                 function() {
-                    assert(checker.checkString('`a` + "string"').getErrorCount() === 1);
-                    assert(checker.checkString('"string" + `a`').getErrorCount() === 1);
+                    expect(checker.checkString('`a` + "string"'))
+                      .to.have.one.validation.error.from('requireTemplateStrings');
+                    expect(checker.checkString('"string" + `a`'))
+                      .to.have.one.validation.error.from('requireTemplateStrings');
                 }
             );
         });
@@ -108,11 +118,11 @@ describe('rules/require-template-strings', function() {
         validChecks();
 
         it('should report the use of string concatenation with two string literals', function() {
-            assert(checker.checkString('"a" + "a"').getErrorCount() === 1);
+            expect(checker.checkString('"a" + "a"')).to.have.one.validation.error.from('requireTemplateStrings');
         });
 
         it('should report the use of string concatenation with two template strings', function() {
-            assert(checker.checkString('`a` + `a`').getErrorCount() === 1);
+            expect(checker.checkString('`a` + `a`')).to.have.one.validation.error.from('requireTemplateStrings');
         });
     });
 
@@ -137,25 +147,25 @@ describe('rules/require-template-strings', function() {
         validChecks();
 
         it('should not report the use of string concatenation with two string literals', function() {
-            assert(checker.checkString('"a" + "a"').isEmpty());
+            expect(checker.checkString('"a" + "a"')).to.have.no.errors();
         });
 
         it('should not report the use of string concatenation with two template strings', function() {
-            assert(checker.checkString('`a` + `a`').isEmpty());
+            expect(checker.checkString('`a` + `a`')).to.have.no.errors();
         });
     });
 
     describe('invalid options', function() {
         it('should throw if not allExcept object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({requireTemplateStrings: {allBut: false}});
-            });
+            }).to.throw();
         });
 
         it('should throw if unknown allExcept value', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({requireTemplateStrings: {allExcept: ['badOptionName']}});
-            });
+            }).to.throw();
         });
     });
 });

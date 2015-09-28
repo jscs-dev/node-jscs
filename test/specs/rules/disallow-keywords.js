@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-keywords', function() {
     var checker;
@@ -9,10 +9,10 @@ describe('rules/disallow-keywords', function() {
     });
     it('should report illegal keyword', function() {
         checker.configure({ disallowKeywords: ['with'] });
-        assert(checker.checkString('with (x) { y++; }').getErrorCount() === 1);
+        expect(checker.checkString('with (x) { y++; }')).to.have.one.validation.error.from('disallowKeywords');
     });
     it('should not report legal keywords', function() {
         checker.configure({ disallowKeywords: ['with'] });
-        assert(checker.checkString('if(x) { x++; }').isEmpty());
+        expect(checker.checkString('if(x) { x++; }')).to.have.no.errors();
     });
 });

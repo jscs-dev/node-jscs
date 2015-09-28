@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-spaces-in-call-expression', function() {
     var checker;
@@ -11,68 +11,82 @@ describe('rules/disallow-spaces-in-call-expression', function() {
     });
 
     it('should not report missing space before round brace in CallExpression', function() {
-        assert(checker.checkString('var x = foobar();').isEmpty());
-        assert(checker.checkString('var x = foo.bar();').isEmpty());
-        assert(checker.checkString('var x = foo. bar();').isEmpty());
-        assert(checker.checkString('var x = (foor .bar)();').isEmpty());
-        assert(checker.checkString('var x = (function (){})();').isEmpty());
-        assert(checker.checkString('var x = (function (){foobar();})();').isEmpty());
-        assert(checker.checkString('(function(){ foobar(); })();').isEmpty());
-        assert(checker.checkString('var x = function (){}();').isEmpty());
-        assert(checker.checkString('var x = foobar\n\n\n\n();').isEmpty());
+        expect(checker.checkString('var x = foobar();')).to.have.no.errors();
+        expect(checker.checkString('var x = foo.bar();')).to.have.no.errors();
+        expect(checker.checkString('var x = foo. bar();')).to.have.no.errors();
+        expect(checker.checkString('var x = (foor .bar)();')).to.have.no.errors();
+        expect(checker.checkString('var x = (function (){})();')).to.have.no.errors();
+        expect(checker.checkString('var x = (function (){foobar();})();')).to.have.no.errors();
+        expect(checker.checkString('(function(){ foobar(); })();')).to.have.no.errors();
+        expect(checker.checkString('var x = function (){}();')).to.have.no.errors();
+        expect(checker.checkString('var x = foobar\n\n\n\n();')).to.have.no.errors();
     });
 
     it('should not report missing space before round brace in NewExpression', function() {
-        assert(checker.checkString('var x = new foobar();').isEmpty());
-        assert(checker.checkString('var x = new foo.bar();').isEmpty());
-        assert(checker.checkString('var x = new foo. bar();').isEmpty());
-        assert(checker.checkString('var x = new (foo .bar)();').isEmpty());
-        assert(checker.checkString('var x = new (function (){})();').isEmpty());
-        assert(checker.checkString('var x = new (function (){foobar();})();').isEmpty());
-        assert(checker.checkString('new (function(){ foobar(); })();').isEmpty());
-        assert(checker.checkString('var x = new function (){}();').isEmpty());
+        expect(checker.checkString('var x = new foobar();')).to.have.no.errors();
+        expect(checker.checkString('var x = new foo.bar();')).to.have.no.errors();
+        expect(checker.checkString('var x = new foo. bar();')).to.have.no.errors();
+        expect(checker.checkString('var x = new (foo .bar)();')).to.have.no.errors();
+        expect(checker.checkString('var x = new (function (){})();')).to.have.no.errors();
+        expect(checker.checkString('var x = new (function (){foobar();})();')).to.have.no.errors();
+        expect(checker.checkString('new (function(){ foobar(); })();')).to.have.no.errors();
+        expect(checker.checkString('var x = new function (){}();')).to.have.no.errors();
     });
 
     it('should report space before round brace in CallExpression', function() {
-        assert(checker.checkString('var x = foobar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = foo.bar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = foo. bar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = (foor .bar) ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = (function(){}) ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = (function(){foobar ();}) ();').getErrorCount() === 2);
-        assert(checker.checkString('(function(){foobar ();}) ();').getErrorCount() === 2);
-        assert(checker.checkString('var x = function (){} ();').getErrorCount() === 1);
+        expect(checker.checkString('var x = foobar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = foo.bar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = foo. bar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = (foor .bar) ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = (function(){}) ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = (function(){foobar ();}) ();')).to.have.error.count.equal(2);
+        expect(checker.checkString('(function(){foobar ();}) ();')).to.have.error.count.equal(2);
+        expect(checker.checkString('var x = function (){} ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
     });
 
     it('should report space before round brace in NewExpression', function() {
-        assert(checker.checkString('var x = new foobar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = new foo.bar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = new foo. bar ();').getErrorCount() === 1);
-        assert(checker.checkString('var x = new (foor .bar) ();').getErrorCount() === 1);
-        assert(checker.checkString('new (SomeClass.extend) ()').getErrorCount() === 1);
-        assert(checker.checkString('new (SomeClass.extend ()) ').getErrorCount() === 1);
-        assert(checker.checkString('var x = new (function(){new foobar ();}) ();').getErrorCount() === 2);
-        assert(checker.checkString('new (function(){new foobar ();}) ();').getErrorCount() === 2);
-        assert(checker.checkString('var x = new function (){} ();').getErrorCount() === 1);
+        expect(checker.checkString('var x = new foobar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = new foo.bar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = new foo. bar ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = new (foor .bar) ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('new (SomeClass.extend) ()'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('new (SomeClass.extend ()) '))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
+        expect(checker.checkString('var x = new (function(){new foobar ();}) ();')).to.have.error.count.equal(2);
+        expect(checker.checkString('new (function(){new foobar ();}) ();')).to.have.error.count.equal(2);
+        expect(checker.checkString('var x = new function (){} ();'))
+          .to.have.one.validation.error.from('disallowSpacesInCallExpression');
     });
 
     it('should ignore NewExpression without parentheses', function() {
-        assert(checker.checkString('var x = new foobar ;').isEmpty());
-        assert(checker.checkString('var x = new foo.bar ;').isEmpty());
-        assert(checker.checkString('var x = new foo. bar ;').isEmpty());
-        assert(checker.checkString('var x = new (foor .bar) ;').isEmpty());
-        assert(checker.checkString('var x = new (function(){}) ;').isEmpty());
-        assert(checker.checkString('var x = new (function(){new foobar ;}) ;').isEmpty());
-        assert(checker.checkString('new (function(){new foobar ;}) ;').isEmpty());
-        assert(checker.checkString('var x = new function (){} ;').isEmpty());
+        expect(checker.checkString('var x = new foobar ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new foo.bar ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new foo. bar ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new (foor .bar) ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new (function(){}) ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new (function(){new foobar ;}) ;')).to.have.no.errors();
+        expect(checker.checkString('new (function(){new foobar ;}) ;')).to.have.no.errors();
+        expect(checker.checkString('var x = new function (){} ;')).to.have.no.errors();
     });
 
     it('should not report NewExpression with fitting parentheses (#1590)', function() {
-        assert(checker.checkString('new (SomeClass.extend()); function test () {}').isEmpty());
+        expect(checker.checkString('new (SomeClass.extend()); function test () {}')).to.have.no.errors();
     });
 
     it('should not report on round braces that do not belong to a NewExpression #(1594)', function() {
         checker.configure({ disallowSpacesInCallExpression: true, esnext: true });
-        assert(checker.checkString('const newObj = new data.constructor;\n\nif (dataIsMap) {\n\n}').isEmpty());
+        expect(checker.checkString('const newObj = new data.constructor;\n\nif (dataIsMap) {\n\n}'))
+          .to.have.no.errors();
     });
 });

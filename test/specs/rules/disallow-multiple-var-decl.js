@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-multiple-var-decl', function() {
     var checker;
@@ -15,38 +15,41 @@ describe('rules/disallow-multiple-var-decl', function() {
         });
 
         it('should report multiple var decl', function() {
-            assert(checker.checkString('var x, y;').getErrorCount() === 1);
+            expect(checker.checkString('var x, y;')).to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
 
         it('should report multiple var decl with assignment', function() {
-            assert(checker.checkString('var x = 1, y = 2;').getErrorCount() === 1);
+            expect(checker.checkString('var x = 1, y = 2;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
 
         it('should not report single var decl', function() {
-            assert(checker.checkString('var x;').isEmpty());
+            expect(checker.checkString('var x;')).to.have.no.errors();
         });
 
         it('should not report separated var decl', function() {
-            assert(checker.checkString('var x; var y;').isEmpty());
+            expect(checker.checkString('var x; var y;')).to.have.no.errors();
         });
 
         it('should not report multiple var decl in for statement', function() {
-            assert(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
+            expect(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}')).to.have.no.errors();
         });
 
         it('should report multiple var decl with some assignment', function() {
-            assert(checker.checkString('var x, y = 2, z;').getErrorCount() === 1);
+            expect(checker.checkString('var x, y = 2, z;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
 
         it('should report separated var decl inside switch', function() {
-            assert(checker.checkString('switch (1) { case 1: var a, b; }').getErrorCount() === 1);
+            expect(checker.checkString('switch (1) { case 1: var a, b; }'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
     });
 
     describe('strict', function() {
         it('should report multiple var decl in a for statement if given the "strict" value (#46)', function() {
             checker.configure({ disallowMultipleVarDecl: 'strict' });
-            assert(!checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
+            expect(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}')).to.have.errors();
         });
     });
 
@@ -56,27 +59,29 @@ describe('rules/disallow-multiple-var-decl', function() {
         });
 
         it('should not report multiple var decl', function() {
-            assert(checker.checkString('var x, y;').isEmpty());
+            expect(checker.checkString('var x, y;')).to.have.no.errors();
         });
 
         it('should report multiple var decl with assignment', function() {
-            assert(checker.checkString('var x = 1, y = 2;').getErrorCount() === 1);
+            expect(checker.checkString('var x = 1, y = 2;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
 
         it('should not report single var decl', function() {
-            assert(checker.checkString('var x;').isEmpty());
+            expect(checker.checkString('var x;')).to.have.no.errors();
         });
 
         it('should not report separated var decl', function() {
-            assert(checker.checkString('var x; var y;').isEmpty());
+            expect(checker.checkString('var x; var y;')).to.have.no.errors();
         });
 
         it('should not report multiple var decl in for statement', function() {
-            assert(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
+            expect(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}')).to.have.no.errors();
         });
 
         it('should report multiple var decl with some assignment', function() {
-            assert(checker.checkString('var x, y = 2, z;').getErrorCount() === 1);
+            expect(checker.checkString('var x, y = 2, z;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
     });
 
@@ -85,16 +90,18 @@ describe('rules/disallow-multiple-var-decl', function() {
             checker.configure({ disallowMultipleVarDecl: { allExcept: ['require'] } });
         });
         it('should not report multiple var decls with require', function() {
-            assert(checker.checkString('var first = require("first"), second = require("second");').isEmpty());
+            expect(checker.checkString('var first = require("first"), second = require("second");'))
+              .to.have.no.errors();
         });
         it('should report multiple var decls with require mixed with normal', function() {
-            assert.equal(1, checker.checkString('var first = require("first"), second = 1;').getErrorCount());
+            expect(checker.checkString('var first = require("first"), second = 1;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should report multiple var decls', function() {
-            assert.equal(1, checker.checkString('var x, y;').getErrorCount());
+            expect(checker.checkString('var x, y;')).to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should not report consecutive var decls', function() {
-            assert(checker.checkString('var x; var y;').isEmpty());
+            expect(checker.checkString('var x; var y;')).to.have.no.errors();
         });
     });
 
@@ -102,29 +109,27 @@ describe('rules/disallow-multiple-var-decl', function() {
         it('should accept undefined as allExcept value', function() {
             checker.configure({ disallowMultipleVarDecl: { allExcept: ['undefined'] } });
 
-            assert(checker.checkString('var x, y;').isEmpty());
+            expect(checker.checkString('var x, y;')).to.have.no.errors();
         });
         it('should accept require and undefined as allExcept value', function() {
             checker.configure({ disallowMultipleVarDecl: { allExcept: ['undefined', 'require'] } });
 
-            assert(checker.checkString('var a = require("a"), b = require("b"), x, y, z;').isEmpty());
-            assert.equal(
-                1,
-                checker.checkString('var a = require("a"), b = require("b"), x, y, c = 1;').getErrorCount()
-            );
+            expect(checker.checkString('var a = require("a"), b = require("b"), x, y, z;')).to.have.no.errors();
+            expect(checker.checkString('var a = require("a"), b = require("b"), x, y, c = 1;'))
+              .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should accept strict as option', function() {
             checker.configure({ disallowMultipleVarDecl: { strict: true } });
 
-            assert(!checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}').isEmpty());
+            expect(checker.checkString('for (var i = 0, j = arr.length; i < j; i++) {}')).to.have.errors();
         });
         it('should accept all options at the same time', function() {
             checker.configure({ disallowMultipleVarDecl: { strict: true, allExcept: ['undefined', 'require'] } });
 
-            assert(!checker.checkString(
+            expect(checker.checkString(
                 'var a = require("a"), b = require("b"), x, y;' +
                 'for (var i = 0, j = arr.length; i < j; i++) {}'
-            ).isEmpty());
+            )).to.have.errors();
         });
     });
 });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-padding-newlines-before-line-comments', function() {
     var checker;
@@ -11,34 +11,37 @@ describe('rules/disallow-padding-newlines-before-line-comments', function() {
     });
 
     it('should report line comment after block comment with padding', function() {
-        assert(checker.checkString('var a = 2;\n/* comment */\n\n// comment').getErrorCount() === 1);
+        expect(checker.checkString('var a = 2;\n/* comment */\n\n// comment'))
+          .to.have.one.validation.error.from('disallowPaddingNewLinesBeforeLineComments');
     });
 
     it('should report padding before line comment', function() {
-        assert(checker.checkString('var a = 2;\n\n// comment').getErrorCount() === 1);
+        expect(checker.checkString('var a = 2;\n\n// comment'))
+          .to.have.one.validation.error.from('disallowPaddingNewLinesBeforeLineComments');
     });
 
     it('should report additional padding before line comment', function() {
-        assert(checker.checkString('var a = 2;\n\n\n// comment').getErrorCount() === 1);
+        expect(checker.checkString('var a = 2;\n\n\n// comment'))
+          .to.have.one.validation.error.from('disallowPaddingNewLinesBeforeLineComments');
     });
 
     it('should not report missing padding before line comment', function() {
-        assert(checker.checkString('var a = 2;\n// comment').isEmpty());
+        expect(checker.checkString('var a = 2;\n// comment')).to.have.no.errors();
     });
 
     it('should not report line comment after block comment', function() {
-        assert(checker.checkString('var a = 2;\n/* comment */\n// comment').isEmpty());
+        expect(checker.checkString('var a = 2;\n/* comment */\n// comment')).to.have.no.errors();
     });
 
     it('should not report missing padding if comment is first line', function() {
-        assert(checker.checkString('// comment\nvar a = 2;').isEmpty());
+        expect(checker.checkString('// comment\nvar a = 2;')).to.have.no.errors();
     });
 
     it('should not report missing padding with block comment', function() {
-        assert(checker.checkString('var a = 2;\n/* comment */').isEmpty());
+        expect(checker.checkString('var a = 2;\n/* comment */')).to.have.no.errors();
     });
 
     it('should not report missing padding after shebang', function() {
-        assert(checker.checkString('#!/usr/bin/env node\n// comment').isEmpty());
+        expect(checker.checkString('#!/usr/bin/env node\n// comment')).to.have.no.errors();
     });
 });

@@ -1,24 +1,25 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-capitalized-constructors', function() {
     var checker;
 
     function baseCases() {
         it('should report uncapitalized construction', function() {
-            assert(checker.checkString('var x = new y();').getErrorCount() === 1);
+            expect(checker.checkString('var x = new y();'))
+              .to.have.one.validation.error.from('requireCapitalizedConstructors');
         });
 
         it('should not report capitalized construction', function() {
-            assert(checker.checkString('var x = new Y();').isEmpty());
+            expect(checker.checkString('var x = new Y();')).to.have.no.errors();
         });
 
         it('should not report member expression construction', function() {
-            assert(checker.checkString('var x = new ns.y();').isEmpty());
+            expect(checker.checkString('var x = new ns.y();')).to.have.no.errors();
         });
 
         it('should not report construction with "this" keyword', function() {
-            assert(checker.checkString('var x = new this();').isEmpty());
+            expect(checker.checkString('var x = new this();')).to.have.no.errors();
         });
     }
 
@@ -47,7 +48,7 @@ describe('rules/require-capitalized-constructors', function() {
         baseCases();
 
         it('should not report exempted construction', function() {
-            assert(checker.checkString('var x = new somethingNative();').isEmpty());
+            expect(checker.checkString('var x = new somethingNative();')).to.have.no.errors();
         });
     });
 });

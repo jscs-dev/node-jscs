@@ -1,6 +1,6 @@
 var StringChecker = require('../../lib/string-checker');
 var Errors = require('../../lib/errors');
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 var fs = require('fs');
 
@@ -14,56 +14,56 @@ describe('string-checker', function() {
     describe('checkString', function() {
         describe('line starting with hash', function() {
             it('should ignore lines starting with #!', function() {
-                assert(checker.checkString(
+                expect(checker.checkString(
                     '#! random stuff\n' +
                     '#! 1234\n' +
                     'var a = 5;\n'
-                ).isEmpty());
+                )).to.have.no.errors();
             });
 
             it('should ignore ios instruments style import', function() {
-                assert(checker.checkString(
+                expect(checker.checkString(
                     '#import "abc.js"\n' +
                     '#import abc.js\n' +
                     'var a = 5;\n'
-                ).isEmpty());
+                )).to.have.no.errors();
             });
 
             it('should not replace when not beginning of line', function() {
                 checker.configure({ disallowMultipleLineStrings: true });
-                assert(checker.checkString(
+                expect(checker.checkString(
                     '#import "abc.js"\n' +
                     'var b="#import \\\n abc.js";\n' +
                     'var a = 5;\n'
-                ).getErrorCount() === 1);
+                )).to.have.one.error();
             });
 
             it('should report error in the correct location when first line starts with #!', function() {
                 checker.configure({ disallowMultipleLineBreaks: true });
                 var error = checker.checkString('#!/usr/bin/env node\n\n\nx = 1;').getErrorList()[0];
-                assert.equal(error.line, 1);
-                assert.equal(error.column, 19);
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(19);
             });
         });
 
         it('should not check empty string (#1354)', function() {
             var spy = sinon.spy(StringChecker.prototype, '_checkJsFile');
 
-            assert(checker.checkString('').isEmpty());
+            expect(checker.checkString('')).to.have.no.errors();
 
-            assert(spy.called === false);
+            expect(spy.called).to.equal(false);
             spy.restore();
         });
 
         it('should report parse issues as errors', function() {
             var errors = checker.checkString('this is not javascript');
-            assert(errors.getErrorCount() === 1);
+            expect(errors).to.have.one.error();
 
             var error = errors.getErrorList()[0];
-            assert(error.rule === 'parseError');
-            assert(error.message === 'Unexpected identifier');
-            assert(error.line === 1);
-            assert(error.column === 6);
+            expect(error.rule).to.equal('parseError');
+            expect(error.message).to.equal('Unexpected identifier');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(6);
         });
 
         describe('maxErrors', function() {
@@ -76,14 +76,14 @@ describe('string-checker', function() {
 
             it('should allow a maximum number of reported errors to be set', function() {
                 var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
-                assert(errors.length === 1);
+                expect(errors.length).to.equal(1);
             });
 
             it('should not report more than the maximum errors across multiple checks', function() {
                 var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
                 var errors2 = checker.checkString('var baz=1;\n var qux=2;').getErrorList();
-                assert(errors.length === 1);
-                assert(errors2.length === 0);
+                expect(errors.length).to.equal(1);
+                expect(errors2.length).to.equal(0);
             });
 
             it('should not be used when it is nullified', function() {
@@ -94,7 +94,7 @@ describe('string-checker', function() {
                 });
 
                 errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
-                assert(errors.length > 0);
+                expect(errors.length).to.be.above(0);
             });
         });
     });
@@ -106,9 +106,8 @@ describe('string-checker', function() {
                     preset: 'jquery',
                     requireCurlyBraces: null
                 });
-                assert(true);
             } catch (_) {
-                assert(false);
+                throw new Error();
             }
         });
 
@@ -118,9 +117,9 @@ describe('string-checker', function() {
                     preset: 'not-exist'
                 });
 
-                assert(false);
+                throw new Error();
             } catch (e) {
-                assert.equal(e.toString(), 'AssertionError: Preset "not-exist" does not exist');
+                expect(e.toString()).to.equal('AssertionError: Preset "not-exist" does not exist');
             }
         });
 
@@ -131,7 +130,7 @@ describe('string-checker', function() {
             });
 
             var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
-            assert(errors[0].message.indexOf('requireSpaceBeforeBinaryOperators') > -1);
+            expect(errors[0].message.indexOf('requireSpaceBeforeBinaryOperators')).to.be.above(-1);
         });
 
         describe('rules registration', function() {
@@ -139,9 +138,9 @@ describe('string-checker', function() {
                 checker.configure({ doesNotExist: true, noSuchRule: true });
                 var errors = checker.checkString('var foo = 1;').getErrorList();
 
-                assert(errors.length === 2);
-                assert.equal(errors[0].message, 'Unsupported rule: doesNotExist');
-                assert.equal(errors[1].message, 'Unsupported rule: noSuchRule');
+                expect(errors.length).to.equal(2);
+                expect(errors[0].message).to.equal('Unsupported rule: doesNotExist');
+                expect(errors[1].message).to.equal('Unsupported rule: noSuchRule');
             });
 
             it('should not report rules in config which match registered rules', function() {
@@ -151,7 +150,7 @@ describe('string-checker', function() {
                 } catch (e) {
                     error = e;
                 }
-                assert(error === undefined);
+                expect(error).to.equal(undefined);
             });
 
             it('should not report "excludeFiles" rule as unregistered', function() {
@@ -161,7 +160,7 @@ describe('string-checker', function() {
                 } catch (e) {
                     error = e;
                 }
-                assert(error === undefined);
+                expect(error).to.equal(undefined);
             });
         });
     });
@@ -170,37 +169,37 @@ describe('string-checker', function() {
         it('should return unfixable errors', function() {
             checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
             var result = checker.fixString('x = !!x;');
-            assert.equal(result.errors.getErrorCount(), 1);
-            assert.equal(result.errors.getErrorList()[0].message, 'Implicit boolean conversion');
+            expect(result.errors).to.have.one.error();
+            expect(result.errors.getErrorList()[0].message).to.equal('Implicit boolean conversion');
         });
 
         it('should process parse error', function() {
             checker.configure({});
             var result = checker.fixString('x =');
-            assert.equal(result.errors.getErrorCount(), 1);
-            assert.equal(result.errors.getErrorList()[0].message, 'Unexpected end of input');
-            assert.equal(result.output, 'x =');
+            expect(result.errors).to.have.one.error();
+            expect(result.errors.getErrorList()[0].message).to.equal('Unexpected end of input');
+            expect(result.output).to.equal('x =');
         });
 
         it('should accept file name', function() {
             checker.configure({});
             var result = checker.fixString('x = 1;', '1.js');
-            assert.equal(result.errors.getFilename(), '1.js');
+            expect(result.errors.getFilename()).to.equal('1.js');
         });
 
         describe('space rules', function() {
             it('should apply fixes to the specified string', function() {
                 checker.configure({ requireSpaceBeforeBinaryOperators: true });
                 var result = checker.fixString('x=1+2;');
-                assert(result.errors.isEmpty());
-                assert.equal(result.output, 'x =1 +2;');
+                expect(result.errors).to.have.no.errors();
+                expect(result.output).to.equal('x =1 +2;');
             });
 
             it('should apply multiple fixes to the specified string', function() {
                 checker.configure({ requireSpaceBeforeBinaryOperators: true, requireSpaceAfterBinaryOperators: true });
                 var result = checker.fixString('x=1+2;');
-                assert(result.errors.isEmpty());
-                assert.equal(result.output, 'x = 1 + 2;');
+                expect(result.errors).to.have.no.errors();
+                expect(result.output).to.equal('x = 1 + 2;');
             });
         });
 
@@ -223,14 +222,14 @@ describe('string-checker', function() {
                     _fix: function(file, error) {
                         called = true;
                         err = error;
-                        assert.equal(error.additional, 'test');
+                        expect(error.additional).to.equal('test');
                     }
                 });
                 checker.configure({fixRule: true});
 
                 checker.fixString('test');
-                assert(err.fixed);
-                assert(called);
+                expect(!!err.fixed).to.equal(true);
+                expect(!!called).to.equal(true);
             });
 
             it('should not try to call "_fix" method if it does not exist', function() {
@@ -251,9 +250,8 @@ describe('string-checker', function() {
 
                 try {
                     checker.fixString('test');
-                    assert(true);
                 } catch (e) {
-                    assert(false);
+                    throw new Error();
                 }
             });
 
@@ -280,13 +278,12 @@ describe('string-checker', function() {
 
                 try {
                     checker.fixString('test');
-                    assert(true);
                 } catch (e) {
-                    assert(false);
+                    throw new Error();
                 }
 
-                assert(spy.called);
-                assert(spy.args[0][0].indexOf('Error running rule') > -1);
+                expect(spy).to.have.not.callCount(0);
+                expect(spy.args[0][0].indexOf('Error running rule')).to.be.above(-1);
             });
 
             it('should allow rule to reset error.fixed property', function() {
@@ -313,7 +310,7 @@ describe('string-checker', function() {
 
                 checker.fixString('test');
 
-                assert.ok(!err.fixed);
+                expect(!err.fixed).to.equal(true);
             });
         });
     });
@@ -339,8 +336,8 @@ describe('string-checker', function() {
             var errors = checker.checkString('import { foo } from "bar";');
             var error = errors.getErrorList()[0];
 
-            assert(error.rule === 'parseError');
-            assert(error.message === customDescription);
+            expect(error.rule).to.equal('parseError');
+            expect(error.message).to.equal(customDescription);
         });
 
         it('uses a custom esprima when both esprima and esnext are provided to the constructor', function() {
@@ -351,8 +348,8 @@ describe('string-checker', function() {
             var errors = checker.checkString('import { foo } from "bar";');
             var error = errors.getErrorList()[0];
 
-            assert(error.rule === 'parseError');
-            assert(error.message === customDescription);
+            expect(error.rule).to.equal('parseError');
+            expect(error.message).to.equal(customDescription);
         });
 
         it('uses babel-jscs when true is provided to the constructor', function() {
@@ -360,7 +357,7 @@ describe('string-checker', function() {
             checker.registerDefaultRules();
 
             var errors = checker.checkString('import { foo } from "bar";');
-            assert(errors.isEmpty());
+            expect(errors).to.have.no.errors();
         });
 
         it('uses babel-jscs when esnext is set to true in the config', function() {
@@ -371,14 +368,14 @@ describe('string-checker', function() {
             var errors = checker.checkString('import { foo } from "bar";');
             // Make sure that multiple checks don't fail
             var errors2 = checker.checkString('import { bar } from "foo";');
-            assert(errors.isEmpty());
-            assert(errors2.isEmpty());
+            expect(errors).to.have.no.errors();
+            expect(errors2).to.have.no.errors();
         });
 
         it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();
-            assert(checker.getEsprima() === require('esprima'));
+            expect(checker.getEsprima()).to.equal(require('esprima'));
         });
     });
 
@@ -404,15 +401,15 @@ describe('string-checker', function() {
         it('sets the "tolerant" esprima option to true by default', function() {
             checker.checkString(code);
 
-            assert(customEsprima.parse.calledOnce);
-            assert(customEsprima.parse.calledWith(code, {
+            expect(customEsprima.parse).to.have.callCount(1);
+            expect(customEsprima.parse).to.have.been.calledWith(code, {
                 tolerant: true,
                 loc: true,
                 range: true,
                 comment: true,
                 tokens: true,
                 sourceType: 'module'
-            }));
+            });
         });
 
         it('allows the "tolerant" esprima option to be overridden', function() {
@@ -420,15 +417,15 @@ describe('string-checker', function() {
 
             checker.checkString(code);
 
-            assert(customEsprima.parse.calledOnce);
-            assert(customEsprima.parse.calledWith(code, {
+            expect(customEsprima.parse).to.have.callCount(1);
+            expect(customEsprima.parse).to.have.been.calledWith(code, {
                 tolerant: false,
                 loc: true,
                 range: true,
                 comment: true,
                 tokens: true,
                 sourceType: 'module'
-            }));
+            });
         });
 
         it('uses custom esprima options when set in the config', function() {
@@ -436,8 +433,8 @@ describe('string-checker', function() {
 
             checker.checkString(code);
 
-            assert(customEsprima.parse.calledOnce);
-            assert(customEsprima.parse.calledWith(code, {
+            expect(customEsprima.parse).to.have.callCount(1);
+            expect(customEsprima.parse).to.have.been.calledWith(code, {
                 foobar: 'qux',
                 barbaz: 'fred',
                 tolerant: true,
@@ -446,7 +443,7 @@ describe('string-checker', function() {
                 comment: true,
                 tokens: true,
                 sourceType: 'module'
-            }));
+            });
         });
 
         it('does not override required esprima options', function() {
@@ -460,15 +457,15 @@ describe('string-checker', function() {
 
             checker.checkString(code);
 
-            assert(customEsprima.parse.calledOnce);
-            assert(customEsprima.parse.calledWith(code, {
+            expect(customEsprima.parse).to.have.callCount(1);
+            expect(customEsprima.parse).to.have.been.calledWith(code, {
                 tolerant: true, // not required
                 loc: true,
                 range: true,
                 comment: true,
                 tokens: true,
                 sourceType: 'module'
-            }));
+            });
         });
     });
 
@@ -486,7 +483,7 @@ describe('string-checker', function() {
 
             var errors = checker.checkString('var x = { "a": 1 }');
 
-            assert.ok(errors.isEmpty());
+            expect(errors).to.have.no.errors();
         });
     });
 
@@ -508,12 +505,12 @@ describe('string-checker', function() {
             _beforeEach(true);
 
             var errs = checker.checkString('var a');
-            assert.equal(errs.getErrorCount(), 1);
+            expect(errs).to.have.one.error();
 
             var err = errs.getErrorList()[0];
-            assert.equal(err.rule, 'thrower');
-            assert.ok(err.message.indexOf('Error running rule thrower:') !== -1);
-            assert.ok(err.message.indexOf('Error: Here we are!') !== -1);
+            expect(err.rule).to.equal('internalError');
+            expect(err.message.indexOf('Error running rule thrower:')).to.not.equal(-1);
+            expect(err.message.indexOf('Error: Here we are!')).to.not.equal(-1);
         });
     });
 
@@ -550,7 +547,7 @@ describe('string-checker', function() {
 
                 var filename = '../data/options/preset/' + presetName + '.js';
                 var content = fs.readFileSync(__dirname + '/' + filename, 'utf8');
-                assert(checker.checkString(content, filename).isEmpty());
+                expect(checker.checkString(content, filename)).to.have.no.errors();
             });
         }
     });

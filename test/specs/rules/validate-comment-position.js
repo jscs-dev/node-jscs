@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/validate-comment-position', function() {
     var checker;
@@ -16,9 +16,9 @@ describe('rules/validate-comment-position', function() {
         ];
 
         validPositions.forEach(function(position) {
-            assert.doesNotThrow(function() {
+            expect(function() {
                 checker.configure({ validateCommentPosition: { position: position }});
-            });
+            }).to.not.throw();
         });
     });
 
@@ -31,16 +31,16 @@ describe('rules/validate-comment-position', function() {
         ];
 
         invalidPositions.forEach(function(position) {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ validateCommentPosition: { position: position }});
-            }, assert.AssertionError);
+            }).to.throw('AssertionError');
         });
     });
 
     it('accepts valid exceptions', function() {
-        assert.doesNotThrow(function() {
+        expect(function() {
             checker.configure({ validateCommentPosition: { position: 'above', allExcept: ['pragma', 'linter'] }});
-        });
+        }).to.not.throw();
     });
 
     it('rejects invalid exceptions', function() {
@@ -50,18 +50,16 @@ describe('rules/validate-comment-position', function() {
         ];
 
         invalidExceptions.forEach(function(exception) {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ validateCommentPosition: { position: 'above', allExcept: exception }});
-            }, assert.AssertionError);
+            }).to.throw('AssertionError');
         });
     });
 
     it('should not accept non-objects', function() {
-        assert.throws(function() {
+        expect(function() {
                 checker.configure({ validateCommentPosition: 'true' });
-            },
-            assert.AssertionError
-        );
+            }).to.throw('AssertionError');
     });
 
     describe('position value "above"', function() {
@@ -70,71 +68,74 @@ describe('rules/validate-comment-position', function() {
         });
 
         it('should report on a comment beside a statement', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // invalid comment').getErrorCount(), 1);
+            expect(checker.checkString('1 + 1; // invalid comment'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
 
         it('should not report on a comment above a statement', function() {
-            assert.strictEqual(checker.checkString('// valid comment\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('// valid comment\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on block comments above a statement', function() {
-            assert.strictEqual(checker.checkString('/* block comments are skipped */\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('/* block comments are skipped */\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on block comments beside a statement', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* block comments are skipped */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* block comments are skipped */')).to.have.no.errors();
         });
 
         it('should not report on eslint inline configurations', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* eslint eqeqeq */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* eslint eqeqeq */')).to.have.no.errors();
         });
 
         it('should not report on eslint-disable pragma', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* eslint-disable */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* eslint-disable */')).to.have.no.errors();
         });
 
         it('should not report on eslint-enable pragma', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* eslint-enable */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* eslint-enable */')).to.have.no.errors();
         });
 
         it('should not report eslint-disable-line pragma', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // eslint-disable-line').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; // eslint-disable-line')).to.have.no.errors();
         });
 
         it('should not report on excepted global variables (eslint)', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* global MY_GLOBAL, ANOTHER */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* global MY_GLOBAL, ANOTHER */')).to.have.no.errors();
         });
 
         it('should not report on jshint compatible jslint options', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* jslint vars: true */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* jslint vars: true */')).to.have.no.errors();
         });
 
         it('should not report on excepted global variables (jshint)', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* globals MY_GLOBAL: true */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* globals MY_GLOBAL: true */')).to.have.no.errors();
         });
 
         it('should not report on jshint `exported` directives', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* exported MY_GLOBAL, ANOTHER */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* exported MY_GLOBAL, ANOTHER */')).to.have.no.errors();
         });
 
         it('should not report on jshint `falls through` directives', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* falls through */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* falls through */')).to.have.no.errors();
         });
 
         it('should report on comments beginning with words made up of partial keywords', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // globalization is a word').getErrorCount(), 1);
+            expect(checker.checkString('1 + 1; // globalization is a word'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
 
         it('should report on comments that mention keywords, but are not valid pragmas', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // mentioning falls through').getErrorCount(), 1);
+            expect(checker.checkString('1 + 1; // mentioning falls through'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
 
         it('should not report on jshint line comment directives', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // jshint ignore:line').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; // jshint ignore:line')).to.have.no.errors();
         });
 
         it('should not report on istanbul pragmas', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* istanbul ignore next */').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* istanbul ignore next */')).to.have.no.errors();
         });
     });
 
@@ -144,10 +145,11 @@ describe('rules/validate-comment-position', function() {
         });
 
         it('should not report on comments that start with excepted keywords', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // linter excepted comment').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; // linter excepted comment')).to.have.no.errors();
         });
         it('should still report on comments beside statements after skipping excepted comments', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // linter\n2 + 2; // invalid comment').getErrorCount(), 1);
+            expect(checker.checkString('1 + 1; // linter\n2 + 2; // invalid comment'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
     });
 
@@ -157,35 +159,36 @@ describe('rules/validate-comment-position', function() {
         });
 
         it('should report on comments above statements', function() {
-            assert.strictEqual(checker.checkString('// invalid comment\n1 + 1;').getErrorCount(), 1);
+            expect(checker.checkString('// invalid comment\n1 + 1;'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
 
         it('should not report on comments beside statements', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // valid comment').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; // valid comment')).to.have.no.errors();
         });
 
         it('should not report on inline jscs disable rules', function() {
-            assert.strictEqual(checker.checkString('// jscs: disable\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('// jscs: disable\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on jscs enable rules', function() {
-            assert.strictEqual(checker.checkString('// jscs: enable\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('// jscs: enable\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on block comments above statements', function() {
-            assert.strictEqual(checker.checkString('/* block comments are skipped */\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('/* block comments are skipped */\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on stacked block comments', function() {
-            assert.strictEqual(checker.checkString('/*block comment*/\n/*block comment*/\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('/*block comment*/\n/*block comment*/\n1 + 1;')).to.have.no.errors();
         });
 
         it('should not report on block comments beside statements', function() {
-            assert.strictEqual(checker.checkString('1 + 1; /* block comment are skipped*/').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; /* block comment are skipped*/')).to.have.no.errors();
         });
 
         it('should not report on jshint directives beside statements', function() {
-            assert.strictEqual(checker.checkString('1 + 1; // jshint strict: true').getErrorCount(), 0);
+            expect(checker.checkString('1 + 1; // jshint strict: true')).to.have.no.errors();
         });
     });
 
@@ -195,11 +198,12 @@ describe('rules/validate-comment-position', function() {
         });
 
         it('should not report on comments that are above statements that begin with excepted keywords', function() {
-            assert.strictEqual(checker.checkString('// pragma valid comment\n1 + 1;').getErrorCount(), 0);
+            expect(checker.checkString('// pragma valid comment\n1 + 1;')).to.have.no.errors();
         });
 
         it('should still report on comments that are above statements that follow excepted comments', function() {
-            assert.strictEqual(checker.checkString('// pragma\n// invalid\n1 + 1;').getErrorCount(), 1);
+            expect(checker.checkString('// pragma\n// invalid\n1 + 1;'))
+              .to.have.one.validation.error.from('validateCommentPosition');
         });
     });
 

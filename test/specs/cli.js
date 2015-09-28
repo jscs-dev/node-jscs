@@ -1,7 +1,7 @@
 var path = require('path');
 
 var sinon = require('sinon');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var glob = require('glob');
 var hasAnsi = require('has-ansi');
@@ -51,7 +51,7 @@ describe('cli', function() {
         return vow.promise.always(function() {
             var stdout = process.stdout.write.getCall(0) ? process.stdout.write.getCall(0).args[0] : '';
             var stderr = process.stderr.write.getCall(0) ? process.stderr.write.getCall(0).args[0] : '';
-            assert.equal(stdout, '', stderr);
+            expect(stdout).to.equal('', stderr);
             rAfter();
         });
     }
@@ -64,8 +64,8 @@ describe('cli', function() {
         });
 
         return result.promise.fail(function(value) {
-            assert(console.error.getCall(0).args[0] === 'Config source is corrupted -');
-            assert.equal(value, 5);
+            expect(console.error.getCall(0).args[0]).to.equal('Config source is corrupted -');
+            expect(value).to.equal(5);
             console.error.restore();
         });
     });
@@ -79,7 +79,7 @@ describe('cli', function() {
         });
 
         return result.promise.always(function() {
-            assert.equal(console.error.getCall(0).args[0], 'Preset "not-exist" does not exist');
+            expect(console.error.getCall(0).args[0]).to.equal('Preset "not-exist" does not exist');
             console.error.restore();
         });
     });
@@ -97,7 +97,7 @@ describe('cli', function() {
             ' project root or use the -c option.';
 
         return result.promise.always(function() {
-            assert.equal(console.error.getCall(0).args[0], text);
+            expect(console.error.getCall(0).args[0]).to.equal(text);
 
             configFile.load.restore();
             console.error.restore();
@@ -118,7 +118,7 @@ describe('cli', function() {
         return result.promise.always(function() {
             var config = Checker.prototype.configure.getCall(0).args[0];
 
-            assert(!Object.keys(config).length);
+            expect(Object.keys(config).length).to.equal(0);
 
             Checker.prototype.configure.restore();
             configFile.load.restore();
@@ -127,7 +127,7 @@ describe('cli', function() {
 
     it('should correctly exit if no files specified', function(done) {
         sinon.stub(console, 'error', function(message) {
-            assert.equal(message, 'No input files specified. Try option --help for usage information.');
+            expect(message).to.equal('No input files specified. Try option --help for usage information.');
 
             done();
         });
@@ -135,16 +135,16 @@ describe('cli', function() {
         return cli({
             args: []
         }).promise.fail(function(value) {
-            assert.equal(value, 3);
+            expect(value).to.equal(3);
             console.error.restore();
         });
     });
 
     it('should exit if no custom config is found', function(done) {
         sinon.stub(console, 'error', function(arg1, arg2, arg3) {
-            assert.equal(arg1, 'Configuration source');
-            assert.equal(arg2, 'config.js');
-            assert.equal(arg3, 'was not found.');
+            expect(arg1).to.equal('Configuration source');
+            expect(arg2).to.equal('config.js');
+            expect(arg3).to.equal('was not found.');
 
             process.chdir('../');
 
@@ -157,7 +157,7 @@ describe('cli', function() {
             config: 'config.js'
         });
 
-        assert(typeof result === 'object');
+        expect(result).to.be.a('object');
 
         console.error.restore();
     });
@@ -171,7 +171,7 @@ describe('cli', function() {
         }
 
         Checker.prototype.checkPath = function(path) {
-            assert(path, 'test/data/cli/success.js');
+            expect(!!path).to.equal(true);
             return originalCheckPath.apply(this, arguments);
         };
 
@@ -181,7 +181,7 @@ describe('cli', function() {
             config: 'test/data/cli/cli.json'
         });
         return result.promise.then(function() {
-            assert(result.checker.getProcessedConfig().requireCurlyBraces);
+            expect(!!result.checker.getProcessedConfig().requireCurlyBraces).to.equal(true);
             restoreCheckPath();
         }).fail(function(e) {
             restoreCheckPath();
@@ -195,7 +195,7 @@ describe('cli', function() {
         });
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
@@ -213,7 +213,7 @@ describe('cli', function() {
         process.stdin.emit('end');
 
         return result.promise.then(function(status) {
-            assert(status === 0);
+            expect(status).to.equal(0);
             rAfter();
         });
     });
@@ -231,7 +231,7 @@ describe('cli', function() {
         process.stdin.emit('end');
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
@@ -244,7 +244,7 @@ describe('cli', function() {
         });
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
@@ -265,7 +265,7 @@ describe('cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === -1);
+                expect(console.log.getCall(0).args[0].indexOf('disallowKeywords:')).to.equal(-1);
             });
         });
 
@@ -278,7 +278,7 @@ describe('cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
+                expect(console.log.getCall(0).args[0]).to.have.string('disallowKeywords:');
             });
         });
     });
@@ -343,7 +343,7 @@ describe('cli', function() {
             process.stdin.emit('end');
 
             return result.then(function() {
-                assert.equal(process.stdout.write.getCall(0).args[0], '1;\n');
+                expect(process.stdout.write.getCall(0).args[0]).to.equal('1;\n');
             });
         });
 
@@ -369,7 +369,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(spy.called);
+                expect(spy).to.have.not.callCount(0);
                 checker.prototype.checkPath.restore();
                 rAfter();
             });
@@ -384,7 +384,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(spy.called);
+                expect(spy).to.have.not.callCount(0);
                 checker.prototype.checkStdin.restore();
                 rAfter();
             });
@@ -400,7 +400,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'console');
+                expect(path.basename(result.reporter)).to.equal('console');
                 rAfter();
             });
         });
@@ -414,9 +414,9 @@ describe('cli', function() {
             });
 
             return result.promise.always(function(exitCode) {
-                assert.equal(exitCode, 6);
-                assert.equal(console.error.getCall(0).args[0], 'Reporter "%s" does not exist.');
-                assert.equal(console.error.getCall(0).args[1], 'not-exists.js');
+                expect(exitCode.valueOf()).to.equal(6);
+                expect(console.error.getCall(0).args[0]).to.equal('Reporter "%s" does not exist.');
+                expect(console.error.getCall(0).args[1]).to.equal('not-exists.js');
                 console.error.restore();
             });
         });
@@ -431,7 +431,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'junit.js');
+                expect(path.basename(result.reporter)).to.equal('junit.js');
                 rAfter();
             });
         });
@@ -444,7 +444,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'junit.js');
+                expect(path.basename(result.reporter)).to.equal('junit.js');
                 rAfter();
             });
         });
@@ -457,7 +457,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'text');
+                expect(path.basename(result.reporter)).to.equal('text');
                 rAfter();
             });
         });
@@ -470,7 +470,7 @@ describe('cli', function() {
             });
 
             return result.promise.fail(function(status) {
-                assert(status.valueOf());
+                expect(!!status.valueOf()).to.equal(true);
                 rAfter();
             });
         });
@@ -488,7 +488,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -499,7 +499,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -515,7 +515,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -526,7 +526,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -542,7 +542,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -553,7 +553,7 @@ describe('cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -579,7 +579,7 @@ describe('cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(!hasAnsi(console.log.getCall(0).args[0]));
+                expect(!hasAnsi(console.log.getCall(0).args[0])).to.equal(true);
             });
         });
 
@@ -591,7 +591,7 @@ describe('cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(hasAnsi(console.log.getCall(0).args[0]));
+                expect(!!hasAnsi(console.log.getCall(0).args[0])).to.equal(true);
             });
         });
     });
@@ -614,7 +614,7 @@ describe('cli', function() {
                 fix: true
             }).checker;
 
-            assert.equal(checker._configuration.getMaxErrors(), Infinity);
+            expect(checker._configuration.getMaxErrors()).to.equal(Infinity);
         });
 
         it('should set maxErrors to Infinity with "autoConfigure" option', function() {
@@ -625,7 +625,7 @@ describe('cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(result.checker._configuration.getMaxErrors(), Infinity);
+                expect(result.checker._configuration.getMaxErrors()).to.equal(Infinity);
             });
         });
 
@@ -636,7 +636,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
+                expect(console.log.getCall(1).args[0].indexOf('1 code style error found.')).to.not.equal(-1);
                 rAfter();
             });
         });
@@ -648,7 +648,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors-0.json'
 
             }).promise.always(function(status) {
-                assert(status.valueOf());
+                expect(!!status.valueOf()).to.equal(true);
 
                 rAfter();
             });
@@ -661,7 +661,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors-0.json'
             })
             .promise.always(function(status) {
-                assert.equal(status.valueOf(), 2);
+                expect(status.valueOf()).to.equal(2);
 
                 rAfter();
             });
@@ -674,8 +674,9 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.error.getCall(0).args[0]
-                    .indexOf('`maxErrors` option requires -1, null value or positive number') !== -1);
+                expect(console.error.getCall(0).args[0]
+                    .indexOf('`maxErrors` option requires -1, null value or positive number'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
@@ -687,7 +688,8 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                expect(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
@@ -705,7 +707,8 @@ describe('cli', function() {
             process.stdin.emit('end');
 
             return result.promise.always(function() {
-                assert(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                expect(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
@@ -767,7 +770,7 @@ describe('cli', function() {
             });
 
             var esprima = returnArgs.checker.getEsprima();
-            assert(esprima === require('esprima'));
+            expect(esprima).to.equal(require('esprima'));
 
             return assertNoCliErrors(returnArgs);
         });
@@ -816,7 +819,7 @@ describe('cli', function() {
             });
 
             return result.promise.then(function(status) {
-                assert.ok(!status);
+                expect(!status).to.equal(true);
             });
         });
 
@@ -831,8 +834,8 @@ describe('cli', function() {
             });
 
             return result.promise.then(null, function(status) {
-                assert.ok(status);
-                assert.ok(process.stderr.write.getCall(0).args[0].indexOf(message));
+                expect(!!status).to.equal(true);
+                expect(!!process.stderr.write.getCall(0).args[0].indexOf(message)).to.equal(true);
                 rAfter();
             });
         });

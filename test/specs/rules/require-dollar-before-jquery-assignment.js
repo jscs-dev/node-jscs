@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-dollar-before-jquery-assignment', function() {
     var checker;
@@ -15,238 +15,249 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
         });
 
         it('should report basic jquery operator', function() {
-            assert(checker.checkString('var x = $();').getErrorCount() === 1);
+            expect(checker.checkString('var x = $();'))
+              .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
         it('should not report basic jquery operator with dollar', function() {
-            assert(checker.checkString('var $x = $();').isEmpty());
+            expect(checker.checkString('var $x = $();')).to.have.no.errors();
         });
 
         it('should not report basic jquery operator with leading underscore and dollar', function() {
-            assert(checker.checkString('var _$x = $();').isEmpty());
+            expect(checker.checkString('var _$x = $();')).to.have.no.errors();
         });
 
         it('should not report basic assignment', function() {
-            assert(checker.checkString('var x = 2;').isEmpty());
+            expect(checker.checkString('var x = 2;')).to.have.no.errors();
         });
 
         it('should not report function assignment', function() {
-            assert(checker.checkString('var x = function() {};').isEmpty());
+            expect(checker.checkString('var x = function() {};')).to.have.no.errors();
         });
 
         it('should not report function call', function() {
-            assert(checker.checkString('var x = fn("foo")').isEmpty());
+            expect(checker.checkString('var x = fn("foo")')).to.have.no.errors();
         });
 
         it('should not report logical assignment', function() {
-            assert(checker.checkString('var a = 1 || 2;').isEmpty());
+            expect(checker.checkString('var a = 1 || 2;')).to.have.no.errors();
         });
 
         it('should report assignment on nextline without semicolon', function() {
-            assert(checker.checkString('var a = $(".foo")\nvar b = $()').getErrorCount() === 2);
+            expect(checker.checkString('var a = $(".foo")\nvar b = $()')).to.have.error.count.equal(2);
         });
 
         it('should not report assignment against dollar prefixed function', function() {
-            assert(checker.checkString('var a = $func("foo")').isEmpty());
+            expect(checker.checkString('var a = $func("foo")')).to.have.no.errors();
         });
 
         it('should not report dollar addition', function() {
-            assert(checker.checkString('var a = $ + 2').isEmpty());
+            expect(checker.checkString('var a = $ + 2')).to.have.no.errors();
         });
 
         it('should not report binary assignment', function() {
-            assert(checker.checkString('var a = 1 + 2;').isEmpty());
+            expect(checker.checkString('var a = 1 + 2;')).to.have.no.errors();
         });
 
         it('should not report for loops', function() {
-            assert(checker.checkString('for (var prop in rawVars) {}').isEmpty());
+            expect(checker.checkString('for (var prop in rawVars) {}')).to.have.no.errors();
         });
 
         it('should not report keyed object assignments with string key', function() {
-            assert(checker.checkString('obj["foo"] = "bar"').isEmpty());
+            expect(checker.checkString('obj["foo"] = "bar"')).to.have.no.errors();
         });
 
         it('should not report jquery root functions', function() {
-            assert(checker.checkString('var x = $.extends();').isEmpty());
+            expect(checker.checkString('var x = $.extends();')).to.have.no.errors();
         });
 
         it('should report jquery operator with html', function() {
-            assert(checker.checkString('var x = $("<p>foo</p>");').getErrorCount() === 1);
+            expect(checker.checkString('var x = $("<p>foo</p>");'))
+              .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
         it('should not report jquery operator with html with dollar', function() {
-            assert(checker.checkString('var $x = $("<p>foo</p>");').isEmpty());
+            expect(checker.checkString('var $x = $("<p>foo</p>");')).to.have.no.errors();
         });
 
         it('should report jquery operator with selector', function() {
-            assert(checker.checkString('var x = $(".foo");').getErrorCount() === 1);
+            expect(checker.checkString('var x = $(".foo");'))
+              .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
         it('should not report jquery operator with selector with dollar', function() {
-            assert(checker.checkString('var $x = $(".foo");').isEmpty());
+            expect(checker.checkString('var $x = $(".foo");')).to.have.no.errors();
         });
 
         it('should not report jquery operator using val', function() {
-            assert(checker.checkString('var x = $(".foo").val();').isEmpty());
+            expect(checker.checkString('var x = $(".foo").val();')).to.have.no.errors();
         });
 
         it('should not report chained jquery operator with variable', function() {
-            assert(checker.checkString('var x = $(evt.target).val();').isEmpty());
+            expect(checker.checkString('var x = $(evt.target).val();')).to.have.no.errors();
         });
 
         it('should not report jquery operator using val over multiple lines', function() {
-            assert(checker.checkString('var x = $(".foo")\n.val();').isEmpty());
+            expect(checker.checkString('var x = $(".foo")\n.val();')).to.have.no.errors();
         });
 
         it('should not report jquery operator using chained methods', function() {
-            assert(checker.checkString('var x = $(".foo").val().toString();').isEmpty());
+            expect(checker.checkString('var x = $(".foo").val().toString();')).to.have.no.errors();
         });
 
         it('should not report jquery operator with dollar and line not beginning with var', function() {
-            assert(checker.checkString('$x = $(".foo");').isEmpty());
+            expect(checker.checkString('$x = $(".foo");')).to.have.no.errors();
         });
 
         it('should not report jquery operator with dollar and line not ending in semicolon', function() {
-            assert(checker.checkString('var $x = $(".foo")').isEmpty());
+            expect(checker.checkString('var $x = $(".foo")')).to.have.no.errors();
         });
 
         it('should not report jquery operator with dollar and single quotes around selector', function() {
-            assert(checker.checkString('var $x = $(\'.foo\');').isEmpty());
+            expect(checker.checkString('var $x = $(\'.foo\');')).to.have.no.errors();
         });
 
         it('should not report on object destructuring', function() {
-            assert(checker.checkString('const {beep, boop} = meep;\nvar $s = $("#id")').isEmpty());
+            expect(checker.checkString('const {beep, boop} = meep;\nvar $s = $("#id")')).to.have.no.errors();
         });
 
         it('should report with assignment on right hand side of object destructuring', function() {
-            assert(checker.checkString('var {foo} = {foo: $(".foo")}').getErrorCount() === 1);
+            expect(checker.checkString('var {foo} = {foo: $(".foo")}'))
+              .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
         describe('in object definition', function() {
             it('should not report basic object creation with string key assignment', function() {
-                assert(checker.checkString('!{"a": true}').isEmpty());
+                expect(checker.checkString('!{"a": true}')).to.have.no.errors();
             });
 
             it('should not report object with string key assignment', function() {
-                assert(checker.checkString('var a = {"a": true};').isEmpty());
+                expect(checker.checkString('var a = {"a": true};')).to.have.no.errors();
             });
 
             it('should report basic jquery operator', function() {
-                assert(checker.checkString('var x = { foo: $() }').getErrorCount() === 1);
+                expect(checker.checkString('var x = { foo: $() }'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
 
             it('should not report basic jquery operator with dollar', function() {
-                assert(checker.checkString('var x = { $foo: $() }').isEmpty());
+                expect(checker.checkString('var x = { $foo: $() }')).to.have.no.errors();
             });
 
             it('should not report jquery operator with html', function() {
-                assert(checker.checkString('var x = { $foo: $("<p>foo</p>") }').isEmpty());
+                expect(checker.checkString('var x = { $foo: $("<p>foo</p>") }')).to.have.no.errors();
             });
 
             it('should not report jquery operator with html with dollar', function() {
-                assert(checker.checkString('var $x = { $foo: $("<p>foo</p>") }').isEmpty());
+                expect(checker.checkString('var $x = { $foo: $("<p>foo</p>") }')).to.have.no.errors();
             });
 
             it('should report jquery operator with selector', function() {
-                assert(checker.checkString('var x = { foo: $(".foo") }').getErrorCount() === 1);
+                expect(checker.checkString('var x = { foo: $(".foo") }'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
 
             it('should not report jquery operator with selector with dollar', function() {
-                assert(checker.checkString('var $x = { $foo: $(".foo") }').isEmpty());
+                expect(checker.checkString('var $x = { $foo: $(".foo") }')).to.have.no.errors();
             });
 
             it('should not report jquery operator using val', function() {
-                assert(checker.checkString('var x = { foo: $(".foo").val() }').isEmpty());
+                expect(checker.checkString('var x = { foo: $(".foo").val() }')).to.have.no.errors();
             });
 
             it('should not report jquery operator using val over multiple lines', function() {
-                assert(checker.checkString('var x = { foo: $(".foo")\n.val() }').isEmpty());
+                expect(checker.checkString('var x = { foo: $(".foo")\n.val() }')).to.have.no.errors();
             });
 
             it('should not report jquery operator using chained methods', function() {
-                assert(checker.checkString('var x = { foo: $(".foo").val().toString() }').isEmpty());
+                expect(checker.checkString('var x = { foo: $(".foo").val().toString() }')).to.have.no.errors();
             });
 
             it('should report jquery operator with dollar and single quotes around selector', function() {
-                assert(checker.checkString('var x = { foo: $(\'.foo\') }').getErrorCount() === 1);
+                expect(checker.checkString('var x = { foo: $(\'.foo\') }'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
         });
 
         describe('in object properties', function() {
             it('should report basic jquery operator', function() {
-                assert(checker.checkString('this.x = $();').getErrorCount() === 1);
+                expect(checker.checkString('this.x = $();'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
 
             it('should not report basic jquery operator with dollar', function() {
-                assert(checker.checkString('this.$x = $();').isEmpty());
+                expect(checker.checkString('this.$x = $();')).to.have.no.errors();
             });
 
             it('should report jquery operator with html', function() {
-                assert(checker.checkString('this.x = $("<p>foo</p>");').getErrorCount() === 1);
+                expect(checker.checkString('this.x = $("<p>foo</p>");'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
 
             it('should not report jquery operator with html with dollar', function() {
-                assert(checker.checkString('this.$x = $("<p>foo</p>");').isEmpty());
+                expect(checker.checkString('this.$x = $("<p>foo</p>");')).to.have.no.errors();
             });
 
             it('should report jquery operator with selector', function() {
-                assert(checker.checkString('this.x = $(".foo");').getErrorCount() === 1);
+                expect(checker.checkString('this.x = $(".foo");'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
 
             it('should not report jquery operator with selector with dollar', function() {
-                assert(checker.checkString('this.$x = $(".foo");').isEmpty());
+                expect(checker.checkString('this.$x = $(".foo");')).to.have.no.errors();
             });
 
             it('should not report jquery operator using val', function() {
-                assert(checker.checkString('this.x = $(".foo").val();').isEmpty());
+                expect(checker.checkString('this.x = $(".foo").val();')).to.have.no.errors();
             });
 
             it('should not report jquery operator using val over multiple lines', function() {
-                assert(checker.checkString('this.x = $(".foo")\n.val();').isEmpty());
+                expect(checker.checkString('this.x = $(".foo")\n.val();')).to.have.no.errors();
             });
 
             it('should not report jquery operator using chained methods', function() {
-                assert(checker.checkString('this.x = $(".foo").val().toString();').isEmpty());
+                expect(checker.checkString('this.x = $(".foo").val().toString();')).to.have.no.errors();
             });
 
             it('should not report jquery operator with dollar and line not ending in semicolon', function() {
-                assert(checker.checkString('this.$x = $(".foo")').isEmpty());
+                expect(checker.checkString('this.$x = $(".foo")')).to.have.no.errors();
             });
 
             it('should not report jquery operator with dollar and single quotes around selector', function() {
-                assert(checker.checkString('this.$x = $(\'.foo\');').isEmpty());
+                expect(checker.checkString('this.$x = $(\'.foo\');')).to.have.no.errors();
             });
 
             it('should not report direct assignment', function() {
-                assert(checker.checkString('this.$video = $video;').isEmpty());
+                expect(checker.checkString('this.$video = $video;')).to.have.no.errors();
             });
 
             it('should not report basic assignment', function() {
-                assert(checker.checkString('w.x = 2;').isEmpty());
+                expect(checker.checkString('w.x = 2;')).to.have.no.errors();
             });
 
             it('should not report function assignment', function() {
-                assert(checker.checkString('w.x = function() {};').isEmpty());
+                expect(checker.checkString('w.x = function() {};')).to.have.no.errors();
             });
 
             it('should not report logical assignment', function() {
-                assert(checker.checkString('w.a = 1 || 2;').isEmpty());
+                expect(checker.checkString('w.a = 1 || 2;')).to.have.no.errors();
             });
 
             it('should not report object logical assignment', function() {
-                assert(checker.checkString('w.a = w.a || {};').isEmpty());
+                expect(checker.checkString('w.a = w.a || {};')).to.have.no.errors();
             });
 
             it('should not report binary assignment', function() {
-                assert(checker.checkString('w.a = 1 + 2;').isEmpty());
+                expect(checker.checkString('w.a = 1 + 2;')).to.have.no.errors();
             });
 
             it('should not report multi level object assignment', function() {
-                assert(checker.checkString('a.b.$c = $()').isEmpty());
+                expect(checker.checkString('a.b.$c = $()')).to.have.no.errors();
             });
 
             it('should report multi level object assignment without dollar', function() {
-                assert(checker.checkString('a.b.c = $()').getErrorCount() === 1);
+                expect(checker.checkString('a.b.c = $()'))
+                  .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
         });
     });
@@ -257,22 +268,23 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
         });
 
         it('should report basic jquery operator', function() {
-            assert(checker.checkString('var x = $();').getErrorCount() === 1);
+            expect(checker.checkString('var x = $();'))
+              .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
         it('should not report basic jquery operator with dollar', function() {
-            assert(checker.checkString('var $x = $();').isEmpty());
+            expect(checker.checkString('var $x = $();')).to.have.no.errors();
         });
 
         describe('in object definition', function() {
             it('should not report basic jquery operator', function() {
-                assert(checker.checkString('var x = { foo: $() }').isEmpty());
+                expect(checker.checkString('var x = { foo: $() }')).to.have.no.errors();
             });
         });
 
         describe('in object properties', function() {
             it('should not report basic jquery operator', function() {
-                assert(checker.checkString('this.x = $();').isEmpty());
+                expect(checker.checkString('this.x = $();')).to.have.no.errors();
             });
         });
     });

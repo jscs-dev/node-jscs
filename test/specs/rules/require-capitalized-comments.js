@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 var Checker = require('../../../lib/checker');
@@ -7,11 +7,11 @@ describe('rules/require-capitalized-comments', function() {
     var checker;
 
     function assertEmpty(str) {
-        assert(checker.checkString(str).isEmpty());
+        expect(checker.checkString(str)).to.have.no.errors();
     }
 
     function assertOne(str) {
-        assert(checker.checkString(str).getErrorCount() === 1);
+        expect(checker.checkString(str)).to.have.one.validation.error.from('requireCapitalizedComments');
     }
 
     beforeEach(function() {
@@ -47,35 +47,35 @@ describe('rules/require-capitalized-comments', function() {
         });
 
         it('should not report on comments that start with a non-alphabetical character', function() {
-            assert(checker.checkString('//123').isEmpty());
-            assert(checker.checkString('// 123').isEmpty());
-            assert(checker.checkString('/**123*/').isEmpty());
-            assert(checker.checkString('/**\n @todo: foobar\n */').isEmpty());
-            assert(checker.checkString('/** 123*/').isEmpty());
-            assert(checker.checkString([
+            expect(checker.checkString('//123')).to.have.no.errors();
+            expect(checker.checkString('// 123')).to.have.no.errors();
+            expect(checker.checkString('/**123*/')).to.have.no.errors();
+            expect(checker.checkString('/**\n @todo: foobar\n */')).to.have.no.errors();
+            expect(checker.checkString('/** 123*/')).to.have.no.errors();
+            expect(checker.checkString([
                 '// \xDCber',
                 '// diese Funktion'
-            ].join('\n')).isEmpty());
+            ].join('\n'))).to.have.no.errors();
         });
 
         it('should not report on comments that disable or enable JSCS, ESLint, JSHint and Istanbul rules', function() {
-            assert(checker.checkString('//jscs:enable').isEmpty());
-            assert(checker.checkString('// jscs:disable').isEmpty());
-            assert(checker.checkString('/*jscs:enable rule*/').isEmpty());
-            assert(checker.checkString('/* jscs:disable rule*/').isEmpty());
+            expect(checker.checkString('//jscs:enable')).to.have.no.errors();
+            expect(checker.checkString('// jscs:disable')).to.have.no.errors();
+            expect(checker.checkString('/*jscs:enable rule*/')).to.have.no.errors();
+            expect(checker.checkString('/* jscs:disable rule*/')).to.have.no.errors();
 
-            assert(checker.checkString('/* eslint eqeqeq:0, curly: 2*/').isEmpty());
-            assert(checker.checkString('/* eslint-env node, mocha */').isEmpty());
-            assert(checker.checkString('/* global var1, var2*/').isEmpty());
-            assert(checker.checkString('/* eslint-disable */').isEmpty());
-            assert(checker.checkString('/* eslint-enable */').isEmpty());
-            assert(checker.checkString('// eslint-disable-line').isEmpty());
+            expect(checker.checkString('/* eslint eqeqeq:0, curly: 2*/')).to.have.no.errors();
+            expect(checker.checkString('/* eslint-env node, mocha */')).to.have.no.errors();
+            expect(checker.checkString('/* global var1, var2*/')).to.have.no.errors();
+            expect(checker.checkString('/* eslint-disable */')).to.have.no.errors();
+            expect(checker.checkString('/* eslint-enable */')).to.have.no.errors();
+            expect(checker.checkString('// eslint-disable-line')).to.have.no.errors();
 
-            assert(checker.checkString('/* jshint strict: true */').isEmpty());
-            assert(checker.checkString('/* globals MY_LIB: false */').isEmpty());
-            assert(checker.checkString('/* exported EXPORTED_LIB */').isEmpty());
+            expect(checker.checkString('/* jshint strict: true */')).to.have.no.errors();
+            expect(checker.checkString('/* globals MY_LIB: false */')).to.have.no.errors();
+            expect(checker.checkString('/* exported EXPORTED_LIB */')).to.have.no.errors();
 
-            assert(checker.checkString('/* istanbul ignore next */').isEmpty());
+            expect(checker.checkString('/* istanbul ignore next */')).to.have.no.errors();
         });
 
         describe('"textblock"', function() {
@@ -226,21 +226,21 @@ describe('rules/require-capitalized-comments', function() {
 
     describe('incorrect configuration', function() {
         it('empty object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({
                     requireCapitalizedComments: {}
                 });
-            }, assert.AssertionError);
+            }).to.throw('AssertionError');
         });
 
         it('ignoreIfInTheMiddle: false', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({
                     requireCapitalizedComments: {
                         ignoreIfInTheMiddle: false
                     }
                 });
-            }, assert.AssertionError);
+            }).to.throw('AssertionError');
         });
     });
 
@@ -311,11 +311,9 @@ describe('rules/require-capitalized-comments', function() {
 
     describe('incorrect configuration', function() {
         it('should not accept objects without at least one valid key', function() {
-            assert.throws(function() {
+            expect(function() {
                     checker.configure({ requireCapitalizedComments: {} });
-                },
-                assert.AssertionError
-            );
+                }).to.throw('AssertionError');
         });
     });
 

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-keywords-on-new-line', function() {
     var checker;
@@ -9,27 +9,23 @@ describe('rules/require-keywords-on-new-line', function() {
     });
     it('should report illegal keyword placement', function() {
         checker.configure({ requireKeywordsOnNewLine: ['else'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'if (x) {\n' +
                     'x++;\n' +
                 '} else {\n' +
                     'x--;\n' +
                 '}'
-            ).getErrorCount() === 1
-        );
+            )).to.have.one.validation.error.from('requireKeywordsOnNewLine');
     });
     it('should not report legal keyword placement', function() {
         checker.configure({ requireKeywordsOnNewLine: ['else'] });
-        assert(
-            checker.checkString(
+        expect(checker.checkString(
                 'if (x) {\n' +
                     'x++;\n' +
                 '}\n' +
                 'else {\n' +
                     'x--;\n' +
                 '}'
-            ).isEmpty()
-        );
+            )).to.have.no.errors();
     });
 });

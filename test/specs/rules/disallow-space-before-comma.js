@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-space-before-comma', function() {
     var checker;
@@ -12,12 +12,12 @@ describe('rules/disallow-space-before-comma', function() {
     it('does not allow spaces before commas', function() {
         checker.configure({ disallowSpaceBeforeComma: true });
 
-        assert(checker.checkString('var a ,b;').getErrorCount() === 1);
+        expect(checker.checkString('var a ,b;')).to.have.one.validation.error.from('disallowSpaceBeforeComma');
     });
 
     it('does allow commas with no spaces', function() {
         checker.configure({ disallowSpaceBeforeComma: true });
 
-        assert(checker.checkString('var a,b;').isEmpty());
+        expect(checker.checkString('var a,b;')).to.have.no.errors();
     });
 });

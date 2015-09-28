@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-matching-function-name', function() {
     var checker;
@@ -34,7 +34,7 @@ describe('rules/require-matching-function-name', function() {
         });
 
         it('should not report function name mismatch in object', function() {
-            assert(checker.checkString('var object = {foo: function foo() {}}').isEmpty());
+            expect(checker.checkString('var object = {foo: function foo() {}}')).to.have.no.errors();
         });
 
         it('should report function name mismatch when assigning to member deeply', function() {
@@ -99,14 +99,14 @@ describe('rules/require-matching-function-name', function() {
 
         function assertError(js, message) {
             var errors = checker.checkString(js).getErrorList();
-            assert(errors.length);
-            assert.equal(errors[0].rule, 'requireMatchingFunctionName');
-            assert.equal(errors[0].message, message);
+            expect(errors.length).to.be.at.least(1);
+            expect(errors[0].rule).to.equal('requireMatchingFunctionName');
+            expect(errors[0].message).to.equal(message);
         }
 
         function assertNoErrors(js) {
             var errors = checker.checkString(js).getErrorList();
-            assert.equal(errors.length, 0);
+            expect(errors.length).to.equal(0);
         }
     });
 });

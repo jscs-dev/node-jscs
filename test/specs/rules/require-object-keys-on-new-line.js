@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
@@ -27,14 +27,14 @@ describe('rules/require-object-keys-on-new-line', function() {
     });
 
     it('should not report object with padding', function() {
-        assert(checker.checkString('var a = {foo: "bar",\nbar: "baz"}').isEmpty());
+        expect(checker.checkString('var a = {foo: "bar",\nbar: "baz"}')).to.have.no.errors();
     });
 
     it('should not report argument with padding', function() {
-        assert(checker.checkString('foo({foo: "bar",\nbar: "baz"})').isEmpty());
+        expect(checker.checkString('foo({foo: "bar",\nbar: "baz"})')).to.have.no.errors();
     });
 
     it('should not report object with one key', function() {
-        assert(checker.checkString('var a = {a: "b"};').isEmpty());
+        expect(checker.checkString('var a = {a: "b"};')).to.have.no.errors();
     });
 });

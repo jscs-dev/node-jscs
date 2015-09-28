@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var Checker = require('../../lib/checker');
 
 var AssertHelpers = {
@@ -14,14 +14,14 @@ var AssertHelpers = {
      * @param {Number} [options.errors='1'] the expected number of errors when checking input
      */
     reportAndFix: function(options) {
-        assert.equal(typeof(options), 'object');
-        assert.equal(typeof(options.name), 'string');
-        assert.equal(typeof(options.rules), 'object');
-        assert.equal(typeof(options.input), 'string');
-        assert.equal(typeof(options.output), 'string');
+        expect(options).to.be.a('object');
+        expect(options.name).to.be.a('string');
+        expect(options.rules).to.be.a('object');
+        expect(options.input).to.be.a('string');
+        expect(options.output).to.be.a('string');
 
         if (options.errors !== undefined) {
-            assert.equal(typeof(options.errors), 'number');
+            expect(options.errors).to.be.a('number');
         }
 
         options.errors = options.errors === undefined ? 1 : options.errors;
@@ -36,13 +36,13 @@ var AssertHelpers = {
             });
 
             it('report', function() {
-                assert(checker.checkString(options.input).getErrorCount() === options.errors);
+                expect(checker.checkString(options.input)).to.have.error.count.equal(options.errors);
             });
 
             it('fix', function() {
                 var result = checker.fixString(options.input);
-                assert(result.errors.isEmpty());
-                assert.equal(result.output, options.output);
+                expect(result.errors).to.have.no.errors();
+                expect(result.output).to.equal(options.output);
             });
         }
 
