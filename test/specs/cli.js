@@ -63,8 +63,9 @@ describe('cli', function() {
             config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json')
         });
 
-        return result.promise.fail(function() {
+        return result.promise.fail(function(value) {
             assert(console.error.getCall(0).args[0] === 'Config source is corrupted -');
+            assert.equal(value, 5);
             console.error.restore();
         });
     });
@@ -131,11 +132,12 @@ describe('cli', function() {
             done();
         });
 
-        cli({
+        return cli({
             args: []
+        }).promise.fail(function(value) {
+            assert.equal(value, 3);
+            console.error.restore();
         });
-
-        console.error.restore();
     });
 
     it('should exit if no custom config is found', function(done) {
