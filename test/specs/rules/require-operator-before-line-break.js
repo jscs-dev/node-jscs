@@ -13,15 +13,13 @@ describe('rules/require-operator-before-line-break', function() {
 
     operators.forEach(function(operator) {
         [[operator], true].forEach(function(value) {
-            beforeEach(function() {
-                checker.configure({ requireOperatorBeforeLineBreak: value, esnext: true });
-            });
-
             it('should report newline before ' + operator + ' with ' + value + ' value', function() {
+                checker.configure({ requireOperatorBeforeLineBreak: value });
                 assert(checker.checkString('var x = y \n' + operator + ' String').getErrorCount() === 1);
             });
 
             it('should not report newline after ' + operator + ' with ' + value + ' value', function() {
+                checker.configure({ requireOperatorBeforeLineBreak: value });
                 assert(checker.checkString('var x = y ' + operator + '\n String').isEmpty());
             });
         });
