@@ -1,4 +1,11 @@
-## [Version 2.2.0](https://github.com/jscs-dev/node-jscs/compare/v2.1.1...v2.2.0) (09-24-2015):
+## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
+
+Quick fix related to checker not returning correctly with excluded files.
+
+- [`f12830a`](https://github.com/jscs-dev/node-jscs/commit/f12830a469959f3543c51bfc632fe37292ea6d09) [#1816](https://github.com/jscs-dev/node-jscs/issues/1816)
+    - Internal: `Checker` - return correct arguments for excluded files ([markelog](https://github.com/markelog))
+
+## [Version 2.2.0](https://github.com/jscs-dev/node-jscs/compare/v2.1.1...v2.2.0) (09-28-2015):
 
 Again, it's been way too long since the last version; we're going to be releasing more often in the future!
 
