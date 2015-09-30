@@ -38,6 +38,7 @@
     "disallowSemicolons",
     "requireSemicolons",
     "requireSpaceBeforeComma",
+    "requireSpaceAfterComma",
     "disallowDanglingUnderscores",
     "requireCommaBeforeLineBreak",
     "disallowCommaBeforeLineBreak",
