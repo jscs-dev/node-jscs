@@ -22,7 +22,7 @@ Be on the look out for https://github.com/cst/cst (just finished ES6 support thi
 Thanks to [@markelog](https://github.com/markelog), we also have autofix support for the following rules:
 
 - [`disallowSemicolons`](http://jscs.info/rule/disallowSemicolons)
-- [`requireSemicolons`](http://jscs.info/rulerequireSemicolons)
+- [`requireSemicolons`](http://jscs.info/rule/requireSemicolons)
 - [`disallowQuotedKeysInObjects`](http://jscs.info/rule/disallowQuotedKeysInObjects)
 - [`requireCapitalizedComments`](http://jscs.info/rule/requireCapitalizedComments)
 
