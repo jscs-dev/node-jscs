@@ -18,8 +18,16 @@ describe('rules/require-space-after-comma', function() {
         assert(checker.checkString('var a ,b;').getErrorCount() === 1);
     });
 
-    it('should allow space after comma in var assignment', function() {
+    it('should allow space after comma in var declaration', function() {
         assert(checker.checkString('var a, b;').isEmpty());
+    });
+
+    it('should allow space after and before comma in var declaration', function() {
+        assert(checker.checkString('var a , b;').isEmpty());
+    });
+
+    it('should allow new line after comma in var declaration', function() {
+        assert(checker.checkString('var a,\nb,\nc;').isEmpty());
     });
 
     it('should report errors when no space is given in arrays', function() {
@@ -34,6 +42,14 @@ describe('rules/require-space-after-comma', function() {
         assert(checker.checkString('var a = [1, 2, 3, 4];').isEmpty());
     });
 
+    it('should allow space after and before comma in arrays', function() {
+        assert(checker.checkString('var a = [1 , 2 , 3 , 4];').isEmpty());
+    });
+
+    it('should allow new line after comma in arrays', function() {
+        assert(checker.checkString('var a = [1,\n2,\n3];').isEmpty());
+    });
+
     it('should report errors when no space is given in objects', function() {
         assert(checker.checkString('var a = {x:1,y:2,z:3};').getErrorCount() === 2);
     });
@@ -46,8 +62,12 @@ describe('rules/require-space-after-comma', function() {
         assert(checker.checkString('var a = {x: 1, y: 2, z: 3};').isEmpty());
     });
 
-    it('should allow new line after comma', function() {
-        assert(checker.checkString('var a = [1,\n2,\n3];').isEmpty());
+    it('should allow space after and before comma in objects', function() {
+        assert(checker.checkString('var a = {x: 1 , y: 2 , z: 3};').isEmpty());
+    });
+
+    it('should allow new line after comma in objects', function() {
+        assert(checker.checkString('var a = {x: 1,\ny: 2,\nz: 3};').isEmpty());
     });
 
 });
