@@ -2,7 +2,6 @@ var utils = require('../../lib/utils');
 var assert = require('assert');
 var JsFile = require('../../lib/js-file');
 var esprima = require('esprima');
-var babelJscs = require('babel-jscs');
 var path = require('path');
 
 describe('utils', function() {
@@ -153,14 +152,6 @@ describe('utils', function() {
                 assert.ok(err);
                 done();
             });
-        });
-    });
-
-    describe('getBabelType', function() {
-        it('returns private property `_babelType`', function() {
-            var file = createJsFile('var a = { ...a };', babelJscs);
-            var property = file.getNodesByType('ObjectExpression')[0].properties[0];
-            assert.equal(utils.getBabelType(property), 'SpreadProperty');
         });
     });
 
