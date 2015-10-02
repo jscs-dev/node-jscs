@@ -41,4 +41,12 @@ describe('rules/disallow-parentheses-around-arrow-param', function() {
     it('should not error with no params #1747', function() {
         assert(checker.checkString('() => {};').isEmpty());
     });
+
+    it('should not report an arrow function expression with a single rest param #1616, #1831', function() {
+        assert(checker.checkString('[1, 2].map((...x) => x);').isEmpty());
+    });
+
+    it('should not report an arrow function expression with a single array param #1831', function() {
+        assert(checker.checkString('[1, 2].map(([x]) => x);').isEmpty());
+    });
 });
