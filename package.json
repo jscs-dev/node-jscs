@@ -91,6 +91,7 @@
   },
   "devDependencies": {
     "browserify": "^11.0.0",
+    "chai": "^3.3.0",
     "coveralls": "~2.11.2",
     "has-ansi": "~1.0.1",
     "jshint": "~2.8.0",
