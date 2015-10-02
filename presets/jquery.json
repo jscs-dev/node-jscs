@@ -30,6 +30,7 @@
     "disallowMultipleLineStrings": true,
     "disallowTrailingComma": true,
     "disallowSpaceBeforeComma": true,
+    "requireSpaceAfterComma": true,
 
     "requireSpaceBeforeBlockStatements": true,
     "requireSpacesInFunctionExpression": {
