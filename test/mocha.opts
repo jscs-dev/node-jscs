@@ -1,4 +1,5 @@
 test/chai-extensions.js
 test/specs/**/*.js
+--timeout 3000
 -R progress
 -u bdd
