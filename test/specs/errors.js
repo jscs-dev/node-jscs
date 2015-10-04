@@ -1,5 +1,5 @@
 var Checker = require('../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('errors', function() {
     var checker;
@@ -15,75 +15,75 @@ describe('errors', function() {
         var errors = checker.checkString('\tvar x = { "a": 1 }');
         var error = errors.getErrorList()[0];
 
-        assert.ok(error.rule === 'disallowQuotedKeysInObjects');
+        expect(error.rule).to.equal('disallowQuotedKeysInObjects');
     });
 
     it('should suppress errors with disable comment', function() {
         var errors = checker.checkString('//jscs:disable\n\tvar x = { "a": 1 }');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should suppress errors with disable comment followed by another more specific disable comment', function() {
         var errors = checker.checkString('//jscs:disable\n//jscs:disable someOtherRule\n\tvar x = { "a": 1 }');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should not suppress errors with disable followed by enable comment', function() {
         var errors = checker.checkString('//jscs:disable\n//jscs:enable\n\tvar x = { "a": 1 }');
-        assert.ok(!errors.isEmpty());
+        expect(errors).to.have.errors();
     });
 
     it('should suppress errors with disable comment followed by enable comment after error location', function() {
         var errors = checker.checkString('//jscs:disable\n\tvar x = { "a": 1 };\n//jscs:enable');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should suppress errors when specific rule is disabled', function() {
         var errors = checker.checkString('//jscs:disable disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should not suppress errors when other rule is disabled', function() {
         var errors = checker.checkString('//jscs:disable someRuleName\n\tvar x = { "a": 1 }');
-        assert.ok(!errors.isEmpty());
+        expect(errors).to.have.errors();
     });
 
     it('should not suppress errors with disable followed by specific enable comment', function() {
         var errors = checker.checkString('//jscs:disable\n ' +
             '//jscs:enable disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
 
-        assert.ok(!errors.isEmpty());
+        expect(errors).to.have.errors();
     });
 
     it('should suppress errors with disable followed by specific enable other comment', function() {
         var errors = checker.checkString('//jscs:disable\n ' +
             '//jscs:enable someRuleName\n\tvar x = { "a": 1 }');
 
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should not suppress errors with disable followed by specific enable other comment', function() {
         var errors = checker.checkString('//jscs:disable\n ' +
             '//jscs:enable someRuleName, disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
 
-        assert.ok(!errors.isEmpty());
+        expect(errors).to.have.errors();
     });
 
     it('should suppress errors with disable using liberal whitespace', function() {
         var errors = checker.checkString('//   jscs:   disable   disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should suppress errors with disable using block comment', function() {
         var errors = checker.checkString('/*   jscs:   disable   disallowQuotedKeysInObjects */\n\tvar x = { "a": 1 }');
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     it('should suppress errors with disable using block comment and weird rule spacing', function() {
         var errors = checker.checkString('/* jscs: disable   someOtherRule, , ' +
             'disallowQuotedKeysInObjects */\nvar x = { "a": 1 }');
 
-        assert.ok(errors.isEmpty());
+        expect(errors).to.have.no.errors();
     });
 
     describe('add', function() {
@@ -93,27 +93,27 @@ describe('errors', function() {
         });
 
         it('should throw an error on invalid line type', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.add('msg', '0');
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid line value', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.add('msg', 0);
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid column type', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.add('msg', 1, '2');
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid column value', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.add('msg', 1, -1);
-            });
+            }).to.throw();
         });
 
         it('should not throw with good parameters', function() {
@@ -122,9 +122,9 @@ describe('errors', function() {
 
             var error = errors.getErrorList()[0];
 
-            assert.equal(error.rule, 'anyRule');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 0);
+            expect(error.rule).to.equal('anyRule');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(0);
         });
     });
 
@@ -135,51 +135,51 @@ describe('errors', function() {
         });
 
         it('should throw an error on invalid line type', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.cast({
                     message: 'msg',
                     line: '0'
                 });
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid line value', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.cast({
                     message: 'msg',
                     line: 0
                 });
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid column type', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.cast({
                     message: 'msg',
                     line: 1,
                     column: '2'
                 });
-            });
+            }).to.throw();
         });
 
         it('should throw an error on invalid column value', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.cast({
                     message: 'msg',
                     line: 1,
                     column: -1
                 });
-            });
+            }).to.throw();
         });
 
         it('should throw without "additional" argument', function() {
-            assert.throws(function() {
+            expect(function() {
                 errors.cast({
                     message: 'msg',
                     line: 1,
                     column: -1
                 });
-            });
+            }).to.throw();
         });
 
         it('should correctly set error', function() {
@@ -193,10 +193,10 @@ describe('errors', function() {
 
             var error = errors.getErrorList()[0];
 
-            assert.equal(error.rule, 'anyRule');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 0);
-            assert.equal(error.additional, 'test');
+            expect(error.rule).to.equal('anyRule');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(0);
+            expect(error.additional).to.equal('test');
         });
     });
 
@@ -219,14 +219,14 @@ describe('errors', function() {
 
             var error = errors.getErrorList()[0];
 
-            assert.equal(error.message, 'anyRule: msg');
+            expect(error.message).to.equal('anyRule: msg');
         });
 
         it('should dump a stack of Error', function() {
             errors._verbose = true;
             errors.add(Error('test'), 1, 0);
 
-            assert.equal(errors.getErrorCount(), 1);
+            expect(errors).to.have.one.error();
         });
     });
 
@@ -241,22 +241,22 @@ describe('errors', function() {
             ].join('\n'));
             var errorList = errors.getErrorList();
 
-            assert.ok(errors.explainError(errorList[0]).indexOf('--------^'));
-            assert.ok(errors.explainError(errorList[1]).indexOf('--------^'));
+            expect(!!errors.explainError(errorList[0]).indexOf('--------^')).to.equal(true);
+            expect(!!errors.explainError(errorList[1]).indexOf('--------^')).to.equal(true);
         });
 
         it('should provide correct indent for tabbed lines', function() {
             var errors = checker.checkString('\tvar x = { "a": 1 }');
             var error = errors.getErrorList()[0];
 
-            assert.ok(!/\t/.test(errors.explainError(error)));
+            expect(!/\t/.test(errors.explainError(error))).to.equal(true);
         });
 
         it('should explain colorized', function() {
             var errors = checker.checkString('var x = { "a": 1 };');
             var error = errors.getErrorList()[0];
 
-            assert.ok(errors.explainError(error, true).indexOf('\u001b') !== -1);
+            expect(errors.explainError(error, true).indexOf('\u001b')).to.not.equal(-1);
         });
 
         it('should show correct error message for "verbose" option and unsupported rule error',
@@ -269,9 +269,7 @@ describe('errors', function() {
                 var errors = checker.checkString('var x = { "a": 1 };');
                 var error = errors.getErrorList()[0];
 
-                assert.equal(
-                    errors.explainError(error).indexOf(': Unsupported rule: unsupported'), -1
-                );
+                expect(errors.explainError(error).indexOf(': Unsupported rule: unsupported')).to.equal(-1);
             }
         );
     });
@@ -282,7 +280,7 @@ describe('errors', function() {
             errors.filter(function() {
                 return false;
             });
-            assert(errors.isEmpty());
+            expect(errors).to.have.no.errors();
         });
     });
 
@@ -293,13 +291,13 @@ describe('errors', function() {
             errors.add('msg2', 1, 1);
             errors.add('msg3', 1, 2);
             errors.stripErrorList(2);
-            assert.equal(errors.getErrorCount(), 2);
-            assert.equal(errors.getErrorList()[0].message, 'msg1');
-            assert.equal(errors.getErrorList()[0].line, 1);
-            assert.equal(errors.getErrorList()[0].column, 0);
-            assert.equal(errors.getErrorList()[1].message, 'msg2');
-            assert.equal(errors.getErrorList()[1].line, 1);
-            assert.equal(errors.getErrorList()[1].column, 1);
+            expect(errors).to.have.error.count.equal(2);
+            expect(errors.getErrorList()[0].message).to.equal('msg1');
+            expect(errors.getErrorList()[0].line).to.equal(1);
+            expect(errors.getErrorList()[0].column).to.equal(0);
+            expect(errors.getErrorList()[1].message).to.equal('msg2');
+            expect(errors.getErrorList()[1].line).to.equal(1);
+            expect(errors.getErrorList()[1].column).to.equal(1);
         });
     });
 });

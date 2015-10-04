@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-padding-newlines-before-keywords', function() {
     var checker;
@@ -19,100 +19,78 @@ describe('rules/require-padding-newlines-before-keywords', function() {
         });
 
         it('should not report on first expression in a block', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { return; }'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         // Test simple case (including return statement check)
         it('should report on matching return statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a; return; }'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
 
         // Test cases for if statements
         it('should report on matching if statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a = true; if (a) { a = !a; }; }'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
 
         it('should not report on else if construct', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'if (true) {} else if (false) {}'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report on do while construct', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a = true; do { a = !a; } while (a); }'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report on keyword following an if without curly braces', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { if (true) return; }'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         // Test case for 'for' statement
         it('should report on matching for statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a = true;' +
                     ' for (var i = 0; i < 10; i++) { a = !a; }; }'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
 
         // Test case for 'switch', 'case' and 'break' statement
         it('should report on matching switch, case, break, default statements', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var y = true; switch ("Oranges")' + ' { case "Oranges": y = !y; break;' +
                     ' case "Apples": y = !y; break; default: y = !y; } }'
-                ).getErrorCount() === 5
-            );
+                )).to.have.error.count.equal(5);
         });
 
         // Test cases for if statements
         it('should report on matching while statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a = true; while (!a) { a = !a; }; }'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
 
         // Test case for 'throw' statement
         it('should report on matching if statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() {try { var a; throw 0; } catch (e) { var b = 0; throw e; } }'
-                ).getErrorCount() === 2
-            );
+                )).to.have.error.count.equal(2);
         });
 
         it('should report on multiple matching keywords', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x(a) { var b = 0; if (!a) { return false; };' +
                     ' for (var i = 0; i < b; i++) { if (!a[i]) return false; } return true; }'
-                ).getErrorCount() === 3
-            );
+                )).to.have.error.count.equal(3);
         });
     });
 
@@ -124,53 +102,41 @@ describe('rules/require-padding-newlines-before-keywords', function() {
         });
 
         it('should not report on first expression in a block', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { return; }'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report in object definitions', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'var obj = {\n' +
                     '  foo: function x() { return; }\n' +
                     '};'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report when parameter inside a function', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'watchlist.on( "watch", function () {} );'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report when assigned to a variable', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     ' Router.prototype.getPath = function () {};'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should not report when used inside closure', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     '( function ( $ ) {} )( jQuery );'
-                ).isEmpty()
-            );
+                )).to.have.no.errors();
         });
 
         it('should report on matching return statement', function() {
-            assert(
-                checker.checkString(
+            expect(checker.checkString(
                     'function x() { var a; return; }'
-                ).getErrorCount() === 1
-            );
+                )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
     });
 });

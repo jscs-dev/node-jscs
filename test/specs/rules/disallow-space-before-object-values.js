@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-space-before-object-values', function() {
     var checker;
@@ -11,59 +11,51 @@ describe('rules/disallow-space-before-object-values', function() {
     });
 
     it('should report with space after keys colons', function() {
-        assert.equal(checker.checkString('var x = { a:1, b: 2 };').getErrorCount(), 1, 'one error is found');
-        assert.equal(checker.checkString('var x = { abc : 1, b: 2 };').getErrorCount(), 2, 'two errors are found');
-        assert.equal(
-            checker.checkString('var x = { abc:(true), z: (function() { return _z > 0; }) };').getErrorCount(),
-            1,
-            'one error is found'
-        );
-        assert.equal(
-            checker.checkString('var x = { abc : (true), b: ("1")};').getErrorCount(),
-            2,
-            'two errors are found'
-        );
-        assert.equal(
-            checker.checkString('var x = { a: ((1 > 2) && 3)};').getErrorCount(),
-            1,
-            'one error is found'
-        );
+        expect(checker.checkString('var x = { a:1, b: 2 };'))
+          .to.have.one.validation.error.from('disallowSpaceBeforeObjectValues');
+        expect(checker.checkString('var x = { abc : 1, b: 2 };')).to.have.error.count.equal(2);
+        expect(checker.checkString('var x = { abc:(true), z: (function() { return _z > 0; }) };'))
+          .to.have.one.validation.error.from('disallowSpaceBeforeObjectValues');
+        expect(checker.checkString('var x = { abc : (true), b: ("1")};')).to.have.error.count.equal(2);
+        expect(checker.checkString('var x = { a: ((1 > 2) && 3)};'))
+          .to.have.one.validation.error.from('disallowSpaceBeforeObjectValues');
     });
 
     it('should not report with no space after keys colons and parenthesised expression in property value', function() {
-        assert(checker.checkString('var x = { a:(1 > 2)};').isEmpty());
-        assert(checker.checkString('var x = { 0x7f   :(y?(z ? 1: 2):(3)) };').isEmpty());
-        assert(checker.checkString('var x = { a:((1 > 2) && 3)};').isEmpty());
-        assert(checker.checkString('var x = { a     :((  1 > 2) && 3)};').isEmpty());
+        expect(checker.checkString('var x = { a:(1 > 2)};')).to.have.no.errors();
+        expect(checker.checkString('var x = { 0x7f   :(y?(z ? 1: 2):(3)) };')).to.have.no.errors();
+        expect(checker.checkString('var x = { a:((1 > 2) && 3)};')).to.have.no.errors();
+        expect(checker.checkString('var x = { a     :((  1 > 2) && 3)};')).to.have.no.errors();
     });
 
     it('should not report with no space after keys colons', function() {
-        assert(checker.checkString('var x = { a:1, bcd :2 };').isEmpty());
+        expect(checker.checkString('var x = { a:1, bcd :2 };')).to.have.no.errors();
     });
 
     it('should not report shorthand object properties', function() {
         checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { a, b };').isEmpty());
-        assert(checker.checkString('var x = {a, b};').isEmpty());
+        expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
+        expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
     });
 
     it('should report mixed shorthand and normal object properties', function() {
         checker.configure({ esnext: true });
-        assert.equal(checker.checkString('var x = { a : 1, b };').getErrorCount(), 1);
+        expect(checker.checkString('var x = { a : 1, b };'))
+          .to.have.one.validation.error.from('disallowSpaceBeforeObjectValues');
     });
 
     it('should not report es6-methods. #1013', function() {
         checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { a() { } };').isEmpty());
+        expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
     });
 
     it('should not report es7 object spread. Ref #1624', function() {
         checker.configure({ esnext: true });
-        assert(checker.checkString('var x = { ...a };').isEmpty());
+        expect(checker.checkString('var x = { ...a };')).to.have.no.errors();
     });
 
     it('should not report es5 getters/setters #1037', function() {
-        assert(checker.checkString('var x = { get a() { } };').isEmpty());
-        assert(checker.checkString('var x = { set a(val) { } };').isEmpty());
+        expect(checker.checkString('var x = { get a() { } };')).to.have.no.errors();
+        expect(checker.checkString('var x = { set a(val) { } };')).to.have.no.errors();
     });
 });

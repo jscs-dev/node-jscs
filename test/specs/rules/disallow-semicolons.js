@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
@@ -14,24 +14,24 @@ describe('rules/disallow-semicolons', function() {
     });
 
     it('should correctly handle latest token', function() {
-        assert.equal(checker.checkString(';').getErrorCount(), 1);
+        expect(checker.checkString(';')).to.have.one.validation.error.from('disallowSemicolons');
     });
 
     it('should correctly handle latest node without error', function() {
-        assert(checker.checkString('test').isEmpty());
+        expect(checker.checkString('test')).to.have.no.errors();
     });
 
     it('should tow latest nodes without error', function() {
-        assert(checker.checkString('test; a').isEmpty());
+        expect(checker.checkString('test; a')).to.have.no.errors();
     });
 
     it('should not allow semicolons at end of line', function() {
-        assert.equal(checker.checkString([
+        expect(checker.checkString([
             'var a = 1;',
             'var b = 2;',
             'function c() {}',
             'd();'
-        ].join('\n')).getErrorCount(), 3);
+        ].join('\n'))).to.have.error.count.equal(3);
 
         reportAndFix({
             name: 'var a = 1;',
@@ -59,11 +59,11 @@ describe('rules/disallow-semicolons', function() {
     });
 
     it('should allow semicolons inline', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'for (var i = 0; i < l; i++) {',
             'go()',
             '}'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
 
         reportAndFix({
             name: 'for (var i = 0; i < l; i++) {}',
@@ -75,10 +75,10 @@ describe('rules/disallow-semicolons', function() {
     });
 
     it('should allow semicolons at start of line', function() {
-        assert(checker.checkString([
+        expect(checker.checkString([
             'var foo = function () {}',
             ';[1, 2].forEach(foo)'
-        ].join('\n')).isEmpty());
+        ].join('\n'))).to.have.no.errors();
 
         reportAndFix({
             name: ';[1, 2].forEach(foo)',
@@ -99,21 +99,15 @@ describe('rules/disallow-semicolons', function() {
 
     describe('ignore needed semicolons', function() {
         it('`for`', function() {
-            assert(
-                checker.checkString('for (var j = 0,\nlength = arr.length;\nj < l; j++) {}').isEmpty()
-            );
+            expect(checker.checkString('for (var j = 0,\nlength = arr.length;\nj < l; j++) {}')).to.have.no.errors();
         });
 
         it('`[`', function() {
-            assert(
-                checker.checkString('"a"\n[0]').isEmpty()
-            );
+            expect(checker.checkString('"a"\n[0]')).to.have.no.errors();
         });
 
         it('`(`', function() {
-            assert(
-                checker.checkString('a;\n(1,2)').isEmpty()
-            );
+            expect(checker.checkString('a;\n(1,2)')).to.have.no.errors();
         });
     });
 

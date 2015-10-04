@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-numeric-literals', function() {
     var checker;
@@ -15,30 +15,33 @@ describe('rules/require-numeric-literals', function() {
     });
 
     it('should report on use of parseInt using 2, 8, 16 radix', function() {
-        assert(checker.checkString('parseInt("111110111", 2) === 503;').getErrorCount() === 1);
-        assert(checker.checkString('parseInt("767", 8) === 503;').getErrorCount() === 1);
-        assert(checker.checkString('parseInt("1F7", 16) === 255;').getErrorCount() === 1);
-        assert(checker.checkString('parseInt(1, 2);').getErrorCount() === 1);
+        expect(checker.checkString('parseInt("111110111", 2) === 503;'))
+          .to.have.one.validation.error.from('requireNumericLiterals');
+        expect(checker.checkString('parseInt("767", 8) === 503;'))
+          .to.have.one.validation.error.from('requireNumericLiterals');
+        expect(checker.checkString('parseInt("1F7", 16) === 255;'))
+          .to.have.one.validation.error.from('requireNumericLiterals');
+        expect(checker.checkString('parseInt(1, 2);')).to.have.one.validation.error.from('requireNumericLiterals');
     });
 
     it('should not report on use of parseInt with radix that is not 2, 8, 16', function() {
-        assert(checker.checkString('parseInt(1);').isEmpty());
-        assert(checker.checkString('parseInt(1, 3);').isEmpty());
+        expect(checker.checkString('parseInt(1);')).to.have.no.errors();
+        expect(checker.checkString('parseInt(1, 3);')).to.have.no.errors();
     });
 
     it('should not report on numeric literals', function() {
-        assert(checker.checkString('0b111110111 === 503;').isEmpty());
-        assert(checker.checkString('0o767 === 503;').isEmpty());
-        assert(checker.checkString('0x1F7 === 503;').isEmpty());
+        expect(checker.checkString('0b111110111 === 503;')).to.have.no.errors();
+        expect(checker.checkString('0o767 === 503;')).to.have.no.errors();
+        expect(checker.checkString('0x1F7 === 503;')).to.have.no.errors();
     });
 
     it('should not report on other call expressions', function() {
-        assert(checker.checkString('a();').isEmpty());
-        assert(checker.checkString('a(1);').isEmpty());
-        assert(checker.checkString('a(1, 2);').isEmpty());
+        expect(checker.checkString('a();')).to.have.no.errors();
+        expect(checker.checkString('a(1);')).to.have.no.errors();
+        expect(checker.checkString('a(1, 2);')).to.have.no.errors();
     });
 
     it('should not report for non-identifier call', function() {
-        assert(checker.checkString('a[parseInt](1,2);').isEmpty());
+        expect(checker.checkString('a[parseInt](1,2);')).to.have.no.errors();
     });
 });

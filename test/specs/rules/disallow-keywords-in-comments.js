@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-keywords-in-comments', function() {
     var checker;
@@ -11,15 +11,15 @@ describe('rules/disallow-keywords-in-comments', function() {
 
     describe('invalid options', function() {
         it('should throw when given an object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowKeywordsInComments: {} });
-            });
+            }).to.throw();
         });
 
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowKeywordsInComments: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -29,40 +29,44 @@ describe('rules/disallow-keywords-in-comments', function() {
         });
 
         it('should report on an instance of the word todo regardless of case', function() {
-            assert(checker.checkString('// todo').getErrorCount() === 1);
-            assert(checker.checkString('// TODO').getErrorCount() === 1);
-            assert(checker.checkString('/** ToDo */').getErrorCount() === 1);
-            assert(checker.checkString('/**\n * TODO\n */').getErrorCount() === 1);
-            assert(checker.checkString('/* todo */').getErrorCount() === 1);
-            assert(checker.checkString('/*\n\n\n\n    TODO\n */').getErrorCount() === 1);
+            expect(checker.checkString('// todo')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('// TODO')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/** ToDo */')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/**\n * TODO\n */'))
+              .to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/* todo */')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/*\n\n\n\n    TODO\n */'))
+              .to.have.one.validation.error.from('disallowKeywordsInComments');
         });
 
         it('should report on an instance of the word fixme regardless of case', function() {
-            assert(checker.checkString('//fixme').getErrorCount() === 1);
-            assert(checker.checkString('// FIXME').getErrorCount() === 1);
-            assert(checker.checkString('/** FixMe */').getErrorCount() === 1);
-            assert(checker.checkString('/**\n * FIXME\n */').getErrorCount() === 1);
-            assert(checker.checkString('/* fixme */').getErrorCount() === 1);
-            assert(checker.checkString('/*\n\n\n\n     FIXME\n */').getErrorCount() === 1);
+            expect(checker.checkString('//fixme')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('// FIXME')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/** FixMe */')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/**\n * FIXME\n */'))
+              .to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/* fixme */')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('/*\n\n\n\n     FIXME\n */'))
+              .to.have.one.validation.error.from('disallowKeywordsInComments');
         });
 
         it('should report multiple errors per line', function() {
-            assert(checker.checkString('/* FIXME and ToDO */').getErrorCount() === 2);
-            assert(checker.checkString('//Hi. Todo then fixME').getErrorCount() === 2);
+            expect(checker.checkString('/* FIXME and ToDO */')).to.have.error.count.equal(2);
+            expect(checker.checkString('//Hi. Todo then fixME')).to.have.error.count.equal(2);
         });
 
         it('should not report on a valid comment without the keywords', function() {
-            assert(checker.checkString('//valid').isEmpty());
-            assert(checker.checkString('// valid').isEmpty());
-            assert(checker.checkString('/** valid */').isEmpty());
-            assert(checker.checkString('/*\n\n\n\n     Totally valid\n */').isEmpty());
+            expect(checker.checkString('//valid')).to.have.no.errors();
+            expect(checker.checkString('// valid')).to.have.no.errors();
+            expect(checker.checkString('/** valid */')).to.have.no.errors();
+            expect(checker.checkString('/*\n\n\n\n     Totally valid\n */')).to.have.no.errors();
         });
 
         it('should not report on a keywords within words', function() {
-            assert(checker.checkString('//ffixme').isEmpty());
-            assert(checker.checkString('// todos').isEmpty());
-            assert(checker.checkString('/** plzfixme*/').isEmpty());
-            assert(checker.checkString('/*\n\n\n\n     todont\n */').isEmpty());
+            expect(checker.checkString('//ffixme')).to.have.no.errors();
+            expect(checker.checkString('// todos')).to.have.no.errors();
+            expect(checker.checkString('/** plzfixme*/')).to.have.no.errors();
+            expect(checker.checkString('/*\n\n\n\n     todont\n */')).to.have.no.errors();
         });
     });
 
@@ -72,8 +76,8 @@ describe('rules/disallow-keywords-in-comments', function() {
         });
 
         it('should report on an instance of the word todo regardless of case', function() {
-            assert(checker.checkString('// blah').getErrorCount() === 1);
-            assert(checker.checkString('// todo').isEmpty());
+            expect(checker.checkString('// blah')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('// todo')).to.have.no.errors();
         });
     });
 
@@ -83,9 +87,9 @@ describe('rules/disallow-keywords-in-comments', function() {
         });
 
         it('should report on an instance of the word todo regardless of case', function() {
-            assert(checker.checkString('// blah').getErrorCount() === 1);
-            assert(checker.checkString('// bloo').getErrorCount() === 1);
-            assert(checker.checkString('// todo').isEmpty());
+            expect(checker.checkString('// blah')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('// bloo')).to.have.one.validation.error.from('disallowKeywordsInComments');
+            expect(checker.checkString('// todo')).to.have.no.errors();
         });
     });
 });

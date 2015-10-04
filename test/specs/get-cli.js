@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var path = require('path');
 
 var sinon = require('sinon');
@@ -15,7 +15,7 @@ describe('get-cli', function() {
         it('should load "global" version of jscs', function() {
             var p = path.resolve(__dirname, '../../lib/get-cli.js');
 
-            assert(!require(p).test);
+            expect(!require(p).test).to.equal(true);
         });
 
         it('should load local version of "jscs"', function() {
@@ -23,7 +23,7 @@ describe('get-cli', function() {
                 return path.resolve(__dirname, '../data/cli/modules');
             });
 
-            assert(require('../../lib/get-cli.js').test);
+            expect(!!require('../../lib/get-cli.js').test).to.equal(true);
 
             process.cwd.restore();
         });

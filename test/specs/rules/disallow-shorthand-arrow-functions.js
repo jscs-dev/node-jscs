@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-shorthand-arrow-functions', function() {
     var checker;
@@ -11,10 +11,11 @@ describe('rules/disallow-shorthand-arrow-functions', function() {
     });
 
     it('should report a shorthand arrow function expression', function() {
-        assert.strictEqual(checker.checkString('evens.map(v => v + 1);').getErrorCount(), 1);
+        expect(checker.checkString('evens.map(v => v + 1);'))
+          .to.have.one.validation.error.from('disallowShorthandArrowFunctions');
     });
 
     it('should not report an arrow function with a block', function() {
-        assert(checker.checkString('evens.map(v => { return v + 1; });').isEmpty());
+        expect(checker.checkString('evens.map(v => { return v + 1; });')).to.have.no.errors();
     });
 });

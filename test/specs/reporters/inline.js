@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var Checker = require('../../../lib/checker');
@@ -22,21 +22,21 @@ describe('reporters/inline', function() {
     it('should correctly reports no errors', function() {
         inline([checker.checkString('a++;')]);
 
-        assert(!console.log.called);
+        expect(console.log).to.have.callCount(0);
     });
 
     it('should correctly reports 1 error', function() {
         inline([checker.checkString('with (x) {}')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'input: line 1, col 0, Illegal keyword: with');
-        assert(console.log.calledOnce);
+        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 0, Illegal keyword: with');
+        expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly reports 2 errors', function() {
         inline([checker.checkString('with (x) {} with (x) {}')]);
 
-        assert.equal(console.log.getCall(0).args[0], 'input: line 1, col 0, Illegal keyword: with');
-        assert.equal(console.log.getCall(1).args[0], 'input: line 1, col 12, Illegal keyword: with');
-        assert(console.log.calledTwice);
+        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 0, Illegal keyword: with');
+        expect(console.log.getCall(1).args[0]).to.equal('input: line 1, col 12, Illegal keyword: with');
+        expect(console.log).to.have.callCount(2);
     });
 });

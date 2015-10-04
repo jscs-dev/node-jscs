@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-not-operators-in-conditionals', function() {
     var checker;
@@ -12,65 +12,71 @@ describe('rules/disallow-not-operators-in-conditionals', function() {
 
     describe('if statements', function() {
         it('should not report when not using the not operator in if statement with else', function() {
-            assert(checker.checkString('if (a) {} else {}').isEmpty());
+            expect(checker.checkString('if (a) {} else {}')).to.have.no.errors();
         });
 
         it('should report use of not operator in if statement with else', function() {
-            assert(checker.checkString('if (!a) {} else {}').getErrorCount() === 1);
+            expect(checker.checkString('if (!a) {} else {}'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
 
         it('should not report use of not operator in if statement without an else statement', function() {
-            assert(checker.checkString('if (!a) {}').isEmpty());
+            expect(checker.checkString('if (!a) {}')).to.have.no.errors();
         });
 
         it('should not report use of not operator in if statement with an else if statement', function() {
-            assert(checker.checkString('if (!a) {} else if (b) {} else {}').isEmpty());
+            expect(checker.checkString('if (!a) {} else if (b) {} else {}')).to.have.no.errors();
         });
 
         it('should not report when not using the not equal operator in if statement with else', function() {
-            assert(checker.checkString('if (a === b) {} else {}').isEmpty());
+            expect(checker.checkString('if (a === b) {} else {}')).to.have.no.errors();
         });
 
         it('should report use of strict not equal operator in if statement with else', function() {
-            assert(checker.checkString('if (a !== b) {} else {}').getErrorCount() === 1);
+            expect(checker.checkString('if (a !== b) {} else {}'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
 
         it('should not report use of strict not equal operator in if statement without an else statement', function() {
-            assert(checker.checkString('if (a !== b) {}').isEmpty());
+            expect(checker.checkString('if (a !== b) {}')).to.have.no.errors();
         });
 
         it('should not report use of strict not equal operator in if statement with an else if statement', function() {
-            assert(checker.checkString('if (a !== b ) {} else if (b) {} else {}').isEmpty());
+            expect(checker.checkString('if (a !== b ) {} else if (b) {} else {}')).to.have.no.errors();
         });
 
         it('should report use of not equal operator in if statement with else', function() {
-            assert(checker.checkString('if (a != b) {} else {}').getErrorCount() === 1);
+            expect(checker.checkString('if (a != b) {} else {}'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
 
         it('should not report use of not equal operator in if statement without an else statement', function() {
-            assert(checker.checkString('if (a != b) {}').isEmpty());
+            expect(checker.checkString('if (a != b) {}')).to.have.no.errors();
         });
 
         it('should not report use of not equal operator in if statement with an else if statement', function() {
-            assert(checker.checkString('if (a != b ) {} else if (b) {} else {}').isEmpty());
+            expect(checker.checkString('if (a != b ) {} else if (b) {} else {}')).to.have.no.errors();
         });
     });
 
     describe('conditional/ternary expressions', function() {
         it('should not report when not using the not operator in ternary expression', function() {
-            assert(checker.checkString('var a = (clause) ? 1 : 0').isEmpty());
+            expect(checker.checkString('var a = (clause) ? 1 : 0')).to.have.no.errors();
         });
 
         it('should report use of not operator in ternary expression', function() {
-            assert(checker.checkString('var a = (!clause) ? 0 : 1').getErrorCount() === 1);
+            expect(checker.checkString('var a = (!clause) ? 0 : 1'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
 
         it('should report use of strict not equal operator in ternary expression', function() {
-            assert(checker.checkString('var a = (clause !== true) ? 0 : 1').getErrorCount() === 1);
+            expect(checker.checkString('var a = (clause !== true) ? 0 : 1'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
 
         it('should report use of not equal operator in ternary expression', function() {
-            assert(checker.checkString('var a = (clause != true) ? 0 : 1').getErrorCount() === 1);
+            expect(checker.checkString('var a = (clause != true) ? 0 : 1'))
+              .to.have.one.validation.error.from('disallowNotOperatorsInConditionals');
         });
     });
 });

@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var Checker = require('../../lib/checker');
 
 describe('extract-js', function() {
@@ -19,7 +19,7 @@ describe('extract-js', function() {
             return checker.checkPath('./test/data/extract').then(function(errorsCollection) {
                 var errorCount = 0;
 
-                assert.doesNotThrow(function() {
+                expect(function() {
                     errorsCollection.forEach(function(errors) {
                         if (!errors.isEmpty()) {
                             errors.getErrorList().forEach(function(error) {
@@ -28,9 +28,9 @@ describe('extract-js', function() {
                             });
                         }
                     });
-                });
+                }).to.not.throw();
 
-                assert.equal(errorCount, 5);
+                expect(errorCount).to.equal(5);
             });
         });
     });
@@ -42,7 +42,7 @@ describe('extract-js', function() {
             });
 
             return checker.extractFile('./test/data/extract/index.html').then(function(errors) {
-                assert(errors.isEmpty());
+                expect(errors).to.have.no.errors();
             });
         });
 
@@ -55,7 +55,7 @@ describe('extract-js', function() {
                 // disallowMixedSpacesAndTabs doesn't warn when some line contains only tabs
                 // and some only spaces (i.e. '\s\svar foo;\t\tvar bar;'). If this behavior
                 // will change here will be three errors.
-                assert(errors.getErrorList().length === 1);
+                expect(errors.getErrorList().length).to.equal(1);
             });
         });
 
@@ -65,7 +65,7 @@ describe('extract-js', function() {
             });
 
             return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
-                assert(errors.isEmpty());
+                expect(errors).to.have.no.errors();
             });
         });
     });

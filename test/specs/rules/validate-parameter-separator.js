@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/validate-parameter-separator', function() {
     var checker;
@@ -18,9 +18,9 @@ describe('rules/validate-parameter-separator', function() {
         ];
 
         validSeparators.forEach(function(sep) {
-            assert.doesNotThrow(function() {
+            expect(function() {
                 checker.configure({ validateParameterSeparator: sep });
-            });
+            }).to.not.throw();
         });
     });
 
@@ -35,9 +35,9 @@ describe('rules/validate-parameter-separator', function() {
         ];
 
         invalidSeparators.forEach(function(sep) {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ validateParameterSeparator: sep });
-            }, assert.AssertionError);
+            }).to.throw('AssertionError');
         });
     });
 
@@ -47,43 +47,47 @@ describe('rules/validate-parameter-separator', function() {
         });
 
         it('should report unexpected space for function a(b, c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b, c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b, c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report unexpected space for function a(b ,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b ,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report 2 unexpected spaces for function a(b , c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b , c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b , c) {}')).to.have.error.count.equal(2);
         });
 
         it('should not report any errors for function a(b,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b,c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b,<line-break>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,\nc) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b,\nc) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b<line-break>,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b\n,c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b\n,c) {}')).to.have.no.errors();
         });
 
         it('should report errors for function a(b<space><space>,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  ,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b  ,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,  c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b,  c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space>,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,  c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b ,  c) {}')).to.have.error.count.equal(2);
         });
 
         it('should report errors for function a(b<space><space>,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  ,  c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b  ,  c) {}')).to.have.error.count.equal(2);
         });
 
     });
@@ -94,39 +98,43 @@ describe('rules/validate-parameter-separator', function() {
         });
 
         it('should report unexpected space for function a(b , c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b , c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b , c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report missing space for function a(b,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should not report any errors for function a(b, c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b, c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b, c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b<line-break>, c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b\n, c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b\n, c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b,<line-break>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,\nc) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b,\nc) {}')).to.have.no.errors();
         });
 
         it('should report errors for function a(b,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,  c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b,  c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b,<space><space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,   c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b,   c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space>,<space><space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,   c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b ,   c) {}')).to.have.error.count.equal(2);
         });
 
         it('should report errors for function a(b<space><space>,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  ,  c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b  ,  c) {}')).to.have.error.count.equal(2);
         });
 
     });
@@ -137,35 +145,39 @@ describe('rules/validate-parameter-separator', function() {
         });
 
         it('should report unexpected space for function a(b , c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b , c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b , c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report missing space for function a(b,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should not report any errors for function a(b ,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b ,c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b<line-break>,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b\n,c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b\n,c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b ,<line-break>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,\nc) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b ,\nc) {}')).to.have.no.errors();
         });
 
         it('should report errors for function a(b<space><space>,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  ,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b  ,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space><space><space>,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b   ,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b   ,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space><space><space>,<space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b   , c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b   , c) {}')).to.have.error.count.equal(2);
         });
 
     });
@@ -176,39 +188,43 @@ describe('rules/validate-parameter-separator', function() {
         });
 
         it('should report missing space for function a(b, c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b, c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b, c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report missing space for function a(b ,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b ,c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report 2 missing spaces for function a(b,c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b,c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b,c) {}')).to.have.error.count.equal(2);
         });
 
         it('should not report any errors for function a(b , c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b , c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b , c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b<line-break>, c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b\n, c) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b\n, c) {}')).to.have.no.errors();
         });
 
         it('should not report any errors for function a(b ,<line-break>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,\nc) {}').getErrorCount(), 0);
+            expect(checker.checkString('function a(b ,\nc) {}')).to.have.no.errors();
         });
 
         it('should report errors for function a(b<space>,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b ,  c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b ,  c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space><space>,<space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  , c) {}').getErrorCount(), 1);
+            expect(checker.checkString('function a(b  , c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
         it('should report errors for function a(b<space><space>,<space><space>c) {}', function() {
-            assert.strictEqual(checker.checkString('function a(b  ,  c) {}').getErrorCount(), 2);
+            expect(checker.checkString('function a(b  ,  c) {}')).to.have.error.count.equal(2);
         });
 
     });

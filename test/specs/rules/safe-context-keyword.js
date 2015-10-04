@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/safe-context-keyword', function() {
     var checker;
@@ -13,49 +13,51 @@ describe('rules/safe-context-keyword', function() {
 
         describe('not assigning this', function() {
             it('should not report variable declarations', function() {
-                assert(checker.checkString('var a = b;').isEmpty());
+                expect(checker.checkString('var a = b;')).to.have.no.errors();
             });
 
             it('should not report assignment expressions', function() {
-                assert(checker.checkString('a = b;').isEmpty());
+                expect(checker.checkString('a = b;')).to.have.no.errors();
             });
         });
 
         describe('var', function() {
             it('should not report "var that = this"', function() {
-                assert(checker.checkString('var that = this;').isEmpty());
+                expect(checker.checkString('var that = this;')).to.have.no.errors();
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('var notthat = this;').getErrorCount() === 1);
+                expect(checker.checkString('var notthat = this;'))
+                  .to.have.one.validation.error.from('safeContextKeyword');
             });
 
             it('should not report "var foo;"', function() {
-                assert(checker.checkString('var foo;').getErrorCount() === 0);
+                expect(checker.checkString('var foo;')).to.have.no.errors();
             });
         });
 
         describe('without var', function() {
             it('should not report "var that = this"', function() {
-                assert(checker.checkString('that = this;').isEmpty());
+                expect(checker.checkString('that = this;')).to.have.no.errors();
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('notthat = this;').getErrorCount() === 1);
+                expect(checker.checkString('notthat = this;')).to.have.one.validation.error.from('safeContextKeyword');
             });
 
             it('should not report propery assignment "foo.bar = this"', function() {
-                assert(checker.checkString('foo.bar = this').getErrorCount() === 0);
+                expect(checker.checkString('foo.bar = this')).to.have.no.errors();
             });
         });
 
         describe('multiple var decl', function() {
             it('should not report "var that = this"', function() {
-                assert(checker.checkString('var a = 1, that = this;').isEmpty());
+                expect(checker.checkString('var a = 1, that = this;')).to.have.no.errors();
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('var a = 1, notthat = this;').getErrorCount() === 1);
+                expect(checker.checkString('var a = 1, notthat = this;'))
+                  .to.have.one.validation.error.from('safeContextKeyword');
             });
         });
     });
@@ -69,39 +71,40 @@ describe('rules/safe-context-keyword', function() {
 
         describe('var', function() {
             it('should not report "var that = this, self = this"', function() {
-                assert(checker.checkString('var that = this, self = this;').isEmpty());
+                expect(checker.checkString('var that = this, self = this;')).to.have.no.errors();
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('var notthat = this;').getErrorCount() === 1);
+                expect(checker.checkString('var notthat = this;'))
+                  .to.have.one.validation.error.from('safeContextKeyword');
             });
 
             it('should not report "var foo;"', function() {
-                assert(checker.checkString('var foo;').getErrorCount() === 0);
+                expect(checker.checkString('var foo;')).to.have.no.errors();
             });
         });
 
         describe('without var', function() {
             it('should not report "var that = this"', function() {
-                assert(checker.checkString('that = this, self = this;').isEmpty());
+                expect(checker.checkString('that = this, self = this;')).to.have.no.errors();
             });
 
             it('should report "notthat = this, notself = this;"', function() {
-                assert(checker.checkString('notthat = this; notself = this;').getErrorCount() === 2);
+                expect(checker.checkString('notthat = this; notself = this;')).to.have.error.count.equal(2);
             });
 
             it('should not report propery assignment "foo.bar = this; bar.foo = this"', function() {
-                assert(checker.checkString('foo.bar = this; bar.foo = this').getErrorCount() === 0);
+                expect(checker.checkString('foo.bar = this; bar.foo = this')).to.have.no.errors();
             });
         });
 
         describe('multiple var decl', function() {
             it('should not report "var that = this"', function() {
-                assert(checker.checkString('var a = 1, that = this, self = this;').isEmpty());
+                expect(checker.checkString('var a = 1, that = this, self = this;')).to.have.no.errors();
             });
 
             it('should report "var notthat = this"', function() {
-                assert(checker.checkString('var a = 1, notthat = this, notself = this;').getErrorCount() === 2);
+                expect(checker.checkString('var a = 1, notthat = this, notself = this;')).to.have.error.count.equal(2);
             });
         });
     });
@@ -117,7 +120,7 @@ describe('rules/safe-context-keyword', function() {
         });
 
         it('should ignore destructuring assignment', function() {
-            assert(checker.checkString('const { smth } = this;').isEmpty());
+            expect(checker.checkString('const { smth } = this;')).to.have.no.errors();
         });
     });
 });

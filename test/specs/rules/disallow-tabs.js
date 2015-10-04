@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-tabs', function() {
     var checker;
@@ -11,18 +11,18 @@ describe('rules/disallow-tabs', function() {
     });
 
     it('should report tab', function() {
-        assert.equal(checker.checkString('\tvar foo;').getErrorCount(), 1);
+        expect(checker.checkString('\tvar foo;')).to.have.one.validation.error.from('disallowTabs');
     });
 
     it('should report tab in comment', function() {
-        assert.equal(checker.checkString('\t// a comment').getErrorCount(), 1);
+        expect(checker.checkString('\t// a comment')).to.have.one.validation.error.from('disallowTabs');
     });
 
     it('should report tab at end of line', function() {
-        assert.equal(checker.checkString('var foo;\t').getErrorCount(), 1);
+        expect(checker.checkString('var foo;\t')).to.have.one.validation.error.from('disallowTabs');
     });
 
     it('should not report tab', function() {
-        assert(checker.checkString('var foo;').isEmpty());
+        expect(checker.checkString('var foo;')).to.have.no.errors();
     });
 });

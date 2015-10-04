@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var Checker = require('../../../lib/checker');
@@ -21,23 +21,23 @@ describe('reporters/console', function() {
 
     it('should correctly reports no errors', function() {
         consoleReporter([checker.checkString('a++;')]);
-        assert(!console.log.called);
+        expect(console.log).to.have.callCount(0);
     });
 
     it('should correctly report 1 error', function() {
         consoleReporter([checker.checkString('with (x) {}')]);
 
-        assert(console.log.getCall(0).args[0].indexOf('Illegal keyword: with') > -1);
-        assert.equal(console.log.getCall(1).args[0], '\n1 code style error found.');
-        assert(console.log.calledTwice);
+        expect(console.log.getCall(0).args[0].indexOf('Illegal keyword: with')).to.be.above(-1);
+        expect(console.log.getCall(1).args[0]).to.equal('\n1 code style error found.');
+        expect(console.log).to.have.callCount(2);
     });
 
     it('should correctly reports 2 errors', function() {
         consoleReporter([checker.checkString('with(x){} with(x){} ')]);
 
-        assert(console.log.getCall(0).args[0].indexOf('Illegal keyword: with') > -1);
-        assert(console.log.getCall(1).args[0].indexOf('Illegal keyword: with') > -1);
-        assert.equal(console.log.getCall(2).args[0], '\n2 code style errors found.');
-        assert(console.log.calledThrice);
+        expect(console.log.getCall(0).args[0].indexOf('Illegal keyword: with')).to.be.above(-1);
+        expect(console.log.getCall(1).args[0].indexOf('Illegal keyword: with')).to.be.above(-1);
+        expect(console.log.getCall(2).args[0]).to.equal('\n2 code style errors found.');
+        expect(console.log).to.have.callCount(3);
     });
 });

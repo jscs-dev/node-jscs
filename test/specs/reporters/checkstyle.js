@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var parser = require('xml2js').parseString;
@@ -27,22 +27,22 @@ describe('reporters/checkstyle', function() {
             if (!err) {
                 var checkstyle = result.checkstyle;
 
-                assert(!!checkstyle);
-                assert(checkstyle.$.version === '4.3');
+                expect(!!checkstyle).to.equal(true);
+                expect(checkstyle.$.version).to.equal('4.3');
 
                 var file = checkstyle.file[0];
-                assert(!!file);
-                assert(file.$.name === 'input');
+                expect(!!file).to.equal(true);
+                expect(file.$.name).to.equal('input');
 
                 var error = file.error[0];
-                assert(!!error);
-                assert(error.$.line === '1');
-                assert(error.$.column === '1');
-                assert(error.$.severity === 'error');
-                assert(error.$.message === 'Illegal keyword: with');
-                assert(error.$.source === 'jscs');
+                expect(!!error).to.equal(true);
+                expect(error.$.line).to.equal('1');
+                expect(error.$.column).to.equal('1');
+                expect(error.$.severity).to.equal('error');
+                expect(error.$.message).to.equal('Illegal keyword: with');
+                expect(error.$.source).to.equal('jscs');
             } else {
-                assert(false, err);
+                throw err;
             }
 
             done();

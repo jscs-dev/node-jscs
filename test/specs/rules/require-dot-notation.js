@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-dot-notation', function() {
     var checker;
@@ -15,38 +15,38 @@ describe('rules/require-dot-notation', function() {
         });
 
         it('should report literal subscription', function() {
-            assert.equal(checker.checkString('var x = a[\'b\']').getErrorCount(), 1);
-            assert.equal(checker.checkString('var x = a[\'while\']').getErrorCount(), 1);
+            expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'while\']')).to.have.one.validation.error.from('requireDotNotation');
         });
 
         it('should not report literal subscription for reserved words', function() {
-            assert(checker.checkString('var x = a[null]').isEmpty());
-            assert(checker.checkString('var x = a[true]').isEmpty());
-            assert(checker.checkString('var x = a[false]').isEmpty());
+            expect(checker.checkString('var x = a[null]')).to.have.no.errors();
+            expect(checker.checkString('var x = a[true]')).to.have.no.errors();
+            expect(checker.checkString('var x = a[false]')).to.have.no.errors();
         });
 
         it('should not report number subscription', function() {
-            assert(checker.checkString('var x = a[1]').isEmpty());
+            expect(checker.checkString('var x = a[1]')).to.have.no.errors();
         });
 
         it('should not report variable subscription', function() {
-            assert(checker.checkString('var x = a[c]').isEmpty());
+            expect(checker.checkString('var x = a[c]')).to.have.no.errors();
         });
 
         it('should not report object property subscription', function() {
-            assert(checker.checkString('var x = a[b.c]').isEmpty());
+            expect(checker.checkString('var x = a[b.c]')).to.have.no.errors();
         });
 
         it('should not report dot notation', function() {
-            assert(checker.checkString('var x = a.b').isEmpty());
+            expect(checker.checkString('var x = a.b')).to.have.no.errors();
         });
 
         it('should not report for string that can\'t be identifier', function() {
-            assert(checker.checkString('x["a-b"]').isEmpty());
-            assert(checker.checkString('x["a.b"]').isEmpty());
-            assert(checker.checkString('x["a b"]').isEmpty());
-            assert(checker.checkString('x["1a"]').isEmpty());
-            assert(checker.checkString('x["*"]').isEmpty());
+            expect(checker.checkString('x["a-b"]')).to.have.no.errors();
+            expect(checker.checkString('x["a.b"]')).to.have.no.errors();
+            expect(checker.checkString('x["a b"]')).to.have.no.errors();
+            expect(checker.checkString('x["1a"]')).to.have.no.errors();
+            expect(checker.checkString('x["*"]')).to.have.no.errors();
         });
     });
 
@@ -56,8 +56,8 @@ describe('rules/require-dot-notation', function() {
         });
 
         it('should not report literal subscription for es3 keywords or future reserved words', function() {
-            assert(checker.checkString('var x = a[\'while\']').isEmpty());
-            assert(checker.checkString('var x = a[\'abstract\']').isEmpty());
+            expect(checker.checkString('var x = a[\'while\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'abstract\']')).to.have.no.errors();
         });
     });
 
@@ -67,31 +67,36 @@ describe('rules/require-dot-notation', function() {
         });
 
         it('should report literal subscription', function() {
-            assert(checker.checkString('var x = a[\'b\']').getErrorCount() === 1);
-            assert(checker.checkString('var x = a[\'camelA\']').getErrorCount() === 1);
+            expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'camelA\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
         });
 
         it('should not report snake case identifier', function() {
-            assert(checker.checkString('var x = a[\'snake_a\']').isEmpty());
+            expect(checker.checkString('var x = a[\'snake_a\']')).to.have.no.errors();
         });
 
         it('should not report snake case identifier with trailing underscores', function() {
-            assert(checker.checkString('var x = a[\'_snake_a\']').isEmpty());
-            assert(checker.checkString('var x = a[\'__snake_a\']').isEmpty());
-            assert(checker.checkString('var x = a[\'snake_a_\']').isEmpty());
-            assert(checker.checkString('var x = a[\'snake_a__\']').isEmpty());
+            expect(checker.checkString('var x = a[\'_snake_a\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'__snake_a\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'snake_a_\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'snake_a__\']')).to.have.no.errors();
         });
 
         it('should not report camel case identifier delimited with snake', function() {
-            assert(checker.checkString('var x = a[\'camelA_camelB\']').isEmpty());
-            assert(checker.checkString('var x = a[\'camelA_camelB_camelC\']').isEmpty());
+            expect(checker.checkString('var x = a[\'camelA_camelB\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'camelA_camelB_camelC\']')).to.have.no.errors();
         });
 
         it('should report camel case identifier with trailing underscores', function() {
-            assert(checker.checkString('var x = a[\'_camelA\']').getErrorCount() === 1);
-            assert(checker.checkString('var x = a[\'__camelA\']').getErrorCount() === 1);
-            assert(checker.checkString('var x = a[\'camelA_\']').getErrorCount() === 1);
-            assert(checker.checkString('var x = a[\'camelA__\']').getErrorCount() === 1);
+            expect(checker.checkString('var x = a[\'_camelA\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'__camelA\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'camelA_\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'camelA__\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
         });
     });
 
@@ -101,8 +106,8 @@ describe('rules/require-dot-notation', function() {
         });
 
         it('should not report literal subscription for es6 reserved words', function() {
-            assert(checker.checkString('var x = a[\'yield\']').isEmpty());
-            assert(checker.checkString('var x = a[\'let\']').isEmpty());
+            expect(checker.checkString('var x = a[\'yield\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'let\']')).to.have.no.errors();
         });
     });
 
@@ -112,8 +117,9 @@ describe('rules/require-dot-notation', function() {
         });
 
         it('should report literal subscription', function() {
-            assert(checker.checkString('var x = a[\'b\']').getErrorCount() === 1);
-            assert(checker.checkString('var x = a[\'camelA\']').getErrorCount() === 1);
+            expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'camelA\']'))
+              .to.have.one.validation.error.from('requireDotNotation');
         });
     });
 });

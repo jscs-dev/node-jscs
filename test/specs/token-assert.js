@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 var esprima = require('esprima');
 var JsFile = require('../../lib/js-file');
@@ -29,12 +29,12 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'Missing space between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('Missing space between x and =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should accept message for missing whitespace between tokens', function() {
@@ -51,7 +51,7 @@ describe('token-assert', function() {
                 message: 'Custom message'
             });
 
-            assert(onError.getCall(0).args[0].message, 'Custom message');
+            expect(!!onError.getCall(0).args[0].message).to.equal(true);
         });
 
         it('should not trigger error on existing whitespace between tokens', function() {
@@ -67,7 +67,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
     });
 
@@ -91,7 +91,7 @@ describe('token-assert', function() {
                 exactly: 10
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         describe('exactly', function() {
@@ -109,12 +109,12 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, '2 spaces required between x and =');
-                assert.equal(error.line, 1);
-                assert.equal(error.column, 1);
+                expect(error.message).to.equal('2 spaces required between x and =');
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(1);
             });
 
             it('should not trigger error on newline between tokens', function() {
@@ -131,7 +131,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should not trigger error on valid space count between tokens', function() {
@@ -148,7 +148,7 @@ describe('token-assert', function() {
                     exactly: 3
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should accept message for invalid space count between tokens', function() {
@@ -166,7 +166,7 @@ describe('token-assert', function() {
                     message: 'Custom message'
                 });
 
-                assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+                expect(onError.getCall(0).args[0].message).to.equal('Custom message');
             });
 
             it('should error, but not fix, when a comment exists between the two tokens', function() {
@@ -183,11 +183,11 @@ describe('token-assert', function() {
                     exactly: 5
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.fixed, false);
-                assert.equal(tokens[2].whitespaceBefore, '');
+                expect(error.fixed).to.equal(false);
+                expect(tokens[2].whitespaceBefore).to.equal('');
             });
         });
 
@@ -206,12 +206,12 @@ describe('token-assert', function() {
                     atMost: 1
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, 'at most 1 spaces required between x and =');
-                assert.equal(error.line, 1);
-                assert.equal(error.column, 1);
+                expect(error.message).to.equal('at most 1 spaces required between x and =');
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(1);
             });
 
             it('should not trigger error on valid space count between tokens', function() {
@@ -228,7 +228,7 @@ describe('token-assert', function() {
                     atMost: 3
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should accept message for invalid space count between tokens', function() {
@@ -246,7 +246,7 @@ describe('token-assert', function() {
                     message: 'Custom message'
                 });
 
-                assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+                expect(onError.getCall(0).args[0].message).to.equal('Custom message');
             });
         });
 
@@ -264,12 +264,12 @@ describe('token-assert', function() {
                 atMost: 1
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'at most 1 spaces required between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('at most 1 spaces required between x and =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should trigger plural error on invalid maximum space count between tokens', function() {
@@ -286,12 +286,12 @@ describe('token-assert', function() {
                 atMost: 2
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'at most 2 spaces required between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('at most 2 spaces required between x and =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens for maximum spaces', function() {
@@ -308,7 +308,7 @@ describe('token-assert', function() {
                 atMost: 1
             });
 
-            assert(!onError.calledOnce);
+            expect(onError).to.have.not.callCount(1);
         });
 
         it('should not trigger error on valid maximum space count between tokens', function() {
@@ -325,7 +325,7 @@ describe('token-assert', function() {
                 atMost: 3
             });
 
-            assert(!onError.calledOnce);
+            expect(onError).to.have.not.callCount(1);
         });
 
         it('should accept message for invalid maximum space count between tokens', function() {
@@ -343,7 +343,7 @@ describe('token-assert', function() {
                 message: 'Custom message'
             });
 
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
     });
 
@@ -361,12 +361,12 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'Unexpected whitespace between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('Unexpected whitespace between x and =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens', function() {
@@ -382,7 +382,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should trigger error on newline between tokens with disallowNewLine option', function() {
@@ -399,12 +399,12 @@ describe('token-assert', function() {
                 disallowNewLine: true
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'Unexpected whitespace between x and =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('Unexpected whitespace between x and =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on missing whitespace between tokens', function() {
@@ -420,7 +420,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should accept message for existing space count between tokens', function() {
@@ -437,7 +437,7 @@ describe('token-assert', function() {
                 message: 'Custom message'
             });
 
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
     });
 
@@ -455,12 +455,12 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be on the same line');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('x and = should be on the same line');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on missing newline between tokens', function() {
@@ -476,7 +476,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should accept message for unexpected newline between tokens', function() {
@@ -493,7 +493,7 @@ describe('token-assert', function() {
                 message: 'Custom message'
             });
 
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
 
         it('should not throw if token or nextToken properties are undefined', function() {
@@ -520,7 +520,7 @@ describe('token-assert', function() {
                 stickToPreviousToken: true
             });
 
-            assert.equal('x +\n  y;', file.render());
+            expect(file.render()).to.equal('x +\n  y;');
         });
     });
 
@@ -538,12 +538,12 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x and = should be on different lines');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('x and = should be on different lines');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on existing newline between tokens', function() {
@@ -559,7 +559,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should not trigger on additional newlines between tokens', function() {
@@ -575,7 +575,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should not trigger on additional newlines between tokens', function() {
@@ -591,7 +591,7 @@ describe('token-assert', function() {
                 nextToken: tokens[1]
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should accept message for missing newline between tokens', function() {
@@ -608,7 +608,7 @@ describe('token-assert', function() {
                 message: 'Custom message'
             });
 
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
 
         it('should not throw if token or nextToken properties are undefined', function() {
@@ -636,60 +636,56 @@ describe('token-assert', function() {
             });
 
             it('should throw if no options are specified', function() {
-                assert.throws((function() {
+                expect((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
                         nextToken: this.tokens[1]
                     });
-                }).bind(this),
-                /You must specify at least one option/);
+                }).bind(this)).to.throw(/You must specify at least one option/);
             });
 
             it('should throw if atLeast and exactly are specified', function() {
-                assert.throws((function() {
+                expect((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
                         nextToken: this.tokens[1],
                         atLeast: 2,
                         exactly: 1
                     });
-                }).bind(this),
-                /You cannot specify atLeast or atMost with exactly/);
+                }).bind(this)).to.throw(/You cannot specify atLeast or atMost with exactly/);
             });
 
             it('should throw if atMost and exactly are specified', function() {
-                assert.throws((function() {
+                expect((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
                         nextToken: this.tokens[1],
                         atMost: 2,
                         exactly: 1
                     });
-                }).bind(this),
-                /You cannot specify atLeast or atMost with exactly/);
+                }).bind(this)).to.throw(/You cannot specify atLeast or atMost with exactly/);
             });
 
             it('should throw if atLeast and atMost are in conflict', function() {
-                assert.throws((function() {
+                expect((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
                         nextToken: this.tokens[1],
                         atLeast: 3,
                         atMost: 2
                     });
-                }).bind(this),
-                /atLeast and atMost are in conflict/);
+                }).bind(this)).to.throw(/atLeast and atMost are in conflict/);
             });
 
             it('should throw if token and nextToken are the same', function() {
-                assert.throws((function() {
+                expect((function() {
                     this.tokenAssert.linesBetween({
                         token: this.tokens[0],
                         nextToken: this.tokens[0],
                         atLeast: 1
                     });
-                }).bind(this),
-                /You cannot specify the same token as both token and nextToken/);
+                }).bind(this))
+                  .to.throw(/You cannot specify the same token as both token and nextToken/);
             });
         });
 
@@ -719,10 +715,10 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, 'x and = should have exactly 2 line(s) between them');
+                expect(error.message).to.equal('x and = should have exactly 2 line(s) between them');
             });
 
             it('should trigger error on too many specified newlines', function() {
@@ -739,9 +735,9 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, 'x and = should have exactly 2 line(s) between them');
+                expect(error.message).to.equal('x and = should have exactly 2 line(s) between them');
             });
 
             it('should not trigger error on correct specified newlines', function() {
@@ -758,7 +754,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should not trigger error on exactly 0 blank lines', function() {
@@ -775,7 +771,7 @@ describe('token-assert', function() {
                     exactly: 1
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should not trigger error on multiple specified newlines negative', function() {
@@ -792,7 +788,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
@@ -808,7 +804,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -824,7 +820,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -840,7 +836,7 @@ describe('token-assert', function() {
                     exactly: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
 
             it('should error, but not fix, when a comment exists between the two tokens', function() {
@@ -857,11 +853,11 @@ describe('token-assert', function() {
                     exactly: 5
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.fixed, false);
-                assert.equal(tokens[2].whitespaceBefore, '\n');
+                expect(error.fixed).to.equal(false);
+                expect(tokens[2].whitespaceBefore).to.equal('\n');
             });
         });
 
@@ -880,9 +876,9 @@ describe('token-assert', function() {
                     atLeast: 3
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, 'x and = should have at least 3 line(s) between them');
+                expect(error.message).to.equal('x and = should have at least 3 line(s) between them');
             });
 
             it('should not trigger with exact lines', function() {
@@ -899,7 +895,7 @@ describe('token-assert', function() {
                     atLeast: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should not trigger error on too many lines', function() {
@@ -916,7 +912,7 @@ describe('token-assert', function() {
                     atLeast: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should edit the whitespaceBefore with too few lines between', function() {
@@ -932,7 +928,7 @@ describe('token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (spaced then non spaced) between', function() {
@@ -948,7 +944,7 @@ describe('token-assert', function() {
                     atLeast: 4
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '  \n\n\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('  \n\n\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (non spaced then spaced) between ', function() {
@@ -964,7 +960,7 @@ describe('token-assert', function() {
                     atLeast: 4
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n  \n\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n  \n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with too many lines between', function() {
@@ -980,7 +976,7 @@ describe('token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -996,7 +992,7 @@ describe('token-assert', function() {
                     atLeast: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
         });
 
@@ -1015,7 +1011,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should not trigger with exact lines', function() {
@@ -1032,7 +1028,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should trigger error on too many lines', function() {
@@ -1049,9 +1045,9 @@ describe('token-assert', function() {
                     atMost: 1
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                assert.equal(error.message, 'x and = should have at most 1 line(s) between them');
+                expect(error.message).to.equal('x and = should have at most 1 line(s) between them');
             });
 
             it('should not edit the whitespaceBefore with too few lines between', function() {
@@ -1067,7 +1063,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -1083,7 +1079,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -1099,7 +1095,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert.equal(tokens[1].whitespaceBefore, '\n\n  ');
+                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
             });
         });
 
@@ -1119,7 +1115,7 @@ describe('token-assert', function() {
                     atMost: 3
                 });
 
-                assert(onError.notCalled);
+                expect(onError).to.have.callCount(0);
             });
 
             it('should trigger if below range', function() {
@@ -1137,7 +1133,7 @@ describe('token-assert', function() {
                     atMost: 3
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
             });
 
             it('should trigger if above range', function() {
@@ -1155,7 +1151,7 @@ describe('token-assert', function() {
                     atMost: 2
                 });
 
-                assert(onError.calledOnce);
+                expect(onError).to.have.callCount(1);
             });
         });
     });
@@ -1174,12 +1170,12 @@ describe('token-assert', function() {
                 expectedTokenBefore: {value: 'something'}
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'something was expected before x but document start found');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 0);
+            expect(error.message).to.equal('something was expected before x but document start found');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(0);
         });
 
         it('should trigger error on missing token value before', function() {
@@ -1198,12 +1194,12 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'z was expected before = but x found');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('z was expected before = but x found');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should trigger error on missing token type before', function() {
@@ -1222,12 +1218,12 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'x (Keyword) was expected before = but x (Identifier) found');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('x (Keyword) was expected before = but x (Identifier) found');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on correct token before', function() {
@@ -1246,7 +1242,7 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should accept message for missing token before', function() {
@@ -1265,7 +1261,7 @@ describe('token-assert', function() {
                 },
                 message: 'Custom message'
             });
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
     });
 
@@ -1283,7 +1279,7 @@ describe('token-assert', function() {
                 expectedTokenBefore: {value: 'something'}
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should trigger error on illegal token value before', function() {
@@ -1302,12 +1298,12 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.calledOnce);
+            expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            assert.equal(error.message, 'Illegal x was found before =');
-            assert.equal(error.line, 1);
-            assert.equal(error.column, 1);
+            expect(error.message).to.equal('Illegal x was found before =');
+            expect(error.line).to.equal(1);
+            expect(error.column).to.equal(1);
         });
 
         it('should not trigger error on missing token value before', function() {
@@ -1326,7 +1322,7 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should not trigger error on missing token type before', function() {
@@ -1345,7 +1341,7 @@ describe('token-assert', function() {
                 }
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should accept message for illegal token before', function() {
@@ -1364,7 +1360,7 @@ describe('token-assert', function() {
                 },
                 message: 'Custom message'
             });
-            assert.equal(onError.getCall(0).args[0].message, 'Custom message');
+            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
     });
 
@@ -1383,7 +1379,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should trigger on incorrect indentation', function() {
@@ -1400,7 +1396,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert(onError.called);
+            expect(onError).to.have.not.callCount(0);
         });
 
         it('with silent option, should not trigger on incorrect indentation', function() {
@@ -1418,7 +1414,7 @@ describe('token-assert', function() {
                 silent: true
             });
 
-            assert(onError.notCalled);
+            expect(onError).to.have.callCount(0);
         });
 
         it('should fix whitespace on incorrect indentation', function() {
@@ -1435,7 +1431,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(file.getTokens()[0].whitespaceBefore, '');
+            expect(file.getTokens()[0].whitespaceBefore).to.equal('');
         });
 
         it('should fix whitespace on incorrect indentation', function() {
@@ -1452,7 +1448,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(file.getTokens()[0].whitespaceBefore, '  ');
+            expect(file.getTokens()[0].whitespaceBefore).to.equal('  ');
         });
 
         it('should fix empty line whitespace on incorrect indentation', function() {
@@ -1469,7 +1465,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(file.getTokens()[0].whitespaceBefore, '\n\n');
+            expect(file.getTokens()[0].whitespaceBefore).to.equal('\n\n');
         });
 
         it('should fix docblock on incorrect overindentation', function() {
@@ -1487,8 +1483,8 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(token.whitespaceBefore, '');
-            assert.equal(token.value, '\n *\n ');
+            expect(token.whitespaceBefore).to.equal('');
+            expect(token.value).to.equal('\n *\n ');
         });
 
         it('should fix docblock on incorrect underindentation', function() {
@@ -1506,8 +1502,8 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(token.whitespaceBefore, '    ');
-            assert.equal(token.value, '\n     *\n     ');
+            expect(token.whitespaceBefore).to.equal('    ');
+            expect(token.value).to.equal('\n     *\n     ');
         });
 
         it('should fix whitespace after docblock on incorrect indentation', function() {
@@ -1525,7 +1521,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(token.whitespaceBefore, '\n\n');
+            expect(token.whitespaceBefore).to.equal('\n\n');
         });
 
         it('should not lose lines with mixed line endings', function() {
@@ -1543,7 +1539,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            assert.equal(token.whitespaceBefore, '\r\n\r\n\r\n');
+            expect(token.whitespaceBefore).to.equal('\r\n\r\n\r\n');
         });
     });
 });

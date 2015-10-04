@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-spread', function() {
     var checker;
@@ -11,14 +11,14 @@ describe('rules/require-spread', function() {
     });
 
     it('should report use of apply when the first param === the object of the member expression', function() {
-        assert(checker.checkString('g.apply(g, arguments);').getErrorCount() === 1);
+        expect(checker.checkString('g.apply(g, arguments);')).to.have.one.validation.error.from('requireSpread');
     });
 
     it('should not report the use apply with only 1 argument', function() {
-        assert(checker.checkString('g.apply(arguments);').isEmpty());
+        expect(checker.checkString('g.apply(arguments);')).to.have.no.errors();
     });
 
     it('should not report the use of spread', function() {
-        assert(checker.checkString('g(...args);').isEmpty());
+        expect(checker.checkString('g(...args);')).to.have.no.errors();
     });
 });

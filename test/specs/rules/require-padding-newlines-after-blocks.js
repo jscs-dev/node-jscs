@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
@@ -12,33 +12,33 @@ describe('rules/require-padding-newlines-after-blocks', function() {
 
     describe('invalid options', function() {
         it('should throw if empty object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: {} });
-            });
+            }).to.throw();
         });
 
         it('should throw if not allExcept object', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: { allBut: false} });
-            });
+            }).to.throw();
         });
 
         it('should throw if array', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: [] });
-            });
+            }).to.throw();
         });
 
         it('should throw if allExcept empty array', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: { allExcept: [] } });
-            });
+            }).to.throw();
         });
 
         it('should throw if not allExcept unrecognized', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requirePaddingNewLinesAfterBlocks: { allExcept: ['foo']} });
-            });
+            }).to.throw();
         });
     });
 
@@ -84,75 +84,77 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report end of file', function() {
-            assert(checker.checkString('if(true){}').isEmpty());
+            expect(checker.checkString('if(true){}')).to.have.no.errors();
         });
 
         it('should not report end of file with empty line', function() {
-            assert(checker.checkString('if(true){}\n').isEmpty());
+            expect(checker.checkString('if(true){}\n')).to.have.no.errors();
         });
 
         it('should not report padding after block', function() {
-            assert(checker.checkString('if(true){}\n\nvar a = 2;').isEmpty());
+            expect(checker.checkString('if(true){}\n\nvar a = 2;')).to.have.no.errors();
         });
 
         it('should not report additional padding after block', function() {
-            assert(checker.checkString('if(true){}\n\n\nvar a = 2;').isEmpty());
+            expect(checker.checkString('if(true){}\n\n\nvar a = 2;')).to.have.no.errors();
         });
 
         it('should not report padding after nested block', function() {
-            assert(checker.checkString('if(true){\nif(true) {}\n}').isEmpty());
+            expect(checker.checkString('if(true){\nif(true) {}\n}')).to.have.no.errors();
         });
 
         it('should not report padding after obj func definition', function() {
-            assert(checker.checkString('var a = {\nfoo: function() {\n},\n\nbar: function() {\n}}').isEmpty());
+            expect(checker.checkString('var a = {\nfoo: function() {\n},\n\nbar: function() {\n}}'))
+              .to.have.no.errors();
         });
 
         it('should not report padding after immed func', function() {
-            assert(checker.checkString('(function(){\n})()\n\nvar a = 2;').isEmpty());
+            expect(checker.checkString('(function(){\n})()\n\nvar a = 2;')).to.have.no.errors();
         });
 
         it('should not report missing padding in if else', function() {
-            assert(checker.checkString('if(true) {\n}\nelse\n{\n}').isEmpty());
+            expect(checker.checkString('if(true) {\n}\nelse\n{\n}')).to.have.no.errors();
         });
 
         it('should not report content in missing padding if else', function() {
-            assert(checker.checkString('if(true) {\n} else {\n var a = 2; }').isEmpty());
+            expect(checker.checkString('if(true) {\n} else {\n var a = 2; }')).to.have.no.errors();
         });
 
         it('should not report missing padding in if elseif else', function() {
-            assert(checker.checkString('if(true) {\n}\nelse if(true)\n{\n}\nelse {\n}').isEmpty());
+            expect(checker.checkString('if(true) {\n}\nelse if(true)\n{\n}\nelse {\n}')).to.have.no.errors();
         });
 
         it('should not report missing padding in do while', function() {
-            assert(checker.checkString('do{\n}\nwhile(true)').isEmpty());
+            expect(checker.checkString('do{\n}\nwhile(true)')).to.have.no.errors();
         });
 
         it('should not report missing padding in try catch', function() {
-            assert(checker.checkString('try{\n}\ncatch(e) {}').isEmpty());
+            expect(checker.checkString('try{\n}\ncatch(e) {}')).to.have.no.errors();
         });
 
         it('should not report missing padding in try finally', function() {
-            assert(checker.checkString('try{\n}\nfinally {}').isEmpty());
+            expect(checker.checkString('try{\n}\nfinally {}')).to.have.no.errors();
         });
 
         it('should not report missing padding in try catch finally', function() {
-            assert(checker.checkString('try{\n}\ncatch(e) {\n}\nfinally {\n}').isEmpty());
+            expect(checker.checkString('try{\n}\ncatch(e) {\n}\nfinally {\n}')).to.have.no.errors();
         });
 
         it('should not report missing padding in function chain', function() {
-            assert(checker.checkString('[].map(function() {})\n.filter(function(){})').isEmpty());
+            expect(checker.checkString('[].map(function() {})\n.filter(function(){})')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is last arguments', function() {
-            assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+            expect(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is last in array', function() {
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+            expect(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]')).to.have.no.errors();
         });
 
         it('should report missing padding when function is middle in array', function() {
-            assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').getErrorCount() === 1);
+            expect(checker.checkString('[\n3,\nfunction() {\n},\n2\n]'))
+              .to.have.one.validation.error.from('requirePaddingNewLinesAfterBlocks');
         });
     });
 
@@ -166,23 +168,24 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report missing padding when function is last arguments', function() {
-            assert(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+            expect(checker.checkString('func(\n2,\n3,\nfunction() {\n}\n)')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is middle argument', function() {
-            assert(checker.checkString('func(\n3,\nfunction() {\n},\n2\n)').isEmpty());
+            expect(checker.checkString('func(\n3,\nfunction() {\n},\n2\n)')).to.have.no.errors();
         });
 
         it('should not report for IIFE', function() {
-            assert(checker.checkString('(function() {})\n(1,2,3)').isEmpty());
+            expect(checker.checkString('(function() {})\n(1,2,3)')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is last in array', function() {
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+            expect(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]')).to.have.no.errors();
         });
 
         it('should report missing padding when function is middle in array', function() {
-            assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').getErrorCount() === 1);
+            expect(checker.checkString('[\n3,\nfunction() {\n},\n2\n]'))
+              .to.have.one.validation.error.from('requirePaddingNewLinesAfterBlocks');
         });
     });
 
@@ -196,11 +199,11 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report missing padding when function is last argument', function() {
-            assert(checker.checkString('new Obj(\n2,\n3,\nfunction() {\n}\n)').isEmpty());
+            expect(checker.checkString('new Obj(\n2,\n3,\nfunction() {\n}\n)')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is middle argument', function() {
-            assert(checker.checkString('new Obj(\n3,\nfunction() {\n},\n2\n)').isEmpty());
+            expect(checker.checkString('new Obj(\n3,\nfunction() {\n},\n2\n)')).to.have.no.errors();
         });
     });
 
@@ -214,11 +217,11 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report missing padding when function is last in array', function() {
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]').isEmpty());
+            expect(checker.checkString('[\n2,\n3,\nfunction() {\n}\n]')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is middle in array', function() {
-            assert(checker.checkString('[\n3,\nfunction() {\n},\n2\n]').isEmpty());
+            expect(checker.checkString('[\n3,\nfunction() {\n},\n2\n]')).to.have.no.errors();
         });
     });
 
@@ -232,11 +235,11 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report missing padding when function is last in object', function() {
-            assert(checker.checkString('var a = {\na: 2,\nb: 3,\nc: function() {\n}\n};').isEmpty());
+            expect(checker.checkString('var a = {\na: 2,\nb: 3,\nc: function() {\n}\n};')).to.have.no.errors();
         });
 
         it('should not report missing padding when function is middle in object', function() {
-            assert(checker.checkString('var a = {\na: 3,\nb: function() {\n},\nc: 2\n}').isEmpty());
+            expect(checker.checkString('var a = {\na: 3,\nb: function() {\n},\nc: 2\n}')).to.have.no.errors();
         });
     });
 
@@ -246,7 +249,8 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             checker.registerDefaultRules();
             checker.configure({ requirePaddingNewLinesAfterBlocks: true });
 
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]').getErrorCount() === 1);
+            expect(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]'))
+              .to.have.one.validation.error.from('requirePaddingNewLinesAfterBlocks');
 
             checker.configure({
                 requirePaddingNewLinesAfterBlocks: {
@@ -254,7 +258,7 @@ describe('rules/require-padding-newlines-after-blocks', function() {
                 }
             });
 
-            assert(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]').isEmpty());
+            expect(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]')).to.have.no.errors();
         });
     });
 
@@ -269,7 +273,7 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report arrow chain (#1700)', function() {
-            assert(checker.checkString('a(res => {\n})\n.b();').isEmpty());
+            expect(checker.checkString('a(res => {\n})\n.b();')).to.have.no.errors();
         });
     });
 });

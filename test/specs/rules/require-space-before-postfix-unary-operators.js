@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var operators = require('../../../lib/utils').incrementAndDecrementOperators;
 
 describe('rules/require-space-before-postfix-unary-operators', function() {
@@ -20,28 +20,30 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
             it('should report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(sticked).getErrorCount() === 1);
+                    expect(checker.checkString(sticked))
+                      .to.have.one.validation.error.from('requireSpaceBeforePostfixUnaryOperators');
                 }
             );
 
             it('should not report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(notSticked).isEmpty());
+                    expect(checker.checkString(notSticked)).to.have.no.errors();
                 }
             );
 
             it('should report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(stickedWithParenthesis).getErrorCount() === 1);
+                    expect(checker.checkString(stickedWithParenthesis))
+                      .to.have.one.validation.error.from('requireSpaceBeforePostfixUnaryOperators');
                 }
             );
 
             it('should not report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
                     checker.configure({ requireSpaceBeforePostfixUnaryOperators: value });
-                    assert(checker.checkString(notStickedWithParenthesis).isEmpty());
+                    expect(checker.checkString(notStickedWithParenthesis)).to.have.no.errors();
                 }
             );
         });
@@ -49,16 +51,16 @@ describe('rules/require-space-before-postfix-unary-operators', function() {
 
     it('should report sticky operator', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; x++; x--;').getErrorCount() === 2);
+        expect(checker.checkString('var x = 2; x++; x--;')).to.have.error.count.equal(2);
     });
 
     it('should report sticky operator if operand in parentheses', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; ( x )++; (((x)))--;').getErrorCount() === 2);
+        expect(checker.checkString('var x = 2; ( x )++; (((x)))--;')).to.have.error.count.equal(2);
     });
 
     it('should not report separated operator', function() {
         checker.configure({ requireSpaceBeforePostfixUnaryOperators: ['++', '--'] });
-        assert(checker.checkString('var x = 2; x ++; x --;').isEmpty());
+        expect(checker.checkString('var x = 2; x ++; x --;')).to.have.no.errors();
     });
 });

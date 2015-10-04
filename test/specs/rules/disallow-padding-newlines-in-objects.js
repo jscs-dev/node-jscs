@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-padding-newlines-in-objects', function() {
     var checker;
@@ -10,22 +10,24 @@ describe('rules/disallow-padding-newlines-in-objects', function() {
     });
 
     it('should report existing newline after opening brace', function() {
-        assert(checker.checkString('var x = {\na: 1};').getErrorCount() === 1);
+        expect(checker.checkString('var x = {\na: 1};'))
+          .to.have.one.validation.error.from('disallowPaddingNewLinesInObjects');
     });
     it('should report existing newline before closing brace', function() {
-        assert(checker.checkString('var x = {a: 1\n};').getErrorCount() === 1);
+        expect(checker.checkString('var x = {a: 1\n};'))
+          .to.have.one.validation.error.from('disallowPaddingNewLinesInObjects');
     });
     it('should report existing newline in both cases', function() {
-        assert(checker.checkString('var x = {\na: 1\n};').getErrorCount() === 2);
+        expect(checker.checkString('var x = {\na: 1\n};')).to.have.error.count.equal(2);
     });
     it('should not report with no newlines', function() {
-        assert(checker.checkString('var x = {a: 1};').isEmpty());
-        assert(checker.checkString('var x = { a: 1 };').isEmpty());
+        expect(checker.checkString('var x = {a: 1};')).to.have.no.errors();
+        expect(checker.checkString('var x = { a: 1 };')).to.have.no.errors();
     });
     it('should not report for empty object', function() {
-        assert(checker.checkString('var x = {};').isEmpty());
+        expect(checker.checkString('var x = {};')).to.have.no.errors();
     });
     it('should report for nested object', function() {
-        assert(checker.checkString('var x = { a: {\nb: 1\n} };').getErrorCount() === 2);
+        expect(checker.checkString('var x = { a: {\nb: 1\n} };')).to.have.error.count.equal(2);
     });
 });

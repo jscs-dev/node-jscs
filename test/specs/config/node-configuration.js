@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var path = require('path');
 var sinon = require('sinon');
 var NodeConfiguration = require('../../../lib/config/node-configuration');
@@ -14,48 +14,37 @@ describe('modules/config/node-configuration', function() {
 
     describe('constructor', function() {
         it('should set default base path to process.cwd()', function() {
-            assert(configuration.getBasePath() === process.cwd());
+            expect(configuration.getBasePath()).to.equal(process.cwd());
         });
     });
 
     describe('loadExternal', function() {
         it('should check type', function() {
-            assert.throws(
-                configuration.loadExternal.bind(configuration, 1, 'test'),
-                'test option requires a string or null value'
-            );
+            expect(configuration.loadExternal.bind(configuration, 1, 'test'))
+              .to.throw('"test" option requires a string or null value');
         });
 
         it('should not load or throw if value is null', function() {
-            assert.equal(configuration.loadExternal(null), null);
+            expect(configuration.loadExternal(null)).to.equal(null);
         });
 
         it('should load relative path', function() {
-            assert.equal(
-                typeof configuration.loadExternal(
+            expect(configuration.loadExternal(
                     '../../data/plugin/plugin',
                     'plugin',
                     __filename
-                ),
-                'function'
-            );
+                )).to.be.a('function');
         });
 
         it('should load absolute path', function() {
-            assert.equal(
-                typeof configuration.loadExternal(
+            expect(configuration.loadExternal(
                     path.resolve('./test/data/plugin/plugin'),
                     'plugin'
-                ),
-                'function'
-            );
+                )).to.be.a('function');
         });
 
         it('should load without "jscs" prefix node module', function() {
-            assert.equal(
-                typeof configuration.loadExternal('path'),
-                'object'
-            );
+            expect(configuration.loadExternal('path')).to.be.a('object');
         });
 
         it('should load preset with "jscs-config" prefix', function() {
@@ -65,7 +54,7 @@ describe('modules/config/node-configuration', function() {
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('first-test', 'preset').test);
+            expect(!!configuration.loadExternal('first-test', 'preset').test).to.equal(true);
 
             stub.restore();
         });
@@ -77,7 +66,7 @@ describe('modules/config/node-configuration', function() {
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('s-test', 'preset').test);
+            expect(!!configuration.loadExternal('s-test', 'preset').test).to.equal(true);
 
             stub.restore();
         });
@@ -86,14 +75,14 @@ describe('modules/config/node-configuration', function() {
             var config = path.resolve('./test/data/configs/modules/config.json');
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('first-test', 'preset', config).test);
+            expect(!!configuration.loadExternal('first-test', 'preset', config).test).to.equal(true);
         });
 
         it('should load preset with "jscs-preset" prefix without cwd', function() {
             var config = path.resolve('./test/data/configs/modules/config.json');
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('s-test', 'preset', config).test);
+            expect(!!configuration.loadExternal('s-test', 'preset', config).test).to.equal(true);
         });
 
         it('should load error filter with prefix', function() {
@@ -103,7 +92,7 @@ describe('modules/config/node-configuration', function() {
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('error-filter', 'errorFilter').test);
+            expect(!!configuration.loadExternal('error-filter', 'errorFilter').test).to.equal(true);
 
             stub.restore();
         });
@@ -115,7 +104,7 @@ describe('modules/config/node-configuration', function() {
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert(configuration.loadExternal('jscs-error-filter', 'errorFilter').test);
+            expect(!!configuration.loadExternal('jscs-error-filter', 'errorFilter').test).to.equal(true);
 
             stub.restore();
         });
@@ -127,7 +116,7 @@ describe('modules/config/node-configuration', function() {
             stub.returns(way);
 
             var configuration = new NodeConfiguration();
-            assert.equal(configuration.loadExternal('filter', 'errorFilter'), null);
+            expect(configuration.loadExternal('filter', 'errorFilter')).to.equal(null);
 
             stub.restore();
         });
@@ -148,13 +137,13 @@ describe('modules/config/node-configuration', function() {
             configuration.registerPreset('jquery', {});
             configuration.load({});
 
-            assert.equal(configuration.getProcessedConfig().preset, 'jquery');
-            assert.equal(configuration.getMaxErrors(), 2);
-            assert.equal(configuration.isES3Enabled(), true);
-            assert.equal(typeof configuration.getErrorFilter, 'function');
-            assert.equal(configuration.hasCustomEsprima(), true);
-            assert.equal(configuration.getVerbose(), true);
-            assert.equal(configuration.isESNextEnabled(), true);
+            expect(configuration.getProcessedConfig().preset).to.equal('jquery');
+            expect(configuration.getMaxErrors()).to.equal(2);
+            expect(configuration.isES3Enabled()).to.equal(true);
+            expect(configuration.getErrorFilter).to.be.a('function');
+            expect(configuration.hasCustomEsprima()).to.equal(true);
+            expect(configuration.getVerbose()).to.equal(true);
+            expect(configuration.isESNextEnabled()).to.equal(true);
         });
 
         it('should not override disallowed options from CLI', function() {
@@ -164,7 +153,7 @@ describe('modules/config/node-configuration', function() {
 
             configuration.load({});
 
-            assert.deepEqual(configuration.getFileExtensions(), ['.js']);
+            expect(configuration.getFileExtensions()).to.deep.equal(['.js']);
         });
     });
 
@@ -176,7 +165,7 @@ describe('modules/config/node-configuration', function() {
             });
             configuration.load({preset: 'test'});
 
-            assert(configuration.getRegisteredRules()[0].getOptionName(), 'exceptUndefined');
+            expect(!!configuration.getRegisteredRules()[0].getOptionName()).to.equal(true);
         });
 
         it('should load external preset', function() {
@@ -195,8 +184,8 @@ describe('modules/config/node-configuration', function() {
                 exist = rule.getOptionName() === 'requireCurlyBraces';
             });
 
-            assert(exist);
-            assert.equal(configuration.getPresetName(), 'jquery');
+            expect(!!exist).to.equal(true);
+            expect(configuration.getPresetName()).to.equal('jquery');
         });
 
         it('should load external preset with .jscsrc extension', function() {
@@ -215,8 +204,8 @@ describe('modules/config/node-configuration', function() {
                 exist = rule.getOptionName() === 'disallowKeywords';
             });
 
-            assert(exist);
-            assert.equal(configuration.getPresetName(), 'external');
+            expect(!!exist).to.equal(true);
+            expect(configuration.getPresetName()).to.equal('external');
         });
 
         it('should try to load preset from node', function() {
@@ -225,8 +214,8 @@ describe('modules/config/node-configuration', function() {
                 preset: 'path'
             });
 
-            assert.equal(configuration.getPresetName(), 'path');
-            assert(configuration.getUnsupportedRuleNames().indexOf('resolve') > -1);
+            expect(configuration.getPresetName()).to.equal('path');
+            expect(configuration.getUnsupportedRuleNames().indexOf('resolve')).to.be.above(-1);
         });
 
         it('should try to load preset from node_modules', function() {
@@ -235,8 +224,8 @@ describe('modules/config/node-configuration', function() {
                 preset: 'sinon'
             });
 
-            assert.equal(configuration.getPresetName(), 'sinon');
-            assert(configuration.getUnsupportedRuleNames().indexOf('spy') > -1);
+            expect(configuration.getPresetName()).to.equal('sinon');
+            expect(configuration.getUnsupportedRuleNames().indexOf('spy')).to.be.above(-1);
         });
 
         it('should load preset from preset', function() {
@@ -244,17 +233,13 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-t-test/index.json')
             });
 
-            assert.equal(configuration.getPresetName(), 'index');
+            expect(configuration.getPresetName()).to.equal('index');
 
-            assert(
-                configuration.getUnsupportedRuleNames().indexOf('one') !== -1,
-                'should load rule from first preset'
-            );
+            expect(configuration.getUnsupportedRuleNames().indexOf('one'))
+              .to.not.equal(-1, 'should load rule from first preset');
 
-            assert(
-                configuration.getUnsupportedRuleNames().indexOf('second') !== -1,
-                'should load rule from second preset'
-            );
+            expect(configuration.getUnsupportedRuleNames().indexOf('second'))
+              .to.not.equal(-1, 'should load rule from second preset');
         });
 
         it('should load preset json module', function() {
@@ -263,7 +248,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('module');
         });
 
         it('should load preset json module with different prefix', function() {
@@ -272,7 +257,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('module');
         });
 
         it('should load preset js module', function() {
@@ -281,7 +266,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('module');
         });
 
         it('should load preset js module with different prefix', function() {
@@ -290,7 +275,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('module');
         });
 
         it('should load preset module with extension', function() {
@@ -299,7 +284,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'module');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('module');
         });
 
         it('should load preset', function() {
@@ -308,7 +293,7 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/configs/modules/non-existent.json')
             });
 
-            assert.equal(configuration.getUnsupportedRuleNames()[0], 'test');
+            expect(configuration.getUnsupportedRuleNames()[0]).to.equal('test');
         });
 
         it('should load "node_modules" preset from preset', function() {
@@ -316,10 +301,8 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-preset-nm/index.json')
             });
 
-            assert(
-                configuration.getUnsupportedRuleNames().indexOf('test') !== -1,
-                'should load rule from first preset'
-            );
+            expect(configuration.getUnsupportedRuleNames().indexOf('test'))
+              .to.not.equal(-1, 'should load rule from first preset');
         });
 
         it('should not rewrite rule from original preset', function() {
@@ -336,8 +319,8 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-t-test/index.json')
             });
 
-            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'one');
-            assert.equal(configuration.getRegisteredRules()[0].value, true);
+            expect(configuration.getRegisteredRules()[0].getOptionName()).to.equal('one');
+            expect(configuration.getRegisteredRules()[0].value).to.equal(true);
         });
 
         it('should load preset with custom esprima', function() {
@@ -345,7 +328,7 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-esprima/index.json')
             });
 
-            assert(typeof configuration.getCustomEsprima().parse === 'function');
+            expect(configuration.getCustomEsprima().parse).to.be.a('function');
         });
 
         it('should load preset with custom rule', function() {
@@ -353,8 +336,8 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-rule/index.json')
             });
 
-            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'test');
-            assert.equal(configuration.getRegisteredRules()[0].config, true);
+            expect(configuration.getRegisteredRules()[0].getOptionName()).to.equal('test');
+            expect(configuration.getRegisteredRules()[0].config).to.equal(true);
         });
 
         it('should load preset with plugin', function() {
@@ -362,8 +345,8 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-plugin/index.json')
             });
 
-            assert.equal(configuration.getRegisteredRules()[0].getOptionName(), 'test');
-            assert.equal(configuration.getRegisteredRules()[0].config, true);
+            expect(configuration.getRegisteredRules()[0].getOptionName()).to.equal('test');
+            expect(configuration.getRegisteredRules()[0].config).to.equal(true);
         });
 
         it('should load preset with errorFilter', function() {
@@ -371,17 +354,14 @@ describe('modules/config/node-configuration', function() {
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-filter/index.json')
             });
 
-            assert(typeof configuration.getErrorFilter() === 'function');
+            expect(configuration.getErrorFilter()).to.be.a('function');
         });
 
         it('should throw if preset is missing', function() {
             configuration.registerDefaultRules();
-            assert.throws(
-                configuration.load.bind(configuration, {
+            expect(configuration.load.bind(configuration, {
                     preset: 'not-exist'
-                }),
-                'Preset "not-exist" does not exist'
-            );
+                })).to.throw('Preset "not-exist" does not exist');
         });
 
         it('should try to load preset from node_modules', function() {
@@ -390,8 +370,8 @@ describe('modules/config/node-configuration', function() {
                 preset: 'sinon'
             });
 
-            assert.equal(configuration.getPresetName(), 'sinon');
-            assert(configuration.getUnsupportedRuleNames().indexOf('spy') > -1);
+            expect(configuration.getPresetName()).to.equal('sinon');
+            expect(configuration.getUnsupportedRuleNames().indexOf('spy')).to.be.above(-1);
         });
 
         it('should accept `additionalRules` to register rule instances', function() {
@@ -402,8 +382,8 @@ describe('modules/config/node-configuration', function() {
                 configure: function() {}
             };
             configuration.load({additionalRules: [rule]});
-            assert(configuration.getRegisteredRules().length === 1);
-            assert(configuration.getRegisteredRules()[0] === rule);
+            expect(configuration.getRegisteredRules().length).to.equal(1);
+            expect(configuration.getRegisteredRules()[0]).to.equal(rule);
         });
 
         it('should accept `additionalRules` to register rule paths', function() {
@@ -411,8 +391,8 @@ describe('modules/config/node-configuration', function() {
                 additionalRules: ['./rules/additional-rules.js'],
                 configPath: path.resolve(__dirname + '/../../data/config.json')
             });
-            assert(configuration.getRegisteredRules().length === 1);
-            assert(configuration.getRegisteredRules()[0] instanceof AdditionalRule);
+            expect(configuration.getRegisteredRules().length).to.equal(1);
+            expect(configuration.getRegisteredRules()[0]).to.be.an.instanceof(AdditionalRule);
         });
 
         it('should accept `additionalRules` to register rule path masks', function() {
@@ -421,8 +401,8 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/config.json')
             });
 
-            assert(configuration.getRegisteredRules().length === 1);
-            assert(configuration.getRegisteredRules()[0] instanceof AdditionalRule);
+            expect(configuration.getRegisteredRules().length).to.equal(1);
+            expect(configuration.getRegisteredRules()[0]).to.be.an.instanceof(AdditionalRule);
         });
 
         it('should accept `esprima` to register different esprima', function() {
@@ -430,23 +410,23 @@ describe('modules/config/node-configuration', function() {
                 esprima: 'babel-jscs'
             });
 
-            assert.equal(configuration.hasCustomEsprima(), true);
+            expect(configuration.hasCustomEsprima()).to.equal(true);
         });
 
         it('should accept `plugins` to register plugin instance', function() {
             var plugin = function() {};
             var spy = sinon.spy(plugin);
             configuration.load({plugins: [spy]});
-            assert(spy.called);
-            assert(spy.callCount === 1);
-            assert(spy.getCall(0).args[0] === configuration);
+            expect(spy).to.have.not.callCount(0);
+            expect(spy).to.have.callCount(1);
+            expect(spy.getCall(0).args[0]).to.equal(configuration);
         });
 
         it('should accept `plugins` to register plugin absolute path', function() {
             configuration.load({plugins: [path.resolve(__dirname + '/../../data/plugin/plugin')]});
-            assert(examplePluginSpy.called);
-            assert(examplePluginSpy.callCount === 1);
-            assert(examplePluginSpy.getCall(0).args[0] === configuration);
+            expect(examplePluginSpy).to.have.not.callCount(0);
+            expect(examplePluginSpy).to.have.callCount(1);
+            expect(examplePluginSpy.getCall(0).args[0]).to.equal(configuration);
             examplePluginSpy.reset();
         });
 
@@ -455,9 +435,9 @@ describe('modules/config/node-configuration', function() {
                 configPath: path.resolve(__dirname + '/../../data/config.json'),
                 plugins: ['./plugin/plugin']
             });
-            assert(examplePluginSpy.called);
-            assert(examplePluginSpy.callCount === 1);
-            assert(examplePluginSpy.getCall(0).args[0] === configuration);
+            expect(examplePluginSpy).to.have.not.callCount(0);
+            expect(examplePluginSpy).to.have.callCount(1);
+            expect(examplePluginSpy.getCall(0).args[0]).to.equal(configuration);
             examplePluginSpy.reset();
         });
 
@@ -467,7 +447,7 @@ describe('modules/config/node-configuration', function() {
                     esprima: 'esprima'
                 });
 
-                assert(typeof configuration.getCustomEsprima() === 'object');
+                expect(configuration.getCustomEsprima()).to.be.a('object');
             });
         });
 
@@ -477,7 +457,7 @@ describe('modules/config/node-configuration', function() {
                     errorFilter: path.resolve(__dirname, '../../data/error-filter/index.js')
                 });
 
-                assert(typeof configuration.getErrorFilter() === 'function');
+                expect(configuration.getErrorFilter()).to.be.a('function');
             });
 
             it('should accept `errorFilter` from node', function() {
@@ -485,7 +465,7 @@ describe('modules/config/node-configuration', function() {
                     errorFilter: 'stream'
                 });
 
-                assert(typeof configuration.getErrorFilter() === 'function');
+                expect(configuration.getErrorFilter()).to.be.a('function');
             });
 
             it('should accept `errorFilter` from node_modules', function() {
@@ -493,15 +473,15 @@ describe('modules/config/node-configuration', function() {
                     errorFilter: 'browserify'
                 });
 
-                assert(typeof configuration.getErrorFilter() === 'function');
+                expect(configuration.getErrorFilter()).to.be.a('function');
             });
 
             it('should not fail with a value of null', function() {
-                assert.doesNotThrow(function() {
+                expect(function() {
                     configuration.load({
                         errorFilter: null
                     });
-                });
+                }).to.not.throw();
             });
         });
     });

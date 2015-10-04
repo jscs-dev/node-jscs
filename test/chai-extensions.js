@@ -1,11 +1,15 @@
 var chai = require('chai');
 
+chai.use(require('sinon-chai'));
+chai.use(require('chai-string'));
+
 chai.use(function(chai, utils) {
     /**
      * Error assertion for `Errors` instances.
      */
     chai.Assertion.addChainableMethod('error', function(message) {
         var list = getErrorList(this);
+        var allErrors = buildErrorReport(this);
 
         if (message) {
             if (utils.flag(this, 'contains')) {
@@ -13,30 +17,32 @@ chai.use(function(chai, utils) {
                     list.some(function(error) {
                         return error.message === message;
                     }),
-                    'Expected to contain "' + message + '"',
-                    'Expected not to contain "' + message + '"'
+                    'Expected to contain "' + message + '"' + allErrors,
+                    'Expected not to contain "' + message + '"' + allErrors
                 );
             } else {
                 this.assert(
                     list.length === 1,
-                    '1 error expected, but ' + list.length + ' found',
-                    'Unexpected to have 1 error'
+                    '1 error expected, but ' + list.length + ' found' + allErrors,
+                    'Unexpected to have 1 error' + allErrors
                 );
                 return this.assert(
                     list[0].message === message,
-                    'Expected "' + list[0].message + '" to equal "' + message + '"',
-                    'Expected "' + list[0].message + '" not to equal "' + message + '"'
+                    'Expected "' + list[0].message + '" to equal "' + message + '"' + allErrors,
+                    'Expected "' + list[0].message + '" not to equal "' + message + '"' + allErrors
                 );
             }
         }
     }, function() {
         if (utils.flag(this, 'one')) {
+            var allErrors = buildErrorReport(this);
+
             var list = getErrorList(this);
 
             return this.assert(
                 list.length === 1,
-                'Expected to have 1 error, but ' + list.length + ' found',
-                'Expected not to have 1 error'
+                'Expected to have 1 error, but ' + list.length + ' found' + allErrors,
+                'Expected not to have 1 error' + allErrors
             );
         }
     });
@@ -54,10 +60,12 @@ chai.use(function(chai, utils) {
             return errorRuleName === ruleName;
         });
 
+        var allErrors = buildErrorReport(this);
+
         return this.assert(
             (utils.flag(this, 'no') ? !matches : matches),
-            'Expected error rules "' + ruleNames.join(', ') + '" to equal "' + ruleName + '"',
-            'Expected error rules "' + ruleNames.join(', ') + '" not to equal "' + ruleName + '"'
+            'Expected error rules "' + ruleNames.join(', ') + '" to equal "' + ruleName + '"' + allErrors,
+            'Expected error rules "' + ruleNames.join(', ') + '" not to equal "' + ruleName + '"' + allErrors
         );
     });
 
@@ -67,13 +75,14 @@ chai.use(function(chai, utils) {
     chai.Assertion.addChainableMethod('errors',
         function() {
             var list = getErrorList(this);
+            var allErrors = buildErrorReport(this);
             var messages = list.map(function(error) {
                 return error.message;
             });
             return this.assert(
                 utils.flag(this, 'no') ? list.length === 0 : list.length !== 0,
-                'Expected not to have errors, but "' + messages.join(', ') + '" found',
-                'Expected to have some errors'
+                'Expected not to have errors, but "' + messages.join(', ') + '" found' + allErrors,
+                'Expected to have some errors' + allErrors
             );
         }
     );
@@ -117,6 +126,18 @@ chai.use(function(chai, utils) {
             list = list.filter(isParseError);
         }
         return list;
+    }
+
+    function buildErrorReport(context) {
+        var errorReport = utils.flag(context, '_errorReport');
+        if (!errorReport) {
+            errorReport = '\nAll errors:\n' +
+                utils.flag(context, 'object').getErrorList().map(function(error) {
+                    return ' - ' + error.rule + ': ' + error.message;
+                }).join('\n');
+            utils.flag(context, '_errorReport', errorReport);
+        }
+        return errorReport;
     }
 
     function isValidationError(error) {

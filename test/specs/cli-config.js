@@ -1,6 +1,6 @@
 var path = require('path');
 
-var assert = require('assert');
+var expect = require('chai').expect;
 var rewire = require('rewire');
 
 var configFile = rewire('../../lib/cli-config');
@@ -10,107 +10,105 @@ describe('cli-config', function() {
         it('should load a config from a package.json file', function() {
             var config = configFile.load('package.json', './test/data/configs/package');
 
-            assert.equal(typeof config, 'object');
+            expect(config).to.be.a('object');
         });
 
         it('should ignore a package.json file if no config is found in it', function() {
             var config = configFile.load('package.json', './test/data/configs/emptyPackage');
 
-            assert.equal(typeof config, 'undefined');
+            expect(config).to.be.a('undefined');
         });
 
         it('should load a config from a .jscs.json file', function() {
             var config = configFile.load('.jscs.json', './test/data/configs/json');
 
-            assert.equal(typeof config, 'object');
+            expect(config).to.be.a('object');
         });
 
         it('should load a config from a .jscs.yaml file', function() {
             var config = configFile.load('.jscs.yaml', './test/data/configs/yaml');
 
-            assert.equal(typeof config, 'object');
-            assert.equal(config.type, 'yaml');
+            expect(config).to.be.a('object');
+            expect(config.type).to.equal('yaml');
         });
 
         it('should load a JSON config from a .jscsrc file', function() {
             var config = configFile.load('.jscsrc', './test/data/configs/jscsrc');
 
-            assert.equal(typeof config, 'object');
+            expect(config).to.be.a('object');
         });
 
         it('should load a YAML config from a .jscsrc file', function() {
             var config = configFile.load('.jscsrc', './test/data/configs/yaml');
 
-            assert.equal(typeof config, 'object');
-            assert.equal(config.type, 'yaml');
+            expect(config).to.be.a('object');
+            expect(config.type).to.equal('yaml');
         });
 
         it('should load a config from upper .jscsrc file', function() {
             var config = configFile.load(null, './test/data/configs/jscsrc/empty');
 
-            assert.equal(typeof config, 'object');
-            assert.equal(config.from, 'jscsrc');
+            expect(config).to.be.a('object');
+            expect(config.from).to.equal('jscsrc');
         });
 
         it('should load a .jscsrc config from a relative path', function() {
             var config = configFile.load('jscsrc/.jscsrc', './test/data/configs');
 
-            assert.equal(config.from, 'jscsrc');
+            expect(config.from).to.equal('jscsrc');
         });
 
         it('should load a custom config file', function() {
             var config = configFile.load('config.js', './test/data/configs/custom');
 
-            assert.equal(config.from, 'js');
+            expect(config.from).to.equal('js');
         });
 
         it('should prefer package.json over .jscs.json and .jscsrc', function() {
             var config = configFile.load(null, './test/data/configs/mixedWithPkg');
 
-            assert.equal(typeof config, 'object');
-            assert.equal(config.from, 'package.json');
+            expect(config).to.be.a('object');
+            expect(config.from).to.equal('package.json');
         });
 
         it('should use another config source if package.json contains no config', function() {
             var config = configFile.load(null, './test/data/configs/mixedWithEmptyPkg');
 
-            assert.equal(config.from, '.jscsrc');
+            expect(config.from).to.equal('.jscsrc');
         });
 
         it('should prefer .jscsrc over .jscs.json', function() {
             var config = configFile.load(null, './test/data/configs/mixedWithoutPkg');
 
-            assert.equal(typeof config, 'object');
-            assert.equal(config.from, '.jscsrc');
+            expect(config).to.be.a('object');
+            expect(config.from).to.equal('.jscsrc');
         });
 
         it('should not fall back to defaults if custom config is missing', function() {
             var config = configFile.load('custom.js', './test/data/configs/mixedWithPkg');
 
-            assert.strictEqual(config, undefined);
+            expect(config).to.equal(undefined);
         });
 
         it('should load config from lower .jscsrc file instead of package.json', function() {
             var config = configFile.load(null, './test/data/configs/mixedWithUpperPkg/jscsrc');
 
-            assert.strictEqual(config.from, '.jscsrc');
+            expect(config.from).to.equal('.jscsrc');
         });
 
         it('should fail load json config with comments', function() {
             try {
                 configFile.load('./test/data/configs/json/withComments.json');
-                assert(false);
+                throw new Error();
             } catch (e) {
-                assert(true);
             }
         });
 
         it('should load json config with BOM', function() {
             try {
                 configFile.load('./test/data/configs/json/withBOM.json');
-                assert(true);
             } catch (e) {
-                assert(false);
+                throw new Error();
             }
         });
 
@@ -121,7 +119,7 @@ describe('cli-config', function() {
 
             process.env.HOMEPATH = process.env.USERPROFILE = null;
             process.env.HOME = './test/data/configs/jscsrc';
-            assert.equal(configFile.load(null, '/').from, 'jscsrc');
+            expect(configFile.load(null, '/').from).to.equal('jscsrc');
             process.env.HOME = oldHome;
             process.env.HOMEPATH = oldHOMEPATH;
             process.env.USERPROFILE = oldUSERPROFILE;
@@ -136,7 +134,7 @@ describe('cli-config', function() {
             delete process.env.HOME;
 
             process.env.HOMEPATH = './test/data/configs/jscsrc';
-            assert.equal(configFile.load(null, '/').from, 'jscsrc');
+            expect(configFile.load(null, '/').from).to.equal('jscsrc');
             process.env.HOME = oldHome;
             process.env.HOMEPATH = oldHOMEPATH;
             process.env.USERPROFILE = oldUSERPROFILE;
@@ -149,7 +147,7 @@ describe('cli-config', function() {
 
             process.env.HOME = process.env.HOMEPATH = null;
             process.env.USERPROFILE = './test/data/configs/jscsrc';
-            assert.equal(configFile.load(null, '/').from, 'jscsrc');
+            expect(configFile.load(null, '/').from).to.equal('jscsrc');
             process.env.HOME = oldHome;
             process.env.HOMEPATH = oldHOMEPATH;
             process.env.USERPROFILE = oldUSERPROFILE;
@@ -160,18 +158,15 @@ describe('cli-config', function() {
         it('should get content from node module', function() {
             var config = configFile.getContent('path');
 
-            assert.equal(typeof config, 'object');
+            expect(config).to.be.a('object');
         });
 
         it('should get content from "node_modules"', function() {
             var dir = path.resolve('./test/data/configs/modules');
             var config = configFile.getContent('test', path.resolve('./test/data/configs/modules'));
 
-            assert.equal(
-                config.configPath,
-                path.join(dir, 'node_modules/test/index.json')
-            );
-            assert.ok(config.test);
+            expect(config.configPath).to.equal(path.join(dir, 'node_modules/test/index.json'));
+            expect(!!config.test).to.equal(true);
         });
     });
 
@@ -179,43 +174,43 @@ describe('cli-config', function() {
         it('should get console reporter if called without arguments', function() {
             var reporter = configFile.getReporter();
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/console'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./lib/reporters/console'));
         });
 
         it('should get console reporter if called with arguments with default values', function() {
             var reporter = configFile.getReporter(undefined, true);
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/console'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./lib/reporters/console'));
         });
 
         it('should get text reporter if called with colors = false', function() {
             var reporter = configFile.getReporter(undefined, false);
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/text'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./lib/reporters/text'));
         });
 
         it('should get junit reporter with the name', function() {
             var reporter = configFile.getReporter('junit');
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/junit'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./lib/reporters/junit'));
         });
 
         it('should get reporter with partial path', function() {
             var reporter = configFile.getReporter('./test/data/reporter/test-reporter.js');
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./test/data/reporter/test-reporter.js'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./test/data/reporter/test-reporter.js'));
         });
 
         it('should get null instead of function if reporter does not exist', function() {
             var reporter = configFile.getReporter('./test');
 
-            assert.equal(reporter.writer, null);
-            assert.equal(reporter.path, path.resolve('./test'));
+            expect(reporter.writer).to.equal(null);
+            expect(reporter.path).to.equal(path.resolve('./test'));
         });
 
         it('should get text reporter if tty does not support colors', function() {
@@ -225,8 +220,8 @@ describe('cli-config', function() {
 
             var reporter = configFile.getReporter();
 
-            assert.equal(typeof reporter.writer, 'function');
-            assert.equal(reporter.path, path.resolve('./lib/reporters/text'));
+            expect(reporter.writer).to.be.a('function');
+            expect(reporter.path).to.equal(path.resolve('./lib/reporters/text'));
 
             configFile.__set__('supportsColor', old);
         });
@@ -234,15 +229,15 @@ describe('cli-config', function() {
         it('should fake reporter from node', function() {
             var reporter = configFile.getReporter('path');
 
-            assert.equal(typeof reporter.writer, 'object');
-            assert.equal(reporter.path, 'path');
+            expect(reporter.writer).to.be.a('object');
+            expect(reporter.path).to.equal('path');
         });
 
         it('should fake reporter from node_modules', function() {
             var reporter = configFile.getReporter('sinon');
 
-            assert.equal(typeof reporter.writer, 'object');
-            assert.equal(reporter.path, 'sinon');
+            expect(reporter.writer).to.be.a('object');
+            expect(reporter.path).to.equal('sinon');
         });
     });
 });

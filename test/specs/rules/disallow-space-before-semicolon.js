@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-space-before-semicolon', function() {
     var checker;
@@ -11,34 +11,30 @@ describe('rules/disallow-space-before-semicolon', function() {
 
     describe('invalid configuration', function() {
         it('should not accept objects without at least one valid key', function() {
-            assert.throws(function() {
+            expect(function() {
                     checker.configure({ disallowSpaceBeforeSemicolon: {} });
-                },
-                assert.AssertionError
-            );
+                }).to.throw('AssertionError');
         });
 
         it('should not accept non-boolean non-objects', function() {
-            assert.throws(function() {
+            expect(function() {
                     checker.configure({ disallowSpaceBeforeSemicolon: 'true' });
-                },
-                assert.AssertionError
-            );
+                }).to.throw('AssertionError');
         });
     });
 
     it('does not allow spaces before semicolons', function() {
         checker.configure({ disallowSpaceBeforeSemicolon: true });
 
-        assert(checker.checkString('; ;').getErrorCount() === 1);
-        assert(checker.checkString('var a = 1 ;').getErrorCount() === 1);
-        assert(checker.checkString('var a = 2  ;').getErrorCount() === 1);
+        expect(checker.checkString('; ;')).to.have.one.validation.error.from('disallowSpaceBeforeSemicolon');
+        expect(checker.checkString('var a = 1 ;')).to.have.one.validation.error.from('disallowSpaceBeforeSemicolon');
+        expect(checker.checkString('var a = 2  ;')).to.have.one.validation.error.from('disallowSpaceBeforeSemicolon');
     });
 
     it('does allow semicolons with no spaces', function() {
         checker.configure({ disallowSpaceBeforeSemicolon: true });
 
-        assert(checker.checkString('var a = 1;').isEmpty());
+        expect(checker.checkString('var a = 1;')).to.have.no.errors();
     });
 
     it('should allow space after parentheses', function() {
@@ -48,7 +44,7 @@ describe('rules/disallow-space-before-semicolon', function() {
             }
         });
 
-        assert(checker.checkString('for ( ; nodeIndex < nodesCount; ++nodeIndex ) {}').isEmpty());
+        expect(checker.checkString('for ( ; nodeIndex < nodesCount; ++nodeIndex ) {}')).to.have.no.errors();
     });
 
     it('should not trigger error if semicolon is first token', function() {
@@ -56,6 +52,6 @@ describe('rules/disallow-space-before-semicolon', function() {
             disallowSpaceBeforeSemicolon: true
         });
 
-        assert(checker.checkString(';').isEmpty());
+        expect(checker.checkString(';')).to.have.no.errors();
     });
 });

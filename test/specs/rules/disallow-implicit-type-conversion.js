@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-implicit-type-conversion', function() {
     var checker;
@@ -15,11 +15,12 @@ describe('rules/disallow-implicit-type-conversion', function() {
         });
 
         it('should report implicit numeric conversion', function() {
-            assert(checker.checkString('var x = +y;').getErrorCount() === 1);
+            expect(checker.checkString('var x = +y;'))
+              .to.have.one.validation.error.from('disallowImplicitTypeConversion');
         });
 
         it('should not report negative numbers', function() {
-            assert(checker.checkString('var x = -y;').isEmpty());
+            expect(checker.checkString('var x = -y;')).to.have.no.errors();
         });
     });
 
@@ -29,7 +30,8 @@ describe('rules/disallow-implicit-type-conversion', function() {
         });
 
         it('should report implicit binary conversion', function() {
-            assert(checker.checkString('var x = ~y;').getErrorCount() === 1);
+            expect(checker.checkString('var x = ~y;'))
+              .to.have.one.validation.error.from('disallowImplicitTypeConversion');
         });
     });
 
@@ -39,7 +41,8 @@ describe('rules/disallow-implicit-type-conversion', function() {
         });
 
         it('should report implicit boolean conversion', function() {
-            assert(checker.checkString('var x = !!y;').getErrorCount() === 1);
+            expect(checker.checkString('var x = !!y;'))
+              .to.have.one.validation.error.from('disallowImplicitTypeConversion');
         });
     });
 
@@ -49,23 +52,25 @@ describe('rules/disallow-implicit-type-conversion', function() {
         });
 
         it('should report implicit string conversion on rhs', function() {
-            assert(checker.checkString('var x = y + \'\';').getErrorCount() === 1);
+            expect(checker.checkString('var x = y + \'\';'))
+              .to.have.one.validation.error.from('disallowImplicitTypeConversion');
         });
 
         it('should report implicit string conversion on lhs', function() {
-            assert(checker.checkString('var x = \'\' + y;').getErrorCount() === 1);
+            expect(checker.checkString('var x = \'\' + y;'))
+              .to.have.one.validation.error.from('disallowImplicitTypeConversion');
         });
 
         it('should not report string literal', function() {
-            assert(checker.checkString('var x = \'hi\' + y;').isEmpty());
+            expect(checker.checkString('var x = \'hi\' + y;')).to.have.no.errors();
         });
 
         it('should not report operations other than +', function() {
-            assert(checker.checkString('var x = \'\' * y;').isEmpty());
+            expect(checker.checkString('var x = \'\' * y;')).to.have.no.errors();
         });
 
         it('should not report concatination with two literals (#1538)', function() {
-            assert(checker.checkString('"" + "string";').isEmpty());
+            expect(checker.checkString('"" + "string";')).to.have.no.errors();
         });
     });
 });

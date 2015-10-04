@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-spaces-inside-brackets', function() {
     var checker;
@@ -11,9 +11,9 @@ describe('rules/disallow-spaces-inside-brackets', function() {
 
     describe('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ disallowSpacesInsideBrackets: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -24,60 +24,62 @@ describe('rules/disallow-spaces-inside-brackets', function() {
 
         describe('when braces on same line', function() {
             it('should report missing spaces for array accessor', function() {
-                assert(checker.checkString('var x = []; x[ 0 ]').getErrorCount() === 2);
+                expect(checker.checkString('var x = []; x[ 0 ]')).to.have.error.count.equal(2);
             });
 
             it('should report illegal spaces for array and expression statement (#429)', function() {
-                assert(checker.checkString('[1][ 0 ];').getErrorCount() === 2);
+                expect(checker.checkString('[1][ 0 ];')).to.have.error.count.equal(2);
             });
 
             it('should report illegal space after opening brace', function() {
-                assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+                expect(checker.checkString('var x = [ 1];'))
+                  .to.have.one.validation.error.from('disallowSpacesInsideBrackets');
             });
 
             it('should report illegal space before closing brace', function() {
-                assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
+                expect(checker.checkString('var x = [1 ];'))
+                  .to.have.one.validation.error.from('disallowSpacesInsideBrackets');
             });
 
             it('should report illegal space in both cases', function() {
-                assert(checker.checkString('var x = [ 1, 2 ];').getErrorCount() === 2);
+                expect(checker.checkString('var x = [ 1, 2 ];')).to.have.error.count.equal(2);
             });
 
             it('should not report with no spaces', function() {
-                assert(checker.checkString('var x = [1, 2];').isEmpty());
+                expect(checker.checkString('var x = [1, 2];')).to.have.no.errors();
             });
 
             it('should not report block comment before last bracket (#1749)', function() {
-                assert(checker.checkString('[1/**/];').isEmpty());
+                expect(checker.checkString('[1/**/];')).to.have.no.errors();
             });
 
             it('should not report block comment after first bracket (#1749)', function() {
-                assert(checker.checkString('[/**/1];').isEmpty());
+                expect(checker.checkString('[/**/1];')).to.have.no.errors();
             });
         });
 
         describe('when braces on different lines', function() {
             it('should not report with opening brace on previous line', function() {
-                assert(checker.checkString(
+                expect(checker.checkString(
                     'var x = [\n' +
                     '   1, 2]'
-                ).isEmpty());
+                )).to.have.no.errors();
             });
 
             it('should not report with closing brace on new line', function() {
-                assert(checker.checkString(
+                expect(checker.checkString(
                     'var x = [1, 2 \n' +
                     '   ]'
-                ).isEmpty());
+                )).to.have.no.errors();
             });
 
             it('should not report in both cases', function() {
-                assert(checker.checkString(
+                expect(checker.checkString(
                     'var x = [\n' +
                     '   1,\n' +
                     '   2,\n' +
                     ']'
-                ).isEmpty());
+                )).to.have.no.errors();
             });
         });
     });
@@ -89,7 +91,8 @@ describe('rules/disallow-spaces-inside-brackets', function() {
                     allExcept: false
                 }
             });
-            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [ 1];'))
+              .to.have.one.validation.error.from('disallowSpacesInsideBrackets');
         });
 
         it('should not report missing space for parentheses', function() {
@@ -99,8 +102,8 @@ describe('rules/disallow-spaces-inside-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [ 1 ];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [ { a: 1 } ];').isEmpty());
+            expect(checker.checkString('var x = [ 1 ];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [ { a: 1 } ];')).to.have.no.errors();
         });
         it('should report missing space for the array brackets', function() {
             checker.configure({
@@ -109,8 +112,8 @@ describe('rules/disallow-spaces-inside-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [ {} ];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [ [] ];').isEmpty());
+            expect(checker.checkString('var x = [ {} ];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [ [] ];')).to.have.no.errors();
         });
         it('should not report missing space in both cases', function() {
             checker.configure({
@@ -119,8 +122,8 @@ describe('rules/disallow-spaces-inside-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [ { a: 1 } ];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [ (1) ];').isEmpty());
+            expect(checker.checkString('var x = [ { a: 1 } ];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [ (1) ];')).to.have.no.errors();
         });
     });
 });

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-spaces-inside-array-brackets', function() {
     var checker;
@@ -11,9 +11,9 @@ describe('rules/require-spaces-inside-array-brackets', function() {
 
     describe('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requireSpacesInsideArrayBrackets: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -23,43 +23,45 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         });
 
         it('should report missing space after opening brace', function() {
-            assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [1 ];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should report missing space before closing brace', function() {
-            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [ 1];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = [1];').getErrorCount() === 2);
+            expect(checker.checkString('var x = [1];')).to.have.error.count.equal(2);
         });
 
         it('should not report with spaces', function() {
-            assert(checker.checkString('var x = [ 1 ];').isEmpty());
+            expect(checker.checkString('var x = [ 1 ];')).to.have.no.errors();
         });
 
         it('should not report for empty array', function() {
-            assert(checker.checkString('var x = [];').isEmpty());
+            expect(checker.checkString('var x = [];')).to.have.no.errors();
         });
 
         it('should report for nested array', function() {
-            assert(checker.checkString('var x = [[ 1 ]];').getErrorCount() === 2);
+            expect(checker.checkString('var x = [[ 1 ]];')).to.have.error.count.equal(2);
         });
 
         it('should report anything for empty array', function() {
-            assert(checker.checkString('[];').isEmpty());
+            expect(checker.checkString('[];')).to.have.no.errors();
         });
 
         it('should not report with comments before the first element', function() {
-            assert(checker.checkString(
+            expect(checker.checkString(
                 'var x = [ /*A*/ 1, 2 ]'
-            ).isEmpty());
+            )).to.have.no.errors();
         });
 
         it('should not report with comments after the last element', function() {
-            assert(checker.checkString(
+            expect(checker.checkString(
                 'var x = [ 1, 2, /*Z*/ ]'
-            ).isEmpty());
+            )).to.have.no.errors();
         });
     });
 
@@ -69,27 +71,29 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         });
 
         it('should report missing space after opening brace', function() {
-            assert(checker.checkString('var x = [1 ];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [1 ];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should report missing space before closing brace', function() {
-            assert(checker.checkString('var x = [ 1];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [ 1];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = [1];').getErrorCount() === 2);
+            expect(checker.checkString('var x = [1];')).to.have.error.count.equal(2);
         });
 
         it('should not report with spaces', function() {
-            assert(checker.checkString('var x = [ 1 ];').isEmpty());
+            expect(checker.checkString('var x = [ 1 ];')).to.have.no.errors();
         });
 
         it('should not report for nested array', function() {
-            assert(checker.checkString('var x = [[ 1 ], [ 2 ]];').isEmpty());
+            expect(checker.checkString('var x = [[ 1 ], [ 2 ]];')).to.have.no.errors();
         });
 
         it('should report anything for empty array', function() {
-            assert(checker.checkString('[[]];').isEmpty());
+            expect(checker.checkString('[[]];')).to.have.no.errors();
         });
     });
 
@@ -101,8 +105,8 @@ describe('rules/require-spaces-inside-array-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [1];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [{ a: 1 }];').isEmpty());
+            expect(checker.checkString('var x = [1];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [{ a: 1 }];')).to.have.no.errors();
         });
 
         it('should report missing space for the array brackets', function() {
@@ -112,8 +116,8 @@ describe('rules/require-spaces-inside-array-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [{}];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [[]];').isEmpty());
+            expect(checker.checkString('var x = [{}];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [[]];')).to.have.no.errors();
         });
 
         it('should not report missing space in both cases', function() {
@@ -123,8 +127,8 @@ describe('rules/require-spaces-inside-array-brackets', function() {
                 }
             });
 
-            assert(checker.checkString('var x = [{ a: 1 }];').getErrorCount() === 2);
-            assert(checker.checkString('var x = [(1)];').isEmpty());
+            expect(checker.checkString('var x = [{ a: 1 }];')).to.have.error.count.equal(2);
+            expect(checker.checkString('var x = [(1)];')).to.have.no.errors();
         });
     });
 
@@ -134,27 +138,29 @@ describe('rules/require-spaces-inside-array-brackets', function() {
         });
 
         it('should report missing space after comment', function() {
-            assert(checker.checkString('var x = [ 1 /*,2*/];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [ 1 /*,2*/];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should not report with space after comment', function() {
-            assert(checker.checkString('var x = [ 1 /*,2*/ ];').isEmpty());
+            expect(checker.checkString('var x = [ 1 /*,2*/ ];')).to.have.no.errors();
         });
 
         it('should report missing space before comment', function() {
-            assert(checker.checkString('var x = [/*0,*/ 1 ];').getErrorCount() === 1);
+            expect(checker.checkString('var x = [/*0,*/ 1 ];'))
+              .to.have.one.validation.error.from('requireSpacesInsideArrayBrackets');
         });
 
         it('should not report with space before comment', function() {
-            assert(checker.checkString('var x = [ /*0,*/ 1 ];').isEmpty());
+            expect(checker.checkString('var x = [ /*0,*/ 1 ];')).to.have.no.errors();
         });
 
         it('should report missing space before and after comments', function() {
-            assert(checker.checkString('var x = [/*0,*/ 1 /*,2*/];').getErrorCount() === 2);
+            expect(checker.checkString('var x = [/*0,*/ 1 /*,2*/];')).to.have.error.count.equal(2);
         });
 
         it('should not report with space before comment', function() {
-            assert(checker.checkString('var x = [ /*0,*/ 1 /*,2*/ ];;').isEmpty());
+            expect(checker.checkString('var x = [ /*0,*/ 1 /*,2*/ ];;')).to.have.no.errors();
         });
 
     });

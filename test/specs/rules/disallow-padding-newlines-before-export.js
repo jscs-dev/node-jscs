@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/disallow-padding-newlines-before-export', function() {
     var checker;
@@ -15,32 +15,33 @@ describe('rules/disallow-padding-newlines-before-export', function() {
         });
 
         it('should not report no padding before export', function() {
-            assert(checker.checkString('var a = 2;\nmodule.exports = a;').isEmpty());
+            expect(checker.checkString('var a = 2;\nmodule.exports = a;')).to.have.no.errors();
         });
 
         it('should not report missing padding if first line', function() {
-            assert(checker.checkString('module.exports = 2;').isEmpty());
+            expect(checker.checkString('module.exports = 2;')).to.have.no.errors();
         });
 
         it('should report padding before export', function() {
-            assert(checker.checkString('var a = 2;\n\nmodule.exports = a;').getErrorCount() === 1);
+            expect(checker.checkString('var a = 2;\n\nmodule.exports = a;'))
+              .to.have.one.validation.error.from('disallowPaddingNewLinesBeforeExport');
         });
 
         it('should not report comment before export', function() {
-            assert(checker.checkString('var a = 2;\n// foo\nmodule.exports = a;').isEmpty());
+            expect(checker.checkString('var a = 2;\n// foo\nmodule.exports = a;')).to.have.no.errors();
         });
 
         it('should not report comment with extra padding before export', function() {
-            assert(checker.checkString('var a = 2;\n\n// foo\nmodule.exports = a;').isEmpty());
+            expect(checker.checkString('var a = 2;\n\n// foo\nmodule.exports = a;')).to.have.no.errors();
         });
 
         it('should not report padding before object assignment', function() {
-            assert(checker.checkString('var a = 2;\n\nfoo.exports = a;').isEmpty());
-            assert(checker.checkString('var a = 2;\n\nmodule.foo = a;').isEmpty());
+            expect(checker.checkString('var a = 2;\n\nfoo.exports = a;')).to.have.no.errors();
+            expect(checker.checkString('var a = 2;\n\nmodule.foo = a;')).to.have.no.errors();
         });
 
         it('should not report if it is not a property assignment', function() {
-            assert(checker.checkString('var a = 2;\n\nfoo = a;').isEmpty());
+            expect(checker.checkString('var a = 2;\n\nfoo = a;')).to.have.no.errors();
         });
     });
 });

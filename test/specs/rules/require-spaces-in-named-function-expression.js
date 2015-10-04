@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-spaces-in-named-function-expression', function() {
@@ -20,31 +20,32 @@ describe('rules/require-spaces-in-named-function-expression', function() {
         });
 
         it('should report missing space before round brace in named FunctionExpression', function() {
-            assert(checker.checkString('var x = function a(){}').getErrorCount() === 1);
+            expect(checker.checkString('var x = function a(){}'))
+              .to.have.one.validation.error.from('requireSpacesInNamedFunctionExpression');
         });
 
         it('should not report space before round brace in named FunctionExpression', function() {
-            assert(checker.checkString('var x = function a (){}').isEmpty());
+            expect(checker.checkString('var x = function a (){}')).to.have.no.errors();
         });
 
         it('should not report space before round brace in getter expression', function() {
-            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+            expect(checker.checkString('var x = { get y () {} }')).to.have.no.errors();
         });
 
         it('should not report space before round brace in setter expression', function() {
-            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v) {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace in getter expression', function() {
-            assert(checker.checkString('var x = { get y() {} }').isEmpty());
+            expect(checker.checkString('var x = { get y() {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace in setter expression', function() {
-            assert(checker.checkString('var x = { set y(v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y(v) {} }')).to.have.no.errors();
         });
 
         it('should not report space before round brace in method shorthand #1470', function() {
-            assert(checker.checkString('var x = { y () {} }').isEmpty());
+            expect(checker.checkString('var x = { y () {} }')).to.have.no.errors();
         });
 
         reportAndFix({
@@ -67,39 +68,40 @@ describe('rules/require-spaces-in-named-function-expression', function() {
         });
 
         it('should report missing space before curly brace in named FunctionExpression', function() {
-            assert(checker.checkString('var x = function a(){}').getErrorCount() === 1);
+            expect(checker.checkString('var x = function a(){}'))
+              .to.have.one.validation.error.from('requireSpacesInNamedFunctionExpression');
         });
 
         it('should not report space before curly brace in named FunctionExpression', function() {
-            assert(checker.checkString('var x = function a() {}').isEmpty());
+            expect(checker.checkString('var x = function a() {}')).to.have.no.errors();
         });
 
         it('should not report space before curly brace in getter expression', function() {
-            assert(checker.checkString('var x = { get y () {} }').isEmpty());
+            expect(checker.checkString('var x = { get y () {} }')).to.have.no.errors();
         });
 
         it('should not report space before curly brace in setter expression', function() {
-            assert(checker.checkString('var x = { set y (v) {} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v) {} }')).to.have.no.errors();
         });
 
         it('should not report missing space before curly brace in getter expression', function() {
-            assert(checker.checkString('var x = { get y (){} }').isEmpty());
+            expect(checker.checkString('var x = { get y (){} }')).to.have.no.errors();
         });
 
         it('should not report missing space before curly brace in setter expression', function() {
-            assert(checker.checkString('var x = { set y (v){} }').isEmpty());
+            expect(checker.checkString('var x = { set y (v){} }')).to.have.no.errors();
         });
 
         it('should not report missing space before round brace without option', function() {
-            assert(checker.checkString('var x = function a() {}').isEmpty());
+            expect(checker.checkString('var x = function a() {}')).to.have.no.errors();
         });
 
         it('should not report space before curly brace in method shorthand', function() {
-            assert(checker.checkString('var x = { y () {} }').isEmpty());
+            expect(checker.checkString('var x = { y () {} }')).to.have.no.errors();
         });
 
         it('should not report special "constructor" method #1607', function() {
-            assert(checker.checkString('class test { constructor () {} }').isEmpty());
+            expect(checker.checkString('class test { constructor () {} }')).to.have.no.errors();
         });
 
         reportAndFix({

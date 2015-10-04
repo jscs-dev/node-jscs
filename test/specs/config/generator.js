@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 var path = require('path');
 var fs = require('fs');
@@ -79,7 +79,7 @@ describe('lib/config/generator', function() {
         var numPresets = Object.keys(checker.getConfiguration().getRegisteredPresets()).length;
 
         generator.generate(_path);
-        assert.ok(checkPathStub.callCount === numPresets);
+        expect(checkPathStub).to.have.callCount(numPresets);
 
         checkPathStub.restore();
         showErrorCountsStub.restore();
@@ -93,7 +93,7 @@ describe('lib/config/generator', function() {
             var output = console.log.getCall(1).args[0];
 
             presetNames.forEach(function(name) {
-                assert.ok(output.indexOf(name) !== -1);
+                expect(output.indexOf(name)).to.not.equal(-1);
             });
 
             stub.restore();
@@ -105,7 +105,7 @@ describe('lib/config/generator', function() {
         var stub = sinon.stub(generator, '_showPrompt').throws();
         generator.generate(_path).then(null, function() {
             var prompt = stub.getCall(0).args[0].name;
-            assert.ok(prompt.indexOf('Please choose a preset number:') !== -1);
+            expect(prompt.indexOf('Please choose a preset number:')).to.not.equal(-1);
 
             stub.restore();
             done();
@@ -118,10 +118,10 @@ describe('lib/config/generator', function() {
 
         generator.generate(_path).then(null, function() {
             var errorPrompts = getViolationsStub.getCall(0).args[0];
-            assert.ok(errorPrompts.length);
+            expect(errorPrompts.length).to.be.at.least(1);
             errorPrompts.forEach(function(prompt) {
-                assert.ok(prompt.name.indexOf('(e)xception') !== -1);
-                assert.ok(prompt.name.indexOf('(f)ix') !== -1);
+                expect(prompt.name.indexOf('(e)xception')).to.not.equal(-1);
+                expect(prompt.name.indexOf('(f)ix')).to.not.equal(-1);
             });
             stub.restore();
             getViolationsStub.restore();
@@ -137,14 +137,14 @@ describe('lib/config/generator', function() {
 
         var assertConfigEquality = function(c1, c2) {
             for (var prop in c1) {
-                assert.ok(c1[prop] === c2[prop]);
+                expect(c1[prop]).to.equal(c2[prop]);
             }
         };
 
         return generator.generate(_path).then(function() {
             var configPath = fsStub.getCall(0).args[0];
             var config = JSON.parse(fsStub.getCall(0).args[1]);
-            assert.ok(configPath === process.cwd() + '/.jscsrc');
+            expect(configPath).to.equal(process.cwd() + '/.jscsrc');
             assertConfigEquality(expectedConfig, config);
             presetChoiceStub.restore();
             getViolationsStub.restore();

@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-spaces-inside-object-brackets', function() {
     var checker;
@@ -10,9 +10,9 @@ describe('rules/require-spaces-inside-object-brackets', function() {
 
     describe('invalid options', function() {
         it('should throw when given an number', function() {
-            assert.throws(function() {
+            expect(function() {
                 checker.configure({ requireSpacesInsideObjectBrackets: 2 });
-            });
+            }).to.throw();
         });
     });
 
@@ -22,47 +22,53 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         });
 
         it('should report missing space after opening brace', function() {
-            assert(checker.checkString('var x = {a: 1 };').getErrorCount() === 1);
+            expect(checker.checkString('var x = {a: 1 };'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report missing space before closing brace', function() {
-            assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: 1};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = {a: 1};').getErrorCount() === 2);
+            expect(checker.checkString('var x = {a: 1};')).to.have.error.count.equal(2);
         });
 
         it('should not report with spaces', function() {
-            assert(checker.checkString('var x = { a: 1 };').isEmpty());
+            expect(checker.checkString('var x = { a: 1 };')).to.have.no.errors();
         });
 
         it('should not report for empty object', function() {
-            assert(checker.checkString('var x = {};').isEmpty());
+            expect(checker.checkString('var x = {};')).to.have.no.errors();
         });
 
         it('should report for nested object', function() {
-            assert(checker.checkString('var x = { a: { b: 1 }};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: { b: 1 }};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report anything for empty object', function() {
-            assert(checker.checkString('var x = {};').isEmpty());
+            expect(checker.checkString('var x = {};')).to.have.no.errors();
         });
 
         it('should report for function value', function() {
-            assert(checker.checkString('var x = { a: function() {}};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: function() {}};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report for array literal', function() {
-            assert(checker.checkString('var x = { a: []};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: []};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report for parentheses', function() {
-            assert(checker.checkString('var x = { a: (1)};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: (1)};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report missing spaces for destructive assignment', function() {
-            assert(checker.checkString('let {x} = { x: 1 };').getErrorCount() === 2);
+            expect(checker.checkString('let {x} = { x: 1 };')).to.have.error.count.equal(2);
         });
 
         describe.skip('import (#1524)', function() {
@@ -71,31 +77,21 @@ describe('rules/require-spaces-inside-object-brackets', function() {
             });
 
             it('should not report with absent brackets', function() {
-                assert(checker.checkString('import myModule from "test";').isEmpty());
-                assert(checker.checkString('import "test";').isEmpty());
+                expect(checker.checkString('import myModule from "test";')).to.have.no.errors();
+                expect(checker.checkString('import "test";')).to.have.no.errors();
             });
 
             it('should report for import statements', function() {
-                assert(
-                    checker.checkString('import {myMember} from "test";').getErrorCount() === 2
-                );
+                expect(checker.checkString('import {myMember} from "test";')).to.have.error.count.equal(2);
 
-                assert(
-                    checker.checkString('import {myMember} from "test";').getErrorCount() === 2
-                );
+                expect(checker.checkString('import {myMember} from "test";')).to.have.error.count.equal(2);
 
-                assert(
-                    checker.checkString('import {foo, bar} from "test";').getErrorCount() === 2
-                );
+                expect(checker.checkString('import {foo, bar} from "test";')).to.have.error.count.equal(2);
 
-                assert(
-                    checker.checkString('import MyModule, {foo, bar} ' +
-                        ' from "test";').getErrorCount() === 2
-                );
+                expect(checker.checkString('import MyModule, {foo, bar} ' +
+                        ' from "test";')).to.have.error.count.equal(2);
 
-                assert(
-                    checker.checkString('import {a as b} from "test";').getErrorCount() === 2
-                );
+                expect(checker.checkString('import {a as b} from "test";')).to.have.error.count.equal(2);
             });
         });
     });
@@ -106,31 +102,33 @@ describe('rules/require-spaces-inside-object-brackets', function() {
         });
 
         it('should report missing space after opening brace', function() {
-            assert(checker.checkString('var x = {a: 1 };').getErrorCount() === 1);
+            expect(checker.checkString('var x = {a: 1 };'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report missing space before closing brace', function() {
-            assert(checker.checkString('var x = { a: 1};').getErrorCount() === 1);
+            expect(checker.checkString('var x = { a: 1};'))
+              .to.have.one.validation.error.from('requireSpacesInsideObjectBrackets');
         });
 
         it('should report missing space in both cases', function() {
-            assert(checker.checkString('var x = {a: 1};').getErrorCount() === 2);
+            expect(checker.checkString('var x = {a: 1};')).to.have.error.count.equal(2);
         });
 
         it('should not report with spaces', function() {
-            assert(checker.checkString('var x = { a: 1 };').isEmpty());
+            expect(checker.checkString('var x = { a: 1 };')).to.have.no.errors();
         });
 
         it('should not report for nested object', function() {
-            assert(checker.checkString('var x = { a: { b: 1 }};').isEmpty());
+            expect(checker.checkString('var x = { a: { b: 1 }};')).to.have.no.errors();
         });
 
         it('should not report illegal space between closing braces for nested object', function() {
-            assert(checker.checkString('var x = { a: { b: 1 } };').isEmpty());
+            expect(checker.checkString('var x = { a: { b: 1 } };')).to.have.no.errors();
         });
 
         it('should report not anything for empty object', function() {
-            assert(checker.checkString('var x = { a: {}};').isEmpty());
+            expect(checker.checkString('var x = { a: {}};')).to.have.no.errors();
         });
     });
 
@@ -145,19 +143,19 @@ describe('rules/require-spaces-inside-object-brackets', function() {
             });
 
             it('should report missing spaces', function() {
-                assert(checker.checkString('var x = {a: 1};').getErrorCount() === 2);
+                expect(checker.checkString('var x = {a: 1};')).to.have.error.count.equal(2);
             });
             it('should not report for function', function() {
-                assert(checker.checkString('var x = { a: function() {}};').isEmpty());
+                expect(checker.checkString('var x = { a: function() {}};')).to.have.no.errors();
             });
             it('should not report for array literal', function() {
-                assert(checker.checkString('var x = { a: []};').isEmpty());
+                expect(checker.checkString('var x = { a: []};')).to.have.no.errors();
             });
             it('should not report for parentheses', function() {
-                assert(checker.checkString('var x = { a: (1)};').isEmpty());
+                expect(checker.checkString('var x = { a: (1)};')).to.have.no.errors();
             });
             it('should not report for object literal', function() {
-                assert(checker.checkString('var x = { a: { b: 1 }};').isEmpty());
+                expect(checker.checkString('var x = { a: { b: 1 }};')).to.have.no.errors();
             });
         });
     });

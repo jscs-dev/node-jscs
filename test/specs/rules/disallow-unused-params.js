@@ -1,4 +1,4 @@
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
@@ -14,13 +14,13 @@ describe('rules/disallow-unused-params', function() {
     });
 
     it('should not report first argument is if second one is used', function() {
-        assert(checker.checkString('function a(b, c) { return c; };').isEmpty());
+        expect(checker.checkString('function a(b, c) { return c; };')).to.have.no.errors();
     });
 
     it('should not report on param that used in child scope', function() {
-        assert(checker.checkString(
+        expect(checker.checkString(
             'function a(b) { return function () { return b; }; }'
-        ).isEmpty());
+        )).to.have.no.errors();
     });
 
     reportAndFix({

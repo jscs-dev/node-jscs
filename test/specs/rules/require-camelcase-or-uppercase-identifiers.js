@@ -1,5 +1,5 @@
 var Checker = require('../../../lib/checker');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 describe('rules/require-camelcase-or-uppercase-identifiers', function() {
     var checker;
@@ -15,51 +15,57 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         });
 
         it('should report inner all-lowercase underscores', function() {
-            assert(checker.checkString('var x_y = "x";').getErrorCount() === 1);
+            expect(checker.checkString('var x_y = "x";'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should report inner some-lowercase underscores', function() {
-            assert(checker.checkString('var X_y = "x";').getErrorCount() === 1);
+            expect(checker.checkString('var X_y = "x";'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should not report inner all-uppercase underscores', function() {
-            assert(checker.checkString('var X_Y = "x";').isEmpty());
+            expect(checker.checkString('var X_Y = "x";')).to.have.no.errors();
         });
 
         it('should not report no underscores', function() {
-            assert(checker.checkString('var xy = "x";').isEmpty());
+            expect(checker.checkString('var xy = "x";')).to.have.no.errors();
         });
 
         it('should not report leading underscores', function() {
-            assert(checker.checkString('var _x = "x", __y = "y";').isEmpty());
+            expect(checker.checkString('var _x = "x", __y = "y";')).to.have.no.errors();
         });
 
         it('should report trailing underscores', function() {
-            assert(checker.checkString('var x_ = "x", y__ = "y";').isEmpty());
+            expect(checker.checkString('var x_ = "x", y__ = "y";')).to.have.no.errors();
         });
 
         it('should not report underscore.js', function() {
-            assert(checker.checkString('var extend = _.extend;').isEmpty());
+            expect(checker.checkString('var extend = _.extend;')).to.have.no.errors();
         });
 
         it('should not report node globals', function() {
-            assert(checker.checkString('var a = __dirname + __filename;').isEmpty());
+            expect(checker.checkString('var a = __dirname + __filename;')).to.have.no.errors();
         });
 
         it('should report object keys', function() {
-            assert(checker.checkString('var extend = { snake_case: a };').getErrorCount() === 1);
+            expect(checker.checkString('var extend = { snake_case: a };'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should report object properties', function() {
-            assert(checker.checkString('var extend = a.snake_case;').getErrorCount() === 1);
+            expect(checker.checkString('var extend = a.snake_case;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should report identifiers that are the last token', function() {
-            assert(checker.checkString('var a = snake_case').getErrorCount() === 1);
+            expect(checker.checkString('var a = snake_case'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should report identifiers that are the first token', function() {
-            assert(checker.checkString('snake_case = a;').getErrorCount() === 1);
+            expect(checker.checkString('snake_case = a;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
     });
 
@@ -69,27 +75,29 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         });
 
         it('should not report object keys', function() {
-            assert(checker.checkString('var extend = { snake_case: a };').isEmpty());
+            expect(checker.checkString('var extend = { snake_case: a };')).to.have.no.errors();
         });
 
         it('should not report object properties', function() {
-            assert(checker.checkString('var extend = a.snake_case;').isEmpty());
+            expect(checker.checkString('var extend = a.snake_case;')).to.have.no.errors();
         });
 
         it('should report identifiers that are the last token', function() {
-            assert(checker.checkString('var a = snake_case').getErrorCount() === 1);
+            expect(checker.checkString('var a = snake_case'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should report identifiers that are the first token', function() {
-            assert(checker.checkString('snake_case = a;').getErrorCount() === 1);
+            expect(checker.checkString('snake_case = a;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
 
         it('should not report es5 getters', function() {
-            assert(checker.checkString('var extend = { get a_b() { } };').isEmpty());
+            expect(checker.checkString('var extend = { get a_b() { } };')).to.have.no.errors();
         });
 
         it('should not report es5 setters', function() {
-            assert(checker.checkString('var extend = { set c_d(v) { } };').isEmpty());
+            expect(checker.checkString('var extend = { set c_d(v) { } };')).to.have.no.errors();
         });
     });
 });
