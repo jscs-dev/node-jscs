@@ -16,7 +16,7 @@ describe('rules/require-dot-notation', function() {
 
         it('should report literal subscription', function() {
             assert.equal(checker.checkString('var x = a[\'b\']').getErrorCount(), 1);
-            assert.equal(checker.checkString('var x = a[\'while\']').getErrorCount(), 1);
+            assert.equal(checker.checkString('var x = a[\'π\']').getErrorCount(), 1);
         });
 
         it('should not report literal subscription for reserved words', function() {
@@ -31,6 +31,7 @@ describe('rules/require-dot-notation', function() {
 
         it('should not report variable subscription', function() {
             assert(checker.checkString('var x = a[c]').isEmpty());
+            assert(checker.checkString('var x = a[π]').isEmpty());
         });
 
         it('should not report object property subscription', function() {
@@ -39,6 +40,7 @@ describe('rules/require-dot-notation', function() {
 
         it('should not report dot notation', function() {
             assert(checker.checkString('var x = a.b').isEmpty());
+            assert(checker.checkString('var x = a.π').isEmpty());
         });
 
         it('should not report for string that can\'t be identifier', function() {
@@ -47,6 +49,7 @@ describe('rules/require-dot-notation', function() {
             assert(checker.checkString('x["a b"]').isEmpty());
             assert(checker.checkString('x["1a"]').isEmpty());
             assert(checker.checkString('x["*"]').isEmpty());
+            assert(checker.checkString('x["while"]').isEmpty());
         });
     });
 

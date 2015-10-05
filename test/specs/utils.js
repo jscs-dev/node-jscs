@@ -21,6 +21,7 @@ describe('utils', function() {
             assert(utils.isValidIdentifierName('validName'));
             assert(utils.isValidIdentifierName('valid_Name'));
             assert(utils.isValidIdentifierName('valid_Name_1'));
+            assert(utils.isValidIdentifierName('π'));
             assert(utils.isValidIdentifierName('$'));
         });
 

@@ -4,7 +4,10 @@
 
     "requireSemicolons": true,
     "requireParenthesesAroundIIFE": true,
-    "maximumLineLength": 120,
+    "maximumLineLength": {
+        "value": 120,
+        "allExcept": ["regex"]
+    },
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
     "disallowTrailingComma": true,
