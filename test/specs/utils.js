@@ -21,12 +21,18 @@ describe('utils', function() {
             expect(!!utils.isValidIdentifierName('validName')).to.equal(true);
             expect(!!utils.isValidIdentifierName('valid_Name')).to.equal(true);
             expect(!!utils.isValidIdentifierName('valid_Name_1')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('π')).to.equal(true);
             expect(!!utils.isValidIdentifierName('$')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('await', 'es5')).to.equal(true);
+            expect(!!utils.isValidIdentifierName('𐊧', 'es6')).to.equal(true);
         });
 
         it('should return false for invalid indentifier names', function() {
             expect(!utils.isValidIdentifierName('1invalidName')).to.equal(true);
             expect(!utils.isValidIdentifierName('invalid-name')).to.equal(true);
+            expect(!utils.isValidIdentifierName('await', 'es6')).to.equal(true);
+            expect(!utils.isValidIdentifierName('double', 'es3')).to.equal(true);
+            expect(!utils.isValidIdentifierName('𐊧', 'es5')).to.equal(true);
         });
     });
 
