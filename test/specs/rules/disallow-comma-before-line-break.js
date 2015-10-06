@@ -86,6 +86,12 @@ describe('rules/disallow-comma-before-line-break', function() {
                         checker.checkString('var a = {a:1,\nc:3};').getErrorCount() === 2
                     );
                 });
+
+                it('should handle empty objects', function() {
+                    assert(
+                        checker.checkString('var x = {}\n, t = 2;').isEmpty()
+                    );
+                });
             });
         });
     });
