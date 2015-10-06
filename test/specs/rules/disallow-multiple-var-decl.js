@@ -96,12 +96,27 @@ describe('rules/disallow-multiple-var-decl', function() {
         it('should report multiple var decls with require mixed with normal', function() {
             expect(checker.checkString('var first = require("first"), second = 1;'))
               .to.have.one.validation.error.from('disallowMultipleVarDecl');
+
+            var test = 'var first = require("first"), second = 1, third = require("foo").Foo';
+            expect(checker.checkString(test)).to.have.one.validation.error.from('disallowMultipleVarDecl');
+        });
+        it('should report multiple var decls with require mixed with undefined', function() {
+            var test = 'var first = require("first"), second = require("foo").Foo, third;';
+            expect(checker.checkString(test)).to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should report multiple var decls', function() {
             expect(checker.checkString('var x, y;')).to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should not report consecutive var decls', function() {
             expect(checker.checkString('var x; var y;')).to.have.no.errors();
+        });
+        it('should not report multiple var decls sourced from required', function() {
+            expect(checker.checkString('var x = require("fs"), y = require("fs").File;')).to.have.no.errors();
+            expect(checker.checkString('var x = require("fs").File, y = require("fs").foo();')).to.have.no.errors();
+            expect(checker.checkString('var x = require("fs"), y = require("fs").some.long().chain.test();'))
+                .to.have.no.errors();
+            expect(checker.checkString('var x = require("fs"), y = require("fs").some().long().chain.test;'))
+                .to.have.no.errors();
         });
     });
 
@@ -114,8 +129,8 @@ describe('rules/disallow-multiple-var-decl', function() {
         it('should accept require and undefined as allExcept value', function() {
             checker.configure({ disallowMultipleVarDecl: { allExcept: ['undefined', 'require'] } });
 
-            expect(checker.checkString('var a = require("a"), b = require("b"), x, y, z;')).to.have.no.errors();
-            expect(checker.checkString('var a = require("a"), b = require("b"), x, y, c = 1;'))
+            expect(checker.checkString('var a = require("a"), b = require("b").getMe(), x, y, z;')).to.have.no.errors();
+            expect(checker.checkString('var a = require("a").Instance, b = require("b"), x, y, c = 1;'))
               .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
         it('should accept strict as option', function() {
