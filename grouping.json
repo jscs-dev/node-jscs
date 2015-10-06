@@ -147,6 +147,7 @@
   ],
   "ES2015/ES6": [
     "disallowArrowFunctions",
+    "disallowIdenticalDestructuringNames",
     "disallowShorthandArrowFunctions",
     "disallowParenthesesAroundArrowParam",
     "requireParenthesesAroundArrowParam",
