@@ -169,6 +169,7 @@
     "disallowNotOperatorsInConditionals",
     "requireDollarBeforejQueryAssignment",
     "safeContextKeyword",
-    "jsDoc"
+    "jsDoc",
+    "disallowNestedTernaries"
   ]
 }
