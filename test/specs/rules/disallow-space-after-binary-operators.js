@@ -18,30 +18,30 @@ describe('rules/disallow-space-after-binary-operators', function() {
         var notStickedWithParenthesis = 'var test; (test) ' + operator + ' (2)';
 
         [[operator], true].forEach(function(value) {
+            beforeEach(function() {
+                checker.configure({ disallowSpaceAfterBinaryOperators: value, esnext: true });
+            });
+
             it('should not report sticky operator for ' + sticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     assert(checker.checkString(sticked).isEmpty());
                 }
             );
 
             it('should report sticky operator for ' + notSticked + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     assert(checker.checkString(notSticked).getErrorCount() === 1);
                 }
             );
 
             it('should not report sticky operator for ' + stickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     assert(checker.checkString(stickedWithParenthesis).isEmpty());
                 }
             );
 
             it('should report sticky operator for ' + notStickedWithParenthesis + ' with ' + value + ' option',
                 function() {
-                    checker.configure({ disallowSpaceAfterBinaryOperators: value });
                     assert(checker.checkString(notStickedWithParenthesis).getErrorCount() === 1);
                 }
             );
