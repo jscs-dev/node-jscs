@@ -21,12 +21,18 @@ describe('utils', function() {
             assert(utils.isValidIdentifierName('validName'));
             assert(utils.isValidIdentifierName('valid_Name'));
             assert(utils.isValidIdentifierName('valid_Name_1'));
+            assert(utils.isValidIdentifierName('π'));
             assert(utils.isValidIdentifierName('$'));
+            assert(utils.isValidIdentifierName('await', 'es5'));
+            assert(utils.isValidIdentifierName('𐊧', 'es6'));
         });
 
         it('should return false for invalid indentifier names', function() {
             assert(!utils.isValidIdentifierName('1invalidName'));
             assert(!utils.isValidIdentifierName('invalid-name'));
+            assert(!utils.isValidIdentifierName('await', 'es6'));
+            assert(!utils.isValidIdentifierName('double', 'es3'));
+            assert(!utils.isValidIdentifierName('𐊧', 'es5'));
         });
     });
 
