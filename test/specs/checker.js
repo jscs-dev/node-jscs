@@ -83,7 +83,7 @@ describe('checker', function() {
         it('should throw an exception when path doesn\'t exists', function() {
             return checker.checkPath('./test/non-exists').then(function() {
                 throw new Error();
-            });
+            }, function() {});
         });
 
         it('should return empty array for excluded files', function() {
