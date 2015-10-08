@@ -17,5 +17,6 @@
     "validateQuoteMarks": "'",
     "requireCapitalizedComments": {
         "allExcept": ["global", "exported", "jshint", "eslint", "jslint"]
-    }
+    },
+    "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
 }
