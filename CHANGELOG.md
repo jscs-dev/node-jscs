@@ -1,4 +1,89 @@
-## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
+## [Version 2.3.0](https://github.com/jscs-dev/node-jscs/compare/v2.2.1...v2.3.0) (10-07-2015):
+
+A quick update! A few more rules, preset updates, and bug fixes!
+
+> If anyone missed it from the previous minor release, we've been working on https://github.com/cst/cst. This will help us continue to autofix more complex rules in the future. If you want to know more about it check out the [changelog](https://github.com/jscs-dev/node-jscs/blob/master/CHANGELOG.md#-つ-_-つ--give-cst).
+
+Now that we're done implementing all of ES6 the next major thing we'll be working on is intergrating CST into JSCS.
+
+### New Rules:
+
+## [`disallowIdenticalDestructuringNames`](http://jscs.info/rule/disallowIdenticalDestructuringNames) (ES6) (Henry Zhu)
+
+```js
+// Valid for "disallowIdenticalDestructuringNames": true
+var {left, top} = obj; // shorthand
+var {left, top: topper} = obj; // different identifier
+let { [key]: key } = obj; // computed property
+```
+
+```js
+// Invalid for "disallowIdenticalDestructuringNames": true
+var {left: left, top: top} = obj;
+```
+
+## [`disallowNestedTernaries`](http://jscs.info/rule/disallowNestedTernaries) (Brian Dixon)
+
+```js
+// Valid for "disallowNestedTernaries": "true"
+// Valid for "disallowNestedTernaries": { "maxLevel": 0 }
+var foo = (a === b) ? 1 : 2;
+```
+
+```js
+// Invalid for "disallowNestedTernaries": true
+// Valid for "disallowNestedTernaries": { "maxLevel": 0 }
+var foo = (a === b)
+  ? (a === c)
+    ? 1
+    : 2
+  : (b === c)
+    ? 3
+    : 4;
+```
+
+
+## [`requireSpaceAfterComma`](http://jscs.info/rule/requireSpaceAfterComma) (Brian Dixon)
+
+> To match [requireSpaceBeforeComma](http://jscs.info/rule/requireSpaceBeforeComma)
+
+```js
+// Valid for "requireSpaceAfterComma": true
+var a, b;
+```
+
+```js
+// Invalid for "requireSpaceAfterComma": true
+var a,b;
+```
+
+
+### Preset Updates:
+
+- Preset: add more comma rules to jquery and airbnb presets (Oleg Gaidarenko) [`94f175e`](https://github.com/jscs-dev/node-jscs/commit/94f175eec822f62528e6e5ca5aab0eb1de037243)
+- Preset: `wordpress` - change `requireCamelCaseOrUpperCaseIdentifiers` from `true` to `ignoreProperties` [`58ba037`](https://github.com/jscs-dev/node-jscs/commit/58ba030744e8c7e55fa40a08bf19e89fc93a7eed)
+
+### Bug Fixes:
+
+- Fix: `disallowParenthesesAroundArrowParam` - account for non-identifiers (`RestElement`, `ArrayPattern`) correctly (Henry Zhu) [`bcfaa51`](https://github.com/jscs-dev/node-jscs/commit/bcfaa5192b09391bdec31adecab14d3861817c8a) [#1831](https://github.com/jscs-dev/node-jscs/issues/1831)
+- Fix: `disallowCommaBeforeLineBreak` correctly handle empty object (Oleg Gaidarenko)
+[`6571ebb`](https://github.com/jscs-dev/node-jscs/commit/6571ebbbf29e5b96be45ade585e4676de3c2817d) [#1841](https://github.com/jscs-dev/node-jscs/issues/1841)
+
+Again, a big thanks to everything using JSCS! Definitely continue to report any bugs and new ideas! We always appreciate any help/PRs as we don't have that many resources!
+
+@hzoo
+
+### Other
+
+ * disallowDanglingUnderscores: correct documentation (Oleg Gaidarenko)
+ * Docs: `disallowMultipleVarDecl` typo (ValYouW)
+ * Docs: couple small fixes (Oleg Gaidarenko)
+ * Internal: `Checker` - return correct arguments for excluded files (Oleg Gaidarenko)
+ * Misc: remove babelType and just use node.type (Henry Zhu)
+ * Misc: Update CHANGELOG.md (Craig Klementowski)
+ * Misc: Use Chai (Marat Dulin)
+
+ ## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
 
 ### Bug Fix:
 
