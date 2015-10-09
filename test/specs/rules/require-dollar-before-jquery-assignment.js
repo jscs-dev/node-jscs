@@ -31,6 +31,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             expect(checker.checkString('var x = 2;')).to.have.no.errors();
         });
 
+        it('should not report for var declaration without assignment', function() {
+            expect(checker.checkString('var x;')).to.have.no.errors();
+        });
+
         it('should not report function assignment', function() {
             expect(checker.checkString('var x = function() {};')).to.have.no.errors();
         });
@@ -180,6 +184,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             it('should report jquery operator with dollar and single quotes around selector', function() {
                 expect(checker.checkString('var x = { foo: $(\'.foo\') }'))
                   .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
+            });
+
+            it('should look at keys besides the first', function() {
+                expect(checker.checkString('var x = { bar: 1, foo: $(".foo") }')).to.have.error.count.equal(1);
             });
         });
 
