@@ -157,7 +157,7 @@ describe('rules/require-aligned-object-values', function() {
                     'bcd : 2\n' +
                 '};',
                 output: 'var x = {\n' +
-                    'a  : 1,\n' +
+                    'a: 1,\n' +
                     'foo: function() {},\n' +
                     'bcd: 2\n' +
                 '};'

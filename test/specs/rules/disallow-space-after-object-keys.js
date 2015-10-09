@@ -150,6 +150,25 @@ describe('rules/disallow-space-after-object-keys', function() {
                         '};'
                     )).to.have.no.errors();
                 });
+
+                it('should not report keys with no space after them #1818', function() {
+                    expect(checker.checkString(
+                        'var f = {\n' +
+                        '  "name": 1,\n' +
+                        '  "x": 2\n' +
+                        '};'
+                    )).to.have.no.errors();
+                });
+
+                it('should report objects with both keys without spaces and aligned on colon #1818', function() {
+                    expect(checker.checkString(
+                      'var f = {\n' +
+                      '  "n": 1,\n' +
+                      '  "xasdf"   : 2,\n' +
+                      '  "fyfyasdf": 0\n' +
+                      '};'
+                    )).to.have.error.count.equal(1);
+                });
             });
 
             describe('with method value', function() {
