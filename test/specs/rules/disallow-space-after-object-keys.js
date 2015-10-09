@@ -150,6 +150,15 @@ describe('rules/disallow-space-after-object-keys', function() {
                         '};'
                     )).to.have.no.errors();
                 });
+
+                it('should not report keys with no space after them #1818', function() {
+                    expect(checker.checkString(
+                        'var f = {\n' +
+                        '  "name": 1,\n' +
+                        '  "x": 2\n' +
+                        '};'
+                    )).to.have.no.errors();
+                });
             });
 
             describe('with method value', function() {
