@@ -177,6 +177,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
                 expect(checker.checkString('var x = { foo: $(\'.foo\') }'))
                   .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
             });
+
+            it('should look at keys besides the first', function() {
+                expect(checker.checkString('var x = { bar: 1, foo: $(".foo") }')).to.have.error.count.equal(1);
+            });
         });
 
         describe('in object properties', function() {
