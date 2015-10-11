@@ -31,6 +31,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             expect(checker.checkString('var x = 2;')).to.have.no.errors();
         });
 
+        it('should not report for var declaration without assignment', function() {
+            expect(checker.checkString('var x;')).to.have.no.errors();
+        });
+
         it('should not report function assignment', function() {
             expect(checker.checkString('var x = function() {};')).to.have.no.errors();
         });
