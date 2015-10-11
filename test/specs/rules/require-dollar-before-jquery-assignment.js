@@ -121,6 +121,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             expect(checker.checkString('const {beep, boop} = meep;\nvar $s = $("#id")')).to.have.no.errors();
         });
 
+        it('should not report on array destructuring', function() {
+            expect(checker.checkString('const [beep, boop] = meep;\nvar $s = $("#id")')).to.have.no.errors();
+        });
+
         it('should report with assignment on right hand side of object destructuring', function() {
             expect(checker.checkString('var {foo} = {foo: $(".foo")}'))
               .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
