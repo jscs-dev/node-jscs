@@ -23,6 +23,12 @@ describe('rules/disallow-unused-params', function() {
         )).to.have.no.errors();
     });
 
+    it('should report unused param', function() {
+        expect(checker.checkString(
+            'function fun(test) { }'
+        )).to.have.error('Param `test` is not used');
+    });
+
     reportAndFix({
         name: 'function a(b) {}',
         rules: config,
