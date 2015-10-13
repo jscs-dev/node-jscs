@@ -15,7 +15,7 @@ program
     .usage('[options] <file ...>')
     .description('A code style linter for programmatically enforcing your style guide.')
     .option('-c, --config [path]', 'configuration file path')
-    .option('--auto-configure [path]', 'auto-generate a JSCS configuration file')
+    .option('--auto-configure <path> [paths]', 'auto-generate a JSCS configuration file')
     .option('-x, --fix', 'fix code style violations (applies to fixable violations)')
     .option('--extract <mask>', 'set file masks from which to extract JavaScript', function(value, memo) {
         return memo ? memo.concat(value) : [value];
