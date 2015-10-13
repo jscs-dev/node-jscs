@@ -1,10 +1,15 @@
+var fs = require('fs');
+
 var expect = require('chai').expect;
+var sinon = require('sinon');
+
 var esprima = require('esprima');
 var babelJscs = require('babel-jscs');
-var JsFile = require('../../lib/js-file');
-var sinon = require('sinon');
-var fs = require('fs');
+
 var assign = require('lodash').assign;
+var keywords = Object.keys(require('reserved-words').KEYWORDS[6]);
+
+var JsFile = require('../../lib/js-file');
 
 describe('js-file', function() {
 
@@ -58,6 +63,24 @@ describe('js-file', function() {
                     'new: true, with: true, catch: true, try: true, finally: true, \'\': true, null: true, 0: true' +
                     '})';
                 createJsFile(str).getTokens().forEach(function(token) {
+                    expect(token.type).to.not.equal('Keyword');
+                });
+            });
+
+            it('should affect method definition tokens', function() {
+                var str = keywords.map(function(token) {
+                    return token + '() {}';
+                });
+
+                str = 'class test {\n' + str.join('\n') + '\n}';
+
+                createJsFile(str).getTokens().forEach(function(token, i) {
+
+                    // Exclude first "class"
+                    if (i === 0) {
+                        return;
+                    }
+
                     expect(token.type).to.not.equal('Keyword');
                 });
             });
