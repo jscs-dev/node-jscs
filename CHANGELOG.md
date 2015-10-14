@@ -1,4 +1,85 @@
-## [Version 2.3.0](https://github.com/jscs-dev/node-jscs/compare/v2.2.1...v2.3.0) (10-07-2015):
+## Version [2.3.1](https://github.com/jscs-dev/node-jscs/compare/v2.3.0...v2.3.1) (10-14-2015):
+
+A bunch of bug fixes in this release!
+
+### The Future
+
+We are probably going to start 3.0 for the next release (mainly integrating [CST](https://github.com/cst/cst) into JSCS). If you want to know more about CST check out the [previous changelog](https://github.com/jscs-dev/node-jscs/blob/master/CHANGELOG.md#-つ-_-つ--give-cst).
+
+Our current plan is to move our 3.0/cst branch to master and then create a 2.x branch to continue to release bug fixes / contributer PRs. The core team will be mainly focused on tackling issues on our [3.0 roadmap](https://github.com/jscs-dev/node-jscs/issues/1854) (which we are still planning). We would love to hear your feedback on what you think should be in 3.0 and beyond!
+
+### Bug Fixes:
+
+* [`disallowMultipleVarDecl`](http://jscs.info/rule/disallowMultipleVarDecl) - improve `{"allExcept": ["require"]}` logic (ValYouW)
+
+```js
+// Allow MemberExpressions: require('a').b.c;
+var fs = require('fs');
+var Emitter = require('events').EventEmitter;
+```
+
+* [`disallowSpaceAfterObjectKeys`](http://jscs.info/rule/disallowSpaceAfterObjectKeys) - Allow no space after key with `align` option. (Andrey Ermakov)
+
+
+```js
+// this should be allowed
+var f = {
+    "name": 1,
+    "x": 2
+};
+```
+
+* [`disallowUnusedParams`](http://jscs.info/rule/disallowUnusedParams) - correctly output unused param name (Oleg Gaidarenko)
+
+```js
+// Should output:
+// Param unusedParam is not used at input
+var a = function(unusedParam) {}
+```
+
+* [`requireDollarBeforejQueryAssignment`](http://jscs.info/rule/requireDollarBeforejQueryAssignment) - validate all keys (Brian Dixon)
+
+```js
+// check all keys
+var x = {
+  bar: 1,
+  foo: $(".foo") // error here
+};
+```
+
+* [`requireDollarBeforejQueryAssignment`](http://jscs.info/rule/requireDollarBeforejQueryAssignment) - Ignore array
+destructuring (Simen Bekkhus)
+
+```js
+// Don't error with this
+const [beep, boop] = meep;
+var $s = $("#id")
+```
+
+* `CLI` - "auto-configure" argument should always be at the end
+(Oleg Gaidarenko)
+
+```bash
+// correct autoconfigure args
+jscs --autoconfigure ./files/here
+```
+
+*  `js-file` - make parser not confuse token types (Oleg Gaidarenko)
+
+```js
+// Fixes issues with keywords like with
+class A {
+  catch() {}
+}
+```
+
+Again, a big thanks to everything using [JSCS](jscs.info)! Definitely continue to report any bugs and new ideas! We always appreciate any help/PRs!
+
+We'll probably be moving more of the new rule/option issues to [`orphaned`](https://github.com/jscs-dev/node-jscs/issues?q=label%3Aorphaned+is%3Aclosed) which just means that they are on hold but anyone can still PR it or reopen it later. Remember to tweet at us at [@jscs_dev](https://twitter.com/jscs_dev) and chat with us on our [gitter room](https://gitter.im/jscs-dev/node-jscs)!
+
+@hzoo
+
+## Version [2.3.0](https://github.com/jscs-dev/node-jscs/compare/v2.2.1...v2.3.0) (10-07-2015):
 
 A quick update! A few more rules, preset updates, and bug fixes!
 
@@ -83,7 +164,7 @@ Again, a big thanks to everything using JSCS! Definitely continue to report any 
  * Misc: Update CHANGELOG.md (Craig Klementowski)
  * Misc: Use Chai (Marat Dulin)
 
-## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
+## Version [2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
 
 ### Bug Fix:
 
@@ -92,7 +173,7 @@ Quick fix related to checker not returning correctly with excluded files.
 - [`f12830a`](https://github.com/jscs-dev/node-jscs/commit/f12830a469959f3543c51bfc632fe37292ea6d09) [#1816](https://github.com/jscs-dev/node-jscs/issues/1816)
     - Internal: `Checker` - return correct arguments for excluded files ([markelog](https://github.com/markelog))
 
-## [Version 2.2.0](https://github.com/jscs-dev/node-jscs/compare/v2.1.1...v2.2.0) (09-28-2015):
+## Version [2.2.0](https://github.com/jscs-dev/node-jscs/compare/v2.1.1...v2.2.0) (09-28-2015):
 
 Again, it's been way too long since the last version; we're going to be releasing more often in the future!
 
