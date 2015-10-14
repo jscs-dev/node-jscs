@@ -8,7 +8,7 @@ Now that we're done implementing all of ES6 the next major thing we'll be workin
 
 ### New Rules:
 
-## [`disallowIdenticalDestructuringNames`](http://jscs.info/rule/disallowIdenticalDestructuringNames) (ES6) (Henry Zhu)
+#### [`disallowIdenticalDestructuringNames`](http://jscs.info/rule/disallowIdenticalDestructuringNames) (ES6) (Henry Zhu)
 
 ```js
 // Valid for "disallowIdenticalDestructuringNames": true
@@ -22,7 +22,7 @@ let { [key]: key } = obj; // computed property
 var {left: left, top: top} = obj;
 ```
 
-## [`disallowNestedTernaries`](http://jscs.info/rule/disallowNestedTernaries) (Brian Dixon)
+#### [`disallowNestedTernaries`](http://jscs.info/rule/disallowNestedTernaries) (Brian Dixon)
 
 ```js
 // Valid for "disallowNestedTernaries": "true"
@@ -43,7 +43,7 @@ var foo = (a === b)
 ```
 
 
-## [`requireSpaceAfterComma`](http://jscs.info/rule/requireSpaceAfterComma) (Brian Dixon)
+#### [`requireSpaceAfterComma`](http://jscs.info/rule/requireSpaceAfterComma) (Brian Dixon)
 
 > To match [requireSpaceBeforeComma](http://jscs.info/rule/requireSpaceBeforeComma)
 
@@ -83,7 +83,7 @@ Again, a big thanks to everything using JSCS! Definitely continue to report any 
  * Misc: Update CHANGELOG.md (Craig Klementowski)
  * Misc: Use Chai (Marat Dulin)
 
- ## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
+## [Version 2.2.1](https://github.com/jscs-dev/node-jscs/compare/v2.2.0...v2.2.1) (09-29-2015):
 
 ### Bug Fix:
 
