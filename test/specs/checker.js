@@ -131,20 +131,7 @@ describe('checker', function() {
     });
 
     describe('extract', function() {
-        it('should extract from *.htm, *.html and *.xhtml by default', function() {
-            return checker.checkPath('./test/data/extract').then(function(errors) {
-                expect(errors.length).to.equal(3);
-                expect(errors[0].getErrorList().length).to.equal(2);
-                expect(errors[1].getErrorList().length).to.equal(2);
-                expect(errors[2].getErrorList().length).to.equal(0);
-            });
-        });
-
-        it('should not extract js when set to false', function() {
-            checker.configure({
-                extract: false
-            });
-
+        it('should not extract anything by default', function() {
             return checker.checkPath('./test/data/extract').then(function(errors) {
                 expect(errors.length).to.equal(0);
             });
@@ -178,10 +165,6 @@ describe('checker', function() {
         });
 
         it('extractFile should return null if file doesn\'t check', function() {
-            checker.configure({
-                extract: false
-            });
-
             return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {
                 expect(errors).to.equal(null);
             });

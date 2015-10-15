@@ -38,7 +38,8 @@ describe('extract-js', function() {
     describe('whitespaces', function() {
         it('should be no errors on disallowTrailingWhitespace', function() {
             checker.configure({
-                disallowTrailingWhitespace: true
+                disallowTrailingWhitespace: true,
+                extract: true
             });
 
             return checker.extractFile('./test/data/extract/index.html').then(function(errors) {
@@ -48,7 +49,8 @@ describe('extract-js', function() {
 
         it('should be errors on disallowMixedSpacesAndTabs', function() {
             checker.configure({
-                disallowMixedSpacesAndTabs: true
+                disallowMixedSpacesAndTabs: true,
+                extract: true
             });
 
             return checker.extractFile('./test/data/extract/index.html').then(function(errors) {
@@ -61,7 +63,8 @@ describe('extract-js', function() {
 
         it('should be no errors on validateIndentation', function() {
             checker.configure({
-                validateIndentation: 2
+                validateIndentation: 2,
+                extract: true
             });
 
             return checker.extractFile('./test/data/extract/always.htm').then(function(errors) {

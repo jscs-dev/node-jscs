@@ -325,23 +325,30 @@ describe('config/configuration', function() {
     });
 
     describe('extract', function() {
-        it('should be check html files by default', function() {
+        it('should not check any files by default', function() {
             configuration.load({});
+            expect(configuration.getExtractFileMasks()).to.deep.equal([]);
+        });
+
+        it('should check default files with value true', function() {
+            configuration.load({
+                extract: true
+            });
             expect(configuration.getExtractFileMasks()).to.deep.equal(['**/*.+(htm|html|xhtml)']);
         });
 
-        it('should set array of masks', function() {
-            configuration.load({
-                extract: ['foo', 'bar']
-            });
-            expect(configuration.getExtractFileMasks()).to.deep.equal(['foo', 'bar']);
-        });
-
-        it('should set `never`', function() {
+        it('should not check any files with value false', function() {
             configuration.load({
                 extract: false
             });
             expect(configuration.getExtractFileMasks()).to.deep.equal([]);
+        });
+
+        it('should set array of masks and also check *.htm, *.html, *.xhtml', function() {
+            configuration.load({
+                extract: ['foo', 'bar']
+            });
+            expect(configuration.getExtractFileMasks()).to.deep.equal(['foo', 'bar']);
         });
 
         it('should throw an exception when set wrong string value', function() {
@@ -354,38 +361,59 @@ describe('config/configuration', function() {
     });
 
     describe('shouldExtractFile', function() {
-        it('should be check *.htm, *.html, *.xhtml by default', function() {
+        it('should not check anything by default', function() {
             configuration.load({});
-            expect(!!configuration.shouldExtractFile('file.htm')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('file.html')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('file.xhtml')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('foo/file.htm')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('foo/file.html')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('foo/file.xhtml')).to.equal(true);
-            expect(!configuration.shouldExtractFile('file.txt')).to.equal(true);
-            expect(!configuration.shouldExtractFile('file.ht')).to.equal(true);
-            expect(!configuration.shouldExtractFile('file.html.tmp')).to.equal(true);
-            expect(!configuration.shouldExtractFile('smth.html/file.txt')).to.equal(true);
+            expect(configuration.shouldExtractFile('file.htm')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.html')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.xhtml')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.htm')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.html')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.xhtml')).to.equal(false);
+
+            expect(configuration.shouldExtractFile('file.txt')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.ht')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.html.tmp')).to.equal(false);
+            expect(configuration.shouldExtractFile('smth.html/file.txt')).to.equal(false);
         });
 
-        it('should set array of masks', function() {
+        it('should check *.htm, *.html, *.xhtml with value true', function() {
+            configuration.load({
+                extract: true
+            });
+            expect(configuration.shouldExtractFile('file.htm')).to.equal(true);
+            expect(configuration.shouldExtractFile('file.html')).to.equal(true);
+            expect(configuration.shouldExtractFile('file.xhtml')).to.equal(true);
+            expect(configuration.shouldExtractFile('foo/file.htm')).to.equal(true);
+            expect(configuration.shouldExtractFile('foo/file.html')).to.equal(true);
+            expect(configuration.shouldExtractFile('foo/file.xhtml')).to.equal(true);
+
+            expect(configuration.shouldExtractFile('file.txt')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.ht')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.html.tmp')).to.equal(false);
+            expect(configuration.shouldExtractFile('smth.html/file.txt')).to.equal(false);
+        });
+
+        it('should set array of masks and also check *.htm, *.html, *.xhtml', function() {
             configuration.load({
                 extract: ['foo', 'bar']
             });
-            expect(!!configuration.shouldExtractFile('foo')).to.equal(true);
-            expect(!!configuration.shouldExtractFile('bar')).to.equal(true);
-            expect(!configuration.shouldExtractFile('baz/foo')).to.equal(true);
-            expect(!configuration.shouldExtractFile('foo/bar')).to.equal(true);
-        });
+            expect(configuration.shouldExtractFile('foo')).to.equal(true);
+            expect(configuration.shouldExtractFile('bar')).to.equal(true);
 
-        it('should set `never`', function() {
-            configuration.load({
-                extract: false
-            });
-            expect(!configuration.shouldExtractFile('file.html')).to.equal(true);
-            expect(!configuration.shouldExtractFile('foo/file.html')).to.equal(true);
-            expect(!configuration.shouldExtractFile('file.html.tmp')).to.equal(true);
-            expect(!configuration.shouldExtractFile('smth.html/file.txt')).to.equal(true);
+            expect(configuration.shouldExtractFile('baz/foo')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/bar')).to.equal(false);
+
+            expect(configuration.shouldExtractFile('file.htm')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.html')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.xhtml')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.htm')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.html')).to.equal(false);
+            expect(configuration.shouldExtractFile('foo/file.xhtml')).to.equal(false);
+
+            expect(configuration.shouldExtractFile('file.txt')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.ht')).to.equal(false);
+            expect(configuration.shouldExtractFile('file.html.tmp')).to.equal(false);
+            expect(configuration.shouldExtractFile('smth.html/file.txt')).to.equal(false);
         });
     });
 

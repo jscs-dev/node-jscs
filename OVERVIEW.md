@@ -299,7 +299,7 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 Set list of glob patterns for files which embeded JavaScript should be checked.
 
-Type: `Array` or `false`
+Type: `Array` or `Boolean`
 
 Values: Array of file matching patterns
 
@@ -311,9 +311,9 @@ JavaScript extracting from files that doesn't match to [fileExtensions](#fileExt
 "extract": ["*.htm", "*.html"]
 ```
 
-#### Default
+#### Value `true`
 
-Default value is `["**/*.+(htm|html|xhtml)"]`. So JavaScript is extracted from files with `.htm`, `.html` or `.xhtml` extension.
+JavaScript is extracted from files with `.htm`, `.html` or `.xhtml` extension with value `true`.
 
 ### maxErrors
 Set the maximum number of errors to report (pass -1 or null to report all errors).
