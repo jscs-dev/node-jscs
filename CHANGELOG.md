@@ -1,3 +1,7 @@
+## Version [2.3.2](https://github.com/jscs-dev/node-jscs/compare/v2.3.1...v2.3.2) (10-14-2015):
+
+Fix an issue with `--extract` option being true by default
+
 ## Version [2.3.1](https://github.com/jscs-dev/node-jscs/compare/v2.3.0...v2.3.1) (10-14-2015):
 
 A bunch of bug fixes in this release!
