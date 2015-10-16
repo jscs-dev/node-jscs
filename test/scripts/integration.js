@@ -19,7 +19,7 @@ vowFs.listDir('./presets')
         // List of rules that are not used in any of the default presets
         presets.unshift('./test/scripts/forgotten-rules.json');
 
-        console.log('\n' + chalk.green('> ') + 'Autofix ingeration tests');
+        console.log('\n' + chalk.green('> ') + 'Autofix integration tests');
 
         return promiseQueue(presets, function(presetName) {
             console.log('\nPreset "' + chalk.green(presetName) + '"');

@@ -150,7 +150,7 @@ jscs path[ path[...]] --preset=jquery
 In order to add/remove preset rules you will need to create a `.jscsrc` config file.
 
 ### `--extract`
-With this option you can set glob pattern for files which embeded JavaScript should be checked.
+With this option you can set glob pattern for files which embedded JavaScript should be checked.
 ```
 jscs path[ path[...]] --extract *.html
 ```
@@ -297,13 +297,13 @@ Values: A single file extension or an Array of file extensions, beginning with a
 
 ### extract
 
-Set list of glob patterns for files which embeded JavaScript should be checked.
+Set list of glob patterns for files which embedded JavaScript should be checked.
 
 Type: `Array` or `Boolean`
 
 Values: Array of file matching patterns
 
-JavaScript extracting from files that doesn't match to [fileExtensions](#fileExtensions) or [excludeFiles](#excludefiles), but match to patterns in this list. Currenly, only `html` format is supported.
+JavaScript extracting from files that doesn't match to [fileExtensions](#fileExtensions) or [excludeFiles](#excludefiles), but match to patterns in this list. Currently, only `html` format is supported.
 
 #### Example
 
@@ -420,7 +420,7 @@ See [how to define an error filter](https://github.com/jscs-dev/node-jscs/wiki/E
 
 ### Disabling a Rule
 
-You can specifically disable any rule by ommitting it from your `.jscsrc` config or by assigning it to null, like so:
+You can specifically disable any rule by omitting it from your `.jscsrc` config or by assigning it to null, like so:
 ```json
 {
     "preset": "jquery",
