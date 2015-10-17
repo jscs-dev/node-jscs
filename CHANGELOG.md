@@ -1,3 +1,12 @@
+## Version [2.3.4](https://github.com/jscs-dev/node-jscs/compare/v2.3.3...v2.3.4) (10-17-2015):
+
+### Bug Fixes
+- Change `requireVarDeclFirst` to ignore let and const [`2199ca4`](https://github.com/jscs-dev/node-jscs/commit/2199ca488a56ff1472d876ac2b21fe2292ae8413) [`#1783`](https://github.com/jscs-dev/node-jscs/issues/1783)
+
+- Fixed an issue with all function spacing rules not accounting for the generators [`a2c009f`](https://github.com/jscs-dev/node-jscs/commit/a2c009f19aaf410a46abb3edfbc56d4aa9931f41) [`#1175`](https://github.com/jscs-dev/node-jscs/issues/1175)
+
+@hzoo
+
 ## Version [2.3.3](https://github.com/jscs-dev/node-jscs/compare/v2.3.2...v2.3.3) (10-16-2015):
 
 ### Bug Fixes
