@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-spaces-in-function-declaration', function() {
     var checker;
@@ -9,8 +10,10 @@ describe('rules/require-spaces-in-function-declaration', function() {
     });
 
     describe('beforeOpeningRoundBrace', function() {
+        var rules = { esnext: true, requireSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } };
+
         beforeEach(function() {
-            checker.configure({ requireSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } });
+            checker.configure(rules);
         });
 
         it('should report missing space before round brace in FunctionDeclaration', function() {
@@ -25,6 +28,14 @@ describe('rules/require-spaces-in-function-declaration', function() {
         it('should not report space before round brace in export default function', function() {
             checker.configure({ esnext: true });
             expect(checker.checkString('export default function (){}')).to.have.no.errors();
+        });
+
+        reportAndFix({
+            name: 'missing space before round brace in async FunctionDeclaration',
+            rules: rules,
+            errors: 1,
+            input: 'async function a(){}',
+            output: 'async function a (){}'
         });
     });
 

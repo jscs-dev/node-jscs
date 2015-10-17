@@ -89,6 +89,14 @@ describe('rules/require-spaces-in-function', function() {
         });
 
         reportAndFix({
+            name: 'missing space before round brace in async FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = async function(){}',
+            output: 'var x = async function (){}'
+        });
+
+        reportAndFix({
             name: 'missing space before round brace in method shorthand',
             rules: rules,
             errors: 1,

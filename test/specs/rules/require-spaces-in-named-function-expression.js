@@ -55,6 +55,14 @@ describe('rules/require-spaces-in-named-function-expression', function() {
             input: 'var x = function a(){}',
             output: 'var x = function a (){}'
         });
+
+        reportAndFix({
+            name: 'missing space before round brace in named async FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = async function a(){}',
+            output: 'var x = async function a (){}'
+        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
