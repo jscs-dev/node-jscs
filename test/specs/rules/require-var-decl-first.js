@@ -36,6 +36,16 @@ describe('rules/require-var-decl-first', function() {
                 }
             };
 
+            describe('VariableDeclaration kinds #1783', function() {
+                it('should not return errors for let', function() {
+                    checker.checkString('let a;').isEmpty();
+                });
+
+                it('should not return errors for const', function() {
+                    checker.checkString('const a;').isEmpty();
+                });
+            });
+
             describe('statements without spaces or linebreaks', function() {
                 it('should not return errors for single var declaration at top of program scope', function() {
                     testDeclStatements(checker, 'var a;', 0);
@@ -135,7 +145,7 @@ describe('rules/require-var-decl-first', function() {
                 });
 
                 it('should return 2 errors for 2 var declarations not at the top of program scope', function() {
-                    testDeclStatements(checker, 'var a;a=1;var b;const c=1;', 2);
+                    testDeclStatements(checker, 'var a;a=1;var b;var c=1;', 2);
                 });
             });
 
