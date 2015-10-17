@@ -23,6 +23,12 @@ describe('rules/disallow-unused-params', function() {
         )).to.have.no.errors();
     });
 
+    it('should not error with es6 imports #1875', function() {
+        expect(checker.checkString(
+            'import one from "one"; function some() {}'
+        )).to.have.no.errors();
+    });
+
     it('should report unused param', function() {
         expect(checker.checkString(
             'function fun(test) { }'
