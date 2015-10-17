@@ -37,21 +37,21 @@ describe('rules/require-spaces-in-function-expression', function() {
             expect(checker.checkString('var x = function a (){}')).to.have.no.errors();
         });
 
-        it('should report missing space before round brace in FunctionExpression', function() {
+        it('should report missing space before round brace in async FunctionExpression', function() {
             expect(checker.checkString('var x = async function(){}'))
               .to.have.one.validation.error.from('requireSpacesInFunctionExpression');
         });
 
-        it('should report missing space before round brace in named FunctionExpression', function() {
+        it('should report missing space before round brace in named async FunctionExpression', function() {
             expect(checker.checkString('var x = async function a(){}'))
               .to.have.one.validation.error.from('requireSpacesInFunctionExpression');
         });
 
-        it('should not report space before round brace in FunctionExpression', function() {
+        it.only('should not report space before round brace in async FunctionExpression', function() {
             expect(checker.checkString('var x = async function (){}')).to.have.no.errors();
         });
 
-        it('should not report space before round brace in named FunctionExpression', function() {
+        it('should not report space before round brace in named async FunctionExpression', function() {
             expect(checker.checkString('var x = async function a (){}')).to.have.no.errors();
         });
 
@@ -99,6 +99,22 @@ describe('rules/require-spaces-in-function-expression', function() {
             errors: 1,
             input: 'var x = function(){}',
             output: 'var x = function (){}'
+        });
+
+        reportAndFix({
+            name: 'missing space before round brace in generator FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function*(){}',
+            output: 'var x = function* (){}'
+        });
+
+        reportAndFix({
+            name: 'missing space before round brace in generator FunctionExpression',
+            rules: rules,
+            errors: 1,
+            input: 'var x = function *(){}',
+            output: 'var x = function * (){}'
         });
 
         reportAndFix({
