@@ -47,7 +47,7 @@ describe('rules/require-spaces-in-function-expression', function() {
               .to.have.one.validation.error.from('requireSpacesInFunctionExpression');
         });
 
-        it.only('should not report space before round brace in async FunctionExpression', function() {
+        it('should not report space before round brace in async FunctionExpression', function() {
             expect(checker.checkString('var x = async function (){}')).to.have.no.errors();
         });
 
