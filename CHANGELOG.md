@@ -1,3 +1,12 @@
+## Version [2.3.3](https://github.com/jscs-dev/node-jscs/compare/v2.3.2...v2.3.3) (10-16-2015):
+
+### Bug Fixes
+- Fixed an error with `disallowUnusedParams` and es6 imports [`63526b7`](https://github.com/jscs-dev/node-jscs/commit/63526b73d55eed3719d79527a7a7c7490b4cd2cb) [`#1875`](https://github.com/jscs-dev/node-jscs/issues/1875)
+
+- Fixed an autofix issue with all function spacing rules and not accounting for the async keyword [`cf134a1`](https://github.com/jscs-dev/node-jscs/commit/cf134a12c1ab0bb7a23c7197780593bfdb8682e2) [`#1873`](https://github.com/jscs-dev/node-jscs/issues/1873)
+
+@hzoo
+
 ## Version [2.3.2](https://github.com/jscs-dev/node-jscs/compare/v2.3.1...v2.3.2) (10-14-2015):
 
 Fix an issue with `--extract` option being true by default
