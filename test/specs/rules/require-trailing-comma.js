@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/require-trailing-comma', function() {
-    var rules = { requireTrailingComma: true };
+    var rules = { requireTrailingComma: true, esnext: true };
     var checker;
 
     beforeEach(function() {
@@ -33,6 +33,22 @@ describe('rules/require-trailing-comma', function() {
         errors: 1,
         input: 'var t = {\n\ta: 1,\n\tb: 2 };',
         output: 'var t = {\n\ta: 1,\n\tb: 2, };'
+    });
+
+    reportAndFix({
+        name: 'missing comma in object pattern',
+        rules: rules,
+        errors: 1,
+        input: 'const { foo, bar } = baz;',
+        output: 'const { foo, bar, } = baz;'
+    });
+
+    reportAndFix({
+        name: 'missing comma in array pattern',
+        rules: rules,
+        errors: 1,
+        input: 'const [ foo, bar ] = baz;',
+        output: 'const [ foo, bar, ] = baz;'
     });
 
     describe('option value true', function() {
