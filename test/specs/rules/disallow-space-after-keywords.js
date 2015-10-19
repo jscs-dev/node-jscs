@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 
 describe('rules/disallow-space-after-keywords', function() {
     var checker;
+    var rule = 'disallowSpaceAfterKeywords';
 
     beforeEach(function() {
         checker = new Checker();
@@ -11,7 +12,7 @@ describe('rules/disallow-space-after-keywords', function() {
 
     it('should report illegal space after keyword', function() {
         checker.configure({ disallowSpaceAfterKeywords: ['if'] });
-        expect(checker.checkString('if (x) { x++; }')).to.have.one.validation.error.from('disallowSpaceAfterKeywords');
+        expect(checker.checkString('if (x) { x++; }')).to.have.one.validation.error.from(rule);
     });
 
     it('should not report space after keyword', function() {
@@ -22,18 +23,24 @@ describe('rules/disallow-space-after-keywords', function() {
     it('should report on all spaced keywords if a value true is supplied', function() {
         checker.configure({ disallowSpaceAfterKeywords: true });
 
-        expect(checker.checkString('do {} while (false)')).to.have.errors();
-        expect(checker.checkString('for (;;){}')).to.have.errors();
-        expect(checker.checkString('if (x) {}')).to.have.errors();
-        expect(checker.checkString('if (true){} else{}')).to.have.errors();
-        expect(checker.checkString('switch (false){ case 4: break;}')).to.have.errors();
-        expect(checker.checkString('switch(true){ case \'4\': break;}')).to.have.errors();
-        expect(checker.checkString('try {} catch(e) {}')).to.have.errors();
-        expect(checker.checkString('void (0)')).to.have.errors();
-        expect(checker.checkString('while (x) {}')).to.have.errors();
-        expect(checker.checkString('with ({}){}')).to.have.errors();
-        expect(checker.checkString('function foo(){}')).to.have.errors();
-        expect(checker.checkString('typeof \'4\'')).to.have.errors();
+        expect(checker.checkString('do{} while (false)')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('do {} while(false)')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('for (;;){}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('if (x) {}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('if (true){} else{}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('if(true){} else {}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('switch (false){ case 4: break;}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('try {} catch(e) {}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('try{} catch (e) {}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('void (0)')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('while (x) {}')).to.have.one.validation.error.from(rule);
+        expect(checker.checkString('with ({}){}')).to.have.one.validation.error.from(rule);
+
+        expect(checker.checkString('void 0')).to.have.no.errors();
+        expect(checker.checkString('typeof \'4\'')).to.have.no.errors();
+        expect(checker.checkString('function foo(){}')).to.have.no.errors();
+        expect(checker.checkString('function foo(){ return true; }')).to.have.no.errors();
+        expect(checker.checkString('switch(true){ case \'4\': break;}')).to.have.no.errors();
     });
 
     it('should not report on `var` and `in` keywords', function() {
