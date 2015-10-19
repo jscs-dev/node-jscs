@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 
 describe('rules/disallow-trailing-comma', function() {
     var checker;
-    var rules = { disallowTrailingComma: true };
+    var rules = { disallowTrailingComma: true, esnext: true };
 
     beforeEach(function() {
         checker = new Checker();
@@ -26,6 +26,30 @@ describe('rules/disallow-trailing-comma', function() {
         errors: 1,
         input:  '({a: 1, b: 2,})',
         output: '({a: 1, b: 2})'
+    });
+
+    reportAndFix({
+        name: 'comma in array literal',
+        rules: rules,
+        errors: 1,
+        input: '[1, 2,]',
+        output: '[1, 2]'
+    });
+
+    reportAndFix({
+        name: 'comma in object pattern',
+        rules: rules,
+        errors: 1,
+        input: 'const { foo, bar, } = baz;',
+        output: 'const { foo, bar } = baz;'
+    });
+
+    reportAndFix({
+        name: 'comma in array pattern',
+        rules: rules,
+        errors: 1,
+        input: 'const [ foo, bar, ] = baz;',
+        output: 'const [ foo, bar ] = baz;'
     });
 
     it('should report trailing comma in object literal', function() {
@@ -53,5 +77,4 @@ describe('rules/disallow-trailing-comma', function() {
         var errs = checker.checkString('var arr = [\n    \'foo\',\n];').getErrorList();
         expect(errs[0].line + ':' + errs[0].column).to.equal('2:10');
     });
-
 });
