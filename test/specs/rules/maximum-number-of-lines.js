@@ -27,4 +27,38 @@ describe('rules/maximum-number-of-lines', function() {
             expect(checker.checkString('var x;')).to.have.no.errors();
         });
     });
+
+    describe('object option', function() {
+
+        it('should not report if a number of lines equal to the maximum when allExcept["comments"] is set', function() {
+            checker.configure({
+                maximumNumberOfLines: {
+                    value: 2,
+                    allExcept: ['comments']
+                }
+            });
+            var content = [
+                '//a single line comment',
+                'var xy;',
+                'var xy;',
+                '/* a multiline',
+                ' long comment*/'
+            ].join('\n');
+            expect(checker.checkString(content)).to.have.no.errors();
+        });
+
+        it('should report a number of non-commented lines equal to the maximum', function() {
+            checker.configure({
+                maximumNumberOfLines: {
+                    value: 2
+                }
+            });
+            expect(checker.checkString('/* a multiline comment\n that goes to many lines*/\nvar xy;\nvar xy;'))
+              .to.have.one.validation.error.from('maximumNumberOfLines');
+            expect(checker.checkString('//a single line comment\nvar xy;\nvar xy;'))
+              .to.have.one.validation.error.from('maximumNumberOfLines');
+        });
+
+    });
+
 });
