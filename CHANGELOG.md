@@ -1,3 +1,53 @@
+## Version [2.3.5](https://github.com/jscs-dev/node-jscs/compare/v2.3.4...v2.3.5) (10-19-2015):
+
+Why not fix some more bugs!
+
+### Bug Fixes
+ * Fix: `requireSpacesInForStatement` account for parenthesizedExpression (Henry Zhu)
+ 
+```js
+// allows ()
+for (var i = 0; (!reachEnd && (i < elementsToMove)); i++) {
+```
+ 
+ * Fix: `disallowCommaBeforeLineBreak`: fix for function params (Henry Zhu)
+ 
+```js
+// allows
+function a(b, c) {
+  console.log('');
+}
+```
+ 
+ * Fix: `requirePaddingNewLineAfterVariableDeclaration` - allow exported declarations (Henry Zhu)
+ 
+```js
+// allows
+export var a = 1;
+export let a = 1;
+export const a = 1;
+```
+
+ * Fix: `disallowSpaceAfterKeywords` - fix issue with using default keyword list (Henry Zhu)
+
+```js
+// fixes autofix from `return obj` to `returnobj`
+```
+
+ * Fix: `disallowTrailingComma`, `requireTrailingComma` - support ObjectPattern and ArrayPattern (Henry Zhu)
+
+```js
+// disallow
+const { foo, bar } = baz;
+const [ foo, bar ] = baz;
+
+// require
+const { foo, bar, } = baz;
+const [ foo, bar, ] = baz;
+```
+
+@hzoo
+
 ## Version [2.3.4](https://github.com/jscs-dev/node-jscs/compare/v2.3.3...v2.3.4) (10-17-2015):
 
 ### Bug Fixes
