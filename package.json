@@ -5,7 +5,7 @@
   },
   "description": "JavaScript Code Style",
   "name": "jscs",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "main": "lib/checker",
   "homepage": "http://jscs.info",
   "keywords": [
