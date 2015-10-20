@@ -46,5 +46,10 @@ describe('rules/require-spaces-in-for-statement', function() {
             expect(checker.checkString('for(i=0;i<l;){}'))
               .to.have.one.validation.error.from('requireSpacesInForStatement');
         });
+
+        it('should not report with spaces with parenthesizedExpression #1332', function() {
+            var parenthesizedExpression = 'for (var i = 0; (!reachEnd && (i < elementsToMove)); i++) {}';
+            expect(checker.checkString(parenthesizedExpression)).to.have.no.errors();
+        });
     });
 });
