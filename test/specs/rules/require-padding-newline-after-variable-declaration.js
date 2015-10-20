@@ -108,4 +108,10 @@ describe('rules/require-padding-newline-after-variable-declaration', function() 
             '});'
         )).to.have.no.errors();
     });
+
+    it('should not error on es6 exports #1882', function() {
+        expect(checker.checkString('export var a = 1;')).to.have.no.errors();
+        expect(checker.checkString('export let a = 1;')).to.have.no.errors();
+        expect(checker.checkString('export const a = 1;')).to.have.no.errors();
+    });
 });
