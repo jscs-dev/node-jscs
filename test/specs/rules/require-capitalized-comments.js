@@ -88,7 +88,7 @@ describe('rules/require-capitalized-comments', function() {
                 assertEmpty([
                     '// A textblock may also have multiple lines.',
                     '// Those lines can be uppercase as well to support',
-                    '// sentense breaks in textblocks'
+                    '// sentence breaks in textblocks'
                 ].join('\n'));
             });
 
