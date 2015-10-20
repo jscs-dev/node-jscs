@@ -229,7 +229,7 @@ describe('checker', function() {
     });
 
     describe('fixing', function() {
-        this.timeout(7000);
+        this.timeout(15000);
 
         var sourceDir = __dirname + '/../data/autofixing';
         var tmpDir = __dirname + '/../data/autofixing-tmp';
