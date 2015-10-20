@@ -64,6 +64,10 @@ describe('rules/disallow-comma-before-line-break', function() {
         expect(checker.checkString('var a = {a:1, c:3};')).to.have.no.errors();
     });
 
+    it('should not report comma placement in function declaration #1746', function() {
+        expect(checker.checkString('function a(b, c) {\n  console.log(1)\n}')).to.have.no.errors();
+    });
+
     describe('options as object', function() {
         describe('allExcept as option', function() {
             describe('with value `function`', function() {
