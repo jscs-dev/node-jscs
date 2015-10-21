@@ -240,6 +240,33 @@ describe('config/configuration', function() {
         });
     });
 
+    describe('getFix', function() {
+        it('should enable "fix" option', function() {
+            configuration.load({ fix: true });
+            expect(configuration.getFix()).to.equal(true);
+        });
+
+        it('should disable "fix" option', function() {
+            configuration.load({ fix: false });
+            expect(configuration.getFix()).to.equal(false);
+        });
+
+        it('should disable "fix" option with null value', function() {
+            configuration.load({ fix: null });
+            expect(configuration.getFix()).to.equal(false);
+        });
+
+        it('should return "false" if value is not defined', function() {
+            configuration.load({ });
+            expect(configuration.getFix()).to.equal(false);
+        });
+
+        it('should return "false" value is value is not defined', function() {
+            configuration.load({ });
+            expect(configuration.getFix()).to.equal(false);
+        });
+    });
+
     describe('registerDefaultRules', function() {
         it('should register built-in rules', function() {
             configuration.registerDefaultRules();

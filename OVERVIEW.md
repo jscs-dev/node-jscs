@@ -117,7 +117,7 @@ results.getErrorList().forEach(function(error) {
 Some CLI options can be put in your `.jscsrc` as well (such as `esnext`).
 
 ### `--fix` (`-x`)
-Will apply fixes to all supported style rules. (Currently whitespace rules, [EOF rule](http://jscs.info/rules.html#requirelinefeedatfileend), and [validateIndentation](http://jscs.info/rules.html#validateindentation))
+Will apply fixes to all supported style rules. 
 
 ```
 jscs path[ path[...]] --fix
@@ -317,11 +317,18 @@ JavaScript is extracted from files with `.htm`, `.html` or `.xhtml` extension wi
 
 ### maxErrors
 Set the maximum number of errors to report (pass -1 or null to report all errors).
-Ignored if `--fix` flag is provided.
+Ignored if `fix` option is enabled.
 
 Type: `Number|null`
 
 Default: 50
+
+### fix
+Will apply fixes to all supported style rules.
+
+Type: `Boolean|null`
+
+Default: `false`
 
 #### Example
 
