@@ -277,6 +277,16 @@ describe('config/configuration', function() {
             configuration.load({maxErrors: null});
             expect(configuration.getMaxErrors()).to.equal(null);
         });
+
+        it('should set `maxErrors` to infinity if "fix" option is enabled', function() {
+            configuration.load({fix: true});
+            expect(configuration.getMaxErrors()).to.equal(Infinity);
+        });
+
+        it('should set `maxErrors` to infinity if "autoConfigure" option is enabled', function() {
+            configuration.load({fix: true});
+            expect(configuration.getMaxErrors()).to.equal(Infinity);
+        });
     });
 
     describe('registerDefaultRules', function() {
