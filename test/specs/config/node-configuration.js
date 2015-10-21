@@ -395,6 +395,14 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getRegisteredRules()[0]).to.be.an.instanceof(AdditionalRule);
         });
 
+        it('should accept `additionalRules` without "configPath" option', function() {
+            configuration.load({
+                additionalRules: ['./test/data/rules/*.js']
+            });
+            expect(configuration.getRegisteredRules().length).to.equal(1);
+            expect(configuration.getRegisteredRules()[0]).to.be.an.instanceof(AdditionalRule);
+        });
+
         it('should accept `additionalRules` to register rule path masks', function() {
             configuration.load({
                 additionalRules: ['./rules/*.js'],
