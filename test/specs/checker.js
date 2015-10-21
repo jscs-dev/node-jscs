@@ -16,6 +16,40 @@ describe('checker', function() {
         });
     });
 
+    describe('execute', function() {
+        var stubs;
+
+        beforeEach(function() {
+            checker = new Checker();
+
+            stubs = {
+                check: sinon.stub(Checker.prototype, 'checkPath'),
+                fix: sinon.stub(Checker.prototype, 'fixPath')
+            };
+        });
+
+        afterEach(function() {
+            stubs.check.restore();
+            stubs.fix.restore();
+        });
+
+        it('should check', function() {
+            checker.configure({});
+            checker.execute();
+
+            expect(stubs.check).to.be.called;
+            expect(stubs.fix).to.not.be.called;
+        });
+
+        it('should fix', function() {
+            checker.configure({ fix: true });
+            checker.execute();
+
+            expect(stubs.check).to.not.be.called;
+            expect(stubs.fix).to.be.called;
+        });
+    });
+
     describe('checkFile', function() {
         it('should return empty array of errors for excluded files', function() {
             checker = new Checker();

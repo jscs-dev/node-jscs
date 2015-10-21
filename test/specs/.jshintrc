@@ -1,0 +1,4 @@
+{
+    "extends": "../../.jshintrc",
+    "expr": true
+}
