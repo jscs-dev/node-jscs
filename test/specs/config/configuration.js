@@ -26,10 +26,6 @@ describe('config/configuration', function() {
             expect(Object.keys(configuration.getRegisteredPresets()).length).to.equal(0);
         });
 
-        it('should have 50 default error count', function() {
-            expect(configuration.getMaxErrors()).to.equal(50);
-        });
-
         it('should have no default preset', function() {
             expect(configuration.getPresetName()).to.equal(null);
         });
@@ -264,6 +260,22 @@ describe('config/configuration', function() {
         it('should return "false" value is value is not defined', function() {
             configuration.load({ });
             expect(configuration.getFix()).to.equal(false);
+        });
+    });
+
+    describe('getMaxErrors', function() {
+        it('should have 50 default error count', function() {
+            expect(configuration.getMaxErrors()).to.equal(50);
+        });
+
+        it('should accept `maxErrors` number', function() {
+            configuration.load({maxErrors: 1});
+            expect(configuration.getMaxErrors()).to.equal(1);
+        });
+
+        it('should accept `maxErrors` null', function() {
+            configuration.load({maxErrors: null});
+            expect(configuration.getMaxErrors()).to.equal(null);
         });
     });
 
@@ -751,16 +763,6 @@ describe('config/configuration', function() {
             configuration.load({preset: 'preset'});
             expect(configuration.getProcessedConfig().preset).to.equal('preset');
             expect(configuration.getProcessedConfig().ruleName).to.equal(true);
-        });
-
-        it('should accept `maxErrors` number', function() {
-            configuration.load({maxErrors: 1});
-            expect(configuration.getMaxErrors()).to.equal(1);
-        });
-
-        it('should accept `maxErrors` null', function() {
-            configuration.load({maxErrors: null});
-            expect(configuration.getMaxErrors()).to.equal(null);
         });
 
         it('should accept `esnext` boolean (true)', function() {
