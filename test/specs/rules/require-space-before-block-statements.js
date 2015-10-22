@@ -45,6 +45,22 @@ describe('rules/require-space-before-block-statements', function() {
             expect(checker.checkString('var a = {id:5};')).to.have.no.errors();
         });
 
+        it('should not affect bare blocks #1328', function() {
+            expect(checker.checkString([
+                'exports.NamedNodeMap = NamedNodeMap;',
+                '',
+                '{',
+                'let prototype = NamedNodeMap.prototype;',
+                'while (prototype) {',
+                  'for (const name of Object.getOwnPropertyNames(prototype)) {',
+                    'reservedNames.add(name);',
+                  '}',
+                  'prototype = Object.getPrototypeOf(prototype);',
+                '}',
+              '}'
+            ].join('\n'))).to.have.no.errors();
+        });
+
         it('should missing space for control structures with multiple branches', function() {
             expect(checker.checkString(
               'if (true) {\n' +
