@@ -16,8 +16,7 @@ describe('rules/require-dot-notation', function() {
 
         it('should report literal subscription', function() {
             expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
-            expect(checker.checkString('var x = a[\'while\']')).to.have.one.validation.error.from('requireDotNotation');
-            expect(checker.checkString('var x = a[\'π\']').to.have.one.validation.error.from('requireDotNotation');
+            expect(checker.checkString('var x = a[\'π\']')).to.have.one.validation.error.from('requireDotNotation');
         });
 
         it('should not report literal subscription for reserved words', function() {
