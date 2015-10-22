@@ -470,9 +470,7 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             expect(checker.checkString('if (true) {\n\nabc();\n};')).to.have.no.errors();
         });
     });
-});
-
-
+    
     describe('allExcept: ["singleLine"]', function() {
         beforeEach(function() {
             checker.configure({ requirePaddingNewlinesInBlocks: { allExcept: ['singleLine'] } });
@@ -529,3 +527,4 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             expect(checker.checkString('if (true) { abc(); };')).to.have.no.errors();
         });
     });
+});
