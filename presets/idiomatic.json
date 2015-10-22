@@ -5,6 +5,9 @@
         "ignoreParenthesizedExpression": true,
         "except": [ "{", "}", "[", "]", "function", "\"" ]
     },
+    "disallowSpacesInsideParentheses": {
+        "only": [ "{", "}", "[", "]", "function" ]
+    },
     "disallowSpacesInCallExpression": true,
     "requirePaddingNewLinesBeforeLineComments": null,
     "requireSpaceAfterLineComment": {
