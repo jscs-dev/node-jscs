@@ -55,6 +55,24 @@ describe('rules/require-newline-before-block-statements', function() {
         it('should not throw error if opening parentheses is first symbol in the file', function() {
             expect(checker.checkString('{test: 1 }')).to.have.no.errors();
         });
+
+        it('should not affect bare blocks #1328', function() {
+            expect(checker.checkString([
+                'exports.NamedNodeMap = NamedNodeMap;',
+                '',
+                '{',
+                'let prototype = NamedNodeMap.prototype;',
+                'while (prototype)',
+                '{',
+                  'for (const name of Object.getOwnPropertyNames(prototype))',
+                  '{',
+                    'reservedNames.add(name);',
+                  '}',
+                  'prototype = Object.getPrototypeOf(prototype);',
+                '}',
+              '}'
+            ].join('\n'))).to.have.no.errors();
+        });
     });
 
     describe('with option value array - ', function() {
@@ -160,7 +178,7 @@ describe('rules/require-newline-before-block-statements', function() {
             });
         });
 
-        describe('function statements', function() {
+        describe('function expressions', function() {
             beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
             });
@@ -177,6 +195,26 @@ describe('rules/require-newline-before-block-statements', function() {
             it('should not complain when not configured with "function"', function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
                 expect(checker.checkString('var z = function(y) {\n\ty++;\n}')).to.have.no.errors();
+            });
+        });
+
+        describe('arrow function expressions', function() {
+            beforeEach(function() {
+                checker.configure({ requireNewlineBeforeBlockStatements: ['function'] });
+            });
+
+            it('should report missing newlines when configured with "function"', function() {
+                expect(checker.checkString('var z = (y) => {\n\ty++;\n}'))
+                  .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should not complain when configured with "function" and newline exists', function() {
+                expect(checker.checkString('var z = (y) => \n{\n\ty++;\n}')).to.have.no.errors();
+            });
+
+            it('should not complain when not configured with "function"', function() {
+                checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
+                expect(checker.checkString('var z = (y) => {\n\ty++;\n}')).to.have.no.errors();
             });
         });
 

@@ -101,4 +101,32 @@ describe('rules/disallow-space-before-block-statements', function() {
         expect(checker.checkString('var a = {};')).to.have.no.errors();
         expect(checker.checkString('var a = {id:5};')).to.have.no.errors();
     });
+
+    it('should not affect bare blocks with a Program as the parent #1328', function() {
+        expect(checker.checkString([
+            'exports.NamedNodeMap = NamedNodeMap;',
+            '',
+            '{',
+            'let prototype = NamedNodeMap.prototype;',
+            'while (prototype){',
+              'for (const name of Object.getOwnPropertyNames(prototype)){',
+                'reservedNames.add(name);',
+              '}',
+              'prototype = Object.getPrototypeOf(prototype);',
+            '}',
+          '}'
+        ].join('\n'))).to.have.no.errors();
+    });
+
+    it('should not affect bare blocks with a parent BlockStatement #1328', function() {
+        expect(checker.checkString([
+            'function a(){',
+              'let b = 1;',
+              '',
+              '{',
+                'let c = 1;',
+              '} ',
+            '}'
+        ].join('\n'))).to.have.no.errors();
+    });
 });
