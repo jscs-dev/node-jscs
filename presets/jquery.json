@@ -23,7 +23,6 @@
         "allExcept": ["urlComments", "regex"]
     },
     "validateQuoteMarks": { "mark": "\"", "escape": true },
-    "validateIndentation": "\t",
 
     "disallowMixedSpacesAndTabs": "smart",
     "disallowTrailingWhitespace": true,
