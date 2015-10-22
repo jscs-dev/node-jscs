@@ -69,7 +69,7 @@
     },
     "requirePaddingNewLinesBeforeLineComments": true,
     "requireCapitalizedComments": {
-        "ignoreIfInTheMiddle": true
+        "inlined": true
     },
     "validateLineBreaks": "LF",
 

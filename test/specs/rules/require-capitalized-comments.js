@@ -198,11 +198,11 @@ describe('rules/require-capitalized-comments', function() {
         });
     });
 
-    describe('ignoreIfInTheMiddle: true', function() {
+    describe('inlined: true', function() {
         beforeEach(function() {
             checker.configure({
                 requireCapitalizedComments: {
-                    ignoreIfInTheMiddle: true
+                    inlined: true
                 }
             });
         });
@@ -233,11 +233,11 @@ describe('rules/require-capitalized-comments', function() {
             }).to.throw('AssertionError');
         });
 
-        it('ignoreIfInTheMiddle: false', function() {
+        it('inlined: false', function() {
             expect(function() {
                 checker.configure({
                     requireCapitalizedComments: {
-                        ignoreIfInTheMiddle: false
+                        inlined: false
                     }
                 });
             }).to.throw('AssertionError');
