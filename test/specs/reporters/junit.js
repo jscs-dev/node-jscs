@@ -25,9 +25,10 @@ describe('reporters/junit', function() {
                     var testcase = testsuite.testcase[0];
                     expect(!!testcase).to.equal(true);
                     expect(testcase.$.name).to.equal('input');
-                    expect(testcase.$.failures).to.equal('1');
 
-                    expect(testcase.failure[0].length).to.be.at.least(1);
+                    var failure = testcase.failure[0];
+                    expect(!!failure).to.equal(true);
+                    expect(failure.$.message).to.exist;
                 } else {
                     throw err;
                 }
