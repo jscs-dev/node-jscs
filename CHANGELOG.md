@@ -47,6 +47,19 @@ var whatDoesAnimalsSay = {
 };
 ```
 
+### Fixes
+
+* Account for bare blocks in both [`disallowNewlineBeforeBlockStatements`](http://jscs.info/rule/disallowNewlineBeforeBlockStatements) and [`disallowSpaceBeforeBlockStatements`](http://jscs.info/rule/disallowSpaceBeforeBlockStatements)
+
+```js
+// allows
+var a = 1;
+
+{
+  let b = 1;
+}
+```
+
 ## Version [2.3.5](https://github.com/jscs-dev/node-jscs/compare/v2.3.4...v2.3.5) (10-19-2015):
 
 Why not fix some more bugs!
@@ -95,7 +108,7 @@ const { foo, bar, } = baz;
 const [ foo, bar, ] = baz;
 ```
 
-@hzoo
+hzoo
 
 ## Version [2.3.4](https://github.com/jscs-dev/node-jscs/compare/v2.3.3...v2.3.4) (10-17-2015):
 
@@ -104,7 +117,7 @@ const [ foo, bar, ] = baz;
 
 - Fixed an issue with all function spacing rules not accounting for the generators [`a2c009f`](https://github.com/jscs-dev/node-jscs/commit/a2c009f19aaf410a46abb3edfbc56d4aa9931f41) [`#1175`](https://github.com/jscs-dev/node-jscs/issues/1175)
 
-@hzoo
+hzoo
 
 ## Version [2.3.3](https://github.com/jscs-dev/node-jscs/compare/v2.3.2...v2.3.3) (10-16-2015):
 
@@ -113,7 +126,7 @@ const [ foo, bar, ] = baz;
 
 - Fixed an autofix issue with all function spacing rules and not accounting for the async keyword [`cf134a1`](https://github.com/jscs-dev/node-jscs/commit/cf134a12c1ab0bb7a23c7197780593bfdb8682e2) [`#1873`](https://github.com/jscs-dev/node-jscs/issues/1873)
 
-@hzoo
+hzoo
 
 ## Version [2.3.2](https://github.com/jscs-dev/node-jscs/compare/v2.3.1...v2.3.2) (10-14-2015):
 
@@ -198,7 +211,7 @@ Again, a big thanks to everything using [JSCS](jscs.info)! Definitely continue t
 
 We'll probably be moving more of the new rule/option issues to [`orphaned`](https://github.com/jscs-dev/node-jscs/issues?q=label%3Aorphaned+is%3Aclosed) which just means that they are on hold but anyone can still PR it or reopen it later. Remember to tweet at us at [@jscs_dev](https://twitter.com/jscs_dev) and chat with us on our [gitter room](https://gitter.im/jscs-dev/node-jscs)!
 
-@hzoo
+hzoo
 
 ## Version [2.3.0](https://github.com/jscs-dev/node-jscs/compare/v2.2.1...v2.3.0) (10-07-2015):
 
@@ -273,7 +286,7 @@ var a,b;
 
 Again, a big thanks to everything using JSCS! Definitely continue to report any bugs and new ideas! We always appreciate any help/PRs as we don't have that many resources!
 
-@hzoo
+hzoo
 
 ### Other
 
@@ -454,7 +467,7 @@ We have a [`beginner-friendly`](https://github.com/jscs-dev/node-jscs/labels/beg
 
 Thanks to everyone who has been submitting issues/PRs!
 
-It's been almost a year since I (@hzoo) really started contributing to open source. It's still crazy to me that my first pull request was just adding the [table of contents](https://github.com/jscs-dev/node-jscs/pull/677). I was so excited to contribute that day!
+It's been almost a year since I (hzoo) really started contributing to open source. It's still crazy to me that my first pull request was just adding the [table of contents](https://github.com/jscs-dev/node-jscs/pull/677). I was so excited to contribute that day!
 
 Little did I know I would slowly do more and more - typo fixes, docs changes, bugfixes, rules, and then eventually become part of the team! I've become a better communicator and become more confident to give and take constructive feedback. I'm currently still figuring out how to review PRs, label issues, do changelogs (like right now), release, etc.
 
@@ -462,7 +475,7 @@ So much has happened after starting that one simple contribution! Even though I 
 
 Contributing here helped me make PRs to a lot of other projects (in my case babel, eslint, and others). I understand more that it doesn't take a special person to start helping out. I really hope to encourage others to join our awesome open source community at large!
 
-[@hzoo](https://github.com/hzoo)
+[hzoo](https://github.com/hzoo)
 
 ### Other Awesome Changes!
 
