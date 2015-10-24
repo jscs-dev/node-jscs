@@ -1,3 +1,52 @@
+## Version [2.4.0](https://github.com/jscs-dev/node-jscs/compare/v2.3.5...v2.4.0) (10-22-2015):
+
+We're releasing pretty often now, right? :-)
+
+### `Fix` option
+
+- The `--fix` CLI flag can now be used programatically and [through](http://jscs.info/overview#fix) a `.jscsrc` config. 
+
+> This is be useful for plugin authors (not only for jscs plugins but also for `grunt`/`gulp`/`etc...`) 
+
+### Preset updates
+
+- The `jquery` preset (and dependant ones like `wordpress` and `wikimedia`) is less strict, whereas `idiomatic` is now more meticulous.
+
+### Couple new rules
+
+* [`disallowSpaceAfterComma`](http://jscs.info/rules/disallowSpaceAfterComma) - to have an opposite rule to [`disallowSpaceBeforeComma`](http://jscs.info/rules/disallowSpaceBeforeComma):
+
+```js
+[1,2,3] // valid
+[1, 2, 3] // invalid
+```
+
+* [`requireAlignedMultilineParams`](http://jscs.info/rules/requireAlignedMultilineParams) - a nice addition to our indentation rules:
+
+```js
+var test = function(one, two,
+/*indent!*/  three) {
+  ...
+};
+```
+
+### Some new rule options
+
+* [`requireDotNotation`](http://jscs.info/rules/requireDotNotation) now supports  fancy letters like `π` - 
+
+```js
+obj["ಠ_ಠ"] // This is wrong!
+obj.ಠ_ಠ // Now you get it :-)
+```
+
+* [`maxNumberOfLines`](http://jscs.info/rules/maxNumberOfLines) can now ignore comments with the `{"allExcept": ["comments"]}` option
+* [`requireObjectKeysOnNewLine`](http://jscs.info/rules/requireObjectKeysOnNewLine) can ignore object properties on the same line with `{"allExcept": ["sameLine"]}` option - 
+```js
+var whatDoesAnimalsSay = {
+    cat: 'meow', dog: 'woof', fox: 'What does it say?' // this is cool now
+};
+```
+
 ## Version [2.3.5](https://github.com/jscs-dev/node-jscs/compare/v2.3.4...v2.3.5) (10-19-2015):
 
 Why not fix some more bugs!
