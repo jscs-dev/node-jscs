@@ -52,7 +52,9 @@ describe('rules/require-spaces-around-generators', function() {
         });
 
         it('should skip async functions', function() {
-            expect(checker.checkString('var x = async function *() {}')).to.have.one.validation.error.from('requireSpacesInGenerator');
+            var testExp = checker.checkString('var x = async function *(){}');
+            var reqTest = 'requireSpacesInGenerator';
+            expect(testExp).to.have.one.validation.error.from(reqTest);
         });
     });
 });
