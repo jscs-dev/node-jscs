@@ -1,7 +1,7 @@
 var path = require('path');
 
 var sinon = require('sinon');
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var glob = require('glob');
 var hasAnsi = require('has-ansi');
@@ -14,7 +14,7 @@ var startingDir = process.cwd();
 
 var Vow = require('vow');
 
-describe.skip('modules/cli', function() {
+describe('cli', function() {
     var oldTTY;
 
     before(function() {
@@ -51,7 +51,7 @@ describe.skip('modules/cli', function() {
         return vow.promise.always(function() {
             var stdout = process.stdout.write.getCall(0) ? process.stdout.write.getCall(0).args[0] : '';
             var stderr = process.stderr.write.getCall(0) ? process.stderr.write.getCall(0).args[0] : '';
-            assert.equal(stdout, '', stderr);
+            expect(stdout).to.equal('', stderr);
             rAfter();
         });
     }
@@ -60,11 +60,12 @@ describe.skip('modules/cli', function() {
         sinon.spy(console, 'error');
 
         var result = cli({
-            config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json'),
+            config: path.resolve(process.cwd(), './test/data/configs/json/corrupted.json')
         });
 
-        return result.promise.fail(function() {
-            assert(console.error.getCall(0).args[0] === 'Config source is corrupted -');
+        return result.promise.fail(function(value) {
+            expect(console.error.getCall(0).args[0]).to.equal('Config source is corrupted -');
+            expect(value).to.equal(5);
             console.error.restore();
         });
     });
@@ -78,7 +79,7 @@ describe.skip('modules/cli', function() {
         });
 
         return result.promise.always(function() {
-            assert.equal(console.error.getCall(0).args[0], 'Preset "not-exist" does not exist');
+            expect(console.error.getCall(0).args[0]).to.equal('Preset "not-exist" does not exist');
             console.error.restore();
         });
     });
@@ -96,7 +97,7 @@ describe.skip('modules/cli', function() {
             ' project root or use the -c option.';
 
         return result.promise.always(function() {
-            assert.equal(console.error.getCall(0).args[0], text);
+            expect(console.error.getCall(0).args[0]).to.equal(text);
 
             configFile.load.restore();
             console.error.restore();
@@ -117,7 +118,7 @@ describe.skip('modules/cli', function() {
         return result.promise.always(function() {
             var config = Checker.prototype.configure.getCall(0).args[0];
 
-            assert(!Object.keys(config).length);
+            expect(Object.keys(config).length).to.equal(0);
 
             Checker.prototype.configure.restore();
             configFile.load.restore();
@@ -126,23 +127,24 @@ describe.skip('modules/cli', function() {
 
     it('should correctly exit if no files specified', function(done) {
         sinon.stub(console, 'error', function(message) {
-            assert.equal(message, 'No input files specified. Try option --help for usage information.');
+            expect(message).to.equal('No input files specified. Try option --help for usage information.');
 
             done();
         });
 
-        cli({
+        return cli({
             args: []
+        }).promise.fail(function(value) {
+            expect(value).to.equal(3);
+            console.error.restore();
         });
-
-        console.error.restore();
     });
 
     it('should exit if no custom config is found', function(done) {
         sinon.stub(console, 'error', function(arg1, arg2, arg3) {
-            assert.equal(arg1, 'Configuration source');
-            assert.equal(arg2, 'config.js');
-            assert.equal(arg3, 'was not found.');
+            expect(arg1).to.equal('Configuration source');
+            expect(arg2).to.equal('config.js');
+            expect(arg3).to.equal('was not found.');
 
             process.chdir('../');
 
@@ -155,7 +157,7 @@ describe.skip('modules/cli', function() {
             config: 'config.js'
         });
 
-        assert(typeof result === 'object');
+        expect(result).to.be.a('object');
 
         console.error.restore();
     });
@@ -169,7 +171,7 @@ describe.skip('modules/cli', function() {
         }
 
         Checker.prototype.checkPath = function(path) {
-            assert(path, 'test/data/cli/success.js');
+            expect(!!path).to.equal(true);
             return originalCheckPath.apply(this, arguments);
         };
 
@@ -179,7 +181,7 @@ describe.skip('modules/cli', function() {
             config: 'test/data/cli/cli.json'
         });
         return result.promise.then(function() {
-            assert(result.checker.getProcessedConfig().requireCurlyBraces);
+            expect(!!result.checker.getProcessedConfig().requireCurlyBraces).to.equal(true);
             restoreCheckPath();
         }).fail(function(e) {
             restoreCheckPath();
@@ -193,7 +195,7 @@ describe.skip('modules/cli', function() {
         });
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
@@ -211,7 +213,7 @@ describe.skip('modules/cli', function() {
         process.stdin.emit('end');
 
         return result.promise.then(function(status) {
-            assert(status === 0);
+            expect(status).to.equal(0);
             rAfter();
         });
     });
@@ -229,7 +231,7 @@ describe.skip('modules/cli', function() {
         process.stdin.emit('end');
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
@@ -242,12 +244,12 @@ describe.skip('modules/cli', function() {
         });
 
         return result.promise.fail(function(status) {
-            assert(status);
+            expect(!!status).to.equal(true);
             rAfter();
         });
     });
 
-    describe.skip('verbose option', function() {
+    describe('verbose option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
         });
@@ -258,30 +260,31 @@ describe.skip('modules/cli', function() {
 
         it('should not display rule names in error output by default', function() {
             var result = cli({
-                args: ['test/data/cli/error.js'],
-                config: 'test/data/cli/cli.json'
-            });
-
-            return result.promise.fail(function() {
-                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === -1);
-            });
-        });
-
-        it('should display rule names in error output with verbose option', function() {
-            var result = cli({
-                verbose: true,
+                verbose: false,
                 colors: false,
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             });
 
             return result.promise.fail(function() {
-                assert(console.log.getCall(0).args[0].indexOf('disallowKeywords:') === 0);
+                expect(console.log.getCall(0).args[0]).to.not.have.string('disallowKeywords:');
+            });
+        });
+
+        it('should display rule names in error output with verbose option', function() {
+            var result = cli({
+                colors: false,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/cli.json'
+            });
+
+            return result.promise.fail(function() {
+                expect(console.log.getCall(0).args[0]).to.have.string('disallowKeywords:');
             });
         });
     });
 
-    describe.skip('input via stdin (#448)', function() {
+    describe('input via stdin (#448)', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
             process.stdin.isTTY = false;
@@ -331,6 +334,20 @@ describe.skip('modules/cli', function() {
             return assertNoCliErrors(result);
         });
 
+        it('should accept empty input: `cat myEmptyFile.js | jscs -x`', function() {
+            var result = cli({
+                args: [],
+                fix: true
+            }).promise;
+
+            process.stdin.emit('data', '1');
+            process.stdin.emit('end');
+
+            return result.then(function() {
+                expect(process.stdout.write.getCall(0).args[0]).to.equal('1;\n');
+            });
+        });
+
         it('should not fail with additional args supplied: `cat myEmptyFile.js | jscs -n`', function() {
             var result = cli({
                 args: [],
@@ -353,7 +370,7 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(spy.called);
+                expect(spy).to.have.not.callCount(0);
                 checker.prototype.checkPath.restore();
                 rAfter();
             });
@@ -368,14 +385,14 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert(spy.called);
+                expect(spy).to.have.not.callCount(0);
                 checker.prototype.checkStdin.restore();
                 rAfter();
             });
         });
     });
 
-    describe.skip('reporter option', function() {
+    describe('reporter option', function() {
         it('should implicitly set console reporter', function() {
             var result = cli({
                 args: ['test/data/cli/error.js'],
@@ -384,8 +401,24 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'console');
+                expect(path.basename(result.reporter)).to.equal('console');
                 rAfter();
+            });
+        });
+
+        it('should throw error if reporter does not exist', function() {
+            sinon.spy(console, 'error');
+
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                reporter: 'not-exists.js'
+            });
+
+            return result.promise.always(function(exitCode) {
+                expect(exitCode.valueOf()).to.equal(6);
+                expect(console.error.getCall(0).args[0]).to.equal('Reporter "%s" does not exist.');
+                expect(console.error.getCall(0).args[1]).to.equal('not-exists.js');
+                console.error.restore();
             });
         });
 
@@ -399,7 +432,7 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'junit.js');
+                expect(path.basename(result.reporter)).to.equal('junit.js');
                 rAfter();
             });
         });
@@ -412,7 +445,7 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'junit.js');
+                expect(path.basename(result.reporter)).to.equal('junit.js');
                 rAfter();
             });
         });
@@ -425,7 +458,7 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.always(function() {
-                assert.equal(path.basename(result.reporter), 'text');
+                expect(path.basename(result.reporter)).to.equal('text');
                 rAfter();
             });
         });
@@ -438,12 +471,12 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.fail(function(status) {
-                assert(status.valueOf());
+                expect(!!status.valueOf()).to.equal(true);
                 rAfter();
             });
         });
 
-        describe.skip('reporters exit statuses', function() {
+        describe('reporters exit statuses', function() {
             var rname = /\/(\w+)\.js/;
 
             // Testing pre-defined reporters with names
@@ -456,7 +489,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -467,7 +500,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -483,7 +516,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -494,7 +527,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -510,7 +543,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.fail(function(status) {
-                        assert(status.valueOf());
+                        expect(!!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -521,7 +554,7 @@ describe.skip('modules/cli', function() {
                         reporter: name,
                         config: 'test/data/cli/cli.json'
                     }).promise.then(function(status) {
-                        assert(!status.valueOf());
+                        expect(!status.valueOf()).to.equal(true);
                         rAfter();
                     });
                 });
@@ -530,7 +563,7 @@ describe.skip('modules/cli', function() {
         });
     });
 
-    describe.skip('colors option', function() {
+    describe('colors option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
         });
@@ -547,7 +580,7 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(!hasAnsi(console.log.getCall(0).args[0]));
+                expect(!hasAnsi(console.log.getCall(0).args[0])).to.equal(true);
             });
         });
 
@@ -559,18 +592,42 @@ describe.skip('modules/cli', function() {
             });
 
             return result.promise.fail(function() {
-                assert(hasAnsi(console.log.getCall(0).args[0]));
+                expect(!!hasAnsi(console.log.getCall(0).args[0])).to.equal(true);
             });
         });
     });
 
-    describe.skip('maxErrors option', function() {
+    describe('maxErrors option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
+            sinon.spy(console, 'error');
         });
 
         afterEach(function() {
             console.log.restore();
+            console.error.restore();
+        });
+
+        it('should set maxErrors to Infinity with "fix" option', function() {
+            var checker = cli({
+                maxErrors: '1',
+                args: ['test/data/cli/error.js'],
+                fix: true
+            }).checker;
+
+            expect(checker._configuration.getMaxErrors()).to.equal(Infinity);
+        });
+
+        it('should set maxErrors to Infinity with "autoConfigure" option', function() {
+            var result = cli({
+                maxErrors: '1',
+                args: ['test/data/cli/error.js'],
+                autoConfigure: __dirname + '/data/error-filter/index.js'
+            });
+
+            return result.promise.always(function() {
+                expect(result.checker._configuration.getMaxErrors()).to.equal(Infinity);
+            });
         });
 
         it('should limit the number of errors reported to the provided amount', function() {
@@ -580,19 +637,47 @@ describe.skip('modules/cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
+                expect(console.log.getCall(1).args[0].indexOf('1 code style error found.')).to.not.equal(-1);
                 rAfter();
             });
         });
 
-        it('should not limit the number of errors reported if non numeric value provided', function() {
+        it.skip('should allow `-1` value to report all errors', function() {
+            return cli({
+                maxErrors: -1,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors-0.json'
+
+            }).promise.always(function(status) {
+                expect(!!status.valueOf()).to.equal(true);
+
+                rAfter();
+            });
+        });
+
+        it('should allow `null` value to report all errors', function() {
+            return cli({
+                maxErrors: null,
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors-0.json'
+            })
+            .promise.always(function(status) {
+                expect(status.valueOf()).to.equal(2);
+
+                rAfter();
+            });
+        });
+
+        it('should throw a error when value is incorrect', function() {
             return cli({
                 maxErrors: '1a',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('2 code style errors found.') !== -1);
+                expect(console.error.getCall(0).args[0]
+                    .indexOf('`maxErrors` option requires -1, null value or positive number'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
@@ -604,7 +689,8 @@ describe.skip('modules/cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             })
             .promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                expect(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
@@ -622,13 +708,14 @@ describe.skip('modules/cli', function() {
             process.stdin.emit('end');
 
             return result.promise.always(function() {
-                assert(console.log.getCall(2).args[0].indexOf('Increase `maxErrors` configuration option') !== -1);
+                expect(console.error.getCall(0).args[0].indexOf('Increase `maxErrors` configuration option'))
+                  .to.not.equal(-1);
                 rAfter();
             });
         });
     });
 
-    describe.skip('errorFilter option', function() {
+    describe('errorFilter option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
         });
@@ -639,7 +726,7 @@ describe.skip('modules/cli', function() {
 
         it('should accept a path to a filter module', function() {
             return assertNoCliErrors(cli({
-                errorFilter: __dirname + '/../data/error-filter.js',
+                errorFilter: __dirname + '/../data/error-filter/index.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             }));
@@ -647,7 +734,7 @@ describe.skip('modules/cli', function() {
 
         it('should accept a relative path to a filter module', function() {
             return assertNoCliErrors(cli({
-                errorFilter: '../error-filter.js',
+                errorFilter: '../error-filter/index.js',
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             }));
@@ -661,7 +748,7 @@ describe.skip('modules/cli', function() {
         });
     });
 
-    describe.skip('esprima option', function() {
+    describe('esprima option', function() {
         beforeEach(function() {
             sinon.spy(console, 'log');
         });
@@ -678,26 +765,27 @@ describe.skip('modules/cli', function() {
         });
 
         it('should use the default esprima if null is provided in the config file', function() {
-            return cli({
+            var returnArgs = cli({
                 args: ['test/data/cli/esnext.js'],
                 config: 'test/data/cli/esprimaNull.json'
-            })
-            .promise.always(function() {
-                assert(console.log.getCall(1).args[0].indexOf('1 code style error found.') !== -1);
-                rAfter();
             });
+
+            var esprima = returnArgs.checker.getEsprima();
+            expect(esprima).to.equal(require('esprima'));
+
+            return assertNoCliErrors(returnArgs);
         });
 
         it('should use a custom esprima provided at CLI', function() {
             return assertNoCliErrors(cli({
                 args: ['test/data/cli/esnext.js'],
-                esprima: 'esprima-harmony-jscs',
+                esprima: 'babel-jscs',
                 config: 'test/data/cli/cli.json'
             }));
         });
     });
 
-    describe.skip('additionalRules', function() {
+    describe('additionalRules', function() {
         it('should correctly handle additionalRules paths', function() {
             return assertNoCliErrors(cli({
                 args: ['test/data/cli/success.js'],
@@ -706,7 +794,7 @@ describe.skip('modules/cli', function() {
         });
     });
 
-    describe.skip('auto-configure option', function() {
+    describe('auto-configure option', function() {
         var deferred;
         var GeneratorMock;
 
@@ -728,11 +816,11 @@ describe.skip('modules/cli', function() {
 
             var result = cli({
                 args: [],
-                autoConfigure: __dirname + '/data/error-filter.js'
+                autoConfigure: __dirname + '/data/error-filter/index.js'
             });
 
             return result.promise.then(function(status) {
-                assert.ok(!status);
+                expect(!status).to.equal(true);
             });
         });
 
@@ -743,12 +831,12 @@ describe.skip('modules/cli', function() {
 
             var result = cli({
                 args: [],
-                autoConfigure: __dirname + '/data/error-filter.js'
+                autoConfigure: __dirname + '/data/error-filter/index.js'
             });
 
             return result.promise.then(null, function(status) {
-                assert.ok(status);
-                assert.ok(process.stderr.write.getCall(0).args[0].indexOf(message));
+                expect(!!status).to.equal(true);
+                expect(!!process.stderr.write.getCall(0).args[0].indexOf(message)).to.equal(true);
                 rAfter();
             });
         });
