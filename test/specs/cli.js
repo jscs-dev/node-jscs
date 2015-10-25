@@ -260,18 +260,19 @@ describe('cli', function() {
 
         it('should not display rule names in error output by default', function() {
             var result = cli({
+                verbose: false,
+                colors: false,
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
             });
 
             return result.promise.fail(function() {
-                expect(console.log.getCall(0).args[0].indexOf('disallowKeywords:')).to.equal(-1);
+                expect(console.log.getCall(0).args[0]).to.not.have.string('disallowKeywords:');
             });
         });
 
         it('should display rule names in error output with verbose option', function() {
             var result = cli({
-                verbose: true,
                 colors: false,
                 args: ['test/data/cli/error.js'],
                 config: 'test/data/cli/cli.json'
