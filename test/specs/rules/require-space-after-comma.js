@@ -92,7 +92,7 @@ describe('rules/require-space-after-comma', function() {
     describe('option value "exceptTrailingCommas"', function() {
 
         beforeEach(function() {
-            checker.configure({ requireSpaceAfterComma: 'exceptTrailingCommas' });
+            checker.configure({ requireSpaceAfterComma: { allExcept: ['trailing'] } });
         });
 
         it('should report error when no space is given', function() {
@@ -169,6 +169,16 @@ describe('rules/require-space-after-comma', function() {
 
         it('should allow when no space is given after trailing comma in object in array', function() {
             expect(checker.checkString('var a = [{a:1, b:2,}, {c:3, d:4,},];')).to.have.no.errors();
+        });
+
+    });
+
+    describe('incorrect configuration', function() {
+
+        it('should not accept options without a valid key', function() {
+            expect(function() {
+                checker.configure({ requireSpaceAfterComma: {} });
+            }).to.throw('AssertionError');
         });
 
     });
