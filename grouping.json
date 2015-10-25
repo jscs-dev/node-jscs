@@ -156,7 +156,8 @@
     "requireShorthandArrowFunctions",
     "requireNumericLiterals",
     "requireSpread",
-    "requireTemplateStrings"
+    "requireTemplateStrings",
+    "requireSpacesInGenerator"
   ],
   "Everything else": [
     "requireParenthesesAroundIIFE",
