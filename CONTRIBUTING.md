@@ -25,6 +25,7 @@ The maintainers of the project are:
  * Mike Sherov (@mikesherov).
  * Joel Kemp (@mrjoelkemp).
  * Alexej Yaroshevich (@zxqfox).
+ * Henry Zoo (@hzoo).
 
 The project is being developed by the community. Maintainers merge pull-requests and fix critical bugs. All other features
 and patches are welcomed to be implemented by community members.
@@ -40,6 +41,8 @@ If you'd like to work on an issue, just leave a comment on the issue saying that
 
 Also check out the [beginner-friendly](https://github.com/jscs-dev/node-jscs/labels/beginner-friendly) label for an additional set
 of beginner-friendly tickets.
+
+Join us in the [Gitter Chat Room](https://gitter.im/jscs-dev/node-jscs).
 
 Pull-requests
 -------------
