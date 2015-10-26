@@ -25,7 +25,7 @@ describe('rules/require-matching-function-name', function() {
             assertNoErrors('var myFunction; myFunction = function(name) {};');
         });
 
-        it('should NOT throw when assigning named function to a var', function() {
+        it('should report function name when assigning named function to a var', function() {
             assertErrorForMemberNameMismatch('var myFunction; myFunction = function anotherFunction(name) {};');
         });
 
