@@ -25,7 +25,7 @@ describe('rules/require-matching-function-name', function() {
             assertNoErrors('var myFunction; myFunction = function(name) {};');
         });
 
-        it('should NOT throw when assigning named function to a var', function() {
+        it('should report function name when assigning named function to a var', function() {
             assertErrorForMemberNameMismatch('var myFunction; myFunction = function anotherFunction(name) {};');
         });
 
@@ -88,25 +88,44 @@ describe('rules/require-matching-function-name', function() {
         it('should NOT report function name match on ES6 destructuring', function() {
             assertNoErrors('let [ bar ] = [ function bar(){} ];');
         });
-
-        function assertErrorForMemberNameMismatch(js) {
-            assertError(js, 'Function name does not match member name');
-        }
-
-        function assertErrorForPropertyNameMismatch(js) {
-            assertError(js, 'Function name does not match property name');
-        }
-
-        function assertError(js, message) {
-            var errors = checker.checkString(js).getErrorList();
-            expect(errors.length).to.be.at.least(1);
-            expect(errors[0].rule).to.equal('requireMatchingFunctionName');
-            expect(errors[0].message).to.equal(message);
-        }
-
-        function assertNoErrors(js) {
-            var errors = checker.checkString(js).getErrorList();
-            expect(errors.length).to.equal(0);
-        }
     });
+
+    describe('option allExcept moduleExports', function() {
+        beforeEach(function() {
+            checker.configure({ requireMatchingFunctionName: { allExcept: ['moduleExports'] } });
+        });
+
+        it('should NOT throw when assigning named function to module.exports', function() {
+            assertNoErrors('var module; module.exports = function foo(name) {};');
+        });
+
+        it('should NOT throw when assigning anonymous function to module["exports"]', function() {
+            assertNoErrors('var module; module["exports"] = function foo(name) {};');
+        });
+
+        it('should report function name when assigning named function to module ' +
+            'which is a property of other variable', function() {
+            assertErrorForMemberNameMismatch('var foo = {module:{}}; foo.module.exports = function bar(name) {};');
+        });
+    });
+
+    function assertErrorForMemberNameMismatch(js) {
+        assertError(js, 'Function name does not match member name');
+    }
+
+    function assertErrorForPropertyNameMismatch(js) {
+        assertError(js, 'Function name does not match property name');
+    }
+
+    function assertError(js, message) {
+        var errors = checker.checkString(js).getErrorList();
+        expect(errors.length).to.be.at.least(1);
+        expect(errors[0].rule).to.equal('requireMatchingFunctionName');
+        expect(errors[0].message).to.equal(message);
+    }
+
+    function assertNoErrors(js) {
+        var errors = checker.checkString(js).getErrorList();
+        expect(errors.length).to.equal(0);
+    }
 });
