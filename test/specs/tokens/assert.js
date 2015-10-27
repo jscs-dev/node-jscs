@@ -1,8 +1,8 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 var esprima = require('esprima');
-var JsFile = require('../../lib/js-file');
-var TokenAssert = require('../../lib/token-assert');
+var JsFile = require('../../../lib/js-file');
+var TokenAssert = require('../../../lib/tokens/assert');
 
 describe('token-assert', function() {
 

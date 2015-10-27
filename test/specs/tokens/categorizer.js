@@ -1,6 +1,6 @@
-var TokenCategorizer = require('../../lib/token-categorizer');
+var TokenCategorizer = require('../../../lib/tokens/categorizer');
 var expect = require('chai').expect;
-var JsFile = require('../../lib/js-file');
+var JsFile = require('../../../lib/js-file');
 var esprima = require('esprima');
 
 describe('token-categorizer', function() {
