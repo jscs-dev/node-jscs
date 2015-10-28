@@ -4,9 +4,9 @@ var sinon = require('sinon');
 var parser = require('xml2js').parseString;
 
 var Checker = require('../../../lib/checker');
-var junit = require('../../../lib/reporters/junit');
+var junit = require('../../../lib/reporters/jenkinsjunit');
 
-describe('reporters/junit', function() {
+describe('reporters/jenkinsjunit', function() {
     var checker = new Checker();
 
     checker.registerDefaultRules();
@@ -25,9 +25,10 @@ describe('reporters/junit', function() {
                     var testcase = testsuite.testcase[0];
                     expect(!!testcase).to.equal(true);
                     expect(testcase.$.name).to.equal('input');
-                    expect(testcase.$.failures).to.equal('1');
 
-                    expect(testcase.failure[0].length).to.be.at.least(1);
+                    var failure = testcase.failure[0];
+                    expect(!!failure).to.equal(true);
+                    expect(failure.$.message).to.exist;
                 } else {
                     throw err;
                 }
