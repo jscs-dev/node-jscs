@@ -170,4 +170,49 @@ describe('rules/require-curly-braces', function() {
         checker.configure({ requireCurlyBraces: ['else'] });
         expect(checker.checkString('if (x) { x++; } else if (x) { x++; }')).to.have.no.errors();
     });
+
+    describe('option with exceptions', function() {
+        it('should report on if and else', function() {
+            checker.configure({
+                requireCurlyBraces: {
+                    allExcept: ['return', 'break', 'continue'],
+                    keywords: true
+                }
+            });
+
+            expect(checker.checkString('if (x) x++;')).to.have.errors();
+            expect(checker.checkString('if (x) {x++} else x--;')).to.have.errors();
+            expect(checker.checkString('for (x = 0; x < 10; x++) x++;')).to.have.errors();
+            expect(checker.checkString('while (x) x++;')).to.have.errors();
+            expect(checker.checkString('do x++; while(x < 5);')).to.have.errors();
+            expect(checker.checkString('try {x++;} catch(e) throw e;')).to.have.errors();
+            expect(checker.checkString('switch(\'4\'){ case \'4\': break; }')).to.have.errors();
+            expect(checker.checkString('switch(\'4\'){ case \'4\': {break;} default: 1; }')).to.have.errors();
+            expect(checker.checkString('with(x) console.log(toString());')).to.have.errors();
+        });
+
+        it('should report on if and else', function() {
+            checker.configure({
+                requireCurlyBraces: {
+                    allExcept: ['return', 'break', 'continue'],
+                    keywords: ['if', 'else']
+                }
+            });
+
+            expect(checker.checkString('if (x) x++;')).to.have.errors();
+            expect(checker.checkString('if (x) {x++} else x--;')).to.have.errors();
+        });
+
+        it('should not report on if and else with exceptions', function() {
+            checker.configure({
+                requireCurlyBraces: {
+                    allExcept: ['return', 'break', 'continue'],
+                    keywords: ['if', 'else']
+                }
+            });
+
+            expect(checker.checkString('if (x) return;')).to.have.no.errors();
+            expect(checker.checkString('if (x) return; else return;')).to.have.no.errors();
+        });
+    });
 });
