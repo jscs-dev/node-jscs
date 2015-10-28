@@ -22,6 +22,10 @@ describe('rules/require-space-before-comma', function() {
         expect(checker.checkString('var a ,b;')).to.have.no.errors();
     });
 
+    it('should allow tab before comma in var declaration', function() {
+        expect(checker.checkString('var a\t,b;')).to.have.no.errors();
+    });
+
     it('should allow space before and after comma in var declaration', function() {
         expect(checker.checkString('var a , b;')).to.have.no.errors();
     });
@@ -42,12 +46,20 @@ describe('rules/require-space-before-comma', function() {
         expect(checker.checkString('var a = [1 ,2 ,3 ,4];')).to.have.no.errors();
     });
 
+    it('should allow tab before comma in arrays', function() {
+        expect(checker.checkString('var a = [1\t,2\t,3\t,4];')).to.have.no.errors();
+    });
+
     it('should allow space before and after comma in arrays', function() {
         expect(checker.checkString('var a = [1 , 2 , 3 , 4];')).to.have.no.errors();
     });
 
     it('should allow new line before comma in arrays', function() {
         expect(checker.checkString('var a = [1\n,2\n,3];')).to.have.no.errors();
+    });
+
+    it('should allow sparse arrays', function() {
+        expect(checker.checkString('var a = [a , , ,b ,c];')).to.have.no.errors();
     });
 
     it('should report errors when no space is given in objects', function() {
@@ -60,6 +72,10 @@ describe('rules/require-space-before-comma', function() {
 
     it('should allow space before comma in objects', function() {
         expect(checker.checkString('var a = {x: 1 ,y: 2 ,z: 3};')).to.have.no.errors();
+    });
+
+    it('should allow tab before comma in objects', function() {
+        expect(checker.checkString('var a = {x: 1\t,y: 2\t,z: 3};')).to.have.no.errors();
     });
 
     it('should allow space before and after comma in objects', function() {

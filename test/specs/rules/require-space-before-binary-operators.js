@@ -111,4 +111,9 @@ describe('rules/require-space-before-binary-operators', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: true });
         expect(checker.checkString('1,2;')).to.have.no.errors();
     });
+
+    it('should not report error for sparse arrays', function() {
+        checker.configure({ requireSpaceBeforeBinaryOperators: [','] });
+        expect(checker.checkString('var x = [1 , , ,2] , y = 32')).to.have.no.errors();
+    });
 });

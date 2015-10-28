@@ -7,35 +7,71 @@ describe('rules/disallow-space-after-comma', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
+        checker.configure({ disallowSpaceAfterComma: true });
     });
 
-    it('does not allow spaces after commas', function() {
-        checker.configure({ disallowSpaceAfterComma: true });
+    it('does not allow spaces after commas in var delarations', function() {
+        expect(checker.checkString('var a, b;')).to.have.one.validation.error.from('disallowSpaceAfterComma');
+    });
 
+    it('does not allow tabs after commas in var delarations', function() {
+        expect(checker.checkString('var a,\tb;')).to.have.one.validation.error.from('disallowSpaceAfterComma');
+    });
+
+    it('does allow commas with no spaces in var delarations', function() {
+        expect(checker.checkString('var a,b,c;')).to.have.no.errors();
+    });
+
+    it('does allow commas with spaces before in var delarations', function() {
+        expect(checker.checkString('var a ,b ,c;')).to.have.no.errors();
+    });
+
+    it('does allow commas with newline character after in var delarations', function() {
+        expect(checker.checkString('var a,\nb,\nc;')).to.have.no.errors();
+    });
+
+    it('does not allow spaces after commas in arrays', function() {
         expect(checker.checkString('[a, b]')).to.have.one.validation.error.from('disallowSpaceAfterComma');
     });
 
-    it('does not allow tabs after commas', function() {
-        checker.configure({ disallowSpaceAfterComma: true });
-
+    it('does not allow tabs after commas in arrays', function() {
         expect(checker.checkString('[a,\tb]')).to.have.one.validation.error.from('disallowSpaceAfterComma');
     });
 
-    it('does allow commas with no spaces', function() {
-        checker.configure({ disallowSpaceAfterComma: true });
-
+    it('does allow commas with no spaces in arrays', function() {
         expect(checker.checkString('[a,b,c]')).to.have.no.errors();
     });
 
-    it('does allow commas with spaces before', function() {
-        checker.configure({ disallowSpaceAfterComma: true });
-
+    it('does allow commas with spaces before in arrays', function() {
         expect(checker.checkString('[a ,b ,c]')).to.have.no.errors();
     });
 
-    it('does allow commas with newline character after', function() {
-        checker.configure({ disallowSpaceAfterComma: true });
-
+    it('does allow commas with newline character after in arrays', function() {
         expect(checker.checkString('[a,\nb,\nc]')).to.have.no.errors();
     });
+
+    it('does allow sparse arrays', function() {
+        expect(checker.checkString('[a, , ,b,c]')).to.have.no.errors();
+    });
+
+    it('does not allow spaces after commas in objects', function() {
+        expect(checker.checkString('var a = {x: 1, y: 2};')).to.have.one.validation.error();
+    });
+
+    it('does not allow tabs after commas in objects', function() {
+        expect(checker.checkString('var a = {x: 1,\ty: 2};')).to.have.one.validation.error();
+    });
+
+    it('does allow commas with no spaces in objects', function() {
+        expect(checker.checkString('var a = {x: 1,y: 2};')).to.have.no.errors();
+    });
+
+    it('does allow commas with spaces before in objects', function() {
+        expect(checker.checkString('var a = {x: 1 ,y: 2};')).to.have.no.errors();
+    });
+
+    it('does allow commas with newline character after in objects', function() {
+        expect(checker.checkString('var a = {x: 1,\ny: 2,\nz: 3};')).to.have.no.errors();
+    });
+
 });
