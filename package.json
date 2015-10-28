@@ -73,6 +73,7 @@
     "htmlparser2": "3.8.3",
     "js-yaml": "~3.4.0",
     "jscs-jsdoc": "1.2.0",
+    "jscs-preset-wikimedia": "~1.0.0",
     "jsonlint": "~1.6.2",
     "lodash": "~3.10.0",
     "minimatch": "~2.0.1",

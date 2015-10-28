@@ -523,7 +523,6 @@ describe('string-checker', function() {
         testPreset('jquery');
         testPreset('mdcs');
         testPreset('node-style-guide');
-        testPreset('wikimedia');
         testPreset('wordpress');
         testPreset('yandex');
 
