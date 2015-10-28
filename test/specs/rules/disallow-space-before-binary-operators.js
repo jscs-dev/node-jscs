@@ -101,6 +101,11 @@ describe('rules/disallow-space-before-binary-operators', function() {
         expect(checker.checkString('var x = [1, 2]\n  , y = 32')).to.have.no.errors();
     });
 
+    it('should not report error for sparse arrays', function() {
+        checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
+        expect(checker.checkString('var x = [1, , , 2], y = 32')).to.have.no.errors();
+    });
+
     it('should not report error if a comment is ahead of the comma', function() {
         checker.configure({ disallowSpaceBeforeBinaryOperators: [','] });
         expect(checker.checkString('var x = [1, 2] /* test*/, y = 32')).to.have.no.errors();

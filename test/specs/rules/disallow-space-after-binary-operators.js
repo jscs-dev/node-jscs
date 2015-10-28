@@ -110,4 +110,10 @@ describe('rules/disallow-space-after-binary-operators', function() {
         expect(errors).to.have.one.validation.error.from('disallowSpaceAfterBinaryOperators');
         expect(errors.explainError(error)).to.have.string('Operator = should stick to following expression at input');
     });
+
+    it('should not report error for sparse arrays', function() {
+        checker.configure({ disallowSpaceAfterBinaryOperators: [','] });
+        expect(checker.checkString('var x = [1, , ,2] ,y = 32')).to.have.no.errors();
+    });
+
 });

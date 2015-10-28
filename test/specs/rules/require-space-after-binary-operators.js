@@ -123,4 +123,10 @@ describe('rules/require-space-after-binary-operators', function() {
         expect(errors.explainError(error))
           .to.have.string('Operator = should not stick to following expression at input');
     });
+
+    it('should not report error for sparse arrays', function() {
+        checker.configure({ requireSpaceAfterBinaryOperators: [','] });
+        expect(checker.checkString('var x = [1, , , 2], y = 32')).to.have.no.errors();
+    });
+
 });
