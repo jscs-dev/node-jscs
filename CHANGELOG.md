@@ -1,3 +1,96 @@
+## Version [2.5.0](https://github.com/jscs-dev/node-jscs/compare/v2.4.0...v2.5.0) (10-28-2015):
+
+### Preset Updates
+
+Thanks to markelog and Krinkle, the built-in wikimedia preset will be hosted at https://github.com/wikimedia/jscs-preset-wikimedia. 
+
+The purpose of this change is so that organizations can update their preset as needed without waiting for JSCS to update to another minor version (even though we are releasing more often anyway). The plan is to not update our preset dependencies until a new minor version of JSCS.
+
+Example:
+
+```js
+// JSCS package.json
+"jscs-preset-wikimedia": "~1.0.0",
+```
+
+- Wikimedia updates their preset to to `1.1.0`
+- A new user runs `npm install` with jscs and will get version `1.0.0` of the wikimedia preset
+- If the user wants to update the preset themselves, they can add a direct dependency in their package.json
+- Otherwise they can wait for JSCS to have a minor version update (`2.4.0` to `2.5.0`) which will update all presets.
+
+If you would like to maintain one of the default supported presets, please let us [know](https://github.com/jscs-dev/node-jscs/issues/1811).
+
+### New Rules
+
+#### [`requireSpacesInGenerator`](http://jscs.info/rule/requireSpacesInGenerator) (stefania11)
+
+Checks the spacing around the `*` in a generator function.
+
+```js
+"requireSpacesInGenerator": {
+    "beforeStar": true,
+    "afterStar": true
+}
+```
+
+```js
+// allowed
+var x = function * () {};
+function * a() {};
+var x = async function * () {};
+```
+
+> Thanks to Stefania and Christopher for working on this rule this past Sunday during the JS Open Source workshop at the NY Javascript meetup!
+
+### New Rule Options
+
+#### [`requireCurlyBraces`](http://jscs.info/rule/requireCurlyBraces) (Henry Zhu)
+
+```js
+"requireCurlyBraces": {
+    "allExcept": ["return", "continue", "break", ...],
+    "keywords": ["if", "else", "for", "while", ... ]
+}
+```
+
+```js
+// allowed
+if (x) return;
+if (x) return 1;
+if (x) continue;
+if (x) break;
+
+// still not allowed
+if (x) i++;
+```
+
+#### [`requireSpaceAfterComma`](http://jscs.info/rule/requireSpaceAfterComma) add option `{ allExcept: ['trailing'] }` (Brian Dixon)
+
+```js
+// allows
+var a = [{
+    test: /\.jsx?$/,
+    exclude: /node_modules/,
+    loader: 'babel',
+}];
+```
+
+### Fixes
+
+#### Account for sparse arrays in comma spacing rules (Brian Dixon)
+
+- [`disallowSpaceBeforeComma`](http://jscs.info/rule/disallowSpaceBeforeComma), [`disallowSpaceAfterComma`](http://jscs.info/rule/disallowSpaceAfterComma)
+- [`disallowSpaceBeforeBinaryOperators`](http://jscs.info/rule/disallowSpaceBeforeBinaryOperators), [`disallowSpaceAfterBinaryOperators`](http://jscs.info/rule/disallowSpaceAfterBinaryOperators)
+
+```js
+// allowed
+var x = [1, , ,2];
+```
+
+#### Configuration: correct config dir detection (Oleg Gaidarenko)
+
+Fixes a regression with loading additional rules in a `.jscsrc`
+
 ## Version [2.4.0](https://github.com/jscs-dev/node-jscs/compare/v2.3.5...v2.4.0) (10-22-2015):
 
 We're releasing pretty often now, right? :-)
