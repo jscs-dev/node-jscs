@@ -236,6 +236,14 @@ describe('config/configuration', function() {
         });
     });
 
+    describe('registerPreset', function() {
+        it('should throw if preset is not an object', function() {
+            expect(
+                configuration.registerPreset.bind(configuration, 'test', undefined)
+            ).to.throw('Preset should be an object')
+        });
+    });
+
     describe('getFix', function() {
         it('should enable "fix" option', function() {
             configuration.load({ fix: true });
@@ -484,6 +492,16 @@ describe('config/configuration', function() {
             configuration.override({preset: '2'});
             configuration.load({preset: '1'});
             expect(configuration.getProcessedConfig().preset).to.equal('2');
+        });
+
+        it('should override default preset', function() {
+            configuration.registerDefaultRules();
+            configuration.registerDefaultPresets();
+            configuration.registerPreset('wikimedia', {});
+
+            configuration.load({preset: 'wikimedia'});
+
+            expect(configuration.getConfiguredRules().length).to.equal(0);
         });
 
         it('should override `maxErrors` setting', function() {

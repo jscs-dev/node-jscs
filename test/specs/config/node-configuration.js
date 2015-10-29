@@ -37,10 +37,12 @@ describe('modules/config/node-configuration', function() {
         });
 
         it('should load absolute path', function() {
-            expect(configuration.loadExternal(
+            expect(
+                configuration.loadExternal(
                     path.resolve('./test/data/plugin/plugin'),
                     'plugin'
-                )).to.be.a('function');
+                )
+            ).to.be.a('function');
         });
 
         it('should load without "jscs" prefix node module', function() {
@@ -69,6 +71,24 @@ describe('modules/config/node-configuration', function() {
             expect(!!configuration.loadExternal('s-test', 'preset').test).to.equal(true);
 
             stub.restore();
+        });
+
+        it('should override default preset with module preset', function() {
+            var way = path.resolve('./test/data/configs/modules');
+            var stub = sinon.stub(process, 'cwd');
+
+            stub.returns(way);
+
+            configuration = new NodeConfiguration();
+
+            configuration.registerDefaultRules();
+            configuration.registerDefaultPresets();
+            configuration.load({
+                preset: 'wikimedia'
+            });
+            stub.restore();
+
+            expect(configuration.getConfiguredRules().length).to.equal(0);
         });
 
         it('should load preset with "jscs-config" prefix without cwd', function() {
