@@ -47,7 +47,8 @@
     },
     "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true,
-        "beforeOpeningCurlyBrace": true
+        "beforeOpeningCurlyBrace": true,
+        "allExcept": ["shorthand"]
     },
     "disallowSpacesInNamedFunctionExpression": {
         "beforeOpeningRoundBrace": true
