@@ -240,7 +240,7 @@ describe('config/configuration', function() {
         it('should throw if preset is not an object', function() {
             expect(
                 configuration.registerPreset.bind(configuration, 'test', undefined)
-            ).to.throw('Preset should be an object')
+            ).to.throw('Preset should be an object');
         });
     });
 
