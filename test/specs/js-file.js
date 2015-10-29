@@ -390,7 +390,7 @@ describe('js-file', function() {
         it('should find token by value', function() {
             createJsFile('if (true);').iterateTokenByValue(')', function(token, index, tokens) {
                 expect(token.value).to.equal(')');
-                expect(index).to.equal(3);
+                expect(index).to.equal(4);
                 expect(!!Array.isArray(tokens)).to.equal(true);
             });
         });
@@ -398,7 +398,7 @@ describe('js-file', function() {
         it('should find tokens by value', function() {
             createJsFile('if (true);').iterateTokenByValue([')', '('], function(token, index, tokens) {
                 expect(!!(token.value === ')' || token.value === '(')).to.equal(true);
-                expect(!!(index === 3 || index === 1)).to.equal(true);
+                expect(!!(index === 4 || index === 2)).to.equal(true);
                 expect(!!Array.isArray(tokens)).to.equal(true);
             });
         });
@@ -656,7 +656,7 @@ describe('js-file', function() {
         it('should find prev token', function() {
             file = createJsFile('if (true);');
 
-            var trueToken = file.getTokens()[2];
+            var trueToken = file.getTokens()[3];
             expect(trueToken.type).to.equal('Boolean');
             expect(trueToken.value).to.equal('true');
 
@@ -697,7 +697,7 @@ describe('js-file', function() {
     describe('findPrevOperatorToken', function() {
         it('should return next punctuator', function() {
             var file = createJsFile('x = y;');
-            var token = file.findPrevOperatorToken(file.getTokens()[2], '=');
+            var token = file.findPrevOperatorToken(file.getTokens()[4], '=');
             expect(token.type).to.equal('Punctuator');
             expect(token.value).to.equal('=');
             expect(token.range[0]).to.equal(2);
@@ -705,7 +705,7 @@ describe('js-file', function() {
 
         it('should return next operator-keyword', function() {
             var file = createJsFile('x instanceof y;');
-            var token = file.findPrevOperatorToken(file.getTokens()[2], 'instanceof');
+            var token = file.findPrevOperatorToken(file.getTokens()[4], 'instanceof');
             expect(token.type).to.equal('Keyword');
             expect(token.value).to.equal('instanceof');
             expect(token.range[0]).to.equal(2);
@@ -713,7 +713,7 @@ describe('js-file', function() {
 
         it('should return null for non-found token', function() {
             var file = createJsFile('x = y;');
-            var token = file.findPrevOperatorToken(file.getTokens()[2], '-');
+            var token = file.findPrevOperatorToken(file.getTokens()[4], '-');
             expect(token).to.equal(null);
         });
     });
@@ -792,7 +792,7 @@ describe('js-file', function() {
         it('should return token for specified file', function() {
             var file = createJsFile('if (true) { while (true) x++; }');
 
-            var ifToken = file.getFirstToken();
+            var ifToken = file.getFirstToken({includeComments: true});
             expect(ifToken.type).to.equal('Keyword');
             expect(ifToken.value).to.equal('if');
         });
@@ -802,7 +802,7 @@ describe('js-file', function() {
         it('should return token for specified file', function() {
             var file = createJsFile('if (true) { while (true) x++; }');
 
-            var EOFToken = file.getLastToken();
+            var EOFToken = file.getLastToken({includeComments: true});
             expect(EOFToken.type).to.equal('EOF');
         });
     });
@@ -839,7 +839,7 @@ describe('js-file', function() {
             });
 
             it('should return 1 node of type Program when provided the first token', function() {
-                var token = file.getFirstToken();
+                var token = file.getFirstToken({includeComments: true});
                 var nodes = file.getNodesByFirstToken(token);
                 expect(nodes.length).to.equal(1);
                 expect(nodes[0].type).to.equal('Program');
@@ -853,7 +853,7 @@ describe('js-file', function() {
             });
 
             it('should return nodes when supplied with a token that is the start of a node', function() {
-                var token = file.getFirstToken();
+                var token = file.getFirstToken({includeComments: true});
                 var nodes = file.getNodesByFirstToken(token);
                 expect(nodes.length).to.equal(2);
                 expect(nodes[0].type).to.equal('Program');
@@ -861,7 +861,7 @@ describe('js-file', function() {
             });
 
             it('should return an empty array when supplied with a token that is not the start of a node', function() {
-                var token = file.getFirstToken();
+                var token = file.getFirstToken({includeComments: true});
                 var nextToken = file.findNextToken(token, 'Keyword', 'while');
                 var nodes = file.getNodesByFirstToken(nextToken);
                 expect(nodes.length).to.equal(0);

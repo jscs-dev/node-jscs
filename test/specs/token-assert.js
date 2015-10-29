@@ -26,7 +26,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(1);
@@ -47,7 +47,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 message: 'Custom message'
             });
 
@@ -64,7 +64,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -105,7 +105,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2
                 });
 
@@ -127,7 +127,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2
                 });
 
@@ -144,7 +144,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 3
                 });
 
@@ -161,7 +161,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2,
                     message: 'Custom message'
                 });
@@ -179,7 +179,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[2],
+                    nextToken: tokens[4],
                     exactly: 5
                 });
 
@@ -187,7 +187,7 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.fixed).to.equal(false);
-                expect(tokens[2].whitespaceBefore).to.equal('');
+                expect(file.getWhitespaceBefore(tokens[4])).to.equal('');
             });
         });
 
@@ -202,7 +202,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 1
                 });
 
@@ -224,7 +224,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 3
                 });
 
@@ -241,7 +241,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 1,
                     message: 'Custom message'
                 });
@@ -260,7 +260,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 atMost: 1
             });
 
@@ -282,7 +282,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 atMost: 2
             });
 
@@ -304,7 +304,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 atMost: 1
             });
 
@@ -321,7 +321,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 atMost: 3
             });
 
@@ -338,7 +338,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.whitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 atMost: 1,
                 message: 'Custom message'
             });
@@ -358,7 +358,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.noWhitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(1);
@@ -379,7 +379,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.noWhitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -395,7 +395,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.noWhitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 disallowNewLine: true
             });
 
@@ -417,7 +417,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.noWhitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -433,7 +433,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.noWhitespaceBetween({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 message: 'Custom message'
             });
 
@@ -452,7 +452,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(1);
@@ -473,7 +473,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -489,7 +489,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 message: 'Custom message'
             });
 
@@ -516,7 +516,7 @@ describe('token-assert', function() {
 
             tokenAssert.sameLine({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 stickToPreviousToken: true
             });
 
@@ -535,7 +535,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(1);
@@ -556,7 +556,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -572,7 +572,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -588,7 +588,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1]
+                nextToken: file.getNextToken(tokens[0])
             });
 
             expect(onError).to.have.callCount(0);
@@ -604,7 +604,7 @@ describe('token-assert', function() {
             var tokens = file.getTokens();
             tokenAssert.differentLine({
                 token: tokens[0],
-                nextToken: tokens[1],
+                nextToken: file.getNextToken(tokens[0]),
                 message: 'Custom message'
             });
 
@@ -711,7 +711,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2
                 });
 
@@ -731,7 +731,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2
                 });
 
@@ -750,7 +750,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 2
                 });
 
@@ -767,7 +767,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     exactly: 1
                 });
 
@@ -783,7 +783,7 @@ describe('token-assert', function() {
 
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
-                    token: tokens[1],
+                    token: tokens[2],
                     nextToken: tokens[0],
                     exactly: 2
                 });
@@ -799,12 +799,12 @@ describe('token-assert', function() {
 
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: tokens[1],
+                    token: tokens[1],
+                    nextToken: file.getNextToken(tokens[1]),
                     exactly: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -815,12 +815,12 @@ describe('token-assert', function() {
 
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: tokens[1],
+                    token: tokens[1],
+                    nextToken: file.getNextToken(tokens[1]),
                     exactly: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -831,12 +831,12 @@ describe('token-assert', function() {
 
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: tokens[1],
+                    token: tokens[1],
+                    nextToken: file.getNextToken(tokens[1]),
                     exactly: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
             });
 
             it('should error, but not fix, when a comment exists between the two tokens', function() {
@@ -849,7 +849,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[2],
+                    nextToken: tokens[4],
                     exactly: 5
                 });
 
@@ -857,7 +857,7 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.fixed).to.equal(false);
-                expect(tokens[2].whitespaceBefore).to.equal('\n');
+                expect(file.getWhitespaceBefore(tokens[4])).to.equal('\n');
             });
         });
 
@@ -872,7 +872,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 3
                 });
 
@@ -891,7 +891,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2
                 });
 
@@ -908,7 +908,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2
                 });
 
@@ -924,11 +924,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (spaced then non spaced) between', function() {
@@ -940,11 +940,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 4
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('  \n\n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('  \n\n\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (non spaced then spaced) between ', function() {
@@ -956,11 +956,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 4
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n  \n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n  \n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with too many lines between', function() {
@@ -972,11 +972,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -988,11 +988,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
             });
         });
 
@@ -1007,7 +1007,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 2
                 });
 
@@ -1024,7 +1024,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 2
                 });
 
@@ -1041,7 +1041,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 1
                 });
 
@@ -1059,11 +1059,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -1075,11 +1075,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -1091,11 +1091,11 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atMost: 2
                 });
 
-                expect(tokens[1].whitespaceBefore).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
             });
         });
 
@@ -1110,7 +1110,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 1,
                     atMost: 3
                 });
@@ -1128,7 +1128,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 2,
                     atMost: 3
                 });
@@ -1146,7 +1146,7 @@ describe('token-assert', function() {
                 var tokens = file.getTokens();
                 tokenAssert.linesBetween({
                     token: tokens[0],
-                    nextToken: tokens[1],
+                    nextToken: file.getNextToken(tokens[0]),
                     atLeast: 1,
                     atMost: 2
                 });
@@ -1431,7 +1431,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getTokens()[0].whitespaceBefore).to.equal('');
+            expect(file.getWhitespaceBefore(file.getTokens()[0])).to.equal('');
         });
 
         it('should fix whitespace on incorrect indentation', function() {
@@ -1448,7 +1448,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getTokens()[0].whitespaceBefore).to.equal('  ');
+            expect(file.getWhitespaceBefore(file.getTokens()[1])).to.equal('  ');
         });
 
         it('should fix empty line whitespace on incorrect indentation', function() {
@@ -1465,7 +1465,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getTokens()[0].whitespaceBefore).to.equal('\n\n');
+            expect(file.getWhitespaceBefore(file.getTokens()[1])).to.equal('\n\n');
         });
 
         it('should fix docblock on incorrect overindentation', function() {
@@ -1483,7 +1483,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(token.whitespaceBefore).to.equal('');
+            expect(file.getWhitespaceBefore(token)).to.equal('');
             expect(token.value).to.equal('\n *\n ');
         });
 
@@ -1502,7 +1502,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(token.whitespaceBefore).to.equal('    ');
+            expect(file.getWhitespaceBefore(token)).to.equal('    ');
             expect(token.value).to.equal('\n     *\n     ');
         });
 
@@ -1521,7 +1521,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(token.whitespaceBefore).to.equal('\n\n');
+            expect(file.getWhitespaceBefore(token)).to.equal('\n\n');
         });
 
         it('should not lose lines with mixed line endings', function() {
@@ -1539,7 +1539,7 @@ describe('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(token.whitespaceBefore).to.equal('\r\n\r\n\r\n');
+            expect(file.getWhitespaceBefore(token)).to.equal('\r\n\r\n\r\n');
         });
     });
 });

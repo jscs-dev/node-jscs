@@ -34,7 +34,7 @@ describe('token-categorizer', function() {
         });
 
         it('should limit input to open parentheses', function() {
-            var nonParen = sharedFile.getPrevToken(sharedFile.getLastToken());
+            var nonParen = sharedFile.getPrevToken(sharedFile.getLastToken({includeComments: true}));
             expect(function() {
                     TokenCategorizer.categorizeOpenParen(nonParen, sharedFile);
                 }).to.throw(/token must be/);
@@ -120,7 +120,7 @@ describe('token-categorizer', function() {
         });
 
         it('should limit input to close parentheses', function() {
-            var nonParen = sharedFile.getFirstToken();
+            var nonParen = sharedFile.getFirstToken({includeComments: true});
             expect(function() {
                     TokenCategorizer.categorizeCloseParen(nonParen, sharedFile);
                 }).to.throw(/token must be/);
