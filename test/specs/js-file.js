@@ -1490,4 +1490,55 @@ describe('js-file', function() {
             expect(spy.getCall(1).args[0].value).to.equal('2');
         });
     });
+
+    describe('getWhitespaceBefore', function() {
+        it('should return whitespace before the first token', function() {
+            var file = createJsFile('  \nx;');
+            expect(file.getWhitespaceBefore(file.getFirstToken())).to.equal('  \n');
+        });
+
+        it('should return whitespace before the EOF', function() {
+            var file = createJsFile('\n  ');
+            expect(file.getWhitespaceBefore(file.getLastToken())).to.equal('\n  ');
+        });
+
+        it('should return empty for tokens without whitespace before', function() {
+            var file = createJsFile('x');
+            expect(file.getWhitespaceBefore(file.getFirstToken())).to.equal('');
+        });
+    });
+
+    describe('setWhitespaceBefore', function() {
+        it('should alter existing whitespace token', function() {
+            var file = createJsFile('  x');
+            expect(file.getTokens().length).to.equal(3);
+            file.setWhitespaceBefore(file.getFirstToken(), '\n');
+            expect(file.getTokens().length).to.equal(3);
+            expect(file.getTokens()[0].value).to.equal('\n');
+        });
+
+        it('should insert new whitespace token', function() {
+            var file = createJsFile('x');
+            expect(file.getTokens().length).to.equal(2);
+            file.setWhitespaceBefore(file.getFirstToken(), '\n');
+            expect(file.getTokens().length).to.equal(3);
+            expect(file.getTokens()[0].value).to.equal('\n');
+        });
+
+        it('should drop whitespace token', function() {
+            var file = createJsFile('  x');
+            expect(file.getTokens().length).to.equal(3);
+            file.setWhitespaceBefore(file.getFirstToken(), '');
+            expect(file.getTokens().length).to.equal(2);
+            expect(file.getTokens()[0].type).to.equal('Identifier');
+        });
+
+        it('should ignore already absent whitespace token', function() {
+            var file = createJsFile('x');
+            expect(file.getTokens().length).to.equal(2);
+            file.setWhitespaceBefore(file.getFirstToken(), '');
+            expect(file.getTokens().length).to.equal(2);
+            expect(file.getTokens()[0].type).to.equal('Identifier');
+        });
+    });
 });
