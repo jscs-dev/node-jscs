@@ -242,6 +242,14 @@ describe('config/configuration', function() {
                 configuration.registerPreset.bind(configuration, 'test', undefined)
             ).to.throw('Preset should be an object');
         });
+
+        it('should throw if preset if it is not JSON', function() {
+            expect(
+                configuration.registerPreset.bind(configuration, 'test', {
+                    'test': function() {}
+                })
+            ).to.throw('Preset should be an JSON object');
+        });
     });
 
     describe('getFix', function() {
