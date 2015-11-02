@@ -228,26 +228,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getPresetName()).to.equal('external');
         });
 
-        it('should try to load preset from node', function() {
-            configuration.registerDefaultRules();
-            configuration.load({
-                preset: 'path'
-            });
-
-            expect(configuration.getPresetName()).to.equal('path');
-            expect(configuration.getUnsupportedRuleNames().indexOf('resolve')).to.be.above(-1);
-        });
-
-        it('should try to load preset from node_modules', function() {
-            configuration.registerDefaultRules();
-            configuration.load({
-                preset: 'sinon'
-            });
-
-            expect(configuration.getPresetName()).to.equal('sinon');
-            expect(configuration.getUnsupportedRuleNames().indexOf('spy')).to.be.above(-1);
-        });
-
         it('should load preset from preset', function() {
             configuration.load({
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-t-test/index.json')
@@ -382,16 +362,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.load.bind(configuration, {
                     preset: 'not-exist'
                 })).to.throw('Preset "not-exist" does not exist');
-        });
-
-        it('should try to load preset from node_modules', function() {
-            configuration.registerDefaultRules();
-            configuration.load({
-                preset: 'sinon'
-            });
-
-            expect(configuration.getPresetName()).to.equal('sinon');
-            expect(configuration.getUnsupportedRuleNames().indexOf('spy')).to.be.above(-1);
         });
 
         it('should accept `additionalRules` to register rule instances', function() {
