@@ -74,6 +74,7 @@
     "js-yaml": "~3.4.0",
     "jscs-jsdoc": "1.2.0",
     "jscs-preset-wikimedia": "~1.0.0",
+    "jscs-preset-yandex": "~1.0.0",
     "jsonlint": "~1.6.2",
     "lodash": "~3.10.0",
     "minimatch": "~3.0.0",
