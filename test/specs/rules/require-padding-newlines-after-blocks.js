@@ -10,6 +10,11 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         checker.registerDefaultRules();
     });
 
+    it('should not throw expections with blocks', function() {
+        checker.configure({ requirePaddingNewLinesAfterBlocks: true });
+        expect(checker.checkString('{}')).to.have.no.errors();
+    });
+
     describe('invalid options', function() {
         it('should throw if empty object', function() {
             expect(function() {
