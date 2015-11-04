@@ -24,6 +24,28 @@ describe('rules/validate-quote-marks', function() {
         });
     });
 
+    describe('JSX', function() {
+        it('should not report any errors for JSX attribute', function() {
+            checker.configure({
+                validateQuoteMarks: { mark: '\'', ignoreJSX: true, escape: true },
+                esnext: true
+            });
+
+            var str = '<div className="flex-card__header">{this.props.children}</div>;';
+            expect(checker.checkString(str)).to.not.have.errors();
+        });
+
+        it('should report errors for JSX attribute', function() {
+            checker.configure({
+                validateQuoteMarks: { mark: '\'', escape: true },
+                esnext: true
+            });
+
+            var str = '<div className="flex-card__header">{this.props.children}</div>;';
+            expect(checker.checkString(str)).to.have.errors.from('validateQuoteMarks');
+        });
+    });
+
     describe('option value \' ', function() {
         beforeEach(function() {
             checker.configure({ validateQuoteMarks: '\'' });
