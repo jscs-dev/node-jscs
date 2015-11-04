@@ -1215,6 +1215,16 @@ describe('js-file', function() {
             expect(file.getScope()).to.be.a('object');
             expect(file._scope).to.be.not.a('null');
         });
+
+        it('should ignore eval', function(done) {
+            var sources = ['function f(options) { return options; eval(); }'];
+            var file = createJsFile(sources.join('\n'));
+
+            file.iterateNodesByType(['FunctionDeclaration', 'FunctionExpression'], function(node) {
+                expect(file.getScope().acquire(node).variables[1].references.length).to.equal(1);
+                done();
+            });
+        });
     });
 
     describe('removeToken', function() {

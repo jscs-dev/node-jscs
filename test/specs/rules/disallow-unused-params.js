@@ -17,6 +17,11 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString('function a(b, c) { return c; };')).to.have.no.errors();
     });
 
+    it('should report even with eval expression (gh-1943)', function() {
+        expect(checker.checkString('function foo(options) { return options; eval() };'))
+        .to.have.no.errors();
+    });
+
     it('should not report on param that used in child scope', function() {
         expect(checker.checkString(
             'function a(b) { return function () { return b; }; }'
