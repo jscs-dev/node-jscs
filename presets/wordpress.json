@@ -19,5 +19,5 @@
         "allExcept": ["global", "exported", "jshint", "eslint", "jslint"]
     },
     "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
-    "requireBlocksOnNewLines": true
+    "requireBlocksOnNewline": true
 }
