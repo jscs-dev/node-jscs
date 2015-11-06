@@ -1,3 +1,18 @@
+## Version [2.5.1](https://github.com/jscs-dev/node-jscs/compare/v2.5.0...v2.5.1) (11-06-2015):
+
+Just some bug fixes and an internal change before we integrate CST.
+
+### Fixes
+
+* `disallowUnusedParams`: ignore eval exressions (Oleg Gaidarenko)
+* `Configuration`: do not try to load presets with function values (Oleg Gaidarenko)
+*  `requirePaddingNewLinesAfterBlocks` - don't throw on empty block  (Oleg Gaidarenko)
+* `requireSpacesInGenerator` - account for named functions (Henry Zhu)
+
+### Internal changes
+
+* Add `Whitespace` token in preparation for using CST (Marat Dulin)
+
 ## Version [2.5.0](https://github.com/jscs-dev/node-jscs/compare/v2.4.0...v2.5.0) (10-28-2015):
 
 ### Preset Updates
