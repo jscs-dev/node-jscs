@@ -32,6 +32,10 @@ describe('rules/require-comma-before-line-break', function() {
         expect(checker.checkString('var a = [1,\n2];')).to.have.no.errors();
     });
 
+    it('should not report legal comma placement in multiline sparse array declaration', function() {
+        expect(checker.checkString('var a = [1,\n,\n,\n2];')).to.have.no.errors();
+    });
+
     it('should not report legal comma placement in multiline object declaration', function() {
         expect(checker.checkString('var a = {a:1,\nc:3};')).to.have.no.errors();
     });
