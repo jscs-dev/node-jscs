@@ -17,7 +17,7 @@ Note: the easiest way to use a preset is with the [preset](#preset) option descr
  * [Yandex](https://github.com/jscs-dev/node-jscs/blob/master/presets/yandex.json) — https://github.com/yandex/codestyle/blob/master/javascript.md
 
 You can specifically disable any preset rule by creating a `.jscsrc` config file and assigning it to null or false, like so:
-```json
+```js
 {
     "preset": "jquery",
     "requireCurlyBraces": null // or false
@@ -251,7 +251,7 @@ Or you can load from it local path or as node module
 ```
 
 You can specifically disable any preset rule by assigning it to null or false, like so:
-```json
+```js
 {
     "preset": "jquery",
     "requireCurlyBraces": null // or false
