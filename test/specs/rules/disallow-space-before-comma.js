@@ -51,7 +51,21 @@ describe('rules/disallow-space-before-comma', function() {
     });
 
     it('does allow sparse arrays', function() {
-        expect(checker.checkString('[a, , , b, c]')).to.have.no.errors();
+        expect(checker.checkString('[a,,,b,c]')).to.have.no.errors();
+    });
+
+    it('does not allow spaces in sparse arrays', function() {
+        expect(checker.checkString('[a, , ,b,c]')).to.have.error.count.equal(2);
+    });
+
+    it('does allow spaces in sparse arrays when excepted', function() {
+        checker.configure({ disallowSpaceBeforeComma: {allExcept: ['sparseArrays']}});
+        expect(checker.checkString('[a, , ,b,c]')).to.have.no.errors();
+    });
+
+    it('does allow spaces in sparse arrays when excepted but not after values', function() {
+        checker.configure({ disallowSpaceBeforeComma: {allExcept: ['sparseArrays']}});
+        expect(checker.checkString('[a , , , b , c]')).to.have.error.count.equal(2);
     });
 
     it('does not allow spaces before commas in objects', function() {
