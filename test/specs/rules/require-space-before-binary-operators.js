@@ -89,7 +89,8 @@ describe('rules/require-space-before-binary-operators', function() {
 
     it('should report for assignment expression', function() {
         checker.configure({ requireSpaceBeforeBinaryOperators: ['='] });
-        expect(checker.checkString('var x=1')).to.have.one.validation.error.from('requireSpaceBeforeBinaryOperators');
+        expect(checker.checkString('var x=1'))
+          .to.have.one.error('Operator = should not stick to preceding expression');
     });
 
     it('should report for assignment expressions', function() {
