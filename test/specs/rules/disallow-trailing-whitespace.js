@@ -75,6 +75,30 @@ describe('rules/disallow-trailing-whitespace', function() {
         output: '/*\nbla\n\t\n*/'
     });
 
+    reportAndFix({
+        name: 'fixes spaces on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n ',
+        output: 'var a;\n'
+    });
+
+    reportAndFix({
+        name: 'fixes space and comment on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n/**/ ',
+        output: 'var a;\n/**/'
+    });
+
+    reportAndFix({
+        name: 'fixes spaces on the last lines',
+        rules: rules,
+        errors: 3,
+        input: 'var a;\n \n \n ',
+        output: 'var a;\n\n\n'
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowTrailingWhitespace: true });
