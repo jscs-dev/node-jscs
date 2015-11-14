@@ -52,10 +52,34 @@ describe('rules/disallow-trailing-whitespace', function() {
     });
 
     reportAndFix({
+        name: 'illegal multiple-whitespace in comment block',
+        rules: rules,
+        errors: 1,
+        input: '/*\n *      \n */',
+        output: '/*\n *\n */'
+    });
+
+    reportAndFix({
+        name: 'illegal multiple-whitespace in comment block when ignoring empty lines',
+        rules: { disallowTrailingWhitespace: 'ignoreEmptyLines' },
+        errors: 1,
+        input: '/*\n *      \n\n */',
+        output: '/*\n *\n\n */'
+    });
+
+    reportAndFix({
         name: 'illegal whitespace in comment line',
         rules: rules,
         errors: 1,
         input: '// line 1 \n// line 2\n',
+        output: '// line 1\n// line 2\n'
+    });
+
+    reportAndFix({
+        name: 'illegal multiple-whitespace in comment line',
+        rules: rules,
+        errors: 1,
+        input: '// line 1      \n// line 2\n',
         output: '// line 1\n// line 2\n'
     });
 
@@ -73,6 +97,54 @@ describe('rules/disallow-trailing-whitespace', function() {
         errors: 1,
         input: '/* \nbla\n\t\n*/',
         output: '/*\nbla\n\t\n*/'
+    });
+
+    reportAndFix({
+        name: 'fixes spaces on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n ',
+        output: 'var a;\n'
+    });
+
+    reportAndFix({
+        name: 'fixes space and comment on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n/**/ ',
+        output: 'var a;\n/**/'
+    });
+
+    reportAndFix({
+        name: 'fixes spaces on the last lines',
+        rules: rules,
+        errors: 3,
+        input: 'var a;\n \n \n ',
+        output: 'var a;\n\n\n'
+    });
+
+    reportAndFix({
+        name: 'supports windows line breaks',
+        rules: rules,
+        errors: 2,
+        input: ' \r\nvar a; \r\nvar b;\r\n var c;\r\n',
+        output: '\r\nvar a;\r\nvar b;\r\n var c;\r\n'
+    });
+
+    reportAndFix({
+        name: 'supports windows line breaks in a comment',
+        rules: rules,
+        errors: 1,
+        input: '//hey \r\n',
+        output: '//hey\r\n'
+    });
+
+    reportAndFix({
+        name: 'supports mac line breaks',
+        rules: rules,
+        errors: 2,
+        input: ' \rvar a; \rvar b;\r var c;\r',
+        output: '\rvar a;\rvar b;\r var c;\r'
     });
 
     describe('option value true', function() {
