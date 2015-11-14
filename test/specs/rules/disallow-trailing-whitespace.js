@@ -75,6 +75,30 @@ describe('rules/disallow-trailing-whitespace', function() {
         output: '/*\nbla\n\t\n*/'
     });
 
+    reportAndFix({
+        name: 'supports windows line breaks',
+        rules: rules,
+        errors: 2,
+        input: ' \r\nvar a; \r\nvar b;\r\n var c;\r\n',
+        output: '\r\nvar a;\r\nvar b;\r\n var c;\r\n'
+    });
+
+    reportAndFix({
+        name: 'supports windows line breaks in a comment',
+        rules: rules,
+        errors: 1,
+        input: '//hey \r\n',
+        output: '//hey\r\n'
+    });
+
+    reportAndFix({
+        name: 'supports mac line breaks',
+        rules: rules,
+        errors: 2,
+        input: ' \rvar a; \rvar b;\r var c;\r',
+        output: '\rvar a;\rvar b;\r var c;\r'
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowTrailingWhitespace: true });
