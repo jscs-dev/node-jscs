@@ -52,10 +52,34 @@ describe('rules/disallow-trailing-whitespace', function() {
     });
 
     reportAndFix({
+        name: 'illegal multiple-whitespace in comment block',
+        rules: rules,
+        errors: 1,
+        input: '/*\n *      \n */',
+        output: '/*\n *\n */'
+    });
+
+    reportAndFix({
+        name: 'illegal multiple-whitespace in comment block when ignoring empty lines',
+        rules: { disallowTrailingWhitespace: 'ignoreEmptyLines' },
+        errors: 1,
+        input: '/*\n *      \n\n */',
+        output: '/*\n *\n\n */'
+    });
+
+    reportAndFix({
         name: 'illegal whitespace in comment line',
         rules: rules,
         errors: 1,
         input: '// line 1 \n// line 2\n',
+        output: '// line 1\n// line 2\n'
+    });
+
+    reportAndFix({
+        name: 'illegal multiple-whitespace in comment line',
+        rules: rules,
+        errors: 1,
+        input: '// line 1      \n// line 2\n',
         output: '// line 1\n// line 2\n'
     });
 
