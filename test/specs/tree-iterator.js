@@ -21,17 +21,6 @@ describe('tree-iterator', function() {
         expect(spy).to.have.callCount(0);
     });
 
-    it('should not fail for JSX/XJS nodes', function() {
-        var spy = sinon.spy();
-        expect(function() {
-            iterate(require('../data/tree-iterator/jsx-ast'), spy);
-        }).to.not.throw();
-        expect(function() {
-            iterate(require('../data/tree-iterator/xjs-ast'), spy);
-        }).to.not.throw();
-        expect(spy).to.have.callCount(84);
-    });
-
     it('should exit thread on false result', function() {
         var spy = sinon.spy(function() {
             return false;
