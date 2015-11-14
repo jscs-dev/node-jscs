@@ -946,11 +946,11 @@ describe('js-file', function() {
             var file = createJsFile('\t/*123*/\tx += 1;\n\t/*321*/\ty += 4;');
             var commentToken1 = file.getFirstTokenOnLine(1, {includeComments: true});
             expect(!!commentToken1.isComment).to.equal(true);
-            expect(commentToken1.type).to.equal('Block');
+            expect(commentToken1.type).to.equal('CommentBlock');
             expect(commentToken1.value).to.equal('123');
             var commentToken2 = file.getFirstTokenOnLine(2, {includeComments: true});
             expect(!!commentToken2.isComment).to.equal(true);
-            expect(commentToken2.type).to.equal('Block');
+            expect(commentToken2.type).to.equal('CommentBlock');
             expect(commentToken2.value).to.equal('321');
         });
 
@@ -995,7 +995,7 @@ describe('js-file', function() {
             var file = createJsFile('x = 1; /*123*/\n');
             var commentToken = file.getLastTokenOnLine(1, {includeComments: true});
             expect(!!commentToken.isComment).to.equal(true);
-            expect(commentToken.type).to.equal('Block');
+            expect(commentToken.type).to.equal('CommentBlock');
             expect(commentToken.value).to.equal('123');
         });
 
@@ -1089,13 +1089,13 @@ describe('js-file', function() {
 
         it('should apply callback for line comments', function() {
             var spy = sinon.spy();
-            createJsFile('//foo').iterateTokensByType('Line', spy);
+            createJsFile('//foo').iterateTokensByType('CommentLine', spy);
             expect(spy).to.have.callCount(1);
         });
 
         it('should apply callback for block comments', function() {
             var spy = sinon.spy();
-            createJsFile('/*foo*/').iterateTokensByType('Block', spy);
+            createJsFile('/*foo*/').iterateTokensByType('CommentBlock', spy);
             expect(spy).to.have.callCount(1);
         });
 
@@ -1146,7 +1146,7 @@ describe('js-file', function() {
 
         it('should include comments', function() {
             var tokens = createJsFile('/* foo */').getTokens();
-            expect(tokens[0].type).to.equal('Block');
+            expect(tokens[0].type).to.equal('CommentBlock');
         });
     });
 
@@ -1404,7 +1404,7 @@ describe('js-file', function() {
             var file = createJsFile('x /*123*/');
             var xToken = file.getTokens()[0];
             var next = file.getNextToken(xToken, {includeComments: true});
-            expect(next.type).to.equal('Block');
+            expect(next.type).to.equal('CommentBlock');
         });
 
         it('should return EOF next to comment', function() {
@@ -1453,7 +1453,7 @@ describe('js-file', function() {
             var file = createJsFile('/*123*/ x');
             var xToken = file.getTokens()[1];
             var prev = file.getPrevToken(xToken, {includeComments: true});
-            expect(prev.type).to.equal('Block');
+            expect(prev.type).to.equal('CommentBlock');
         });
 
         it('should return null prev to comment', function() {
