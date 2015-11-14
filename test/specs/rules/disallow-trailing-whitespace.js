@@ -123,6 +123,34 @@ describe('rules/disallow-trailing-whitespace', function() {
         output: '\rvar a;\rvar b;\r var c;\r'
     });
 
+    reportAndFix({
+        name: 'fixes spaces on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n ',
+        output: 'var a;\n'
+    });
+
+    reportAndFix({
+        name: 'fixes space and comment on the last line',
+        rules: rules,
+        errors: 1,
+        input: 'var a;\n/**/ ',
+        output: 'var a;\n/**/'
+    });
+
+    reportAndFix({
+        name: 'fixes spaces on the last lines',
+        rules: rules,
+        errors: 3,
+        input: 'var a;\n \n \n ',
+        output: 'var a;\n\n\n'
+    });
+
+    it('should handle an empty file', function() {
+        expect(checker.checkString('')).to.have.no.errors();
+    });
+
     describe('option value true', function() {
         beforeEach(function() {
             checker.configure({ disallowTrailingWhitespace: true });
