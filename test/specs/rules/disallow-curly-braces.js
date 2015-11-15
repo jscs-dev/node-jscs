@@ -99,16 +99,17 @@ describe('rules/disallow-curly-braces', function() {
     it.skip('should correctly set pointer (#799)', function() {
         checker.configure({ disallowCurlyBraces: ['else'] });
 
-        var error = checker.checkString(
-            'if (foo === 1)\n' +
-            '    return 1;\n' +
-            'else {\n' +
-            '   return 3;\n' +
+        var error = checker.checkString([
+            'function a() {',
+            'if (foo === 1)',
+            '    return 1;',
+            'else {',
+            '   return 3;',
+            '}',
             '}'
-        ).getErrorList()[ 0 ];
+        ].join('\n')).getErrorList()[ 0 ];
 
-        expect(error.line).to.equal(3);
-        expect(error.column).to.equal(0);
+        // expect(error.elemeent).to.equal(3);
     });
 
     it('should report for a block with 1 statement', function() {

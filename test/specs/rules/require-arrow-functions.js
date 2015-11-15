@@ -22,7 +22,7 @@ describe('rules/require-arrow-functions', function() {
         assertOne([
             'var anon = function(n) {',
                 'return n + 1;',
-            '});'
+            '};'
         ].join('\n'));
     });
 
@@ -30,7 +30,7 @@ describe('rules/require-arrow-functions', function() {
         assertOne([
             'var a = function named(n) {',
                 'return n + 1;',
-            '});'
+            '};'
         ].join('\n'));
     });
 
