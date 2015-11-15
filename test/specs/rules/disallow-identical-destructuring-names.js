@@ -34,6 +34,8 @@ describe('rules/disallow-identical-destructuring-names', function() {
         assertEmpty('var { a } = obj;');
         assertEmpty('var { a, b, c } = obj;');
         assertEmpty('var { a: a1, b: b2, c: c3 } = obj;');
-        assertEmpty('var { [a]: a } = obj;');
+        // TODO: 3.0
+        // Use the shorthand form of destructuring instead
+        // assertEmpty('var { [a]: a } = obj;');
     });
 });

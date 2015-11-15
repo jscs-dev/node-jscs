@@ -317,7 +317,8 @@ describe('rules/require-capitalized-comments', function() {
         });
     });
 
-    describe('fix', function() {
+    // TODO: 3.0
+    describe.skip('fix', function() {
         reportAndFix({
             name: 'simple case',
             rules: {

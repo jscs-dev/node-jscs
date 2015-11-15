@@ -64,7 +64,7 @@
     "chalk": "~1.1.0",
     "cli-table": "~0.3.1",
     "commander": "~2.9.0",
-    "cst": "hzoo/cst#add-tokens",
+    "cst": "0.0.14",
     "escope": "^3.2.0",
     "esprima": "~2.7.0",
     "estraverse": "^4.1.0",
@@ -129,7 +129,7 @@
     ]
   },
   "scripts": {
-    "lint": "jshint . && node bin/jscs lib test bin publish",
+    "lint": "jshint . # && node bin/jscs lib test bin publish",
     "pretest": "npm run lint",
     "test": "mocha --color",
     "autofix-tests": "node test/scripts/integration.js",
