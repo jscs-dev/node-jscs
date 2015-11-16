@@ -157,7 +157,8 @@
     "requireNumericLiterals",
     "requireSpread",
     "requireTemplateStrings",
-    "requireSpacesInGenerator"
+    "requireSpacesInGenerator",
+    "disallowSpacesInGenerator"
   ],
   "Everything else": [
     "requireParenthesesAroundIIFE",
