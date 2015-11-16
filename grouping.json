@@ -158,6 +158,7 @@
     "requireSpread",
     "requireTemplateStrings",
     "requireSpacesInGenerator",
+    "disallowSpacesInGenerator",
     "requireObjectDestructuring",
     "requireEnhancedObjectLiterals",
     "requireArrayDestructuring",
