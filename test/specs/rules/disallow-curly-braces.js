@@ -109,7 +109,7 @@ describe('rules/disallow-curly-braces', function() {
             '}'
         ].join('\n')).getErrorList()[ 0 ];
 
-        // expect(error.elemeent).to.equal(3);
+        expect(error.elemeent).to.equal(3);
     });
 
     it('should report for a block with 1 statement', function() {
