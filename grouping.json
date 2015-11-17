@@ -157,7 +157,11 @@
     "requireNumericLiterals",
     "requireSpread",
     "requireTemplateStrings",
-    "requireSpacesInGenerator"
+    "requireSpacesInGenerator",
+    "requireObjectDestructuring",
+    "requireEnhancedObjectLiterals",
+    "requireArrayDestructuring",
+    "disallowVar"
   ],
   "Everything else": [
     "requireParenthesesAroundIIFE",
