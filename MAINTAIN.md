@@ -97,16 +97,11 @@ Publishing a new version
 ---------------------------
 
 1. Determine which part of the version you are about to increase. See our strategy in OVERVIEW.md.
-1. Write changes to `CHANGELOG.md`: `npm run changelog`.
-   Clean up the changelog by manually clarifying and reordering the messages. Ensure the changes are listed in following order:
-   1. breaking changes.
-   1. preset updates.
-   1. new CLI or config options.
-   1. new rules or rule values.
-   1. bug fixes.
-   1. infrastructure changes.
-   1. tests-only, docs changes, contributor minutia.
-1. Commit the changelog update with the message: `Prepare for version x.x.x`.
+1. Check out the [previous releases](https://github.com/jscs-dev/node-jscs/releases) for how we write our changelogs. We tend to write out a summary at the beginning and explanatory paragraphs for anything that needs further clairification.
+1. Use `npm run changelog` to get a gist of the changes. Use these to determine what should be included in the changelog.
+1. Some categories we use: New Rules, New Rule Options, Bug Fixes, Internal Changes, Preset Updates, CLI/Config changes.
+1. Write changes to `CHANGELOG.md`.
+1. Commit the changelog update with the message: `Misc: add x.x.x changelog`.
 1. Set a new version and tag: `npm version x.x.x`.
 1. Push changes and tags: `git push && git push --tags`.
 1. Use `npm run release` to publish the new version to npm. **DO NOT USE `npm publish`**, as this will not perform the necessary prepublish tasks. If you don't have publish privileges, ask @mdevils to publish for you.
