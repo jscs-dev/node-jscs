@@ -91,15 +91,31 @@ describe('rules/require-spaces-in-generator', function() {
             output: 'var x = function * asdf(){}'
         });
 
+        reportAndFix({
+            name: 'should report missing space after the star for the shorthand',
+            rules: rules,
+            errors: 1,
+            input: '({ *foo() {} });',
+            output: '({ * foo() {} });'
+        });
+
+        it('should not report shorthand method', function() {
+            expect(checker.checkString('({ * foo() {} })')).to.have.no.errors();
+        });
+
         it('should not report missing spaces error', function() {
             expect(checker.checkString('var x = function * (){}')).to.have.no.errors();
+        });
+
+        it('should bail out if this is not a generator', function() {
+            expect(checker.checkString('var x = function (){}')).to.have.no.errors();
         });
 
         it('should not report missing spaces error with named function', function() {
             expect(checker.checkString('var x = function * asdf(){}')).to.have.no.errors();
         });
 
-        it('should not report missing spaces error with function delcaration', function() {
+        it('should not report missing spaces error with function declaration', function() {
             expect(checker.checkString('function * asdf(){}')).to.have.no.errors();
         });
 

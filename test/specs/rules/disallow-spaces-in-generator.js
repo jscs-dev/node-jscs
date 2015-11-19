@@ -67,7 +67,7 @@ describe('rules/disallow-spaces-in-generator', function() {
             output: 'var x = function*asdf(){}'
         });
 
-        it('should not report shortland method (since it doesn\' makes sense)', function() {
+        it('should not report shorthand method', function() {
             expect(checker.checkString('({ * foo() {} });')).to.have.no.errors();
         });
 
@@ -163,7 +163,7 @@ describe('rules/disallow-spaces-in-generator', function() {
         });
 
         reportAndFix({
-            name: 'should report illegal space after the star for the shortland',
+            name: 'should report illegal space after the star for the shorthand',
             rules: rules,
             errors: 1,
             input: '({ * foo() {} });',
