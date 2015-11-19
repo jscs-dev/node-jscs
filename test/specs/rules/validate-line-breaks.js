@@ -1,4 +1,5 @@
 var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 var expect = require('chai').expect;
 
 describe('rules/validate-line-breaks', function() {
@@ -15,9 +16,12 @@ describe('rules/validate-line-breaks', function() {
     });
 
     describe('LF', function() {
-        it('should report invalid line break character once per file', function() {
-            checker.configure({ validateLineBreaks: 'LF' });
-            expect(checker.checkString('x = 1;\r\ny = 2;\r\n')).to.have.one.validation.error.from('validateLineBreaks');
+        reportAndFix({
+            name: 'invalid line break character once per file',
+            rules: { validateLineBreaks: 'LF' },
+            errors: 1,
+            input: 'x = 1;\r\ny = 2;\r\n',
+            output: 'x = 1;\ny = 2;\n'
         });
 
         it('should report all invalid line break character', function() {
@@ -32,9 +36,12 @@ describe('rules/validate-line-breaks', function() {
     });
 
     describe('CR', function() {
-        it('should report invalid line break character once per file', function() {
-            checker.configure({ validateLineBreaks: 'CR' });
-            expect(checker.checkString('x = 1;\r\ny = 2;\r\n')).to.have.one.validation.error.from('validateLineBreaks');
+        reportAndFix({
+            name: 'invalid line break character once per file',
+            rules: { validateLineBreaks: 'CR' },
+            errors: 1,
+            input: 'x = 1;\r\ny = 2;\r\n',
+            output: 'x = 1;\ry = 2;\r'
         });
 
         it('should report all invalid line break character', function() {
@@ -49,9 +56,20 @@ describe('rules/validate-line-breaks', function() {
     });
 
     describe('CRLF', function() {
-        it('should report invalid line break character once per file', function() {
-            checker.configure({ validateLineBreaks: 'CRLF' });
-            expect(checker.checkString('x = 1;\ny = 2;\n')).to.have.one.validation.error.from('validateLineBreaks');
+        reportAndFix({
+            name: 'invalid line break character once per file - LF -> CRLF',
+            rules: { validateLineBreaks: 'CRLF' },
+            errors: 1,
+            input: 'x = 1;\ny = 2;\n',
+            output: 'x = 1;\r\ny = 2;\r\n'
+        });
+
+        reportAndFix({
+            name: 'invalid line break character once per file - CR -> CRLF',
+            rules: { validateLineBreaks: 'CRLF' },
+            errors: 1,
+            input: 'x = 1;\ry = 2;\r',
+            output: 'x = 1;\r\ny = 2;\r\n'
         });
 
         it('should report all invalid line break character', function() {
