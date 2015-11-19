@@ -102,7 +102,7 @@
     "sinon": "^1.13.0",
     "sinon-chai": "^2.8.0",
     "unicode-7.0.0": "~0.1.5",
-    "unit-coverage": "^3.4.0",
+    "unit-coverage": "^4.0.1",
     "xml2js": "~0.4.4"
   },
   "bin": {
