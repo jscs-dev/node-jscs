@@ -67,16 +67,20 @@ describe('rules/disallow-spaces-in-generator', function() {
             output: 'var x = function*asdf(){}'
         });
 
+        it('should not report shortland method (since it doesn\' makes sense)', function() {
+            expect(checker.checkString('({ * foo() {} });')).to.have.no.errors();
+        });
+
         it('should not report illegal space error', function() {
             expect(checker.checkString('var x = function* (){}')).to.have.no.errors();
         });
 
-        it('should not report illegal space error with named function expression', function() {
-            expect(checker.checkString('var x = function* asdf(){}')).to.have.no.errors();
+        it('should bail out if this is not a generator', function() {
+            expect(checker.checkString('var x = function (){}')).to.have.no.errors();
         });
 
-        it('should not report illegal space error with function delcaration', function() {
-            expect(checker.checkString('function* asdf(){}')).to.have.no.errors();
+        it('should not report illegal space error with named function expression', function() {
+            expect(checker.checkString('var x = function* asdf(){}')).to.have.no.errors();
         });
 
         it('should not report illegal space error with async function', function() {
@@ -156,6 +160,14 @@ describe('rules/disallow-spaces-in-generator', function() {
             errors: 1,
             input: 'var x = function* asdf(){}',
             output: 'var x = function*asdf(){}'
+        });
+
+        reportAndFix({
+            name: 'should report illegal space after the star for the shortland',
+            rules: rules,
+            errors: 1,
+            input: '({ * foo() {} });',
+            output: '({ *foo() {} });'
         });
 
         it('should not report illegal space error', function() {
