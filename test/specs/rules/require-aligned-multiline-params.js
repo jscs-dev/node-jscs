@@ -43,6 +43,12 @@ describe('rules/require-aligned-multiline-params', function() {
             expect(checker.checkString(noParamFunction)).to.have.no.errors();
         });
 
+        it('should validate a function without body properly', function() {
+            var noParamFunction = 'var noBody = function(a) {};';
+
+            expect(checker.checkString(noParamFunction)).to.have.no.errors();
+        });
+
         it('should validate a function with a single line of params properly', function() {
             var singleLineFunction = 'var singleLineFunction = function(a, b, c) { \n' +
                                      '  console.log(a + b + c);\n' +
@@ -70,6 +76,15 @@ describe('rules/require-aligned-multiline-params', function() {
 
             expect(checker.checkString(unalignedFunction)).to.have.one.validation.error.from(
                 'requireAlignedMultilineParams');
+        });
+
+        it('should bail out with function without a body', function() {
+            var unalignedFunction = 'var unalignedFunction = function(a,\n' +
+                                    '  b, c,\n' +
+                                    '   d, e) {\n' +
+                                    '};';
+
+            expect(checker.checkString(unalignedFunction)).to.have.no.errors();
         });
 
         it('should validate a function with two unaligned params properly', function() {
