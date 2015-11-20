@@ -1,3 +1,141 @@
+## Version [2.6.0](https://github.com/jscs-dev/node-jscs/compare/v2.5.1...v2.6.0) (11-18-2015):
+
+Thanks to @seanpdoyle, we're able to move some of the ES6 rules from [ember-suave](https://github.com/dockyard/ember-suave) to JSCS!
+
+### New Rules
+
+#### [`disallowVar`](http://jscs.info/rule/disallowVar) (Sean Doyle)
+
+Disallows declaring variables with `var`.
+
+`"disallowVar": true`
+
+```js
+// Valid
+let foo;
+const bar = 1;
+```
+
+```js
+// Invalid
+var baz;
+```
+
+You can also use `"disallowKeywords": ["var"]`
+
+#### [`requireArrayDestructuring`](http://jscs.info/rule/requireArrayDestructuring) (Sean Doyle)
+
+Requires that variable assignment from array values are destructured.
+
+`"requireArrayDestructuring": true`
+
+```js
+// Valid
+var colors = ['red', 'green', 'blue'];
+var [ red ] = colors;
+```
+
+```js
+// Invalid
+var colors = ['red', 'green', 'blue'];
+var red = colors[0];
+```
+
+#### [`requireEnhancedObjectLiterals`](http://jscs.info/rule/requireEnhancedObjectLiterals) (Sean Doyle)
+
+Requires declaring objects via ES6 enhanced object literals (shorthand versions of properties)
+
+`"requireEnhancedObjectLiterals": true`
+
+```js
+var obj = {
+  foo() { },
+  bar
+};
+```
+
+```js
+var obj = {
+  foo: function() { },
+  bar: bar
+};
+```
+
+#### [`requireObjectDestructuring`](http://jscs.info/rule/requireObjectDestructuring) (Sean Doyle)
+
+Requires variable declarations from objects via destructuring
+
+`"requireObjectDestructuring": true`
+
+```js
+// Valid
+var { foo } = SomeThing;
+var { bar } = SomeThing.foo;
+```
+
+```js
+// Invalid
+var foo = SomeThing.foo;
+var bar = SomeThing.foo.bar;
+```
+
+#### [`disallowSpacesInGenerator`](http://jscs.info/rule/disallowSpacesInGenerator) (Francisc Romano)
+
+Checks the spacing around the `*` in a generator function.
+
+```js
+"disallowSpacesInGenerator": {
+    "beforeStar": true,
+    "afterStar": true
+}
+```
+
+```js
+var x = function*() {};
+function*a() {};
+var x = async function*() {};
+```
+
+### New Rule Options
+
+* `requireCamelCaseOrUpperCaseIdentifiers`: add `strict` option (Jan-Pieter Zoutewelle)
+
+Also forces the first character to not be capitalized.
+
+```js
+"requireCamelCaseOrUpperCaseIdentifiers": {
+  "strict": true
+}
+```
+
+```js
+// Valid
+var camelCase = 0;
+var UPPER_CASE = 4;
+
+// Invalid
+var Mixed_case = 2;
+var Snake_case = { snake_case: 6 };
+var snake_case = { SnakeCase: 6 };
+```
+
+* `disallowSpace(After|Before)Comma`: add `allExcept: ['sparseArrays']` (Brian Dixon)
+* `validateQuoteMarks`: add "ignoreJSX" value (Oleg Gaidarenko)
+* `requireMatchingFunctionName`: add `includeModuleExports` option (George Chung)
+ 
+### Fixes
+
+* Account for sparse arrays in rules with spacing and commas (Brian Dixon)
+
+  - [`disallowCommaBeforeLineBreak`](http://jscs.info/rule/disallowCommaBeforeLineBreak)
+  - [`requireCommaBeforeLineBreak`](http://jscs.info/rule/requireCommaBeforeLineBreak)
+
+* `requireSpaceBeforeBinaryOperators`: report "operator =" correctly when erroring (Rob Wu)
+* `requireAlignedMultilineParams`: do not throw on function without body (Oleg Gaidarenko)
+
+### Preset Changes
+* `WordPress`: add `requireBlocksOnNewLines` (Gary Jones)
+
 ## Version [2.5.1](https://github.com/jscs-dev/node-jscs/compare/v2.5.0...v2.5.1) (11-06-2015):
 
 Just some bug fixes and an internal change before we integrate CST.
