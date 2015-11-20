@@ -16,9 +16,12 @@ describe('rules/require-early-return', function() {
 
         var str;
 
-        // Should be errors
+        describe('errors with simple if-else - ', function() {
+            it('should report the use of else after return on an if-else block', function() {
+                str = 'if (true) { return } else { }';
+                expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
+            });
 
-        describe('simple if-else - ', function() {
             it('should report the use of else after return', function() {
                 str = 'function foo() { if (x) { return y; } else { return z; } }';
                 expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
@@ -33,9 +36,14 @@ describe('rules/require-early-return', function() {
                 str = 'function foo() { if (x) return y; else return z; }';
                 expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
             });
+
+            it('should report the use of else after return when the if block contain a return', function() {
+                str = 'function test() { if (true) { return; eval() } else {} }';
+                expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
+            });
         });
 
-        describe('complex if-else - ', function() {
+        describe('errors with complex if-else - ', function() {
             it('should report the use of else after return in a chain of if-else', function() {
                 str = 'function foo() { if (x) { return y; } else if (z) { return w; } else { return t; } }';
                 expect(checker.checkString(str)).to.have.errors.from('requireEarlyReturn');
@@ -57,9 +65,12 @@ describe('rules/require-early-return', function() {
             });
         });
 
-        // Should pass
-
         describe('safe if-else - ', function() {
+            it('should not report on an empty if', function() {
+                str = 'function test() { if (true) { } }';
+                expect(checker.checkString(str)).to.have.no.errors();
+            });
+
             it('should not report the use of else after return', function() {
                 str = 'function foo() { if (x) { return y; } return z; }';
                 expect(checker.checkString(str)).to.have.no.errors();
@@ -72,23 +83,6 @@ describe('rules/require-early-return', function() {
 
             it('should not report the use of else after return with nested if', function() {
                 str = 'function foo() { if (x) { if (z) { return y; } } else { return z; } }';
-                expect(checker.checkString(str)).to.have.no.errors();
-            });
-        });
-
-        // One should fail, one should pass
-
-        describe('check isPercentage function - ', function() {
-            it('should report errors', function() {
-                str = 'function isPercentage(val) {' +
-                    'if (val >= 0) { if (val < 100) { return true; } else { return false; } } else { return false; }' +
-                    '}';
-                expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
-            });
-            it('should not report errors', function() {
-                str = 'function isPercentage(val) {' +
-                    'if (val >= 0) { if (val < 100) { return true; } return false; } return false;' +
-                    '}';
                 expect(checker.checkString(str)).to.have.no.errors();
             });
         });
