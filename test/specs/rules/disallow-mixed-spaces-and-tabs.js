@@ -55,11 +55,6 @@ describe('rules/disallow-mixed-spaces-and-tabs', function() {
               .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
         });
 
-        it('should report tabs with spaces with multiline comment in between', function() {
-            expect(checker.checkString('\t/**/ \tvar x;'))
-              .to.have.one.validation.error.from('disallowMixedSpacesAndTabs');
-        });
-
         it('should report tabs before single space to align non-docblock multiline', function() {
             expect(checker.checkString('var x;' + multilineNotDocBlock)).to.have.no.errors();
         });

@@ -1290,6 +1290,13 @@ describe('js-file', function() {
             expect(file.getComments()[0].value).to.equal('comment1');
             expect(file.getComments()[1].value).to.equal('comment2');
         });
+
+        it('should remove left tralling spaces', function() {
+            var source = '/* bar */ false';
+            var file = createJsFile(source);
+            var lines = file.getLinesWithCommentsRemoved();
+            expect(lines[0]).to.equal('false');
+        });
     });
 
     describe('getFilename', function() {
