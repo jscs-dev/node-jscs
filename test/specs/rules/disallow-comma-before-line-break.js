@@ -12,28 +12,30 @@ describe('rules/disallow-comma-before-line-break', function() {
         checker.configure(rules);
     });
 
-    reportAndFix({
-        name: 'illegal comma placement in multiline var declaration',
-        rules: rules,
-        errors: 2,
-        input: 'var a,\nb;',
-        output: 'var a\n, b;'
-    });
+    describe.skip('autofix', function() {
+        reportAndFix({
+            name: 'illegal comma placement in multiline var declaration',
+            rules: rules,
+            errors: 2,
+            input: 'var a,\nb;',
+            output: 'var a\n, b;'
+        });
 
-    reportAndFix({
-        name: 'illegal comma placement in multiline array declaration',
-        rules: rules,
-        errors: 2,
-        input: 'var a = [1,\n2];',
-        output: 'var a = [1\n, 2];'
-    });
+        reportAndFix({
+            name: 'illegal comma placement in multiline array declaration',
+            rules: rules,
+            errors: 2,
+            input: 'var a = [1,\n2];',
+            output: 'var a = [1\n, 2];'
+        });
 
-    reportAndFix({
-        name: 'illegal comma placement in multiline object declaration',
-        rules: rules,
-        errors: 2,
-        input: 'var a = {a:1,\nc:3};',
-        output: 'var a = {a:1\n, c:3};'
+        reportAndFix({
+            name: 'illegal comma placement in multiline object declaration',
+            rules: rules,
+            errors: 2,
+            input: 'var a = {a:1,\nc:3};',
+            output: 'var a = {a:1\n, c:3};'
+        });
     });
 
     it('should not report legal comma placement in multiline var declaration', function() {
@@ -87,7 +89,8 @@ describe('rules/disallow-comma-before-line-break', function() {
                             '};'
                         )).to.have.no.errors();
                 });
-                it('should report objects without function values', function() {
+                // TODO: 3.0
+                it.skip('should report objects without function values', function() {
                     expect(checker.checkString('var a = {a:1,\nc:3};')).to.have.error.count.equal(2);
                 });
 
