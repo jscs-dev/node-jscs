@@ -76,8 +76,18 @@ describe('rules/require-early-return', function() {
                 expect(checker.checkString(str)).to.have.no.errors();
             });
 
-            it('should not report the use of else after return with blocks', function() {
+            it('should not report the use of else after return with blocks 1', function() {
                 str = 'function foo() { if (x) { foo(); } else if (z) { var t = "foo"; } else { return w; } }';
+                expect(checker.checkString(str)).to.have.no.errors();
+            });
+
+            it('should not report the use of else after return with blocks 2', function() {
+                str = 'function foo() { if (x) { bar(); } else if (z) { return "foo"; } else { baz(); } }';
+                expect(checker.checkString(str)).to.have.no.errors();
+            });
+
+            it('should not report the use of else after return with blocks without braces', function() {
+                str = 'function foo() { if (x) bar(); else if (z) return "foo"; else baz(); }';
                 expect(checker.checkString(str)).to.have.no.errors();
             });
 
