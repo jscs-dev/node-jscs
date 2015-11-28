@@ -63,6 +63,11 @@ describe('rules/require-early-return', function() {
                 str = 'function foo() { if (x) if (y) return; else var b }';
                 expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
             });
+
+            it('should report the use of else after return in a nested chain of if-else mixed', function() {
+                str = 'function foo() { if (x) { } else { if (y) return; else var b } }';
+                expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
+            });
         });
 
         describe('safe if-else - ', function() {
