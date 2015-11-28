@@ -113,90 +113,13 @@ describe('js-file', function() {
             });
             expect(file.getParseErrors().length).to.equal(1);
             var parseError = file.getParseErrors()[0];
-            expect(parseError.description).to.equal('Invalid left-hand side in assignment');
-            expect(parseError.lineNumber).to.equal(2);
-            expect(parseError.column).to.equal(2);
-        });
 
-        describe('grit instructions', function() {
-            it('should ignore lines containing only <include> tag', function() {
-                var file = createJsFile('<include src="file.js">\n' +
-                    '  <include src="file.js">\n' +
-                    '< include src="file.js" >\n' +
-                    '<include\n' +
-                    ' src="file.js">');
-                var comments = file._tree.comments;
-                var gritTags = comments.filter(function(comment) {
-                    return comment.type === 'GritTag';
-                });
 
-                expect(comments.length).to.equal(4);
-                expect(gritTags.length).to.equal(4);
-            });
-
-            it('should ignore lines containing only <if> tag', function() {
-                var file = createJsFile('<if expr="false">\n' +
-                    '  <if expr="false">\n' +
-                    '< if expr="false" >\n' +
-                    'var a = 5;\n' +
-                    '</if>\n' +
-                    '<if\n' +
-                    ' expr="false">\n' +
-                    'var b = 7;\n' +
-                    '</ if>');
-                var comments = file._tree.comments;
-                var gritTags = comments.filter(function(comment) {
-                    return comment.type === 'GritTag';
-                });
-
-                expect(comments.length).to.equal(6);
-                expect(gritTags.length).to.equal(6);
-            });
-
-            it('should not interpret html tags as grit instructions', function() {
-                var file = createJsFile('<iframe src="file.js">');
-                var comments = file._tree.comments;
-                var gritTags = comments.filter(function(comment) {
-                    return comment.type === 'GritTag';
-                });
-
-                expect(comments.length).to.equal(0);
-                expect(gritTags.length).to.equal(0);
-            });
-
-            it('should ignore lines containing only <include> case-insensitive tag', function() {
-                var file = createJsFile('<includE src="file.js">\n' +
-                    '  <includE src="file.js">\n' +
-                    '< includE src="file.js" >\n' +
-                    '<includE\n' +
-                    ' src="file.js">');
-                var comments = file._tree.comments;
-                var gritTags = comments.filter(function(comment) {
-                    return comment.type === 'GritTag';
-                });
-
-                expect(comments.length).to.equal(4);
-                expect(gritTags.length).to.equal(4);
-            });
-
-            it('should ignore lines containing only <if> case-insensitive tag', function() {
-                var file = createJsFile('<if expr="false">\n' +
-                    '  <iF expr="false">\n' +
-                    '< if expr="false" >\n' +
-                    'var a = 5;\n' +
-                    '</if>\n' +
-                    '<iF\n' +
-                    ' expr="false">\n' +
-                    'var b = 7;\n' +
-                    '</ If>');
-                var comments = file._tree.comments;
-                var gritTags = comments.filter(function(comment) {
-                    return comment.type === 'GritTag';
-                });
-
-                expect(comments.length).to.equal(6);
-                expect(gritTags.length).to.equal(6);
-            });
+            expect(parseError.message).to.equal('Assigning to rvalue (2:0)');
+            expect(parseError.pos).to.equal(1);
+            expect(parseError.loc).to.be.an('object');
+            expect(parseError.loc.line).to.equal(2);
+            expect(parseError.loc.column).to.equal(0);
         });
     });
 
