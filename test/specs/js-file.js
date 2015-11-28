@@ -309,51 +309,6 @@ describe('js-file', function() {
         });
     });
 
-    describe('iterateTokenByValue',  function() {
-        it('should find token by value', function() {
-            createJsFile('if (true);').iterateTokenByValue(')', function(token, index, tokens) {
-                expect(token.value).to.equal(')');
-                expect(index).to.equal(4);
-                expect(!!Array.isArray(tokens)).to.equal(true);
-            });
-        });
-
-        it('should find tokens by value', function() {
-            createJsFile('if (true);').iterateTokenByValue([')', '('], function(token, index, tokens) {
-                expect(!!(token.value === ')' || token.value === '(')).to.equal(true);
-                expect(!!(index === 4 || index === 2)).to.equal(true);
-                expect(!!Array.isArray(tokens)).to.equal(true);
-            });
-        });
-
-        it('should not find string value', function() {
-            var spy = sinon.spy();
-            createJsFile('"("').iterateTokenByValue('(', spy);
-            expect(spy).to.have.not.callCount(1);
-        });
-
-        it('should not take only own propeties', function() {
-            var spy = sinon.spy();
-            createJsFile('test.toString').iterateTokenByValue('(', spy);
-            expect(spy).to.have.not.callCount(1);
-        });
-
-        it('should not have duplicate tokens in es6 export default statements', function() {
-            var spy = sinon.spy();
-            createBabelJsFile('export default function() {}').iterateTokenByValue('(', spy);
-            expect(spy).to.have.callCount(1);
-        });
-
-        it('should not have duplicate tokens in es6 export default statements', function() {
-            var spy = sinon.spy();
-            createBabelJsFile('export default function init() {\n' +
-            '  window.addEventListener(\'fb-flo-reload\', function(ev) {\n' +
-            '  });\n' +
-            '}').iterateTokenByValue('(', spy);
-            expect(spy).to.have.callCount(3);
-        });
-    });
-
     describe('getNodeByRange', function() {
         it('should throw for incorrect argument', function() {
             expect(function() {
