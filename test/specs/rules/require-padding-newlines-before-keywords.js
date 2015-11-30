@@ -138,5 +138,15 @@ describe('rules/require-padding-newlines-before-keywords', function() {
                     'function x() { var a; return; }'
                 )).to.have.one.validation.error.from('requirePaddingNewlinesBeforeKeywords');
         });
+
+        it('should not report when returning a function', function() {
+            expect(checker.checkString(
+                    'function x() {\n' +
+                    '  var a = 0;\n' +
+                    '  \n' +
+                    '  return function() {};\n' +
+                    '}'
+                )).to.have.no.errors();
+        });
     });
 });
