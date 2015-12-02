@@ -715,7 +715,7 @@ describe('config/configuration', function() {
             expect(configuration.getFileExtensions()[0]).to.equal('.js');
         });
 
-        it('should not try go in infinite loop at circular present references', function() {
+        it('should not try go in infinite loop at circular preset references', function() {
             var rule = {
                 getOptionName: function() {
                     return 'ruleName';
