@@ -9,9 +9,9 @@ describe('rules/require-early-return', function() {
         checker.registerDefaultRules();
     });
 
-    describe('with option value noElse - ', function() {
+    describe('with option value `true` - ', function() {
         beforeEach(function() {
-            checker.configure({ requireEarlyReturn: 'noElse' });
+            checker.configure({ requireEarlyReturn: true });
         });
 
         var str;
