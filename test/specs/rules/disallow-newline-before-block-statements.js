@@ -335,6 +335,28 @@ describe('rules/disallow-newline-before-block-statements', function() {
             });
         });
 
+        describe('"class" blocks', function() {
+            beforeEach(function() {
+                checker.configure({ disallowNewlineBeforeBlockStatements: ['class'] });
+            });
+
+            it('should report extra newlines when configured with "class"', function() {
+                expect(checker.checkString('class Foo \r\n{\r\n\tfoo () {\r\n\t\treturn 1;\r\n\t}\r\n}'))
+                  .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+            });
+
+            it('should not complain when configured with "class" and newline not added', function() {
+                expect(checker.checkString('class Foo {\r\n\tfoo () {\r\n\t\treturn 1;\r\n\t}\r\n}'))
+                  .to.have.no.errors();
+            });
+
+            it('should not complain when not configured with "class"', function() {
+                checker.configure({ disallowNewlineBeforeBlockStatements: ['for'] });
+                expect(checker.checkString('class Foo {\r\n\tfoo () {\r\n\t\treturn 1;\r\n\t}\r\n}'))
+                  .to.have.no.errors();
+            });
+        });
+
         describe('other block types', function() {
             beforeEach(function() {
                 checker.configure({
