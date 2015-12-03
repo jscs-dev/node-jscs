@@ -94,9 +94,9 @@ function isPercentage(val) {
 
 // Shows else statement being used
 if (val < 100) {
-  return true;
+  true;
 } else {
-  return false;
+  false;
 }
 
 function isPercentage(val) {
