@@ -1,5 +1,6 @@
 {
     "preset": "jquery",
+    "requireEarlyReturn": true,
     "requireSpacesInsideParentheses": {
         "all": true,
         "ignoreParenthesizedExpression": true,
