@@ -71,6 +71,6 @@
     "requireSemicolons": true,
     "safeContextKeyword": "_this",
     "validateLineBreaks": "LF",
-    "validateQuoteMarks": "'",
+    "validateQuoteMarks": { "mark": "'", "escape": true, "ignoreJSX": true },
     "validateIndentation": 2
 }

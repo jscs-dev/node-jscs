@@ -1,5 +1,10 @@
 // requireParenthesesAroundIIFE
 (function(window) {
+  <Foo
+    superLongParam="bar"
+    anotherSuperLongParam="baz"
+  />;
+
   // validateIndentation: 2
   'use strict';
 
