@@ -85,6 +85,23 @@ describe('lib/config/generator', function() {
         showErrorCountsStub.restore();
     });
 
+    it('checks with infinity `maxErrors` option', function() {
+        var checkPathStub = sinon.stub(Checker.prototype, 'checkPath');
+        var configureStub = sinon.stub(Checker.prototype, 'configure');
+        // For preventing subsequent steps from running
+        var showErrorCountsStub = sinon.stub(generator, '_showErrorCounts').throws();
+
+        generator.generate(_path);
+
+        var args = configureStub.getCall(0).args[0];
+        expect(args).to.have.property('maxErrors');
+        expect(args.maxErrors).to.equal(Infinity);
+
+        checkPathStub.restore();
+        configureStub.restore();
+        showErrorCountsStub.restore();
+    });
+
     it('displays a count of errors for every preset', function(done) {
         var stub = sinon.stub(generator, '_getUserPresetChoice').throws();
         var presetNames = Object.keys(getChecker().getConfiguration().getRegisteredPresets());
