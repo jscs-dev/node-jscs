@@ -470,4 +470,61 @@ describe('rules/require-padding-newlines-in-blocks', function() {
             expect(checker.checkString('if (true) {\n\nabc();\n};')).to.have.no.errors();
         });
     });
+    
+    describe('allExcept: ["singleLine"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: { allExcept: ['singleLine'] } });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration in single line', function() {
+            expect(checker.checkString('function foo() { return bar; }')).to.have.no.errors();
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression in single line', function() {
+            expect(checker.checkString('var foo = function() { return bar; }')).to.have.no.errors();
+        });
+
+        it('should report missing extra padding newline after opening brace of conditional', function() {
+            expect(checker.checkString('if (true) { abc(); }'))
+              .to.have.one.validation.error.from('requirePaddingNewlinesInBlocks');
+        });
+
+    });
+
+    describe('open: true, close: false, allExcept: ["singleLine"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: true,
+              close: false,
+              allExcept: ['singleLine'] }
+            });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration in single line', function() {
+            expect(checker.checkString('function foo() { return bar; }')).to.have.no.errors();
+        });
+
+    });
+
+    describe('open: false, close: true, allExcept: ["singleLine"]', function() {
+        beforeEach(function() {
+            checker.configure({ requirePaddingNewlinesInBlocks: {
+              open: false,
+              close: true,
+              allExcept: ['singleLine'] }
+            });
+        });
+
+        it('should not report missing extra padding newline after opening brace of function declaration in single line', function() {
+            expect(checker.checkString('function foo() { return bar; }')).to.have.no.errors();
+        });
+
+        it('should not report missing extra padding newline after opening brace of function expression in single line', function() {
+            expect(checker.checkString('var foo = function() { return bar; }')).to.have.no.errors();
+        });
+
+        it('should not report missing extra padding newline after opening brace of conditional in single line', function() {
+            expect(checker.checkString('if (true) { abc(); };')).to.have.no.errors();
+        });
+    });
 });
