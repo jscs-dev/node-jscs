@@ -67,6 +67,12 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
             expect(checker.checkString('snake_case = a;'))
               .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
         });
+
+        it('should report object destructring', function() {
+            expect(checker.checkString(
+                '({camelCase: snake_case, camelCase2: {camelCase3: snake_case2}}) => camelCase.length;'))
+              .to.have.validation.errors.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
     });
 
     describe('option value `"ignoreProperties"`', function() {
@@ -99,6 +105,12 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         it('should not report es5 setters', function() {
             expect(checker.checkString('var extend = { set c_d(v) { } };')).to.have.no.errors();
         });
+
+        it('should not report object destructring', function() {
+            expect(checker.checkString(
+                '({camelCase: snake_case, camelCase2: {camelCase3: snake_case2}}) => camelCase.length;'))
+              .to.have.no.errors();
+        });
     });
 
     describe('option object value `"ignoreProperties"`', function() {
@@ -130,6 +142,12 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
 
         it('should not report es5 setters', function() {
             expect(checker.checkString('var extend = { set c_d(v) { } };')).to.have.no.errors();
+        });
+
+        it('should not report object destructring', function() {
+            expect(checker.checkString(
+                '({camelCase: snake_case, camelCase2: {camelCase3: snake_case2}}) => camelCase.length;'))
+              .to.have.no.errors();
         });
     });
 
@@ -277,6 +295,12 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         it('should report identifiers that start with a capital', function() {
             expect(checker.checkString('E'))
               .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report object destructring', function() {
+            expect(checker.checkString(
+                '({camelCase: snake_case, camelCase2: {camelCase3: snake_case2}}) => camelCase.length;'))
+              .to.have.no.errors();
         });
     });
 });
