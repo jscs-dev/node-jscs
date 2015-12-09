@@ -1,3 +1,59 @@
+## Version [2.7.0](https://github.com/jscs-dev/node-jscs/compare/v2.6.0...v2.7.0)
+
+It's this time of the year again, 2.7 is here!
+
+One new rule, cool amount of fixes and massive jsdoc rule set update.
+
+### New Rules
+
+Although there's only one new rule in this release, it's pretty powerful! Say thanks to @ficristo!
+
+#### [`requireEarlyReturn`](http://jscs.info/rule/requireEarlyReturn)
+
+```js
+// This is cool 
+function test() {
+     if (x) {
+         return x;
+     }
+     return y;
+}
+
+// This is not 
+function test() {
+    if (x) {
+        return x;
+    } else {
+        return y;
+    }
+}
+```
+
+This is one of the most popular patterns out there, such as in [idiomatic](https://github.com/rwaldron/idiomatic.js/) and [node-style-guide](https://github.com/felixge/node-style-guide).
+
+### Presets
+- The `idiomatic` and `node-style-guide` presets now have the  `requireEarlyReturn` rule.
+- Whereas the `airbnb` preset is better in treating JSX.
+
+### Bug Fixes
+
+* [`disallowTrailingWhitespace`](http://jscs.info/rule/disallowTrailingWhitespace) changes for autofix (thanks @lukeapage!)
+* `requirePaddingNewlinesBeforeKeywords`: allow function return on the same line
+* `disallowMixedSpacesAndTabs`: fix issue with erroring on block comments
+* `auto-configure`: set `maxErrors` to `Infinity`
+
+### Notable Changes in [`jsDoc`](http://jscs.info/rule/jsDoc)
+
+* Improves ES6 support for `enforceExistence`: add exceptions for arrow functions and ES6 modules exports
+* Many fixes related to `requireDescriptionCompleteSentence`
+* Fixes for incorrecly sticked docblocks to IIFE
+* Docblocks without tags now parsing correctly
+* Adds `@override` to `jsdoc3` preset
+* Arrow functions now treats as usual functions 
+
+See the full list in [jscs-jsdoc changelog](https://github.com/jscs-dev/jscs-jsdoc/blob/master/CHANGELOG.md#user-content-v130---2015-12-05).
+
+
 ## Version [2.6.0](https://github.com/jscs-dev/node-jscs/compare/v2.5.1...v2.6.0) (11-18-2015):
 
 Thanks to @seanpdoyle, we're able to move some of the ES6 rules from [ember-suave](https://github.com/dockyard/ember-suave) to JSCS!
