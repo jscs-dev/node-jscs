@@ -323,13 +323,6 @@ Type: `Number|null`
 
 Default: 50
 
-### fix
-Will apply fixes to all supported style rules.
-
-Type: `Boolean|null`
-
-Default: `false`
-
 #### Example
 
 ```js
@@ -340,6 +333,13 @@ Default: `false`
 "maxErrors": -1
 "maxErrors": null
 ```
+
+### fix
+Will apply fixes to all supported style rules.
+
+Type: `Boolean|null`
+
+Default: `false`
 
 ### esnext
 
