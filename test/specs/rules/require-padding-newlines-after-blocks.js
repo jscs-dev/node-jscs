@@ -280,5 +280,10 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         it('should not report arrow chain (#1700)', function() {
             expect(checker.checkString('a(res => {\n})\n.b();')).to.have.no.errors();
         });
+
+        it('should not report jsx tags (#2008)', function() {
+            var jsxSnippet = 'var foo = (\n<div\nref={function() {\n}}\n>\nfoo\n</div>\n);';
+            expect(checker.checkString(jsxSnippet)).to.have.no.errors();
+        });
     });
 });
