@@ -1198,7 +1198,7 @@ describe('js-file', function() {
         });
     });
 
-    describe('setWhitespaceBefore', function() {
+    describe.only('setWhitespaceBefore', function() {
         it('should insert new whitespace token', function() {
             var file = createJsFile('x');
             file.setWhitespaceBefore(file.getFirstToken(), ' ');
@@ -1221,6 +1221,13 @@ describe('js-file', function() {
             var file = createJsFile('x');
             file.setWhitespaceBefore(file.getFirstToken(), '');
             expect(file.render()).to.equal('x');
+        });
+
+        it('should replace another whitespace token', function() {
+            var file = createJsFile('x  = 1');
+
+            file.setWhitespaceBefore(file.findNextToken(file.getFirstToken(), 'Punctuator', '='), ' ');
+            expect(file.render()).to.equal('x = 1');
         });
     });
 });
