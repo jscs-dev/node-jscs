@@ -12,6 +12,7 @@
     "disallowSpacesInFunctionDeclaration": {
         "beforeOpeningRoundBrace": true
     },
+    "disallowSpacesInsideBrackets": true,
     "disallowEmptyBlocks": true,
     "disallowSpacesInCallExpression": true,
     "disallowSpacesInsideArrayBrackets": true,
@@ -47,6 +48,7 @@
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
     "requireSpacesInForStatement": true,
+    "requireSpacesInsideObjectBrackets": "all",
     "requireSpaceBetweenArguments": true,
     "requireCurlyBraces": [
         "do"
