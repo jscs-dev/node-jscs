@@ -585,68 +585,6 @@ describe('js-file', function() {
         });
     });
 
-    describe('getNodesByFirstToken', function() {
-        describe('invalid arguments', function() {
-            var file;
-            beforeEach(function() {
-                file = createJsFile('x++;y++;');
-            });
-
-            it('should return empty array if the argument is invalid', function() {
-                var nodes = file.getNodesByFirstToken();
-                expect(nodes.length).to.equal(0);
-            });
-
-            it('should return empty array if the argument.range is invalid', function() {
-                var nodes = file.getNodesByFirstToken({});
-                expect(nodes.length).to.equal(0);
-            });
-
-            it('should return empty array if the argument.range[0] is invalid', function() {
-                var nodes = file.getNodesByFirstToken({
-                    range: {}
-                });
-                expect(nodes.length).to.equal(0);
-            });
-        });
-
-        describe('empty progam', function() {
-            var file;
-            beforeEach(function() {
-                file = createJsFile('');
-            });
-
-            it('should return 1 node of type Program when provided the first token', function() {
-                var token = file.getFirstToken({includeComments: true});
-                var nodes = file.getNodesByFirstToken(token);
-                expect(nodes.length).to.equal(1);
-                expect(nodes[0].type).to.equal('Program');
-            });
-        });
-
-        describe('normal progam', function() {
-            var file;
-            beforeEach(function() {
-                file = createJsFile('var x;\ndo {\n\tx++;\n} while (x < 10);');
-            });
-
-            it('should return nodes when supplied with a token that is the start of a node', function() {
-                var token = file.getFirstToken({includeComments: true});
-                var nodes = file.getNodesByFirstToken(token);
-                expect(nodes.length).to.equal(2);
-                expect(nodes[0].type).to.equal('Program');
-                expect(nodes[1].type).to.equal('VariableDeclaration');
-            });
-
-            it('should return an empty array when supplied with a token that is not the start of a node', function() {
-                var token = file.getFirstToken({includeComments: true});
-                var nextToken = file.findNextToken(token, 'Keyword', 'while');
-                var nodes = file.getNodesByFirstToken(nextToken);
-                expect(nodes.length).to.equal(0);
-            });
-        });
-    });
-
     describe('getNodesByType', function() {
         it('should return nodes using specified type', function() {
             var nodes = createJsFile('x++;y++;').getNodesByType('Identifier');
