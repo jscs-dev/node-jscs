@@ -677,7 +677,7 @@ describe('js-file', function() {
         });
     });
 
-    describe('getLastLineToken', function() {
+    describe('getLastTokenOnLine', function() {
         it('should return last line token', function() {
             var file = createJsFile('x = 1;\nif (x) {}\n');
             var xToken = file.getLastTokenOnLine(1);
