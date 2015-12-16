@@ -7,7 +7,6 @@ var esprima = require('esprima');
 var babelJscs = require('babel-jscs');
 
 var assign = require('lodash').assign;
-var keywords = Object.keys(require('reserved-words').KEYWORDS[6]);
 
 var JsFile = require('../../lib/js-file');
 
@@ -383,7 +382,6 @@ describe('js-file', function() {
 
     describe('findPrevToken', function() {
         var file;
-        var tokens;
 
         beforeEach(function() {
             file = createJsFile('switch(varName){case"yes":a++;break;}');
