@@ -1,3 +1,4 @@
+[![NPM Version](https://img.shields.io/npm/v/jscs.svg?style=flat)](https://www.npmjs.com/package/jscs)
 [![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs)
 [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg?style=flat)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master)
 [![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/jscs-dev/node-jscs)
