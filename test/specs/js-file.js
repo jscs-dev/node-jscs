@@ -822,7 +822,7 @@ describe('js-file', function() {
             expect(spy.getCall(0).args[0].type).to.equal('Identifier');
             expect(spy.getCall(0).args[0].value).to.equal('x');
             expect(spy.getCall(1).args[0].type).to.equal('Numeric');
-            expect(spy.getCall(1).args[0].value).to.equal('1');
+            expect(spy.getCall(1).args[0].value).to.equal(1);
         });
 
         it('should not apply callback for non-existing type array', function() {
@@ -904,7 +904,7 @@ describe('js-file', function() {
         });
     });
 
-    describe('getScope', function() {
+    describe.skip('getScope', function() {
         it('should lazy initialize', function() {
             var sources = ['var x = 1;', 'var y = 2;'];
             var file = createJsFile(sources.join('\n'));
@@ -922,22 +922,6 @@ describe('js-file', function() {
                 expect(file.getScope().acquire(node).variables[1].references.length).to.equal(1);
                 done();
             });
-        });
-    });
-
-    describe('removeToken', function() {
-        it('should remove token', function() {
-            var source = 'y = 2;';
-            var file = createJsFile(source);
-
-            var tokens = file.getTokens();
-
-            // Remove EOF
-            file.removeToken(file.getTree().firstToken);
-
-            // Remove ";"
-            file.removeToken(file.getTree().firstToken);
-            expect(file.render()).to.equal('y = 2');
         });
     });
 
@@ -1121,7 +1105,7 @@ describe('js-file', function() {
 
         it('should return null if there is where to go', function() {
             var file = createJsFile('x');
-            var xToken = file.getTokens()[1];
+            var xToken = file.getTree().lastToken;
             var next = file.getNextToken(xToken);
             expect(next).to.equal(null);
         });
@@ -1130,7 +1114,7 @@ describe('js-file', function() {
     describe('getPrevToken', function() {
         it('should return previous token', function() {
             var file = createJsFile('++x');
-            var xToken = file.getTokens()[1];
+            var xToken = file.getTree().firstToken.nextToken;
             expect(xToken.type).to.equal('Identifier');
             expect(xToken.value).to.equal('x');
             var prev = file.getPrevToken(xToken);
@@ -1149,14 +1133,14 @@ describe('js-file', function() {
 
         it('should ignore comments', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTokens()[1];
+            var xToken = file.getTree().firstToken;
             var prev = file.getPrevToken(xToken, {includeComments: false});
             expect(prev).to.equal(null);
         });
 
         it('should return previous comment', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTokens()[1];
+            var xToken = file.getTree().firstToken.nextToken;
             var prev = file.getPrevToken(xToken, {includeComments: true});
             expect(prev.type).to.equal('CommentBlock');
         });
@@ -1186,9 +1170,9 @@ describe('js-file', function() {
             expect(spy).to.have.callCount(2);
 
             expect(spy.getCall(0).args[0].type).to.equal('Numeric');
-            expect(spy.getCall(0).args[0].value).to.equal('1');
+            expect(spy.getCall(0).args[0].value).to.equal(1);
             expect(spy.getCall(1).args[0].type).to.equal('Numeric');
-            expect(spy.getCall(1).args[0].value).to.equal('1');
+            expect(spy.getCall(1).args[0].value).to.equal(1);
         });
 
         it('should accept value list', function() {
@@ -1200,16 +1184,16 @@ describe('js-file', function() {
             expect(spy).to.have.callCount(2);
 
             expect(spy.getCall(0).args[0].type).to.equal('Numeric');
-            expect(spy.getCall(0).args[0].value).to.equal('1');
+            expect(spy.getCall(0).args[0].value).to.equal(1);
             expect(spy.getCall(1).args[0].type).to.equal('Numeric');
-            expect(spy.getCall(1).args[0].value).to.equal('2');
+            expect(spy.getCall(1).args[0].value).to.equal(2);
         });
     });
 
     describe('getWhitespaceBefore', function() {
         it('should return whitespace before the first token', function() {
             var file = createJsFile('  \nx;');
-            expect(file.getWhitespaceBefore(file.getFirstToken())).to.equal('  \n');
+            expect(file.getWhitespaceBefore(file.getLastToken())).to.equal('  \n');
         });
 
         it('should return whitespace before the EOF', function() {
@@ -1224,36 +1208,28 @@ describe('js-file', function() {
     });
 
     describe('setWhitespaceBefore', function() {
-        it('should alter existing whitespace token', function() {
-            var file = createJsFile('  x');
-            expect(file.getTokens().length).to.equal(3);
-            file.setWhitespaceBefore(file.getFirstToken(), '\n');
-            expect(file.getTokens().length).to.equal(3);
-            expect(file.getTree().firstToken.value).to.equal('\n');
-        });
-
         it('should insert new whitespace token', function() {
             var file = createJsFile('x');
-            expect(file.getTokens().length).to.equal(2);
-            file.setWhitespaceBefore(file.getFirstToken(), '\n');
-            expect(file.getTokens().length).to.equal(3);
-            expect(file.getTree().firstToken.value).to.equal('\n');
+            file.setWhitespaceBefore(file.getFirstToken(), ' ');
+            expect(file.render()).to.equal(' x');
+        });
+
+        it('should alter existing whitespace token', function() {
+            var file = createJsFile('  x');
+            file.setWhitespaceBefore(file.getLastToken().previousToken, '\n');
+            expect(file.render()).to.equal('\nx');
         });
 
         it('should drop whitespace token', function() {
             var file = createJsFile('  x');
-            expect(file.getTokens().length).to.equal(3);
-            file.setWhitespaceBefore(file.getFirstToken(), '');
-            expect(file.getTokens().length).to.equal(2);
-            expect(file.getTree().firstToken.type).to.equal('Identifier');
+            file.setWhitespaceBefore(file.getLastToken().previousToken, '');
+            expect(file.render()).to.equal('x');
         });
 
         it('should ignore already absent whitespace token', function() {
             var file = createJsFile('x');
-            expect(file.getTokens().length).to.equal(2);
             file.setWhitespaceBefore(file.getFirstToken(), '');
-            expect(file.getTokens().length).to.equal(2);
-            expect(file.getTree().firstToken.type).to.equal('Identifier');
+            expect(file.render()).to.equal('x');
         });
     });
 });
