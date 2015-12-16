@@ -615,7 +615,7 @@ describe('js-file', function() {
         });
     });
 
-    describe('getFirstLineToken', function() {
+    describe('getFirstTokenOnLine', function() {
         it('should return first line token', function() {
             var file = createJsFile('x += 1;\ny += 4;');
             var xToken = file.getFirstTokenOnLine(1);
