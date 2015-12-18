@@ -23,10 +23,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var first = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: first,
+                nextToken: file.getNextToken(first)
             });
 
             expect(onError).to.have.callCount(1);
@@ -34,7 +34,7 @@ describe('token-assert', function() {
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('Missing space between x and =');
             expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(error.column).to.equal(2);
         });
 
         it('should accept message for missing whitespace between tokens', function() {
@@ -44,10 +44,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 message: 'Custom message'
             });
 
@@ -61,10 +61,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -79,15 +79,15 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
 
             tokenAssert.spacesBetween({
-                token: tokens[0],
+                token: token,
                 exactly: 10
             });
 
             tokenAssert.spacesBetween({
-                nextToken: tokens[0],
+                nextToken: token,
                 exactly: 10
             });
 
@@ -102,16 +102,18 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
                 expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
+
                 expect(error.message).to.equal('2 spaces required between x and =');
                 expect(error.line).to.equal(1);
                 expect(error.column).to.equal(1);
@@ -124,10 +126,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
@@ -141,10 +144,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 3
                 });
 
@@ -158,10 +162,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2,
                     message: 'Custom message'
                 });
@@ -174,12 +179,14 @@ describe('token-assert', function() {
 
                 var tokenAssert = new TokenAssert(file);
                 var onError = sinon.spy();
+                var token = file.getTree().firstToken;
+                var yToken = file.findNextToken(token, 'Identifier', 'y');
+
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: tokens[4],
+                    token: token,
+                    nextToken: file.findNextToken(token, 'Identifier', 'y'),
                     exactly: 5
                 });
 
@@ -187,7 +194,7 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.fixed).to.equal(false);
-                expect(file.getWhitespaceBefore(tokens[4])).to.equal('');
+                expect(file.getWhitespaceBefore(yToken)).to.equal('');
             });
         });
 
@@ -199,10 +206,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 1
                 });
 
@@ -221,10 +229,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 3
                 });
 
@@ -238,10 +247,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.spacesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 1,
                     message: 'Custom message'
                 });
@@ -257,10 +267,11 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
+
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 atMost: 1
             });
 
@@ -279,10 +290,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 atMost: 2
             });
 
@@ -301,10 +312,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 atMost: 1
             });
 
@@ -318,10 +329,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 atMost: 3
             });
 
@@ -335,10 +346,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.whitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 atMost: 1,
                 message: 'Custom message'
             });
@@ -355,10 +366,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noWhitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(1);
@@ -376,10 +387,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noWhitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -392,10 +403,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noWhitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 disallowNewLine: true
             });
 
@@ -414,10 +425,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noWhitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -430,10 +441,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noWhitespaceBetween({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 message: 'Custom message'
             });
 
@@ -449,10 +460,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.sameLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(1);
@@ -470,10 +481,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.sameLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -486,10 +497,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.sameLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 message: 'Custom message'
             });
 
@@ -512,11 +523,11 @@ describe('token-assert', function() {
 
             var tokenAssert = new TokenAssert(file);
             tokenAssert.on('error', function() {}); // do nothing
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
 
             tokenAssert.sameLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 stickToPreviousToken: true
             });
 
@@ -532,10 +543,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(1);
@@ -553,10 +564,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -569,10 +580,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -585,10 +596,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0])
+                token: token,
+                nextToken: nextToken
             });
 
             expect(onError).to.have.callCount(0);
@@ -601,10 +612,10 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.differentLine({
-                token: tokens[0],
-                nextToken: file.getNextToken(tokens[0]),
+                token: token,
+                nextToken: nextToken,
                 message: 'Custom message'
             });
 
@@ -632,14 +643,15 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 this.tokenAssert.on('error', onError);
 
-                this.tokens = file.getTokens();
+                this.firstToken = file.getTree().firstToken;
+                this.secondToken = this.firstToken.nextCodeToken;
             });
 
             it('should throw if no options are specified', function() {
                 expect((function() {
                     this.tokenAssert.linesBetween({
-                        token: this.tokens[0],
-                        nextToken: this.tokens[1]
+                        token: this.firstToken,
+                        nextToken: this.secondToken
                     });
                 }).bind(this)).to.throw(/You must specify at least one option/);
             });
@@ -647,8 +659,8 @@ describe('token-assert', function() {
             it('should throw if atLeast and exactly are specified', function() {
                 expect((function() {
                     this.tokenAssert.linesBetween({
-                        token: this.tokens[0],
-                        nextToken: this.tokens[1],
+                        token: this.firstToken,
+                        nextToken: this.secondToken,
                         atLeast: 2,
                         exactly: 1
                     });
@@ -658,8 +670,8 @@ describe('token-assert', function() {
             it('should throw if atMost and exactly are specified', function() {
                 expect((function() {
                     this.tokenAssert.linesBetween({
-                        token: this.tokens[0],
-                        nextToken: this.tokens[1],
+                        token: this.firstToken,
+                        nextToken: this.secondToken,
                         atMost: 2,
                         exactly: 1
                     });
@@ -669,8 +681,8 @@ describe('token-assert', function() {
             it('should throw if atLeast and atMost are in conflict', function() {
                 expect((function() {
                     this.tokenAssert.linesBetween({
-                        token: this.tokens[0],
-                        nextToken: this.tokens[1],
+                        token: this.firstToken,
+                        nextToken: this.secondToken,
                         atLeast: 3,
                         atMost: 2
                     });
@@ -680,8 +692,8 @@ describe('token-assert', function() {
             it('should throw if token and nextToken are the same', function() {
                 expect((function() {
                     this.tokenAssert.linesBetween({
-                        token: this.tokens[0],
-                        nextToken: this.tokens[0],
+                        token: this.firstToken,
+                        nextToken: this.firstToken,
                         atLeast: 1
                     });
                 }).bind(this))
@@ -708,10 +720,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
@@ -728,10 +741,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
@@ -747,10 +761,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
@@ -764,10 +779,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 1
                 });
 
@@ -781,10 +797,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var lastToken = file.lastToken;
                 tokenAssert.linesBetween({
-                    token: tokens[2],
-                    nextToken: tokens[0],
+                    token: token,
+                    nextToken: lastToken,
                     exactly: 2
                 });
 
@@ -797,14 +814,18 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.findNextToken(
+                    file.getTree().firstToken,
+                    'Identifier'
+                );
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[1],
-                    nextToken: file.getNextToken(tokens[1]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(nextToken)).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -813,14 +834,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[1],
-                    nextToken: file.getNextToken(tokens[1]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(nextToken)).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -829,27 +851,29 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[1],
-                    nextToken: file.getNextToken(tokens[1]),
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[1]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(nextToken)).to.equal('\n\n  ');
             });
 
-            it('should error, but not fix, when a comment exists between the two tokens', function() {
+            it('should error, but not fix, when a comment exists between the two tokens (with newline)', function() {
                 var file = createJsFile('x\n//linecomment\n=y;');
 
                 var tokenAssert = new TokenAssert(file);
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: tokens[4],
+                    token: token,
+                    nextToken: nextToken,
                     exactly: 5
                 });
 
@@ -857,7 +881,7 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.fixed).to.equal(false);
-                expect(file.getWhitespaceBefore(tokens[4])).to.equal('\n');
+                expect(file.getWhitespaceBefore(nextToken)).to.equal('\n');
             });
         });
 
@@ -869,10 +893,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 3
                 });
 
@@ -888,10 +913,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2
                 });
 
@@ -905,10 +931,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2
                 });
 
@@ -921,14 +948,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (spaced then non spaced) between', function() {
@@ -937,14 +965,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 4
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('  \n\n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('  \n\n\n\n  ');
             });
 
             it('should edit the whitespaceBefore with too few lines (non spaced then spaced) between ', function() {
@@ -953,14 +982,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 4
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n  \n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n  \n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with too many lines between', function() {
@@ -969,14 +999,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -985,14 +1016,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n\n  ');
             });
         });
 
@@ -1004,10 +1036,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 2
                 });
 
@@ -1021,10 +1054,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 2
                 });
 
@@ -1038,10 +1072,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 1
                 });
 
@@ -1056,14 +1091,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n  ');
             });
 
             it('should edit the whitespaceBefore with too many lines between', function() {
@@ -1072,14 +1108,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n\n  ');
             });
 
             it('should not edit the whitespaceBefore with correct lines between', function() {
@@ -1088,14 +1125,15 @@ describe('token-assert', function() {
                 var tokenAssert = new TokenAssert(file);
                 tokenAssert.on('error', function() {});
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atMost: 2
                 });
 
-                expect(file.getWhitespaceBefore(file.getNextToken(tokens[0]))).to.equal('\n\n  ');
+                expect(file.getWhitespaceBefore(file.getNextToken(token))).to.equal('\n\n  ');
             });
         });
 
@@ -1107,10 +1145,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 1,
                     atMost: 3
                 });
@@ -1125,10 +1164,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 2,
                     atMost: 3
                 });
@@ -1143,10 +1183,11 @@ describe('token-assert', function() {
                 var onError = sinon.spy();
                 tokenAssert.on('error', onError);
 
-                var tokens = file.getTokens();
+                var token = file.getTree().firstToken;
+                var nextToken = file.findNextToken(token, 'Punctuator', '=');
                 tokenAssert.linesBetween({
-                    token: tokens[0],
-                    nextToken: file.getNextToken(tokens[0]),
+                    token: token,
+                    nextToken: nextToken,
                     atLeast: 1,
                     atMost: 2
                 });
@@ -1164,9 +1205,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.tokenBefore({
-                token: tokens[0],
+                token: token,
                 expectedTokenBefore: {value: 'something'}
             });
 
@@ -1185,9 +1226,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.tokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'z'
@@ -1209,9 +1250,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.tokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Keyword',
                     value: 'x'
@@ -1233,9 +1274,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.tokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'x'
@@ -1252,9 +1293,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.tokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'z'
@@ -1273,9 +1314,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noTokenBefore({
-                token: tokens[0],
+                token: token,
                 expectedTokenBefore: {value: 'something'}
             });
 
@@ -1289,9 +1330,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noTokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'x'
@@ -1313,9 +1354,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noTokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'z'
@@ -1332,9 +1373,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noTokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Keyword',
                     value: 'x'
@@ -1351,9 +1392,9 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
-            var tokens = file.getTokens();
+            var token = file.getTree().firstToken;
             tokenAssert.noTokenBefore({
-                token: tokens[1],
+                token: token,
                 expectedTokenBefore: {
                     type: 'Identifier',
                     value: 'x'
