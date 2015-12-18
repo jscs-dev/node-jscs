@@ -15,6 +15,23 @@ describe('rules/disallow-dangling-underscores', function() {
                 checker.configure({ disallowDanglingUnderscores: { allExcept: true } });
             }).to.throw();
         });
+
+        it('should not set property `__proto__` to `true` value (#2026)', function() {
+            var old = Object.getOwnPropertyDescriptor(Object.prototype,'__proto__');
+
+            Object.defineProperty(Object.prototype, '__proto__', {
+                set: function(newProto) {
+                    expect(newProto).to.not.equal(true);
+                }
+            });
+
+            expect(function() {
+                checker.configure({ disallowDanglingUnderscores: true });
+            }).to.not.throw();
+
+            // Beware, if assertion will be incorrect it will break all the subsequent tests
+            Object.defineProperty(Object.prototype, '__proto__', old);
+        });
     });
 
     describe('option value true', function() {
