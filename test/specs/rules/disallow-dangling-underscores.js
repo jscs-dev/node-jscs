@@ -17,7 +17,11 @@ describe('rules/disallow-dangling-underscores', function() {
         });
 
         it('should not set property `__proto__` to `true` value (#2026)', function() {
-            var old = Object.getOwnPropertyDescriptor(Object.prototype,'__proto__');
+            var old = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__');
+
+            if (old === undefined) {
+                return;
+            }
 
             Object.defineProperty(Object.prototype, '__proto__', {
                 set: function(newProto) {
