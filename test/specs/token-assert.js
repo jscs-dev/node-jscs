@@ -5,7 +5,7 @@ var JsFile = require('../../lib/js-file');
 var TokenAssert = require('../../lib/token-assert');
 var getPosition = require('../../lib/errors').getPosition;
 
-describe.only('token-assert', function() {
+describe('token-assert', function() {
 
     function createJsFile(sources) {
         return new JsFile({
@@ -1272,7 +1272,7 @@ describe.only('token-assert', function() {
             expect(onError).to.have.callCount(0);
         });
 
-        it('should fix whitespace on incorrect indentation', function() {
+        it('should fix whitespace on incorrect indentation for the first token', function() {
             var file = createJsFile('  x=y;');
 
             var tokenAssert = new TokenAssert(file);
@@ -1286,10 +1286,10 @@ describe.only('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getWhitespaceBefore(file.getTokens()[0])).to.equal('');
+            expect(file.getWhitespaceBefore(file.getFirstToken)).to.equal('');
         });
 
-        it('should fix whitespace on incorrect indentation', function() {
+        it('should fix whitespace on incorrect indentation for the second token', function() {
             var file = createJsFile('x=y;');
 
             var tokenAssert = new TokenAssert(file);
@@ -1303,7 +1303,8 @@ describe.only('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getWhitespaceBefore(file.getTokens()[1])).to.equal('  ');
+            var token = file.getFirstToken().nextToken;
+            expect(file.getWhitespaceBefore(token)).to.equal('  ');
         });
 
         it('should fix empty line whitespace on incorrect indentation', function() {
@@ -1320,7 +1321,8 @@ describe.only('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getWhitespaceBefore(file.getTokens()[1])).to.equal('\n\n');
+            var token = file.findNextToken(file.getFirstToken(), 'Identifier', 'x');
+            expect(file.getWhitespaceBefore(token)).to.equal('\n\n');
         });
 
         it('should fix docblock on incorrect overindentation', function() {
@@ -1338,8 +1340,9 @@ describe.only('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getWhitespaceBefore(token)).to.equal('');
-            expect(token.value).to.equal('\n *\n ');
+            var newToken = file.getFirstTokenOnLine(1, {includeComments: true});
+            expect(file.getWhitespaceBefore(newToken)).to.equal('');
+            expect(newToken.value).to.equal('\n *\n ');
         });
 
         it('should fix docblock on incorrect underindentation', function() {
@@ -1357,8 +1360,9 @@ describe.only('token-assert', function() {
                 indentChar: ' '
             });
 
-            expect(file.getWhitespaceBefore(token)).to.equal('    ');
-            expect(token.value).to.equal('\n     *\n     ');
+            var newToken = file.getFirstTokenOnLine(1, {includeComments: true});
+            expect(file.getWhitespaceBefore(newToken)).to.equal('    ');
+            expect(newToken.value).to.equal('\n     *\n     ');
         });
 
         it('should fix whitespace after docblock on incorrect indentation', function() {
