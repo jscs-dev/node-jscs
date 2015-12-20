@@ -1,5 +1,8 @@
-var Checker = require('../../lib/checker');
 var expect = require('chai').expect;
+
+var Checker = require('../../lib/checker');
+var Errors = require('../../lib/errors');
+
 
 describe('errors', function() {
     var checker;
@@ -16,6 +19,29 @@ describe('errors', function() {
         var error = errors.getErrorList()[0];
 
         expect(error.rule).to.equal('disallowQuotedKeysInObjects');
+    });
+
+    describe('getPosition', function() {
+        it('should get position', function() {
+            var position = Errors.getPosition({
+                loc: {
+                    start: {
+                        line: 1,
+                        column: 10
+                    },
+
+                    end: {
+                        line: 1,
+                        column: 10
+                    },
+                }
+            }, 5);
+
+            expect(position).to.deep.equal({
+                line: 1,
+                column: 10
+            });
+        });
     });
 
     describe.skip('pragma logic', function() {
