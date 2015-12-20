@@ -1198,11 +1198,17 @@ describe('js-file', function() {
         });
     });
 
-    describe.only('setWhitespaceBefore', function() {
+    describe('setWhitespaceBefore', function() {
         it('should insert new whitespace token', function() {
             var file = createJsFile('x');
             file.setWhitespaceBefore(file.getFirstToken(), ' ');
             expect(file.render()).to.equal(' x');
+        });
+
+        it('should insert new whitespace token between peer tokens', function() {
+            var file = createJsFile('x=1');
+            file.setWhitespaceBefore(file.getFirstToken().nextToken, ' ');
+            expect(file.render()).to.equal('x =1');
         });
 
         it('should alter existing whitespace token', function() {
