@@ -3,8 +3,9 @@ var sinon = require('sinon');
 var esprima = require('esprima');
 var JsFile = require('../../lib/js-file');
 var TokenAssert = require('../../lib/token-assert');
+var getPosition = require('../../lib/errors').getPosition;
 
-describe('token-assert', function() {
+describe.only('token-assert', function() {
 
     function createJsFile(sources) {
         return new JsFile({
@@ -24,6 +25,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var first = file.getTree().firstToken;
+
             tokenAssert.whitespaceBetween({
                 token: first,
                 nextToken: file.getNextToken(first)
@@ -33,8 +35,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('Missing space between x and =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(2);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should accept message for missing whitespace between tokens', function() {
@@ -45,6 +47,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -62,6 +65,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken
@@ -115,8 +119,8 @@ describe('token-assert', function() {
                 var error = onError.getCall(0).args[0];
 
                 expect(error.message).to.equal('2 spaces required between x and =');
-                expect(error.line).to.equal(1);
-                expect(error.column).to.equal(1);
+                expect(getPosition(error.element).line).to.equal(1);
+                expect(getPosition(error.element).column).to.equal(1);
             });
 
             it('should not trigger error on newline between tokens', function() {
@@ -218,8 +222,8 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.message).to.equal('at most 1 spaces required between x and =');
-                expect(error.line).to.equal(1);
-                expect(error.column).to.equal(1);
+                expect(getPosition(error.element).line).to.equal(1);
+                expect(getPosition(error.element).column).to.equal(1);
             });
 
             it('should not trigger error on valid space count between tokens', function() {
@@ -268,7 +272,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
-
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -279,8 +283,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('at most 1 spaces required between x and =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should trigger plural error on invalid maximum space count between tokens', function() {
@@ -291,6 +295,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -301,8 +306,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('at most 2 spaces required between x and =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens for maximum spaces', function() {
@@ -313,6 +318,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -330,6 +336,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -347,6 +354,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.whitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -367,6 +375,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.noWhitespaceBetween({
                 token: token,
                 nextToken: nextToken
@@ -376,8 +385,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('Unexpected whitespace between x and =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens', function() {
@@ -388,6 +397,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.noWhitespaceBetween({
                 token: token,
                 nextToken: nextToken
@@ -404,6 +414,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.noWhitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -414,8 +425,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('Unexpected whitespace between x and =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should not trigger error on missing whitespace between tokens', function() {
@@ -426,6 +437,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.noWhitespaceBetween({
                 token: token,
                 nextToken: nextToken
@@ -442,6 +454,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.noWhitespaceBetween({
                 token: token,
                 nextToken: nextToken,
@@ -461,6 +474,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.sameLine({
                 token: token,
                 nextToken: nextToken
@@ -470,8 +484,9 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('x and = should be on the same line');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should not trigger error on missing newline between tokens', function() {
@@ -482,6 +497,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.sameLine({
                 token: token,
                 nextToken: nextToken
@@ -498,6 +514,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.sameLine({
                 token: token,
                 nextToken: nextToken,
@@ -518,13 +535,13 @@ describe('token-assert', function() {
             });
         });
 
-        it('should move tokens instead of collapsing lines when asked.', function() {
+        it('should move tokens instead of collapsing lines when asked', function() {
             var file = createJsFile('x\n  + y;');
 
             var tokenAssert = new TokenAssert(file);
-            tokenAssert.on('error', function() {}); // do nothing
+            tokenAssert.on('error', function() {});
             var token = file.getTree().firstToken;
-
+            var nextToken = file.findNextToken(token, 'Punctuator', '+');
             tokenAssert.sameLine({
                 token: token,
                 nextToken: nextToken,
@@ -544,6 +561,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.differentLine({
                 token: token,
                 nextToken: nextToken
@@ -553,8 +571,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.equal('x and = should be on different lines');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
+            expect(getPosition(error.element).line).to.equal(1);
+            expect(getPosition(error.element).column).to.equal(1);
         });
 
         it('should not trigger error on existing newline between tokens', function() {
@@ -565,6 +583,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.differentLine({
                 token: token,
                 nextToken: nextToken
@@ -581,6 +600,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.differentLine({
                 token: token,
                 nextToken: nextToken
@@ -597,6 +617,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.differentLine({
                 token: token,
                 nextToken: nextToken
@@ -613,6 +634,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             var token = file.getTree().firstToken;
+            var nextToken = file.findNextToken(token, 'Punctuator', '=');
             tokenAssert.differentLine({
                 token: token,
                 nextToken: nextToken,
@@ -1194,214 +1216,6 @@ describe('token-assert', function() {
 
                 expect(onError).to.have.callCount(1);
             });
-        });
-    });
-
-    describe('tokenBefore', function() {
-        it('should trigger error on missing token itself before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.tokenBefore({
-                token: token,
-                expectedTokenBefore: {value: 'something'}
-            });
-
-            expect(onError).to.have.callCount(1);
-
-            var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('something was expected before x but document start found');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(0);
-        });
-
-        it('should trigger error on missing token value before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.tokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'z'
-                }
-            });
-
-            expect(onError).to.have.callCount(1);
-
-            var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('z was expected before = but x found');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
-        });
-
-        it('should trigger error on missing token type before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.tokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Keyword',
-                    value: 'x'
-                }
-            });
-
-            expect(onError).to.have.callCount(1);
-
-            var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('x (Keyword) was expected before = but x (Identifier) found');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
-        });
-
-        it('should not trigger error on correct token before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.tokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'x'
-                }
-            });
-
-            expect(onError).to.have.callCount(0);
-        });
-
-        it('should accept message for missing token before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.tokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'z'
-                },
-                message: 'Custom message'
-            });
-            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
-        });
-    });
-
-    describe('noTokenBefore', function() {
-        it('should not trigger error on document start before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.noTokenBefore({
-                token: token,
-                expectedTokenBefore: {value: 'something'}
-            });
-
-            expect(onError).to.have.callCount(0);
-        });
-
-        it('should trigger error on illegal token value before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.noTokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'x'
-                }
-            });
-
-            expect(onError).to.have.callCount(1);
-
-            var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('Illegal x was found before =');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(1);
-        });
-
-        it('should not trigger error on missing token value before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.noTokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'z'
-                }
-            });
-
-            expect(onError).to.have.callCount(0);
-        });
-
-        it('should not trigger error on missing token type before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.noTokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Keyword',
-                    value: 'x'
-                }
-            });
-
-            expect(onError).to.have.callCount(0);
-        });
-
-        it('should accept message for illegal token before', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            var token = file.getTree().firstToken;
-            tokenAssert.noTokenBefore({
-                token: token,
-                expectedTokenBefore: {
-                    type: 'Identifier',
-                    value: 'x'
-                },
-                message: 'Custom message'
-            });
-            expect(onError.getCall(0).args[0].message).to.equal('Custom message');
         });
     });
 
