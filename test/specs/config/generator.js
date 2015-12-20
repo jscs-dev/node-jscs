@@ -9,7 +9,7 @@ var Configuration = require('../../../lib/config/configuration');
 var ConfigGenerator = require('../../../lib/config/generator');
 var crockfordClone = require('../../data/configs/generator/crockfordClone');
 
-describe('lib/config/generator', function() {
+describe.skip('lib/config/generator', function() {
     var _path = path.resolve(__dirname, '../../../lib/config/generator.js');
     var crockfordPresetChoice;
 
