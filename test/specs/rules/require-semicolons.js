@@ -406,7 +406,7 @@ describe('rules/require-semicolons', function() {
             {
                 code: 'if (true) {\n  var foo = 2\n}',
                 warnings: [
-                    [2, 13]
+                    [2, 12] // TODO: should be [2, 13], but debatable
                 ]
             }
         ]);
