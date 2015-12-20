@@ -56,6 +56,6 @@ describe('rules/disallow-space-after-keywords', function() {
 
     it('should not report illegal space when the next token is also a keyword #1346', function() {
         checker.configure({ disallowSpaceAfterKeywords: ['return'] });
-        expect(checker.checkString('return void(0);')).to.have.no.errors();
+        expect(checker.checkString('function test() {return void(0);}')).to.have.no.errors();
     });
 });
