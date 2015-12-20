@@ -208,7 +208,7 @@ describe('rules/validate-quote-marks', function() {
     });
 
     reportAndFix({
-        name: 'should fix (simple case)',
+        name: '\'\'',
         rules: {
             validateQuoteMarks: {
                 mark: '"',
@@ -219,8 +219,18 @@ describe('rules/validate-quote-marks', function() {
         output: '""'
     });
 
+     reportAndFix({
+        name: '\'a\'',
+        rules: {
+            validateQuoteMarks: '"'
+        },
+        errors: 1,
+        input: '\'a\'',
+        output: '"a"'
+    });
+
     reportAndFix({
-        name: 'should fix \'1\'2\'',
+        name: '\'1\'2\'',
         rules: {
             validateQuoteMarks: '\''
         },
