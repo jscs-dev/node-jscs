@@ -90,7 +90,7 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
         });
     });
 
-    describe('fix', function() {
+    describe('autofix', function() {
         reportAndFix({
             name: 'var x = { "a": 1 }',
             rules: config,
