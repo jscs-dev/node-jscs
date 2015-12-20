@@ -35,13 +35,11 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should not report shorthand object properties', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
             expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
         });
 
         it('should not report if no space after computed property names #1406', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var myObject = {',
                       '[myKey]: "myKeyValue",',
@@ -51,7 +49,6 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should not report if no space after computed property names #1742', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var a = {',
                       '[block + \'--default\']: this.props.navStyle === \'default\',',
@@ -61,7 +58,6 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report if space after computed property names #1406', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var myObject = {',
                       '[myKey] : "myKeyValue"',
@@ -70,7 +66,6 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report if space after computed property names #1742', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var a = {',
                       '[block + \'--default\'] : this.props.navStyle === \'default\',',
@@ -80,9 +75,7 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report mixed shorthand and normal object properties', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('var x = { a : 1, b };'))
-              .to.have.one.validation.error.from('disallowSpaceAfterObjectKeys');
         });
     });
 
