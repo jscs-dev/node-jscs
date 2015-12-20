@@ -10,7 +10,7 @@ var assign = require('lodash').assign;
 
 var JsFile = require('../../lib/js-file');
 
-describe.only('js-file', function() {
+describe('js-file', function() {
 
     function createJsFile(sources, options) {
         var params = {
@@ -1112,20 +1112,26 @@ describe.only('js-file', function() {
     describe('getPrevToken', function() {
         it('should return previous token', function() {
             var file = createJsFile('++x');
-            var xToken = file.getTree().firstToken.nextToken;
-            expect(xToken.type).to.equal('Identifier');
-            expect(xToken.value).to.equal('x');
+            var xToken = file.getTree().lastToken;
             var prev = file.getPrevToken(xToken);
+
             expect(prev.type).to.equal('Punctuator');
             expect(prev.value).to.equal('++');
         });
 
-        it('should return null for out-of-range token', function() {
-            var file = createJsFile('x');
-            var xToken = file.getTree().firstToken;
-            expect(xToken.type).to.equal('Identifier');
-            expect(xToken.value).to.equal('x');
+        it('should return previous non-whitespace token', function() {
+            var file = createJsFile('++x ');
+            var xToken = file.getTree().lastToken;
             var prev = file.getPrevToken(xToken);
+
+            expect(prev.type).to.equal('Identifier');
+            expect(prev.value).to.equal('x');
+        });
+
+        it('should return null for out-of-range token', function() {
+            var xToken = createJsFile('x').getTree().firstToken;
+            var prev = file.getPrevToken(xToken);
+
             expect(prev).to.equal(null);
         });
 
