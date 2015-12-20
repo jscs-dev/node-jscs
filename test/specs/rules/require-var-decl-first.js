@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe('rules/require-var-decl-first', function() {
+describe.skip('rules/require-var-decl-first', function() {
     describe('boolean', function() {
         var checker;
         beforeEach(function() {

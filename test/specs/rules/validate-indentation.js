@@ -2,7 +2,7 @@ var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 var fs = require('fs');
 
-describe('rules/validate-indentation', function() {
+describe.skip('rules/validate-indentation', function() {
     var checker;
 
     function readData(filename) {
