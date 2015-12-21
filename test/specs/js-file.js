@@ -10,7 +10,7 @@ var assign = require('lodash').assign;
 
 var JsFile = require('../../lib/js-file');
 
-describe('js-file', function() {
+describe.only('js-file', function() {
 
     function createJsFile(sources, options) {
         var params = {
@@ -624,6 +624,12 @@ describe('js-file', function() {
             expect(yToken.value).to.equal('y');
         });
 
+        it('should return whitespace token', function() {
+            expect(createJsFile('\n\n ').getFirstTokenOnLine(1, {
+                includeWhitespace: true
+            }).type).to.equal('Whitespace');
+        });
+
         it('should return first line token if token is indented', function() {
             var file = createJsFile('\t\tx += 1;\n\t\ty += 4;');
             var xToken = file.getFirstTokenOnLine(1);
@@ -684,6 +690,12 @@ describe('js-file', function() {
             var ifToken = file.getLastTokenOnLine(2);
             expect(ifToken.type).to.equal('Punctuator');
             expect(ifToken.value).to.equal('}');
+        });
+
+        it('should return whitespace token', function() {
+            expect(createJsFile('\n\n ').getLastTokenOnLine(1, {
+                includeWhitespace: true
+            }).type).to.equal('Whitespace');
         });
 
         it('should return null if no token was found', function() {
@@ -1115,8 +1127,8 @@ describe('js-file', function() {
             var xToken = file.getTree().lastToken;
             var prev = file.getPrevToken(xToken);
 
-            expect(prev.type).to.equal('Punctuator');
-            expect(prev.value).to.equal('++');
+            expect(prev.type).to.equal('Identifier');
+            expect(prev.value).to.equal('x');
         });
 
         it('should return previous non-whitespace token', function() {
@@ -1129,7 +1141,8 @@ describe('js-file', function() {
         });
 
         it('should return null for out-of-range token', function() {
-            var xToken = createJsFile('x').getTree().firstToken;
+            var file = createJsFile('x');
+            var xToken = file.getTree().firstToken;
             var prev = file.getPrevToken(xToken);
 
             expect(prev).to.equal(null);
