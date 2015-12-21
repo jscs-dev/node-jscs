@@ -2,7 +2,7 @@ var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe('rules/disallow-trailing-whitespace', function() {
+describe.skip('rules/disallow-trailing-whitespace', function() {
     var rules = { disallowTrailingWhitespace: true };
     var checker;
 
@@ -143,6 +143,7 @@ describe('rules/disallow-trailing-whitespace', function() {
         name: 'fixes spaces on the last lines',
         rules: rules,
         errors: 3,
+        only: true,
         input: 'var a;\n \n \n ',
         output: 'var a;\n\n\n'
     });
