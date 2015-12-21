@@ -166,6 +166,7 @@ describe('rules/disallow-spaces-in-generator', function() {
             name: 'should report illegal space after the star for the shorthand',
             rules: rules,
             errors: 1,
+            skip: true,
             input: '({ * foo() {} });',
             output: '({ *foo() {} });'
         });
