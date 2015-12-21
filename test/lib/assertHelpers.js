@@ -49,6 +49,9 @@ var AssertHelpers = {
         if (options.only) {
             describe.only(options.name, check);
 
+        } else if (options.skip) {
+            describe.skip(options.name, check);
+
         } else {
             describe(options.name, check);
         }
