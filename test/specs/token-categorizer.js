@@ -23,7 +23,7 @@ describe('token-categorizer', function() {
                 '(((function(){ function f(){} ' +
                 'if(new f(0)) return((f)(0, (1), ((2)))); throw(f()+(0)); })))'
             );
-            sharedFile.iterateTokenByValue('(', function(token) {
+            sharedFile.iterateTokensByTypeAndValue('Punctuator', '(', function(token) {
                 openParens.push({
                     type: TokenCategorizer.categorizeOpenParen(token, sharedFile),
                     offset: token.range[0],
@@ -54,7 +54,7 @@ describe('token-categorizer', function() {
                 'try{ if(1) do while(2) for(;;3) for(p in 4) with(5) switch(6){} while(7) }' +
                 'catch(x){}'
             );
-            file.iterateTokenByValue('(', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', '(', function(token) {
                 expect(TokenCategorizer.categorizeOpenParen(token, file))
                   .to.equal('Statement', 'after ' + file.getPrevToken(token).value);
             });
@@ -109,7 +109,7 @@ describe('token-categorizer', function() {
                 '(((function(){ function f(){} ' +
                 'if(new f(0)+0) return((f)(0, (1), ((2)))+0); throw(f()+(0)); })))'
             );
-            sharedFile.iterateTokenByValue(')', function(token) {
+            sharedFile.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 closeParens.push({
                     type: TokenCategorizer.categorizeCloseParen(token, sharedFile),
                     offset: token.range[0],
@@ -140,7 +140,7 @@ describe('token-categorizer', function() {
                 'try{ if(1) do while(2) for(;;3) for(p in 4) with(5) switch(6){} while(7) }' +
                 'catch(x){}'
             );
-            file.iterateTokenByValue(')', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 expect(TokenCategorizer.categorizeCloseParen(token, file))
                   .to.equal('Statement', 'flavor #' + file.getPrevToken(token).value);
             });
@@ -168,23 +168,23 @@ describe('token-categorizer', function() {
 
         it('should correctly handle parentheses preceding EOF', function() {
             var file = createJsFile('do {} while(true)');
-            file.iterateTokenByValue(')', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 expect(TokenCategorizer.categorizeCloseParen(token, file)).to.equal('Statement', 'do..while');
             });
 
             file = createJsFile('fn()');
-            file.iterateTokenByValue(')', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 expect(TokenCategorizer.categorizeCloseParen(token, file)).to.equal('CallExpression', 'function call');
             });
 
             file = createJsFile('new Ctor()');
-            file.iterateTokenByValue(')', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 expect(TokenCategorizer.categorizeCloseParen(token, file))
                   .to.equal('CallExpression', 'constructor call');
             });
 
             file = createJsFile('(0)');
-            file.iterateTokenByValue(')', function(token) {
+            file.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 expect(TokenCategorizer.categorizeCloseParen(token, file))
                   .to.equal('ParenthesizedExpression', 'expression');
             });
