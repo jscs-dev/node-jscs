@@ -55,8 +55,11 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
         it('should report illegal space in both cases', function() {
             expect(checker.checkString('( 1 + 2 ) * 3')).to.have.error.count.equal(2);
             expect(checker.checkString('if ( 1 + 2 )\n    3')).to.have.error.count.equal(2);
-            expect(checker.checkString('function my( ) {  }')).to.have.error.count.equal(2);
             expect(checker.checkString('function my( a, b ) {  }')).to.have.error.count.equal(2);
+        });
+
+        it('should report only one error after one error', function() {
+            expect(checker.checkString('function my( ) {  }')).to.have.error.count.equal(1);
         });
 
         it('should not report with no spaces', function() {
