@@ -36,7 +36,7 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
             expect(checker.checkString('var _x = "x", __y = "y";')).to.have.no.errors();
         });
 
-        it('should report trailing underscores', function() {
+        it('should not report trailing underscores', function() {
             expect(checker.checkString('var x_ = "x", y__ = "y";')).to.have.no.errors();
         });
 
