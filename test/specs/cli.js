@@ -648,7 +648,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             });
 
-            return result.promise.always(function(status) {
+            return result.promise.always(function() {
                 expect(result.checker.maxErrorsEnabled()).to.equal(false);
 
                 rAfter();
@@ -662,7 +662,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             });
 
-            return result.promise.always(function(status) {
+            return result.promise.always(function() {
                 expect(result.checker.maxErrorsEnabled()).to.equal(false);
 
                 rAfter();
@@ -675,7 +675,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             });
 
-            return result.promise.always(function(status) {
+            return result.promise.always(function() {
                 expect(result.checker.maxErrorsEnabled()).to.equal(true);
 
                 rAfter();
@@ -688,7 +688,7 @@ describe('cli', function() {
                 config: 'test/data/cli/maxErrors.json'
             });
 
-            return result.promise.always(function(status) {
+            return result.promise.always(function() {
                 expect(result.checker.maxErrorsEnabled()).to.equal(true);
 
                 rAfter();

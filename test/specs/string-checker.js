@@ -99,7 +99,7 @@ describe('string-checker', function() {
 
             it('should disable max error check for `-1` value', function() {
                 checker.configure({
-                    disallowKeywords: ["with"],
+                    disallowKeywords: ['with'],
                     maxErrors: -1
                 });
 
@@ -111,7 +111,7 @@ describe('string-checker', function() {
 
             it('should disable max error check for `null` value', function() {
                 checker.configure({
-                    disallowKeywords: ["with"],
+                    disallowKeywords: ['with'],
                     maxErrors: null
                 });
 
