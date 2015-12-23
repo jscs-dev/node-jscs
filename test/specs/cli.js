@@ -641,27 +641,55 @@ describe('cli', function() {
             });
         });
 
-        it.skip('should allow `-1` value to report all errors', function() {
-            return cli({
-                maxErrors: -1,
+        it('should allow `null` value to report all errors', function() {
+            var result = cli({
+                maxErrors: null,
                 args: ['test/data/cli/error.js'],
-                config: 'test/data/cli/maxErrors-0.json'
+                config: 'test/data/cli/maxErrors.json'
+            });
 
-            }).promise.always(function(status) {
-                expect(!!status.valueOf()).to.equal(true);
+            return result.promise.always(function(status) {
+                expect(result.checker.maxErrorsEnabled()).to.equal(false);
 
                 rAfter();
             });
         });
 
-        it('should allow `null` value to report all errors', function() {
-            return cli({
-                maxErrors: null,
+        it('should allow `-1` value to report all errors', function() {
+            var result = cli({
+                maxErrors: -1,
                 args: ['test/data/cli/error.js'],
-                config: 'test/data/cli/maxErrors-0.json'
-            })
-            .promise.always(function(status) {
-                expect(status.valueOf()).to.equal(2);
+                config: 'test/data/cli/maxErrors.json'
+            });
+
+            return result.promise.always(function(status) {
+                expect(result.checker.maxErrorsEnabled()).to.equal(false);
+
+                rAfter();
+            });
+        });
+
+        it('should enable maxErrors by default', function() {
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            });
+
+            return result.promise.always(function(status) {
+                expect(result.checker.maxErrorsEnabled()).to.equal(true);
+
+                rAfter();
+            });
+        });
+
+        it('should enable maxErrors option by default', function() {
+            var result = cli({
+                args: ['test/data/cli/error.js'],
+                config: 'test/data/cli/maxErrors.json'
+            });
+
+            return result.promise.always(function(status) {
+                expect(result.checker.maxErrorsEnabled()).to.equal(true);
 
                 rAfter();
             });

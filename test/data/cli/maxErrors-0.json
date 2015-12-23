@@ -1,5 +1,0 @@
-{
-  "disallowKeywords": ["with"],
-  "requireSpaceBeforePostfixUnaryOperators": ["++"],
-  "maxErrors": 0
-}

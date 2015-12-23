@@ -96,6 +96,30 @@ describe('string-checker', function() {
                 errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
                 expect(errors.length).to.be.above(0);
             });
+
+            it('should disable max error check for `-1` value', function() {
+                checker.configure({
+                    disallowKeywords: ["with"],
+                    maxErrors: -1
+                });
+
+                var str = new Array(100).join('with({}){}');
+
+                checker.checkString(str);
+                expect(checker.maxErrorsExceeded()).to.equal(false);
+            });
+
+            it('should disable max error check for `null` value', function() {
+                checker.configure({
+                    disallowKeywords: ["with"],
+                    maxErrors: null
+                });
+
+                var str = new Array(100).join('with({}){}');
+
+                checker.checkString(str);
+                expect(checker.maxErrorsExceeded()).to.equal(false);
+            });
         });
     });
 
