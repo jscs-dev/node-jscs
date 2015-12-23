@@ -379,4 +379,50 @@ describe('rules/disallow-newline-before-block-statements', function() {
             });
         });
     });
+
+    describe('with option value object and allExcept multiLine - ', function() {
+        beforeEach(function() {
+            checker.configure({
+                disallowNewlineBeforeBlockStatements: {
+                    value: true,
+                    allExcept: ['multiLine']
+                }
+            });
+        });
+
+        it('misc checks', function() {
+            expect(checker.checkString('function foo(a,b) { }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('function foo(a,\nb) { }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('function foo() { for (var i=0; i<len; i++) { } }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('function foo() { for (var i=0; i<len;\ni++) { } }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('function foo() { for (var i=0; i<len;\ni++)\n{ } }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('function foo() { if (true) { } }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('function foo() { if (a && b()) { } }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('function foo() { if (a &&\nb()) { } }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('function foo() { if (a &&\nb())\n{ } }'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('(function () {}())'))
+                .to.have.no.errors();
+
+            expect(checker.checkString('try {\n\ty++;\n} catch(e) {\n}'))
+                .to.have.no.errors();
+        });
+    });
 });
