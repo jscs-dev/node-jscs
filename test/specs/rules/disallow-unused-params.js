@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe('rules/disallow-unused-params', function() {
+describe.skip('rules/disallow-unused-params', function() {
     var checker;
     var config = { disallowUnusedParams: true };
 

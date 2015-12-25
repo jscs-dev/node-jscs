@@ -143,7 +143,6 @@ describe.skip('rules/disallow-trailing-whitespace', function() {
         name: 'fixes spaces on the last lines',
         rules: rules,
         errors: 3,
-        only: true,
         input: 'var a;\n \n \n ',
         output: 'var a;\n\n\n'
     });

@@ -10,7 +10,7 @@ var assign = require('lodash').assign;
 
 var JsFile = require('../../lib/js-file');
 
-describe.only('js-file', function() {
+describe('js-file', function() {
 
     function createJsFile(sources, options) {
         var params = {
