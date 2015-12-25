@@ -143,9 +143,10 @@ describe('rules/require-aligned-object-values', function() {
             });
         });
 
-        describe('in conjunction with disallowSpaceAfterObjectKeys', function() {
+        describe.skip('in conjunction with disallowSpaceAfterObjectKeys', function() {
             reportAndFix({
                 name: 'illegal object values alignment',
+                only: true,
                 rules: {
                     disallowSpaceAfterObjectKeys: {allExcept: ['aligned']},
                     requireAlignedObjectValues: 'all'
