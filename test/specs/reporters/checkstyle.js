@@ -37,7 +37,7 @@ describe('reporters/checkstyle', function() {
                 var error = file.error[0];
                 expect(!!error).to.equal(true);
                 expect(error.$.line).to.equal('1');
-                expect(error.$.column).to.equal('1');
+                expect(error.$.column).to.equal('3');
                 expect(error.$.severity).to.equal('error');
                 expect(error.$.message).to.equal('Illegal keyword: with');
                 expect(error.$.source).to.equal('jscs');

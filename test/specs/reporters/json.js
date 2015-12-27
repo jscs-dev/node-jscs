@@ -25,15 +25,15 @@ describe('reporters/json', function() {
 
     it('should correctly reports 1 error', function() {
         json([checker.checkString('with (x) {}')]);
-        var resultStr = '{"input":[{"line":1,"column":1,"message":"Illegal keyword: with"}]}';
+        var resultStr = '{"input":[{"line":1,"column":3,"message":"Illegal keyword: with"}]}';
         expect(console.log.getCall(0).args[0]).to.equal(resultStr);
         expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly reports 2 errors', function() {
         json([checker.checkString('with (x) {} with (x) {}')]);
-        var resultStr = '{"input":[{"line":1,"column":1,"message":"Illegal keyword: with"},' +
-                    '{"line":1,"column":13,"message":"Illegal keyword: with"}]}';
+        var resultStr = '{"input":[{"line":1,"column":3,"message":"Illegal keyword: with"},' +
+                    '{"line":1,"column":15,"message":"Illegal keyword: with"}]}';
         expect(console.log.getCall(0).args[0]).to.equal(resultStr);
         expect(console.log).to.have.callCount(1);
     });
