@@ -75,19 +75,47 @@ describe('rules/require-space-after-keywords', function() {
     it('should report on all spaced keywords if a value of true is supplied', function() {
         checker.configure({ requireSpaceAfterKeywords: true });
 
-        expect(checker.checkString('do{}')).to.have.errors();
-        expect(checker.checkString('for(){}')).to.have.errors();
-        expect(checker.checkString('if(x) {}')).to.have.errors();
-        expect(checker.checkString('if (){}else{}')).to.have.errors();
-        expect(checker.checkString('switch(){ case 4: break;}')).to.have.errors();
-        expect(checker.checkString('switch (){ case\'4\': break;}')).to.have.errors();
-        expect(checker.checkString('try{}')).to.have.errors();
-        expect(checker.checkString('try {} catch(e){}')).to.have.errors();
-        expect(checker.checkString('try {} catch (e){} finally{}')).to.have.errors();
-        expect(checker.checkString('void(0)')).to.have.errors();
-        expect(checker.checkString('while(x) {}')).to.have.errors();
-        expect(checker.checkString('with(){}')).to.have.errors();
-        expect(checker.checkString('var foo = function(){};')).to.have.errors();
-        expect(checker.checkString('typeof\'4\'')).to.have.errors();
+        expect(checker.checkString('do {alert(1)}while(false)')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('do{alert(1)}while (false)')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('for(;;){}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('if(x) {}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('if (true){}else{}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('switch(1){ case 4: break;}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('switch (1){ case\'4\': break;}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('try {} catch(e){}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('try {} catch (e){} finally{}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('void(0)')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('while(x) {}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('with({}){}')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('var foo = function(){};')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
+        expect(checker.checkString('typeof\'4\'')).to.have.one.validation
+            .error.from('requireSpaceAfterKeywords');
+
     });
 });
