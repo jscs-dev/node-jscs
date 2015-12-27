@@ -1330,7 +1330,6 @@ describe('token-assert', function() {
 
             var tokenAssert = new TokenAssert(file);
             var onError = sinon.spy();
-            var token = file.getFirstTokenOnLine(1, {includeComments: true});
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
@@ -1350,7 +1349,6 @@ describe('token-assert', function() {
 
             var tokenAssert = new TokenAssert(file);
             var onError = sinon.spy();
-            var token = file.getFirstTokenOnLine(1, {includeComments: true});
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
