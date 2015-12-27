@@ -1209,8 +1209,13 @@ describe('js-file', function() {
 
     describe('getWhitespaceBefore', function() {
         it('should return whitespace before the first token', function() {
-            var file = createJsFile('  \nx;');
-            expect(file.getWhitespaceBefore(file.getLastToken())).to.equal('  \n');
+            var file = createJsFile('  \nx');
+            expect(file.getWhitespaceBefore(file.getLastToken().previousToken)).to.equal('  \n');
+        });
+
+        it('should not jump through tokens to find a whitespaces', function() {
+            var file = createJsFile('  \nx');
+            expect(file.getWhitespaceBefore(file.getLastToken())).to.equal('');
         });
 
         it('should return whitespace before the EOF', function() {
