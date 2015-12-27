@@ -3,8 +3,7 @@ var expect = require('chai').expect;
 var Checker = require('../../lib/checker');
 var Errors = require('../../lib/errors');
 
-
-describe('errors', function() {
+describe.skip('errors', function() {
     var checker;
 
     beforeEach(function() {
