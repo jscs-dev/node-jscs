@@ -1,13 +1,16 @@
 var Checker = require('../../../lib/checker');
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
+
 var expect = require('chai').expect;
 
 describe('rules/require-quoted-keys-in-objects', function() {
     var checker;
+    var rules = { requireQuotedKeysInObjects: true };
 
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ requireQuotedKeysInObjects: true });
+        checker.configure(rules);
     });
 
     it('should report for object keys without quotes', function() {
@@ -85,5 +88,15 @@ describe('rules/require-quoted-keys-in-objects', function() {
     it('should not report es5 getters/setters #1037', function() {
         expect(checker.checkString('var x = { get a() { } };')).to.have.no.errors();
         expect(checker.checkString('var x = { set a(val) { } };')).to.have.no.errors();
+    });
+
+    describe('autofix', function() {
+        reportAndFix({
+            name: '({foo: "bar"})',
+            rules: rules,
+            errors: 1,
+            input: '({foo: "bar"})',
+            output: '({"foo": "bar"})'
+        });
     });
 });
