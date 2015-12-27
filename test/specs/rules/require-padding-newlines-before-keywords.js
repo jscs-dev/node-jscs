@@ -44,7 +44,7 @@ describe('rules/require-padding-newlines-before-keywords', function() {
                 )).to.have.no.errors();
         });
 
-        it('should not report on do while construct', function() {
+        it('should not report on `do...while` construct', function() {
             expect(checker.checkString(
                     'function x() { var a = true; do { a = !a; } while (a); }'
                 )).to.have.no.errors();
