@@ -28,7 +28,7 @@ describe('reporters/inlinesingle', function() {
     it('should correctly reports 1 error', function() {
         inlinesingle([checker.checkString('with (x) {}')]);
 
-        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 0, Illegal keyword: with');
+        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 2, Illegal keyword: with');
         expect(console.log).to.have.callCount(1);
     });
 
@@ -36,7 +36,7 @@ describe('reporters/inlinesingle', function() {
         inlinesingle([checker.checkString('with (x) {} with (x) {}')]);
 
         expect(console.log.getCall(0).args[0])
-          .to.equal('input: line 1, col 0, Illegal keyword: with\ninput: line 1, col 12, Illegal keyword: with');
+          .to.equal('input: line 1, col 2, Illegal keyword: with\ninput: line 1, col 14, Illegal keyword: with');
         expect(console.log).to.have.callCount(1);
     });
 });

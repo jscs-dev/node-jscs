@@ -25,14 +25,14 @@ describe('reporters/unix', function() {
 
     it('should correctly reports 1 error', function() {
         unix([checker.checkString('with (x) {}')]);
-        expect(console.log.getCall(0).args[0]).to.equal('input:1:0: Illegal keyword: with');
+        expect(console.log.getCall(0).args[0]).to.equal('input:1:2: Illegal keyword: with');
         expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly reports 2 errors', function() {
         unix([checker.checkString('with (x) {} with (x) {}')]);
-        expect(console.log.getCall(0).args[0]).to.equal('input:1:0: Illegal keyword: with');
-        expect(console.log.getCall(1).args[0]).to.equal('input:1:12: Illegal keyword: with');
+        expect(console.log.getCall(0).args[0]).to.equal('input:1:2: Illegal keyword: with');
+        expect(console.log.getCall(1).args[0]).to.equal('input:1:14: Illegal keyword: with');
         expect(console.log).to.have.callCount(2);
     });
 });
