@@ -56,14 +56,6 @@ describe('rules/require-space-after-binary-operators', function() {
                     expect(checker.checkString(notStickedWithParenthesis)).to.have.no.errors();
                 }
             );
-
-            it('should highlight the end of the ' + operator + ' operator', function() {
-                checker.configure({ requireSpaceAfterBinaryOperators: [operator] });
-                var error = checker.checkString(sticked).getErrorList()[0];
-                expect(error.line).to.equal(1);
-                expect(error.column).to.equal(14 + operator.length);
-                expect(error.message).to.equal('Operator ' + operator + ' should not stick to following expression');
-            });
         });
     });
 
