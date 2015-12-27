@@ -94,6 +94,7 @@ describe('rules/require-spaces-in-generator', function() {
         reportAndFix({
             name: 'should report missing space after the star for the shorthand',
             rules: rules,
+            skip: true,
             errors: 1,
             input: '({ *foo() {} });',
             output: '({ * foo() {} });'
