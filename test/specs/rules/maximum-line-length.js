@@ -224,6 +224,13 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString(code)).to.have.no.errors();
         });
 
+        it('should not report arrow functions', function() {
+            var code = '(aVeryVeryLongLongParameter => 42);\n' +
+                    '(() => "parameterless arrow function");\n' +
+                    '((foo, bar, baz, $rootScope) => "quux");';
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
+
         it('should not report functions within IIFE blocks', function() {
             var code = '(function() {\n' +
                     '   function myCoolFunction(argument) { }\n' +
