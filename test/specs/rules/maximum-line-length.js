@@ -214,8 +214,32 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString(code)).to.have.no.errors();
         });
 
-        it('should report functions stored in variables', function() {
-            var code = 'var fn = function() {};';
+        it('should not report functions stored in variables', function() {
+            var code = 'var fn1 = function(longer) { return null; };\n' +
+                    'let fn2 = function(longer) { return null; };\n' +
+                    'const fn3 = function() { return "no_params_or_id"; };\n' +
+                    'var fn4 = function myFn4() { return null; };\n' +
+                    'let fn5 = function myFn5() { return null; };\n' +
+                    'const fn6 = function myFn6(whynot) { return null; };';
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
+
+        it('should not report arrow functions', function() {
+            var code = '(aVeryVeryLongLongParameter => 42);\n' +
+                    '(() => "parameterless arrow function");\n' +
+                    '((foo, bar, baz, $rootScope) => "quux");';
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
+
+        it('should not report functions within IIFE blocks', function() {
+            var code = '(function() {\n' +
+                    '   function myCoolFunction(argument) { }\n' +
+                    '})();';
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
+
+        it('should report functions within comments', function() {
+            var code = '// function myCoolFunction(argument) { }';
             expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
     });
