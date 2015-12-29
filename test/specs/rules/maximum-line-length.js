@@ -218,6 +218,13 @@ describe('rules/maximum-line-length', function() {
             var code = 'var fn = function() {};';
             expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
+
+        it('should not report functions within IIFE blocks', function() {
+            var code = '(function() {\n' +
+                    '   function myCoolFunction(argument) { }\n' +
+                    '})();';
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
     });
 
     describe('allExcept["require"] option', function() {
