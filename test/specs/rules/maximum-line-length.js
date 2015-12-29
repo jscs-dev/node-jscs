@@ -225,6 +225,11 @@ describe('rules/maximum-line-length', function() {
                     '})();';
             expect(checker.checkString(code)).to.have.no.errors();
         });
+
+        it('should report functions within comments', function() {
+            var code = '// function myCoolFunction(argument) { }';
+            expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
+        });
     });
 
     describe('allExcept["require"] option', function() {
