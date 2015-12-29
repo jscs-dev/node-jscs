@@ -214,9 +214,9 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString(code)).to.have.no.errors();
         });
 
-        it('should report functions stored in variables', function() {
+        it('should not report functions stored in variables', function() {
             var code = 'var fn = function() {};';
-            expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
+            expect(checker.checkString(code)).to.have.no.errors();
         });
 
         it('should not report functions within IIFE blocks', function() {
