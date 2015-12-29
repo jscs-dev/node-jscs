@@ -215,7 +215,12 @@ describe('rules/maximum-line-length', function() {
         });
 
         it('should not report functions stored in variables', function() {
-            var code = 'var fn = function() {};';
+            var code = 'var fn1 = function(longer) { return null; };\n' +
+                    'let fn2 = function(longer) { return null; };\n' +
+                    'const fn3 = function() { return "no_params_or_id"; };\n' +
+                    'var fn4 = function myFn4() { return null; };\n' +
+                    'let fn5 = function myFn5() { return null; };\n' +
+                    'const fn6 = function myFn6(whynot) { return null; };';
             expect(checker.checkString(code)).to.have.no.errors();
         });
 
