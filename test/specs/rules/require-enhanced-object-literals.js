@@ -1,5 +1,16 @@
-var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
+
+var Checker = require('../../../lib/checker');
+
+var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
+
+function buildChecker(rules) {
+    var checker = new Checker();
+    checker.registerDefaultRules();
+    checker.configure(rules);
+
+    return checker;
+}
 
 describe('rules/require-enhanced-object-literals', function() {
     describe('when { requireEnhancedObjectLiterals: true }', function() {
@@ -71,11 +82,21 @@ describe('rules/require-enhanced-object-literals', function() {
         });
     });
 
-    function buildChecker(rules) {
-        var checker = new Checker();
-        checker.registerDefaultRules();
-        checker.configure(rules);
+    describe('autofix', function() {
+        reportAndFix({
+            name: '({ foo: foo })',
+            rules: { requireEnhancedObjectLiterals: true },
+            input: '({ foo:foo })',
+            output: '({ foo })'
+        });
 
-        return checker;
-    }
+        // Can't fix it yet
+        reportAndFix({
+            name: '({ foo: function() { } })',
+            rules: { requireEnhancedObjectLiterals: true },
+            input: '({ foo: function() { var x = 1} })',
+            output: '({ foo: function() { var x = 1} })'
+        });
+
+    });
 });
