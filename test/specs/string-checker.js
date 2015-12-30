@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var StringChecker = require('../../lib/string-checker');
 var Errors = require('../../lib/errors');
 
-describe.only('string-checker', function() {
+describe('string-checker', function() {
     var checker;
     beforeEach(function() {
         checker = new StringChecker();
