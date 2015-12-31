@@ -1,3 +1,10 @@
+## Version [2.8.0](https://github.com/jscs-dev/node-jscs/compare/v2.7.0...v2.8.0)
+
+Happy new year! Small changes this time, small, but important fixes which still warrants the minor bump.
+
+Aside from bug fixes, this update includes improvement for the airbnb preset and `allExcept` option for the [`disallowNewlineBeforeBlockStatements`](http://jscs.info/rule/disallowNewlineBeforeBlockStatements)
+
+
 ## Version [2.7.0](https://github.com/jscs-dev/node-jscs/compare/v2.6.0...v2.7.0)
 
 It's this time of the year again, 2.7 is here!
