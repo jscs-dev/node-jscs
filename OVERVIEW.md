@@ -35,6 +35,7 @@ You can specifically disable any preset rule by creating a `.jscsrc` config file
  * Syntastic VIM Plugin: [https://github.com/scrooloose/syntastic/.../syntax_checkers/javascript/jscs.vim/](https://github.com/scrooloose/syntastic/blob/master/syntax_checkers/javascript/jscs.vim/)
  * Web Essentials for Visual Studio 2013: https://github.com/madskristensen/WebEssentials2013/
  * IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm plugin: https://www.jetbrains.com/webstorm/help/jscs.html
+ * Visual Studio Code extension: https://github.com/microsoft/vscode-jscs
 
 ### Extensions
 
