@@ -153,6 +153,18 @@ describe('rules/require-template-strings', function() {
         it('should not report the use of string concatenation with two template strings', function() {
             expect(checker.checkString('`a` + `a`')).to.have.no.errors();
         });
+
+        it('should not report string with binary concatination', function() {
+            expect(checker.checkString('"a" + "b" + "c";')).to.have.no.errors();
+        });
+
+        it('should not report string with binary concatination for three operands', function() {
+            expect(checker.checkString('"a" + "b" + "c";')).to.have.no.errors();
+        });
+
+        it('should not report string with binary concatination for four operands', function() {
+            expect(checker.checkString('"a" + "b" + "c" + "d";')).to.have.no.errors();
+        });
     });
 
     describe('invalid options', function() {
