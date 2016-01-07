@@ -393,6 +393,38 @@ describe('rules/require-semicolons', function() {
         });
     });
 
+    describe('class property', function() {
+        valid([
+            'class A { asdf; }',
+            'export class A { asdf; }',
+            'export default class A { asdf; }',
+            'export default class A { asdf = 1; }'
+        ]);
+
+        invalid([
+            'class A { asdf }',
+            'export class A { asdf }',
+            'export default class A { asdf }',
+            'export default class A { asdf = 1 }'
+        ]);
+
+        reportAndFix({
+            name: 'class A { asdf }',
+            rules: config,
+            errors: 1,
+            input: 'class A { asdf }',
+            output: 'class A { asdf; }'
+        });
+
+        reportAndFix({
+            name: 'class A { asdf = 1 }',
+            rules: config,
+            errors: 1,
+            input: 'class A { asdf = 1 }',
+            output: 'class A { asdf = 1; }'
+        });
+    });
+
     reportAndFix({
         name: 'expression call with comments',
         rules: config,
