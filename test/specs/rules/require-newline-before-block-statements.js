@@ -132,9 +132,43 @@ describe('rules/require-newline-before-block-statements', function() {
                 expect(checker.checkString('for (var i = 0, len = 10; i < 10; ++i)\n{\n\tx++;\n}')).to.have.no.errors();
             });
 
-            it('should not complain when note configured with "for"', function() {
+            it('should not complain when not configured with "for"', function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
                 expect(checker.checkString('for (var i = 0, len = 10; i < 10; ++i) {\n\tx++;\n}')).to.have.no.errors();
+            });
+        });
+
+        describe('switch', function() {
+            beforeEach(function() {
+                checker.configure({ requireNewlineBeforeBlockStatements: ['switch'] });
+            });
+
+            it('should report missing newlines when configured with "switch"', function() {
+                expect(checker.checkString('switch (a) {\n\tdefault: 1;\n}'))
+                    .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should complain when configured with "switch" and no cases', function() {
+                expect(checker.checkString('switch (a) {\n}'))
+                    .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should complain when configured with "switch" and parenthesized discriminant', function() {
+                expect(checker.checkString('switch ((function(){}())) {\n\tdefault: 1;\n}'))
+                    .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should not complain when configured with "switch" and newline exists', function() {
+                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}')).to.have.no.errors();
+            });
+
+            it('should not complain when configured with "switch" and case on brace line', function() {
+                expect(checker.checkString('switch (a)\n{default: 1;\n}')).to.have.no.errors();
+            });
+
+            it('should not complain when not configured with "switch"', function() {
+                checker.configure({ requireNewlineBeforeBlockStatements: ['if'] });
+                expect(checker.checkString('switch (a) {\n\tdefault: 1;\n}')).to.have.no.errors();
             });
         });
 
