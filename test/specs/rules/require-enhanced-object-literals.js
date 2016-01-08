@@ -32,6 +32,13 @@ describe('rules/require-enhanced-object-literals', function() {
 
             expect(checker.checkString(code)).to.have.no.errors();
         });
+
+        it('allows computed keys ', function() {
+            var checker = buildChecker({ requireEnhancedObjectLiterals: true });
+            var code = 'const COMMENTS = { [SINGLE_COMMENT]: SINGLE_COMMENT }';
+
+            expect(checker.checkString(code)).to.have.no.errors();
+        });
     });
 
     describe('when { requireEnhancedObjectLiterals: false }', function() {
