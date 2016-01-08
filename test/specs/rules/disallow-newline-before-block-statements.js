@@ -152,6 +152,26 @@ describe('rules/disallow-newline-before-block-statements', function() {
             });
         });
 
+        describe('switch', function() {
+            beforeEach(function() {
+                checker.configure({ disallowNewlineBeforeBlockStatements: ['switch'] });
+            });
+
+            it('should report extra newlines when configured with "switch"', function() {
+                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}'))
+                    .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+            });
+
+            it('should not complain when configured with "switch" and newline not added', function() {
+                expect(checker.checkString('switch (a) {\n\tdefault: 1;\n}')).to.have.no.errors();
+            });
+
+            it('should not complain when not configured with "switch"', function() {
+                checker.configure({ disallowNewlineBeforeBlockStatements: ['if'] });
+                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}')).to.have.no.errors();
+            });
+        });
+
         describe('"for...in" loops', function() {
             beforeEach(function() {
                 checker.configure({ disallowNewlineBeforeBlockStatements: ['for'] });
@@ -395,6 +415,9 @@ describe('rules/disallow-newline-before-block-statements', function() {
                 .to.have.no.errors();
 
             expect(checker.checkString('function foo(a,\nb) { }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('switch((function(){}\n())) { }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
 
             expect(checker.checkString('function foo() { for (var i=0; i<len; i++) { } }'))
