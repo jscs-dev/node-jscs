@@ -492,7 +492,7 @@ describe('rules/disallow-newline-before-block-statements', function() {
                 .to.have.no.errors();
         });
 
-        it('"switch" checks', function() {
+        it('"switch" statements', function() {
             expect(checker.checkString('switch((function(){}\n())) { }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
 
