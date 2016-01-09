@@ -19,6 +19,11 @@ describe('rules/require-newline-before-block-statements', function() {
               .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
         });
 
+        it('should report missing newline before opening brace for "switch"', function() {
+            expect(checker.checkString('switch (a) {\n\tcase 1: break;\n}'))
+                .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+        });
+
         it('should report missing newline before opening brace when there are white-spaces between', function() {
             expect(checker.checkString('function test()      /* COOOMMMENTTT*/ {abc();}'))
               .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
@@ -42,14 +47,38 @@ describe('rules/require-newline-before-block-statements', function() {
               .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
         });
 
-        it('should report missing newline for all 3 statements', function() {
-            expect(checker.checkString('function test(){\nif(true){\nreturn 1;\n}\nfor(var i in [1,2,3]){\n}\n}'))
-              .to.have.error.count.equal(3);
+        it('should report missing newline for all 4 statements', function() {
+            expect(checker.checkString([
+                'function test(){',
+                  'if(true){',
+                    'switch (a){',
+                      'case 1: break;',
+                    '}',
+                    'return 1;',
+                  '}',
+                  'for(var i in [1,2,3]){',
+                  '}',
+                '}'
+            ].join('\n'))).to.have.error.count.equal(4);
         });
 
         it('should not report missing newline', function() {
-            expect(checker.checkString('function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}'))
-              .to.have.no.errors();
+            expect(checker.checkString([
+                'function test()',
+                '{',
+                  'if(true)',
+                  '{',
+                    'switch (a)',
+                    '{',
+                      'case 1: break;',
+                    '}',
+                    'return 1;',
+                  '}',
+                  'for(var i in [1,2,3])',
+                  '{',
+                  '}',
+                '}'
+            ].join('\n'))).to.have.no.errors();
         });
 
         it('should not throw error if opening parentheses is first symbol in the file', function() {
@@ -138,14 +167,24 @@ describe('rules/require-newline-before-block-statements', function() {
             });
         });
 
-        describe('switch', function() {
+        describe('"switch" statements', function() {
             beforeEach(function() {
                 checker.configure({ requireNewlineBeforeBlockStatements: ['switch'] });
             });
 
             it('should report missing newlines when configured with "switch"', function() {
-                expect(checker.checkString('switch (a) {\n\tdefault: 1;\n}'))
+                expect(checker.checkString('switch (a) {\n\tcase 1: break;\n}'))
                     .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should report missing newline before opening brace when there are white-spaces between', function() {
+                expect(checker.checkString('switch (a)      /* COOOMMMENTTT*/ {\n\tcase 1: break;\n}'))
+                    .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
+            });
+
+            it('should not report missing newline if there are more of them combined with white-spaces', function() {
+                expect(checker.checkString('switch (a)       \n    \n/*BLOCK*/   {\n\tcase 1: break;\n}'))
+                    .to.have.no.errors();
             });
 
             it('should complain when configured with "switch" and no cases', function() {
@@ -154,12 +193,12 @@ describe('rules/require-newline-before-block-statements', function() {
             });
 
             it('should complain when configured with "switch" and parenthesized discriminant', function() {
-                expect(checker.checkString('switch ((function(){}())) {\n\tdefault: 1;\n}'))
+                expect(checker.checkString('switch ((function(){}())) {\n\tcase 1: break;\n}'))
                     .to.have.one.validation.error.from('requireNewlineBeforeBlockStatements');
             });
 
             it('should not complain when configured with "switch" and newline exists', function() {
-                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}')).to.have.no.errors();
+                expect(checker.checkString('switch (a)\n{\n\tcase 1: break;\n}')).to.have.no.errors();
             });
 
             it('should not complain when configured with "switch" and case on brace line', function() {
