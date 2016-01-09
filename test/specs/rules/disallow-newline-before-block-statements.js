@@ -178,7 +178,7 @@ describe('rules/disallow-newline-before-block-statements', function() {
             });
         });
 
-        describe('switch', function() {
+        describe('"switch" statements', function() {
             beforeEach(function() {
                 checker.configure({ disallowNewlineBeforeBlockStatements: ['switch'] });
             });
