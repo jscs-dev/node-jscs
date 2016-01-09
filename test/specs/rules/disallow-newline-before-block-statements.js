@@ -30,11 +30,37 @@ describe('rules/disallow-newline-before-block-statements', function() {
         });
 
         reportAndFix({
-            name: 'disallowed newline for all 3 statements',
+            name: 'disallowed newline for all 4 statements',
             rules: { disallowNewlineBeforeBlockStatements: true },
-            input: 'function test()\n{\nif(true)\n{\nreturn 1;\n}\nfor(var i in [1,2,3])\n{\n}\n}',
-            output: 'function test() {\nif(true) {\nreturn 1;\n}\nfor(var i in [1,2,3]) {\n}\n}',
-            errors: 3
+            input: [
+                'function test()',
+                '{',
+                  'if(true)',
+                  '{',
+                    'switch (a)',
+                    '{',
+                      'case 1: break;',
+                    '}',
+                    'return 1;',
+                  '}',
+                  'for(var i in [1,2,3])',
+                  '{',
+                  '}',
+                '}'
+            ].join('\n'),
+            output: [
+                'function test() {',
+                  'if(true) {',
+                    'switch (a) {',
+                      'case 1: break;',
+                    '}',
+                    'return 1;',
+                  '}',
+                  'for(var i in [1,2,3]) {',
+                  '}',
+                '}'
+            ].join('\n'),
+            errors: 4
         });
 
         it('should not report disallowed newline before opening brace', function() {
@@ -158,17 +184,35 @@ describe('rules/disallow-newline-before-block-statements', function() {
             });
 
             it('should report extra newlines when configured with "switch"', function() {
-                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}'))
+                expect(checker.checkString('switch (a)\n{\n\tcase 1: break;\n}'))
                     .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
             });
 
+            it('should not report newline before opening brace when there are white-spaces between', function() {
+                expect(checker.checkString('switch (a)      /* COOOMMMENTTT*/ {case 1: break;}')).to.have.no.errors();
+            });
+
+            it('should complain when configured with "switch" and no cases', function() {
+                expect(checker.checkString('switch (a)\n{\n}'))
+                    .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+            });
+
+            it('should complain when configured with "switch" and parenthesized discriminant', function() {
+                expect(checker.checkString('switch ((function(){}()))\n{\n\tcase 1: break;\n}'))
+                    .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+            });
+
+            it('should not complain when configured with "switch" and case on brace line', function() {
+                expect(checker.checkString('switch (a) {default: 1;\n}')).to.have.no.errors();
+            });
+
             it('should not complain when configured with "switch" and newline not added', function() {
-                expect(checker.checkString('switch (a) {\n\tdefault: 1;\n}')).to.have.no.errors();
+                expect(checker.checkString('switch (a) {\n\tcase 1: break;\n}')).to.have.no.errors();
             });
 
             it('should not complain when not configured with "switch"', function() {
                 checker.configure({ disallowNewlineBeforeBlockStatements: ['if'] });
-                expect(checker.checkString('switch (a)\n{\n\tdefault: 1;\n}')).to.have.no.errors();
+                expect(checker.checkString('switch (a)\n{\n\tcase 1: break;\n}')).to.have.no.errors();
             });
         });
 
@@ -445,6 +489,17 @@ describe('rules/disallow-newline-before-block-statements', function() {
                 .to.have.no.errors();
 
             expect(checker.checkString('try {\n\ty++;\n} catch(e) {\n}'))
+                .to.have.no.errors();
+        });
+
+        it('"switch" checks', function() {
+            expect(checker.checkString('switch((function(){}\n())) { }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('switch((function(){}()))\n{ }'))
+                .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
+
+            expect(checker.checkString('switch((function(){}\n()))\n{ }'))
                 .to.have.no.errors();
         });
     });
