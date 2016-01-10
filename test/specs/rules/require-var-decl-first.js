@@ -233,6 +233,11 @@ describe('rules/require-var-decl-first', function() {
                     testDeclStatements(checker,
                         'function tst(node) {\nvar array,\n/* array of class names */\nncn = node.className;\n}', 0);
                 });
+
+                it('should not return errors for multiple var declaration with a comment inside the scope of' +
+                ' first variable declaration', function() {
+                    testDeclStatements(checker, 'var a = function() {  var b;\n/*block comment*/\n};\nvar c;', 0);
+                });
             });
         });
     });
