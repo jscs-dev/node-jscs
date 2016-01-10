@@ -14,6 +14,10 @@ var AssertHelpers = {
      * @param {Number} [options.errors='1'] the expected number of errors when checking input
      */
     reportAndFix: function(options) {
+        if (!options.name) {
+            options.name = options.input;
+        }
+
         expect(options).to.be.a('object');
         expect(options.name).to.be.a('string');
         expect(options.rules).to.be.a('object');
