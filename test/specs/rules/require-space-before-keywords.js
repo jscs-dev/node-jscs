@@ -79,4 +79,24 @@ describe('rules/require-space-before-keywords', function() {
         expect(errors).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
         expect(errors.explainError(error)).to.have.string('Missing space before "catch" keyword');
     });
+
+    it('should not report missing space on excluded keyword', function() {
+        checker.configure({ requireSpaceBeforeKeywords: { allExcept: ['function'] } });
+
+        expect(checker.checkString(
+            '[].forEach(function (arg) {\n' +
+                'console.log(arg);\n' +
+            '});'
+        )).to.have.no.errors();
+    });
+
+    it('should report missing space in not excluded keywords', function() {
+        checker.configure({ requireSpaceBeforeKeywords: { allExcept: ['function'] } });
+
+        var errors = checker.checkString('if (true) {\n}else { x++; }');
+        var error = errors.getErrorList()[0];
+
+        expect(errors).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
+        expect(errors.explainError(error)).to.have.string('Missing space before "else" keyword');
+    });
 });
