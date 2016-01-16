@@ -1,5 +1,5 @@
 // requireParenthesesAroundIIFE
-(function(window) {
+(function (window) {
   <Foo
     superLongParam="bar"
     anotherSuperLongParam="baz"
@@ -60,7 +60,7 @@
     var api = {
       // disallowQuotedKeysInObjects
       // disallowSpaceAfterObjectKeys
-      foo: function() {
+      foo: function () {
         // safeContextKeyword
         var _this = this;
 
@@ -69,7 +69,7 @@
         var _priv = 'yo';
 
         // disallowEmptyBlocks
-        return function() {
+        return function () {
           // requireSpaceBetweenArguments
           console.log('bar', 'foo');
         };
@@ -82,26 +82,33 @@
     return api;
   }
 
+  // https://github.com/airbnb/javascript#7.11
+  (function () {
+    const x = function () {};
+
+    const y = function a() {};
+  })();
+
   // requireCapitalizedConstructors
   function Bar() {}
 
   // https://github.com/airbnb/javascript
 
-  (function() {
+  (function () {
     const foo = 1;
     let bar = foo;
 
     bar = 9;
   })();
 
-  (function() {
+  (function () {
     const foo = [1, 2];
     const bar = foo;
 
     bar[0] = 9;
   })();
 
-  (function() {
+  (function () {
     function getKey(k) {
       return `a key named ${k}`;
     }
@@ -113,7 +120,7 @@
     };
   })();
 
-  (function() {
+  (function () {
     const atom = {
       value: 1,
 
@@ -123,7 +130,7 @@
     };
   })();
 
-  (function() {
+  (function () {
     const lukeSkywalker = 'Luke Skywalker';
 
     const obj = {
@@ -131,7 +138,7 @@
     };
   })();
 
-  (function() {
+  (function () {
     const anakinSkywalker = 'Anakin Skywalker';
     const lukeSkywalker = 'Luke Skywalker';
 
@@ -145,35 +152,35 @@
     };
   })();
 
-  (function() {
+  (function () {
     const someStack = [];
     someStack.push('abracadabra');
   })();
 
-  (function() {
+  (function () {
     const items = [1, 2, 3];
     const itemsCopy = [...items];
   })();
 
-  (function() {
+  (function () {
     function getFullName(obj) {
       const { firstName, lastName } = obj;
       return `${firstName} ${lastName}`;
     }
   })();
 
-  (function() {
+  (function () {
     function getFullName({ firstName, lastName }) {
       return `${firstName} ${lastName}`;
     }
   })();
 
-  (function() {
+  (function () {
     const arr = [1, 2, 3, 4];
     const [first, second] = arr;
   })();
 
-  (function() {
+  (function () {
     // good
     function processInput(input) {
       // then a miracle occurs
@@ -184,13 +191,13 @@
     const { left, right } = processInput(input);
   })();
 
-  (function() {
+  (function () {
     const errorMessage = 'This is a super long error that was thrown because ' +
       'of Batman. When you stop to think about how Batman had anything to do ' +
       'with this, you would get nowhere fast.';
   })();
 
-  (function() {
+  (function () {
     let test;
     if (currentUser) {
       test = () => {
@@ -199,19 +206,19 @@
     }
   })();
 
-  (function() {
+  (function () {
     function concatenateAll(...args) {
       return args.join('');
     }
   })();
 
-  (function() {
+  (function () {
     [1, 2, 3].map((x) => {
       return x * x;
     });
   })();
 
-  (function() {
+  (function () {
     // good
     [1, 2, 3].map(x => x * x);
 
@@ -221,7 +228,7 @@
     }, 0);
   })();
 
-  (function() {
+  (function () {
     class Queue {
       constructor(contents = []) {
         this._queue = [...contents];
@@ -240,7 +247,7 @@
     }
   })();
 
-  (function() {
+  (function () {
     class Jedi {
       jump() {
         this.jumping = true;
@@ -259,7 +266,7 @@
       .setHeight(20);
   })();
 
-  (function() {
+  (function () {
     class Jedi {
       contructor(options = {}) {
         this.name = options.name || 'no name';
@@ -275,7 +282,7 @@
     }
   })();
 
-  (function() {
+  (function () {
     // good
     let sum = 0;
     numbers.forEach((num) => sum += num);
@@ -286,7 +293,7 @@
     sum === 15;
   })();
 
-  (function() {
+  (function () {
     const goSportsTeam = true;
     const items = getItems();
     let dragonball;
@@ -294,7 +301,7 @@
     let length;
   })();
 
-  (function() {
+  (function () {
     $('#items')
       .find('.selected')
         .highlight()
@@ -303,7 +310,7 @@
         .updateCount();
   })();
 
-  (function() {
+  (function () {
     const leds = stage.selectAll('.led')
         .data(data)
       .enter().append('svg:svg')
@@ -315,7 +322,7 @@
   })();
 
   // https://github.com/airbnb/javascript#18.6
-  (function() {
+  (function () {
     if (foo) {
       return bar;
     }
@@ -323,7 +330,7 @@
     return baz;
   })();
 
-  (function() {
+  (function () {
     const obj = {
       foo() {
       },
@@ -333,7 +340,7 @@
     };
   })();
 
-  (function() {
+  (function () {
     const arr = [
       function foo() {
       },
@@ -345,7 +352,7 @@
     return arr;
   })();
 
-  (function() {
+  (function () {
     const story = [
       once,
       upon,
@@ -359,7 +366,7 @@
     };
   })();
 
-  (function() {
+  (function () {
     const totalScore = String(this.reviewScore);
     const inputValue = '4';
     const val = Number(inputValue);
@@ -376,7 +383,7 @@
     const hasAge = !!age;
   })();
 
-  (function() {
+  (function () {
     const thisIsMyObject = {};
     function thisIsMyFunction() {}
 
@@ -391,7 +398,7 @@
     });
   })();
 
-  (function() {
+  (function () {
     function foo() {
       return () => {
         console.log(this);
@@ -399,7 +406,7 @@
     }
   })();
 
-  (function() {
+  (function () {
   })();
 
 })(window);
