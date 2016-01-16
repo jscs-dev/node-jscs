@@ -3,12 +3,6 @@
     "disallowSpacesInNamedFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
-    "disallowSpacesInFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
-    "disallowSpacesInAnonymousFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
     "disallowSpacesInFunctionDeclaration": {
         "beforeOpeningRoundBrace": true
     },
@@ -38,6 +32,10 @@
     "disallowSpaceBeforeSemicolon": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "allExcept": ["shorthand"]
+    },
     "requireSpacesInConditionalExpression": true,
     "requireBlocksOnNewline": 1,
     "requireCommaBeforeLineBreak": true,
