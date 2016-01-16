@@ -9,6 +9,47 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         checker.registerDefaultRules();
     });
 
+    describe('invalid configuration', function() {
+        it('should report bad prefix values', function() {
+            expect(function() {
+                checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: {allowedPrefixes: [42, 'str']} });
+            }).to.throw('AssertionError');
+        });
+        it('should report bad suffix values', function() {
+            expect(function() {
+                checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: {allowedSuffixes: {}} });
+            }).to.throw('AssertionError');
+        });
+        it('should report bad allExcept values', function() {
+            expect(function() {
+                checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: {allExcept: [/this/, 2]} });
+            }).to.throw('AssertionError');
+        });
+        it('should detect falsy non-string asre elements', function() {
+            expect(function() {
+                checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: {allExcept: [/this/, false]} });
+            }).to.throw('AssertionError');
+        });
+        it('should detect objects not RegExpLiteral', function() {
+            expect(function() {
+                checker.configure({
+                    requireCamelCaseOrUpperCaseIdentifiers: {
+                        allExcept: [/this/, {regx: {pattn: ''}}]
+                    }
+                });
+            }).to.throw('AssertionError');
+        });
+        it('should detect invalid RegExpLiteral objects', function() {
+            expect(function() {
+                checker.configure({
+                    requireCamelCaseOrUpperCaseIdentifiers: {
+                        allExcept: [/this/, {regex: {pattern: 'test('}}]
+                    }
+                });
+            }).to.throw('AssertionError');
+        });
+    });
+
     describe('option value `true`', function() {
         beforeEach(function() {
             checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: true });
@@ -303,4 +344,240 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
               .to.have.no.errors();
         });
     });
+
+    describe('option value `{allowedPrefixes: ["opt_", /pfx\d+_/]}`', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCamelCaseOrUpperCaseIdentifiers: {
+                    allowedPrefixes: ['opt_', /pfx\d+_/]
+                }
+            });
+        });
+
+        it('should not report identifiers too short to have a prefix', function() {
+            expect(checker.checkString('var id = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unrecognized string prefix', function() {
+            expect(checker.checkString('var req_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized string prefix', function() {
+            expect(checker.checkString('var opt_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should not report a hidden recognized string prefix', function() {
+            expect(checker.checkString('var _opt_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report a recognized string not prefix', function() {
+            expect(checker.checkString('var xopt_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized RegExp prefix without underscore', function() {
+            expect(checker.checkString('var pfx5 = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should not report a recognized RegExp prefix', function() {
+            expect(checker.checkString('var pfx5_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report a recognized RegExp not prefix', function() {
+            expect(checker.checkString('var xpfx5_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should report a recognized RegExp prefix with trailing garbage', function() {
+            expect(checker.checkString('var pfx32x_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+    });
+
+    describe('option value `{allowedPrefixes: ["o_t_", /p_x\d+_/}`', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCamelCaseOrUpperCaseIdentifiers: {
+                    allowedPrefixes: ['o_t_', /p_x\d+_/]
+                }
+            });
+        });
+
+        it('should report an unrecognized string prefix', function() {
+            expect(checker.checkString('var r_q_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized string prefix', function() {
+            expect(checker.checkString('var o_t_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should not report a hidden recognized string prefix', function() {
+            expect(checker.checkString('var _o_t_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unrecognized RegExp prefix', function() {
+            expect(checker.checkString('var p_x_camelCase = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized RegExp prefix', function() {
+            expect(checker.checkString('var p_x32_camelCase = 0;'))
+              .to.have.no.errors();
+        });
+    });
+
+    describe('option value `{allowedSuffixes: ["_dCel", {regex: {pattern: "_[kMG]?Hz"}}]}`', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCamelCaseOrUpperCaseIdentifiers: {
+                    allowedSuffixes: ['_dCel', {regex: {pattern: '_[kMG]?Hz'}}]
+                }
+            });
+        });
+
+        it('should not report identifiers too short to have a suffix', function() {
+            expect(checker.checkString('var id = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unrecognized string suffix', function() {
+            expect(checker.checkString('var temp_Cel = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized string suffix', function() {
+            expect(checker.checkString('var temp_dCel = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an recognized string not suffix', function() {
+            expect(checker.checkString('var temp_dCelsius = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should report an unrecognized RegExp suffix', function() {
+            expect(checker.checkString('var freq_THz = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized RegExp suffix', function() {
+            expect(checker.checkString('var freq_Hz = 1;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an recognized RegExp not suffix', function() {
+            expect(checker.checkString('var freq_Hzs = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a RegExp suffix without underscore', function() {
+            expect(checker.checkString('var MHz = 1;'))
+              .to.have.no.errors();
+        });
+
+        it('should not report a string non-suffix', function() {
+            expect(checker.checkString('var tempdCel = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should not report a RegExp non-suffix', function() {
+            expect(checker.checkString('var freqHz = 1;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unanchored recognized RegExp suffix that is not a suffix', function() {
+            expect(checker.checkString('var freq_MHz3 = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+    });
+
+    describe('option value `{allowedSuffixes: ["dC_l", {regex: {pattern: "_[kMG]?H_z"}}]}`', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCamelCaseOrUpperCaseIdentifiers: {
+                    allowedSuffixes: ['_dC_l', {regex: {pattern: '_[kMG]?H_z'}}]
+                }
+            });
+        });
+
+        it('should report an unrecognized string suffix', function() {
+            expect(checker.checkString('var temp_C_l = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized string suffix', function() {
+            expect(checker.checkString('var temp_dC_l = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unrecognized RegExp suffix', function() {
+            expect(checker.checkString('var freq_TH_z = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a recognized RegExp suffix', function() {
+            expect(checker.checkString('var freq_H_z = 1;'))
+              .to.have.no.errors();
+        });
+
+        it('should report a string non-suffix', function() {
+            expect(checker.checkString('var tempdC_l = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should report a RegExp non-suffix', function() {
+            expect(checker.checkString('var freqH_z = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should report an unanchored recognized RegExp suffix that is not a suffix', function() {
+            expect(checker.checkString('var freq_MH_z3 = 1;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+    });
+
+    describe('option value `{allExcept: ["var_args", {regex: {pattern: "^ignore",flags: "i"}}}`', function() {
+        beforeEach(function() {
+            checker.configure({
+                requireCamelCaseOrUpperCaseIdentifiers: {
+                    allExcept: ['var_args', {regex: {pattern: '^ignore', flags: 'i'}}]
+                }
+            });
+        });
+
+        it('should report an unrecognized string near-exception', function() {
+            expect(checker.checkString('var var_arg = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a string exception', function() {
+            expect(checker.checkString('var var_args = 0;'))
+              .to.have.no.errors();
+        });
+
+        it('should report an unrecognized RegExp near-exception', function() {
+            expect(checker.checkString('var signore_por_favore = 0;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report a string exception suffix', function() {
+            expect(checker.checkString('var ignoreMe_Please = 0;'))
+              .to.have.no.errors();
+        });
+        it('should not report a mixed-case string exception suffix', function() {
+            expect(checker.checkString('var iGnOrEMe_Please = 0;'))
+              .to.have.no.errors();
+        });
+    });
+
 });
