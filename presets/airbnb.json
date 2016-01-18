@@ -42,6 +42,7 @@
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
+    "requireDollarBeforejQueryAssignment": true,
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,

@@ -5,6 +5,9 @@
     anotherSuperLongParam="baz"
   />;
 
+  // requireDollarBeforejQueryAssignment
+  var $div = $('.container');
+
   // validateIndentation: 2
   'use strict';
 
