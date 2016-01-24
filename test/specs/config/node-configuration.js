@@ -175,6 +175,18 @@ describe('modules/config/node-configuration', function() {
 
             expect(configuration.getFileExtensions()).to.deep.equal(['.js']);
         });
+
+        it('should not make a conflict between overrides and preset (#2087)', function() {
+            configuration.registerPreset('jquery', {});
+
+            configuration.overrideFromCLI({
+                preset: 'jquery'
+            });
+
+            configuration.load({});
+
+            expect(configuration.getFileExtensions()).to.deep.equal(['.js']);
+        });
     });
 
     describe('load', function() {
