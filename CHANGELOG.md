@@ -1,3 +1,123 @@
+## Version [2.9.0](https://github.com/jscs-dev/node-jscs/compare/v2.8.0...v2.9.0) (2015-01-23):
+
+> Changed the changelog date format to be YYYY-MM-DD.
+
+Whoo a release during this blizzard! Hopefully, this will be our last release before we start pushing out pre-release versions of 3.0. (If necessary, we can push bug fixes to 2.x)
+
+The plan:
+
+- Push the `2.9.0` release
+- Create a `2.x` branch off of `master`
+- Switch `master` to be the `3.0` branch
+- Merge in 2.x changes + cleanup stuff for a 3.0 alpha release.
+- Do what we can in our [3.0 milestone](https://github.com/jscs-dev/node-jscs/issues/1854). We would really appreciate any help!
+  - Especially for deprecating rules/options, rule merging, renames/inconsistencies that we don't catch.
+
+### New Rules
+
+#### [`requireCapitalizedConstructorsNew`](http://jscs.info/rule/requireCapitalizedConstructorsNew) (Alexander O'Mara)
+
+```js
+// Description: Requires capitalized constructors to to use the `new` keyword
+
+// Usage
+"requireCapitalizedConstructors": {
+  "allExcept": ["somethingNative"]
+}
+
+// Valid
+var x = new Y();
+var x = new somethingNative(); // exception
+
+// Invalid
+var x = Y();
+```
+
+### Rule Updates
+
+- [`validateNewlineAfterArrayElements`](http://jscs.info/rule/validateNewlineAfterArrayElements): add autofix support for this rule (Joeri de Gooijer)
+
+```js
+// can turn
+var a = [0,
+1,
+2];
+
+// into
+var a = [
+0,
+1,
+2
+];
+```
+
+This was [@joerideg's](https://github.com/joerideg) first PR, so congrats and hope to see more contributions (not necessarily here)!
+
+> I think we would need a seperate rule to both check/fix alignment properly.
+
+- [`requireSemicolons`](http://jscs.info/rule/requireSemicolons): account for stage-2 `ClassProperty` (Henry Zhu)
+
+```js
+class A {
+  prop; // will add a semicolon here
+  prop2 = 1; // and here
+}
+```
+
+- [`requireCamelCaseOrUpperCaseIdentifiers`](http://jscs.info/rule/requireCamelCaseOrUpperCaseIdentifiers): add extra options `allowedPrefixes, allowedSuffixes, allExcept`
+
+  - This lets you specify a permitted array of String, RegExp, or ESTree RegExpLiteral values
+
+For options: `{ allowedSuffixes: ["_dCel", {regex:{pattern:"_[kMG]?Hz"}}] }`
+
+```js
+// Extra valid options
+var camelCase_dCel = 5;
+var _camelCase_MHz = 6;
+ ```
+
+```js
+// Invalid
+var camelCase_cCel = 4;
+var CamelCase_THz = 5;
+```
+
+- [`requireNewlineBeforeBlockStatements`](http://jscs.info/rule/requireNewlineBeforeBlockStatements), [`disallowNewlineBeforeBlockStatements`](http://jscs.info/rule/disallowNewlineBeforeBlockStatements): account for `SwitchStatement`
+
+```js
+// Valid for requireNewlineBeforeBlockStatements
+switch (a)
+{
+  case 1: break;
+}
+
+// Valid for disallowNewlineBeforeBlockStatements
+switch (a) {
+  case 1: break;
+}
+```
+
+### Presets
+
+- `airbnb`: Enforce rule [25.1](https://github.com/airbnb/javascript/blob/c25dbac620b258c4421251bc403fffa1051de61e/README.md#25.1) (Joe Bartlett)
+  - This adds `requireDollarBeforejQueryAssignment`
+- `airbnb`: Enforce rule [7.11](https://github.com/airbnb/javascript/blob/c25dbac620b258c4421251bc403fffa1051de61e/README.md#7.11) (Joe Bartlett)
+  - This fixes up function spacing issues (autofixable)
+- `google`: Enforce [naming rules](https://google.github.io/styleguide/javascriptguide.xml#Naming__body)
+  - This adds `"requireCamelCaseOrUpperCaseIdentifiers": {
+  "allowedPrefixes": ["opt_"],
+  "allExcept": ["var_args"]
+}`
+
+### Bug Fixes
+
+- [`requireEnhancedObjectLiterals`](http://jscs.info/rule/requireEnhancedObjectLiterals): Don't error for computed properties (Henry Zhu)
+- [`requireTemplateStrings`](http://jscs.info/rule/requireTemplateStrings): should not report string to binary (Oleg Gaidarenko)
+- [`requireVarDeclFirst`](http://jscs.info/rule/requireVarDeclFirst): be aware of the comments (Kushan Joshi)
+
+### Misc
+- `OVERVIEW.md`: add the [Visual Studio Code extension](https://marketplace.visualstudio.com/items/ms-vscode.jscs) to list of "Friendly Packages" (Tyler Hughes)
+
 ## Version [2.8.0](https://github.com/jscs-dev/node-jscs/compare/v2.7.0...v2.8.0)
 
 Happy new year! Small changes this time, small, but important fixes which still warrants the minor bump.
