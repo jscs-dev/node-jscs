@@ -20,21 +20,68 @@
     ],
     "disallowMixedSpacesAndTabs": true,
     "disallowTrailingWhitespace": true,
-    "requireTrailingComma": { "ignoreSingleLine": true },
+    "disallowVar": true,
+    "disallowIdentifierNames": [
+        "break",
+        "case",
+        "class",
+        "catch",
+        "const",
+        "continue",
+        "debugger",
+        "default",
+        "delete",
+        "do",
+        "else",
+        "export",
+        "extends",
+        "finally",
+        "for",
+        "function",
+        "if",
+        "import",
+        "in",
+        "instanceof",
+        "new",
+        "return",
+        "super",
+        "switch",
+        "this",
+        "throw",
+        "try",
+        "typeof",
+        "var",
+        "void",
+        "while",
+        "with",
+        "yield"
+    ],
+    "requireTrailingComma": {
+        "ignoreSingleLine": true
+    },
     "requireSpaceAfterComma": true,
     "disallowYodaConditions": true,
-    "disallowKeywords": [ "with" ],
-    "disallowKeywordsOnNewLine": ["else"],
+    "disallowKeywords": [
+        "with"
+    ],
+    "disallowKeywordsOnNewLine": [
+        "else"
+    ],
     "disallowMultipleLineBreaks": true,
     "disallowMultipleLineStrings": true,
     "disallowMultipleVarDecl": true,
     "disallowSpaceBeforeComma": true,
     "disallowSpaceBeforeSemicolon": true,
+    "disallowParenthesesAroundArrowParam": true,
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowPaddingNewlinesInBlocks": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
     "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true,
-        "allExcept": ["shorthand"]
+        "allExcept": [
+            "shorthand"
+        ]
     },
     "requireSpacesInConditionalExpression": true,
     "requireBlocksOnNewline": 1,
@@ -70,8 +117,24 @@
     },
     "requirePaddingNewLinesAfterBlocks": true,
     "requireSemicolons": true,
+    "requireEnhancedObjectLiterals": true,
+    "requireObjectDestructuring": true,
+    "requireArrayDestructuring": true,
+    "requireTemplateStrings": {
+        "allExcept": [
+            "stringConcatenation"
+        ]
+    },
+    "requireFunctionDeclarations": true,
+    "requireArrowFunctions": true,
+    "requireShorthandArrowFunctions": true,
     "safeContextKeyword": "_this",
     "validateLineBreaks": "LF",
-    "validateQuoteMarks": { "mark": "'", "escape": true, "ignoreJSX": true },
-    "validateIndentation": 2
+    "validateQuoteMarks": {
+        "mark": "'",
+        "escape": true,
+        "ignoreJSX": true
+    },
+    "validateIndentation": 2,
+    "maximumLineLength": 100
 }
