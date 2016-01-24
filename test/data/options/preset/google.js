@@ -5,6 +5,11 @@ var opts = nopt({
   version: Boolean
 });
 
+// requireCamelCaseOrUpperCaseIdentifiers
+function test(opt_test) {
+  var var_args = arguments;
+}
+
 // disallowMultipleLineBreaks
 // disallowMultipleVarDecl
 var insight = new Insight({

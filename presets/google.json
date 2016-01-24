@@ -9,7 +9,10 @@
         "catch"
     ],
     "requireOperatorBeforeLineBreak": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": true,
+    "requireCamelCaseOrUpperCaseIdentifiers": {
+        "allowedPrefixes": ["opt_"],
+        "allExcept": ["var_args"]
+    },
     "maximumLineLength": {
       "value": 80,
       "allExcept": ["comments", "regex"]
