@@ -56,6 +56,16 @@ describe('rules/require-space-before-keywords', function() {
         expect(checker.checkString('if (true) x++;else x--;')).to.have.no.errors();
     });
 
+    it('should not report missing space on function by default', function() {
+        checker.configure({ requireSpaceBeforeKeywords: true });
+
+        expect(checker.checkString(
+            '[].forEach(function (arg) {\n' +
+                'console.log(arg);\n' +
+            '});'
+        )).to.have.no.errors();
+    });
+
     it('should report on all possible ES3 keywords if a value of true is supplied', function() {
         checker.configure({ requireSpaceBeforeKeywords: true });
 
@@ -81,12 +91,10 @@ describe('rules/require-space-before-keywords', function() {
     });
 
     it('should not report missing space on excluded keyword', function() {
-        checker.configure({ requireSpaceBeforeKeywords: { allExcept: ['function'] } });
+        checker.configure({ requireSpaceBeforeKeywords: { allExcept: ['else'] } });
 
         expect(checker.checkString(
-            '[].forEach(function (arg) {\n' +
-                'console.log(arg);\n' +
-            '});'
+            'if (true) {\n}else { x++; }'
         )).to.have.no.errors();
     });
 
@@ -98,5 +106,19 @@ describe('rules/require-space-before-keywords', function() {
 
         expect(errors).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
         expect(errors.explainError(error)).to.have.string('Missing space before "else" keyword');
+    });
+
+    it('should report missing space on function when not specified in allExcept array', function() {
+        checker.configure({ requireSpaceBeforeKeywords: { allExcept: ['else'] } });
+
+        var errors = checker.checkString(
+            '[].forEach(function (arg) {\n' +
+                'console.log(arg);\n' +
+            '});'
+        );
+        var error = errors.getErrorList()[0];
+
+        expect(errors).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
+        expect(errors.explainError(error)).to.have.string('Missing space before "function" keyword');
     });
 });
