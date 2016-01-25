@@ -30,6 +30,11 @@ describe('rules/require-imports-aplhabetized', function() {
         expect(checker.checkString(code)).to.have.no.errors();
     });
 
+    it('should report no errors for ordered import multiline', function() {
+        var code = 'import A\n from\n \'A\';\nimport C\n from \'C\';\nimport Z\n from \'Z\';';
+        expect(checker.checkString(code)).to.have.no.errors();
+    });
+
     it('should report one error for un-ordered imports', function() {
         var code = 'import A from \'A\';\nimport Z from \'Z\';\nimport B from \'B\';';
         expect(checker.checkString(code)).to.have.one.error();
