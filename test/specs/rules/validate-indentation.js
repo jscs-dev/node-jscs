@@ -156,6 +156,23 @@ describe('rules/validate-indentation', function() {
         ]);
     });
 
+    it('should not report errors for using tabs when validateIndentation is a number', function() {
+        checker.configure({ validateIndentation: 4 });
+        expect(checker.checkString(' ' +
+            'function a (x) {\n' +
+            '\tif (true) {\n' +
+            '\t\tconsole.log("something");\n' +
+            '\t}\n' +
+            '\tswitch (x) {\n' +
+            '\t\tcase 1:\n' +
+            '\t\t\treturn 1\n' +
+            '\t\tdefault:\n' +
+            '\t\t\treturn 2\n' +
+            '\t}\n' +
+            '}'
+            )).to.have.no.errors();
+    });
+
     describe('includeEmptyLines', function() {
         it('should validate indentation on an empty line when includeEmptyLines is true', function() {
             checker.configure({
