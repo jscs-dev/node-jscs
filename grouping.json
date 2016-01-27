@@ -68,7 +68,9 @@
     "requireFunctionDeclarations",
     "disallowFunctionDeclarations",
     "requireSpacesInsideParenthesizedExpression",
-    "disallowSpacesInsideParenthesizedExpression"
+    "disallowSpacesInsideParenthesizedExpression",
+    "requireSpacesInsideFunctionCalls",
+    "disallowSpacesInsideFunctionCalls"
   ],
   "Keywords": [
     "disallowPaddingNewlinesBeforeKeywords",
