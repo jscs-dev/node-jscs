@@ -18,7 +18,7 @@ describe('rules/require-early-return', function() {
 
         describe('errors with simple if-else - ', function() {
             it('should report the use of else after return on an if-else block', function() {
-                str = 'if (true) { return } else { }';
+                str = 'function foo() { if (true) { return } else { } }';
                 expect(checker.checkString(str)).to.have.one.validation.error.from('requireEarlyReturn');
             });
 
