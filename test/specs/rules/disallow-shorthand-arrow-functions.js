@@ -7,7 +7,7 @@ describe('rules/disallow-shorthand-arrow-functions', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ esnext: true, disallowShorthandArrowFunctions: true });
+        checker.configure({ disallowShorthandArrowFunctions: true });
     });
 
     it('should report a shorthand arrow function expression', function() {

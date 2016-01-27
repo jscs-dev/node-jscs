@@ -214,7 +214,7 @@ describe('rules/disallow-space-after-object-keys', function() {
 
     describe('es6', function() {
         beforeEach(function() {
-            checker.configure({ esnext: true, disallowSpaceAfterObjectKeys: true });
+            checker.configure({ disallowSpaceAfterObjectKeys: true });
         });
 
         it('should not report es6-methods without a space. #1013', function() {

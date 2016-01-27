@@ -10,7 +10,7 @@ describe('rules/require-spaces-in-function-declaration', function() {
     });
 
     describe('beforeOpeningRoundBrace', function() {
-        var rules = { esnext: true, requireSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } };
+        var rules = { requireSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true } };
 
         beforeEach(function() {
             checker.configure(rules);
@@ -26,7 +26,6 @@ describe('rules/require-spaces-in-function-declaration', function() {
         });
 
         it('should not report space before round brace in export default function', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('export default function (){}')).to.have.no.errors();
         });
 
@@ -54,7 +53,6 @@ describe('rules/require-spaces-in-function-declaration', function() {
         });
 
         it('should not report space before curly brace in export default function', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('export default function() {}')).to.have.no.errors();
         });
     });

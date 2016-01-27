@@ -27,8 +27,7 @@ describe('rules/validate-quote-marks', function() {
     describe('JSX', function() {
         it('should not report any errors for JSX attribute', function() {
             checker.configure({
-                validateQuoteMarks: { mark: '\'', ignoreJSX: true, escape: true },
-                esnext: true
+                validateQuoteMarks: { mark: '\'', ignoreJSX: true, escape: true }
             });
 
             var str = '<div className="flex-card__header">{this.props.children}</div>;';
@@ -37,8 +36,7 @@ describe('rules/validate-quote-marks', function() {
 
         it('should report errors for JSX attribute', function() {
             checker.configure({
-                validateQuoteMarks: { mark: '\'', escape: true },
-                esnext: true
+                validateQuoteMarks: { mark: '\'', escape: true }
             });
 
             var str = '<div className="flex-card__header">{this.props.children}</div>;';

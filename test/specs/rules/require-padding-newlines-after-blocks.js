@@ -161,6 +161,15 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             expect(checker.checkString('[\n3,\nfunction() {\n},\n2\n]'))
               .to.have.one.validation.error.from('requirePaddingNewLinesAfterBlocks');
         });
+
+        it('should not report arrow chain (#1700)', function() {
+            expect(checker.checkString('a(res => {\n})\n.b();')).to.have.no.errors();
+        });
+
+        it('should not report jsx tags (#2008)', function() {
+            var jsxSnippet = 'var foo = (\n<div\nref={function() {\n}}\n>\nfoo\n</div>\n);';
+            expect(checker.checkString(jsxSnippet)).to.have.no.errors();
+        });
     });
 
     describe('value allExcept: inCallExpressions', function() {
@@ -264,26 +273,6 @@ describe('rules/require-padding-newlines-after-blocks', function() {
             });
 
             expect(checker.checkString('[\n2,\n3,\nfunction() {\n},\nfunction() {\n}\n]')).to.have.no.errors();
-        });
-    });
-
-    describe('esnext', function() {
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-            checker.configure({
-                requirePaddingNewLinesAfterBlocks: true,
-                esnext: true
-            });
-        });
-
-        it('should not report arrow chain (#1700)', function() {
-            expect(checker.checkString('a(res => {\n})\n.b();')).to.have.no.errors();
-        });
-
-        it('should not report jsx tags (#2008)', function() {
-            var jsxSnippet = 'var foo = (\n<div\nref={function() {\n}}\n>\nfoo\n</div>\n);';
-            expect(checker.checkString(jsxSnippet)).to.have.no.errors();
         });
     });
 });

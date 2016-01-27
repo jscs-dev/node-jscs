@@ -21,13 +21,11 @@ describe('rules/require-space-after-object-keys', function() {
     });
 
     it('should not report shorthand object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
         expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
     });
 
     it('should report mixed shorthand and normal object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a:1, b };'))
           .to.have.one.validation.error.from('requireSpaceAfterObjectKeys');
     });
@@ -39,7 +37,6 @@ describe('rules/require-space-after-object-keys', function() {
 
     describe('es6', function() {
         beforeEach(function() {
-            checker.configure({ esnext: true });
         });
 
         it('should allow object literal spreading with spread at end', function() {
@@ -83,7 +80,6 @@ describe('rules/require-space-after-object-keys', function() {
         });
 
         it('should report if no space after computed property names #1742', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var a = {',
                       '[block + \'--default\']: this.props.navStyle === \'default\',',
@@ -93,7 +89,6 @@ describe('rules/require-space-after-object-keys', function() {
         });
 
         it('should not report if space after computed property names #1742', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var a = {',
                       '[block + \'--default\'] : this.props.navStyle === \'default\',',

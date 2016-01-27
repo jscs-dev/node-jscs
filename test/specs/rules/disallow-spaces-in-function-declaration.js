@@ -23,7 +23,6 @@ describe('rules/disallow-spaces-in-function-declaration', function() {
         });
 
         it('should not report missing space before round brace in export default function', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('export default function(){}')).to.have.no.errors();
         });
     });
@@ -43,7 +42,6 @@ describe('rules/disallow-spaces-in-function-declaration', function() {
         });
 
         it('should not report missing space before curly brace in export default function', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('export default function(){}')).to.have.no.errors();
         });
     });

@@ -11,7 +11,7 @@ describe('rules/validate-aligned-function-parameters', function() {
 
     describe('no option', function() {
         beforeEach(function() {
-            checker.configure({ validateAlignedFunctionParameters: true, esnext: true });
+            checker.configure({ validateAlignedFunctionParameters: true });
         });
 
         it('should not report a function with no parameters', function() {
@@ -82,8 +82,7 @@ describe('rules/validate-aligned-function-parameters', function() {
             checker.configure({
                 validateAlignedFunctionParameters: {
                     lineBreakAfterOpeningBrace: true
-                },
-                esnext: true
+                }
             });
         });
 
@@ -119,8 +118,7 @@ describe('rules/validate-aligned-function-parameters', function() {
             checker.configure({
                 validateAlignedFunctionParameters: {
                     lineBreakBeforeClosingBrace: true
-                },
-                esnext: true
+                }
             });
         });
 

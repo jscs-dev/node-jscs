@@ -851,19 +851,9 @@ describe('js-file', function() {
     describe('getDialect', function() {
         var sources = 'var x = 1;\nvar y = 2;';
 
-        it('should return es5 with no options specified', function() {
+        it('should return es6 with no options specified', function() {
             var file = createJsFile(sources);
-            expect(file.getDialect()).to.equal('es5');
-        });
-
-        it('should return es6 when es6 is specified as true', function() {
-            var file = createJsFile(sources, {es6: true});
             expect(file.getDialect()).to.equal('es6');
-        });
-
-        it('should return es5 when es6 is specified as false', function() {
-            var file = createJsFile(sources, {es6: false});
-            expect(file.getDialect()).to.equal('es5');
         });
 
         it('should return es3 when es3 is specified as true', function() {
@@ -871,13 +861,8 @@ describe('js-file', function() {
             expect(file.getDialect()).to.equal('es3');
         });
 
-        it('should return es5 when es3 is specified as false', function() {
+        it('should return es6 when es3 is specified as false', function() {
             var file = createJsFile(sources, {es3: false});
-            expect(file.getDialect()).to.equal('es5');
-        });
-
-        it('should return es6 when es3 and es6 are both specified as true', function() {
-            var file = createJsFile(sources, {es3: true, es6: true});
             expect(file.getDialect()).to.equal('es6');
         });
     });

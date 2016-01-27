@@ -6,5 +6,6 @@
     "noarg"    : true,
     "mocha"    : true,
     "unused"   : true,
-    "asi"      : true
+    "asi"      : true,
+    "esnext"   : true
 }

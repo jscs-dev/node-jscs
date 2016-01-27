@@ -77,7 +77,7 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
 
         describe.skip('import (#1524)', function() {
             beforeEach(function() {
-                checker.configure({ disallowSpacesInsideObjectBrackets: true, esnext: true });
+                checker.configure({ disallowSpacesInsideObjectBrackets: true });
             });
 
             it('should not report with absent brackets', function() {

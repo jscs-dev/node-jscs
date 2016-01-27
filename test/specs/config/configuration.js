@@ -733,7 +733,6 @@ describe('config/configuration', function() {
                 preset: 'test1'
             });
             configuration.registerPreset('test3', {
-                esnext: true,
                 preset: 'test2'
             });
 
@@ -742,7 +741,6 @@ describe('config/configuration', function() {
             });
 
             expect(configuration.getConfiguredRules()[0].getOptionName()).to.equal('ruleName');
-            expect(!!configuration.getProcessedConfig().esnext).to.equal(true);
             expect(configuration.getProcessedConfig().maxErrors).to.equal(1);
         });
 
@@ -799,21 +797,6 @@ describe('config/configuration', function() {
             configuration.load({preset: 'preset'});
             expect(configuration.getProcessedConfig().preset).to.equal('preset');
             expect(configuration.getProcessedConfig().ruleName).to.equal(true);
-        });
-
-        it('should accept `esnext` boolean (true)', function() {
-            configuration.load({esnext: true});
-            expect(configuration.isESNextEnabled()).to.equal(true);
-        });
-
-        it('should accept `esnext` boolean (false)', function() {
-            configuration.load({esnext: false});
-            expect(configuration.isESNextEnabled()).to.equal(false);
-        });
-
-        it('should accept `esnext` boolean (null)', function() {
-            configuration.load({esnext: null});
-            expect(configuration.isESNextEnabled()).to.equal(false);
         });
 
         it('should accept `excludeFiles`', function() {

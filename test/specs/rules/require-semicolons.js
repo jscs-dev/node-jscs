@@ -6,7 +6,7 @@ var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 describe('rules/require-semicolons', function() {
     var checker;
 
-    var config = { esnext: true, requireSemicolons: true };
+    var config = { requireSemicolons: true };
 
     // helpers
     function valid(tests) {

@@ -9,8 +9,7 @@ describe('rules/disallow-node-types', function() {
         checker.registerDefaultRules();
 
         checker.configure({
-            disallowNodeTypes: ['LabeledStatement', 'DebuggerStatement', 'DoWhileStatement'],
-            esnext: true
+            disallowNodeTypes: ['LabeledStatement', 'DebuggerStatement', 'DoWhileStatement']
         });
     });
 

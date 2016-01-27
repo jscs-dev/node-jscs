@@ -14,6 +14,12 @@ describe('rules/require-dot-notation', function() {
             checker.configure({ requireDotNotation: true });
         });
 
+        // by default
+        it('should not report literal subscription for es6 reserved words', function() {
+            expect(checker.checkString('var x = a[\'yield\']')).to.have.no.errors();
+            expect(checker.checkString('var x = a[\'let\']')).to.have.no.errors();
+        });
+
         it('should report literal subscription', function() {
             expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
             expect(checker.checkString('var x = a[\'π\']')).to.have.one.validation.error.from('requireDotNotation');
@@ -100,17 +106,6 @@ describe('rules/require-dot-notation', function() {
               .to.have.one.validation.error.from('requireDotNotation');
             expect(checker.checkString('var x = a[\'camelA__\']'))
               .to.have.one.validation.error.from('requireDotNotation');
-        });
-    });
-
-    describe('option value {"allExcept":"keywords"} with esnext option', function() {
-        beforeEach(function() {
-            checker.configure({ esnext: true, requireDotNotation: { allExcept: ['keywords'] } });
-        });
-
-        it('should not report literal subscription for es6 reserved words', function() {
-            expect(checker.checkString('var x = a[\'yield\']')).to.have.no.errors();
-            expect(checker.checkString('var x = a[\'let\']')).to.have.no.errors();
         });
     });
 

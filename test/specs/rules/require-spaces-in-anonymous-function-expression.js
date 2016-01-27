@@ -36,7 +36,6 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
     describe('beforeOpeningRoundBrace', function() {
         var rules = {
             requireSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
-            esnext: true
         };
 
         beforeEach(function() {
@@ -109,7 +108,6 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
     describe('beforeOpeningCurlyBrace', function() {
         var rules = {
             requireSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true },
-            esnext: true
         };
 
         beforeEach(function() {
@@ -184,7 +182,6 @@ describe('rules/require-spaces-in-anonymous-function-expression', function() {
                     beforeOpeningCurlyBrace: true,
                     allExcept: allExcept
                 },
-                esnext: true
             };
             checker.configure(rules);
         }

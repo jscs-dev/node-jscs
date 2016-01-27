@@ -34,7 +34,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should not report shorthand properties', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString(
                     'var x = {\n' +
                         'bcd : 2,\n' +
@@ -45,7 +44,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should not report es6-methods. #1013', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
         });
 
@@ -55,7 +53,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should not report if aligned with computed property names #1404', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var myObject = {',
                       '[myKey]   : "myKeyValue",',
@@ -76,7 +73,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should report if not aligned with computed property names #1404', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'var myObject = {',
                       '[myKey]   : "myKeyValue",',
@@ -86,7 +82,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should not report on an import plus aligned computed property names (#1587)', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString([
                     'import React, {PropTypes} from \'react\';\n',
                     'import {ImmutableComponentPure} from \'common/ImmutableComponent.js\'',
@@ -98,7 +93,6 @@ describe('rules/require-aligned-object-values', function() {
         });
 
         it('should not report es7 object spread. Ref #1624', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString(
                     'var x = {\n' +
                         'bcd : 2,\n' +

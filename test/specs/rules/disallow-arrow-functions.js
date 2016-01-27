@@ -7,7 +7,7 @@ describe('rules/disallow-arrow-functions', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ disallowArrowFunctions: true, esnext: true });
+        checker.configure({ disallowArrowFunctions: true });
     });
 
     it('should report use of arrow function', function() {

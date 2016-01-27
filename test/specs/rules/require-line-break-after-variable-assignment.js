@@ -55,7 +55,6 @@ describe('rules/require-line-break-after-variable-assignment', function() {
         });
 
         it('should not report when variables are defined in the init part of a for of loop', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('for (var i of arr) {}')).to.have.no.errors();
         });
 
@@ -68,13 +67,11 @@ describe('rules/require-line-break-after-variable-assignment', function() {
         });
 
         it('should report for let when defined and assigned on the same line.', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('let x = 1, y = 2;'))
               .to.have.one.validation.error.from('requireLineBreakAfterVariableAssignment');
         });
 
         it('should report for const when defined and assigned on the same line.', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('const x = 1, y = 2;'))
               .to.have.one.validation.error.from('requireLineBreakAfterVariableAssignment');
         });

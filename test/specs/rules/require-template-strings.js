@@ -93,7 +93,6 @@ describe('rules/require-template-strings', function() {
     describe('true value', function() {
         beforeEach(function() {
             checker.configure({
-                esnext: true,
                 requireTemplateStrings: true
             });
         });
@@ -129,7 +128,6 @@ describe('rules/require-template-strings', function() {
     describe('allExcept: ["stringConcatenation"] value', function() {
         beforeEach(function() {
             checker.configure({
-                esnext: true,
                 requireTemplateStrings: {
                     allExcept: ['stringConcatenation']
                 }
