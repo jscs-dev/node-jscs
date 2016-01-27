@@ -4,7 +4,6 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var esprima = require('esprima');
-var babelJscs = require('babel-jscs');
 
 var assign = require('lodash').assign;
 
@@ -20,15 +19,6 @@ describe('js-file', function() {
         };
 
         return new JsFile(assign(params, options));
-    }
-
-    function createBabelJsFile(sources) {
-        return new JsFile({
-            filename: 'example.js',
-            source: sources,
-            esprima: babelJscs,
-            es6: true
-        });
     }
 
     describe('constructor', function() {
@@ -247,7 +237,7 @@ describe('js-file', function() {
     describe('iterateNodesByType', function() {
         it('should handle ES6 export keyword', function() {
             var spy = sinon.spy();
-            createBabelJsFile('export function foo() { var a = "b"; };')
+            createJsFile('export function foo() { var a = "b"; };')
                 .iterateNodesByType('VariableDeclaration', spy);
             expect(spy).to.have.callCount(1);
         });
@@ -1008,7 +998,7 @@ describe('js-file', function() {
         fs.readdirSync(absDirPath).forEach(function(filename) {
             it('file ' + relativeDirPath + '/' + filename + ' should be rendered correctly', function() {
                 var source = fs.readFileSync(absDirPath + '/' + filename, 'utf8');
-                var file = createBabelJsFile(source);
+                var file = createJsFile(source);
                 expect(file.render()).to.equal(source);
             });
         });

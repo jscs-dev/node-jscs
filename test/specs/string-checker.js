@@ -378,26 +378,6 @@ describe('string-checker', function() {
             expect(error.message).to.equal(customDescription);
         });
 
-        it('uses babel-jscs when true is provided to the constructor', function() {
-            checker = new StringChecker({ esnext: true });
-            checker.registerDefaultRules();
-
-            var errors = checker.checkString('import { foo } from "bar";');
-            expect(errors).to.have.no.errors();
-        });
-
-        it('uses babel-jscs when esnext is set to true in the config', function() {
-            checker = new StringChecker();
-            checker.registerDefaultRules();
-            checker.configure({ esnext: true });
-
-            var errors = checker.checkString('import { foo } from "bar";');
-            // Make sure that multiple checks don't fail
-            var errors2 = checker.checkString('import { bar } from "foo";');
-            expect(errors).to.have.no.errors();
-            expect(errors2).to.have.no.errors();
-        });
-
         it('uses the default esprima when falsely or no argument is provided to the constructor', function() {
             checker = new StringChecker();
             checker.registerDefaultRules();

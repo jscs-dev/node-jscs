@@ -1,4 +1,4 @@
 {
     "disallowKeywords": ["with"],
-    "esprima": "babel-jscs"
+    "esprima": "custom-esprima"
 }

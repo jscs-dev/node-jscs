@@ -115,7 +115,7 @@ results.getErrorList().forEach(function(error) {
 
 ## CLI
 
-Some CLI options can be put in your `.jscsrc` as well (such as `esnext`).
+Some CLI options can be put in your `.jscsrc` as well (such as `preset`).
 
 ### `--fix` (`-x`)
 Will apply fixes to all supported style rules.
@@ -175,7 +175,10 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
 ### `--esnext` (`-e`)
-Attempts to parse your code as ES6+, JSX, and Flow using the babel-jscs package as the parser. Please note that this is experimental, and will improve over time.
+
+> This is removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
+
+Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
 
 ### `--esprima` (`-s`)
 Attempts to parse your code with a custom Esprima version.
@@ -344,7 +347,9 @@ Default: `false`
 
 ### esnext
 
-Attempts to parse your code as ES6+, JSX, and Flow using the babel-jscs package as the parser. Please note that this is experimental, and will improve over time.
+> This is removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
+
+Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
 
 Type: `Boolean`
 

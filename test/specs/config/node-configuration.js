@@ -148,10 +148,9 @@ describe('modules/config/node-configuration', function() {
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter/index.js'),
-                esprima: 'babel-jscs',
+                esprima: 'esprima',
                 es3: true,
-                verbose: true,
-                esnext: true
+                verbose: true
             });
 
             configuration.registerPreset('jquery', {});
@@ -163,7 +162,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getErrorFilter).to.be.a('function');
             expect(configuration.hasCustomEsprima()).to.equal(true);
             expect(configuration.getVerbose()).to.equal(true);
-            expect(configuration.isESNextEnabled()).to.equal(true);
         });
 
         it('should not override disallowed options from CLI', function() {
@@ -435,7 +433,7 @@ describe('modules/config/node-configuration', function() {
 
         it('should accept `esprima` to register different esprima', function() {
             configuration.load({
-                esprima: 'babel-jscs'
+                esprima: 'esprima'
             });
 
             expect(configuration.hasCustomEsprima()).to.equal(true);
