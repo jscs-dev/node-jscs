@@ -119,8 +119,8 @@ Implementing Features
 --------
 
 It's likely that you'll have to implement feature requests or enhancements on your own. To do that, you'll need
-to be comfortable with JavaScript, Promises, Node.js, and familiar with Javascript abstract syntax trees (specifically Esprima and Bablyon).
-Check out [AST Explorer](http://astexplorer.net/).
+to be comfortable with JavaScript, Promises, Node.js, and familiar with Javascript abstract syntax trees (specifically Bablyon).
+Check out [AST Explorer](http://astexplorer.net/) with the `babylon6` parser.
 
 To understand how JSCS works, the best place to start is in the `lib/` directory: starting with `lib/cli.js`
 (to see the processing flow when `jscs` is invoked in the terminal) then going to `lib/checker.js` and `lib/string-checker.js`

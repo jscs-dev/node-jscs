@@ -1,17 +1,14 @@
 var utils = require('../../lib/utils');
 var expect = require('chai').expect;
 var JsFile = require('../../lib/js-file');
-var esprima = require('esprima');
 var path = require('path');
 
 describe('utils', function() {
 
-    function createJsFile(source, customEsprima) {
+    function createJsFile(source) {
         return new JsFile({
             filename: 'example.js',
-            source: source,
-            esprima: customEsprima || esprima,
-            esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
+            source: source
         });
     }
 

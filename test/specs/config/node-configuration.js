@@ -148,7 +148,6 @@ describe('modules/config/node-configuration', function() {
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter/index.js'),
-                esprima: 'esprima',
                 es3: true,
                 verbose: true
             });
@@ -160,7 +159,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getMaxErrors()).to.equal(2);
             expect(configuration.isES3Enabled()).to.equal(true);
             expect(configuration.getErrorFilter).to.be.a('function');
-            expect(configuration.hasCustomEsprima()).to.equal(true);
             expect(configuration.getVerbose()).to.equal(true);
         });
 
@@ -333,14 +331,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getRegisteredRules()[0].value).to.equal(true);
         });
 
-        it('should load preset with custom esprima', function() {
-            configuration.load({
-                preset: path.resolve('./test/data/configs/modules/node_modules/jscs-esprima/index.json')
-            });
-
-            expect(configuration.getCustomEsprima().parse).to.be.a('function');
-        });
-
         it('should load preset with custom rule', function() {
             configuration.load({
                 preset: path.resolve('./test/data/configs/modules/node_modules/jscs-rule/index.json')
@@ -431,14 +421,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getRegisteredRules()[0]).to.be.an.instanceof(AdditionalRule);
         });
 
-        it('should accept `esprima` to register different esprima', function() {
-            configuration.load({
-                esprima: 'esprima'
-            });
-
-            expect(configuration.hasCustomEsprima()).to.equal(true);
-        });
-
         it('should accept `plugins` to register plugin instance', function() {
             var plugin = function() {};
             var spy = sinon.spy(plugin);
@@ -465,16 +447,6 @@ describe('modules/config/node-configuration', function() {
             expect(examplePluginSpy).to.have.callCount(1);
             expect(examplePluginSpy.getCall(0).args[0]).to.equal(configuration);
             examplePluginSpy.reset();
-        });
-
-        describe('esprima', function() {
-            it('should get esprima', function() {
-                configuration.load({
-                    esprima: 'esprima'
-                });
-
-                expect(configuration.getCustomEsprima()).to.be.a('object');
-            });
         });
 
         describe('error filter', function() {

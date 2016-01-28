@@ -29,11 +29,6 @@ describe('config/configuration', function() {
         it('should have no default preset', function() {
             expect(configuration.getPresetName()).to.equal(null);
         });
-
-        it('should have no default custom esprima', function() {
-            expect(configuration.hasCustomEsprima()).to.equal(false);
-            expect(configuration.getCustomEsprima()).to.equal(null);
-        });
     });
 
     describe('registerRule', function() {
@@ -162,68 +157,6 @@ describe('config/configuration', function() {
         it('should return the supplied error filter', function() {
             configuration.load({errorFilter: function() {}});
             expect(configuration.getErrorFilter()).to.be.a('function');
-        });
-    });
-
-    describe('esprima', function() {
-        it('should load custom esprima', function() {
-            var fake = { parse: function() {} };
-            configuration.load({
-                esprima: fake
-            });
-
-            expect(!!configuration.hasCustomEsprima()).to.equal(true);
-            expect(configuration.getCustomEsprima()).to.equal(fake);
-        });
-
-        it('should throw if esprima module do not have a "parse" method', function() {
-            var fake = {};
-            expect(configuration.load.bind(configuration, {esprima: fake})).to.throw();
-
-            expect(configuration.hasCustomEsprima()).to.equal(false);
-            expect(!configuration.getCustomEsprima()).to.equal(true);
-        });
-
-        it('should throw if errorFilter is not a function', function() {
-            expect(configuration.load.bind(configuration, {errorFilter: {}}))
-              .to.throw('`errorFilter` option requires a function or null value');
-            expect(configuration.hasCustomEsprima()).to.equal(false);
-            expect(!configuration.getCustomEsprima()).to.equal(true);
-        });
-    });
-
-    describe('getEsprimaOptions', function() {
-        function assertBadEsprimaOptions(esprimaOptions) {
-            expect(function() {
-                configuration.load({esprimaOptions: esprimaOptions});
-            }).to.throw(/^AssertionError: `esprimaOptions` should be an object$/);
-        }
-
-        it('should accept `esprimaOptions` rule', function() {
-            configuration.load({esprimaOptions: { foo: 'bar' }});
-            expect(configuration.getUnsupportedRuleNames().length).to.equal(0);
-        });
-
-        it('should return the supplied esprima options', function() {
-            configuration.load({esprimaOptions: { foo: 'bar' }});
-            expect(configuration.getEsprimaOptions()).to.deep.equal({foo: 'bar'});
-        });
-
-        it('should reject null as the esprima options', function() {
-            assertBadEsprimaOptions(null);
-        });
-
-        it('should reject booleans as the esprima options', function() {
-            assertBadEsprimaOptions(true);
-            assertBadEsprimaOptions(false);
-        });
-
-        it('should reject a number as the esprima options', function() {
-            assertBadEsprimaOptions(42.7);
-        });
-
-        it('should reject a string as the esprima options', function() {
-            assertBadEsprimaOptions('snafu');
         });
     });
 

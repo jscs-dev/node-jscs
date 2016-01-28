@@ -1,4 +1,0 @@
-{
-    "disallowKeywords": ["with"],
-    "esprima": "custom-esprima"
-}

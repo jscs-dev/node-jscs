@@ -775,43 +775,6 @@ describe('cli', function() {
         });
     });
 
-    describe('esprima option', function() {
-        beforeEach(function() {
-            sinon.spy(console, 'log');
-        });
-
-        afterEach(function() {
-            console.log.restore();
-        });
-
-        it('should use a custom esprima provided in the config file', function() {
-            return assertNoCliErrors(cli({
-                args: [''],
-                config: 'test/data/cli/esprima.json'
-            }));
-        });
-
-        it('should use the default esprima if null is provided in the config file', function() {
-            var returnArgs = cli({
-                args: [''],
-                config: 'test/data/cli/esprimaNull.json'
-            });
-
-            var esprima = returnArgs.checker.getEsprima();
-            expect(esprima).to.equal(require('esprima'));
-
-            return assertNoCliErrors(returnArgs);
-        });
-
-        it('should use a custom esprima provided at CLI', function() {
-            return assertNoCliErrors(cli({
-                args: [''],
-                esprima: 'custom-esprima',
-                config: 'test/data/cli/cli.json'
-            }));
-        });
-    });
-
     describe('additionalRules', function() {
         it('should correctly handle additionalRules paths', function() {
             return assertNoCliErrors(cli({

@@ -64,7 +64,6 @@
     "cli-table": "~0.3.1",
     "commander": "~2.9.0",
     "cst": "0.0.22",
-    "esprima": "~2.7.0",
     "estraverse": "^4.1.0",
     "exit": "~0.1.2",
     "glob": "^5.0.1",

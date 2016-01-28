@@ -21,7 +21,6 @@ program
         return memo ? memo.concat(value) : [value];
     })
     .option('--es3', 'validates code as es3')
-    .option('-s, --esprima <path>', 'attempts to use a custom version of Esprima')
     .option('-n, --no-colors', 'clean output without colors')
     .option('-p, --preset <preset>', 'preset config')
     .option('-v, --verbose', 'adds rule names to the error output')

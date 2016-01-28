@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var esprima = require('esprima');
 var JsFile = require('../../lib/js-file');
 var TokenAssert = require('../../lib/token-assert');
 var getPosition = require('../../lib/errors').getPosition;
@@ -10,9 +9,7 @@ describe('token-assert', function() {
     function createJsFile(sources) {
         return new JsFile({
             filename: 'example.js',
-            source: sources,
-            esprima: esprima,
-            esprimaOptions: {loc: true, range: true, comment: true, tokens: true}
+            source: sources
         });
     }
 

@@ -117,6 +117,15 @@ results.getErrorList().forEach(function(error) {
 
 Some CLI options can be put in your `.jscsrc` as well (such as `preset`).
 
+---
+
+These following options have been removed in 3.0 (since `esnext` is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser).
+
+- `--esnext` (`-e`)
+- `--esprima` (`-s`)
+
+---
+
 ### `--fix` (`-x`)
 Will apply fixes to all supported style rules.
 
@@ -174,18 +183,6 @@ But you also can specify your own reporter, since this flag accepts relative or 
 jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 ```
 
-### `--esnext` (`-e`)
-
-> This has been removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
-
-Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
-
-### `--esprima` (`-s`)
-Attempts to parse your code with a custom Esprima version.
-```
-jscs path[ path[...]] --esprima=esprima-fb
-```
-
 ### `--error-filter` (`-f`)
 The path to a module that determines whether or not an error should be reported.
 ```
@@ -208,6 +205,18 @@ Prepends the name of the offending rule to all error messages.
 Outputs version of `jscs`.
 
 ## Options
+
+---
+
+> The following options have been removed in 3.0 (since `esnext` is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
+
+`esnext`: Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
+
+`esprima`: Attempts to parse your code with a custom Esprima version.
+
+`esprimaOptions`: Custom `options` to be passed to `esprima.parse(code, options)`
+
+---
 
 ### plugins
 
@@ -345,18 +354,6 @@ Type: `Boolean|null`
 
 Default: `false`
 
-### esnext
-
-> This has been removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
-
-Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
-
-#### Example
-
-```js
-"esnext": true
-```
-
 ### es3
 
 Use ES3 reserved words.
@@ -382,32 +379,6 @@ Default: `false`
 
 ```js
 "verbose": true
-```
-
-### esprima
-
-Attempts to parse your code with a custom Esprima version.
-
-Type: `String`
-
-#### Example
-
-```js
-"esprima": "esprima-fb" // You should install custom esprima first
-```
-
-### esprimaOptions
-
-Custom `options` to be passed to `esprima.parse(code, options)`
-
-Type: `Object`
-
-Default: `{ "tolerant": true }`
-
-#### Example
-
-```js
-"esprimaOptions": { "tolerant": true }
 ```
 
 ### errorFilter
