@@ -176,7 +176,7 @@ jscs path[ path[...]] --reporter=./some-dir/my-reporter.js
 
 ### `--esnext` (`-e`)
 
-> This is removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
+> This has been removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
 
 Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
 
@@ -347,13 +347,9 @@ Default: `false`
 
 ### esnext
 
-> This is removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
+> This has been removed in 3.0 (since it is enabled by default) using [cst](https://github.com/cst/cst) which uses babylon as it's parser)
 
 Attempts to parse your code as ES6+, JSX, and Flow using babylon as the underlying parser.
-
-Type: `Boolean`
-
-Value: `true`
 
 #### Example
 

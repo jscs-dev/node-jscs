@@ -6,7 +6,7 @@ var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe('rules/disallow-trailing-comma', function() {
     var checker;
-    var rules = { disallowTrailingComma: true, esnext: true };
+    var rules = { disallowTrailingComma: true };
 
     beforeEach(function() {
         checker = new Checker();

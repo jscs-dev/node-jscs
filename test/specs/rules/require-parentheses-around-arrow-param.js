@@ -7,7 +7,7 @@ describe('rules/require-parentheses-around-arrow-param', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ esnext: true, requireParenthesesAroundArrowParam: true });
+        checker.configure({ requireParenthesesAroundArrowParam: true });
     });
 
     it('should report an arrow function expression without parens', function() {

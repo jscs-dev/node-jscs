@@ -71,17 +71,14 @@ describe('rules/require-quoted-keys-in-objects', function() {
     });
 
     it('should not report shorthand object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
     });
 
     it('should not report es6-methods. #1013', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
     });
 
     it('should not report es7 object spread. Ref #1624', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { ...a };')).to.have.no.errors();
     });
 

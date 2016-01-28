@@ -73,7 +73,7 @@ describe('rules/require-spaces-inside-object-brackets', function() {
 
         describe.skip('import (#1524)', function() {
             beforeEach(function() {
-                checker.configure({ requireSpacesInsideObjectBrackets: 'all', esnext: true });
+                checker.configure({ requireSpacesInsideObjectBrackets: 'all' });
             });
 
             it('should not report with absent brackets', function() {

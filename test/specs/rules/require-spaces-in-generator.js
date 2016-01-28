@@ -12,7 +12,6 @@ describe('rules/require-spaces-in-generator', function() {
     describe('both true', function() {
         var rules = {
             requireSpacesInGenerator: { beforeStar: true, afterStar: true },
-            esnext: true
         };
 
         beforeEach(function() {

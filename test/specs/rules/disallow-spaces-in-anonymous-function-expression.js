@@ -11,8 +11,7 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
 
     describe('beforeOpeningRoundBrace', function() {
         var rules = {
-            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
-            esnext: true
+            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true }
         };
 
         beforeEach(function() {
@@ -85,7 +84,6 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
     describe('beforeOpeningCurlyBrace', function() {
         var rules = {
             disallowSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true },
-            esnext: true
         };
 
         beforeEach(function() {
@@ -126,12 +124,10 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
         });
 
         it('should not report missing space before curly brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('var x = { y(){} }')).to.have.no.errors();
         });
 
         it('should report space before curly brace in method shorthand', function() {
-            checker.configure({ esnext: true });
             expect(checker.checkString('var x = { y () {} }'))
               .to.have.one.validation.error.from('disallowSpacesInAnonymousFunctionExpression');
         });

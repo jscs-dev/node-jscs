@@ -7,7 +7,7 @@ describe('rules/require-spread', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ esnext: true, requireSpread: true });
+        checker.configure({ requireSpread: true });
     });
 
     it('should report use of apply when the first param === the object of the member expression', function() {

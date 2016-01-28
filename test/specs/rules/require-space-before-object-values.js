@@ -41,7 +41,7 @@ describe('rules/require-space-before-object-values', function() {
     });
 
     it('should allow object literal spreading with spread at end', function() {
-        checker.configure({ esnext: true, requireSpaceBeforeObjectValues: true });
+        checker.configure({ requireSpaceBeforeObjectValues: true });
         expect(checker.checkString(
             'var b = {};\n' +
             'var x = {a: 1, ...b};'
@@ -49,7 +49,7 @@ describe('rules/require-space-before-object-values', function() {
     });
 
     it('should allow object literal spreading with spread at beginning', function() {
-        checker.configure({ esnext: true, requireSpaceBeforeObjectValues: true });
+        checker.configure({ requireSpaceBeforeObjectValues: true });
         expect(checker.checkString(
             'var b = {};\n' +
             'var x = {...b, a: 1};'
@@ -61,19 +61,16 @@ describe('rules/require-space-before-object-values', function() {
     });
 
     it('should not report shorthand object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
         expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
     });
 
     it('should report mixed shorthand and normal object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a:1, b };'))
           .to.have.one.validation.error.from('requireSpaceBeforeObjectValues');
     });
 
     it('should not report es6-methods. #1013', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
     });
 

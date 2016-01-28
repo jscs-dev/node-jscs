@@ -193,7 +193,6 @@ describe('rules/maximum-line-length', function() {
     describe('allExcept["functionSignature"] option', function() {
         beforeEach(function() {
             checker.configure({
-                esnext: true,
                 maximumLineLength: {
                     value: 20,
                     allExcept: ['functionSignature']

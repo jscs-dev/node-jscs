@@ -134,12 +134,10 @@ describe('rules/disallow-empty-blocks', function() {
     });
 
     it('should not report empty arrow blocks', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('() => {}')).to.have.no.errors();
     });
 
     it('should not report empty arrow blocks with arguments', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('(a) => {}')).to.have.no.errors();
     });
 

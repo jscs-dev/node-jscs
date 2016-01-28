@@ -33,24 +33,20 @@ describe('rules/disallow-space-before-object-values', function() {
     });
 
     it('should not report shorthand object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a, b };')).to.have.no.errors();
         expect(checker.checkString('var x = {a, b};')).to.have.no.errors();
     });
 
     it('should report mixed shorthand and normal object properties', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a : 1, b };'))
           .to.have.one.validation.error.from('disallowSpaceBeforeObjectValues');
     });
 
     it('should not report es6-methods. #1013', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
     });
 
     it('should not report es7 object spread. Ref #1624', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('var x = { ...a };')).to.have.no.errors();
     });
 

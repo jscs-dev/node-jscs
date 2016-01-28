@@ -786,14 +786,14 @@ describe('cli', function() {
 
         it('should use a custom esprima provided in the config file', function() {
             return assertNoCliErrors(cli({
-                args: ['test/data/cli/esnext.js'],
+                args: [''],
                 config: 'test/data/cli/esprima.json'
             }));
         });
 
         it('should use the default esprima if null is provided in the config file', function() {
             var returnArgs = cli({
-                args: ['test/data/cli/esnext.js'],
+                args: [''],
                 config: 'test/data/cli/esprimaNull.json'
             });
 
@@ -805,7 +805,7 @@ describe('cli', function() {
 
         it('should use a custom esprima provided at CLI', function() {
             return assertNoCliErrors(cli({
-                args: ['test/data/cli/esnext.js'],
+                args: [''],
                 esprima: 'custom-esprima',
                 config: 'test/data/cli/cli.json'
             }));

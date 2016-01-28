@@ -5,7 +5,7 @@ var getPosition = require('../../../lib/errors').getPosition;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
 describe.skip('rules/require-trailing-comma', function() {
-    var rules = { requireTrailingComma: true, esnext: true };
+    var rules = { requireTrailingComma: true };
     var checker;
 
     beforeEach(function() {

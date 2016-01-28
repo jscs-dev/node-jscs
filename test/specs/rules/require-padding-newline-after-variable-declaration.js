@@ -75,7 +75,6 @@ describe('rules/require-padding-newline-after-variable-declaration', function() 
     });
 
     it('should not report when variables are defined in the init part of a for of loop', function() {
-        checker.configure({ esnext: true });
         expect(checker.checkString('for (var i of arr) {}')).to.have.no.errors();
         expect(checker.checkString('for (let i of arr) {}')).to.have.no.errors();
     });

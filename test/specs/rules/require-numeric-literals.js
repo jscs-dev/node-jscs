@@ -9,7 +9,6 @@ describe('rules/require-numeric-literals', function() {
         checker.registerDefaultRules();
 
         checker.configure({
-            esnext: true,
             requireNumericLiterals: true
         });
     });

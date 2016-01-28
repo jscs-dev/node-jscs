@@ -85,7 +85,7 @@ describe('rules/disallow-spaces-in-call-expression', function() {
     });
 
     it('should not report on round braces that do not belong to a NewExpression #(1594)', function() {
-        checker.configure({ disallowSpacesInCallExpression: true, esnext: true });
+        checker.configure({ disallowSpacesInCallExpression: true });
         expect(checker.checkString('const newObj = new data.constructor;\n\nif (dataIsMap) {\n\n}'))
           .to.have.no.errors();
     });

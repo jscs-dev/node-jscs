@@ -11,6 +11,10 @@ describe('rules/safe-context-keyword', function() {
             checker.configure({ safeContextKeyword: 'that' });
         });
 
+        it('should ignore destructuring assignment', function() {
+            expect(checker.checkString('const { smth } = this;')).to.have.no.errors();
+        });
+
         describe('not assigning this', function() {
             it('should not report variable declarations', function() {
                 expect(checker.checkString('var a = b;')).to.have.no.errors();
@@ -106,21 +110,6 @@ describe('rules/safe-context-keyword', function() {
             it('should report "var notthat = this"', function() {
                 expect(checker.checkString('var a = 1, notthat = this, notself = this;')).to.have.error.count.equal(2);
             });
-        });
-    });
-
-    describe('esnext', function() {
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-            checker.configure({
-                safeContextKeyword: 'that',
-                esnext: true
-            });
-        });
-
-        it('should ignore destructuring assignment', function() {
-            expect(checker.checkString('const { smth } = this;')).to.have.no.errors();
         });
     });
 });

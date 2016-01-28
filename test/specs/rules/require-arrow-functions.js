@@ -15,7 +15,7 @@ describe('rules/require-arrow-functions', function() {
     beforeEach(function() {
         checker = new Checker();
         checker.registerDefaultRules();
-        checker.configure({ requireArrowFunctions: true, esnext: true });
+        checker.configure({ requireArrowFunctions: true });
     });
 
     it('should report use of anonymous function expression in VariableDeclaration', function() {

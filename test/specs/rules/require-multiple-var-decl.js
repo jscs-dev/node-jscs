@@ -116,7 +116,6 @@ describe('rules/require-multiple-var-decl', function() {
         });
 
         it('should report multiple const in function', function() {
-            /* jshint esnext: true */
             function test() {
                 const first = true;
 
@@ -128,7 +127,6 @@ describe('rules/require-multiple-var-decl', function() {
         });
 
         it('should report multiple const and vars in function', function() {
-            /* jshint esnext: true */
             function test() {
                 const firstConst = true;
                 var firstVar = true;

@@ -97,7 +97,6 @@ describe('rules/disallow-spaces-inside-parentheses', function() {
     describe('es6', function() {
         beforeEach(function() {
             checker.configure({
-                esnext: true,
                 disallowSpacesInsideParentheses: true
             });
         });
