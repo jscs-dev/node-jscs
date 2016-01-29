@@ -11,7 +11,7 @@ describe('rules/disallow-spaces-in-generator', function() {
 
     describe('{beforeStar: true}', function() {
         var rules = {
-            disallowSpacesInGenerator: {beforeStar: true},
+            disallowSpacesInGenerator: {beforeStar: true}
         };
 
         beforeEach(function() {
@@ -105,7 +105,7 @@ describe('rules/disallow-spaces-in-generator', function() {
 
     describe('{afterStar: true}', function() {
         var rules = {
-            disallowSpacesInGenerator: {afterStar: true},
+            disallowSpacesInGenerator: {afterStar: true}
         };
 
         beforeEach(function() {

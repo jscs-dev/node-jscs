@@ -11,7 +11,7 @@ describe('rules/require-spaces-in-function', function() {
 
     describe('beforeOpeningRoundBrace', function() {
         var rules = {
-            requireSpacesInFunction: { beforeOpeningRoundBrace: true },
+            requireSpacesInFunction: { beforeOpeningRoundBrace: true }
         };
 
         beforeEach(function() {
@@ -106,7 +106,7 @@ describe('rules/require-spaces-in-function', function() {
 
     describe('beforeOpeningCurlyBrace', function() {
         var rules = {
-            requireSpacesInFunction: { beforeOpeningCurlyBrace: true },
+            requireSpacesInFunction: { beforeOpeningCurlyBrace: true }
         };
 
         beforeEach(function() {

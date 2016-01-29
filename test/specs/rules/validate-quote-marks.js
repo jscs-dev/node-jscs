@@ -217,7 +217,7 @@ describe('rules/validate-quote-marks', function() {
         output: '""'
     });
 
-     reportAndFix({
+    reportAndFix({
         name: '\'a\'',
         rules: {
             validateQuoteMarks: '"'

@@ -42,9 +42,12 @@ describe('reporters/text', function() {
         var line2 = console.log.getCall(1).args[0];
         var line3 = console.log.getCall(2).args[0];
 
-        expect(line1).to.equal('Illegal keyword: with at input :\n     1 |with(x){} with(x){} \n----------^\n');
-        expect(line2).to.equal('Illegal keyword: with at input :\n     1 |with(x){} with(x){} \n--------------------^\n');
-        expect(line3).to.equal('\n2 code style errors found.');
+        var line1Output = 'Illegal keyword: with at input :\n     1 |with(x){} with(x){} \n----------^\n';
+        var line2Output = 'Illegal keyword: with at input :\n     1 |with(x){} with(x){} \n--------------------^\n';
+        var line3Output = '\n2 code style errors found.';
+        expect(line1).to.equal(line1Output);
+        expect(line2).to.equal(line2Output);
+        expect(line3).to.equal(line3Output);
         expect(console.log).to.have.callCount(3);
     });
 });

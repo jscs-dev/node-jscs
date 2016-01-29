@@ -75,7 +75,7 @@ describe('rules/disallow-space-after-object-keys', function() {
         });
 
         it('should report mixed shorthand and normal object properties', function() {
-            expect(checker.checkString('var x = { a : 1, b };'))
+            expect(checker.checkString('var x = { a : 1, b };'));
         });
     });
 

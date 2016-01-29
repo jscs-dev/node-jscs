@@ -11,7 +11,7 @@ describe('rules/disallow-spaces-in-function-expression', function() {
 
     describe('beforeOpeningRoundBrace', function() {
         var rules = {
-            disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true },
+            disallowSpacesInFunctionExpression: { beforeOpeningRoundBrace: true }
         };
 
         beforeEach(function() {
@@ -111,7 +111,7 @@ describe('rules/disallow-spaces-in-function-expression', function() {
 
     describe('beforeOpeningCurlyBrace', function() {
         var rules = {
-            disallowSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true },
+            disallowSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true }
         };
 
         beforeEach(function() {

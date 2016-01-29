@@ -83,7 +83,7 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
 
     describe('beforeOpeningCurlyBrace', function() {
         var rules = {
-            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true },
+            disallowSpacesInAnonymousFunctionExpression: { beforeOpeningCurlyBrace: true }
         };
 
         beforeEach(function() {

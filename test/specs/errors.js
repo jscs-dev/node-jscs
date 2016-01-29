@@ -32,7 +32,7 @@ describe.skip('errors', function() {
                     end: {
                         line: 1,
                         column: 10
-                    },
+                    }
                 }
             }, 5);
 
@@ -96,12 +96,14 @@ describe.skip('errors', function() {
         });
 
         it('should suppress errors with disable using liberal whitespace', function() {
-            var errors = checker.checkString('//   jscs:   disable   disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }');
+            var str = '//   jscs:   disable   disallowQuotedKeysInObjects\n\tvar x = { "a": 1 }';
+            var errors = checker.checkString(str);
             expect(errors).to.have.no.errors();
         });
 
         it('should suppress errors with disable using block comment', function() {
-            var errors = checker.checkString('/*   jscs:   disable   disallowQuotedKeysInObjects */\n\tvar x = { "a": 1 }');
+            var str = '/*   jscs:   disable   disallowQuotedKeysInObjects */\n\tvar x = { "a": 1 }';
+            var errors = checker.checkString(str);
             expect(errors).to.have.no.errors();
         });
 
@@ -111,7 +113,7 @@ describe.skip('errors', function() {
 
             expect(errors).to.have.no.errors();
         });
-    })
+    });
 
     describe('add', function() {
         var errors;
