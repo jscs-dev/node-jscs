@@ -1,7 +1,7 @@
 {
   "preset": "google",
   "maximumLineLength": 120,
-  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
+  "requireCamelCaseOrUpperCaseIdentifiers": { "ignoreProperties": true },
   "validateQuoteMarks": { "mark": "'", "escape": true },
   "disallowMultipleVarDecl": "exceptUndefined"
 }

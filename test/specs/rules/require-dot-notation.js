@@ -108,16 +108,4 @@ describe('rules/require-dot-notation', function() {
               .to.have.one.validation.error.from('requireDotNotation');
         });
     });
-
-    describe('deprecated option value "except_snake_case"', function() {
-        beforeEach(function() {
-            checker.configure({ requireDotNotation: 'except_snake_case' });
-        });
-
-        it('should report literal subscription', function() {
-            expect(checker.checkString('var x = a[\'b\']')).to.have.one.validation.error.from('requireDotNotation');
-            expect(checker.checkString('var x = a[\'camelA\']'))
-              .to.have.one.validation.error.from('requireDotNotation');
-        });
-    });
 });

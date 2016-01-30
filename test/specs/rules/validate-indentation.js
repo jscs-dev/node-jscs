@@ -156,32 +156,6 @@ describe.skip('rules/validate-indentation', function() {
         ]);
     });
 
-    describe('includeEmptyLines', function() {
-        it('should validate indentation on an empty line when includeEmptyLines is true', function() {
-            checker.configure({
-                validateIndentation: {
-                    value: '\t',
-                    includeEmptyLines: true
-                }
-            });
-
-            expect(checker.checkString('if (a){\n\tb=c;\n\n}'))
-              .to.have.one.validation.error.from('validateIndentation');
-            expect(checker.checkString('if (a){\n\t\n}')).to.have.no.errors();
-        });
-
-        it('should not validate indentation on an empty line when includeEmptyLines is false', function() {
-            checker.configure({
-                validateIndentation: {
-                    value: '\t',
-                    includeEmptyLines: false
-                }
-            });
-
-            expect(checker.checkString('if (a){\n\tb=c;\n\n}')).to.have.no.errors();
-        });
-    });
-
     describe('allExcept["emptyLines"] option', function() {
         it('should validate indentation on an empty line when includeEmptyLines is true', function() {
             checker.configure({

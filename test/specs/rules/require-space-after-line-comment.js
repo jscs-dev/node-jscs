@@ -41,27 +41,6 @@ describe('rules/require-space-after-line-comment', function() {
         });
     });
 
-    // deprecated. fixes #697
-    describe('option value allowSlash', function() {
-        beforeEach(function() {
-            checker.configure({ requireSpaceAfterLineComment: 'allowSlash' });
-        });
-
-        it('should not report microsoft documentation triple slashed comments', function() {
-            expect(checker.checkString('function area() {\n  /// <summary>summary</summary>\n  return res;\n}'))
-              .to.have.no.errors();
-        });
-
-        it('should not report multiline msjsdoc with triple slashed comments', function() {
-            expect(checker.checkString('function area() {\n' +
-                '  /// <summary>\n' +
-                '  ///   summary\n' +
-                '  /// </summary>\n' +
-                '  return res;\n' +
-                '}')).to.have.no.errors();
-        });
-    });
-
     describe('exceptions #, --, (xsharp)', function() {
         beforeEach(function() {
             checker.configure({ requireSpaceAfterLineComment: { allExcept: ['#', '--', '(xsharp)'] } });
