@@ -466,8 +466,7 @@ describe('modules/config/node-configuration', function() {
                 expect(configuration.getErrorFilter()).to.be.a('function');
             });
 
-            // TODO
-            it.skip('should accept `errorFilter` from node_modules', function() {
+            it('should accept `errorFilter` from node_modules', function() {
                 configuration.load({
                     errorFilter: 'browserify'
                 });

@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/disallow-identical-destructuring-names', function() {
+describe('rules/disallow-identical-destructuring-names', function() {
     var checker;
 
     function assertNum(str, num) {

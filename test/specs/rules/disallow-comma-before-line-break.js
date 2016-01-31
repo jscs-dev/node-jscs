@@ -80,6 +80,7 @@ describe('rules/disallow-comma-before-line-break', function() {
                 beforeEach(function() {
                     checker.configure({disallowCommaBeforeLineBreak: {allExcept: ['function']}});
                 });
+
                 it('should not report objects with function values', function() {
                     expect(checker.checkString(
                             'var x = {\n' +
@@ -89,8 +90,8 @@ describe('rules/disallow-comma-before-line-break', function() {
                             '};'
                         )).to.have.no.errors();
                 });
-                // TODO: 3.0
-                it.skip('should report objects without function values', function() {
+
+                it('should report objects without function values', function() {
                     expect(checker.checkString('var a = {a:1,\nc:3};')).to.have.error.count.equal(2);
                 });
 

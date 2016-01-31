@@ -84,12 +84,11 @@ describe('rules/require-spaces-inside-object-brackets', function() {
             it('should report for import statements', function() {
                 expect(checker.checkString('import {myMember} from "test";')).to.have.error.count.equal(2);
 
-                expect(checker.checkString('import {myMember} from "test";')).to.have.error.count.equal(2);
-
                 expect(checker.checkString('import {foo, bar} from "test";')).to.have.error.count.equal(2);
 
-                expect(checker.checkString('import MyModule, {foo, bar} ' +
-                        ' from "test";')).to.have.error.count.equal(2);
+                expect(checker.checkString(
+                    'import MyModule, {foo, bar} from "test";'
+                )).to.have.error.count.equal(2);
 
                 expect(checker.checkString('import {a as b} from "test";')).to.have.error.count.equal(2);
             });
