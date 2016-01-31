@@ -199,6 +199,14 @@ describe('rules/maximum-line-length', function() {
             var code = '// function myCoolFunction(argument) { }';
             expect(checker.checkString(code)).to.have.one.validation.error.from('maximumLineLength');
         });
+
+        it('should not break on export default function', function() {
+            expect(checker.checkString('export default function() {}')).to.have.no.errors();
+        });
+
+        it('should not break on export default function with params', function() {
+            expect(checker.checkString('export default function(s) {}')).to.have.no.errors();
+        });
     });
 
     describe('allExcept["require"] option', function() {
