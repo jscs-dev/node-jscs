@@ -146,7 +146,7 @@ describe.skip('lib/config/generator', function() {
         });
     });
 
-    it.skip('generates a .jscsrc file with the user\'s violation choices', function() {
+    it('generates a .jscsrc file with the user\'s violation choices', function() {
         var presetChoiceStub = sinon.stub(generator, '_getUserPresetChoice').returns(crockfordPresetChoice);
         var getViolationsStub = sinon.stub(generator, '_getUserViolationChoices')
                                 .returns(Vow.cast(crockfordViolationsAllExceptions));

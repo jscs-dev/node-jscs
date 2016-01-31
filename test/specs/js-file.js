@@ -883,14 +883,14 @@ describe('js-file', function() {
         });
     });
 
-    describe.skip('getScope', function() {
+    describe('getScope', function() {
         it('should lazy initialize', function() {
             var sources = ['var x = 1;', 'var y = 2;'];
             var file = createJsFile(sources.join('\n'));
-            expect(file._scope).to.equal(null);
+            expect(file._scopes).to.equal(null);
 
-            expect(file.getScope()).to.be.a('object');
-            expect(file._scope).to.be.not.a('null');
+            expect(file.getScopes()).to.be.a('object');
+            expect(file._scopes).to.be.not.a('null');
         });
 
         it('should ignore eval', function(done) {
@@ -898,7 +898,7 @@ describe('js-file', function() {
             var file = createJsFile(sources.join('\n'));
 
             file.iterateNodesByType(['FunctionDeclaration', 'FunctionExpression'], function(node) {
-                expect(file.getScope().acquire(node).variables[1].references.length).to.equal(1);
+                expect(file.getScopes().acquire(node).variables[0].references.length).to.equal(1);
                 done();
             });
         });
