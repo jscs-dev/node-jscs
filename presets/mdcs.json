@@ -29,5 +29,6 @@
         "afterConsequent": true,
         "beforeAlternate": true
     },
-    "disallowTrailingWhitespace": true
+    "disallowTrailingWhitespace": true,
+    "disallowNewlineBeforeBlockStatements": true
 }
