@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
+var getPosition = require('../../../lib/errors').getPosition;
 
 describe('rules/require-curly-braces', function() {
     var checker;
@@ -152,7 +153,7 @@ describe('rules/require-curly-braces', function() {
         expect(checker.checkString('with(x) console.log(toString());')).to.have.errors();
     });
 
-    it.skip('should correctly set pointer (#799)', function() {
+    it('should correctly set pointer (#799)', function() {
         checker.configure({ requireCurlyBraces: ['else'] });
 
         var error = checker.checkString([
@@ -164,7 +165,8 @@ describe('rules/require-curly-braces', function() {
             '}'
         ].join('\n')).getErrorList()[ 0 ];
 
-        expect(error.element).to.equal(3);
+        expect(getPosition(error.element).column).to.equal(2);
+        expect(getPosition(error.element).line).to.equal(4);
     });
 
     it('should not report missing `else` braces for `else if`', function() {
