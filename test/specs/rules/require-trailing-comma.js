@@ -4,7 +4,7 @@ var Checker = require('../../../lib/checker');
 var getPosition = require('../../../lib/errors').getPosition;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe.skip('rules/require-trailing-comma', function() {
+describe('rules/require-trailing-comma', function() {
     var rules = { requireTrailingComma: true };
     var checker;
 
@@ -95,13 +95,13 @@ describe.skip('rules/require-trailing-comma', function() {
         });
 
         it('should report right location for no trailing comma in object (#1018)', function() {
-            var errs = checker.checkString('var obj = {\n    foo: "foo"\n};').getErrorList()[0];
-            expect(getPosition(errs[0]).line + ':' + getPosition(errs[0]).column).to.equal('2:14');
+            var errs = checker.checkString('var obj = {\n    foo: "foo"\n};').getErrorList()[0].element;
+            expect(getPosition(errs).line + ':' + getPosition(errs).column).to.equal('2:12');
         });
 
         it('should report right location for no trailing comma in array (#1018)', function() {
-            var errs = checker.checkString('var arr = [\n    \'foo\'\n];').getErrorList();
-            expect(getPosition(errs[0]).line + ':' + getPosition(errs[0]).column).to.equal('2:9');
+            var errs = checker.checkString('var arr = [\n    \'foo\'\n];').getErrorList()[0].element;
+            expect(getPosition(errs).line + ':' + getPosition(errs).column).to.equal('2:7');
         });
     });
 
