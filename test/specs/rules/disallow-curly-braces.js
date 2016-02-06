@@ -1,5 +1,6 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
+var getPosition = require('../../../lib/errors').getPosition;
 
 describe('rules/disallow-curly-braces', function() {
     var checker;
@@ -96,7 +97,7 @@ describe('rules/disallow-curly-braces', function() {
         // expect(checker.checkString('with(x) {console.log(toString());}')).to.have.errors();
     });
 
-    it.skip('should correctly set pointer (#799)', function() {
+    it('should correctly set pointer (#799)', function() {
         checker.configure({ disallowCurlyBraces: ['else'] });
 
         var error = checker.checkString([
@@ -109,7 +110,8 @@ describe('rules/disallow-curly-braces', function() {
             '}'
         ].join('\n')).getErrorList()[ 0 ];
 
-        expect(error.elemeent).to.equal(3);
+        expect(getPosition(error.element).column).to.equal(5);
+        expect(getPosition(error.element).line).to.equal(4);
     });
 
     it('should report for a block with 1 statement', function() {
