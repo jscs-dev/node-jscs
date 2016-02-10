@@ -30,6 +30,7 @@
     "disallowMultipleVarDecl": true,
     "disallowSpaceBeforeComma": true,
     "disallowSpaceBeforeSemicolon": true,
+    "disallowSpacesInsideTemplateStringPlaceholders": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
     "requireSpacesInAnonymousFunctionExpression": {
