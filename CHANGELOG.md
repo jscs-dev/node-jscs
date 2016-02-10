@@ -1,4 +1,4 @@
-## Version [2.9.0](https://github.com/jscs-dev/node-jscs/compare/v2.8.0...v2.9.0) (2015-01-23):
+## Version [2.9.0](https://github.com/jscs-dev/node-jscs/compare/v2.8.0...v2.9.0) (2016-01-23):
 
 > Changed the changelog date format to be YYYY-MM-DD.
 
