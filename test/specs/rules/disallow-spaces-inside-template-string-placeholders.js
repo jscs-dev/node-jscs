@@ -42,7 +42,7 @@ describe('rules/disallow-spaces-inside-template-string-placeholders', function()
         expect(checker.checkString('`${1}`')).to.have.no.errors();
     });
 
-    it('should work with tagged template string', function () {
+    it('should work with tagged template string', function() {
         expect(checker.checkString('tag`${1}`')).to.have.no.errors();
         expect(checker.checkString('tag`${1 }`')).to.have.one.validation.error
             .from('disallowSpacesInsideTemplateStringPlaceholders');
