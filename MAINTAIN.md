@@ -4,7 +4,7 @@ Maintainer Guide
 Maintainers are the core developers of the project.
 Their main role is to review, merge or reject pull-requests and fix critical bugs.
 
-See current list of maintainers on (jscs.info)[http://jscs.info#maintainers].
+See current list of maintainers on [jscs.info](http://jscs.info#maintainers).
 
 Maintaining validation rules
 ----------------------------
@@ -13,8 +13,8 @@ Each rule should have:
 
  * Implementation in `lib/rules/rule-name.js`.
  * Documentation in `lib/rules/rule-name.js` (`JSDoc` comment should start at the beginning of the file).
- * Registration in `registerDefaultRules` method of `StringChecker` (`lib/string-checker.js`).
- * Tests in `lib/test.rule-name.js`
+ * Registration in `registerDefaultRules` method of `Configuration` (`lib/config/configuration.js`).
+ * Tests in `test/specs/rules/rule-name.js`
 
 Rule interface:
 
