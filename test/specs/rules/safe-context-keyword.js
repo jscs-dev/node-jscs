@@ -15,6 +15,10 @@ describe('rules/safe-context-keyword', function() {
             expect(checker.checkString('const { smth } = this;')).to.have.no.errors();
         });
 
+        it('should ignore destructuring assignment in multi-variable declarations', function() {
+            expect(checker.checkString('const a = 1, { smth } = this;')).to.have.no.errors();
+        });
+
         describe('not assigning this', function() {
             it('should not report variable declarations', function() {
                 expect(checker.checkString('var a = b;')).to.have.no.errors();
