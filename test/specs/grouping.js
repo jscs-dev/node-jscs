@@ -15,7 +15,9 @@ describe.skip('rule grouping', function() {
     }, {});
 
     describe('exists for every rule', function() {
-        fs.readdirSync(rulesDir).map(function(file) {
+        fs.readdirSync(rulesDir).filter(function(file) {
+            return file.slice(-3) === '.js';
+        }).map(function(file) {
             var Rule = require(path.join(rulesDir, file));
             return Rule.prototype.getOptionName.call();
         }).forEach(function(option) {
