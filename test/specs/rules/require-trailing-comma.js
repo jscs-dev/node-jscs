@@ -22,6 +22,30 @@ describe('rules/require-trailing-comma', function() {
     });
 
     reportAndFix({
+        name: 'missing comma in array literal with comment',
+        rules: rules,
+        errors: 1,
+        input: '[a //a\n];',
+        output: '[a, //a\n];'
+    });
+
+    reportAndFix({
+        name: 'missing comma in object literal with comment',
+        rules: rules,
+        errors: 1,
+        input: '({ a: 1 //a\n });',
+        output: '({ a: 1, //a\n });'
+    });
+
+    reportAndFix({
+        name: 'missing comma in object literal on funcion call',
+        rules: rules,
+        errors: 1,
+        input: '[c.catch(() => {}) // test\n ]',
+        output: '[c.catch(() => {}), // test\n ]'
+    });
+
+    reportAndFix({
         name: 'missing comma in object literal without newline char',
         rules: rules,
         errors: 1,
@@ -46,11 +70,27 @@ describe('rules/require-trailing-comma', function() {
     });
 
     reportAndFix({
+        name: 'missing comma in object pattern with comment',
+        rules: rules,
+        errors: 1,
+        input: 'const { foo, bar // test\n } = baz;',
+        output: 'const { foo, bar, // test\n } = baz;'
+    });
+
+    reportAndFix({
         name: 'missing comma in array pattern',
         rules: rules,
         errors: 1,
         input: 'const [ foo, bar ] = baz;',
         output: 'const [ foo, bar, ] = baz;'
+    });
+
+    reportAndFix({
+        name: 'missing comma in array pattern with comment',
+        rules: rules,
+        errors: 1,
+        input: 'const [ foo, bar // test\n ] = baz;',
+        output: 'const [ foo, bar, // test\n ] = baz;'
     });
 
     describe('option value true', function() {
