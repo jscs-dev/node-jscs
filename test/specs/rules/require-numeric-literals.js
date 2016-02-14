@@ -44,4 +44,9 @@ describe('rules/require-numeric-literals', function() {
     it('should not report for non-identifier call', function() {
         expect(checker.checkString('a[parseInt](1,2);')).to.have.no.errors();
     });
+
+    it('should not report on use of parseInt with an identifier for string', function() {
+        expect(checker.checkString('parseInt(foo);')).to.have.no.errors();
+        expect(checker.checkString('parseInt(foo, 2);')).to.have.no.errors();
+    });
 });
