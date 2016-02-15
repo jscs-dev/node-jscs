@@ -129,4 +129,12 @@ describe('rules/require-space-before-keywords', function() {
             checker.checkString('if (typeof value !== "function") {}')
         ).to.have.no.errors();
     });
+
+    it('should report `function` keyword if it passed explicitly (#2135)', function() {
+        checker.configure({ requireSpaceBeforeKeywords: ['function'] });
+
+        expect(
+            checker.checkString('module.exports=function() {}')
+        ).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
+    });
 });
