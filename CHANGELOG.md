@@ -1,3 +1,78 @@
+## Version [2.10.0](https://github.com/jscs-dev/node-jscs/compare/v2.9.0...v2.10.0) (2016-02-15):
+
+Happy Presidents Day!
+
+In this release, it's just some additional rules to update to the airbnb preset, new rules, and fixes.
+
+### Preset Changes
+
+* Add `maximumLineLength` to the `airbnb` preset [(reference)](https://github.com/airbnb/javascript#18.12) (Oleg Gaidarenko)
+* Add `disallowSpacesInsideTemplateStringPlaceholders` to the `airbnb` preset (not explicit but used in examples) (Oleg Gaidarenko)
+* Add `disallowNewlineBeforeBlockStatements` rule to the `mdcs` preset [(reference)](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2#blocks) (Mauricio Massaia)
+ 
+### New Rules
+
+#### `disallowSpacesInsideTemplateStringPlaceholders`
+(ikokostya)
+
+> Disallows spaces before and after curly brace inside template string placeholders.
+
+```js
+// usage in config
+"disallowSpacesInsideTemplateStringPlaceholders": true
+```
+
+```js
+// Valid
+`Hello ${name}!`
+```
+
+```js
+// Invalid
+`Hello ${ name}!`
+`Hello ${name }!`
+`Hello ${ name }!`
+```
+
+#### `requireImportsAlphabetized` (Ray Hammond)
+
+> Requires imports to be alphabetized
+
+```js
+// usage in config
+"requireImportAlphabetized": true
+```
+
+```js
+// Valid
+import a from 'a';
+import c from 'c';
+import z from 'z';
+```
+
+```js
+// Invalid
+import a from 'a';
+import z from 'z';
+import c from 'c';
+```
+
+### Rule Updates
+
+* `requireSpaceBeforeKeywords`: skip `function` by default (gpiress)
+
+### Bug Fixes
+
+* `requireNumericLiterals`: miss if first argument is an Identifier (Robert Jackson)
+* `disallowSpacesInsideTemplateStringPlaceholders`: skip the edge case (Oleg Gaidarenko)
+* `requirePaddingNewLinesBeforeExport`: exclude if only statement in block (Brian Schemp)
+* `maximumLineLength`: some nodes might contain null values (Oleg Gaidarenko)
+ 
+### Docs
+
+* Correct date in the changelog (Oleg Gaidarenko)
+* Various rule corrections (Christopher Cook)
+ 
 ## Version [2.9.0](https://github.com/jscs-dev/node-jscs/compare/v2.8.0...v2.9.0) (2016-01-23):
 
 > Changed the changelog date format to be YYYY-MM-DD.
