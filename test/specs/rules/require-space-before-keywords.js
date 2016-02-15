@@ -121,4 +121,12 @@ describe('rules/require-space-before-keywords', function() {
         expect(errors).to.have.one.validation.error.from('requireSpaceBeforeKeywords');
         expect(errors.explainError(error)).to.have.string('Missing space before "function" keyword');
     });
+
+    it('should ignore keywords that is not mentioned in the config list (#2135)', function() {
+        checker.configure({ requireSpaceBeforeKeywords: [] });
+
+        expect(
+            checker.checkString('if (typeof value !== "function") {}')
+        ).to.have.no.errors();
+    });
 });
