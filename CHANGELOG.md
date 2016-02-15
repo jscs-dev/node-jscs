@@ -1,3 +1,8 @@
+## Version [2.10.1](https://github.com/jscs-dev/node-jscs/compare/v2.10.0...v2.10.1) (2016-02-15):
+
+### Bug Fix
+- Regression in `requireSpaceBeforeKeywords` [#2135](https://github.com/jscs-dev/node-jscs/issues/2135)
+
 ## Version [2.10.0](https://github.com/jscs-dev/node-jscs/compare/v2.9.0...v2.10.0) (2016-02-15):
 
 Happy Presidents Day!
@@ -59,7 +64,8 @@ import c from 'c';
 
 ### Rule Updates
 
-* `requireSpaceBeforeKeywords`: skip `function` by default (gpiress)
+* `requireSpaceBeforeKeywords`: add a `allExcept` option for filtering out default keywords (gpiress)
+  * This allows you do specify exceptions to the all keywords instead of creating an array of whitelisted keywords when you only want to blacklist a few.
 
 ### Bug Fixes
 
