@@ -37,11 +37,31 @@ describe('rules/disallow-spaces-inside-template-string-placeholders', function()
             .from('disallowSpacesInsideTemplateStringPlaceholders');
     });
 
+    it('should report with spaces in both placeholders', function() {
+        expect(checker.checkString('`${ 1 } + ${ 2 }`')).to.have.error.count.equal(4);
+    });
+
+    it('should report with spaces in placeholder with expression', function() {
+        expect(checker.checkString('`${ foo() }`')).to.have.error.count.equal(2);
+    });
+
+    it('should not report with spaces before and after template string', function() {
+        expect(checker.checkString('x = `` ')).to.have.no.errors();
+    });
+
+    it('should not report with space before template string with closing curly brace', function() {
+        expect(checker.checkString('x = `}`')).to.have.no.errors();
+    });
+
+    it('should not report with spaces inside curly braces without dollar sign', function() {
+        expect(checker.checkString('`{ x }`')).to.have.no.errors();
+    });
+
     it('should not report with no spaces in placeholder', function() {
         expect(checker.checkString('`${1}`')).to.have.no.errors();
     });
 
-    it('should work with tagged template string', function () {
+    it('should work with tagged template string', function() {
         expect(checker.checkString('tag`${1}`')).to.have.no.errors();
         expect(checker.checkString('tag`${1 }`')).to.have.one.validation.error
             .from('disallowSpacesInsideTemplateStringPlaceholders');
