@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe('rules/require-newline-before-single-statement', function() {
+describe('rules/require-newline-before-single-statements-in-if', function() {
     var checker;
 
     beforeEach(function() {
@@ -11,7 +11,7 @@ describe('rules/require-newline-before-single-statement', function() {
 
     describe('value true', function() {
         beforeEach(function() {
-            checker.configure({ requireNewLineBeforeSingleStatements: true });
+            checker.configure({ requireNewlineBeforeSingleStatementsInIf: true });
         });
 
         it('should ignore if in a block statment', function() {
@@ -29,17 +29,17 @@ describe('rules/require-newline-before-single-statement', function() {
 
         it('should report missing newline before conditional for consequent', function() {
             expect(checker.checkString('if (x) doX();\nelse\n doY();'))
-              .to.have.one.validation.error.from('requireNewLineBeforeSingleStatements');
+              .to.have.one.validation.error.from('requireNewlineBeforeSingleStatementsInIf');
         });
 
         it('should report missing newline before conditional for alternate', function() {
             expect(checker.checkString('if (x)\ndoX();\nelse doY();'))
-              .to.have.one.validation.error.from('requireNewLineBeforeSingleStatements');
+              .to.have.one.validation.error.from('requireNewlineBeforeSingleStatementsInIf');
         });
 
         it('should report missing newline before conditional for nested else if', function() {
             expect(checker.checkString('if (x)\ndoX();\nelse if (v) doV();\nelse\ndoY();'))
-              .to.have.one.validation.error.from('requireNewLineBeforeSingleStatements');
+              .to.have.one.validation.error.from('requireNewlineBeforeSingleStatementsInIf');
         });
     });
 });
