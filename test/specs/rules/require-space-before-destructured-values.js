@@ -62,4 +62,47 @@ describe('rules/require-space-before-destructured-values', function() {
             '} = obj;'
         )).to.have.no.errors();
     });
+
+    it(
+        'should report in assignment expressions',
+        function() {
+            expect(checker.checkString(
+                '({a:asdf, b: asdf2} = {a:1, b:2});'
+            )).to.have.error.count.eq(1);
+
+            expect(checker.checkString(
+                'fn({a:asdf, b:asdf2} = obj);'
+            )).to.have.error.count.eq(2);
+
+            expect(checker.checkString(
+                '({a:a1, b:b1} = {a:a2, b:b2} = {a:1, b:1});'
+            )).to.have.error.count.eq(4);
+
+            expect(checker.checkString(
+                '([{a:asdf, b:asdf2}] = [{a:1, b:1}]);'
+            )).to.have.error.count.eq(2);
+
+            expect(checker.checkString(
+                '([{a:a1, b:b1}, {c:{d:[{e:e1}]}}] = obj);'
+            )).to.have.error.count.eq(5);
+        }
+    );
+
+    it(
+        'should report in multiline assignment expressions',
+        function() {
+            expect(checker.checkString(
+                '({\n' +
+                'a:asdf, b:asdf2\n' +
+                '} = {a:1, b:2});'
+            )).to.have.error.count.eq(2);
+        }
+    );
+
+    it('should not report with Identifiers', function() {
+        expect(checker.checkString(
+            '(a = {a:asdf, b:asdf2});'
+        )).to.have.no.errors();
+    });
+
 });
