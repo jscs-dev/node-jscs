@@ -261,7 +261,6 @@ describe('config/configuration', function() {
             expect(!!configuration.hasPreset('jquery')).to.equal(true);
             expect(!!configuration.hasPreset('mdcs')).to.equal(true);
             expect(!!configuration.hasPreset('wikimedia')).to.equal(true);
-            expect(!!configuration.hasPreset('yandex')).to.equal(true);
             expect(!!configuration.hasPreset('grunt')).to.equal(true);
             expect(!!configuration.hasPreset('node-style-guide')).to.equal(true);
             expect(!!configuration.hasPreset('wordpress')).to.equal(true);

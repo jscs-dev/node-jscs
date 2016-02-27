@@ -396,7 +396,6 @@ describe('string-checker', function() {
         testPreset('mdcs');
         testPreset('node-style-guide');
         testPreset('wordpress');
-        testPreset('yandex');
 
         /**
          * Helper to test a given preset's configuration against its test file
