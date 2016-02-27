@@ -104,5 +104,4 @@ describe('rules/require-space-before-destructured-values', function() {
             '(a = {a:asdf, b:asdf2});'
         )).to.have.no.errors();
     });
-
 });
