@@ -44,6 +44,15 @@ describe('rules/validate-quote-marks', function() {
             var str = '<div className="flex-card__header">{this.props.children}</div>;';
             expect(checker.checkString(str)).to.have.errors.from('validateQuoteMarks');
         });
+
+        it('should not throw for es7 decorators', function() {
+            checker.configure({
+                validateQuoteMarks: { mark: '"', ignoreJSX: true, escape: true },
+                esnext: true
+            });
+            var str = '@foo (s => "1") export default class Bar {}';
+            expect(checker.checkString(str)).to.have.no.errors();
+        });
     });
 
     describe('option value \' ', function() {
