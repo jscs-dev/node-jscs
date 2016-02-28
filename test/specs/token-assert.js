@@ -31,7 +31,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('Missing space between x and =');
+            expect(error.message).to.contain('Missing space between x and =');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -115,7 +115,7 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
 
-                expect(error.message).to.equal('2 spaces required between x and =');
+                expect(error.message).to.contain('2 spaces required between x and =');
                 expect(getPosition(error.element).line).to.equal(1);
                 expect(getPosition(error.element).column).to.equal(0);
             });
@@ -218,7 +218,7 @@ describe('token-assert', function() {
                 expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                expect(error.message).to.equal('at most 1 spaces required between x and =');
+                expect(error.message).to.contain('at most 1 spaces required between x and =');
                 expect(getPosition(error.element).line).to.equal(1);
                 expect(getPosition(error.element).column).to.equal(0);
             });
@@ -279,7 +279,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('at most 1 spaces required between x and =');
+            expect(error.message).to.contain('at most 1 spaces required between x and =');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -302,7 +302,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('at most 2 spaces required between x and =');
+            expect(error.message).to.contain('at most 2 spaces required between x and =');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -381,7 +381,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('Unexpected whitespace between x and =');
+            expect(error.message).to.contain('Unexpected whitespace between x and =');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -421,7 +421,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('Unexpected whitespace between x and =');
+            expect(error.message).to.contain('Unexpected whitespace between x and =');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -480,7 +480,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('x and = should be on the same line');
+            expect(error.message).to.contain('x and = should be on the same line');
 
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
@@ -567,7 +567,7 @@ describe('token-assert', function() {
             expect(onError).to.have.callCount(1);
 
             var error = onError.getCall(0).args[0];
-            expect(error.message).to.equal('x and = should be on different lines');
+            expect(error.message).to.contain('x and = should be on different lines');
             expect(getPosition(error.element).line).to.equal(1);
             expect(getPosition(error.element).column).to.equal(0);
         });
@@ -750,7 +750,7 @@ describe('token-assert', function() {
                 expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                expect(error.message).to.equal('x and = should have exactly 2 line(s) between them');
+                expect(error.message).to.contain('x and = should have exactly 2 line(s) between them');
             });
 
             it('should trigger error on too many specified newlines', function() {
@@ -770,7 +770,7 @@ describe('token-assert', function() {
 
                 expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                expect(error.message).to.equal('x and = should have exactly 2 line(s) between them');
+                expect(error.message).to.contain('x and = should have exactly 2 line(s) between them');
             });
 
             it('should not trigger error on correct specified newlines', function() {
@@ -922,7 +922,7 @@ describe('token-assert', function() {
 
                 expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                expect(error.message).to.equal('x and = should have at least 3 line(s) between them');
+                expect(error.message).to.contain('x and = should have at least 3 line(s) between them');
             });
 
             it('should not trigger with exact lines', function() {
@@ -1101,7 +1101,7 @@ describe('token-assert', function() {
 
                 expect(onError).to.have.callCount(1);
                 var error = onError.getCall(0).args[0];
-                expect(error.message).to.equal('x and = should have at most 1 line(s) between them');
+                expect(error.message).to.contain('x and = should have at most 1 line(s) between them');
             });
 
             it('should not edit the whitespaceBefore with too few lines between', function() {
