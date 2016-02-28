@@ -412,4 +412,17 @@
   (function () {
   })();
 
+  //disallowArrayDestructuringReturn
+  //https://github.com/airbnb/javascript#5.3
+  (function(){
+    function processInput(input) {
+      const left = 1;
+      const right = 2;
+      const top = 3;
+      const bottom = 4;
+
+      return { left, right, top, bottom };
+    }
+  })();
+
 })(window);
