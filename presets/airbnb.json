@@ -42,7 +42,7 @@
     "requireCommaBeforeLineBreak": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterBinaryOperators": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": true,
+    "requireCamelCaseOrUpperCaseIdentifiers": { "ignoreProperties": true },
     "requireDollarBeforejQueryAssignment": true,
     "requireLineFeedAtFileEnd": true,
     "requireCapitalizedConstructors": true,
