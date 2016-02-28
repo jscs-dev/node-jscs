@@ -162,7 +162,8 @@
     "requireObjectDestructuring",
     "requireEnhancedObjectLiterals",
     "requireArrayDestructuring",
-    "disallowVar"
+    "disallowVar",
+    "disallowArrayDestructuringReturn"
   ],
   "Everything else": [
     "requireParenthesesAroundIIFE",
