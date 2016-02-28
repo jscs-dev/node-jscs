@@ -23,7 +23,6 @@ program
     .option('--es3', 'validates code as es3')
     .option('-n, --no-colors', 'clean output without colors')
     .option('-p, --preset <preset>', 'preset config')
-    .option('-v, --verbose', 'adds rule names to the error output')
     .option('-m, --max-errors <number>', 'maximum number of errors to report')
     .option('-f, --error-filter <path>', 'a module to filter errors')
     .option('-r, --reporter <reporter>',

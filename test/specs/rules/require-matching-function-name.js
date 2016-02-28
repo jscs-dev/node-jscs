@@ -121,11 +121,11 @@ describe('rules/require-matching-function-name', function() {
     });
 
     function assertErrorForMemberNameMismatch(js) {
-        assertError(js, 'Function name does not match member name');
+        assertError(js, 'requireMatchingFunctionName: Function name does not match member name');
     }
 
     function assertErrorForPropertyNameMismatch(js) {
-        assertError(js, 'Function name does not match property name');
+        assertError(js, 'requireMatchingFunctionName: Function name does not match property name');
     }
 
     function assertError(js, message) {

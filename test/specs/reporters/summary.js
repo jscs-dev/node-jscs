@@ -21,7 +21,7 @@ describe('reporters/summary', function() {
 
     it('should correctly reports no errors', function() {
         summaryReporter([checker.checkString('a++;')]);
-        expect(console.log.getCall(0).args[0]).to.equal('No code style errors found.');
+        expect(console.log.getCall(0).args[0]).to.contain('No code style errors found.');
         expect(console.log).to.have.callCount(1);
     });
 

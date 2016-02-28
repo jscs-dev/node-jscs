@@ -155,36 +155,6 @@ describe('errors', function() {
         });
     });
 
-    describe('add with verbose', function() {
-        var errors;
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-            checker.configure({
-                disallowQuotedKeysInObjects: true,
-                verbose: true
-            });
-
-            errors = checker.checkString('yay');
-        });
-
-        it('should prepend rule name to error message', function() {
-            errors.setCurrentRule('anyRule');
-            errors.add('msg');
-
-            var error = errors.getErrorList()[0];
-
-            expect(error.message).to.equal('anyRule: msg');
-        });
-
-        it('should dump a stack of Error', function() {
-            errors._verbose = true;
-            errors.add(Error('test'));
-
-            expect(errors).to.have.one.error();
-        });
-    });
-
     describe('explainError', function() {
         it('should explain error', function() {
             var errors = checker.checkString([
@@ -214,9 +184,9 @@ describe('errors', function() {
             expect(errors.explainError(error, true).indexOf('\u001b')).to.not.equal(-1);
         });
 
-        it('should show correct error message for "verbose" option and unsupported rule error',
+        it('should show correct error message for unsupported rule error',
            function() {
-                checker = new Checker({ verbose: true });
+                checker = new Checker({});
 
                 checker.registerDefaultRules();
                 checker.configure({ unsupported: true });
@@ -247,10 +217,10 @@ describe('errors', function() {
             errors.add('msg3');
             errors.stripErrorList(2);
             expect(errors).to.have.error.count.equal(2);
-            expect(errors.getErrorList()[0].message).to.equal('msg1');
+            expect(errors.getErrorList()[0].message).to.equal('disallowQuotedKeysInObjects: msg1');
             expect(errors.getErrorList()[0].line).to.equal(1);
             expect(errors.getErrorList()[0].column).to.equal(0);
-            expect(errors.getErrorList()[1].message).to.equal('msg2');
+            expect(errors.getErrorList()[1].message).to.equal('disallowQuotedKeysInObjects: msg2');
             expect(errors.getErrorList()[1].line).to.equal(1);
             expect(errors.getErrorList()[1].column).to.equal(0);
         });
