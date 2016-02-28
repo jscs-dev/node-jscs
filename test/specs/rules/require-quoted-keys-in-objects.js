@@ -65,7 +65,7 @@ describe('rules/require-quoted-keys-in-objects', function() {
         expect(errors).to.have.one.validation.error.from('requireQuotedKeysInObjects');
 
         var error = errors.getErrorList()[0];
-        expect(error.message).to.equal('Object key without surrounding quotes');
+        expect(error.message).to.contain('Object key without surrounding quotes');
         expect(error.line).to.equal(1);
         expect(error.column).to.equal(10);
     });

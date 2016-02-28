@@ -36,8 +36,17 @@ describe.skip('lib/config/generator', function() {
     var generator;
     var oldRegisterPreset;
 
-    beforeEach(function() {
+    function stubConsole() {
         sinon.stub(console, 'log');
+    }
+
+    function unstubConsole() {
+        if (console.log.restore) {
+            console.log.restore();
+        }
+    }
+
+    beforeEach(function() {
         generator = new ConfigGenerator();
 
         // Allows the generator's internal checker to see the cloned preset
@@ -48,16 +57,11 @@ describe.skip('lib/config/generator', function() {
         };
     });
 
+    afterEach(unstubConsole);
+
     afterEach(function() {
-        rAfter();
         Configuration.prototype.registerDefaultPresets = oldRegisterPreset;
     });
-
-    function rAfter() {
-        if (console.log.restore) {
-            console.log.restore();
-        }
-    }
 
     function getChecker() {
         var checker = new Checker();
@@ -70,6 +74,7 @@ describe.skip('lib/config/generator', function() {
     }
 
     it('checks a given path against all registered presets', function() {
+        stubConsole();
         var checkPathStub = sinon.stub(Checker.prototype, 'checkPath');
         // For preventing subsequent steps from running
         var showErrorCountsStub = sinon.stub(generator, '_showErrorCounts').throws();
@@ -83,9 +88,11 @@ describe.skip('lib/config/generator', function() {
 
         checkPathStub.restore();
         showErrorCountsStub.restore();
+        unstubConsole();
     });
 
     it('checks with infinity `maxErrors` option', function() {
+        stubConsole();
         var checkPathStub = sinon.stub(Checker.prototype, 'checkPath');
         var configureStub = sinon.stub(Checker.prototype, 'configure');
         // For preventing subsequent steps from running
@@ -100,36 +107,46 @@ describe.skip('lib/config/generator', function() {
         checkPathStub.restore();
         configureStub.restore();
         showErrorCountsStub.restore();
+        unstubConsole();
     });
 
     it('displays a count of errors for every preset', function(done) {
+        stubConsole();
         var stub = sinon.stub(generator, '_getUserPresetChoice').throws();
         var presetNames = Object.keys(getChecker().getConfiguration().getRegisteredPresets());
         generator.generate(_path)
-        .then(null, function() {
-            var output = console.log.getCall(1).args[0];
+            .then(
+                function() {
+                    done(new Error('There should be an error'));
+                },
+                function() {
+                    var output = console.log.getCall(1).args[0];
 
-            presetNames.forEach(function(name) {
-                expect(output.indexOf(name)).to.not.equal(-1);
-            });
+                    presetNames.forEach(function(name) {
+                        expect(output.indexOf(name)).to.not.equal(-1);
+                    });
 
-            stub.restore();
-            done();
-        });
+                    stub.restore();
+                    unstubConsole();
+                    done();
+                });
     });
 
     it('prompts the user to choose a preset', function(done) {
+        stubConsole();
         var stub = sinon.stub(generator, '_showPrompt').throws();
         generator.generate(_path).then(null, function() {
             var prompt = stub.getCall(0).args[0].name;
             expect(prompt.indexOf('Please choose a preset number:')).to.not.equal(-1);
 
             stub.restore();
+            unstubConsole();
             done();
         });
     });
 
     it('prompts the user to create an exception or fix a given rule', function(done) {
+        stubConsole();
         var stub = sinon.stub(generator, '_getUserPresetChoice').returns(crockfordPresetChoice);
         var getViolationsStub = sinon.stub(generator, '_showPrompt').throws();
 
@@ -142,11 +159,13 @@ describe.skip('lib/config/generator', function() {
             });
             stub.restore();
             getViolationsStub.restore();
+            unstubConsole();
             done();
         });
     });
 
     it('generates a .jscsrc file with the user\'s violation choices', function() {
+        stubConsole();
         var presetChoiceStub = sinon.stub(generator, '_getUserPresetChoice').returns(crockfordPresetChoice);
         var getViolationsStub = sinon.stub(generator, '_getUserViolationChoices')
                                 .returns(Vow.cast(crockfordViolationsAllExceptions));
@@ -166,6 +185,7 @@ describe.skip('lib/config/generator', function() {
             presetChoiceStub.restore();
             getViolationsStub.restore();
             fsStub.restore();
+            unstubConsole();
         });
     });
 });

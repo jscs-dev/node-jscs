@@ -163,6 +163,7 @@
     "requireEnhancedObjectLiterals",
     "requireArrayDestructuring",
     "disallowVar",
+    "requireSpaceBeforeDestructuredValues",
     "disallowArrayDestructuringReturn"
   ],
   "Everything else": [

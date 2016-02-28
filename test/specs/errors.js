@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var Checker = require('../../lib/checker');
 var Errors = require('../../lib/errors');
 
-describe.skip('errors', function() {
+describe('errors', function() {
     var checker;
 
     beforeEach(function() {
@@ -43,7 +43,7 @@ describe.skip('errors', function() {
         });
     });
 
-    describe.skip('pragma logic', function() {
+    describe('pragma logic', function() {
         it('should suppress errors with disable comment', function() {
             var errors = checker.checkString('//jscs:disable\n\tvar x = { "a": 1 }');
             expect(errors).to.have.no.errors();
@@ -121,33 +121,9 @@ describe.skip('errors', function() {
             errors = checker.checkString('yay');
         });
 
-        it('should throw an error on invalid line type', function() {
-            expect(function() {
-                errors.add('msg', '0');
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid line value', function() {
-            expect(function() {
-                errors.add('msg', 0);
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid column type', function() {
-            expect(function() {
-                errors.add('msg', 1, '2');
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid column value', function() {
-            expect(function() {
-                errors.add('msg', 1, -1);
-            }).to.throw();
-        });
-
         it('should not throw with good parameters', function() {
             errors.setCurrentRule('anyRule');
-            errors.add('msg', 1, 0);
+            errors.add('msg');
 
             var error = errors.getErrorList()[0];
 
@@ -163,60 +139,10 @@ describe.skip('errors', function() {
             errors = checker.checkString('yay');
         });
 
-        it('should throw an error on invalid line type', function() {
-            expect(function() {
-                errors.cast({
-                    message: 'msg',
-                    line: '0'
-                });
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid line value', function() {
-            expect(function() {
-                errors.cast({
-                    message: 'msg',
-                    line: 0
-                });
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid column type', function() {
-            expect(function() {
-                errors.cast({
-                    message: 'msg',
-                    line: 1,
-                    column: '2'
-                });
-            }).to.throw();
-        });
-
-        it('should throw an error on invalid column value', function() {
-            expect(function() {
-                errors.cast({
-                    message: 'msg',
-                    line: 1,
-                    column: -1
-                });
-            }).to.throw();
-        });
-
-        it('should throw without "additional" argument', function() {
-            expect(function() {
-                errors.cast({
-                    message: 'msg',
-                    line: 1,
-                    column: -1
-                });
-            }).to.throw();
-        });
-
         it('should correctly set error', function() {
             errors.setCurrentRule('anyRule');
             errors.cast({
                 message: 'msg',
-                column: 0,
-                line: 1,
                 additional: 'test'
             });
 
@@ -226,36 +152,6 @@ describe.skip('errors', function() {
             expect(error.line).to.equal(1);
             expect(error.column).to.equal(0);
             expect(error.additional).to.equal('test');
-        });
-    });
-
-    describe('add with verbose', function() {
-        var errors;
-        beforeEach(function() {
-            checker = new Checker();
-            checker.registerDefaultRules();
-            checker.configure({
-                disallowQuotedKeysInObjects: true,
-                verbose: true
-            });
-
-            errors = checker.checkString('yay');
-        });
-
-        it('should prepend rule name to error message', function() {
-            errors.setCurrentRule('anyRule');
-            errors.add('msg', 1, 0);
-
-            var error = errors.getErrorList()[0];
-
-            expect(error.message).to.equal('anyRule: msg');
-        });
-
-        it('should dump a stack of Error', function() {
-            errors._verbose = true;
-            errors.add(Error('test'), 1, 0);
-
-            expect(errors).to.have.one.error();
         });
     });
 
@@ -288,9 +184,9 @@ describe.skip('errors', function() {
             expect(errors.explainError(error, true).indexOf('\u001b')).to.not.equal(-1);
         });
 
-        it('should show correct error message for "verbose" option and unsupported rule error',
+        it('should show correct error message for unsupported rule error',
            function() {
-                checker = new Checker({ verbose: true });
+                checker = new Checker({});
 
                 checker.registerDefaultRules();
                 checker.configure({ unsupported: true });
@@ -316,17 +212,17 @@ describe.skip('errors', function() {
     describe('stripErrorList', function() {
         it('should stip error list to specified length', function() {
             var errors = checker.checkString('var x;');
-            errors.add('msg1', 1, 0);
-            errors.add('msg2', 1, 1);
-            errors.add('msg3', 1, 2);
+            errors.add('msg1');
+            errors.add('msg2');
+            errors.add('msg3');
             errors.stripErrorList(2);
             expect(errors).to.have.error.count.equal(2);
-            expect(errors.getErrorList()[0].message).to.equal('msg1');
+            expect(errors.getErrorList()[0].message).to.equal('disallowQuotedKeysInObjects: msg1');
             expect(errors.getErrorList()[0].line).to.equal(1);
             expect(errors.getErrorList()[0].column).to.equal(0);
-            expect(errors.getErrorList()[1].message).to.equal('msg2');
+            expect(errors.getErrorList()[1].message).to.equal('disallowQuotedKeysInObjects: msg2');
             expect(errors.getErrorList()[1].line).to.equal(1);
-            expect(errors.getErrorList()[1].column).to.equal(1);
+            expect(errors.getErrorList()[1].column).to.equal(0);
         });
     });
 });

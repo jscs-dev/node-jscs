@@ -149,16 +149,6 @@ describe('string-checker', function() {
             }
         });
 
-        it('should set verbose option', function() {
-            checker.configure({
-                verbose: true,
-                requireSpaceBeforeBinaryOperators: ['=']
-            });
-
-            var errors = checker.checkString('var foo=1;\n var bar=2;').getErrorList();
-            expect(errors[0].message.indexOf('requireSpaceBeforeBinaryOperators')).to.be.above(-1);
-        });
-
         describe('rules registration', function() {
             it('should report rules in config which don\'t match any registered rules', function() {
                 checker.configure({ doesNotExist: true, noSuchRule: true });
@@ -196,7 +186,7 @@ describe('string-checker', function() {
             checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
             var result = checker.fixString('x = !!x;');
             expect(result.errors).to.have.one.error();
-            expect(result.errors.getErrorList()[0].message).to.equal('Implicit boolean conversion');
+            expect(result.errors.getErrorList()[0].message).to.equal('disallowImplicitTypeConversion: Implicit boolean conversion');
         });
 
         it('should process parse error', function() {
@@ -396,7 +386,6 @@ describe('string-checker', function() {
         testPreset('mdcs');
         testPreset('node-style-guide');
         testPreset('wordpress');
-        testPreset('yandex');
 
         /**
          * Helper to test a given preset's configuration against its test file

@@ -124,6 +124,8 @@ These following options have been removed in 3.0 (since `esnext` is enabled by d
 - `--esnext` (`-e`)
 - `--esprima` (`-s`)
 
+The `verbose` flag is removed in 3.0 since it will be on by default (so you know which rule is erroring).
+
 ---
 
 ### `--fix` (`-x`)
@@ -198,9 +200,6 @@ Set the maximum number of errors to report (pass -1 to report all errors).
 ### `--help` (`-h`)
 Outputs usage information.
 
-### `--verbose` (`-v`)
-Prepends the name of the offending rule to all error messages.
-
 ### `--version` (`-V`)
 Outputs version of `jscs`.
 
@@ -215,6 +214,8 @@ Outputs version of `jscs`.
 `esprima`: Attempts to parse your code with a custom Esprima version.
 
 `esprimaOptions`: Custom `options` to be passed to `esprima.parse(code, options)`
+
+`verbose`: Prepends the name of the offending rule to all error messages.
 
 ---
 
@@ -366,19 +367,6 @@ Value: `true`
 
 ```js
 "es3": true
-```
-
-### verbose
-Prepends the name of the offending rule to all error messages.
-
-Type: `Boolean`
-
-Default: `false`
-
-#### Example
-
-```js
-"verbose": true
 ```
 
 ### errorFilter

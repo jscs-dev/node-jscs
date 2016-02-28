@@ -114,28 +114,6 @@ describe('config/configuration', function() {
         });
     });
 
-    describe('verbose', function() {
-        it('should return false when null is specified', function() {
-            configuration.load({verbose: null});
-            expect(configuration.getVerbose()).to.equal(false);
-        });
-
-        it('should return false when false is specified', function() {
-            configuration.load({verbose: false});
-            expect(configuration.getVerbose()).to.equal(false);
-        });
-
-        it('should return true when unspecified', function() {
-            configuration.load({});
-            expect(configuration.getVerbose()).to.equal(false);
-        });
-
-        it('should return true when true is specified', function() {
-            configuration.load({verbose: true});
-            expect(configuration.getVerbose()).to.equal(true);
-        });
-    });
-
     describe('getRegisteredPresets', function() {
         it('should return registered presets object', function() {
             var preset = {maxErrors: 5};
@@ -261,7 +239,6 @@ describe('config/configuration', function() {
             expect(!!configuration.hasPreset('jquery')).to.equal(true);
             expect(!!configuration.hasPreset('mdcs')).to.equal(true);
             expect(!!configuration.hasPreset('wikimedia')).to.equal(true);
-            expect(!!configuration.hasPreset('yandex')).to.equal(true);
             expect(!!configuration.hasPreset('grunt')).to.equal(true);
             expect(!!configuration.hasPreset('node-style-guide')).to.equal(true);
             expect(!!configuration.hasPreset('wordpress')).to.equal(true);

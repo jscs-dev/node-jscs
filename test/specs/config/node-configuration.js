@@ -148,8 +148,7 @@ describe('modules/config/node-configuration', function() {
                 preset: 'jquery',
                 maxErrors: '2',
                 errorFilter: path.resolve(__dirname, '../../data/error-filter/index.js'),
-                es3: true,
-                verbose: true
+                es3: true
             });
 
             configuration.registerPreset('jquery', {});
@@ -159,7 +158,6 @@ describe('modules/config/node-configuration', function() {
             expect(configuration.getMaxErrors()).to.equal(2);
             expect(configuration.isES3Enabled()).to.equal(true);
             expect(configuration.getErrorFilter).to.be.a('function');
-            expect(configuration.getVerbose()).to.equal(true);
         });
 
         it('should not override disallowed options from CLI', function() {

@@ -37,51 +37,51 @@ describe('rules/disallow-unused-params', function() {
     it('should report unused param', function() {
         expect(checker.checkString(
             'function fun(test) { }'
-        )).to.have.error('Param `test` is not used');
+        ).getErrorList()[0].message).to.contain('Param `test` is not used');
     });
 
     it('should report unused param in function expression', function() {
         expect(checker.checkString(
             '(function(test) { })'
-        )).to.have.error('Param `test` is not used');
+        ).getErrorList()[0].message).to.contain('Param `test` is not used');
     });
 
     it('should report unused param in arrow function expression', function() {
         expect(checker.checkString(
             '((test) => { })'
-        )).to.have.error('Param `test` is not used');
+        ).getErrorList()[0].message).to.contain('Param `test` is not used');
     });
 
     it('should report unused rest param', function() {
         expect(checker.checkString(
             'function fun(...test) { }'
-        )).to.have.error('Pattern is not used');
+        ).getErrorList()[0].message).to.contain('Pattern is not used');
     });
 
     it('should report unused rest param with array pattern', function() {
         expect(checker.checkString(
             'function fun(...[test]) { }'
-        )).to.have.error('Pattern is not used');
+        ).getErrorList()[0].message).to.contain('Pattern is not used');
     });
 
     it('should report unused param in half-used pattern', function() {
         expect(checker.checkString(
             'function fun({test, g}) { g++; }'
-        )).to.have.error('Param `test` is not used');
+        ).getErrorList()[0].message).to.contain('Param `test` is not used');
     });
 
     it('should report unused object pattern', function() {
         expect(checker.checkString(
             'function fun({test, g}) { }'
-        )).to.have.error('Pattern is not used');
+        ).getErrorList()[0].message).to.contain('Pattern is not used');
     });
 
     it('should report unused object pattern after unused param', function() {
         expect(checker.checkString(
             'function fun({test, g}, h) { }'
         )).to
-            .contain.error('Pattern is not used')
-            .contain.error('Param `h` is not used')
+            .contain.error('disallowUnusedParams: Pattern is not used')
+            .contain.error('disallowUnusedParams: Param `h` is not used')
             .have.error.count.equal(2);
     });
 
@@ -89,23 +89,23 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString(
             'function fun({test, g}, h) { h++; }'
         )).to
-            .contain.error('Param `test` is not used')
-            .contain.error('Param `g` is not used')
+            .contain.error('disallowUnusedParams: Param `test` is not used')
+            .contain.error('disallowUnusedParams: Param `g` is not used')
             .have.error.count.equal(2);
     });
 
     it('should report unused array pattern', function() {
         expect(checker.checkString(
             'function fun([test, g]) { }'
-        )).to.have.error('Pattern is not used');
+        ).getErrorList()[0].message).to.contain('Pattern is not used');
     });
 
     it('should report unused array pattern after unused param', function() {
         expect(checker.checkString(
             'function fun([test, g], h) { }'
         )).to
-            .contain.error('Pattern is not used')
-            .contain.error('Param `h` is not used')
+            .contain.error('disallowUnusedParams: Pattern is not used')
+            .contain.error('disallowUnusedParams: Param `h` is not used')
             .have.error.count.equal(2);
     });
 
@@ -113,8 +113,8 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString(
             'function fun([test, g], h) { h++; }'
         )).to
-            .contain.error('Param `test` is not used')
-            .contain.error('Param `g` is not used')
+            .contain.error('disallowUnusedParams: Param `test` is not used')
+            .contain.error('disallowUnusedParams: Param `g` is not used')
             .have.error.count.equal(2);
     });
 
@@ -122,7 +122,7 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString(
             'function a(b, c, d) { var t = c; var z = b; return {t: t, z: z}; }'
         )).to
-            .contain.error('Param `d` is not used')
+            .contain.error('disallowUnusedParams: Param `d` is not used')
             .have.error.count.equal(1);
     });
 
