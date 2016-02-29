@@ -11,33 +11,31 @@ describe('rules/disallow-array-destructuring-return', function() {
             checker.configure({disallowArrayDestructuringReturn: true});
         });
 
-        it('should report on array destructuring', function () {
-            expect(checker.checkString('function a() { return [ a, b ]; }')).
-                to.have.one.validation.error.from('disallowArrayDestructuringReturn');
+        it('should report on array destructuring with function call', function () {
+            expect(
+                checker.checkString('const [ a, b ] = func();')
+            ).to.have.one.validation.error.from('disallowArrayDestructuringReturn');
         });
 
-        it('should report on mixed arrays', function () {
-            expect(checker.checkString('function a() { return [ a, 1, "d", {} ]; }')).
-                to.have.one.validation.error.from('disallowArrayDestructuringReturn');
+        it('should report on array destructuring with self invoking functions', function () {
+            expect(
+                checker.checkString('const [ a, b ] = (() => [1, 2])();')
+            ).to.have.one.validation.error.from('disallowArrayDestructuringReturn');
         });
 
-        it('should report on multiline shapes of destructuring', function () {
-            expect(checker.checkString(
-                'function a() { return [ \n' +
-                'a,\n' +
-                'b,\n' +
-                'c\n' +
-                ']; }'
-            )).to.have.one.validation.error.from('disallowArrayDestructuringReturn');
+        it('should report on array destructuring in assignment expressions', function () {
+            expect(
+                checker.checkString('([ a, b ] = func());')
+            ).to.have.one.validation.error.from('disallowArrayDestructuringReturn');
         });
 
         it('should not report on object destructuring', function () {
-            expect(checker.checkString('function a() { return { a, b }; }')).
+            expect(checker.checkString('const { a, b } = func();')).
                 to.not.have.errors();
         });
 
-        it('should not report on arrays, without destructuring', function () {
-            expect(checker.checkString('function a() { return [ 1, "a", {}, [], ...spread]; }')).
+        it('should not report on object destructuring in assignment expression', function () {
+            expect(checker.checkString('({ a, b } = func());')).
                 to.not.have.errors();
         });
     });

@@ -423,6 +423,8 @@
 
       return { left, right, top, bottom };
     }
+
+    const [ left, right ] = processInput(input);
   })();
 
 })(window);
