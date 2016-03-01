@@ -216,9 +216,7 @@
   })();
 
   (function () {
-    [1, 2, 3].map((x) => {
-      return x * x;
-    });
+    [1, 2, 3].map(x => x * x);
   })();
 
   (function () {
@@ -226,9 +224,7 @@
     [1, 2, 3].map(x => x * x);
 
     // good
-    [1, 2, 3].reduce((total, n) => {
-      return total + n;
-    }, 0);
+    [1, 2, 3].reduce((total, n) => total + n, 0);
   })();
 
   (function () {
@@ -425,4 +421,16 @@
     }
   })();
 
+  // requireShorthandArrowFunctions
+  // https://github.com/airbnb/javascript#8.2
+  (function () {
+    [1, 2, 3].map(number => number * 2);
+  })();
+
+  (function () {
+    [1, 2, 3].map((number) => {
+      const nextNumber = number + 1;
+      return `A string containing the ${nextNumber}.`;
+    });
+  });
 })(window);
