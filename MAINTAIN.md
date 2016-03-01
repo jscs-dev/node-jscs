@@ -49,13 +49,6 @@ Rule interface:
 
 ```
 
-Keeping browser-version alive
------------------------------
-
-File `lib/string-checker.js` is used in browserify process, exporting `JscsStringChecker` class.
-`string-checker.js` (and its dependencies) should not depend on `nodejs` specifics like `fs`,
-`process` and so on.
-
 Adding new presets
 ------------------
 
