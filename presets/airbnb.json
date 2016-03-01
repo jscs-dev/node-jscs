@@ -76,5 +76,6 @@
     "validateQuoteMarks": { "mark": "'", "escape": true, "ignoreJSX": true },
     "validateIndentation": 2,
     "maximumLineLength": 100,
-    "disallowArrayDestructuringReturn": true
+    "disallowArrayDestructuringReturn": true,
+    "requireShorthandArrowFunctions": true
 }
