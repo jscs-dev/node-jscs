@@ -425,4 +425,16 @@
     }
   })();
 
+  // disallowParenthesesAroundArrowParam
+  // requireShorthandArrowFunctions
+  // https://github.com/airbnb/javascript#8.2
+  (function () {
+    [1, 2, 3].map(number => number * 2);
+  })();
+
+  (function () {
+  [1, 2, 3].map((number) => {
+    const nextNumber = number + 1;
+    return `A string containing the ${nextNumber}.`;
+  });
 })(window);
