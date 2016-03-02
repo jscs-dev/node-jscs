@@ -1,3 +1,143 @@
+## Version [2.11.0](https://github.com/jscs-dev/node-jscs/compare/v2.10.1...v2.11.0) (2016-03-01):
+
+Spring release! Although we know that techinically spring only comes in middle of the March (you nerds), were coming to you a bit earlier!
+
+Anyways, there are three new rules, a couple of changes for the `airbnb` preset and important fixes for [`disallowSpacesInsideTemplateStringPlaceholders`](https://jscs.info/rule/disallowSpacesInsideTemplateStringPlaceholders) and [`validateQuoteMarks`](https://jscs.info/rule/validateQuoteMarks) (for all you ES7 lovers).
+
+### New Rules
+
+### [`requireSpaceBeforeDestructuredValues`](https://jscs.info/rule/requireSpaceBeforeDestructuredValues) by Maks Sadowsky
+
+Enforces colon spacing after destructuring assignment i.e. [`requireSpaceBeforeObjectValues`](http://jscs.info/rule/requireSpaceBeforeObjectValues) but for destructuring.
+
+```js
+// good
+const { String: EmberString } = Ember;
+
+// bad
+const { String:EmberString } = Ember;
+```
+
+### [`disallowArrayDestructuringReturn`](https://jscs.info/rule/disallowArrayDestructuringReturn) by Maks Sadowsky
+
+Enforces the [5:3 verse](https://github.com/airbnb/javascript#5.3) of airbnb code style, which prohibits use of array destructuring for thy `CallExpressions`.
+
+```js
+// God is on your side
+const { left, right } = processInput(input);
+
+// Devil is on your shoulder!
+const [left, __, top] = processInput(input);
+```
+
+### [`requireNewlineBeforeSingleStatementsInIf`](https://jscs.info/rule/requireNewlineBeforeSingleStatementsInIf) by Brian Schemp
+
+Enforces using newlines in your *parenthesesless* code.
+
+```js
+
+// Cool stairs brah
+if (x)
+   doX();
+else
+   doY();
+
+// Just how could you have "X" and "Y"'s on the same line?!
+if (x) doX();
+else doY();
+```
+
+### Presets
+* Preset: ease up on `requireCamelCaseOrUpperCaseIdentifiers` in airbnb (Oleg Gaidarenko)
+* Preset: add `disallowArrayDestructuringReturn` to airbnb preset (Maks Sadowsky)
+
+### Bug fixes
+* `disallowSpacesInsideTemplateStringPlaceholders`: check template literal (ikokostya)
+* `validateQuoteMarks`: do not throw on es7 decorators (Oleg Gaidarenko)
+
+Other commits (as always) are omitted, since they're all about internal stuff and we care about your viewing pleasure.
+
+## Version [2.10.1](https://github.com/jscs-dev/node-jscs/compare/v2.10.0...v2.10.1) (2016-02-15):
+
+### Bug Fix
+- Regression in `requireSpaceBeforeKeywords` [#2135](https://github.com/jscs-dev/node-jscs/issues/2135)
+
+## Version [2.10.0](https://github.com/jscs-dev/node-jscs/compare/v2.9.0...v2.10.0) (2016-02-15):
+
+Happy Presidents Day!
+
+In this release, it's just some additional rules to update to the airbnb preset, new rules, and fixes.
+
+### Preset Changes
+
+* Add `maximumLineLength` to the `airbnb` preset [(reference)](https://github.com/airbnb/javascript#18.12) (Oleg Gaidarenko)
+* Add `disallowSpacesInsideTemplateStringPlaceholders` to the `airbnb` preset (not explicit but used in examples) (Oleg Gaidarenko)
+* Add `disallowNewlineBeforeBlockStatements` rule to the `mdcs` preset [(reference)](https://github.com/mrdoob/three.js/wiki/Mr.doob's-Code-Style%E2%84%A2#blocks) (Mauricio Massaia)
+ 
+### New Rules
+
+#### `disallowSpacesInsideTemplateStringPlaceholders`
+(ikokostya)
+
+> Disallows spaces before and after curly brace inside template string placeholders.
+
+```js
+// usage in config
+"disallowSpacesInsideTemplateStringPlaceholders": true
+```
+
+```js
+// Valid
+`Hello ${name}!`
+```
+
+```js
+// Invalid
+`Hello ${ name}!`
+`Hello ${name }!`
+`Hello ${ name }!`
+```
+
+#### `requireImportsAlphabetized` (Ray Hammond)
+
+> Requires imports to be alphabetized
+
+```js
+// usage in config
+"requireImportAlphabetized": true
+```
+
+```js
+// Valid
+import a from 'a';
+import c from 'c';
+import z from 'z';
+```
+
+```js
+// Invalid
+import a from 'a';
+import z from 'z';
+import c from 'c';
+```
+
+### Rule Updates
+
+* `requireSpaceBeforeKeywords`: add a `allExcept` option for filtering out default keywords (gpiress)
+  * This allows you do specify exceptions to the all keywords instead of creating an array of whitelisted keywords when you only want to blacklist a few.
+
+### Bug Fixes
+
+* `requireNumericLiterals`: miss if first argument is an Identifier (Robert Jackson)
+* `disallowSpacesInsideTemplateStringPlaceholders`: skip the edge case (Oleg Gaidarenko)
+* `requirePaddingNewLinesBeforeExport`: exclude if only statement in block (Brian Schemp)
+* `maximumLineLength`: some nodes might contain null values (Oleg Gaidarenko)
+ 
+### Docs
+
+* Correct date in the changelog (Oleg Gaidarenko)
+* Various rule corrections (Christopher Cook)
+ 
 ## Version [2.9.0](https://github.com/jscs-dev/node-jscs/compare/v2.8.0...v2.9.0) (2016-01-23):
 
 > Changed the changelog date format to be YYYY-MM-DD.
