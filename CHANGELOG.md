@@ -1,6 +1,6 @@
 ## Version [2.11.0](https://github.com/jscs-dev/node-jscs/compare/v2.10.1...v2.11.0) (2016-03-01):
 
-Spring release! Although we know that techinically spring only comes in middle of the March (you nerds), were coming to you a bit earlier!
+Spring release! Yeah, yeah, technically spring only comes in middle of the March (you nerds, you), but we're coming to you a bit earlier!
 
 Anyways, there are three new rules, a couple of changes for the `airbnb` preset and important fixes for [`disallowSpacesInsideTemplateStringPlaceholders`](https://jscs.info/rule/disallowSpacesInsideTemplateStringPlaceholders) and [`validateQuoteMarks`](https://jscs.info/rule/validateQuoteMarks) (for all you ES7 lovers).
 
