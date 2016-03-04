@@ -224,4 +224,19 @@ describe('rules/disallow-space-after-object-keys', function() {
             )).to.have.no.errors();
         });
     });
+
+    describe.only('es6 with disallowSpacesInNamedFunctionExpression', function() {
+        beforeEach(function() {
+            checker.configure({
+                disallowSpaceAfterObjectKeys: true,
+                disallowSpacesInNamedFunctionExpression: {
+                    beforeOpeningRoundBrace: true
+                }
+            });
+        });
+
+        it('should not report es6-methods without a space. #2161', function() {
+            expect(checker.checkString('var x = { a() { } };')).to.have.no.errors();
+        });
+    });
 });
