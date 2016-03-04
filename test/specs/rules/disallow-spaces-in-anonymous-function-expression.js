@@ -48,7 +48,7 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             var error = errors.getErrorList()[0];
 
             expect(errors).to.have.one.validation.error.from('disallowSpacesInAnonymousFunctionExpression');
-            expect(error.column).to.equal(12);
+            expect(error.column).to.equal(16);
         });
 
         it('should not report missing space before round brace in method shorthand', function() {

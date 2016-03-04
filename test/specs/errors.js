@@ -34,7 +34,7 @@ describe('errors', function() {
                         column: 10
                     }
                 }
-            }, 5);
+            });
 
             expect(position).to.deep.equal({
                 line: 1,

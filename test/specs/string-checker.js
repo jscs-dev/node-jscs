@@ -44,7 +44,7 @@ describe('string-checker', function() {
                 checker.configure({ disallowMultipleLineBreaks: true });
                 var error = checker.checkString('#!/usr/bin/env node\n\n\nx = 1;').getErrorList()[0];
                 expect(error.line).to.equal(1);
-                expect(error.column).to.equal(10);
+                expect(error.column).to.equal(19);
             });
         });
 

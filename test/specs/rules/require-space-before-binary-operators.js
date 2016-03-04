@@ -51,11 +51,11 @@ describe('rules/require-space-before-binary-operators', function() {
                 }
             );
 
-            it('should highlight the end of the ' + operator + ' operator', function() {
+            it('should highlight the beginning of the ' + operator + ' operator', function() {
                 checker.configure({ requireSpaceBeforeBinaryOperators: [operator] });
                 var error = checker.checkString(sticked).getErrorList()[0];
                 expect(error.line).to.equal(1);
-                expect(error.column).to.equal(12);
+                expect(error.column).to.equal(14);
                 expect(error.message).to.contain('Operator ' + operator + ' should not stick to preceding expression');
             });
         });
@@ -93,7 +93,7 @@ describe('rules/require-space-before-binary-operators', function() {
         expect(errors).to.have.one.validation.error.from('requireSpaceBeforeBinaryOperators');
         var error = errors.getErrorList()[0];
         expect(error.line).to.equal(1);
-        expect(error.column).to.equal(4);
+        expect(error.column).to.equal(5);
         expect(error.message).to.contain('Operator = should not stick to preceding expression');
     });
 

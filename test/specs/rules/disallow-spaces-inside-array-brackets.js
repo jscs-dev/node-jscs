@@ -163,7 +163,7 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
             var column = check.getErrorList()[0].column;
 
             expect(check).to.have.one.validation.error.from('disallowSpacesInsideArrayBrackets');
-            expect(column).to.equal(3);
+            expect(column).to.equal(4);
         });
     });
 
