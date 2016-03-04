@@ -43,7 +43,7 @@ if (a) {
 /**/var b; // NO ERROR: single line multi-line comments followed by code is OK
 /*
  *
- */var b; // ERROR: multi-line comments followed by code is not OK
+ */var b;
 
 var arr = [
   a,
@@ -249,11 +249,11 @@ a(
 a({ d: 1 });
 
 aa(
-   b({ // NO ERROR: aligned with previous opening paren
-     c: d,
-     e: f,
-     f: g
-   })
+  b({ // NO ERROR: aligned with previous opening paren
+    c: d,
+    e: f,
+    f: g
+  })
 );
 
 aaaaaa(
@@ -684,3 +684,45 @@ a:b,
   c:d,
     e:f
   };
+
+if (x)
+    x++;
+else
+    x--;
+
+for (;;)
+    x++;
+
+while (false)
+    x++;
+
+for (var j in {})
+    j++;
+
+for (var z of [])
+    z++;
+
+(function() {
+
+
+  x++;
+
+
+  y++;
+
+})
+
+try {
+  a++;
+// no error: aligning with catch
+} catch (e) {
+  e--;
+// no error: aligning with finally
+} finally {
+  a--;
+}
+
+do {
+  a++;
+// no error: aligning with while
+} while (false);

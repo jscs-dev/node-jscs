@@ -1,4 +1,7 @@
 if (a) {
+  /*
+  123
+  */
   var b = c;
   var d = e
     * f;

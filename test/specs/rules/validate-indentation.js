@@ -2,7 +2,7 @@ var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 var fs = require('fs');
 
-describe.skip('rules/validate-indentation', function() {
+describe('rules/validate-indentation', function() {
     var checker;
 
     function readData(filename) {
@@ -19,12 +19,10 @@ describe.skip('rules/validate-indentation', function() {
             return a.line - b.line;
         });
 
-        errors.forEach(function(error, i) {
-            expect(error.line).to.equal(expectedErrorLines[i], 'did not expect an error on line ' + error.line);
-        });
-        expectedErrorLines.forEach(function(line, i) {
-            expect(!!(errors[i] && errors[i].line === line)).to.equal(true);
-        });
+        expect(errors.map(function(error) {
+            return error.line;
+        })).to.deep.equal(expectedErrorLines);
+
         expect(expectedErrorLines.length).to.equal(errors.length);
     }
 
@@ -80,7 +78,6 @@ describe.skip('rules/validate-indentation', function() {
             38,
             39,
             40,
-            46,
             54,
             114,
             120,
@@ -133,8 +130,8 @@ describe.skip('rules/validate-indentation', function() {
             488,
             534,
             541,
-            569,
-            575,
+            568,
+            574,
             596,
             599,
             607,
@@ -161,7 +158,7 @@ describe.skip('rules/validate-indentation', function() {
             checker.configure({
                 validateIndentation: {
                     value: '\t',
-                    allExcept: ['emptyLines']
+                    allExcept: []
                 }
             });
 
@@ -174,7 +171,7 @@ describe.skip('rules/validate-indentation', function() {
             checker.configure({
                 validateIndentation: {
                     value: '\t',
-                    includeEmptyLines: false
+                    allExcept: ['emptyLines']
                 }
             });
 
@@ -256,6 +253,22 @@ describe.skip('rules/validate-indentation', function() {
                 '}(this));';
                 expect(checker.checkString(source)).to.have.no.errors();
             });
+
+            it('should allow ' + title + ' with `call` in full file IIFE', function() {
+                var source = '\n' +
+                '(function(global) {\n' +
+                statement + '\n' +
+                '}).call(this);';
+                expect(checker.checkString(source)).to.have.no.errors();
+            });
+
+            it('should allow ' + title + ' with `apply` in full file IIFE', function() {
+                var source = '\n' +
+                '(function(global) {\n' +
+                statement + '\n' +
+                '}).apply(this);';
+                expect(checker.checkString(source)).to.have.no.errors();
+            });
         });
 
         it('should not allow no indentation in some other top level function', function() {
@@ -276,7 +289,7 @@ describe.skip('rules/validate-indentation', function() {
         });
 
         it('should fix files with 2 spaces and includeEmptyLines', function() {
-            checker.configure({ validateIndentation: { value: 2, includeEmptyLines: true } });
+            checker.configure({ validateIndentation: { value: 2, allExcept: ['comments'] } });
             var fixtureInput = readData('validate-indentation/fix-include-empty-input.js');
             var fixtureExpected = readData('validate-indentation/fix-include-empty-expected.js');
             expect(checker.fixString(fixtureInput).output).to.equal(fixtureExpected);
@@ -290,39 +303,39 @@ describe.skip('rules/validate-indentation', function() {
 
         it('should not report errors for indent when return statement is used instead of break', function() {
             expect(checker.checkString(
-                    'function foo() {\n' +
-                    '    var a = "a";\n' +
-                    '    switch(a) {\n' +
-                    '        case "a":\n' +
-                    '            return "A";\n' +
-                    '        case "b":\n' +
-                    '            return "B";\n' +
-                    '    }\n' +
-                    '}\n' +
-                    'foo();'
-                )).to.have.no.errors();
+                'function foo() {\n' +
+                '    var a = "a";\n' +
+                '    switch(a) {\n' +
+                '        case "a":\n' +
+                '            return "A";\n' +
+                '        case "b":\n' +
+                '            return "B";\n' +
+                '    }\n' +
+                '}\n' +
+                'foo();'
+            )).to.have.no.errors();
         });
 
         it('should not report errors for mixed indent between return and break', function() {
             expect(checker.checkString(
-                    'function foo() {\n' +
-                    '    var a = "a";\n' +
-                    '    switch(a) {\n' +
-                    '        case "a":\n' +
-                    '            return "A";\n' +
-                    '        case "b":\n' +
-                    '        break;\n' +
-                    '        case "c":\n' +
-                    '            a++;\n' +
-                    '        break;\n' +
-                    '    }\n' +
-                    '}\n' +
-                    'foo();'
-                )).to.have.no.errors();
+                'function foo() {\n' +
+                '    var a = "a";\n' +
+                '    switch(a) {\n' +
+                '        case "a":\n' +
+                '            return "A";\n' +
+                '        case "b":\n' +
+                '        break;\n' +
+                '        case "c":\n' +
+                '            a++;\n' +
+                '        break;\n' +
+                '    }\n' +
+                '}\n' +
+                'foo();'
+            )).to.have.no.errors();
         });
 
         it('should not report errors for switches without semicolons', function() {
-            expect(checker.checkString(' ' +
+            expect(checker.checkString(
                 'function a (x) {\n' +
                 '    switch (x) {\n' +
                 '        case 1:\n' +
@@ -336,79 +349,79 @@ describe.skip('rules/validate-indentation', function() {
 
         it('should report errors for indent after no indent in same switch statement', function() {
             expect(checker.checkString(
-                    'switch(value){\n' +
-                        '    case "1":\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '    case "2":\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '    default:\n' +
-                        '        a();\n' +
-                        '        break;\n' +
-                        '}'
-                )).to.have.one.validation.error.from('validateIndentation');
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '    case "2":\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '    default:\n' +
+                '        a();\n' +
+                '        break;\n' +
+                '}'
+            )).to.have.one.validation.error.from('validateIndentation');
         });
 
         it('should report errors for no indent after indent in same switch statement', function() {
             expect(checker.checkString(
-                    'switch(value){\n' +
-                        '    case "1":\n' +
-                        '        a();\n' +
-                        '        break;\n' +
-                        '    case "2":\n' +
-                        '        a();\n' +
-                        '        break;\n' +
-                        '    default:\n' +
-                        '    break;\n' +
-                        '}'
-                )).to.have.one.validation.error.from('validateIndentation');
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '        a();\n' +
+                '        break;\n' +
+                '    case "2":\n' +
+                '        a();\n' +
+                '        break;\n' +
+                '    default:\n' +
+                '    break;\n' +
+                '}'
+            )).to.have.one.validation.error.from('validateIndentation');
         });
 
         it('should report errors for no indent after indent in different switch statements', function() {
             expect(checker.checkString(
-                    'switch(value){\n' +
-                        '    case "1":\n' +
-                        '    case "2":\n' +
-                        '        a();\n' +
-                        '        break;\n' +
-                        '    default:\n' +
-                        '        break;\n' +
-                        '}\n' +
-                        'switch(value){\n' +
-                        '    case "1":\n' +
-                        '    break;\n' +
-                        '    case "2":\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '    default:\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '}'
-                )).to.have.error.count.equal(3);
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '    case "2":\n' +
+                '        a();\n' +
+                '        break;\n' +
+                '    default:\n' +
+                '        break;\n' +
+                '}\n' +
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '    break;\n' +
+                '    case "2":\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '    default:\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '}'
+            )).to.have.error.count.equal(3);
         });
 
         it('should report errors for indent after no indent in different switch statements', function() {
             expect(checker.checkString(
-                    'switch(value){\n' +
-                        '    case "1":\n' +
-                        '    case "2":\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '    default:\n' +
-                        '        a();\n' +
-                        '    break;\n' +
-                        '}\n' +
-                        'switch(value){\n' +
-                        '    case "1":\n' +
-                        '        a();\n' +
-                        '        break;\n' +
-                        '    case "2":\n' +
-                        '        break;\n' +
-                        '    default:\n' +
-                        '        break;\n' +
-                        '}'
-                )).to.have.error.count.equal(3);
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '    case "2":\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '    default:\n' +
+                '        a();\n' +
+                '    break;\n' +
+                '}\n' +
+                'switch(value){\n' +
+                '    case "1":\n' +
+                '        a();\n' +
+                '        break;\n' +
+                '    case "2":\n' +
+                '        break;\n' +
+                '    default:\n' +
+                '        break;\n' +
+                '}'
+            )).to.have.error.count.equal(3);
         });
     });
 });
