@@ -12,7 +12,7 @@ describe('rules/disallow-comma-before-line-break', function() {
         checker.configure(rules);
     });
 
-    describe.skip('autofix', function() {
+    describe('autofix', function() {
         reportAndFix({
             name: 'illegal comma placement in multiline var declaration',
             rules: rules,
