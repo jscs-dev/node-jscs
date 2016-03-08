@@ -77,6 +77,7 @@
     "requireDotNotation": true,
     "requireSemicolons": true,
     "validateParameterSeparator": ", ",
+    "requireSpaceBetweenArguments": true,
 
     "jsDoc": {
         "checkAnnotations": "closurecompiler",
