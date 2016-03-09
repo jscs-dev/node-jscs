@@ -230,7 +230,8 @@ describe('rules/disallow-space-after-object-keys', function() {
             checker.configure({
                 disallowSpaceAfterObjectKeys: true,
                 "requireSpacesInAnonymousFunctionExpression": {
-                    "beforeOpeningRoundBrace": true
+                    "beforeOpeningRoundBrace": true,
+                    "allExcept": ['shorthand']
                 }
             });
         });
@@ -242,6 +243,11 @@ describe('rules/disallow-space-after-object-keys', function() {
         it('should report es6-methods with a space. #1013', function() {
             expect(checker.checkString('var x = { a () { } };'))
               .to.have.one.validation.error.from('disallowSpaceAfterObjectKeys');
+        });
+
+        it('should not accidentally catch es5 function values', function () {
+            expect(checker.checkString('var x = { a: function () { } };'))
+              .to.have.no.errors();
         });
     });
 });
