@@ -19,6 +19,11 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
               .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
         });
 
+        it('should not report errors for array case', function() {
+            expect(checker.checkString('[a, b, c, d] = foo'))
+              .to.have.no.errors();
+        });
+
         it('should not report basic jquery operator with dollar', function() {
             expect(checker.checkString('var $x = $();')).to.have.no.errors();
         });
