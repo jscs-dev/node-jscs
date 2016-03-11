@@ -14,6 +14,10 @@ describe('rules/require-newline-before-single-statements-in-if', function() {
             checker.configure({ requireNewlineBeforeSingleStatementsInIf: true });
         });
 
+        it('should not blow up for single branch `if`', function() {
+            expect(checker.checkString('if (x) true')).to.have.no.errors();
+        });
+
         it('should ignore if in a block statment', function() {
             expect(checker.checkString('if (x) {\n doX();\n} else {\n doY();\n}')).to.have.no.errors();
         });
