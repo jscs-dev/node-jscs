@@ -164,7 +164,9 @@
     "requireArrayDestructuring",
     "disallowVar",
     "requireSpaceBeforeDestructuredValues",
-    "disallowArrayDestructuringReturn"
+    "disallowArrayDestructuringReturn",
+    "requireSpacesInsideImportedObjectBraces",
+    "disallowSpacesInsideImportedObjectBraces"
   ],
   "Everything else": [
     "requireUseStrict",
