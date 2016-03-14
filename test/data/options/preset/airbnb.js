@@ -1,3 +1,4 @@
+
 // requireParenthesesAroundIIFE
 (function (window) {
   <Foo
