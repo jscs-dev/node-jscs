@@ -167,6 +167,7 @@
     "disallowArrayDestructuringReturn"
   ],
   "Everything else": [
+    "requireUseStrict",
     "requireParenthesesAroundIIFE",
     "disallowImplicitTypeConversion",
     "disallowMultipleLineStrings",
