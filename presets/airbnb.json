@@ -76,5 +76,6 @@
     "validateIndentation": 2,
     "maximumLineLength": 100,
     "disallowArrayDestructuringReturn": true,
-    "requireShorthandArrowFunctions": true
+    "requireShorthandArrowFunctions": true,
+    "requireSpacesInsideImportedObjectBraces": true
 }
