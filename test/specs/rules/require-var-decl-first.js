@@ -238,21 +238,21 @@ describe('rules/require-var-decl-first', function() {
             });
 
             describe('statements inside blocks', function() {
-                it('should not return error for single var declaration inside block', function() {
-                    testDeclStatements(checker, '{var a;}', 0);
+                it('should report for single var declaration inside block', function() {
+                    testDeclStatements(checker, '{var a;}', 1);
                 });
 
-                it('should not return errors for single var declaration at top of program scope after prologue',
+                it('should report for single var declaration at top of program scope after prologue',
                     function() {
-                    testDeclStatements(checker, '{"use strict";\nvar a;}', 0);
+                    testDeclStatements(checker, '{"use strict";\nvar a;}', 1);
                 });
 
-                it('should not return errors for single var declaration after single comment inside a block',
+                it('should report for single var declaration after single comment inside a block',
                     function() {
-                    testDeclStatements(checker, '{/*block comment*/\nvar a;}', 0);
+                    testDeclStatements(checker, '{/*block comment*/\nvar a;}', 1);
                 });
 
-                it('should return error for single var decl inside a block after assignment',
+                it('should report for single var decl inside a block after assignment',
                     function() {
                     testDeclStatements(checker, 'x=1;{var a;}', 1);
                 });
