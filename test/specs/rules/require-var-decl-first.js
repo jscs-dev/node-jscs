@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe.skip('rules/require-var-decl-first', function() {
+describe('rules/require-var-decl-first', function() {
     describe('boolean', function() {
         var checker;
         beforeEach(function() {
@@ -32,7 +32,8 @@ describe.skip('rules/require-var-decl-first', function() {
                 expect(resultCount).to.equal(expectedErrorCount);
                 for (count = 0; count < resultCount; count++) {
                     expect(errors[count].message)
-                      .to.equal('Variable declarations must be the first statements of a function scope.');
+                        .to.equal('requireVarDeclFirst: Variable declarations ' +
+                        'must be the first statements of a function scope.');
                 }
             };
 
@@ -200,10 +201,6 @@ describe.skip('rules/require-var-decl-first', function() {
                     testDeclStatements(checker, '"use strict";\nvar a;', 0);
                 });
 
-                it('should not return errors for single const var declaration at top of program scope', function() {
-                    testDeclStatements(checker, '\nconst a = 1;', 0);
-                });
-
                 it('should not return errors for single var declaration after single comment at top of program scope',
                     function() {
                     testDeclStatements(checker, '/*block comment*/\nvar a;', 0);
@@ -237,6 +234,27 @@ describe.skip('rules/require-var-decl-first', function() {
                 it('should not return errors for multiple var declaration with a comment inside the scope of' +
                 ' first variable declaration', function() {
                     testDeclStatements(checker, 'var a = function() {  var b;\n/*block comment*/\n};\nvar c;', 0);
+                });
+            });
+
+            describe('statements inside blocks', function() {
+                it('should not return error for single var declaration inside block', function() {
+                    testDeclStatements(checker, '{var a;}', 0);
+                });
+
+                it('should not return errors for single var declaration at top of program scope after prologue',
+                    function() {
+                    testDeclStatements(checker, '{"use strict";\nvar a;}', 0);
+                });
+
+                it('should not return errors for single var declaration after single comment inside a block',
+                    function() {
+                    testDeclStatements(checker, '{/*block comment*/\nvar a;}', 0);
+                });
+
+                it('should return error for single var decl inside a block after assignment',
+                    function() {
+                    testDeclStatements(checker, 'x=1;{var a;}', 1);
                 });
             });
         });
