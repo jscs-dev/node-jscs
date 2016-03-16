@@ -30,6 +30,7 @@
     "disallowSpaceBeforeComma": true,
     "disallowSpaceBeforeSemicolon": true,
     "disallowSpacesInsideTemplateStringPlaceholders": true,
+    "disallowArrayDestructuringReturn": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
     "requireSpacesInAnonymousFunctionExpression": {
@@ -70,11 +71,11 @@
     },
     "requirePaddingNewLinesAfterBlocks": true,
     "requireSemicolons": true,
+    "requireShorthandArrowFunctions": true,
+    "requireSpacesInsideImportedObjectBraces": true,
     "safeContextKeyword": "_this",
     "validateLineBreaks": "LF",
     "validateQuoteMarks": { "mark": "'", "escape": true, "ignoreJSX": true },
     "validateIndentation": 2,
-    "maximumLineLength": 100,
-    "disallowArrayDestructuringReturn": true,
-    "requireShorthandArrowFunctions": true
+    "maximumLineLength": 100
 }

@@ -1,3 +1,5 @@
+// requireSpacesInsideImportedObjectBraces
+import { join, resolve } from 'path';
 
 // requireParenthesesAroundIIFE
 (function (window) {
