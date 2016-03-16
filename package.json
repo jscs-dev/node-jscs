@@ -128,6 +128,7 @@
     "lint": "jshint . # && node bin/jscs lib test bin publish",
     "pretest": "npm run lint",
     "test": "mocha --color",
+    "watch": "mocha --color --watch",
     "autofix-tests": "# node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
