@@ -74,30 +74,6 @@ describe('rules/disallow-spaces-inside-object-brackets', function() {
         it('should report illegal spaces for destructive assignment', function() {
             expect(checker.checkString('let { x } = {x: 1};')).to.have.error.count.equal(2);
         });
-
-        describe.skip('import (#1524)', function() {
-            beforeEach(function() {
-                checker.configure({ disallowSpacesInsideObjectBrackets: true });
-            });
-
-            it('should not report with absent brackets', function() {
-                expect(checker.checkString('import myModule from "test";')).to.have.no.errors();
-                expect(checker.checkString('import "test";')).to.have.no.errors();
-            });
-
-            it('should report for import statements', function() {
-                expect(checker.checkString('import { myMember } from "test";')).to.have.error.count.equal(2);
-
-                expect(checker.checkString('import { myMember } from "test";')).to.have.error.count.equal(2);
-
-                expect(checker.checkString('import { foo, bar } from "test";')).to.have.error.count.equal(2);
-
-                expect(checker.checkString('import MyModule, { foo, bar } ' +
-                        ' from "test";')).to.have.error.count.equal(2);
-
-                expect(checker.checkString('import { a as b } from "test";')).to.have.error.count.equal(2);
-            });
-        });
     });
 
     describe('"nested"', function() {
