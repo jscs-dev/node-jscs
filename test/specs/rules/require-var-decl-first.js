@@ -103,17 +103,17 @@ describe('rules/require-var-decl-first', function() {
                 });
 
                 it('should not return errors for multiple var declaration at top of program scope', function() {
-                    testDeclStatements(checker, 'var a;var b;', 0);
+                    testDeclStatements(checker, 'var a, c;var b;', 0);
                 });
 
                 it('should not return errors for multiple var declaration sandwiching a single comment ' +
                     'at top of program scope', function() {
-                    testDeclStatements(checker, 'var a;/*block comment*/var b;', 0);
+                    testDeclStatements(checker, 'var a, c;/*block comment*/var b;', 0);
                 });
 
                 it('should not return errors for multiple var declaration with a single comment before the ' +
                     'first var decl at top of program scope', function() {
-                    testDeclStatements(checker, 'var a;/*block comment*/var b;/*block comment 2*/var c;', 0);
+                    testDeclStatements(checker, 'var a, d;/*block comment*/var b;/*block comment 2*/var c;', 0);
                 });
 
                 it('should not return errors for a single var declaration with comments sandwiched ' +
@@ -181,7 +181,7 @@ describe('rules/require-var-decl-first', function() {
                 });
 
                 it('should not return errors for multiple var declaration at top of program scope', function() {
-                    testDeclStatements(checker, 'var a; var b;', 0);
+                    testDeclStatements(checker, 'var a, A; var b;', 0);
                 });
 
                 it('should not return errors for a single var declaration with comments sandwiched ' +
@@ -222,7 +222,7 @@ describe('rules/require-var-decl-first', function() {
                 });
 
                 it('should not return errors for multiple var declaration at top of program scope', function() {
-                    testDeclStatements(checker, 'var a;\nvar b;', 0);
+                    testDeclStatements(checker, 'var a, A;\nvar b;', 0);
                 });
 
                 it('should not return errors for a single var declaration with comments sandwiched ' +
@@ -233,7 +233,7 @@ describe('rules/require-var-decl-first', function() {
 
                 it('should not return errors for multiple var declaration with a comment inside the scope of' +
                 ' first variable declaration', function() {
-                    testDeclStatements(checker, 'var a = function() {  var b;\n/*block comment*/\n};\nvar c;', 0);
+                    testDeclStatements(checker, 'var a = function() {  var b;\n/*block comment*/\n}, A;\nvar c;', 0);
                 });
             });
 
