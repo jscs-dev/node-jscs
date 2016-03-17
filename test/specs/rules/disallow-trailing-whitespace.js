@@ -2,7 +2,7 @@ var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe.skip('rules/disallow-trailing-whitespace', function() {
+describe('rules/disallow-trailing-whitespace', function() {
     var rules = { disallowTrailingWhitespace: true };
     var checker;
 
