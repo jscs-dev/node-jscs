@@ -46,7 +46,7 @@ var AssertHelpers = {
             it('fix', function() {
                 var result = checker.fixString(options.input);
                 expect(result.errors).to.have.no.errors();
-                expect(result.output).to.equal(options.output);
+                expect(highlightws(result.output)).to.equal(highlightws(options.output));
             });
         }
 
@@ -58,6 +58,13 @@ var AssertHelpers = {
 
         } else {
             describe(options.name, check);
+        }
+
+        function highlightws(str) {
+            return str.replace(/\t/g, '→')
+                .replace(/\r/g, '␍')
+                .replace(/\n/g, '␊')
+                .replace(/\s/g, '·');
         }
     }
 };
