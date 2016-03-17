@@ -18,7 +18,7 @@ describe('rules/require-use-strict', function() {
     });
 
     it('should report if use strict is not present, with func', function() {
-        expect(checker.checkString('var a = 2;' + funcX))
+        expect(checker.checkString(funcX))
           .to.have.one.validation.error.from('requireUseStrict');
     });
 

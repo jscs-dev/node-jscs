@@ -51,15 +51,6 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             expect(error.column).to.equal(16);
         });
 
-        it('should not report missing space before round brace in method shorthand', function() {
-            expect(checker.checkString('var x = { y() {} }')).to.have.no.errors();
-        });
-
-        it('should report space before round brace in method shorthand', function() {
-            expect(checker.checkString('var x = { y () {} }'))
-              .to.have.one.validation.error.from('disallowSpacesInAnonymousFunctionExpression');
-        });
-
         it('should not report special "constructor" method #1607', function() {
             expect(checker.checkString('class test { constructor() {} }')).to.have.no.errors();
         });
@@ -72,13 +63,6 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             output: 'var x = function(){}'
         });
 
-        reportAndFix({
-            name: 'illegal space before round brace in method shorthand',
-            rules: rules,
-            errors: 1,
-            input: 'var x = { y (){} }',
-            output: 'var x = { y(){} }'
-        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
@@ -123,29 +107,12 @@ describe('rules/disallow-spaces-in-anonymous-function-expression', function() {
             expect(checker.checkString('var x = function (){}')).to.have.no.errors();
         });
 
-        it('should not report missing space before curly brace in method shorthand', function() {
-            expect(checker.checkString('var x = { y(){} }')).to.have.no.errors();
-        });
-
-        it('should report space before curly brace in method shorthand', function() {
-            expect(checker.checkString('var x = { y () {} }'))
-              .to.have.one.validation.error.from('disallowSpacesInAnonymousFunctionExpression');
-        });
-
         reportAndFix({
             name: 'illegal space before curly brace in FunctionExpression',
             rules: rules,
             errors: 1,
             input: 'var x = function() {}',
             output: 'var x = function(){}'
-        });
-
-        reportAndFix({
-            name: 'illegal space before curly brace in method shorthand',
-            rules: rules,
-            errors: 1,
-            input: 'var x = { y() {} }',
-            output: 'var x = { y(){} }'
         });
     });
 });

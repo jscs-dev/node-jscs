@@ -1,7 +1,7 @@
 var Checker = require('../../../lib/checker');
 var expect = require('chai').expect;
 
-describe('rules/disallow-yoda-conditions', function() {
+describe('rules/require-yoda-conditions', function() {
     var checker;
     var operators = ['==', '===', '!=', '!=='];
 

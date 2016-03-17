@@ -406,11 +406,11 @@ describe('js-file', function() {
         });
 
         it('should accept array as an argument', function() {
-            var nodes = createJsFile('x += 1;').getNodesByType(['Identifier', 'Literal']);
+            var nodes = createJsFile('x += 1;').getNodesByType(['Identifier', 'NumericLiteral']);
             expect(nodes.length).to.equal(2);
             expect(nodes[0].type).to.equal('Identifier');
             expect(nodes[0].name).to.equal('x');
-            expect(nodes[1].type).to.equal('Literal');
+            expect(nodes[1].type).to.equal('NumericLiteral');
             expect(nodes[1].value).to.equal(1);
         });
 
@@ -562,9 +562,9 @@ describe('js-file', function() {
 
             expect(spy).to.have.callCount(3);
             expect(spy.getCall(0).args[0].type).to.equal('BinaryExpression');
-            expect(spy.getCall(1).args[0].type).to.equal('Literal');
+            expect(spy.getCall(1).args[0].type).to.equal('NumericLiteral');
             expect(spy.getCall(1).args[0].value).to.equal(5);
-            expect(spy.getCall(2).args[0].type).to.equal('Literal');
+            expect(spy.getCall(2).args[0].type).to.equal('NumericLiteral');
             expect(spy.getCall(2).args[0].value).to.equal(4);
         });
     });
@@ -582,23 +582,23 @@ describe('js-file', function() {
 
         it('should not apply callback for non-existing type', function() {
             var spy = sinon.spy();
-            createJsFile('x++;y++;').iterateNodesByType('Literal', spy);
+            createJsFile('x++;y++;').iterateNodesByType('NumericLiteral', spy);
             expect(spy).to.have.callCount(0);
         });
 
         it('should accept array as an argument', function() {
             var spy = sinon.spy();
-            createJsFile('x += 1;').iterateNodesByType(['Identifier', 'Literal'], spy);
+            createJsFile('x += 1;').iterateNodesByType(['Identifier', 'NumericLiteral'], spy);
             expect(spy).to.have.callCount(2);
             expect(spy.getCall(0).args[0].type).to.equal('Identifier');
             expect(spy.getCall(0).args[0].name).to.equal('x');
-            expect(spy.getCall(1).args[0].type).to.equal('Literal');
+            expect(spy.getCall(1).args[0].type).to.equal('NumericLiteral');
             expect(spy.getCall(1).args[0].value).to.equal(1);
         });
 
         it('should not apply callback for non-existing type array', function() {
             var spy = sinon.spy();
-            createJsFile('x++;y++;').iterateNodesByType(['Literal', 'BinaryExpression'], spy);
+            createJsFile('x++;y++;').iterateNodesByType(['NumericLiteral', 'BinaryExpression'], spy);
             expect(spy).to.have.callCount(0);
         });
     });

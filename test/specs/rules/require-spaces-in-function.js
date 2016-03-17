@@ -65,16 +65,6 @@ describe('rules/require-spaces-in-function', function() {
             expect(checker.checkString('const Component = class { render () { return 1; } };')).to.have.no.errors();
         });
 
-        it('should report missing space before round brace in class method', function() {
-            expect(checker.checkString('const Component = class { render() { return 1; } };'))
-              .to.have.one.validation.error.from('requireSpacesInFunction');
-        });
-
-        it('should report missing space before round brace in method shorthand #1470', function() {
-            expect(checker.checkString('var x = { y() {} }'))
-              .to.have.one.validation.error.from('requireSpacesInFunction');
-        });
-
         it('should not report space before round brace in method shorthand #1470', function() {
             expect(checker.checkString('var x = { y () {} }')).to.have.no.errors();
         });
@@ -95,13 +85,6 @@ describe('rules/require-spaces-in-function', function() {
             output: 'var x = async function (){}'
         });
 
-        reportAndFix({
-            name: 'missing space before round brace in method shorthand',
-            rules: rules,
-            errors: 1,
-            input: 'var x = { y(){} }',
-            output: 'var x = { y (){} }'
-        });
     });
 
     describe('beforeOpeningCurlyBrace', function() {
@@ -142,11 +125,6 @@ describe('rules/require-spaces-in-function', function() {
             expect(checker.checkString('var x = function() {}')).to.have.no.errors();
         });
 
-        it('should report missing space before curly brace in method shorthand', function() {
-            expect(checker.checkString('var x = { y(){} }'))
-              .to.have.one.validation.error.from('requireSpacesInFunction');
-        });
-
         it('should not report space before curly brace in method shorthand', function() {
             expect(checker.checkString('var x = { y () {} }')).to.have.no.errors();
         });
@@ -163,12 +141,5 @@ describe('rules/require-spaces-in-function', function() {
             output: 'var x = function() {}'
         });
 
-        reportAndFix({
-            name: 'missing space before curly brace in method shorthand',
-            rules: rules,
-            errors: 1,
-            input: 'var x = { y(){} }',
-            output: 'var x = { y() {} }'
-        });
     });
 });

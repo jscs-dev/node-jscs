@@ -58,12 +58,6 @@ describe('rules/disallow-unused-params', function() {
         ).getErrorList()[0].message).to.contain('Pattern is not used');
     });
 
-    it('should report unused rest param with array pattern', function() {
-        expect(checker.checkString(
-            'function fun(...[test]) { }'
-        ).getErrorList()[0].message).to.contain('Pattern is not used');
-    });
-
     it('should report unused param in half-used pattern', function() {
         expect(checker.checkString(
             'function fun({test, g}) { g++; }'

@@ -23,7 +23,7 @@ describe('tree-iterator', function() {
         expect(spy.getCall(0).args[0].type).to.equal('Program');
         expect(spy.getCall(0).args[1]).to.equal(null);
         expect(spy.getCall(1).args[0].type).to.equal('ExpressionStatement');
-        expect(spy.getCall(2).args[0].type).to.equal('Literal');
+        expect(spy.getCall(2).args[0].type).to.equal('NumericLiteral');
     });
 
     it('should not fail for empty object', function() {
