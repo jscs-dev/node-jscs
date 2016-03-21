@@ -296,6 +296,80 @@ describe('rules/validate-indentation', function() {
         });
     });
 
+    describe.only('functions', function() {
+        beforeEach(function() {
+            checker.configure({validateIndentation: 4});
+        });
+
+        it('should not report errors correctly indented function declaration', function() {
+            expect(checker.checkString(
+                'function foo() {\n' +
+                '    x++;\n' +
+                '}\n'
+            )).to.have.no.errors();
+        });
+
+        it('should report errors for incorrectly indented function declaration', function() {
+            expect(checker.checkString(
+                'function foo() {\n' +
+                'x++;\n' +
+                '}\n'
+            )).to.have.one.error.from('validateIndentation');
+        });
+
+        it('should not report errors correctly indented function expression', function() {
+            expect(checker.checkString(
+                '(function() {\n' +
+                '    x++;\n' +
+                '})\n'
+            )).to.have.no.errors();
+        });
+
+        it('should report errors for incorrectly indented function expression', function() {
+            expect(checker.checkString(
+                '(function() {\n' +
+                'x++;\n' +
+                '})\n'
+            )).to.have.one.error.from('validateIndentation');
+        });
+
+        it('should not report errors correctly indented arrow function expression', function() {
+            expect(checker.checkString(
+                '(() => {\n' +
+                '    x++;\n' +
+                '})\n'
+            )).to.have.no.errors();
+        });
+
+        it('should report errors for incorrectly indented arrow function expression', function() {
+            expect(checker.checkString(
+                '(() => {\n' +
+                'x++;\n' +
+                '})\n'
+            )).to.have.one.error.from('validateIndentation');
+        });
+
+        it('should not report errors correctly indented method', function() {
+            expect(checker.checkString(
+                'class Cls {\n' +
+                '    method() {\n' +
+                '        x++;\n' +
+                '    }\n'+
+                '}\n'
+            )).to.have.no.errors();
+        });
+
+        it('should report errors for incorrectly indented method', function() {
+            expect(checker.checkString(
+                'class Cls {\n' +
+                '    method() {\n' +
+                '    x++;\n' +
+                '    }\n'+
+                '}\n'
+            )).to.have.one.error.from('validateIndentation');
+        });
+    });
+
     describe('switch identation', function() {
         beforeEach(function() {
             checker.configure({ validateIndentation: 4 });
