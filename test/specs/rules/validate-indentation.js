@@ -296,7 +296,7 @@ describe('rules/validate-indentation', function() {
         });
     });
 
-    describe.only('functions', function() {
+    describe('functions', function() {
         beforeEach(function() {
             checker.configure({validateIndentation: 4});
         });
