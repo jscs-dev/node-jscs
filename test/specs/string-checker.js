@@ -376,7 +376,9 @@ describe('string-checker', function() {
         });
     });
 
-    describe.skip('presets', function() {
+    describe('presets', function() {
+        this.timeout(15000);
+
         testPreset('airbnb');
         testPreset('crockford');
         testPreset('google');
