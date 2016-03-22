@@ -377,7 +377,7 @@ describe('string-checker', function() {
     });
 
     describe('presets', function() {
-        this.timeout(15000);
+        this.timeout(30000);
 
         testPreset('airbnb');
         testPreset('crockford');
