@@ -141,6 +141,10 @@ describe('rules/disallow-empty-blocks', function() {
         expect(checker.checkString('(a) => {}')).to.have.no.errors();
     });
 
+    it('should not report empty object method', function() {
+        expect(checker.checkString('var a = { b() {} }')).to.have.no.errors();
+    });
+
     describe('allExcept: ["comments"]', function() {
         beforeEach(function() {
             checker = new Checker();

@@ -90,6 +90,7 @@ describe('rules/require-spaces-in-generator', function() {
             output: 'var x = function * asdf(){}'
         });
 
+        // TODO: fix in CST
         reportAndFix({
             name: 'should report missing space after the star for the shorthand',
             rules: rules,
