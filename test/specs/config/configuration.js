@@ -782,5 +782,24 @@ describe('config/configuration', function() {
             expect(configuration.getFileExtensions().length).to.equal(1);
             expect(configuration.getFileExtensions()[0]).to.equal('.js');
         });
+
+        it('should error on removed options in 3.0', function() {
+            try {
+                configuration.load({
+                    esprima: true,
+                    esprimaOptions: true,
+                    verbose: true,
+                    esnext: true
+                });
+            } catch (e) {
+                expect(e.message).to.equal([
+                    'Config values to remove in 3.0:',
+                    'The `esprima` option since CST uses babylon (the babel parser) under the hood',
+                    'The `esprimaOptions` option.',
+                    'The `esnext` option is enabled by default.',
+                    'The `verbose` option is enabled by default.'
+                ].join('\n'));
+            }
+        });
     });
 });
