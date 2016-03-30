@@ -29,7 +29,6 @@ describe('string-checker', function() {
                 });
             });
 
-
             it('should ignore lines starting with #!', function() {
                 expect(checker.checkString(
                     '#! random stuff\n' +
@@ -201,7 +200,8 @@ describe('string-checker', function() {
             checker.configure({ disallowImplicitTypeConversion: ['boolean'] });
             var result = checker.fixString('x = !!x;');
             expect(result.errors).to.have.one.error();
-            expect(result.errors.getErrorList()[0].message).to.equal('disallowImplicitTypeConversion: Implicit boolean conversion');
+            expect(result.errors.getErrorList()[0].message)
+                .to.equal('disallowImplicitTypeConversion: Implicit boolean conversion');
         });
 
         it('should process parse error', function() {
