@@ -44,6 +44,12 @@ describe('rules/maximum-line-length', function() {
         it('should report lines longer than the maximum', function() {
             expect(checker.checkString('\t\t\t\t1')).to.have.one.validation.error.from('maximumLineLength');
         });
+
+        it('should get correct line', function() {
+            var error = checker.checkString('\n\n\n123456789').getErrorList()[0];
+
+            expect(error.line).to.equal(4);
+        });
     });
 
     describe('allExcept["comments"] option', function() {
