@@ -45,10 +45,11 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString('\t\t\t\t1')).to.have.one.validation.error.from('maximumLineLength');
         });
 
-        it('should get correct line', function() {
+        it('should get correct line and column', function() {
             var error = checker.checkString('\n\n\n123456789').getErrorList()[0];
 
             expect(error.line).to.equal(4);
+            expect(error.column).to.equal(9);
         });
     });
 
