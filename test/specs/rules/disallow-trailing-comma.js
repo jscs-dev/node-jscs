@@ -81,4 +81,8 @@ describe('rules/disallow-trailing-comma', function() {
         expect(getPosition(errs[0].element).line).to.equal(2);
         expect(getPosition(errs[0].element).column).to.equal(9);
     });
+
+    it('should not throw on literal', function() {
+        expect(checker.checkString('({ key: "," })')).to.have.no.errors();
+    });
 });
