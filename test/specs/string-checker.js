@@ -15,6 +15,21 @@ describe('string-checker', function() {
 
     describe('checkString', function() {
         describe('line starting with hash', function() {
+            it('should provide correct data for syntax error', function() {
+                var error = checker.checkString(
+                    'function () {}'
+                ).getErrorList()[0];
+
+                expect(error).to.have.deep.equal({
+                    filename: 'input',
+                    rule: 'parseError',
+                    message: 'Unexpected token (1:9)',
+                    line: 1,
+                    column: 9
+                });
+            });
+
+
             it('should ignore lines starting with #!', function() {
                 expect(checker.checkString(
                     '#! random stuff\n' +
