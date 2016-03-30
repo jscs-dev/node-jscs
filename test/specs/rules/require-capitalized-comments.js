@@ -299,13 +299,11 @@ describe('rules/require-capitalized-comments', function() {
             assertEmpty(
                 '// http://google.com'
             );
-        });
-
-        it('shoulds ignore urls', function() {
             assertEmpty(
                 '// http://google.com\n' +
                 '// a'
             );
+            assertEmpty('/* http://google.com */');
         });
     });
 
