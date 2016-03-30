@@ -354,7 +354,7 @@ describe('rules/validate-indentation', function() {
                 'class Cls {\n' +
                 '    method() {\n' +
                 '        x++;\n' +
-                '    }\n'+
+                '    }\n' +
                 '}\n'
             )).to.have.no.errors();
         });
@@ -364,7 +364,7 @@ describe('rules/validate-indentation', function() {
                 'class Cls {\n' +
                 '    method() {\n' +
                 '    x++;\n' +
-                '    }\n'+
+                '    }\n' +
                 '}\n'
             )).to.have.one.error.from('validateIndentation');
         });

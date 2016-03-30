@@ -332,9 +332,9 @@ describe('rules/require-padding-newlines-in-blocks', function() {
     describe('open: true, close: false, allExcept: ["functions"]', function() {
         beforeEach(function() {
             checker.configure({ requirePaddingNewlinesInBlocks: {
-              open: true,
-              close: false,
-              allExcept: ['functions'] }
+                open: true,
+                close: false,
+                allExcept: ['functions'] }
             });
         });
 
@@ -367,9 +367,9 @@ describe('rules/require-padding-newlines-in-blocks', function() {
     describe('open: false, close: true, allExcept: ["functions"]', function() {
         beforeEach(function() {
             checker.configure({ requirePaddingNewlinesInBlocks: {
-              open: false,
-              close: true,
-              allExcept: ['functions'] }
+                open: false,
+                close: true,
+                allExcept: ['functions'] }
             });
         });
 
@@ -402,9 +402,9 @@ describe('rules/require-padding-newlines-in-blocks', function() {
     describe('open: true, close: false, allExcept: ["conditionals"]', function() {
         beforeEach(function() {
             checker.configure({ requirePaddingNewlinesInBlocks: {
-              open: true,
-              close: false,
-              allExcept: ['conditionals'] }
+                open: true,
+                close: false,
+                allExcept: ['conditionals'] }
             });
         });
 
@@ -438,9 +438,9 @@ describe('rules/require-padding-newlines-in-blocks', function() {
     describe('open: false, close: true, allExcept: ["conditionals"]', function() {
         beforeEach(function() {
             checker.configure({ requirePaddingNewlinesInBlocks: {
-              open: false,
-              close: true,
-              allExcept: ['conditionals'] }
+                open: false,
+                close: true,
+                allExcept: ['conditionals'] }
             });
         });
 

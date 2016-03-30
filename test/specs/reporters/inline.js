@@ -28,15 +28,18 @@ describe('reporters/inline', function() {
     it('should correctly reports 1 error', function() {
         inline([checker.checkString('with (x) {}')]);
 
-        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 2, disallowKeywords: Illegal keyword: with');
+        expect(console.log.getCall(0).args[0])
+            .to.equal('input: line 1, col 2, disallowKeywords: Illegal keyword: with');
         expect(console.log).to.have.callCount(1);
     });
 
     it('should correctly reports 2 errors', function() {
         inline([checker.checkString('with (x) {} with (x) {}')]);
 
-        expect(console.log.getCall(0).args[0]).to.equal('input: line 1, col 2, disallowKeywords: Illegal keyword: with');
-        expect(console.log.getCall(1).args[0]).to.equal('input: line 1, col 14, disallowKeywords: Illegal keyword: with');
+        expect(console.log.getCall(0).args[0])
+            .to.equal('input: line 1, col 2, disallowKeywords: Illegal keyword: with');
+        expect(console.log.getCall(1).args[0])
+            .to.equal('input: line 1, col 14, disallowKeywords: Illegal keyword: with');
         expect(console.log).to.have.callCount(2);
     });
 });
