@@ -125,7 +125,7 @@
     ]
   },
   "scripts": {
-    "lint": "jshint . && node bin/jscs lib test bin publish",
+    "lint": "jshint . #&& node bin/jscs lib test bin publish",
     "pretest": "npm run lint",
     "test": "mocha --color",
     "watch": "mocha --color --watch",
