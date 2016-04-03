@@ -3,7 +3,7 @@ var fs = require('fs');
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
-var assign = require('lodash').assign;
+var assign = require('lodash/assign');
 
 var JsFile = require('../../lib/js-file');
 

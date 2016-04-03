@@ -1,6 +1,6 @@
 var JsFile = require('../../lib/js-file');
 var PragmaIndex = require('../../lib/pragma-index');
-var assign = require('lodash').assign;
+var assign = require('lodash/assign');
 var expect = require('chai').expect;
 
 function createJsFile(sources, options) {
