@@ -13,7 +13,7 @@ function createJsFile(sources, options) {
 }
 
 function createPragmaIndex(file) {
-    return new PragmaIndex(file.getProgram().firstToken);
+    return new PragmaIndex(file.getProgram().getFirstToken());
 }
 
 describe('PragmaIndex', function() {

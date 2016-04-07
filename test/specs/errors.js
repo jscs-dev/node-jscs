@@ -23,16 +23,24 @@ describe('errors', function() {
     describe('getPosition', function() {
         it('should get position', function() {
             var position = Errors.getPosition({
-                loc: {
-                    start: {
-                        line: 1,
-                        column: 10
-                    },
+                getNewlineCount: function() {
+                    return 0;
+                },
+                getSourceCodeLength: function() {
+                    return 1;
+                },
+                getLoc: function() {
+                    return {
+                        start: {
+                            line: 1,
+                            column: 10
+                        },
 
-                    end: {
-                        line: 1,
-                        column: 10
-                    }
+                        end: {
+                            line: 1,
+                            column: 11
+                        }
+                    };
                 }
             });
 

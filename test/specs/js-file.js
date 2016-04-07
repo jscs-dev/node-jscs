@@ -22,7 +22,7 @@ describe('js-file', function() {
 
         it('empty file should have one token EOF', function() {
             var file = new JsFile({filename: 'example.js', source: ''});
-            expect(file.getTree().firstToken.type).to.equal('EOF');
+            expect(file.getTree().getFirstToken().type).to.equal('EOF');
         });
 
         it('should accept broken JS file', function() {
@@ -111,7 +111,7 @@ describe('js-file', function() {
         });
 
         it('should find the first next token when only the type is specified', function() {
-            var switchToken = file.getTree().firstToken;
+            var switchToken = file.getTree().getFirstToken();
             expect(switchToken.type).to.equal('Keyword');
             expect(switchToken.value).to.equal('switch');
 
@@ -129,7 +129,7 @@ describe('js-file', function() {
         });
 
         it('should find the first next token when both type and value are specified', function() {
-            var switchToken = file.getTree().firstToken;
+            var switchToken = file.getTree().getFirstToken();
             expect(switchToken.type).to.equal('Keyword');
             expect(switchToken.value).to.equal('switch');
 
@@ -147,7 +147,7 @@ describe('js-file', function() {
         });
 
         it('should find the correct next token when both type and value are specified', function() {
-            var switchToken = file.getTree().firstToken;
+            var switchToken = file.getTree().getFirstToken();
             expect(switchToken.type).to.equal('Keyword');
             expect(switchToken.value).to.equal('switch');
 
@@ -169,7 +169,7 @@ describe('js-file', function() {
         });
 
         it('should not find any token if it does not exist', function() {
-            var switchToken = file.getTree().firstToken;
+            var switchToken = file.getTree().getFirstToken();
             expect(switchToken.type).to.equal('Keyword');
             expect(switchToken.value).to.equal('switch');
 
@@ -195,7 +195,7 @@ describe('js-file', function() {
         });
 
         it('should find the first previous token when only the type is specified', function() {
-            var lastToken = file.getTree().lastToken;
+            var lastToken = file.getTree().getLastToken();
             expect(lastToken.type).to.equal('EOF');
 
             var previousToken = file.findPrevToken(lastToken, 'Punctuator');
@@ -217,7 +217,7 @@ describe('js-file', function() {
         });
 
         it('should find the first previous token when both type and value are specified', function() {
-            var lastToken = file.getTree().lastToken.previousToken;
+            var lastToken = file.getTree().getLastToken().getPreviousToken();
 
             expect(lastToken.type).to.equal('Punctuator');
             expect(lastToken.value).to.equal('}');
@@ -236,7 +236,7 @@ describe('js-file', function() {
         });
 
         it('should find the correct previous token when both type and value are specified', function() {
-            var lastToken = file.getTree().lastToken.previousToken;
+            var lastToken = file.getTree().getLastToken().getPreviousToken();
             expect(lastToken.type).to.equal('Punctuator');
             expect(lastToken.value).to.equal('}');
 
@@ -258,7 +258,7 @@ describe('js-file', function() {
         });
 
         it('should not find any token if it does not exist', function() {
-            var lastToken = file.getTree().lastToken.previousToken;
+            var lastToken = file.getTree().getLastToken().getPreviousToken();
             expect(lastToken.type).to.equal('Punctuator');
             expect(lastToken.value).to.equal('}');
 
@@ -278,7 +278,7 @@ describe('js-file', function() {
         it('should find prev token', function() {
             file = createJsFile('if (true);');
 
-            var lastToken = file.getTree().lastToken;
+            var lastToken = file.getTree().getLastToken();
             var trueToken = file.findPrevToken(lastToken, 'Boolean');
 
             expect(trueToken.type).to.equal('Boolean');
@@ -297,24 +297,24 @@ describe('js-file', function() {
     describe('findNextOperatorToken', function() {
         it('should return next punctuator', function() {
             var file = createJsFile('x = y;');
-            var token = file.findNextOperatorToken(file.getTree().firstToken, '=');
+            var token = file.findNextOperatorToken(file.getTree().getFirstToken(), '=');
 
             expect(token.type).to.equal('Punctuator');
             expect(token.value).to.equal('=');
-            expect(token.range[0]).to.equal(2);
+            expect(token.getRange()[0]).to.equal(2);
         });
 
         it('should return next operator-keyword', function() {
             var file = createJsFile('x instanceof y;');
-            var token = file.findNextOperatorToken(file.getTree().firstToken, 'instanceof');
+            var token = file.findNextOperatorToken(file.getTree().getFirstToken(), 'instanceof');
             expect(token.type).to.equal('Keyword');
             expect(token.value).to.equal('instanceof');
-            expect(token.range[0]).to.equal(2);
+            expect(token.getRange()[0]).to.equal(2);
         });
 
         it('should return null for non-found token', function() {
             var file = createJsFile('x = y;');
-            var token = file.findNextOperatorToken(file.getTree().firstToken, '-');
+            var token = file.findNextOperatorToken(file.getTree().getFirstToken(), '-');
             expect(token).to.equal(null);
         });
     });
@@ -322,23 +322,23 @@ describe('js-file', function() {
     describe('findPrevOperatorToken', function() {
         it('should return next punctuator', function() {
             var file = createJsFile('x = y;');
-            var token = file.findPrevOperatorToken(file.getTree().lastToken, '=');
+            var token = file.findPrevOperatorToken(file.getTree().getLastToken(), '=');
             expect(token.type).to.equal('Punctuator');
             expect(token.value).to.equal('=');
-            expect(token.range[0]).to.equal(2);
+            expect(token.getRange()[0]).to.equal(2);
         });
 
         it('should return next operator-keyword', function() {
             var file = createJsFile('x instanceof y;');
-            var token = file.findPrevOperatorToken(file.getTree().lastToken, 'instanceof');
+            var token = file.findPrevOperatorToken(file.getTree().getLastToken(), 'instanceof');
             expect(token.type).to.equal('Keyword');
             expect(token.value).to.equal('instanceof');
-            expect(token.range[0]).to.equal(2);
+            expect(token.getRange()[0]).to.equal(2);
         });
 
         it('should return null for non-found token', function() {
             var file = createJsFile('x = y;');
-            var token = file.findPrevOperatorToken(file.getTree().lastToken, '-');
+            var token = file.findPrevOperatorToken(file.getTree().getLastToken(), '-');
             expect(token).to.equal(null);
         });
     });
@@ -721,7 +721,7 @@ describe('js-file', function() {
             var file = createJsFile(sources.join('\n'));
 
             file.iterateNodesByType(['FunctionDeclaration', 'FunctionExpression'], function(node) {
-                expect(file.getScopes().acquire(node).variables[0].references.length).to.equal(1);
+                expect(file.getScopes().acquire(node).getVariables()[0].getReferences().length).to.equal(1);
                 done();
             });
         });
@@ -857,7 +857,7 @@ describe('js-file', function() {
     describe('getNextToken', function() {
         it('should return next token', function() {
             var file = createJsFile('x++');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             expect(xToken.type).to.equal('Identifier');
             expect(xToken.value).to.equal('x');
             var next = file.getNextToken(xToken);
@@ -867,7 +867,7 @@ describe('js-file', function() {
 
         it('should return EOF token', function() {
             var file = createJsFile('x');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             expect(xToken.type).to.equal('Identifier');
             expect(xToken.value).to.equal('x');
             var next = file.getNextToken(xToken);
@@ -877,14 +877,14 @@ describe('js-file', function() {
 
         it('should return null for out-of-range token', function() {
             var file = createJsFile('x');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var next = file.getNextToken(file.getNextToken(xToken));
             expect(next).to.equal(null);
         });
 
         it('should ignore comments', function() {
             var file = createJsFile('x /*123*/');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var next = file.getNextToken(xToken, {includeComments: false});
             expect(next.type).to.equal('EOF');
             expect(next.value).to.equal('');
@@ -892,7 +892,7 @@ describe('js-file', function() {
 
         it('should return next comment', function() {
             var file = createJsFile('x /*123*/');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var next = file.getNextToken(xToken, {includeComments: true});
             expect(next.type).to.equal('CommentBlock');
         });
@@ -906,7 +906,7 @@ describe('js-file', function() {
 
         it('should return null if there is where to go', function() {
             var file = createJsFile('x');
-            var xToken = file.getTree().lastToken;
+            var xToken = file.getTree().getLastToken();
             var next = file.getNextToken(xToken);
             expect(next).to.equal(null);
         });
@@ -915,7 +915,7 @@ describe('js-file', function() {
     describe('getPrevToken', function() {
         it('should return previous token', function() {
             var file = createJsFile('++x');
-            var xToken = file.getTree().lastToken;
+            var xToken = file.getTree().getLastToken();
             var prev = file.getPrevToken(xToken);
 
             expect(prev.type).to.equal('Identifier');
@@ -924,7 +924,7 @@ describe('js-file', function() {
 
         it('should return previous non-whitespace token', function() {
             var file = createJsFile('++x ');
-            var xToken = file.getTree().lastToken;
+            var xToken = file.getTree().getLastToken();
             var prev = file.getPrevToken(xToken);
 
             expect(prev.type).to.equal('Identifier');
@@ -933,7 +933,7 @@ describe('js-file', function() {
 
         it('should return null for out-of-range token', function() {
             var file = createJsFile('x');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var prev = file.getPrevToken(xToken);
 
             expect(prev).to.equal(null);
@@ -941,14 +941,14 @@ describe('js-file', function() {
 
         it('should ignore comments', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var prev = file.getPrevToken(xToken, {includeComments: false});
             expect(prev).to.equal(null);
         });
 
         it('should return previous comment', function() {
             var file = createJsFile('/*123*/ x');
-            var xToken = file.getTree().firstToken.nextToken;
+            var xToken = file.getTree().getFirstToken().getNextToken();
             var prev = file.getPrevToken(xToken, {includeComments: true});
             expect(prev.type).to.equal('CommentBlock');
         });
@@ -962,7 +962,7 @@ describe('js-file', function() {
 
         it('should return null if there is where to go', function() {
             var file = createJsFile('x');
-            var xToken = file.getTree().firstToken;
+            var xToken = file.getTree().getFirstToken();
             var prev = file.getPrevToken(xToken);
             expect(prev).to.equal(null);
         });
@@ -1001,7 +1001,7 @@ describe('js-file', function() {
     describe('getWhitespaceBefore', function() {
         it('should return whitespace before the first token', function() {
             var file = createJsFile('  \nx');
-            expect(file.getWhitespaceBefore(file.getLastToken().previousToken)).to.equal('  \n');
+            expect(file.getWhitespaceBefore(file.getLastToken().getPreviousToken())).to.equal('  \n');
         });
 
         it('should not jump through tokens to find a whitespaces', function() {
@@ -1029,19 +1029,19 @@ describe('js-file', function() {
 
         it('should insert new whitespace token between peer tokens', function() {
             var file = createJsFile('x=1');
-            file.setWhitespaceBefore(file.getFirstToken().nextToken, ' ');
+            file.setWhitespaceBefore(file.getFirstToken().getNextToken(), ' ');
             expect(file.render()).to.equal('x =1');
         });
 
         it('should alter existing whitespace token', function() {
             var file = createJsFile('  x');
-            file.setWhitespaceBefore(file.getLastToken().previousToken, '\n');
+            file.setWhitespaceBefore(file.getLastToken().getPreviousToken(), '\n');
             expect(file.render()).to.equal('\nx');
         });
 
         it('should drop whitespace token', function() {
             var file = createJsFile('  x');
-            file.setWhitespaceBefore(file.getLastToken().previousToken, '');
+            file.setWhitespaceBefore(file.getLastToken().getPreviousToken(), '');
             expect(file.render()).to.equal('x');
         });
 

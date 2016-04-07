@@ -61,10 +61,10 @@ var AssertHelpers = {
         }
 
         function highlightws(str) {
-            return str.replace(/\t/g, '→')
-                .replace(/\r/g, '␍')
-                .replace(/\n/g, '␊')
-                .replace(/\s/g, '·');
+            return str.replace(/\t/g, '\\t')
+                .replace(/\r/g, '\\r')
+                .replace(/\n/g, '\\n')
+                .replace(/\s/g, '\\s');
         }
     }
 };

@@ -23,7 +23,7 @@ describe('token-categorizer', function() {
             sharedFile.iterateTokensByTypeAndValue('Punctuator', '(', function(token) {
                 openParens.push({
                     type: TokenCategorizer.categorizeOpenParen(token, sharedFile),
-                    offset: token.range[0],
+                    offset: token.getRange()[0],
                     self: token,
                     prev: sharedFile.getPrevToken(token)
                 });
@@ -109,7 +109,7 @@ describe('token-categorizer', function() {
             sharedFile.iterateTokensByTypeAndValue('Punctuator', ')', function(token) {
                 closeParens.push({
                     type: TokenCategorizer.categorizeCloseParen(token, sharedFile),
-                    offset: token.range[0],
+                    offset: token.getRange()[0],
                     self: token,
                     next: sharedFile.getNextToken(token)
                 });
