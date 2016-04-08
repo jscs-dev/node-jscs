@@ -10,7 +10,7 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         checker.registerDefaultRules();
     });
 
-    it('should not throw expections with blocks', function() {
+    it('should not throw exceptions with blocks', function() {
         checker.configure({ requirePaddingNewLinesAfterBlocks: true });
         expect(checker.checkString('{}')).to.have.no.errors();
     });
@@ -254,6 +254,24 @@ describe('rules/require-padding-newlines-after-blocks', function() {
 
         it('should not report missing padding when function is middle in object', function() {
             expect(checker.checkString('var a = {\na: 3,\nb: function() {\n},\nc: 2\n}')).to.have.no.errors();
+        });
+    });
+
+    describe('value allExcept: singleLine', function() {
+        beforeEach(function() {
+            checker.configure({
+                requirePaddingNewLinesAfterBlocks: {
+                    allExcept: ['singleLine']
+                }
+            });
+        });
+
+        it('should not report missing padding when block is a single line', function() {
+            expect(checker.checkString('var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {continue;}\n++i;\n}')).to.have.no.errors();
+        });
+
+        it('should not report missing padding when block is a single line nested in another single line block', function() {
+            expect(checker.checkString('var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {if(i === 4) {continue;}}\n++i;\n}')).to.have.no.errors();
         });
     });
 
