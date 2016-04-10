@@ -70,6 +70,7 @@ describe('rules/require-capitalized-comments', function() {
             expect(checker.checkString('/* eslint-disable */')).to.have.no.errors();
             expect(checker.checkString('/* eslint-enable */')).to.have.no.errors();
             expect(checker.checkString('// eslint-disable-line')).to.have.no.errors();
+            expect(checker.checkString('// eslint-disable-next-line')).to.have.no.errors();
 
             expect(checker.checkString('/* jshint strict: true */')).to.have.no.errors();
             expect(checker.checkString('/* globals MY_LIB: false */')).to.have.no.errors();
