@@ -1216,7 +1216,7 @@ describe('token-assert', function() {
         });
     });
 
-    describe('indentation', function() {
+    describe.only('indentation', function() {
         it('should not trigger on correct indentation', function() {
             var file = createJsFile('x=y;');
 
@@ -1225,7 +1225,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken(),
                 actual: 0,
                 expected: 0,
                 indentChar: ' '
@@ -1242,7 +1242,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken().getNextCodeToken(),
                 actual: 2,
                 expected: 0,
                 indentChar: ' '
@@ -1259,7 +1259,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken().getNextCodeToken(),
                 actual: 2,
                 expected: 0,
                 indentChar: ' ',
@@ -1277,49 +1277,13 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken().getNextCodeToken(),
                 actual: 2,
                 expected: 0,
                 indentChar: ' '
             });
 
             expect(file.getWhitespaceBefore(file.getFirstToken())).to.equal('');
-        });
-
-        it('should fix whitespace on incorrect indentation for the second token', function() {
-            var file = createJsFile('x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            tokenAssert.indentation({
-                lineNumber: 1,
-                actual: 0,
-                expected: 2,
-                indentChar: ' '
-            });
-
-            var token = file.getFirstToken().getNextToken();
-            expect(file.getWhitespaceBefore(token)).to.equal('  ');
-        });
-
-        it('should fix empty line whitespace on incorrect indentation', function() {
-            var file = createJsFile('  \n  \nx=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            tokenAssert.indentation({
-                lineNumber: 1,
-                actual: 2,
-                expected: 0,
-                indentChar: ' '
-            });
-
-            var token = file.findNextToken(file.getFirstToken(), 'Identifier', 'x');
-            expect(file.getWhitespaceBefore(token)).to.equal('\n\n');
         });
 
         it('should fix docblock on incorrect overindentation', function() {
@@ -1330,7 +1294,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken().getNextNonWhitespaceToken(),
                 actual: 2,
                 expected: 0,
                 indentChar: ' '
@@ -1349,7 +1313,7 @@ describe('token-assert', function() {
             tokenAssert.on('error', onError);
 
             tokenAssert.indentation({
-                lineNumber: 1,
+                token: file.getProgram().getFirstToken().getNextNonWhitespaceToken(),
                 actual: 2,
                 expected: 4,
                 indentChar: ' '
@@ -1358,42 +1322,6 @@ describe('token-assert', function() {
             var newToken = file.getFirstTokenOnLine(1, {includeComments: true});
             expect(file.getWhitespaceBefore(newToken)).to.equal('    ');
             expect(newToken.value).to.equal('\n     *\n     ');
-        });
-
-        it('should fix whitespace after docblock on incorrect indentation', function() {
-            var file = createJsFile('/**/\n  \nx=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            var token = file.getFirstTokenOnLine(3);
-            tokenAssert.on('error', onError);
-
-            tokenAssert.indentation({
-                lineNumber: 2,
-                actual: 2,
-                expected: 0,
-                indentChar: ' '
-            });
-
-            expect(file.getWhitespaceBefore(token)).to.equal('\n\n');
-        });
-
-        it('should not lose lines with mixed line endings', function() {
-            var file = createJsFile('  \r\n  \r\n  \nx=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            var token = file.getFirstTokenOnLine(4);
-            tokenAssert.on('error', onError);
-
-            tokenAssert.indentation({
-                lineNumber: 1,
-                actual: 2,
-                expected: 0,
-                indentChar: ' '
-            });
-
-            expect(file.getWhitespaceBefore(token)).to.equal('\r\n\r\n\r\n');
         });
     });
 });
