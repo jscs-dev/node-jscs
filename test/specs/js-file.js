@@ -60,49 +60,6 @@ describe('js-file', function() {
         });
     });
 
-    describe('getNodeByRange', function() {
-        it('should get node by range for function declaration', function() {
-            expect(createJsFile('function foo(a,b) {}').getNodeByRange(16).type).to.equal('FunctionDeclaration');
-        });
-
-        it('should get node by range for identifier', function() {
-            expect(createJsFile('foo(a,b)').getNodeByRange(0).type).to.equal('Identifier');
-        });
-
-        it('should get node by range for function expression', function() {
-            expect(createJsFile('foo(a,b)').getNodeByRange(7).type).to.equal('CallExpression');
-        });
-
-        it('should get node by range for "if" statement', function() {
-            expect(createJsFile('if(true){foo(a,b)}').getNodeByRange(0).type).to.equal('IfStatement');
-        });
-
-        it('should get node by range for identifier inside "if" statement', function() {
-            expect(createJsFile('if(true){foo(a,b)}').getNodeByRange(9).type).to.equal('Identifier');
-        });
-
-        it('should get node by range for function expression inside "if" statement', function() {
-            expect(createJsFile('if(true){foo(a,b)}').getNodeByRange(16).type).to.equal('CallExpression');
-        });
-
-        it('should get node by range for function expression with additional parentheses', function() {
-            expect(createJsFile('foo(1,(2))').getNodeByRange(9).type).to.equal('CallExpression');
-        });
-
-        it('should return empty object', function() {
-            expect(createJsFile('foo(1,2)').getNodeByRange(20).type).to.equal(undefined);
-        });
-
-        it('should not throw on regexp', function() {
-            var file = createJsFile('/^/');
-            try {
-                file.getNodeByRange(1);
-            } catch (e) {
-                throw new Error();
-            }
-        });
-    });
-
     describe('findNextToken', function() {
         var file;
 
