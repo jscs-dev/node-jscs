@@ -1216,7 +1216,7 @@ describe('token-assert', function() {
         });
     });
 
-    describe.only('indentation', function() {
+    describe('indentation', function() {
         it('should not trigger on correct indentation', function() {
             var file = createJsFile('x=y;');
 
@@ -1293,16 +1293,17 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
+            var comment = file.getProgram().getFirstToken().getNextNonWhitespaceToken();
             tokenAssert.indentation({
-                token: file.getProgram().getFirstToken().getNextNonWhitespaceToken(),
+                token: comment,
                 actual: 2,
                 expected: 0,
                 indentChar: ' '
             });
 
-            var newToken = file.getFirstTokenOnLine(1, {includeComments: true});
-            expect(file.getWhitespaceBefore(newToken)).to.equal('');
-            expect(newToken.value).to.equal('\n *\n ');
+            comment = file.getProgram().getFirstToken();
+            expect(file.getWhitespaceBefore(comment)).to.equal('');
+            expect(comment.value).to.equal('\n *\n ');
         });
 
         it('should fix docblock on incorrect underindentation', function() {
@@ -1312,16 +1313,17 @@ describe('token-assert', function() {
             var onError = sinon.spy();
             tokenAssert.on('error', onError);
 
+            var comment = file.getProgram().getFirstToken().getNextNonWhitespaceToken();
             tokenAssert.indentation({
-                token: file.getProgram().getFirstToken().getNextNonWhitespaceToken(),
+                token: comment,
                 actual: 2,
                 expected: 4,
                 indentChar: ' '
             });
 
-            var newToken = file.getFirstTokenOnLine(1, {includeComments: true});
-            expect(file.getWhitespaceBefore(newToken)).to.equal('    ');
-            expect(newToken.value).to.equal('\n     *\n     ');
+            comment = file.getProgram().getFirstToken().getNextNonWhitespaceToken();
+            expect(file.getWhitespaceBefore(comment)).to.equal('    ');
+            expect(comment.value).to.equal('\n     *\n     ');
         });
     });
 });
