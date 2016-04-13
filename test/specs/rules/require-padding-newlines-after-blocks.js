@@ -267,11 +267,13 @@ describe('rules/require-padding-newlines-after-blocks', function() {
         });
 
         it('should not report missing padding when block is a single line', function() {
-            expect(checker.checkString('var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {continue;}\n++i;\n}')).to.have.no.errors();
+            var str = 'var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {continue;}\n++i;\n}';
+            expect(checker.checkString(str)).to.have.no.errors();
         });
 
-        it('should not report missing padding when block is a single line nested in another single line block', function() {
-            expect(checker.checkString('var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {if(i === 4) {continue;}}\n++i;\n}')).to.have.no.errors();
+        it('should not report missing padding when block is a single line that is nested', function() {
+            var str = 'var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {if(i === 4) {continue;}}\n++i;\n}';
+            expect(checker.checkString(str)).to.have.no.errors();
         });
     });
 
