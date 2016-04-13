@@ -117,88 +117,88 @@ describe('rules/disallow-unused-variables', function() {
 
     it('should report unused variable defined with var', function() {
         expect(checker.checkString('var x=1'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with let', function() {
         expect(checker.checkString('let x=1'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with const', function() {
         expect(checker.checkString('const x=1'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with var within a function declaration', function() {
         expect(checker.checkString('function x() { var y=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `y` is not used');
     });
 
     it('should report unused variable defined with let within a function declaration', function() {
         expect(checker.checkString('function x() { let y=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `y` is not used');
     });
 
     it('should report unused variable defined with const within a function declaration', function() {
         expect(checker.checkString('function x() { const y=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `y` is not used');
     });
 
     it('should report unused variable defined with var within a arrow function expression', function() {
         expect(checker.checkString('() => { var x=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with let within a arrow function expression', function() {
         expect(checker.checkString('() => { let x=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with const within a arrow function expression', function() {
         expect(checker.checkString('() => { const x=1; }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with var within a function expression', function() {
         expect(checker.checkString('(function() { var x=1; })'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with var within a class', function() {
         expect(checker.checkString('class P { test() { var x=1; } }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with let within a class', function() {
         expect(checker.checkString('class P { test() { let x=1; } }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with const within a class', function() {
         expect(checker.checkString('class P { test() { const x=1; } }'))
-            .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
+            .to.contain.error('disallowUnusedVariables: Variable `x` is not used');
     });
 
     it('should report unused variable defined with var for a ObjectPattern', function() {
         expect(checker.checkString('var { x, y } = 1;'))
             .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
             .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
-            .have.error.count.equal(2)
+            .have.error.count.equal(2);
     });
 
     it('should report unused variable defined with let for a ObjectPattern', function() {
         expect(checker.checkString('let { x, y } = 1;'))
             .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
             .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
-            .have.error.count.equal(2)
+            .have.error.count.equal(2);
     });
 
     it('should report unused variable defined with const for a ObjectPattern', function() {
         expect(checker.checkString('const { x, y } = 1;'))
             .to.contain.error('disallowUnusedVariables: Variable `x` is not used')
             .to.contain.error('disallowUnusedVariables: Variable `y` is not used')
-            .have.error.count.equal(2)
+            .have.error.count.equal(2);
     });
 
     reportAndFix({
