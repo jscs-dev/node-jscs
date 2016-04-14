@@ -14,19 +14,19 @@ One drawback from all these changes is that JSCS might be a little, just a littl
 ### New rules
 Since this release is about rewrite of internal design, we adding only four new rules (all of them were added by our contributors!). 
 
-#### [`disallowUnusedVariables](http://jscs.info/rule/disallowUnusedVariables`) by Brian Schemp
+#### [`disallowUnusedVariables`](http://jscs.info/rule/disallowUnusedVariables) by Brian Schemp
 That rule useful when you have `var x = <whatever>` and you don't export that `x` and don't use it. This rule will highlight that and remove it if you want.
 
-#### [`disallowSpacesInsideImportedObjectBraces](http://jscs.info/rule/disallowSpacesInsideImportedObjectBraces`) and [`requireSpacesInsideImportedObjectBraces](http://jscs.info/rule/requireSpacesInsideImportedObjectBraces`) by Maks Sadowsky
+#### [`disallowSpacesInsideImportedObjectBraces`](http://jscs.info/rule/disallowSpacesInsideImportedObjectBraces) and [`requireSpacesInsideImportedObjectBraces`](http://jscs.info/rule/requireSpacesInsideImportedObjectBraces) by Maks Sadowsky
 When you need or don't need additional parentheses -
 ```js
 import /*–>*/{foo, bar}/*<–*/ from 'foo-bar';
 ```
 
-#### [`requireUseStrict](http://jscs.info/rule/requireUseStrict`) Erik Vold
+#### [`requireUseStrict`](http://jscs.info/rule/requireUseStrict`) Erik Vold
 Short and cool - ask you to use `"use strict"` pragma on top of the file if you so desire.
 
-#### [`requireImportsAlphabetized](http://jscs.info/rule/requireImportsAlphabetized`) by Ray Hammond
+#### [`requireImportAlphabetized`](http://jscs.info/rule/requireImportAlphabetized) by Ray Hammond
 Keeps your imports alphabetized, pretty handy way to keep your dependency in tidy state.
 
 ### Presets
