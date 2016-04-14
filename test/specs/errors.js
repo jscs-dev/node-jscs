@@ -136,8 +136,6 @@ describe('errors', function() {
             var error = errors.getErrorList()[0];
 
             expect(error.rule).to.equal('anyRule');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(0);
         });
     });
 
@@ -157,8 +155,6 @@ describe('errors', function() {
             var error = errors.getErrorList()[0];
 
             expect(error.rule).to.equal('anyRule');
-            expect(error.line).to.equal(1);
-            expect(error.column).to.equal(0);
             expect(error.additional).to.equal('test');
         });
     });
@@ -226,11 +222,7 @@ describe('errors', function() {
             errors.stripErrorList(2);
             expect(errors).to.have.error.count.equal(2);
             expect(errors.getErrorList()[0].message).to.equal('disallowQuotedKeysInObjects: msg1');
-            expect(errors.getErrorList()[0].line).to.equal(1);
-            expect(errors.getErrorList()[0].column).to.equal(0);
             expect(errors.getErrorList()[1].message).to.equal('disallowQuotedKeysInObjects: msg2');
-            expect(errors.getErrorList()[1].line).to.equal(1);
-            expect(errors.getErrorList()[1].column).to.equal(0);
         });
     });
 });
