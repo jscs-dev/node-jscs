@@ -1,5 +1,5 @@
 var JsFile = require('../../lib/js-file');
-var PragmaIndex = require('../../lib/pragma-index');
+var TokenIndex = require('../../lib/token-index');
 var assign = require('lodash').assign;
 var expect = require('chai').expect;
 
@@ -13,10 +13,10 @@ function createJsFile(sources, options) {
 }
 
 function createPragmaIndex(file) {
-    return new PragmaIndex(file.getProgram().getFirstToken());
+    return new TokenIndex(file.getProgram().getFirstToken());
 }
 
-describe('PragmaIndex', function() {
+describe('TokenIndex', function() {
     describe('isRuleEnabled', function() {
         it('should always return true when no control comments are used', function() {
             var file = createJsFile(['var x = "1";', 'x++;', 'x--;'].join('\n'));
