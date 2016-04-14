@@ -30,6 +30,16 @@ describe('rules/disallow-unused-variables', function() {
             .to.have.no.errors();
     });
 
+    it('should not report unused for function expressions', function() {
+        expect(checker.checkString('var z = function x() { }; z++;'))
+            .to.have.no.errors();
+    });
+
+    it('should not report unused for function params', function() {
+        expect(checker.checkString('var z = function x(f) { }; z++;'))
+            .to.have.no.errors();
+    });
+
     it('should not report unused variable defined with let within a function declaration', function() {
         expect(checker.checkString('function x() { let y=1; return y; }'))
             .to.have.no.errors();
