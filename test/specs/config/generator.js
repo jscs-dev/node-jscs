@@ -10,7 +10,7 @@ var ConfigGenerator = require('../../../lib/config/generator');
 var crockfordClone = require('../../data/configs/generator/crockfordClone');
 
 // Skip it, to slow at the moment
-describe.skip('lib/config/generator', function() {
+describe('lib/config/generator', function() {
     this.timeout(60000);
 
     var _path = path.resolve(__dirname, '../../../lib/config/generator.js');
@@ -164,31 +164,6 @@ describe.skip('lib/config/generator', function() {
             getViolationsStub.restore();
             unstubConsole();
             done();
-        });
-    });
-
-    it('generates a .jscsrc file with the user\'s violation choices', function() {
-        stubConsole();
-        var presetChoiceStub = sinon.stub(generator, '_getUserPresetChoice').returns(crockfordPresetChoice);
-        var getViolationsStub = sinon.stub(generator, '_getUserViolationChoices')
-                                .returns(Vow.cast(crockfordViolationsAllExceptions));
-        var fsStub = sinon.stub(fs, 'writeFileSync');
-
-        var assertConfigEquality = function(c1, c2) {
-            for (var prop in c1) {
-                expect(c1[prop]).to.equal(c2[prop]);
-            }
-        };
-
-        return generator.generate(_path).then(function() {
-            var configPath = fsStub.getCall(0).args[0];
-            var config = JSON.parse(fsStub.getCall(0).args[1]);
-            expect(configPath).to.equal(process.cwd() + '/.jscsrc');
-            assertConfigEquality(expectedConfig, config);
-            presetChoiceStub.restore();
-            getViolationsStub.restore();
-            fsStub.restore();
-            unstubConsole();
         });
     });
 });
