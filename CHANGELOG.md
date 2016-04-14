@@ -1,3 +1,43 @@
+## Version [3.0.0](https://github.com/jscs-dev/node-jscs/compare/v2.11.0...v3.0.0) (2016-04-14):
+
+Hell yeah! 3.0 is here. First and foremost we rewrote every... single... rule. We fixed a plentiful amount of bugs (most of which were found during refactoring those rules using [CST](https://github.com/cst/cst)). This provides us the opportunity to include autofix for complicated rules like the brand new `disallowUnusedVariables` rule (see below).
+
+### Breaking Changes
+If you aren't a plugin writer or support build extensions (like grunt or gulp), etc you don't have to worry about anything.
+
+We didn't rename any of the rules or remove any of the deprecated rule values; it is all still there. All you have to do to update is just bump the `jscs` version in your `package` version to `3.0.0` and be done with it.
+
+One thing to notice though: the `yandex` preset was removed. Since Yandex doesn't have official code style (don't look at the https://github.com/ymaps/codestyle), we were requested to remove it
+
+One drawback from all these changes is that JSCS might be a little, just a little slower, so if you find any issues related to that - don't hesitate to [drop](https://github.com/jscs-dev/node-jscs/issues/new) us a line, or just drop us a line we are all friendly :).
+
+### New rules
+Since this release is about rewrite of internal design, we adding only four new rules (all of them were added by our contributors!). 
+
+#### [`disallowUnusedVariables](https://jscs.info/rule/disallowUnusedVariables`) by Brian Schemp
+That rule useful when you have `var x = <whatever>` and you don't export that `x` and don't use it. This rule will highlight that and remove it if you want.
+
+#### [`disallowSpacesInsideImportedObjectBraces](https://jscs.info/rule/disallowSpacesInsideImportedObjectBraces`) and [`requireSpacesInsideImportedObjectBraces](https://jscs.info/rule/requireSpacesInsideImportedObjectBraces`) by Maks Sadowsky
+When you need or don't need additional parentheses -
+```js
+import /*–>*/{foo, bar}/*<–*/ from 'foo-bar';
+```
+
+#### [`requireUseStrict](https://jscs.info/rule/requireUseStrict`) Erik Vold
+Short and cool - ask you to use `"use strict"` pragma on top of the file if you so desire.
+
+#### [`requireImportsAlphabetized](https://jscs.info/rule/requireImportsAlphabetized`) by Ray Hammond
+Keeps your imports alphabetized, pretty handy way to keep your dependency in tidy state.
+
+### Presets
+* Preset: allow URLs inside comments for airbnb (andreyvolokitin)
+* Preset: add `requireSpaceBeforeObjectValues` rule to airbnb preset (Oleg Gaidarenko)
+* Preset: add `requireSpacesInsideImportedObjectBraces` to airbnb (Maks Sadowsky)
+* Preset: Add 'requireSpaceBetweenArguments' to google preset (Jon Merrifield)
+
+### Internal
+There are a lot of internal changes but we like to keep this changelog short and tidy. We will continue to update this shortly.
+
 ## Version [2.11.0](https://github.com/jscs-dev/node-jscs/compare/v2.10.1...v2.11.0) (2016-03-01):
 
 Spring release! Yeah, yeah, technically spring only comes in middle of the March (you nerds, you), but we're coming to you a bit earlier!
