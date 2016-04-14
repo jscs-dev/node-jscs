@@ -14,19 +14,19 @@ One drawback from all these changes is that JSCS might be a little, just a littl
 ### New rules
 Since this release is about rewrite of internal design, we adding only four new rules (all of them were added by our contributors!). 
 
-#### [`disallowUnusedVariables](https://jscs.info/rule/disallowUnusedVariables`) by Brian Schemp
+#### [`disallowUnusedVariables](http://jscs.info/rule/disallowUnusedVariables`) by Brian Schemp
 That rule useful when you have `var x = <whatever>` and you don't export that `x` and don't use it. This rule will highlight that and remove it if you want.
 
-#### [`disallowSpacesInsideImportedObjectBraces](https://jscs.info/rule/disallowSpacesInsideImportedObjectBraces`) and [`requireSpacesInsideImportedObjectBraces](https://jscs.info/rule/requireSpacesInsideImportedObjectBraces`) by Maks Sadowsky
+#### [`disallowSpacesInsideImportedObjectBraces](http://jscs.info/rule/disallowSpacesInsideImportedObjectBraces`) and [`requireSpacesInsideImportedObjectBraces](http://jscs.info/rule/requireSpacesInsideImportedObjectBraces`) by Maks Sadowsky
 When you need or don't need additional parentheses -
 ```js
 import /*–>*/{foo, bar}/*<–*/ from 'foo-bar';
 ```
 
-#### [`requireUseStrict](https://jscs.info/rule/requireUseStrict`) Erik Vold
+#### [`requireUseStrict](http://jscs.info/rule/requireUseStrict`) Erik Vold
 Short and cool - ask you to use `"use strict"` pragma on top of the file if you so desire.
 
-#### [`requireImportsAlphabetized](https://jscs.info/rule/requireImportsAlphabetized`) by Ray Hammond
+#### [`requireImportsAlphabetized](http://jscs.info/rule/requireImportsAlphabetized`) by Ray Hammond
 Keeps your imports alphabetized, pretty handy way to keep your dependency in tidy state.
 
 ### Presets
@@ -42,11 +42,11 @@ There are a lot of internal changes but we like to keep this changelog short and
 
 Spring release! Yeah, yeah, technically spring only comes in middle of the March (you nerds, you), but we're coming to you a bit earlier!
 
-Anyways, there are three new rules, a couple of changes for the `airbnb` preset and important fixes for [`disallowSpacesInsideTemplateStringPlaceholders`](https://jscs.info/rule/disallowSpacesInsideTemplateStringPlaceholders) and [`validateQuoteMarks`](https://jscs.info/rule/validateQuoteMarks) (for all you ES7 lovers).
+Anyways, there are three new rules, a couple of changes for the `airbnb` preset and important fixes for [`disallowSpacesInsideTemplateStringPlaceholders`](http://jscs.info/rule/disallowSpacesInsideTemplateStringPlaceholders) and [`validateQuoteMarks`](http://jscs.info/rule/validateQuoteMarks) (for all you ES7 lovers).
 
 ### New Rules
 
-### [`requireSpaceBeforeDestructuredValues`](https://jscs.info/rule/requireSpaceBeforeDestructuredValues) by Maks Sadowsky
+### [`requireSpaceBeforeDestructuredValues`](http://jscs.info/rule/requireSpaceBeforeDestructuredValues) by Maks Sadowsky
 
 Enforces colon spacing after destructuring assignment i.e. [`requireSpaceBeforeObjectValues`](http://jscs.info/rule/requireSpaceBeforeObjectValues) but for destructuring.
 
@@ -58,7 +58,7 @@ const { String: EmberString } = Ember;
 const { String:EmberString } = Ember;
 ```
 
-### [`disallowArrayDestructuringReturn`](https://jscs.info/rule/disallowArrayDestructuringReturn) by Maks Sadowsky
+### [`disallowArrayDestructuringReturn`](http://jscs.info/rule/disallowArrayDestructuringReturn) by Maks Sadowsky
 
 Enforces the [5:3 verse](https://github.com/airbnb/javascript#5.3) of airbnb code style, which prohibits use of array destructuring for thy `CallExpressions`.
 
@@ -70,7 +70,7 @@ const { left, right } = processInput(input);
 const [left, __, top] = processInput(input);
 ```
 
-### [`requireNewlineBeforeSingleStatementsInIf`](https://jscs.info/rule/requireNewlineBeforeSingleStatementsInIf) by Brian Schemp
+### [`requireNewlineBeforeSingleStatementsInIf`](http://jscs.info/rule/requireNewlineBeforeSingleStatementsInIf) by Brian Schemp
 
 Enforces using newlines in your *parenthesesless* code.
 
