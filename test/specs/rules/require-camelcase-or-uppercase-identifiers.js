@@ -116,6 +116,44 @@ describe('rules/require-camelcase-or-uppercase-identifiers', function() {
         });
     });
 
+    describe('option value `"ignoreProperties"`', function() {
+        beforeEach(function() {
+            checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: 'ignoreProperties' });
+        });
+
+        it('should not report object keys', function() {
+            expect(checker.checkString('var extend = { snake_case: a };')).to.have.no.errors();
+        });
+
+        it('should not report object properties', function() {
+            expect(checker.checkString('var extend = a.snake_case;')).to.have.no.errors();
+        });
+
+        it('should report identifiers that are the last token', function() {
+            expect(checker.checkString('var a = snake_case'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should report identifiers that are the first token', function() {
+            expect(checker.checkString('snake_case = a;'))
+              .to.have.one.validation.error.from('requireCamelCaseOrUpperCaseIdentifiers');
+        });
+
+        it('should not report es5 getters', function() {
+            expect(checker.checkString('var extend = { get a_b() { } };')).to.have.no.errors();
+        });
+
+        it('should not report es5 setters', function() {
+            expect(checker.checkString('var extend = { set c_d(v) { } };')).to.have.no.errors();
+        });
+
+        it('should not report object destructring', function() {
+            expect(checker.checkString(
+                '({camelCase: snake_case, camelCase2: {camelCase3: snake_case2}}) => camelCase.length;'))
+              .to.have.no.errors();
+        });
+    });
+
     describe('option object value `"ignoreProperties"`', function() {
         beforeEach(function() {
             checker.configure({ requireCamelCaseOrUpperCaseIdentifiers: {ignoreProperties: true} });
