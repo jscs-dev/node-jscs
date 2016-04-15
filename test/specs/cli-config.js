@@ -64,6 +64,13 @@ describe('cli-config', function() {
             expect(config.from).to.equal('js');
         });
 
+        it('should load a config from a .jscsignore file', function() {
+            var config = configFile.load('.jscsignore', './test/data/configs/excludeFiles');
+
+            expect(config).to.be.an('array');
+            expect(config.from).to.equal('.jscsignore');
+        });
+
         it('should prefer package.json over .jscs.json and .jscsrc', function() {
             var config = configFile.load(null, './test/data/configs/mixedWithPkg');
 
@@ -130,9 +137,7 @@ describe('cli-config', function() {
             var oldHOMEPATH = process.env.HOMEPATH;
             var oldUSERPROFILE = process.env.USERPROFILE;
 
-            delete process.env.USERPROFILE;
-            delete process.env.HOME;
-
+            process.env.USERPROFILE = process.env.HOME = null;
             process.env.HOMEPATH = './test/data/configs/jscsrc';
             expect(configFile.load(null, '/').from).to.equal('jscsrc');
             process.env.HOME = oldHome;

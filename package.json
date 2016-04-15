@@ -66,6 +66,7 @@
     "cst": "0.1.6",
     "estraverse": "^4.1.0",
     "exit": "~0.1.2",
+    "gitkeeper": ">=0.1.0-rc.0",
     "glob": "^5.0.1",
     "htmlparser2": "3.8.3",
     "js-yaml": "~3.4.0",
