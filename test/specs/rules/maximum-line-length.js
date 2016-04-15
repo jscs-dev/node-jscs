@@ -71,6 +71,20 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString('// a comment\nvar a = tooLong;'))
               .to.have.one.validation.error.from('maximumLineLength');
         });
+
+        it('should still allow the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 4,
+                    allowComments: true
+                }
+            });
+            expect(checker.checkString('// a comment\nvar a = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
+        });
     });
 
     describe('allExcept["urlComments"] option', function() {
@@ -124,6 +138,20 @@ describe('rules/maximum-line-length', function() {
             expect(checker.checkString('// example.com/is/not/a/url'))
               .to.have.one.validation.error.from('maximumLineLength');
         });
+
+        it('should should still support the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 15,
+                    allowUrlComments: true
+                }
+            });
+            expect(checker.checkString('// <16 chars https://example.com' +
+                '\n/* <16 chars http://example.com\n <16 chars http://example.com*/')).to.have.no.errors();
+        });
     });
 
     describe('allExcept["regex"] option', function() {
@@ -152,6 +180,20 @@ describe('rules/maximum-line-length', function() {
 
         it('should not be destructive to original data', function() {
             expect(checker.checkString('var a = /regex/;')._file._lines[0].length).to.be.above(1);
+        });
+
+        it('should still should support the old setting', function() {
+            // we need a clean checker or we'll end up validating the file twice
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                maximumLineLength: {
+                    value: 4,
+                    allowRegex: true
+                }
+            });
+            expect(checker.checkString('var a = /longregex/;\nvar b = tooLong;'))
+              .to.have.one.validation.error.from('maximumLineLength');
         });
     });
 
