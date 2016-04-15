@@ -5,7 +5,14 @@ Hell yeah! 3.0 is here. First and foremost we rewrote every... single... rule. W
 ### Breaking Changes
 If you aren't a plugin writer or support build extensions (like grunt or gulp), etc you don't have to worry about anything.
 
-We didn't rename any of the rules or remove any of the deprecated rule values; it is all still there. All you have to do to update is just bump the `jscs` version in your `package` version to `3.0.0` and be done with it.
+We didn't rename/remove any rules. All you should have to do to update is just bump the `jscs` version in your `package` version to `3.0.0` and be done with it.
+
+#### Configuration
+These following config options have been replaced in 3.0:
+
+- `--esnext` (-e) // enabled by default
+- `--esprima` (-s) and `--esprimaOptions` // babylon is the underlying CST parser
+- `--verbose` // also enabled by default to show rule name when there is an error
 
 One thing to notice though: the `yandex` preset was removed. Since Yandex doesn't have official code style (don't look at the https://github.com/ymaps/codestyle), we were requested to remove it
 
