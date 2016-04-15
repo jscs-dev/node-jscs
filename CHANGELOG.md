@@ -1,3 +1,14 @@
+## Version [3.0.2](https://github.com/jscs-dev/node-jscs/compare/v3.0.1...v3.0.2) (2016-02-15):
+
+## Bug Fix
+- Revert all rule deprecations https://github.com/jscs-dev/node-jscs/pull/2217.
+  - So that users don't need to change their config when upgrading to 3.0 
+
+## Version [3.0.1](https://github.com/jscs-dev/node-jscs/compare/v3.0.0...v3.0.1) (2016-02-14):
+
+## Bug Fix
+- [`35992b1`](https://github.com/jscs-dev/node-jscs/commit/35992b15ade32c640b3dcf40f5bbc135b76f2c4b) `disallowUnusedVariables`: was including function expressions 
+
 ## Version [3.0.0](https://github.com/jscs-dev/node-jscs/compare/v2.11.0...v3.0.0) (2016-04-14):
 
 Hell yeah! 3.0 is here. First and foremost we rewrote every... single... rule. We fixed a plentiful amount of bugs (most of which were found during refactoring those rules using [CST](https://github.com/cst/cst)). This provides us the opportunity to include autofix for complicated rules like the brand new `disallowUnusedVariables` rule (see below).
