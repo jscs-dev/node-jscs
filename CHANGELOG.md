@@ -1,3 +1,11 @@
+## Version [3.0.3](https://github.com/jscs-dev/node-jscs/compare/v3.0.2...v3.0.3) (2016-02-16):
+
+## Bug Fix
+- Misc: Make an exception for esnext/verbose since they are removed ([#2208](https://github.com/jscs-dev/node-jscs/pull/2208))
+  - Will give a proper error message for any configuration options that should be removed.
+- Revert "Configuration: exclude nested node_modules by default" ([#2222](https://github.com/jscs-dev/node-jscs/pull/2222))
+  - We wanted to ignored nested `node_modules` by default, but we will stick to ignoring the top level one by default. 
+
 ## Version [3.0.2](https://github.com/jscs-dev/node-jscs/compare/v3.0.1...v3.0.2) (2016-02-15):
 
 ## Bug Fix
