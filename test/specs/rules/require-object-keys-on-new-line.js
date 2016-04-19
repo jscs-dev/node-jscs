@@ -80,5 +80,9 @@ describe('rules/require-object-keys-on-new-line', function() {
             expect(checker.checkString('var a = {a: "b",c: "d",\ne: "f"\n};'))
                 .to.have.one.validation.error.from('requireObjectKeysOnNewLine');
         });
+
+        it('should neither throw nor report last methods on the same line', function() {
+            expect(checker.checkString('var a = {a: "b", c: "d", method() {}};')).to.have.no.errors();
+        });
     });
 });
