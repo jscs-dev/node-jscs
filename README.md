@@ -1,3 +1,11 @@
+# JSCS has [merged](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.x0o1xqkk9) with ESLint!
+
+---
+
+Check out the [JSCS Compatibility](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility) milestone to track the progress of [transitioning](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) JSCS users to ESLint.
+
+---
+
 [![NPM Version](https://img.shields.io/npm/v/jscs.svg?style=flat)](https://www.npmjs.com/package/jscs)
 [![Build Status](https://travis-ci.org/jscs-dev/node-jscs.svg?branch=master)](https://travis-ci.org/jscs-dev/node-jscs)
 [![Coverage Status](https://img.shields.io/coveralls/jscs-dev/node-jscs.svg?style=flat)](https://coveralls.io/r/jscs-dev/node-jscs?branch=master)
@@ -14,7 +22,6 @@ including presets from popular style guides like jQuery, Airbnb, Google, and mor
 #### More about JSCS
 
  * [Tutorial and Overview](http://jscs.info/overview.html)
- * [Try JSCS Online (Coming back soon!)](http://jscs.info/demo.html)
  * [Codestyle Rules](http://jscs.info/rules.html)
  * [How to Contribute](http://jscs.info/contributing.html)
  * [Development Team](http://jscs.info)
