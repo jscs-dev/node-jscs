@@ -8,7 +8,7 @@ var ConfigGenerator = require('../../../lib/config/generator');
 var crockfordClone = require('../../data/configs/generator/crockfordClone');
 
 describe('lib/config/generator', function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     var _path = path.resolve(__dirname, '../../../lib/config/generator.js');
     var crockfordPresetChoice;
