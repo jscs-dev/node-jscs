@@ -131,13 +131,12 @@
     "pretest": "npm run lint",
     "test": "mocha --color",
     "watch": "mocha --color --watch",
-    "autofix-tests": "node test/scripts/integration.js",
+    "integration": "node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
-    "release": "node publish/prepublish && npm test && npm publish",
-    "travis": "npm run test && npm run autofix-tests && npm run coveralls"
+    "release": "node publish/prepublish && npm test && npm publish"
   },
   "files": [
     "bin",
