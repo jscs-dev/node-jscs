@@ -4,6 +4,15 @@
 
 Check out the [JSCS Compatibility](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility) milestone to track the progress of [transitioning](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) JSCS users to ESLint.
 
+The JSCS team would like to thank everyone for using JSCS and hope you'll be joining us with ESLint!
+
+Marat Dulin ([mdevils](https://github.com/mdevils)), Oleg Gaidarenko,
+([markelog](https://github.com/markelog))
+Mike Sherov ([mikesherov](https://github.com/mikesherov)),
+Joel Kemp ([mrjoelkemp](https://github.com/mrjoelkemp)),
+Alexej Yaroshevich ([zxqfox](https://github.com/zxqfox)), and 
+Henry Zhu ([hzoo](https://github.com/hzoo))
+
 ---
 
 [![NPM Version](https://img.shields.io/npm/v/jscs.svg?style=flat)](https://www.npmjs.com/package/jscs)
