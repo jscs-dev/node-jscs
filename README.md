@@ -6,8 +6,6 @@
 
 **JSCS** is a code style linter and formatter for your style guide
 
-#### More about JSCS
-
- * [Tutorial and Overview](http://jscs.info/overview.html)
- * [Codestyle Rules](http://jscs.info/rules.html)
- * [How to Contribute](http://jscs.info/contributing.html)
+* [Tutorial and Overview](http://jscs.info/overview)
+* [Codestyle Rules](http://jscs.info/rules)
+* [How to Contribute](http://jscs.info/contributing)
