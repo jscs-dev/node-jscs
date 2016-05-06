@@ -153,6 +153,67 @@ describe('rules/validate-indentation', function() {
         ]);
     });
 
+    it('should guess the intended indentation when using consistent mode.', function() {
+        checker.configure({ validateIndentation: 'consistent' });
+        expect(checker.checkString('' +
+            'function a (x) {\n' +
+            '\tif (true) {\n' +
+            '\t\tconsole.log("something");\n' +
+            '\t}\n' +
+            '\tswitch (x) {\n' +
+            '\t\tcase 1:\n' +
+            '\t\t\treturn 1\n' +
+            '\t\tdefault:\n' +
+            '\t\t\treturn 2\n' +
+            '\t}\n' +
+            '}'
+        )).to.have.no.errors();
+
+        expect(checker.checkString('' +
+            'function a (x) {\n' +
+            '   if (true) {\n' +
+            '      console.log("something");\n' +
+            '   }\n' +
+            '   switch (x) {\n' +
+            '      case 1:\n' +
+            '         return 1\n' +
+            '      default:\n' +
+            '         return 2\n' +
+            '   }\n' +
+            '}'
+        )).to.have.no.errors();
+
+        expect(checker.checkString('' +
+            'function a (x) {\n' +
+            '  if (true) {\n' +
+            '    console.log("something");\n' +
+            '  }\n' +
+            '  switch (x) {\n' +
+            '    case 1:\n' +
+            '       return 1\n' +
+            '    default:\n' +
+            '      return 2\n' +
+            '  }\n' +
+            '}'
+        )).to.have.one.validation.error.from('validateIndentation');
+
+        expect(checker.checkString('' +
+            'var a = "123" +\n' +
+            '  "abc";\n' +
+            'var b = "123" +\n' +
+            '   "abc";\n' +
+            'var c = "abc" +\n' +
+            '\t"123";\n'
+        )).to.have.one.validation.error.from('validateIndentation');
+
+        expect(checker.checkString('' +
+            'var a = "123" +\n' +
+            '\t"abc";\n' +
+            'var b = "abc" +\n' +
+            '  "123";\n'
+        )).to.have.one.validation.error.from('validateIndentation');
+    });
+
     describe('includeEmptyLines', function() {
         it('should validate indentation on an empty line when includeEmptyLines is true', function() {
             checker.configure({
