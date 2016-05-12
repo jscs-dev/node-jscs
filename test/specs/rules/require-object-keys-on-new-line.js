@@ -42,6 +42,10 @@ describe('rules/require-object-keys-on-new-line', function() {
         it('should not report object with one key', function() {
             expect(checker.checkString('var a = {a: "b"};')).to.have.no.errors();
         });
+
+        it('should not break on object methods', function() {
+            expect(checker.checkString('({ a() {},\n b() {} });')).to.have.no.errors();
+        });
     });
 
     describe('option value {"allExcept":["sameLine"]}', function() {
@@ -83,6 +87,10 @@ describe('rules/require-object-keys-on-new-line', function() {
 
         it('should neither throw nor report last methods on the same line', function() {
             expect(checker.checkString('var a = {a: "b", c: "d", method() {}};')).to.have.no.errors();
+        });
+
+        it('should not break on object methods', function() {
+            expect(checker.checkString('({ a() {},\n b() {} });')).to.have.no.errors();
         });
     });
 });
