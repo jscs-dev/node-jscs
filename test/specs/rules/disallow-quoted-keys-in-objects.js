@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe('rules/disallow-quoted-keys-in-objects', function() {
+describe.only('rules/disallow-quoted-keys-in-objects', function() {
     var checker;
 
     var config = { disallowQuotedKeysInObjects: true };
@@ -67,6 +67,10 @@ describe('rules/disallow-quoted-keys-in-objects', function() {
 
         it('should check all keys in object', function() {
             expect(checker.checkString('var x = { "a": 1, b: 2, "3": 3 }')).to.have.error.count.equal(2);
+        });
+
+        it('ignores spread properties', function() {
+            expect(checker.checkString('({ ...test })')).to.have.no.errors();
         });
     });
 
