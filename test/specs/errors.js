@@ -124,12 +124,9 @@ describe('errors', function() {
     });
 
     describe('add', function() {
-        var errors;
-        beforeEach(function() {
-            errors = checker.checkString('yay');
-        });
-
         it('should not throw with good parameters', function() {
+            var errors = checker.checkString('yay');
+
             errors.setCurrentRule('anyRule');
             errors.add('msg');
 
@@ -137,6 +134,19 @@ describe('errors', function() {
 
             expect(error.rule).to.equal('anyRule');
         });
+
+        it('adds parser error without `line` & `column` propertys even there is none',
+            function() {
+                var errors = checker.checkString('');
+
+                errors.add(new Error('test'));
+
+                var error = errors.getErrorList()[0];
+
+                expect(error.line).to.equal(1);
+                expect(error.column).to.equal(0);
+            }
+        );
     });
 
     describe('cast', function() {
