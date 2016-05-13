@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var Checker = require('../../../lib/checker');
 var reportAndFix = require('../../lib/assertHelpers').reportAndFix;
 
-describe.only('rules/disallow-quoted-keys-in-objects', function() {
+describe('rules/disallow-quoted-keys-in-objects', function() {
     var checker;
 
     var config = { disallowQuotedKeysInObjects: true };
