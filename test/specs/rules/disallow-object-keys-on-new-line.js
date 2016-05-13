@@ -37,4 +37,9 @@ describe('rules/disallow-object-keys-on-new-line', function() {
     it('should not report object with one key', function() {
         expect(checker.checkString('var a = {a: "b"};')).to.have.no.errors();
     });
+
+    it('should report correct error message', function() {
+        expect(checker.checkString('foo({foo: "bar",\nbar: "baz"})')).contains
+            .one.error('disallowObjectKeysOnNewLine: Object keys should be on the same line');
+    });
 });
