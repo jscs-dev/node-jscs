@@ -32,8 +32,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('Missing space between x and =');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should accept message for missing whitespace between tokens', function() {
@@ -116,8 +116,8 @@ describe('token-assert', function() {
                 var error = onError.getCall(0).args[0];
 
                 expect(error.message).to.contain('2 spaces required between x and =');
-                expect(getPosition(error.element).line).to.equal(1);
-                expect(getPosition(error.element).column).to.equal(0);
+                expect(getPosition(error).line).to.equal(1);
+                expect(getPosition(error).column).to.equal(1);
             });
 
             it('should not trigger error on newline between tokens', function() {
@@ -219,8 +219,8 @@ describe('token-assert', function() {
 
                 var error = onError.getCall(0).args[0];
                 expect(error.message).to.contain('at most 1 spaces required between x and =');
-                expect(getPosition(error.element).line).to.equal(1);
-                expect(getPosition(error.element).column).to.equal(0);
+                expect(getPosition(error).line).to.equal(1);
+                expect(getPosition(error).column).to.equal(1);
             });
 
             it('should not trigger error on valid space count between tokens', function() {
@@ -280,8 +280,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('at most 1 spaces required between x and =');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should trigger plural error on invalid maximum space count between tokens', function() {
@@ -303,8 +303,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('at most 2 spaces required between x and =');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens for maximum spaces', function() {
@@ -382,8 +382,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('Unexpected whitespace between x and =');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should not trigger error on newline between tokens', function() {
@@ -422,8 +422,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('Unexpected whitespace between x and =');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should not trigger error on missing whitespace between tokens', function() {
@@ -482,8 +482,8 @@ describe('token-assert', function() {
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('x and = should be on the same line');
 
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should not trigger error on missing newline between tokens', function() {
@@ -568,8 +568,8 @@ describe('token-assert', function() {
 
             var error = onError.getCall(0).args[0];
             expect(error.message).to.contain('x and = should be on different lines');
-            expect(getPosition(error.element).line).to.equal(1);
-            expect(getPosition(error.element).column).to.equal(0);
+            expect(getPosition(error).line).to.equal(1);
+            expect(getPosition(error).column).to.equal(1);
         });
 
         it('should not trigger error on existing newline between tokens', function() {

@@ -23,24 +23,89 @@ describe('errors', function() {
     describe('getPosition', function() {
         it('should get position', function() {
             var position = Errors.getPosition({
-                getNewlineCount: function() {
-                    return 0;
-                },
-                getSourceCodeLength: function() {
-                    return 1;
-                },
-                getLoc: function() {
-                    return {
-                        start: {
-                            line: 1,
-                            column: 10
-                        },
+                element: {
+                    getNewlineCount: function() {
+                        return 0;
+                    },
+                    getSourceCodeLength: function() {
+                        return 1;
+                    },
+                    getLoc: function() {
+                        return {
+                            start: {
+                                line: 1,
+                                column: 10
+                            },
 
-                        end: {
-                            line: 1,
-                            column: 11
-                        }
-                    };
+                            end: {
+                                line: 1,
+                                column: 20
+                            }
+                        };
+                    }
+                }
+            });
+
+            expect(position).to.deep.equal({
+                line: 1,
+                column: 10
+            });
+        });
+
+        it('should get position for element with length > 1', function() {
+            var position = Errors.getPosition({
+                element: {
+                    getNewlineCount: function() {
+                        return 0;
+                    },
+                    getSourceCodeLength: function() {
+                        return 10;
+                    },
+                    getLoc: function() {
+                        return {
+                            start: {
+                                line: 1,
+                                column: 10
+                            },
+
+                            end: {
+                                line: 1,
+                                column: 20
+                            }
+                        };
+                    }
+                }
+            });
+
+            expect(position).to.deep.equal({
+                line: 1,
+                column: 15
+            });
+        });
+
+        it('should set position on the first char for `validateQuoteMarks` rule', function() {
+            var position = Errors.getPosition({
+                rule: 'validateQuoteMarks',
+                element: {
+                    getNewlineCount: function() {
+                        return 0;
+                    },
+                    getSourceCodeLength: function() {
+                        return 10;
+                    },
+                    getLoc: function() {
+                        return {
+                            start: {
+                                line: 1,
+                                column: 10
+                            },
+
+                            end: {
+                                line: 1,
+                                column: 20
+                            }
+                        };
+                    }
                 }
             });
 

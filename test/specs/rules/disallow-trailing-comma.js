@@ -72,14 +72,14 @@ describe('rules/disallow-trailing-comma', function() {
 
     it('should report right location for trailing comma in object (#1018)', function() {
         var errs = checker.checkString('var obj = {\n    foo: "foo",\n};').getErrorList();
-        expect(getPosition(errs[0].element).line).to.equal(2);
-        expect(getPosition(errs[0].element).column).to.equal(14);
+        expect(getPosition(errs[0]).line).to.equal(2);
+        expect(getPosition(errs[0]).column).to.equal(14);
     });
 
     it('should report right location for trailing comma in array (#1018)', function() {
         var errs = checker.checkString('var arr = [\n    \'foo\',\n];').getErrorList();
-        expect(getPosition(errs[0].element).line).to.equal(2);
-        expect(getPosition(errs[0].element).column).to.equal(9);
+        expect(getPosition(errs[0]).line).to.equal(2);
+        expect(getPosition(errs[0]).column).to.equal(9);
     });
 
     it('should not throw on literal', function() {

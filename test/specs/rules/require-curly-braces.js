@@ -165,8 +165,8 @@ describe('rules/require-curly-braces', function() {
             '}'
         ].join('\n')).getErrorList()[ 0 ];
 
-        expect(getPosition(error.element).column).to.equal(2);
-        expect(getPosition(error.element).line).to.equal(4);
+        expect(getPosition(error).column).to.equal(2);
+        expect(getPosition(error).line).to.equal(4);
     });
 
     it('should not report missing `else` braces for `else if`', function() {

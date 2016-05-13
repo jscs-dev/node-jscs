@@ -135,12 +135,12 @@ describe('rules/require-trailing-comma', function() {
         });
 
         it('should report right location for no trailing comma in object (#1018)', function() {
-            var errs = checker.checkString('var obj = {\n    foo: "foo"\n};').getErrorList()[0].element;
+            var errs = checker.checkString('var obj = {\n    foo: "foo"\n};').getErrorList()[0];
             expect(getPosition(errs).line + ':' + getPosition(errs).column).to.equal('2:12');
         });
 
         it('should report right location for no trailing comma in array (#1018)', function() {
-            var errs = checker.checkString('var arr = [\n    \'foo\'\n];').getErrorList()[0].element;
+            var errs = checker.checkString('var arr = [\n    \'foo\'\n];').getErrorList()[0];
             expect(getPosition(errs).line + ':' + getPosition(errs).column).to.equal('2:7');
         });
     });
