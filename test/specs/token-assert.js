@@ -194,7 +194,7 @@ describe('token-assert', function() {
                 expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                expect(error.fixed).to.equal(false);
+                expect(error.fix).to.equal(undefined);
                 expect(file.getWhitespaceBefore(yToken)).to.equal('');
             });
         });
@@ -536,7 +536,9 @@ describe('token-assert', function() {
             var file = createJsFile('x\n  + y;');
 
             var tokenAssert = new TokenAssert(file);
-            tokenAssert.on('error', function() {});
+            tokenAssert.on('error', function(errorInfo) {
+                errorInfo.fix();
+            });
             var token = file.getTree().getFirstToken();
             var nextToken = file.findNextToken(token, 'Punctuator', '+');
             tokenAssert.sameLine({
@@ -831,7 +833,9 @@ describe('token-assert', function() {
                 var file = createJsFile('  x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.findNextToken(
                     file.getTree().getFirstToken(),
@@ -851,7 +855,9 @@ describe('token-assert', function() {
                 var file = createJsFile('  x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -868,7 +874,9 @@ describe('token-assert', function() {
                 var file = createJsFile('  x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -899,7 +907,6 @@ describe('token-assert', function() {
                 expect(onError).to.have.callCount(1);
 
                 var error = onError.getCall(0).args[0];
-                expect(error.fixed).to.equal(false);
                 expect(file.getWhitespaceBefore(nextToken)).to.equal('\n');
             });
         });
@@ -965,7 +972,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -982,7 +991,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x  \n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -999,7 +1010,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n  \n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1016,7 +1029,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1033,7 +1048,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1108,7 +1125,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1125,7 +1144,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1142,7 +1163,9 @@ describe('token-assert', function() {
                 var file = createJsFile('x\n\n  =y;');
 
                 var tokenAssert = new TokenAssert(file);
-                tokenAssert.on('error', function() {});
+                tokenAssert.on('error', function(errorInfo) {
+                    errorInfo.fix();
+                });
 
                 var token = file.getTree().getFirstToken();
                 var nextToken = file.findNextToken(token, 'Punctuator', '=');
@@ -1251,24 +1274,6 @@ describe('token-assert', function() {
             expect(onError).to.have.not.callCount(0);
         });
 
-        it('with silent option, should not trigger on incorrect indentation', function() {
-            var file = createJsFile('  x=y;');
-
-            var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
-
-            tokenAssert.indentation({
-                token: file.getProgram().getFirstToken().getNextCodeToken(),
-                actual: 2,
-                expected: 0,
-                indentChar: ' ',
-                silent: true
-            });
-
-            expect(onError).to.have.callCount(0);
-        });
-
         it('should fix whitespace on incorrect indentation for the first token', function() {
             var file = createJsFile('  x=y;');
 
@@ -1290,8 +1295,9 @@ describe('token-assert', function() {
             var file = createJsFile('  /*\n   *\n   */\nx=y;');
 
             var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+            tokenAssert.on('error', function(errorInfo) {
+                errorInfo.fix();
+            });
 
             var comment = file.getProgram().getFirstToken().getNextNonWhitespaceToken();
             tokenAssert.indentation({
@@ -1310,8 +1316,9 @@ describe('token-assert', function() {
             var file = createJsFile('  /*\n   *\n   */\nx=y;');
 
             var tokenAssert = new TokenAssert(file);
-            var onError = sinon.spy();
-            tokenAssert.on('error', onError);
+            tokenAssert.on('error', function(errorInfo) {
+                errorInfo.fix();
+            });
 
             var comment = file.getProgram().getFirstToken().getNextNonWhitespaceToken();
             tokenAssert.indentation({
