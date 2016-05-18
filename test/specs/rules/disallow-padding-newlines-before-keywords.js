@@ -73,5 +73,11 @@ describe('rules/disallow-padding-newlines-before-keywords', function() {
                     'function x() { var a;\n\nreturn; }'
                 )).to.have.one.validation.error.from('disallowPaddingNewlinesBeforeKeywords');
         });
+
+        it('should not ignore comments', function() {
+            expect(checker.checkString(
+                    'if (true) {} \n //comment \n else {}'
+                )).to.not.have.errors();
+        });
     });
 });
