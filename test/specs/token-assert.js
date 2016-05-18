@@ -906,7 +906,6 @@ describe('token-assert', function() {
 
                 expect(onError).to.have.callCount(1);
 
-                var error = onError.getCall(0).args[0];
                 expect(file.getWhitespaceBefore(nextToken)).to.equal('\n');
             });
         });
