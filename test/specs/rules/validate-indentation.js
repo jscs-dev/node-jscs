@@ -162,9 +162,9 @@ describe('rules/validate-indentation', function() {
             '\t}\n' +
             '\tswitch (x) {\n' +
             '\t\tcase 1:\n' +
-            '\t\t\treturn 1\n' +
+            '\t\t\treturn 1;\n' +
             '\t\tdefault:\n' +
-            '\t\t\treturn 2\n' +
+            '\t\t\treturn 2;\n' +
             '\t}\n' +
             '}'
         )).to.have.no.errors();
@@ -176,11 +176,24 @@ describe('rules/validate-indentation', function() {
             '   }\n' +
             '   switch (x) {\n' +
             '      case 1:\n' +
-            '         return 1\n' +
+            '         return 1;\n' +
             '      default:\n' +
-            '         return 2\n' +
+            '         return 2;\n' +
             '   }\n' +
             '}'
+        )).to.have.no.errors();
+
+        expect(checker.checkString('' +
+            'var a = {\n' +
+            '    prop1: "asd",\n' +
+            '    prop2: function() {\n' +
+            '        console.log("qwe");\n' +
+            '    },\n' +
+            '    prop3: "zxc"\n' +
+            '};\n' +
+            'function foo() {\n' +
+            '    return 2;\n' +
+            '}\n'
         )).to.have.no.errors();
 
         expect(checker.checkString('' +
@@ -190,9 +203,9 @@ describe('rules/validate-indentation', function() {
             '  }\n' +
             '  switch (x) {\n' +
             '    case 1:\n' +
-            '       return 1\n' +
+            '       return 1;\n' +
             '    default:\n' +
-            '      return 2\n' +
+            '      return 2;\n' +
             '  }\n' +
             '}'
         )).to.have.one.validation.error.from('validateIndentation');
