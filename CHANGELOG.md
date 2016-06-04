@@ -1,3 +1,36 @@
+## Version [3.0.3](https://github.com/jscs-dev/node-jscs/compare/v3.0.3...v3.0.4) (2016-06-04):
+
+Fixed some bugs and improve speed and memory consumption
+
+### Bug fixes
+* requireObjectKeysOnNewLine: do not break on object methods (Oleg Gaidarenko)
+* Fix: Last method throw in requireObjectKeysOnNewLine (Alexey Yaroshevich)
+* disallowQuotedKeysInObjects: ignore spread properties (Oleg Gaidarenko)
+* maximumLineLength: correctly position error for comment nodes (Oleg Gaidarenko)
+* disallowUnusedParams: notice AssignmentPattern nodes (Oleg Gaidarenko)
+* disallowPaddingNewlinesBeforeKeywords: should not ignore comments (Oleg Gaidarenko)
+* disallowObjectKeysOnNewLine: correct error message (Oleg Gaidarenko)
+
+### Misc
+* Misc: make linters happy (Oleg Gaidarenko)
+* Misc: add node 6 to travis (Oleg Gaidarenko)
+* Misc: do not modify CST in check mode (#2252) (Oleg Gaidarenko)
+* Misc: remove rules "grouping" (Oleg Gaidarenko)
+* Misc: bump cst version (Oleg Gaidarenko)
+* Tests: remove mocha `.only` call (Oleg Gaidarenko)
+* Misc: parallelizing build on travis (Alexey Yaroshevich)
+* Misc: Set higher timeout for config generator tests (Alexey Yaroshevich)
+* Build: update cst to 0.3.0 (Henry Zhu)
+* Errors: add ugly exception for `validateQuoteMarks` of position calc (Oleg Gaidarenko)
+* Errors: always add to `line` and `column` properties (Oleg Gaidarenko)
+
+### Docs
+* Docs: Fix small typo in require-early-return (#2259) (Sander Boom)
+* add jscs+eslint info (#2230) (Henry Zhu)
+* Docs: simplify readme a bit more (Oleg Gaidarenko)
+* Docs: deprecation clean-up (Oleg Gaidarenko)
+* requireCurlyBraces: small docs corrections (Oleg Gaidarenko)
+
 ## Version [3.0.3](https://github.com/jscs-dev/node-jscs/compare/v3.0.2...v3.0.3) (2016-02-16):
 
 ## Bug Fix
