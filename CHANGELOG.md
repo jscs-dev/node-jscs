@@ -1,4 +1,4 @@
-## Version [3.0.3](https://github.com/jscs-dev/node-jscs/compare/v3.0.3...v3.0.4) (2016-06-04):
+## Version [3.0.4](https://github.com/jscs-dev/node-jscs/compare/v3.0.3...v3.0.4) (2016-06-04):
 
 Fixed some bugs, correctly output CST errors plus improve speed and memory consumption
 
