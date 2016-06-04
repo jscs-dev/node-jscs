@@ -131,7 +131,7 @@
     "pretest": "npm run lint",
     "test": "mocha --color",
     "watch": "mocha --color --watch",
-    "integration": "node test/scripts/integration.js",
+    "integration": "#node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
     "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
