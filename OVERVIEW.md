@@ -248,7 +248,7 @@ Extends defined rules with preset rules.
 
 Type: `String`
 
-Values: You can choose one of the default presets: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"yandex"`, `"idiomatic"`.
+Values: You can choose one of the default presets: `"airbnb"`, `"crockford"`, `"google"`, `"jquery"`, `"mdcs"`, `"node-style-guide"`, `"wikimedia"`, `"wordpress"`, `"idiomatic"`.
 
 Or you can load from it local path or as node module
 
