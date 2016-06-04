@@ -17,7 +17,7 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString('function a(b, c) { return c; };')).to.have.no.errors();
     });
 
-    it('should report even with eval expression (gh-1943)', function() {
+    it('should not report even with eval expression (gh-1943)', function() {
         expect(checker.checkString('function foo(options) { return options; eval() };'))
             .to.have.no.errors();
     });
@@ -38,6 +38,11 @@ describe('rules/disallow-unused-params', function() {
         expect(checker.checkString(
             'function fun(test) { }'
         ).getErrorList()[0].message).to.contain('Param `test` is not used');
+    });
+
+    it('should report for AssignmentPattern (gh-2254)', function() {
+        expect(checker.checkString('function foo(options = {}) {};')
+            .getErrorList()[0].message).to.contain('Param `options` is not used');
     });
 
     it('should report unused param in function expression', function() {
