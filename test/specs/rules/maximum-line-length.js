@@ -51,6 +51,13 @@ describe('rules/maximum-line-length', function() {
             expect(error.line).to.equal(4);
             expect(error.column).to.equal(9);
         });
+
+        it('should get correct line and column', function() {
+            var error = checker.checkString('\n\n\n123456789').getErrorList()[0];
+
+            expect(error.line).to.equal(4);
+            expect(error.column).to.equal(9);
+        });
     });
 
     describe('allExcept["comments"] option', function() {
