@@ -155,7 +155,7 @@ Other commits (as always) are omitted, since they're all about internal stuff an
 
 ## Version [2.10.1](https://github.com/jscs-dev/node-jscs/compare/v2.10.0...v2.10.1) (2016-02-15):
 
-#### Bug fixes
+### Bug fixes
 - Regression in `requireSpaceBeforeKeywords` [#2135](https://github.com/jscs-dev/node-jscs/issues/2135)
 
 ## Version [2.10.0](https://github.com/jscs-dev/node-jscs/compare/v2.9.0...v2.10.0) (2016-02-15):
@@ -222,7 +222,7 @@ import c from 'c';
 * `requireSpaceBeforeKeywords`: add a `allExcept` option for filtering out default keywords (gpiress)
   * This allows you do specify exceptions to the all keywords instead of creating an array of whitelisted keywords when you only want to blacklist a few.
 
-#### Bug fixes
+### Bug fixes
 
 * `requireNumericLiterals`: miss if first argument is an Identifier (Robert Jackson)
 * `disallowSpacesInsideTemplateStringPlaceholders`: skip the edge case (Oleg Gaidarenko)
@@ -345,7 +345,7 @@ switch (a) {
   "allExcept": ["var_args"]
 }`
 
-#### Bug fixes
+### Bug fixes
 
 - [`requireEnhancedObjectLiterals`](http://jscs.info/rule/requireEnhancedObjectLiterals): Don't error for computed properties (Henry Zhu)
 - [`requireTemplateStrings`](http://jscs.info/rule/requireTemplateStrings): should not report string to binary (Oleg Gaidarenko)
@@ -398,7 +398,7 @@ This is one of the most popular patterns out there, such as in [idiomatic](https
 - The `idiomatic` and `node-style-guide` presets now have the  `requireEarlyReturn` rule.
 - Whereas the `airbnb` preset is better in treating JSX.
 
-#### Bug fixes
+### Bug fixes
 
 * [`disallowTrailingWhitespace`](http://jscs.info/rule/disallowTrailingWhitespace) changes for autofix (thanks @lukeapage!)
 * `requirePaddingNewlinesBeforeKeywords`: allow function return on the same line
@@ -729,7 +729,7 @@ var a = 1;
 
 Why not fix some more bugs!
 
-#### Bug fixes
+### Bug fixes
  * Fix: `requireSpacesInForStatement` account for parenthesizedExpression (Henry Zhu)
  
 ```js
@@ -777,7 +777,7 @@ hzoo
 
 ## Version [2.3.4](https://github.com/jscs-dev/node-jscs/compare/v2.3.3...v2.3.4) (10-17-2015):
 
-#### Bug fixes
+### Bug fixes
 - Change `requireVarDeclFirst` to ignore let and const [`2199ca4`](https://github.com/jscs-dev/node-jscs/commit/2199ca488a56ff1472d876ac2b21fe2292ae8413) [`#1783`](https://github.com/jscs-dev/node-jscs/issues/1783)
 
 - Fixed an issue with all function spacing rules not accounting for the generators [`a2c009f`](https://github.com/jscs-dev/node-jscs/commit/a2c009f19aaf410a46abb3edfbc56d4aa9931f41) [`#1175`](https://github.com/jscs-dev/node-jscs/issues/1175)
@@ -786,7 +786,7 @@ hzoo
 
 ## Version [2.3.3](https://github.com/jscs-dev/node-jscs/compare/v2.3.2...v2.3.3) (10-16-2015):
 
-#### Bug fixes
+### Bug fixes
 - Fixed an error with `disallowUnusedParams` and es6 imports [`63526b7`](https://github.com/jscs-dev/node-jscs/commit/63526b73d55eed3719d79527a7a7c7490b4cd2cb) [`#1875`](https://github.com/jscs-dev/node-jscs/issues/1875)
 
 - Fixed an autofix issue with all function spacing rules and not accounting for the async keyword [`cf134a1`](https://github.com/jscs-dev/node-jscs/commit/cf134a12c1ab0bb7a23c7197780593bfdb8682e2) [`#1873`](https://github.com/jscs-dev/node-jscs/issues/1873)
@@ -1083,7 +1083,7 @@ We finally added support for [Idiomatic.js](https://github.com/rwaldron/idiomati
 * `requireArrowFunctions`: create an error on function bind (Henry Zhu)
 * Misc: Bucket all rules into groups, test case to ensure new rules have a group (indexzero)
 
-#### Bug fixes
+### Bug fixes
 
 We fixed a bug with exit codes not matching the [wiki](https://github.com/jscs-dev/node-jscs/wiki/Exit-codes) (Oleg Gaidarenko).
 
@@ -1245,7 +1245,7 @@ You can use `false` (instead of only `null`) to disable a rule (such as in a pre
 ### Enhancements
 * Configuration: disable any rule if its value equals to "false” (Oleg Gaidarenko)
 
-#### Bug fixes
+### Bug fixes
 * requireDollarBeforejQueryAssignment: Ignore destructuring assignment (Simen Bekkhus)
 * validateIdentation: fix on empty switch blocks (Henry Zhu)
 * disallowQuotedKeysInObjects: fix allowing quoted non-reserved keys (Alexej Yaroshevich)
@@ -1829,7 +1829,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 
 ## Version [1.11.3](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.3)
 
-#### Bug fixes
+### Bug fixes
 * JsFile: ensure getLinesWithCommentsRemoved does not alter future getComments calls. (Mike Sherov)
 
 ### Misc.
@@ -1837,7 +1837,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 
 ## Version [1.11.2](https://github.com/jscs-dev/node-jscs/compare/v1.10.0...v1.11.2)
 
-#### Bug fixes
+### Bug fixes
 * validateIndentation: ignore empty module bodies (Mike Sherov)
 * Object rules: ignore ES5 getters/setters when appropriate. (Mike Sherov)
 * Ensure esprimaOptions is not mistaken for a rule (Yannick Croissant)
@@ -1853,7 +1853,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 ### New Rules / Rule Values
 * disallowSpaceAfterObjectKeys: implement ignoreSingleLine and ignoreMultiLine options (Henry Zhu)
 
-#### Bug fixes
+### Bug fixes
 * disallowAllowSpacesInsideParentheses: reintroduce archaic "all" config option (Mike Sherov)
 * requireSpaceBetweenArguments: loosen rule restriction (Mike Sherov)
 * Object Key rules: ignore method syntax (Alexej Yaroshevich)
@@ -1889,7 +1889,7 @@ We're very grateful to everyone who helped out with this release, especially to 
 * requireCapitalizedConstructors: accept list of exempt constructors (Sam L'ecuyer)
 * validateIndentation: exception to indentation rules for module pattern (Mike Sherov)
 
-#### Bug fixes
+### Bug fixes
 * (require|disallow)SpacesInsideArrayBrackets: only check for ArrayExpressions (Mike Sherov)
 * JsFile: remove all duplicate tokens. (Mike Sherov)
 * ObjectExpression Rules: take into account shorthand syntax. (Mike Sherov)
