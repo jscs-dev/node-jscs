@@ -67,7 +67,7 @@ describe('checker', function() {
     describe('checkDirectory', function() {
         it('should check sub dirs', function() {
             return checker.checkDirectory('./test/data/checker').then(function(errors) {
-                expect(errors.length).to.equal(3);
+                expect(errors.length).to.equal(4);
             });
         });
 
@@ -88,7 +88,7 @@ describe('checker', function() {
     describe('checkPath', function() {
         it('should check sub dirs', function() {
             return checker.checkPath('./test/data/checker').then(function(errors) {
-                expect(errors.length).to.equal(3);
+                expect(errors.length).to.equal(4);
             });
         });
 
@@ -130,6 +130,32 @@ describe('checker', function() {
             return checker.checkPath('./test/data/checker/file.js').then(function(errors) {
                 expect(!!Array.isArray(errors)).to.equal(true);
                 expect(errors.length).to.equal(0);
+            });
+        });
+
+        it('should exclude files without correct extension', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                disallowKeywords: ['with'],
+                fileExtensions: ['.es2015.js']
+            });
+            return checker.checkPath('./test/data/checker').then(function(errors) {
+                expect(!!Array.isArray(errors)).to.equal(true);
+                expect(errors.length).to.equal(1);
+            });
+        });
+
+        it('should include all files with wildcard extension', function() {
+            checker = new Checker();
+            checker.registerDefaultRules();
+            checker.configure({
+                disallowKeywords: ['with'],
+                fileExtensions: ['*']
+            });
+            return checker.checkPath('./test/data/checker').then(function(errors) {
+                expect(!!Array.isArray(errors)).to.equal(true);
+                expect(errors.length).to.equal(6);
             });
         });
     });
