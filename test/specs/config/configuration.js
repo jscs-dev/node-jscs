@@ -583,6 +583,31 @@ describe('config/configuration', function() {
             expect(configuration.getExcludedFileMasks()).to.deep.equal(['.git/**', 'node_modules/**']);
         });
 
+        describe('for settings with default value when preset is used #2275', function() {
+            it('`excludeFiles`', function() {
+                configuration.registerPreset('test1', {});
+                configuration.load({
+                    preset: 'test1',
+                    excludeFiles: ['test']
+                });
+
+                expect(configuration.getExcludedFileMasks().length).to.equal(1);
+                expect(configuration.getExcludedFileMasks()[0]).to.equal('test');
+            });
+
+            it('`fileExtensions`', function() {
+                    configuration.registerPreset('test1', {});
+                    configuration.load({
+                        preset: 'test1',
+                        fileExtensions: ['.test']
+                    });
+
+                    expect(configuration.getFileExtensions().length).to.equal(1);
+                    expect(configuration.getFileExtensions()[0]).to.equal('.test');
+                }
+            );
+        });
+
         it('should set `fileExtensions` setting from presets', function() {
             configuration.registerPreset('test1', {
                 fileExtensions: ['first']
