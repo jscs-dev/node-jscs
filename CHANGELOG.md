@@ -1,3 +1,19 @@
+## Version [3.0.5](https://github.com/jscs-dev/node-jscs/compare/v3.0.4...v3.0.5) (2016-06-21):
+
+Small fixes for ES6/7 related to [CST](https://github.com/cst/cst) which consisted of updating this package since those fixed were made in there. 
+
+And also there is one fix related to `fileExtension` option
+
+### Bug fixes
+* Configuration: Do not set default options if preset is set (Oleg Gaidarenko)
+* Misc: bump CST version to 0.4.0 (Oleg Gaidarenko)
+* Docs: remove yandex preset from overview (Oleg Gaidarenko)
+* Docs: add intro delimiter to readme (Oleg Gaidarenko)
+* Misc: use correct headers in changelog (Oleg Gaidarenko)
+* Misc: correct changelog auto-replace result (Oleg Gaidarenko)
+* Misc: correct changelog jscs version (Oleg Gaidarenko)
+* Misc: changelog should be consistent (Oleg Gaidarenko)
+
 ## Version [3.0.4](https://github.com/jscs-dev/node-jscs/compare/v3.0.3...v3.0.4) (2016-06-04):
 
 Fixed some bugs, correctly output CST errors plus improve speed and memory consumption
