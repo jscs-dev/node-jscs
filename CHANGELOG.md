@@ -1,6 +1,6 @@
 ## Version [3.0.5](https://github.com/jscs-dev/node-jscs/compare/v3.0.4...v3.0.5) (2016-06-21):
 
-Small fixes for ES6/7 related to [CST](https://github.com/cst/cst) which consisted of updating this package since those fixed were made in there. 
+Small fixes for ES6/7 related to [CST](https://github.com/cst/cst) which consisted of updating this package since those fixes were made in there. 
 
 And also there is one fix related to `fileExtension` option
 
