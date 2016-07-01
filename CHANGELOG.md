@@ -1,3 +1,15 @@
+## Version [3.0.6](https://github.com/jscs-dev/node-jscs/compare/v3.0.5...v3.0.6) (2016-07-01):
+
+### Bug fixes
+
+* requireDollarBeforejQueryAssignment: do not blow up on reset parameter (Oleg Gaidarenko)
+
+### Misc
+* Misc: explicitly use latest CST version (Oleg Gaidarenko)
+* Misc: fix typo in the changelog (Oleg Gaidarenko)
+* Misc: bump CST version to 0.4.2 (Oleg Gaidarenko)
+
+
 ## Version [3.0.5](https://github.com/jscs-dev/node-jscs/compare/v3.0.4...v3.0.5) (2016-06-21):
 
 Small fixes for ES6/7 related to [CST](https://github.com/cst/cst) which consisted of updating this package since those fixes were made in there. 
