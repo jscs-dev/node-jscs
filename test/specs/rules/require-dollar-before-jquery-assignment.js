@@ -14,6 +14,10 @@ describe('rules/require-dollar-before-jquery-assignment', function() {
             checker.configure({ requireDollarBeforejQueryAssignment: true });
         });
 
+        it('should not blow up on rest params', function() {
+            expect(checker.checkString('var x = {...test}')).to.have.no.errors();
+        });
+
         it('should report basic jquery operator', function() {
             expect(checker.checkString('var x = $();'))
               .to.have.one.validation.error.from('requireDollarBeforejQueryAssignment');
