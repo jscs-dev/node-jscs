@@ -1,3 +1,7 @@
+## Version [3.0.7](https://github.com/jscs-dev/node-jscs/compare/v3.0.6...v3.0.7) (2016-07-14):
+
+* validateParameterSeparator: notice class methods (Oleg Gaidarenko)
+
 ## Version [3.0.6](https://github.com/jscs-dev/node-jscs/compare/v3.0.5...v3.0.6) (2016-07-01):
 
 ### Bug fixes
