@@ -51,6 +51,11 @@ describe('rules/validate-parameter-separator', function() {
               .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
+        it('should validate class methods', function() {
+            expect(checker.checkString('class a { constructor(a, b) {} }'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
+        });
+
         it('should report unexpected space for function a(b ,c) {}', function() {
             expect(checker.checkString('function a(b ,c) {}'))
               .to.have.one.validation.error.from('validateParameterSeparator');
@@ -102,6 +107,11 @@ describe('rules/validate-parameter-separator', function() {
               .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
+        it('should validate class methods', function() {
+            expect(checker.checkString('class a { constructor(a , b) {} }'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
+        });
+
         it('should report missing space for function a(b,c) {}', function() {
             expect(checker.checkString('function a(b,c) {}'))
               .to.have.one.validation.error.from('validateParameterSeparator');
@@ -149,6 +159,11 @@ describe('rules/validate-parameter-separator', function() {
               .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
+        it('should validate class methods', function() {
+            expect(checker.checkString('class a { constructor(a , b) {} }'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
+        });
+
         it('should report missing space for function a(b,c) {}', function() {
             expect(checker.checkString('function a(b,c) {}'))
               .to.have.one.validation.error.from('validateParameterSeparator');
@@ -189,6 +204,11 @@ describe('rules/validate-parameter-separator', function() {
 
         it('should report missing space for function a(b, c) {}', function() {
             expect(checker.checkString('function a(b, c) {}'))
+              .to.have.one.validation.error.from('validateParameterSeparator');
+        });
+
+        it('should validate class methods', function() {
+            expect(checker.checkString('class a { constructor(a, b) {} }'))
               .to.have.one.validation.error.from('validateParameterSeparator');
         });
 
