@@ -56,9 +56,6 @@
       "github-username": "hzoo"
     }
   ],
-  "engines": {
-    "node": ">= 0.10.0"
-  },
   "dependencies": {
     "chalk": "~1.1.0",
     "cli-table": "~0.3.1",
