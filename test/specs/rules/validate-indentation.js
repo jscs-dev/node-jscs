@@ -304,6 +304,13 @@ describe('rules/validate-indentation', function() {
             '});';
             expect(checker.checkString(source)).to.have.errors();
         });
+
+        it('should report function in argument with invalid indentation', function() {
+            var source = '    fn("foo", function() {\n' +
+                        '    a();\n' +
+                        '});';
+            assert(!checker.checkString(source).isEmpty());
+        });
     });
 
     describe('fixing', function() {
