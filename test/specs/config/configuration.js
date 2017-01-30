@@ -580,7 +580,7 @@ describe('config/configuration', function() {
                 preset: 'test2'
             });
 
-            expect(configuration.getExcludedFileMasks()).to.deep.equal(['.git/**', 'node_modules/**']);
+            expect(configuration.getExcludedFileMasks()).to.deep.equal(['.git/**', '*/node_modules/**']);
         });
 
         describe('for settings with default value when preset is used #2275', function() {
@@ -799,7 +799,7 @@ describe('config/configuration', function() {
 
         it('should set default excludeFiles option', function() {
             configuration.load({});
-            expect(configuration.getExcludedFileMasks()).to.deep.equal(['.git/**', 'node_modules/**']);
+            expect(configuration.getExcludedFileMasks()).to.deep.equal(['.git/**', '*/node_modules/**']);
         });
 
         it('should set default file extensions', function() {
