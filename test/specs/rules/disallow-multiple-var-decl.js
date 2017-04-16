@@ -44,6 +44,10 @@ describe('rules/disallow-multiple-var-decl', function() {
             expect(checker.checkString('switch (1) { case 1: var a, b; }'))
               .to.have.one.validation.error.from('disallowMultipleVarDecl');
         });
+
+        it('should report separated var decl inside switch', function() {
+            assert(checker.checkString('switch (1) { case 1: var a, b; }').getErrorCount() === 1);
+        });
     });
 
     describe('strict', function() {
