@@ -36,7 +36,6 @@
     "requireVarDeclFirst": true,
     "requireBlocksOnNewline": true,
     "disallowEmptyBlocks": true,
-    "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideParentheses": true,
     "disallowDanglingUnderscores": true,
     "requireCommaBeforeLineBreak": true,
