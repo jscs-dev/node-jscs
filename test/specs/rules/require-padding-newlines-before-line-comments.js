@@ -93,6 +93,12 @@ describe('rules/require-padding-newlines-before-line-comments', function() {
             expect(checker.checkString('var a; \n var b; //comment\nvar c;')).to.have.no.errors();
             expect(checker.checkString('/**/var a; \n var b// comment\n')).to.have.no.errors();
         });
+
+        it('should not consider code and comment on the same line (#1194)', function() {
+            assert(checker.checkString('var a; \n var b; //comment\n').isEmpty());
+            assert(checker.checkString('var a; \n var b; //comment\nvar c;').isEmpty());
+            assert(checker.checkString('/**/var a; \n var b// comment\n').isEmpty());
+        });
     });
 
     describe('value allExcept: firstAfterCurly', function() {
