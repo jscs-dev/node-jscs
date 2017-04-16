@@ -107,6 +107,10 @@ describe('rules/disallow-spaces-inside-array-brackets', function() {
             it('should report illegal space in both cases', function() {
                 expect(checker.checkString('[ 1, 2 ];')).to.have.error.count.equal(2);
             });
+
+            it('should not report with no spaces after function', function() {
+                assert(checker.checkString('var x = "hello-there".split("-")[0];').isEmpty());
+            });
         });
 
         describe('when braces on different lines', function() {
