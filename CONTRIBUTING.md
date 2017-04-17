@@ -158,6 +158,8 @@ Setting up your environment
 1. Commit your code with a commit message that follows our [commit message format](#commit-message-format)
  - If you don't feel comfortable with that format, no worries, we'll fix up your commit after merging your PR.
  - Try to have a single commit per modified/added rule
+1. Want to check your code coverage locally? Use the command `npm run check-my-coverage` to open a webpage containing
+a detailed list of the source files and their coverage.
 
 Commit Message Format
 -------

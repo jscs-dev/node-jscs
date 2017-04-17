@@ -134,6 +134,7 @@
     "integration": "#node test/scripts/integration.js",
     "coverage": "unit-coverage run -p common",
     "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
+    "check-my-coverage": "npm run coverage-html && open coverage.html",
     "coveralls": "unit-coverage run -p common -r lcov -o out.lcov && cat out.lcov | coveralls",
     "changelog": "git log `git describe --tags --abbrev=0`..HEAD --pretty=format:' * %s (%an)' | grep -v 'Merge pull request'",
     "release": "node publish/prepublish && npm test && npm publish"
