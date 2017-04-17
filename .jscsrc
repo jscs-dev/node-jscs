@@ -1,6 +1,7 @@
 {
     "preset": "google",
     "fileExtensions": [".js", "jscs"],
+    "plugins": ["jscs-jsdoc"],
 
     "requireSemicolons": true,
     "requireParenthesesAroundIIFE": true,
