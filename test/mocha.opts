@@ -1,5 +1,5 @@
 test/chai-extensions.js
 test/specs/**/*.js
--t 3000
+-t 4000
 -R progress
 -u bdd
