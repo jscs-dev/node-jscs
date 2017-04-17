@@ -48,4 +48,18 @@ describe('rules/require-anonymous-function', function() {
               .to.have.one.validation.error.from('requireAnonymousFunctions');
         });
     });
+
+    describe('allExcept: ["declarations"]', function() {
+        beforeEach(function() {
+            checker.configure({ requireAnonymousFunctions: { allExcept: ['declarations'] } });
+        });
+
+        it('should not report on named function declarations', function() {
+            assert(checker.checkString('function foo(){}').isEmpty());
+        });
+
+        it('should report on named function expressions', function() {
+            assert(checker.checkString('var foo = function bar(){};').getErrorCount() === 1);
+        });
+    });
 });
