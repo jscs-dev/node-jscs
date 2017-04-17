@@ -71,6 +71,16 @@ describe('rules/disallow-curly-braces', function() {
         expect(checker.checkString('for (i of z) { x++; }')).to.have.one.validation.error.from('disallowCurlyBraces');
     });
 
+    it('should not report missing `for of` braces', function() {
+        checker.configure({ disallowCurlyBraces: ['for'] });
+        assert(checker.checkString('for (i of z) x++;').isEmpty());
+    });
+
+    it('should report `for of` with braces', function() {
+        checker.configure({ disallowCurlyBraces: ['for'] });
+        assert(checker.checkString('for (i of z) { x++; }').getErrorCount() === 1);
+    });
+
     it('should not report missing `do` braces', function() {
         checker.configure({ disallowCurlyBraces: ['do'] });
         expect(checker.checkString('do x++; while (x);')).to.have.no.errors();
