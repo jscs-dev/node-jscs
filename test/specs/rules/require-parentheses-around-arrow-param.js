@@ -26,4 +26,8 @@ describe('rules/require-parentheses-around-arrow-param', function() {
     it('should not report an arrow function expression with a single rest param #1616', function() {
         expect(checker.checkString('[1, 2].map((...x) => x);')).to.have.no.errors();
     });
+
+    it('should not report an arrow function expression with a single rest param #1616', function() {
+        assert(checker.checkString('[1, 2].map((...x) => x);').isEmpty());
+    });
 });
