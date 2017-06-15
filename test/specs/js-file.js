@@ -43,7 +43,7 @@ describe('js-file', function() {
             expect(file.getParseErrors().length).to.equal(1);
             var parseError = file.getParseErrors()[0];
 
-            expect(parseError.message).to.equal('Assigning to rvalue (2:0)');
+            expect(parseError.message).to.equal('Invalid left-hand side in postfix operation (2:0)');
             expect(parseError.pos).to.equal(1);
             expect(parseError.loc).to.be.an('object');
             expect(parseError.loc.line).to.equal(2);

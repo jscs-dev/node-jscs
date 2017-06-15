@@ -77,7 +77,7 @@ describe('string-checker', function() {
 
             var error = errors.getErrorList()[0];
             expect(error.rule).to.equal('parseError');
-            expect(error.message).to.equal('Unexpected token (1:5)');
+            expect(error.message).to.equal('Unexpected token, expected ; (1:5)');
             expect(error.line).to.equal(1);
             expect(error.column).to.equal(5);
         });
